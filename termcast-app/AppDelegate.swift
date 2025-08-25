@@ -31,19 +31,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updatePermissionStatus(trusted)
         
         if !trusted {
-            let alert = NSAlert()
-            alert.messageText = "Accessibility Permission Required"
-            alert.informativeText = "GhosttyOverlay needs accessibility permissions to position windows and monitor hotkeys.\n\nAfter granting permission, the app will automatically detect it."
-            alert.alertStyle = .warning
-            alert.addButton(withTitle: "Open System Settings")
-            alert.addButton(withTitle: "Later")
-            
-            if alert.runModal() == .alertFirstButtonReturn {
-                // Open System Settings directly to Accessibility
-                if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
-                    NSWorkspace.shared.open(url)
-                }
-            }
+            // Just trigger the system prompt, no custom alert
+            let options: NSDictionary = [
+                kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true
+            ]
+            AXIsProcessTrustedWithOptions(options)
         }
     }
     
@@ -157,26 +149,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print("Current permission status: \(trusted)")
         
         if !trusted {
-            // Try the prompt one more time
+            // Just trigger the system prompt
             let options: NSDictionary = [
                 kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true
             ]
-            let nowTrusted = AXIsProcessTrustedWithOptions(options)
-            
-            if !nowTrusted {
-                let alert = NSAlert()
-                alert.messageText = "Permission Required"
-                alert.informativeText = "Please grant accessibility permissions in System Settings.\n\nSystem Settings → Privacy & Security → Accessibility"
-                alert.addButton(withTitle: "Open Settings")
-                alert.addButton(withTitle: "Cancel")
-                
-                if alert.runModal() == .alertFirstButtonReturn {
-                    if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
-                        NSWorkspace.shared.open(url)
-                    }
-                }
-                return
-            }
+            AXIsProcessTrustedWithOptions(options)
+            return  // Don't proceed without permissions
         }
         
         let runningApps = NSRunningApplication.runningApplications(withBundleIdentifier: bundleID)
