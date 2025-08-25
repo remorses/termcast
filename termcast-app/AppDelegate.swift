@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Setup hotkey
         setupHotkey()
         
-        print("Ready! Use Cmd+Option+T or menu to toggle Ghostty overlay")
+        print("Ready! Use Cmd+Space or menu to toggle Ghostty overlay")
     }
     
     func checkAndRequestPermissions() {
@@ -79,8 +79,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func updateMenu() {
         let menu = NSMenu()
         
-        let toggleItem = NSMenuItem(title: "Toggle Ghostty Overlay", action: #selector(toggleGhosttyOverlay), keyEquivalent: "t")
-        toggleItem.keyEquivalentModifierMask = [.command, .option]
+        let toggleItem = NSMenuItem(title: "Toggle Ghostty Overlay", action: #selector(toggleGhosttyOverlay), keyEquivalent: " ")
+        toggleItem.keyEquivalentModifierMask = [.command]
         toggleItem.target = self
         menu.addItem(toggleItem)
         
@@ -119,11 +119,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func setupHotkey() {
-        print("Setting up global hotkey monitor")
+        print("Setting up global hotkey monitor for Cmd+Space")
         NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            // Check for Cmd+Option+T (keyCode 17 is T)
-            if event.modifierFlags.contains([.command, .option]) && event.keyCode == 17 {
-                print("Global hotkey detected!")
+            // Check for Cmd+Space (keyCode 49 is Space)
+            if event.modifierFlags.contains(.command) && !event.modifierFlags.contains([.option, .control, .shift]) && event.keyCode == 49 {
+                print("Global hotkey Cmd+Space detected!")
                 DispatchQueue.main.async {
                     self?.toggleGhosttyOverlay()
                 }
@@ -132,8 +132,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Also monitor when app is active
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            if event.modifierFlags.contains([.command, .option]) && event.keyCode == 17 {
-                print("Local hotkey detected!")
+            if event.modifierFlags.contains(.command) && !event.modifierFlags.contains([.option, .control, .shift]) && event.keyCode == 49 {
+                print("Local hotkey Cmd+Space detected!")
                 self?.toggleGhosttyOverlay()
                 return nil // Consume event
             }
