@@ -197,19 +197,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 // Get screen dimensions for centering
                 guard let screen = NSScreen.main else { return }
                 let screenFrame = screen.frame
-                let width: CGFloat = 900
-                let height: CGFloat = 600
-                let x = Int(screenFrame.origin.x + (screenFrame.width - width) / 2)
-                let y = Int(screenFrame.origin.y + (screenFrame.height - height) / 2)
                 
-                // Launch with geometry argument using Process
+                // Ghostty uses character columns and rows, not pixels
+                // Typical terminal: 120 columns x 34 rows
+                let columns = 120
+                let rows = 34
+                
+                // Estimate pixel dimensions (roughly 7.5px per column, 20px per row)
+                let estimatedWidth: CGFloat = CGFloat(columns) * 7.5
+                let estimatedHeight: CGFloat = CGFloat(rows) * 20
+                
+                // Calculate center position
+                let x = Int(screenFrame.origin.x + (screenFrame.width - estimatedWidth) / 2)
+                let y = Int(screenFrame.origin.y + (screenFrame.height - estimatedHeight) / 2)
+                
+                // Launch with correct Ghostty arguments
                 let process = Process()
                 process.executableURL = appURL.appendingPathComponent("Contents/MacOS/ghostty")
-                process.arguments = ["--geometry=900x600+\(x)+\(y)"]
+                process.arguments = [
+                    "--window-width=\(columns)",
+                    "--window-height=\(rows)",
+                    "--window-position-x=\(x)",
+                    "--window-position-y=\(y)"
+                ]
                 
                 do {
                     try process.run()
-                    print("Launched Ghostty with geometry: 900x600+\(x)+\(y)")
+                    print("Launched Ghostty with width=\(columns) height=\(rows) at position (\(x), \(y))")
                     
                     // Mark overlay as active
                     isOverlayActive = true
