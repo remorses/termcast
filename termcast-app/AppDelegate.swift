@@ -198,10 +198,64 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func showGhosttyOverlay() {
         print("Showing Ghostty overlay")
         
-        // Launch or activate Ghostty
-        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) {
-            print("Found Ghostty at: \(appURL.path)")
+        // Check if Ghostty is already running
+        let runningApps = NSRunningApplication.runningApplications(withBundleIdentifier: bundleID)
+        
+        if let runningApp = runningApps.first {
+            // Ghostty is already running, just show and position it
+            print("Ghostty already running, showing it")
+            runningApp.unhide()
+            runningApp.activate(options: [])
             
+            // Still position it in case it moved
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.positionGhosttyWindow(app: runningApp)
+            }
+        } else {
+            // Launch Ghostty with geometry argument
+            if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) {
+                print("Found Ghostty at: \(appURL.path)")
+                
+                // Get screen dimensions for centering
+                guard let screen = NSScreen.main else { return }
+                let screenFrame = screen.frame
+                let width: CGFloat = 900
+                let height: CGFloat = 600
+                let x = Int(screenFrame.origin.x + (screenFrame.width - width) / 2)
+                let y = Int(screenFrame.origin.y + (screenFrame.height - height) / 2)
+                
+                // Launch with geometry argument using Process
+                let process = Process()
+                process.executableURL = appURL.appendingPathComponent("Contents/MacOS/ghostty")
+                process.arguments = ["--geometry=900x600+\(x)+\(y)"]
+                
+                do {
+                    try process.run()
+                    print("Launched Ghostty with geometry: 900x600+\(x)+\(y)")
+                    
+                    // Mark overlay as active
+                    isOverlayActive = true
+                    setupClickMonitor()
+                    
+                    // No need to position window since we set geometry
+                } catch {
+                    print("Error launching Ghostty with Process: \(error)")
+                    // Fallback to regular launch
+                    fallbackLaunchGhostty()
+                }
+            } else {
+                print("Ghostty not found")
+                let alert = NSAlert()
+                alert.messageText = "Ghostty Not Found"
+                alert.informativeText = "Could not find Ghostty application"
+                alert.runModal()
+            }
+        }
+    }
+    
+    func fallbackLaunchGhostty() {
+        // Fallback method using NSWorkspace
+        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) {
             let config = NSWorkspace.OpenConfiguration()
             config.activates = true
             
@@ -209,19 +263,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if let error = error {
                     print("Error opening Ghostty: \(error)")
                 } else if let app = app {
-                    print("Ghostty opened, PID: \(app.processIdentifier)")
-                    // Wait a bit for window to appear, then position it
+                    print("Ghostty opened via fallback, PID: \(app.processIdentifier)")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self?.positionGhosttyWindow(app: app)
                     }
                 }
             }
-        } else {
-            print("Ghostty not found")
-            let alert = NSAlert()
-            alert.messageText = "Ghostty Not Found"
-            alert.informativeText = "Could not find Ghostty application"
-            alert.runModal()
         }
     }
     
