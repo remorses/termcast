@@ -12,6 +12,7 @@ import { useKeyboard } from '@opentui/react'
 import { TextAttributes } from '@opentui/core'
 import { Theme } from '@termcast/api/src/theme'
 import { logger } from '@termcast/api/src/logger'
+import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
 
 // SearchBarInterface provides the common search bar props
 interface SearchBarInterface {
@@ -37,6 +38,7 @@ export interface DropdownItemProps {
     value: string
     icon?: ReactNode
     keywords?: string[]
+    label?: string
 }
 
 export interface DropdownSectionProps {
@@ -167,6 +169,8 @@ const Dropdown: DropdownType = (props) => {
 
     // Handle search text change with throttling
     const handleSearchTextChange = (text: string) => {
+        if (!inFocus) return
+        
         setSearchText(text)
 
         if (onSearchTextChange) {
@@ -204,8 +208,13 @@ const Dropdown: DropdownType = (props) => {
         }
     }
 
+    // Get focus state
+    const inFocus = useIsInFocus()
+    
     // Handle keyboard navigation
     useKeyboard((evt) => {
+        if (!inFocus) return
+        
         if (evt.name === 'up') {
             move(-1)
         }
@@ -230,7 +239,7 @@ const Dropdown: DropdownType = (props) => {
                             ref={inputRef}
                             onInput={(value) => handleSearchTextChange(value)}
                             placeholder={placeholder}
-                            focused={true}
+                            focused={inFocus}
                             value={searchText}
                             focusedBackgroundColor={Theme.backgroundPanel}
                             cursorColor={Theme.primary}
@@ -255,6 +264,7 @@ const Dropdown: DropdownType = (props) => {
                                         icon={item.icon}
                                         active={flat[selected]?.value === item.value}
                                         current={item.value === currentValue}
+                                        label={item.label}
                                     />
                                 </Fragment>
                             ))}
@@ -295,6 +305,7 @@ function ItemOption(props: {
     icon?: ReactNode
     active?: boolean
     current?: boolean
+    label?: string
 }) {
     return (
         <box
@@ -303,22 +314,33 @@ function ItemOption(props: {
                 backgroundColor: props.active ? Theme.primary : undefined,
                 paddingLeft: 1,
                 paddingRight: 1,
+                justifyContent: 'space-between',
             }}
             border={false}
         >
-            {props.icon && (
+            <group style={{ flexDirection: 'row' }}>
+                {props.icon && (
+                    <text
+                        fg={props.active ? Theme.background : Theme.text}
+                    >
+                        {props.icon}{' '}
+                    </text>
+                )}
                 <text
-                    fg={props.active ? Theme.background : Theme.text}
+                    fg={props.active ? Theme.background : props.current ? Theme.primary : Theme.text}
+                    attributes={props.active ? TextAttributes.BOLD : undefined}
                 >
-                    {props.icon}{' '}
+                    {props.title}
+                </text>
+            </group>
+            {props.label && (
+                <text
+                    fg={props.active ? Theme.background : Theme.textMuted}
+                    attributes={props.active ? TextAttributes.BOLD : undefined}
+                >
+                    {props.label}
                 </text>
             )}
-            <text
-                fg={props.active ? Theme.background : props.current ? Theme.primary : Theme.text}
-                attributes={props.active ? TextAttributes.BOLD : undefined}
-            >
-                {props.title}
-            </text>
         </box>
     )
 }

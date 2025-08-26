@@ -2,6 +2,7 @@ import { useKeyboard, useTerminalDimensions } from "@opentui/react"
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 import { Theme } from "@termcast/api/src/theme"
 import { RGBA } from "@opentui/core"
+import { InFocus } from '@termcast/api/src/internal/focus-context'
 
 const Border = {
   topLeft: "┃",
@@ -141,13 +142,22 @@ export function DialogProvider(props: DialogProviderProps): any {
 
   return (
     <DialogContext.Provider value={value}>
-      {props.children}
+      <InFocus inFocus={stack.length === 0}>
+        {props.children}
+      </InFocus>
       <group position="absolute">
-        {stack.length > 0 && (
-          <Dialog position={stack[0].position}>
-            {stack[0].element}
-          </Dialog>
-        )}
+        {stack.map((item, index) => {
+          const isLastItem = index === stack.length - 1
+          return (
+            <React.Fragment key={index}>
+              <InFocus inFocus={isLastItem}>
+                <Dialog position={item.position}>
+                  {item.element}
+                </Dialog>
+              </InFocus>
+            </React.Fragment>
+          )
+        })}
       </group>
     </DialogContext.Provider>
   )

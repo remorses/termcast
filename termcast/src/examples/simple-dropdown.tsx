@@ -25,18 +25,21 @@ const App: any = () => {
                     title="Beer"
                     icon="🍺"
                     keywords={['lager', 'ale', 'stout']}
+                    label="⌃B"
                 />
                 <Dropdown.Item
                     value="wine"
                     title="Wine" 
                     icon="🍷"
                     keywords={['red', 'white', 'rose']}
+                    label="⌃W"
                 />
                 <Dropdown.Item
                     value="whiskey"
                     title="Whiskey"
                     icon="🥃"
                     keywords={['scotch', 'bourbon', 'rye']}
+                    label="⌘W"
                 />
             </Dropdown.Section>
 
@@ -46,12 +49,14 @@ const App: any = () => {
                     title="Coffee"
                     icon="☕"
                     keywords={['espresso', 'latte', 'cappuccino']}
+                    label="⌃C"
                 />
                 <Dropdown.Item
                     value="tea"
                     title="Tea"
                     icon="🍵"
                     keywords={['green', 'black', 'herbal']}
+                    label="⌃T"
                 />
                 <Dropdown.Item
                     value="juice"
@@ -73,6 +78,7 @@ const App: any = () => {
                     title="Cola"
                     icon="🥤"
                     keywords={['coke', 'pepsi', 'soda']}
+                    label="⌃O"
                 />
                 <Dropdown.Item
                     value="lemonade"

@@ -14,6 +14,7 @@ import { useKeyboard } from '@opentui/react'
 import { logger } from './logger'
 import { Theme } from './theme'
 import { Action, ActionPanel } from './actions'
+import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
 
 interface ActionsInterface {
     actions?: ReactNode
@@ -391,16 +392,11 @@ export const List: ListType = (props) => {
     // Calculate flat list for keyboard navigation
     const flat = useMemo(() => filteredItems, [filteredItems])
     
-    // Mount the focused item's actions with __focused prop
+    // Mount the focused item's actions
     const focusedActions = useMemo(() => {
         const currentItem = flat[selectedIndex]
         if (!currentItem || !currentItem.actions) return null
-        
-        // Clone the actions element with __focused prop
-        if (React.isValidElement(currentItem.actions)) {
-            return React.cloneElement(currentItem.actions, { __focused: true })
-        }
-        return null
+        return currentItem.actions
     }, [flat, selectedIndex])
 
     // Reset selected index when items change
@@ -425,7 +421,10 @@ export const List: ListType = (props) => {
     }
 
     // Handle keyboard navigation
+    const inFocus = useIsInFocus()
     useKeyboard((evt) => {
+        if (!inFocus) return
+        
         if (evt.name === 'up') move(-1)
         if (evt.name === 'down') move(1)
         if (evt.name === 'return' && flat[selectedIndex]) {
@@ -440,6 +439,8 @@ export const List: ListType = (props) => {
     })
 
     const handleSearchChange = (newValue: string) => {
+        if (!inFocus) return
+        
         if (controlledSearchText === undefined) {
             setInternalSearchText(newValue)
         }
@@ -451,7 +452,11 @@ export const List: ListType = (props) => {
     return (
         <group style={{ flexDirection: 'column', flexGrow: 1 }}>
             {/* Mount focused actions (invisible but handles keyboard) */}
-            {focusedActions}
+            {focusedActions && (
+                <InFocus inFocus={true}>
+                    {focusedActions}
+                </InFocus>
+            )}
             
             {/* Navigation title */}
             {navigationTitle && (
@@ -475,7 +480,7 @@ export const List: ListType = (props) => {
                 <input
                     ref={inputRef}
                     placeholder={searchBarPlaceholder}
-                    focused={true}
+                    focused={inFocus}
                     value={searchText}
                     onInput={handleSearchChange}
                     focusedBackgroundColor={Theme.backgroundPanel}
