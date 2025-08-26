@@ -9,6 +9,7 @@ import {
 import { SelectOption, fg, t } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import { logger } from './logger'
+import { Theme } from './theme'
 
 interface ActionsInterface {
     actions?: ReactNode
@@ -228,7 +229,7 @@ function formatAccessory(accessory: ItemAccessory): ReactNode {
                 ? accessory.text
                 : accessory.text?.value
         if (textValue) {
-            return t`${fg('#0080FF')(textValue)}` // Blue for text accessories
+            return t`${fg(Theme.info)(textValue)}` // Cyan for text accessories
         }
     }
 
@@ -239,7 +240,7 @@ function formatAccessory(accessory: ItemAccessory): ReactNode {
                 : (accessory.date as Date)
         if (dateValue) {
             const formattedDate = formatRelativeDate(dateValue)
-            return t`${fg('#00FF80')(formattedDate)}` // Green for date accessories
+            return t`${fg(Theme.success)(formattedDate)}` // Green for date accessories
         }
     }
 
@@ -249,13 +250,13 @@ function formatAccessory(accessory: ItemAccessory): ReactNode {
                 ? accessory.tag
                 : accessory.tag?.value
         if (tagValue) {
-            return t`${fg('#FF8000')(tagValue)}` // Orange for tag accessories
+            return t`${fg(Theme.warning)(tagValue)}` // Yellow/orange for tag accessories
         }
     }
 
     if ('icon' in accessory && (accessory.text || accessory.tooltip)) {
         const text = accessory.text || accessory.tooltip || 'icon'
-        return t`${fg('#FFFF00')(text)}` // Yellow for icon accessories
+        return t`${fg(Theme.yellow)(text)}` // Yellow for icon accessories
     }
 
     return ''
