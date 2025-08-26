@@ -205,17 +205,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         removeClickMonitor()
         
         print("Setting up click monitor")
+        
+        // Monitor any click - global monitor only catches clicks outside our app
         clickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
             guard let self = self, self.isOverlayActive else { return }
             
-            // Check if click is outside Ghostty
-            DispatchQueue.main.async {
-                if let frontApp = NSWorkspace.shared.frontmostApplication,
-                   frontApp.bundleIdentifier != self.bundleID {
-                    print("Click detected outside Ghostty, hiding")
-                    self.hideGhostty()
-                }
-            }
+            print("Click detected outside Ghostty, hiding immediately")
+            // Any click outside Ghostty should hide it immediately
+            self.hideGhostty()
+        }
+        
+        // Also monitor app switches
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self,
+            selector: #selector(appDidActivate),
+            name: NSWorkspace.didActivateApplicationNotification,
+            object: nil
+        )
+    }
+    
+    @objc func appDidActivate(_ notification: Notification) {
+        guard isOverlayActive else { return }
+        
+        if let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
+           app.bundleIdentifier != bundleID {
+            print("Different app activated, hiding Ghostty")
+            hideGhostty()
         }
     }
     
@@ -225,6 +240,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             clickMonitor = nil
             print("Click monitor removed")
         }
+        
+        // Remove app activation observer
+        NSWorkspace.shared.notificationCenter.removeObserver(
+            self,
+            name: NSWorkspace.didActivateApplicationNotification,
+            object: nil
+        )
     }
     
     func hideGhostty() {
