@@ -25,5 +25,8 @@
         "@raycast/api": "^1.102.5",
         "@raycast/utils": "^2.2.1",
         "react": "^19.1.1"
+    },
+    "devDependencies": {
+        "@types/bun": "^1.2.21"
     }
 }

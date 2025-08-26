@@ -39,13 +39,17 @@ importers:
         version: 0.1.10(react@19.1.1)(stage-js@1.0.0-alpha.17)(typescript@5.9.2)
       '@raycast/api':
         specifier: ^1.102.5
-        version: 1.102.5
+        version: 1.102.5(@types/react@19.0.10)
       '@raycast/utils':
         specifier: ^2.2.1
-        version: 2.2.1(@raycast/api@1.102.5)(react@19.1.1)
+        version: 2.2.1(@raycast/api@1.102.5(@types/react@19.0.10))(react@19.1.1)
       react:
         specifier: ^19.1.1
         version: 19.1.1
+    devDependencies:
+      '@types/bun':
+        specifier: ^1.2.21
+        version: 1.2.21(@types/react@19.0.10)
 
   termcast-app: {}
 
@@ -715,6 +719,9 @@ packages:
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
 
+  '@types/bun@1.2.21':
+    resolution: {integrity: sha512-NiDnvEqmbfQ6dmZ3EeUO577s4P5bf4HCTXtI6trMc6f6RzirY5IrF3aIookuSpyslFzrnvv2lmEWv5HyC1X79A==}
+
   '@types/chai@5.2.2':
     resolution: {integrity: sha512-8kB30R7Hwqf40JPiKhVzodJs2Qc1ZJ5zuT3uzw5Hq/dhNCl3G3l83jfpdI1e20BP348+fV7VIL/+FxaXkqBmWg==}
 
@@ -729,6 +736,9 @@ packages:
 
   '@types/node@16.9.1':
     resolution: {integrity: sha512-QpLcX9ZSsq3YYUUnD3nFDY8H7wctAhQj/TFKL8Ya8v5fMm3CFXxo8zStsLAl780ltoYoo1WvKUVGBQK+1ifr7g==}
+
+  '@types/react@19.0.10':
+    resolution: {integrity: sha512-JuRQ9KXLEjaUNjTWpzuR231Z2WpIwczOkBEIvbHNCzQefFIT0L8IqE6NV6ULLyC1SI/i234JnDoMkfg+RjQj2g==}
 
   '@vitest/expect@3.2.4':
     resolution: {integrity: sha512-Io0yyORnB6sikFlt8QW5K7slY4OjqNX9jmJQ02QDda8lyM6B5oNgVWoSoKPac8/kgnCUzuHQKrSLtu/uOqqrig==}
@@ -830,6 +840,11 @@ packages:
   buffer@6.0.3:
     resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==}
 
+  bun-types@1.2.21:
+    resolution: {integrity: sha512-sa2Tj77Ijc/NTLS0/Odjq/qngmEPZfbfnOERi0KRUYhT9R8M4VBioWVmMWE5GrYbKMc+5lVybXygLdibHaqVqw==}
+    peerDependencies:
+      '@types/react': ^19
+
   bun-webgpu-darwin-arm64@0.1.3:
     resolution: {integrity: sha512-KkNQ9gT7dxGDndQaHTTHss9miukqpczML3pO2nZJoT/nITwe9lw3ZGFJMujkW41BUQ1mDYKFgo5nBGf9xYHPAg==}
     cpu: [arm64]
@@ -894,6 +909,9 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  csstype@3.1.3:
+    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
   debug@4.4.1:
     resolution: {integrity: sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==}
@@ -2243,7 +2261,7 @@ snapshots:
     transitivePeerDependencies:
       - stage-js
 
-  '@raycast/api@1.102.5':
+  '@raycast/api@1.102.5(@types/react@19.0.10)':
     dependencies:
       '@oclif/core': 4.5.2
       '@oclif/plugin-autocomplete': 3.2.34
@@ -2251,12 +2269,14 @@ snapshots:
       '@oclif/plugin-not-found': 3.2.66
       esbuild: 0.25.9
       react: 19.0.0
+    optionalDependencies:
+      '@types/react': 19.0.10
     transitivePeerDependencies:
       - supports-color
 
-  '@raycast/utils@2.2.1(@raycast/api@1.102.5)(react@19.1.1)':
+  '@raycast/utils@2.2.1(@raycast/api@1.102.5(@types/react@19.0.10))(react@19.1.1)':
     dependencies:
-      '@raycast/api': 1.102.5
+      '@raycast/api': 1.102.5(@types/react@19.0.10)
       dequal: 2.0.3
     optionalDependencies:
       react: 19.1.1
@@ -2323,6 +2343,12 @@ snapshots:
 
   '@tokenizer/token@0.3.0': {}
 
+  '@types/bun@1.2.21(@types/react@19.0.10)':
+    dependencies:
+      bun-types: 1.2.21(@types/react@19.0.10)
+    transitivePeerDependencies:
+      - '@types/react'
+
   '@types/chai@5.2.2':
     dependencies:
       '@types/deep-eql': 4.0.2
@@ -2334,6 +2360,10 @@ snapshots:
   '@types/node@12.20.55': {}
 
   '@types/node@16.9.1': {}
+
+  '@types/react@19.0.10':
+    dependencies:
+      csstype: 3.1.3
 
   '@vitest/expect@3.2.4':
     dependencies:
@@ -2435,6 +2465,11 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
+  bun-types@1.2.21(@types/react@19.0.10):
+    dependencies:
+      '@types/node': 16.9.1
+      '@types/react': 19.0.10
+
   bun-webgpu-darwin-arm64@0.1.3:
     optional: true
 
@@ -2492,6 +2527,8 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  csstype@3.1.3: {}
 
   debug@4.4.1(supports-color@8.1.1):
     dependencies:

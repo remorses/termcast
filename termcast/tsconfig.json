@@ -2,7 +2,9 @@
     "extends": "../tsconfig.base.json",
     "compilerOptions": {
         "rootDir": "src",
-        "outDir": "dist"
+        "outDir": "dist",
+        "jsx": "react-jsx",
+        "jsxImportSource": "@opentui/react"
     },
     "include": ["src"]
 }

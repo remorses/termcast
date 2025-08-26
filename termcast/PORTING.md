@@ -12,8 +12,12 @@ Here is the process to follow to implement each API:
 - start by adding a signature without any actual implementation. Only a function or class or constant without any actual implementation
 - try typechecking with `pnpm tsc`. fix any errors that is not related to the missing implementation (like missing returns)
 - then think, is the signature the same as Raycast?
-- start implementing the component or function
--
+- start implementing the component or function, before doing this
+    - decide on what @opentui/react components to use
+    - do so by reading opentui .d.ts files and see available components
+    - read .d.ts to understand available styling options and attributes
+- add an example usage component in the src/examples directory. create a descriptive name for it in the file. use simple-{component-name} for basic implementations examples
+- DO NOT run the examples then. instead ask me to do it. do not add these as scripts in package.json
 
 ## rules
 
@@ -21,6 +25,7 @@ Here is the process to follow to implement each API:
 - keep types as close as possible to rayacst
 - DO NOT use as any. instead try to understand how to fix the types in other ways
 - to implement compound components like `List.Item` first define the type of List, using a interface, then use : to implement it and add compound components later using . and omitting the props types given they are already typed by the interface, here is an example
+
 
 ```typescript
 interface ListType {

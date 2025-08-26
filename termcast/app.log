@@ -1,0 +1,29 @@
+[2025-08-26T15:01:28.539Z] {
+  "options": [
+    {
+      "name": "First Item",
+      "description": "This is a subtitle • Badge",
+      "value": "First Item"
+    },
+    {
+      "name": "Second Item",
+      "description": "Another subtitle • Important",
+      "value": "Second Item"
+    },
+    {
+      "name": "Third Item",
+      "description": "Starred • Multiple accessories",
+      "value": "Third Item"
+    },
+    {
+      "name": "Fourth Item",
+      "description": "This item is searchable",
+      "value": "Fourth Item"
+    },
+    {
+      "name": "Simple Item",
+      "description": "",
+      "value": "Simple Item"
+    }
+  ]
+}
