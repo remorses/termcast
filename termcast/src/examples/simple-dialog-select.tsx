@@ -1,4 +1,4 @@
-import { render } from '@opentui/react'
+import { renderExample } from '../utils'
 import DialogSelect from '../dialog-select'
 import { logger } from '../logger'
 
@@ -119,4 +119,4 @@ const App: any = () => {
     )
 }
 
-render(<App />)
+renderExample(<App />)

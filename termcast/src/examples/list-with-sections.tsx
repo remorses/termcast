@@ -1,4 +1,4 @@
-import { render } from '@opentui/react'
+import { renderExample } from '../utils'
 import List from '../list'
 
 function SimpleListExample() {
@@ -62,4 +62,4 @@ function SimpleListExample() {
     )
 }
 
-render(<SimpleListExample />)
+renderExample(<SimpleListExample />)

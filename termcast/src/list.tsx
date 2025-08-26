@@ -316,6 +316,7 @@ function ListItemRow(props: {
                 backgroundColor: active ? Theme.primary : undefined,
                 paddingLeft: 1,
                 paddingRight: 1,
+                marginBottom: 1,
             }}
             border={false}
         >
@@ -451,7 +452,7 @@ const List: ListType = (props) => {
                 style={{
                     paddingLeft: 1,
                     paddingRight: 1,
-                    paddingBottom: 1,
+                    marginBottom: 2,
                 }}
             >
                 <input

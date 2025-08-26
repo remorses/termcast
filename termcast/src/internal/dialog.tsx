@@ -1,6 +1,6 @@
 import { useKeyboard, useTerminalDimensions } from "@opentui/react"
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react"
-import { Theme } from "./theme"
+import { Theme } from "../theme"
 import { RGBA } from "@opentui/core"
 
 const Border = {

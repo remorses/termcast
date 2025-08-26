@@ -1,4 +1,4 @@
-import { render } from '@opentui/react'
+import { renderExample } from '../utils'
 import List from '../list'
 
 const App: any = () => {
@@ -50,4 +50,4 @@ const App: any = () => {
     )
 }
 
-render(<App />)
+renderExample(<App />)

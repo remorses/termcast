@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useKeyboard } from "@opentui/react"
 import { renderExample } from "../utils"
-import { useDialog } from "../dialog"
+import { useDialog } from "../internal/dialog"
 import { Theme } from "../theme"
 
 function DialogContent({ onClose }: { onClose: () => void }): any {
