@@ -678,3 +678,5 @@ IF after doing this we still have duplicate packages you will have to ask help t
 ## running opentui scripts
 
 opentui relies on bun so you will need to use bun to run these scripts instead of node
+
+ALWAYS read termcast/PORTING.md to understand how to port racyast components to opentui

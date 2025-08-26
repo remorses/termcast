@@ -1,29 +1,44 @@
-[2025-08-26T15:01:28.539Z] {
-  "options": [
-    {
-      "name": "First Item",
-      "description": "This is a subtitle • Badge",
-      "value": "First Item"
-    },
-    {
-      "name": "Second Item",
-      "description": "Another subtitle • Important",
-      "value": "Second Item"
-    },
-    {
-      "name": "Third Item",
-      "description": "Starred • Multiple accessories",
-      "value": "Third Item"
-    },
-    {
-      "name": "Fourth Item",
-      "description": "This item is searchable",
-      "value": "Fourth Item"
-    },
-    {
-      "name": "Simple Item",
-      "description": "",
-      "value": "Simple Item"
-    }
-  ]
+[2025-08-26T15:35:49.806Z] Current searchText: 
+[2025-08-26T15:35:54.833Z] Input onChange: d
+[2025-08-26T15:35:54.834Z] Search change: d
+[2025-08-26T15:35:54.836Z] Current searchText: d
+[2025-08-26T15:35:54.836Z] Filtering: {
+  "query": "d",
+  "allOptions": 6,
+  "filtered": 4
 }
+[2025-08-26T15:35:54.861Z] Input onChange: ds
+[2025-08-26T15:35:54.861Z] Search change: ds
+[2025-08-26T15:35:54.862Z] Current searchText: ds
+[2025-08-26T15:35:54.862Z] Filtering: {
+  "query": "ds",
+  "allOptions": 6,
+  "filtered": 0
+}
+[2025-08-26T15:35:54.909Z] Input onChange: dsf
+[2025-08-26T15:35:54.909Z] Search change: dsf
+[2025-08-26T15:35:54.910Z] Current searchText: dsf
+[2025-08-26T15:35:54.910Z] Filtering: {
+  "query": "dsf",
+  "allOptions": 6,
+  "filtered": 0
+}
+[2025-08-26T15:35:56.644Z] Input onChange: ds
+[2025-08-26T15:35:56.645Z] Search change: ds
+[2025-08-26T15:35:56.646Z] Current searchText: ds
+[2025-08-26T15:35:56.646Z] Filtering: {
+  "query": "ds",
+  "allOptions": 6,
+  "filtered": 0
+}
+[2025-08-26T15:35:56.794Z] Input onChange: d
+[2025-08-26T15:35:56.795Z] Search change: d
+[2025-08-26T15:35:56.797Z] Current searchText: d
+[2025-08-26T15:35:56.797Z] Filtering: {
+  "query": "d",
+  "allOptions": 6,
+  "filtered": 4
+}
+[2025-08-26T15:35:56.940Z] Input onChange: 
+[2025-08-26T15:35:56.941Z] Search change: 
+[2025-08-26T15:35:56.942Z] Current searchText: 

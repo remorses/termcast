@@ -16,8 +16,10 @@ Here is the process to follow to implement each API:
     - decide on what @opentui/react components to use
     - do so by reading opentui .d.ts files and see available components
     - read .d.ts to understand available styling options and attributes
+- typecheck
 - add an example usage component in the src/examples directory. create a descriptive name for it in the file. use simple-{component-name} for basic implementations examples
 - DO NOT run the examples then. instead ask me to do it. do not add these as scripts in package.json
+- typecheck to make sure the example is correct
 
 ## rules
 
@@ -25,7 +27,8 @@ Here is the process to follow to implement each API:
 - keep types as close as possible to rayacst
 - DO NOT use as any. instead try to understand how to fix the types in other ways
 - to implement compound components like `List.Item` first define the type of List, using a interface, then use : to implement it and add compound components later using . and omitting the props types given they are already typed by the interface, here is an example
-
+- DO NOT use console.log. only use logger.log instead
+- <input> uses onInput not onChange
 
 ```typescript
 interface ListType {
@@ -45,4 +48,12 @@ List.Item = (props) => {
 List.Section = (props) => {
     // implementation
 }
+```
+
+
+To render with opentui use
+
+```ts
+import { render } from '@opentui/react'
+render(<App />)
 ```

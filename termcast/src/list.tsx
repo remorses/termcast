@@ -1,4 +1,10 @@
-import { ReactNode, ReactElement, Children, isValidElement } from 'react'
+import {
+    ReactNode,
+    ReactElement,
+    Children,
+    isValidElement,
+    useState,
+} from 'react'
 import { SelectOption, fg, t } from '@opentui/core'
 import { logger } from './logger'
 
@@ -178,8 +184,10 @@ interface EmptyViewProps extends ActionsInterface {
 }
 
 // Helper function to convert ItemProps to SelectOption
-function convertItemToOption(itemProps: ItemProps): SelectOption {
-    const { title, subtitle, accessories, id } = itemProps
+function convertItemToOption(
+    itemProps: ItemProps,
+): SelectOption & { keywords?: string[] } {
+    const { title, subtitle, accessories, id, keywords } = itemProps
 
     // Get title text (handle both string and object forms)
     const titleText = typeof title === 'string' ? title : title.value
@@ -206,6 +214,7 @@ function convertItemToOption(itemProps: ItemProps): SelectOption {
         name: titleText,
         description: descriptionParts.join(' • '), // Use bullet separator
         value: id || titleText, // Use id if provided, otherwise fallback to title
+        keywords: keywords || [], // Include keywords for search
     }
 }
 
@@ -265,18 +274,71 @@ function formatRelativeDate(date: Date): string {
 }
 
 const List: ListType = (props) => {
-    const { children, onSelectionChange, ...otherProps } = props
+    const {
+        children,
+        onSelectionChange,
+        filtering = true, // Default to true like Raycast when onSearchTextChange is not specified
+        searchText: controlledSearchText,
+        onSearchTextChange,
+        searchBarPlaceholder = 'Search...',
+        ...otherProps
+    } = props
+
+    const [internalSearchText, setInternalSearchText] = useState('')
+    const searchText =
+        controlledSearchText !== undefined
+            ? controlledSearchText
+            : internalSearchText
+
+    logger.log('Current searchText:', searchText)
 
     // Convert children to SelectOptions
-    const options: SelectOption[] = []
+    const allOptions: (SelectOption & { keywords?: string[] })[] = []
 
     Children.forEach(children, (child) => {
         if (isValidElement(child) && child.type === ListItem) {
             const itemProps = child.props as ItemProps
             const option = convertItemToOption(itemProps)
-            options.push(option)
+            allOptions.push(option)
         }
     })
+
+    // Apply filtering based on search text
+    // When filtering is false, the extension handles filtering (controlled mode)
+    // When filtering is true, we handle filtering internally (native mode)
+    const filteredOptions = (() => {
+        // If filtering is disabled, show all options (extension handles filtering)
+        if (!filtering) {
+            return allOptions
+        }
+
+        // If no search text, show all options
+        if (!searchText.trim()) {
+            return allOptions
+        }
+
+        // Native filtering: filter based on title, description, and keywords
+        const query = searchText.toLowerCase().trim()
+        const filtered = allOptions.filter((option) => {
+            const searchableText = [
+                option.name,
+                option.description,
+                ...(option.keywords || []),
+            ]
+                .filter(Boolean)
+                .join(' ')
+                .toLowerCase()
+
+            return searchableText.includes(query)
+        })
+
+        logger.log('Filtering:', {
+            query,
+            allOptions: allOptions.length,
+            filtered: filtered.length,
+        })
+        return filtered
+    })()
 
     const handleChange = (index: number, option: SelectOption | null) => {
         if (onSelectionChange && option) {
@@ -284,20 +346,48 @@ const List: ListType = (props) => {
         }
     }
 
-    // TODO: Handle other props like searchText, filtering, isLoading, etc.
-    // TODO: Handle navigationTitle, actions, searchBarAccessory
+    const handleSearchChange = (newValue: string) => {
+        logger.log('Search change:', newValue)
+        if (controlledSearchText === undefined) {
+            setInternalSearchText(newValue)
+        }
+        if (onSearchTextChange) {
+            onSearchTextChange(newValue)
+        }
+    }
+
+    // TODO: Handle other props like isLoading, navigationTitle, actions, searchBarAccessory
     // TODO: Handle pagination
 
-    // logger.log({ options })
     return (
-        <select
-            options={options}
-            focused={true} // TODO: Make this configurable
-            onChange={handleChange}
-            showDescription={true}
-            showScrollIndicator={true}
-            style={{ flexGrow: 1 }}
-        />
+        <group style={{ padding: 1, flexDirection: 'column', flexGrow: 1 }}>
+            <box
+                title='search'
+                height={2}
+                borderStyle='rounded'
+                // border={true}
+            >
+                <input
+                    placeholder={searchBarPlaceholder}
+                    focused
+                    paddingBottom={1}
+                    value={searchText}
+                    onInput={(value) => {
+                        logger.log('Input onChange:', value)
+                        handleSearchChange(value)
+                    }}
+                />
+            </box>
+            <select
+                options={filteredOptions}
+                key={`select-${filteredOptions.length}-${searchText}`} // Force re-render when options or search changes
+                focused={false} // Input is always focused
+                onChange={handleChange}
+                showDescription={true}
+                showScrollIndicator={true}
+                style={{ flexGrow: 1, marginTop: 1 }}
+            />
+        </group>
     )
 }
 
