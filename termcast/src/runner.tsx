@@ -1,4 +1,3 @@
-import { plugin } from 'bun'
 import fs from 'node:fs'
 import path from 'node:path'
 import React from 'react'
@@ -9,21 +8,20 @@ import { useNavigation } from '@termcast/api/src/internal/navigation'
 import { Providers } from '@termcast/api/src/internal/providers'
 import { showToast, Toast } from '@termcast/api/src/toast'
 import { Icon } from '@termcast/api/src/icon'
-
-plugin({
-    name: 'alias-raycast-to-termcast',
-    setup(build) {
-        build.onResolve({ filter: /@raycast\/api/ }, () => ({
-            path: '@termcast/api',
-        }))
-    },
-})
+import { logger } from './logger'
 
 interface RaycastPreference {
     name: string
     title: string
     description: string
-    type: 'textfield' | 'password' | 'checkbox' | 'dropdown' | 'appPicker' | 'file' | 'directory'
+    type:
+        | 'textfield'
+        | 'password'
+        | 'checkbox'
+        | 'dropdown'
+        | 'appPicker'
+        | 'file'
+        | 'directory'
     required: boolean
     placeholder?: string
     default?: any
@@ -85,7 +83,8 @@ interface RaycastPackageJson {
 }
 
 export function parsePackageJson(packageJsonPath?: string): RaycastPackageJson {
-    const resolvedPath = packageJsonPath || path.join(process.cwd(), 'package.json')
+    const resolvedPath =
+        packageJsonPath || path.join(process.cwd(), 'package.json')
 
     if (!fs.existsSync(resolvedPath)) {
         throw new Error(`Package.json not found at: ${resolvedPath}`)
@@ -130,38 +129,47 @@ interface CommandsWithFiles {
     commands: CommandWithFile[]
 }
 
-export function getCommandsWithFiles(packageJsonPath?: string): CommandsWithFiles {
-    const resolvedPath = packageJsonPath || path.join(process.cwd(), 'package.json')
+export function getCommandsWithFiles(
+    packageJsonPath?: string,
+): CommandsWithFiles {
+    const resolvedPath =
+        packageJsonPath || path.join(process.cwd(), 'package.json')
     const projectRoot = path.dirname(resolvedPath)
     const packageJson = parsePackageJson(resolvedPath)
 
-    const commands: CommandWithFile[] = (packageJson.commands || []).map((command) => {
-        // Resolve the command file path based on Raycast conventions
-        // Commands map to src/{commandName}.{ts,tsx,js,jsx}
-        const possibleExtensions = ['.tsx', '.ts', '.jsx', '.js']
-        let filePath = ''
-        let exists = false
+    const commands: CommandWithFile[] = (packageJson.commands || []).map(
+        (command) => {
+            // Resolve the command file path based on Raycast conventions
+            // Commands map to src/{commandName}.{ts,tsx,js,jsx}
+            const possibleExtensions = ['.tsx', '.ts', '.jsx', '.js']
+            let filePath = ''
+            let exists = false
 
-        for (const ext of possibleExtensions) {
-            const candidatePath = path.join(projectRoot, 'src', `${command.name}${ext}`)
-            if (fs.existsSync(candidatePath)) {
-                filePath = candidatePath
-                exists = true
-                break
+            for (const ext of possibleExtensions) {
+                const candidatePath = path.join(
+                    projectRoot,
+                    'src',
+                    `${command.name}${ext}`,
+                )
+                if (fs.existsSync(candidatePath)) {
+                    filePath = candidatePath
+                    exists = true
+                    break
+                }
             }
-        }
 
-        // If no file found, default to expected .tsx path
-        if (!filePath) {
-            filePath = path.join(projectRoot, 'src', `${command.name}.tsx`)
-        }
+            // If no file found, default to expected .tsx path
+            if (!filePath) {
+                filePath = path.join(projectRoot, 'src', `${command.name}.tsx`)
+            }
 
-        return {
-            ...command,
-            filePath,
-            exists,
-        }
-    })
+            return {
+                ...command,
+                filePath,
+                exists,
+            }
+        },
+    )
 
     return {
         packageJson,
@@ -171,9 +179,15 @@ export function getCommandsWithFiles(packageJsonPath?: string): CommandsWithFile
     }
 }
 
-function ExtensionCommandsList({ extensionPath }: { extensionPath: string }): any {
+function ExtensionCommandsList({
+    extensionPath,
+}: {
+    extensionPath: string
+}): any {
     const { push } = useNavigation()
-    const commandsData = getCommandsWithFiles(path.join(extensionPath, 'package.json'))
+    const commandsData = getCommandsWithFiles(
+        path.join(extensionPath, 'package.json'),
+    )
 
     const handleCommandSelect = async (command: CommandWithFile) => {
         try {
@@ -212,37 +226,50 @@ function ExtensionCommandsList({ extensionPath }: { extensionPath: string }): an
 
     return (
         <List
-            navigationTitle={commandsData.packageJson.title || 'Extension Commands'}
-            searchBarPlaceholder="Search commands..."
+            navigationTitle={
+                commandsData.packageJson.title || 'Extension Commands'
+            }
+            searchBarPlaceholder='Search commands...'
         >
-            <List.Section title="Commands">
+            <List.Section title='Commands'>
                 {commandsData.commands.map((command) => (
                     <List.Item
                         key={command.name}
                         id={command.name}
                         title={command.title}
                         subtitle={command.description}
-                        icon={command.icon ? Icon[command.icon as keyof typeof Icon] : undefined}
+                        icon={
+                            command.icon
+                                ? Icon[command.icon as keyof typeof Icon]
+                                : undefined
+                        }
                         accessories={[
                             { text: command.mode },
-                            ...(command.exists ? [] : [{ text: 'Missing', tooltip: 'Command file not found' }])
+                            ...(command.exists
+                                ? []
+                                : [
+                                      {
+                                          text: 'Missing',
+                                          tooltip: 'Command file not found',
+                                      },
+                                  ]),
                         ]}
                         keywords={command.keywords}
                         actions={
                             <ActionPanel>
                                 <Action
-                                    title="Run Command"
+                                    title='Run Command'
                                     onAction={() => {
                                         handleCommandSelect(command)
                                     }}
                                 />
                                 <Action.CopyToClipboard
                                     content={command.filePath}
-                                    title="Copy File Path"
+                                    title='Copy File Path'
                                 />
                                 <Action.CopyToClipboard
                                     content={JSON.stringify(command, null, 2)}
-                                    title="Copy Command Info"
+                                    title='Copy Command Info'
                                 />
                             </ActionPanel>
                         }
@@ -251,10 +278,10 @@ function ExtensionCommandsList({ extensionPath }: { extensionPath: string }): an
             </List.Section>
 
             {commandsData.commands.length === 0 && (
-                <List.Section title="No Commands">
+                <List.Section title='No Commands'>
                     <List.Item
-                        title="No commands found"
-                        subtitle="Check your package.json for command definitions"
+                        title='No commands found'
+                        subtitle='Check your package.json for command definitions'
                     />
                 </List.Section>
             )}
@@ -284,6 +311,5 @@ export function renderExtensionCommands(extensionPath: string): void {
 
     render(<App />)
 }
-
 
 renderExtensionCommands(process.cwd())

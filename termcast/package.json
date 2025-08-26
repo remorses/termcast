@@ -5,6 +5,7 @@
     "main": "dist/index.js",
     "module": "esm/index.js",
     "types": "dist/index.d.ts",
+    "bin": "src/runner.tsx",
     "repository": "https://github.com/remorses/",
     "scripts": {
         "build": "tsc && tsc -m es6 --outDir esm",
