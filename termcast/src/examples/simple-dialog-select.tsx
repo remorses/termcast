@@ -1,6 +1,6 @@
-import { renderExample } from '../utils'
-import DialogSelect from '../dialog-select'
-import { logger } from '../logger'
+import { renderExample } from '@termcast/api/src/utils'
+import DialogSelect from '@termcast/api/src/dialog-select'
+import { logger } from '@termcast/api/src/logger'
 
 const App: any = () => {
     const handleSelect = (key: string) => {

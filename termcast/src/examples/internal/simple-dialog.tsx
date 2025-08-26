@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { useKeyboard } from "@opentui/react"
-import { renderExample } from "../../utils"
-import { useDialog } from "../../internal/dialog"
-import { Theme } from "../../theme"
+import { renderExample } from '@termcast/api/src/utils'
+import { useDialog } from '@termcast/api/src/internal/dialog'
+import { Theme } from '@termcast/api/src/theme'
 
 function DialogContent({ onClose }: { onClose: () => void }): any {
   return (

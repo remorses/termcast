@@ -1,5 +1,5 @@
-import { renderExample } from '../utils'
-import List from '../list'
+import { renderExample } from '@termcast/api/src/utils'
+import List from '@termcast/api/src/list'
 
 function ListExample() {
   const handleSelectionChange = (id: string | null) => {

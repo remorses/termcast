@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react"
-import { DialogProvider } from "./dialog"
+import { DialogProvider } from "@termcast/api/src/internal/dialog"
 
 interface ProvidersProps {
   children: ReactNode

@@ -1,5 +1,5 @@
 {
-    "name": "@termcast/core",
+    "name": "@termcast/api",
     "version": "0.0.0",
     "description": "",
     "main": "dist/index.js",
@@ -10,6 +10,14 @@
         "build": "tsc && tsc -m es6 --outDir esm",
         "watch": "tsc -w",
         "play": "bun example.tsx"
+    },
+    "exports": {
+        ".": {
+            "import": "./esm/index.js",
+            "require": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        },
+        "./src/*": "./src/*.tsx"
     },
     "files": [
         "dist",

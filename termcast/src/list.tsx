@@ -316,7 +316,6 @@ function ListItemRow(props: {
                 backgroundColor: active ? Theme.primary : undefined,
                 paddingLeft: 1,
                 paddingRight: 1,
-                marginBottom: 1,
             }}
             border={false}
         >
@@ -452,7 +451,8 @@ const List: ListType = (props) => {
                 style={{
                     paddingLeft: 1,
                     paddingRight: 1,
-                    marginBottom: 2,
+                    marginTop: 1,
+                    marginBottom: 1,
                 }}
             >
                 <input
@@ -467,39 +467,41 @@ const List: ListType = (props) => {
                 />
             </box>
             
-            {/* Loading state */}
-            {isLoading ? (
-                <box border={false} style={{ padding: 2 }}>
-                    <text fg={Theme.textMuted}>Loading...</text>
-                </box>
-            ) : flat.length === 0 ? (
-                <box border={false} style={{ padding: 2 }}>
-                    <text fg={Theme.textMuted}>No results found</text>
-                </box>
-            ) : (
-                <group style={{ flexGrow: 1, flexShrink: 1 }}>
-                    {grouped.map(([sectionTitle, items], groupIndex) => (
-                        <group key={`section-${groupIndex}`} style={{ flexShrink: 0 }}>
-                            {sectionTitle && (
-                                <box border={false} style={{ paddingLeft: 1, paddingTop: groupIndex > 0 ? 1 : 0 }}>
-                                    <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
-                                        {sectionTitle}
-                                    </text>
-                                </box>
-                            )}
-                            {items.map((item) => (
-                                <Fragment key={item.id || item.originalIndex}>
-                                    <ListItemRow
-                                        item={item}
-                                        active={flat[selectedIndex] === item}
-                                        isShowingDetail={isShowingDetail}
-                                    />
-                                </Fragment>
-                            ))}
-                        </group>
-                    ))}
-                </group>
-            )}
+            {/* List content */}
+            <group style={{ flexGrow: 1, flexShrink: 1, marginTop: 1 }}>
+                {isLoading ? (
+                    <box border={false} style={{ padding: 2 }}>
+                        <text fg={Theme.textMuted}>Loading...</text>
+                    </box>
+                ) : flat.length === 0 ? (
+                    <box border={false} style={{ padding: 2 }}>
+                        <text fg={Theme.textMuted}>No results found</text>
+                    </box>
+                ) : (
+                    <group style={{ flexGrow: 1, flexShrink: 1 }}>
+                        {grouped.map(([sectionTitle, items], groupIndex) => (
+                            <group key={`section-${groupIndex}`} style={{ flexShrink: 0 }}>
+                                {sectionTitle && (
+                                    <box border={false} style={{ paddingLeft: 1, paddingTop: groupIndex > 0 ? 1 : 0 }}>
+                                        <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
+                                            {sectionTitle}
+                                        </text>
+                                    </box>
+                                )}
+                                {items.map((item) => (
+                                    <Fragment key={item.id || item.originalIndex}>
+                                        <ListItemRow
+                                            item={item}
+                                            active={flat[selectedIndex] === item}
+                                            isShowingDetail={isShowingDetail}
+                                        />
+                                    </Fragment>
+                                ))}
+                            </group>
+                        ))}
+                    </group>
+                )}
+            </group>
             
             {/* Footer with keyboard shortcuts */}
             <box
