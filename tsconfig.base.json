@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "ES2022",
-        "module": "commonjs",
+        "module": "esnext",
         "allowJs": false,
         "composite": true,
         "outDir": "${configDir}/dist",

@@ -1,0 +1,29 @@
+{
+    "name": "@termcast/core",
+    "version": "0.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "module": "esm/index.js",
+    "types": "dist/index.d.ts",
+    "repository": "https://github.com/remorses/",
+    "scripts": {
+        "build": "tsc && tsc -m es6 --outDir esm",
+        "watch": "tsc -w",
+        "play": "bun example.tsx"
+    },
+    "files": [
+        "dist",
+        "src",
+        "esm"
+    ],
+    "keywords": [],
+    "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
+    "license": "",
+    "dependencies": {
+        "@opentui/core": "^0.1.10",
+        "@opentui/react": "^0.1.10",
+        "@raycast/api": "^1.102.5",
+        "@raycast/utils": "^2.2.1",
+        "react": "^19.1.1"
+    }
+}
