@@ -25,7 +25,8 @@ Here is the process to follow to implement each API:
     - do so by reading opentui .d.ts files and see available components
     - read .d.ts to understand available styling options and attributes
 - typecheck
-- if the feature added support for a new prop, add an example usage component in the src/examples directory. create a descriptive name for it in the file. use simple-{component-name} for basic implementations examples
+- if the added feature is a component or adds support for a new prop for a component, add an example usage component in the src/examples directory. create a descriptive name for it in the file. use simple-{component-name} for basic implementations examples
+- if the implemented feature is function or other API, add an action in the file examples/miscellaneus.tsx, add a list item for the new feature, for example "show a error toast" if we are implementing toasts
 - do not add an example if our feature is already covered by other example files
 - DO NOT run the examples then. instead ask me to do it. do not add these as scripts in package.json
 - typecheck to make sure the example is correct
@@ -37,7 +38,8 @@ Here is the process to follow to implement each API:
 - DO NOT use as any. instead try to understand how to fix the types in other ways
 - to implement compound components like `List.Item` first define the type of List, using a interface, then use : to implement it and add compound components later using . and omitting the props types given they are already typed by the interface, here is an example
 - DO NOT use console.log. only use logger.log instead
-- <input> uses onInput not onChange
+- <input> uses onInput not onChange. it is passed a simple string value and not an event object
+- to render examples components use renderExample not render
 
 ```typescript
 interface ListType {
@@ -80,3 +82,11 @@ curl -s https://developers.raycast.com/api-reference/user-interface/list.md
 You can see the full list of raycast docs pages using
 
 curl -s https://developers.raycast.com/sitemap-pages.xml
+
+NEVER import @raycast/api to reuse their types. we are porting that package into this repo, you cannot import it, instead implement it again
+
+## understanding how to use opentui React elements
+
+This is not a plain react project, instead it is a React with opentui renderer, which supports box, group, input, etc
+
+To understand how to use these components read other files in the project. try to use the theme.tsx file for colors

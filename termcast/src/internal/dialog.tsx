@@ -1,9 +1,10 @@
 import { useKeyboard, useTerminalDimensions } from "@opentui/react"
-import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import React, { type ReactNode } from "react"
 import { Theme } from "@termcast/api/src/theme"
 import { RGBA } from "@opentui/core"
 import { InFocus } from '@termcast/api/src/internal/focus-context'
 import { CommonProps } from '@termcast/api/src/utils'
+import { useStore, type DialogPosition } from '@termcast/api/src/state'
 
 const Border = {
   topLeft: "┃",
@@ -19,7 +20,7 @@ const Border = {
   cross: "+",
 }
 
-export type DialogPosition = 'center' | 'top-right' | 'bottom-right'
+export type { DialogPosition } from '@termcast/api/src/state'
 
 interface DialogProps extends CommonProps {
   children: ReactNode
@@ -95,60 +96,29 @@ export function Dialog({ children, position = 'center' }: DialogProps): any {
   )
 }
 
-interface DialogStackItem {
-  element: ReactNode
-  position?: DialogPosition
-}
-
-interface DialogContextType {
-  push: (element: ReactNode, position?: DialogPosition) => void
-  clear: () => void
-  replace: (element: ReactNode, position?: DialogPosition) => void
-  stack: DialogStackItem[]
-}
-
-const DialogContext = createContext<DialogContextType | undefined>(undefined)
 
 interface DialogProviderProps {
   children: ReactNode
 }
 
 export function DialogProvider(props: DialogProviderProps): any {
-  const [stack, setStack] = useState<DialogStackItem[]>([])
+  const dialogStack = useStore((state) => state.dialogStack)
+  const popDialog = useStore((state) => state.popDialog)
 
   useKeyboard((evt) => {
-    if (evt.name === "escape") {
-      setStack((prev) => prev.slice(0, -1))
+    if (evt.name === "escape" && dialogStack.length > 0) {
+      popDialog()
     }
   })
 
-  const push = useCallback((element: ReactNode, position?: DialogPosition) => {
-    setStack((prev) => [...prev, { element, position }])
-  }, [])
-
-  const clear = useCallback(() => {
-    setStack([])
-  }, [])
-
-  const replace = useCallback((element: ReactNode, position?: DialogPosition) => {
-    setStack([{ element, position }])
-  }, [])
-
-  const value = React.useMemo(() => ({
-    push,
-    clear,
-    replace,
-    stack
-  }), [push, clear, replace, stack])
-
   return (
-    <DialogContext.Provider value={value}>
-      <InFocus inFocus={stack.length === 0}>
+    <>
+      <InFocus inFocus={dialogStack.length === 0}>
         {props.children}
       </InFocus>
       <group position="absolute">
-        {stack.map((item, index) => {
-          const isLastItem = index === stack.length - 1
+        {dialogStack.map((item, index) => {
+          const isLastItem = index === dialogStack.length - 1
           return (
             <React.Fragment key={index}>
               <InFocus inFocus={isLastItem}>
@@ -160,14 +130,20 @@ export function DialogProvider(props: DialogProviderProps): any {
           )
         })}
       </group>
-    </DialogContext.Provider>
+    </>
   )
 }
 
-export function useDialog() {
-  const value = useContext(DialogContext)
-  if (!value) {
-    throw new Error("useDialog must be used within a DialogProvider")
+export function useDialog(): any {
+  const pushDialog = useStore((state) => state.pushDialog)
+  const clearDialogs = useStore((state) => state.clearDialogs)
+  const replaceDialog = useStore((state) => state.replaceDialog)
+  const dialogStack = useStore((state) => state.dialogStack)
+  
+  return {
+    push: pushDialog,
+    clear: clearDialogs,
+    replace: replaceDialog,
+    stack: dialogStack
   }
-  return value
 }

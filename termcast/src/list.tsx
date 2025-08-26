@@ -16,9 +16,56 @@ import { Theme } from './theme'
 import { Action, ActionPanel } from './actions'
 import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
 import { CommonProps } from '@termcast/api/src/utils'
+import { useStore } from '@termcast/api/src/state'
 
 interface ActionsInterface {
     actions?: ReactNode
+}
+
+function ListFooter(): any {
+    const toast = useStore((state) => state.toast)
+    
+    if (toast) {
+        return (
+            <box
+                border={false}
+                style={{
+                    paddingLeft: 1,
+                    paddingRight: 1,
+                    paddingTop: 1,
+                    marginTop: 1,
+                }}
+            >
+                {toast}
+            </box>
+        )
+    }
+    
+    return (
+        <box
+            border={false}
+            style={{
+                paddingLeft: 1,
+                paddingRight: 1,
+                paddingTop: 1,
+                marginTop: 1,
+                flexDirection: 'row',
+            }}
+        >
+            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                ↵
+            </text>
+            <text fg={Theme.textMuted}> select</text>
+            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                {"   "}↑↓
+            </text>
+            <text fg={Theme.textMuted}> navigate</text>
+            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                {"   "}^k
+            </text>
+            <text fg={Theme.textMuted}> actions</text>
+        </box>
+    )
 }
 
 interface NavigationChildInterface {
@@ -524,30 +571,8 @@ export const List: ListType = (props) => {
                             ))}
                         </group>
 
-                        {/* Footer with keyboard shortcuts */}
-                        <box
-                            border={false}
-                            style={{
-                                paddingLeft: 1,
-                                paddingRight: 1,
-                                paddingTop: 1,
-                                marginTop: 1,
-                                flexDirection: 'row',
-                            }}
-                        >
-                            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                                ↵
-                            </text>
-                            <text fg={Theme.textMuted}> select</text>
-                            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                                {"   "}↑↓
-                            </text>
-                            <text fg={Theme.textMuted}> navigate</text>
-                            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                                {"   "}^k
-                            </text>
-                            <text fg={Theme.textMuted}> actions</text>
-                        </box>
+                        {/* Footer with keyboard shortcuts or toast */}
+                        <ListFooter />
                     </>
                 )}
             </group>

@@ -1,5 +1,16 @@
 # Changelog
 
+## 2025-08-26 21:00
+
+- Implement Clipboard API from @raycast/api
+  - Support for copy/paste/clear/read operations
+  - Cross-platform support (macOS, Linux, Windows)
+  - Concealed copy option for sensitive data
+  - Read clipboard content as text or file
+  - **File copy support** - copy files to clipboard on all platforms
+  - Detect files in clipboard when reading
+  - Reuses existing action-utils for text operations
+
 ## 2025-08-26 20:42
 
 - Set up Vitest testing framework with comprehensive test suites

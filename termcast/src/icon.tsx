@@ -1,5 +1,6 @@
 import { pascalCase } from 'change-case'
 
+
 // Map of Raycast icons to emojis
 export const iconToEmoji: Record<string, string> = {
   'add-person-16': '👤',
@@ -467,14 +468,14 @@ export const iconToEmoji: Record<string, string> = {
 // Create Icon object with properties for each icon
 function createIconEnum(): Record<string, string> {
   const icons: Record<string, string> = {}
-  
+
   for (const iconId of Object.keys(iconToEmoji)) {
     // Remove -16 suffix and convert to PascalCase
     const name = iconId.replace(/-16$/, '')
     const pascalName = pascalCase(name)
     icons[pascalName] = iconId
   }
-  
+
   return icons
 }
 
