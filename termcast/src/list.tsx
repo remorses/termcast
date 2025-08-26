@@ -196,6 +196,7 @@ interface ProcessedItem extends ItemProps {
     sectionTitle?: string
     titleText: string
     subtitleText?: string
+    originalElement?: ReactElement
 }
 
 // Extract and process items from children
@@ -222,6 +223,7 @@ function extractItems(children: ReactNode): ProcessedItem[] {
                     sectionTitle: currentSection,
                     titleText,
                     subtitleText,
+                    originalElement: child,
                 })
             } else if (child.type === ListSection) {
                 const props = child.props as SectionProps
@@ -388,6 +390,18 @@ export const List: ListType = (props) => {
 
     // Calculate flat list for keyboard navigation
     const flat = useMemo(() => filteredItems, [filteredItems])
+    
+    // Mount the focused item's actions with __focused prop
+    const focusedActions = useMemo(() => {
+        const currentItem = flat[selectedIndex]
+        if (!currentItem || !currentItem.actions) return null
+        
+        // Clone the actions element with __focused prop
+        if (React.isValidElement(currentItem.actions)) {
+            return React.cloneElement(currentItem.actions, { __focused: true })
+        }
+        return null
+    }, [flat, selectedIndex])
 
     // Reset selected index when items change
     useEffect(() => {
@@ -417,80 +431,11 @@ export const List: ListType = (props) => {
         if (evt.name === 'return' && flat[selectedIndex]) {
             const item = flat[selectedIndex]
             
-            // Check if the item has actions
-            if (item.actions) {
-                // The actions prop should be a React element (ActionPanel)
-                const actionPanelElement = item.actions
-                if (React.isValidElement(actionPanelElement) && actionPanelElement.type === ActionPanel) {
-                    // Get the ActionPanel props
-                    const actionPanelProps = actionPanelElement.props
-                    // Try to extract the first action from children
-                    const children = actionPanelProps.children
-                    let firstAction: any = null
-                    
-                    // Find the first Action component
-                    React.Children.forEach(children, (child) => {
-                        if (!firstAction && React.isValidElement(child)) {
-                            // Check if it's an Action or one of its variants
-                            const actionTypes = [
-                                Action,
-                                Action.Push,
-                                Action.CopyToClipboard,
-                                Action.OpenInBrowser,
-                                Action.Open,
-                                Action.Paste
-                            ]
-                            
-                            if (actionTypes.includes(child.type)) {
-                                firstAction = child.props
-                            } else if (child.type === ActionPanel.Section) {
-                                // Look for actions in the section
-                                const sectionChildren = child.props.children
-                                React.Children.forEach(sectionChildren, (sectionChild) => {
-                                    if (!firstAction && React.isValidElement(sectionChild)) {
-                                        if (actionTypes.includes(sectionChild.type)) {
-                                            firstAction = sectionChild.props
-                                        }
-                                    }
-                                })
-                            }
-                        }
-                    })
-                    
-                    if (firstAction) {
-                        // Handle different action types
-                        if (typeof firstAction.onAction === 'function') {
-                            firstAction.onAction()
-                            return
-                        } else if (typeof firstAction.onCopy === 'function') {
-                            // CopyToClipboard action
-                            console.log("Copy to clipboard:", firstAction.content)
-                            firstAction.onCopy(firstAction.content)
-                            return
-                        } else if (typeof firstAction.onOpen === 'function') {
-                            // OpenInBrowser or Open action
-                            console.log("Opening:", firstAction.url || firstAction.target)
-                            firstAction.onOpen(firstAction.url || firstAction.target)
-                            return
-                        } else if (typeof firstAction.onPaste === 'function') {
-                            // Paste action
-                            console.log("Pasting:", firstAction.content)
-                            firstAction.onPaste(firstAction.content)
-                            return
-                        } else if (typeof firstAction.onPush === 'function') {
-                            // Push action
-                            console.log("Push action")
-                            firstAction.onPush()
-                            return
-                        }
-                    }
-                }
-            }
-            
-            // Fallback to onSelectionChange if no action
-            if (onSelectionChange) {
+            // If item has no actions, fallback to onSelectionChange
+            if (!item.actions && onSelectionChange) {
                 onSelectionChange(item.id || item.titleText)
             }
+            // Actions will handle Enter key themselves when focused
         }
     })
 
@@ -505,6 +450,9 @@ export const List: ListType = (props) => {
 
     return (
         <group style={{ flexDirection: 'column', flexGrow: 1 }}>
+            {/* Mount focused actions (invisible but handles keyboard) */}
+            {focusedActions}
+            
             {/* Navigation title */}
             {navigationTitle && (
                 <box border={false} style={{ paddingLeft: 1, paddingRight: 1, paddingBottom: 1 }}>

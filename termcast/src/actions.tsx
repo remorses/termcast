@@ -1,6 +1,7 @@
 import React, { type ReactNode, type ReactElement } from "react"
 import { useKeyboard } from "@opentui/react"
 import { Theme } from "@termcast/api/src/theme"
+import { copyToClipboard, openInBrowser, openFile, pasteContent } from "@termcast/api/src/action-utils"
 
 export enum ActionStyle {
   Regular = "regular",
@@ -22,6 +23,7 @@ export interface ActionProps {
 export interface ActionPanelProps {
   children?: ReactNode
   title?: string
+  __focused?: boolean
 }
 
 export interface ActionPanelSectionProps {
@@ -111,9 +113,90 @@ interface ActionPanelSubmenuProps extends ActionPanelSectionProps {
   } | null
 }
 
+// Type guards for action types
+function isRegularAction(element: ReactElement, props: any): props is ActionProps {
+  return element.type === Action
+}
+
+function isCopyToClipboardAction(element: ReactElement, props: any): props is CopyToClipboardProps {
+  return element.type === Action.CopyToClipboard
+}
+
+function isOpenInBrowserAction(element: ReactElement, props: any): props is OpenInBrowserProps {
+  return element.type === Action.OpenInBrowser
+}
+
+function isOpenAction(element: ReactElement, props: any): props is OpenProps {
+  return element.type === Action.Open
+}
+
+function isPasteAction(element: ReactElement, props: any): props is PasteProps {
+  return element.type === Action.Paste
+}
+
+function isPushAction(element: ReactElement, props: any): props is PushActionProps {
+  return element.type === Action.Push
+}
+
 const ActionPanel: ActionPanelType = (props) => {
+  const { children, __focused } = props
+  
+  // Handle Enter key when this ActionPanel is focused
+  useKeyboard((evt) => {
+    if (!__focused || evt.name !== 'return') return
+    
+    // Find the first action in children
+    const findFirstAction = (nodes: ReactNode): { element: ReactElement, props: any } | null => {
+      let firstAction: { element: ReactElement, props: any } | null = null
+      
+      React.Children.forEach(nodes, (child) => {
+        if (firstAction) return
+        
+        if (React.isValidElement(child)) {
+          const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
+          
+          if (actionTypes.includes(child.type as any)) {
+            firstAction = { element: child, props: child.props }
+          } else if (child.type === ActionPanel.Section) {
+            const nestedAction = findFirstAction(child.props.children)
+            if (nestedAction) {
+              firstAction = nestedAction
+            }
+          }
+        }
+      })
+      
+      return firstAction
+    }
+    
+    const firstAction = findFirstAction(children)
+    
+    // Execute the first action based on its type
+    if (firstAction) {
+      const { element, props } = firstAction
+      
+      // Check the component type and execute accordingly
+      if (isRegularAction(element, props)) {
+        props.onAction?.()
+      } else if (isCopyToClipboardAction(element, props)) {
+        copyToClipboard(props.content, props.concealed)
+        props.onCopy?.(props.content)
+      } else if (isOpenInBrowserAction(element, props)) {
+        openInBrowser(props.url)
+        props.onOpen?.(props.url)
+      } else if (isOpenAction(element, props)) {
+        openFile(props.target, props.application)
+        props.onOpen?.(props.target)
+      } else if (isPasteAction(element, props)) {
+        pasteContent(props.content)
+        props.onPaste?.(props.content)
+      } else if (isPushAction(element, props)) {
+        props.onPush?.()
+      }
+    }
+  })
+  
   // ActionPanel doesn't render anything visible
-  // It's just a container for actions
   return null
 }
 

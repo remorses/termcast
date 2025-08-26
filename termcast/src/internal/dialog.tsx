@@ -17,21 +17,56 @@ const Border = {
   cross: "+",
 }
 
+export type DialogPosition = 'center' | 'top-right' | 'bottom-right'
+
 interface DialogProps {
   children: ReactNode
+  position?: DialogPosition
 }
 
-export function Dialog({ children }: DialogProps): any {
+export function Dialog({ children, position = 'center' }: DialogProps): any {
   const dimensions = useTerminalDimensions()
+
+  const getPositionStyles = () => {
+    switch (position) {
+      case 'top-right':
+        return {
+          alignItems: 'flex-end' as const,
+          justifyContent: 'flex-start' as const,
+          paddingTop: 2,
+          paddingRight: 2
+        }
+      case 'bottom-right':
+        return {
+          alignItems: 'flex-end' as const,
+          justifyContent: 'flex-end' as const,
+          paddingBottom: 2,
+          paddingRight: 2
+        }
+      case 'center':
+      default:
+        return {
+          alignItems: 'center' as const,
+          justifyContent: 'flex-start' as const,
+          paddingTop: Math.floor(dimensions.height / 4)
+        }
+    }
+  }
+
+  const positionStyles = getPositionStyles()
 
   return (
     <box
       border={false}
       width={dimensions.width}
       height={dimensions.height}
-      alignItems="center"
+      alignItems={positionStyles.alignItems}
+      justifyContent={positionStyles.justifyContent}
       position="absolute"
-      paddingTop={Math.floor(dimensions.height / 4)}
+      paddingTop={positionStyles.paddingTop}
+      paddingBottom={positionStyles.paddingBottom}
+      paddingLeft={positionStyles.paddingLeft}
+      paddingRight={positionStyles.paddingRight}
       left={0}
       top={0}
       backgroundColor={RGBA.fromInts(0, 0, 0, 150)}
@@ -51,11 +86,16 @@ export function Dialog({ children }: DialogProps): any {
   )
 }
 
+interface DialogStackItem {
+  element: ReactNode
+  position?: DialogPosition
+}
+
 interface DialogContextType {
-  push: (element: ReactNode) => void
+  push: (element: ReactNode, position?: DialogPosition) => void
   clear: () => void
-  replace: (element: ReactNode) => void
-  stack: ReactNode[]
+  replace: (element: ReactNode, position?: DialogPosition) => void
+  stack: DialogStackItem[]
 }
 
 const DialogContext = createContext<DialogContextType | undefined>(undefined)
@@ -65,7 +105,7 @@ interface DialogProviderProps {
 }
 
 export function DialogProvider(props: DialogProviderProps): any {
-  const [stack, setStack] = useState<ReactNode[]>([])
+  const [stack, setStack] = useState<DialogStackItem[]>([])
 
   useKeyboard((evt) => {
     if (evt.name === "escape") {
@@ -73,16 +113,16 @@ export function DialogProvider(props: DialogProviderProps): any {
     }
   })
 
-  const push = useCallback((element: ReactNode) => {
-    setStack((prev) => [...prev, element])
+  const push = useCallback((element: ReactNode, position?: DialogPosition) => {
+    setStack((prev) => [...prev, { element, position }])
   }, [])
 
   const clear = useCallback(() => {
     setStack([])
   }, [])
 
-  const replace = useCallback((element: ReactNode) => {
-    setStack([element])
+  const replace = useCallback((element: ReactNode, position?: DialogPosition) => {
+    setStack([{ element, position }])
   }, [])
 
   const value = React.useMemo(() => ({
@@ -97,8 +137,8 @@ export function DialogProvider(props: DialogProviderProps): any {
       {props.children}
       <group position="absolute">
         {stack.length > 0 && (
-          <Dialog>
-            {stack[0]}
+          <Dialog position={stack[0].position}>
+            {stack[0].element}
           </Dialog>
         )}
       </group>

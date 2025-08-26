@@ -1,10 +1,12 @@
-import React, { useState } from "react"
+import React from "react"
 import { useKeyboard } from "@opentui/react"
 import { renderExample } from '@termcast/api/src/utils'
-import { useDialog } from '@termcast/api/src/internal/dialog'
+import { useDialog, type DialogPosition } from '@termcast/api/src/internal/dialog'
 import { Theme } from '@termcast/api/src/theme'
+import { List } from '@termcast/api/src/list'
+import { ActionPanel, Action } from '@termcast/api/src/actions'
 
-function DialogContent({ onClose }: { onClose: () => void }): any {
+function DialogContent({ position }: { position: DialogPosition }): any {
   return (
     <box
       width="100%"
@@ -12,10 +14,10 @@ function DialogContent({ onClose }: { onClose: () => void }): any {
       flexDirection="column"
       padding={1}
     >
-      <text style={{ fg: Theme.text }}>This is a dialog!</text>
-      <text style={{ fg: Theme.textMuted }}>Press ESC to close or ENTER to dismiss</text>
+      <text style={{ fg: Theme.text }}>Dialog Position: {position}</text>
+      <text style={{ fg: Theme.textMuted }}>Press ESC to close</text>
       <box marginTop={2}>
-        <text style={{ fg: Theme.accent }}>Dialog content goes here...</text>
+        <text style={{ fg: Theme.accent }}>This dialog is positioned at {position}</text>
       </box>
     </box>
   )
@@ -23,32 +25,50 @@ function DialogContent({ onClose }: { onClose: () => void }): any {
 
 function App(): any {
   const dialog = useDialog()
-  const [showDialog, setShowDialog] = useState(false)
 
-  useKeyboard((key) => {
-    if (key.name === "d") {
-      dialog.push(<DialogContent onClose={() => dialog.clear()} />)
-      setShowDialog(true)
-    } else if (key.name === "c") {
-      dialog.clear()
-      setShowDialog(false)
-    } else if (key.name === "r") {
-      dialog.replace(<DialogContent onClose={() => dialog.clear()} />)
-      setShowDialog(true)
+  const positions: { title: string; position: DialogPosition; description: string }[] = [
+    {
+      title: "Center",
+      position: "center",
+      description: "Shows dialog in the center of the screen"
+    },
+    {
+      title: "Top Left",
+      position: "top-left",
+      description: "Shows dialog in the top-left corner"
+    },
+    {
+      title: "Bottom Right",
+      position: "bottom-right",
+      description: "Shows dialog in the bottom-right corner"
     }
-  })
+  ]
 
   return (
-    <box width="100%" height="100%" flexDirection="column">
-      <text style={{ fg: Theme.primary }}>Dialog Example</text>
-      <text style={{ fg: Theme.textMuted }}>Press 'd' to show dialog</text>
-      <text style={{ fg: Theme.textMuted }}>Press 'c' to clear all dialogs</text>
-      <text style={{ fg: Theme.textMuted }}>Press 'r' to replace dialog</text>
-      <text style={{ fg: Theme.textMuted }}>Press 'ESC' to close the top dialog</text>
-      {showDialog && (
-        <text style={{ fg: Theme.success }}>Dialog is open (stack size: {dialog.stack.length})</text>
-      )}
-    </box>
+    <List navigationTitle="Dialog Position Example">
+      {positions.map((item) => (
+        <List.Item
+          title={item.title}
+          subtitle={item.description}
+          actions={
+            <ActionPanel>
+              <Action
+                title={`Open ${item.title} Dialog`}
+                onAction={() => {
+                  dialog.push(<DialogContent position={item.position} />, item.position)
+                }}
+              />
+              <Action
+                title="Clear All Dialogs"
+                onAction={() => {
+                  dialog.clear()
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+      ))}
+    </List>
   )
 }
 
