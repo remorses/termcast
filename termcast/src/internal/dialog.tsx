@@ -34,21 +34,28 @@ export function Dialog({ children, position = 'center' }: DialogProps): any {
           alignItems: 'flex-end' as const,
           justifyContent: 'flex-start' as const,
           paddingTop: 2,
-          paddingRight: 2
+          paddingRight: 2,
+          paddingBottom: undefined,
+          paddingLeft: undefined
         }
       case 'bottom-right':
         return {
           alignItems: 'flex-end' as const,
           justifyContent: 'flex-end' as const,
+          paddingTop: undefined,
           paddingBottom: 2,
-          paddingRight: 2
+          paddingRight: 2,
+          paddingLeft: undefined
         }
       case 'center':
       default:
         return {
           alignItems: 'center' as const,
           justifyContent: 'flex-start' as const,
-          paddingTop: Math.floor(dimensions.height / 4)
+          paddingTop: Math.floor(dimensions.height / 4),
+          paddingBottom: undefined,
+          paddingLeft: undefined,
+          paddingRight: undefined
         }
     }
   }

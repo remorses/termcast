@@ -1,25 +1,64 @@
-import React from "react"
+import React, { useState } from "react"
 import { useKeyboard } from "@opentui/react"
 import { renderExample } from '@termcast/api/src/utils'
 import { useDialog, type DialogPosition } from '@termcast/api/src/internal/dialog'
 import { Theme } from '@termcast/api/src/theme'
 import { List } from '@termcast/api/src/list'
 import { ActionPanel, Action } from '@termcast/api/src/actions'
+import { Dropdown } from '@termcast/api/src/dropdown'
+import { logger } from '@termcast/api/src/logger'
 
 function DialogContent({ position }: { position: DialogPosition }): any {
+  const [selectedDrink, setSelectedDrink] = useState<string>('coffee')
+  
+  const handleDrinkChange = (newValue: string) => {
+    logger.log('Selected drink:', newValue)
+    setSelectedDrink(newValue)
+  }
+
   return (
-    <box
-      width="100%"
-      height={10}
-      flexDirection="column"
-      padding={1}
+    <Dropdown 
+      tooltip="Select Drink" 
+      onChange={handleDrinkChange}
+      value={selectedDrink}
+      placeholder="Search drinks..."
     >
-      <text style={{ fg: Theme.text }}>Dialog Position: {position}</text>
-      <text style={{ fg: Theme.textMuted }}>Press ESC to close</text>
-      <box marginTop={2}>
-        <text style={{ fg: Theme.accent }}>This dialog is positioned at {position}</text>
-      </box>
-    </box>
+      <Dropdown.Section title="Hot Drinks">
+        <Dropdown.Item
+          value="coffee"
+          title="Coffee"
+          icon="☕"
+          keywords={['espresso', 'latte', 'cappuccino']}
+        />
+        <Dropdown.Item
+          value="tea"
+          title="Tea"
+          icon="🍵"
+          keywords={['green', 'black', 'herbal']}
+        />
+      </Dropdown.Section>
+      
+      <Dropdown.Section title="Cold Drinks">
+        <Dropdown.Item
+          value="juice"
+          title="Juice"
+          icon="🧃"
+          keywords={['orange', 'apple', 'grape']}
+        />
+        <Dropdown.Item
+          value="water"
+          title="Water"
+          icon="💧"
+          keywords={['sparkling', 'still', 'mineral']}
+        />
+        <Dropdown.Item
+          value="cola"
+          title="Cola"
+          icon="🥤"
+          keywords={['coke', 'pepsi', 'soda']}
+        />
+      </Dropdown.Section>
+    </Dropdown>
   )
 }
 
@@ -33,9 +72,9 @@ function App(): any {
       description: "Shows dialog in the center of the screen"
     },
     {
-      title: "Top Left",
-      position: "top-left",
-      description: "Shows dialog in the top-left corner"
+      title: "Top Right",
+      position: "top-right",
+      description: "Shows dialog in the top-right corner"
     },
     {
       title: "Bottom Right",
@@ -45,7 +84,7 @@ function App(): any {
   ]
 
   return (
-    <List navigationTitle="Dialog Position Example">
+    <List navigationTitle="Dialog with Dropdown Example">
       {positions.map((item) => (
         <List.Item
           title={item.title}
