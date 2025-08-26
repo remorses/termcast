@@ -1,4 +1,4 @@
-import { renderExample } from '@termcast/api/src/utils'
+import { renderWithProviders } from '@termcast/api/src/utils'
 import List from '@termcast/api/src/list'
 
 function ListExample() {
@@ -8,40 +8,40 @@ function ListExample() {
 
   return (
     <List onSelectionChange={handleSelectionChange}>
-      <List.Item 
+      <List.Item
         title="First Item"
         subtitle="This is a subtitle"
         accessories={[
           { text: "Badge" }
         ]}
       />
-      
-      <List.Item 
+
+      <List.Item
         title="Second Item"
         subtitle="Another subtitle"
         accessories={[
           { text: "Important" }
         ]}
       />
-      
-      <List.Item 
+
+      <List.Item
         title="Third Item"
         accessories={[
           { text: "Starred" },
           { text: "Multiple accessories" }
         ]}
       />
-      
-      <List.Item 
+
+      <List.Item
         title="Fourth Item"
         subtitle="This item is searchable"
       />
-      
-      <List.Item 
+
+      <List.Item
         title="Simple Item"
       />
     </List>
   )
 }
 
-renderExample(<ListExample />)
+renderWithProviders(<ListExample />)

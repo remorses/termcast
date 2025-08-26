@@ -1,4 +1,4 @@
-import { renderExample } from '@termcast/api/src/utils'
+import { renderWithProviders } from '@termcast/api/src/utils'
 import List from '@termcast/api/src/list'
 
 function SimpleListExample() {
@@ -62,4 +62,4 @@ function SimpleListExample() {
     )
 }
 
-renderExample(<SimpleListExample />)
+renderWithProviders(<SimpleListExample />)

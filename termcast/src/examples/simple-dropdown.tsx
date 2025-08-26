@@ -1,19 +1,19 @@
-import { renderExample } from '@termcast/api/src/utils'
+import { renderWithProviders } from '@termcast/api/src/utils'
 import { Dropdown } from '@termcast/api/src/dropdown'
 import { logger } from '@termcast/api/src/logger'
 import { useState } from 'react'
 
 const App: any = () => {
     const [selectedValue, setSelectedValue] = useState<string>('one')
-    
+
     const handleChange = (newValue: string) => {
         logger.log('Dropdown value changed to:', newValue)
         setSelectedValue(newValue)
     }
 
     return (
-        <Dropdown 
-            tooltip="Select Drink Type" 
+        <Dropdown
+            tooltip="Select Drink Type"
             onChange={handleChange}
             value={selectedValue}
             placeholder="Search drinks..."
@@ -29,7 +29,7 @@ const App: any = () => {
                 />
                 <Dropdown.Item
                     value="wine"
-                    title="Wine" 
+                    title="Wine"
                     icon="🍷"
                     keywords={['red', 'white', 'rose']}
                     label="⌃W"
@@ -91,4 +91,4 @@ const App: any = () => {
     )
 }
 
-renderExample(<App />)
+renderWithProviders(<App />)

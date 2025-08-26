@@ -1,4 +1,4 @@
-import { renderExample } from '@termcast/api/src/utils'
+import { renderWithProviders } from '@termcast/api/src/utils'
 import List from '@termcast/api/src/list'
 
 const App: any = () => {
@@ -48,4 +48,4 @@ const App: any = () => {
     )
 }
 
-renderExample(<App />)
+renderWithProviders(<App />)

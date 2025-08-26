@@ -8,7 +8,16 @@ import { Form } from '@termcast/api/src/form/index'
 import '@termcast/api/src/form/assign-components'
 import { useNavigation } from '@termcast/api/src/internal/navigation'
 import { environment } from '@termcast/api/src/environment'
-import { renderExample } from '../utils'
+import { 
+  renderWithProviders, 
+  getApplications,
+  getDefaultApplication,
+  getFrontmostApplication,
+  showInFinder,
+  trash,
+  open,
+  captureException
+} from '../utils'
 import { confirmAlert, Alert } from '../alert'
 import { showToast, Toast } from '../toast'
 
@@ -432,8 +441,150 @@ function MiscellaneousExample(): any {
           }
         />
       </List.Section>
+
+      <List.Section title="System Utilities">
+        <List.Item
+          title="Get All Applications"
+          subtitle="List all installed applications"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Get Apps"
+                onAction={async () => {
+                  const apps = await getApplications()
+                  await showToast({
+                    style: Toast.Style.Success,
+                    title: "Applications found",
+                    message: `${apps.length} apps: ${apps.map(a => a.name).join(", ")}`
+                  })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Get Default Application"
+          subtitle="Get default app for a file"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Get Default"
+                onAction={async () => {
+                  const app = await getDefaultApplication("/Users/test.txt")
+                  await showToast({
+                    style: Toast.Style.Success,
+                    title: "Default app",
+                    message: app.name
+                  })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Get Frontmost Application"
+          subtitle="Get currently active app"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Get Frontmost"
+                onAction={async () => {
+                  const app = await getFrontmostApplication()
+                  await showToast({
+                    style: Toast.Style.Success,
+                    title: "Frontmost app",
+                    message: app.name
+                  })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Show in Finder"
+          subtitle="Reveal a file in Finder"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Show File"
+                onAction={async () => {
+                  await showInFinder("package.json")
+                  await showToast({
+                    style: Toast.Style.Success,
+                    title: "Opened in Finder"
+                  })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Move to Trash"
+          subtitle="Move a file to trash"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Trash File"
+                onAction={async () => {
+                  await trash("/tmp/test.txt")
+                  await showToast({
+                    style: Toast.Style.Success,
+                    title: "Moved to trash"
+                  })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Open File or URL"
+          subtitle="Open with default or specific app"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Open URL"
+                onAction={async () => {
+                  await open("https://raycast.com")
+                  await showToast({
+                    style: Toast.Style.Success,
+                    title: "Opening URL"
+                  })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Capture Exception"
+          subtitle="Test error reporting"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Throw Error"
+                onAction={() => {
+                  try {
+                    throw new Error("Test exception")
+                  } catch (e) {
+                    captureException(e)
+                    showToast({
+                      style: Toast.Style.Failure,
+                      title: "Exception captured"
+                    })
+                  }
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+      </List.Section>
     </List>
   )
 }
 
-renderExample(<MiscellaneousExample />)
+renderWithProviders(<MiscellaneousExample />)

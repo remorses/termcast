@@ -1,8 +1,8 @@
 // Core UI Components
 export { List } from '@termcast/api/src/list'
-export type { 
+export type {
   ListProps,
-  ItemProps as ListItemProps, 
+  ItemProps as ListItemProps,
   SectionProps as ListSectionProps,
   DetailProps as ListDetailProps,
   MetadataProps as ListMetadataProps,
@@ -29,7 +29,7 @@ export type {
 } from '@termcast/api/src/actions'
 
 // Form Components
-export { 
+export {
   Form,
   useFormContext
 } from '@termcast/api/src/form/index'
@@ -87,7 +87,7 @@ export { Alert, confirmAlert } from '@termcast/api/src/alert'
 export { Toast, showToast } from '@termcast/api/src/toast'
 
 // Clipboard
-export { 
+export {
   Clipboard,
   copyTextToClipboard,
   clearClipboard,
@@ -109,7 +109,7 @@ export {
 } from '@termcast/api/src/action-utils'
 
 // Environment
-export { 
+export {
   environment,
   getSelectedFinderItems,
   getSelectedText
@@ -137,4 +137,4 @@ export type { DialogPosition } from '@termcast/api/src/state'
 export { Providers } from '@termcast/api/src/internal/providers'
 
 // Helper function for rendering examples
-export { renderExample } from '@termcast/api/src/utils'
+export { renderWithProviders as renderExample } from '@termcast/api/src/utils'

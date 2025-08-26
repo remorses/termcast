@@ -4,7 +4,7 @@ import { Form } from '@termcast/api/src/form/index'
 import '@termcast/api/src/form/assign-components'
 import { logger } from '@termcast/api/src/logger'
 import { showToast, Toast } from '@termcast/api/src/toast'
-import { renderExample } from '../utils'
+import { renderWithProviders } from '../utils'
 
 export function FormBasicExample(): any {
     const [submittedData, setSubmittedData] = useState<any>(null)
@@ -106,4 +106,4 @@ export function FormBasicExample(): any {
 }
 
 
-renderExample(<FormBasicExample />)
+renderWithProviders(<FormBasicExample />)

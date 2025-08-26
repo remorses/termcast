@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useKeyboard } from "@opentui/react"
-import { renderExample } from '@termcast/api/src/utils'
+import { renderWithProviders } from '@termcast/api/src/utils'
 import { useDialog, type DialogPosition } from '@termcast/api/src/internal/dialog'
 import { Theme } from '@termcast/api/src/theme'
 import { List } from '@termcast/api/src/list'
@@ -10,15 +10,15 @@ import { logger } from '@termcast/api/src/logger'
 
 function DialogContent({ position }: { position: DialogPosition }): any {
   const [selectedDrink, setSelectedDrink] = useState<string>('coffee')
-  
+
   const handleDrinkChange = (newValue: string) => {
     logger.log('Selected drink:', newValue)
     setSelectedDrink(newValue)
   }
 
   return (
-    <Dropdown 
-      tooltip="Select Drink" 
+    <Dropdown
+      tooltip="Select Drink"
       onChange={handleDrinkChange}
       value={selectedDrink}
       placeholder="Search drinks..."
@@ -37,7 +37,7 @@ function DialogContent({ position }: { position: DialogPosition }): any {
           keywords={['green', 'black', 'herbal']}
         />
       </Dropdown.Section>
-      
+
       <Dropdown.Section title="Cold Drinks">
         <Dropdown.Item
           value="juice"
@@ -111,4 +111,4 @@ function App(): any {
   )
 }
 
-renderExample(<App />)
+renderWithProviders(<App />)

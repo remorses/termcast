@@ -3,7 +3,7 @@ import { Theme } from '@termcast/api/src/theme'
 import { TextAttributes } from '@opentui/core'
 import { logger } from '@termcast/api/src/logger'
 import { useStore } from '@termcast/api/src/state'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, useTerminalDimensions } from '@opentui/react'
 
 export namespace Toast {
   export interface Options {
@@ -121,7 +121,8 @@ interface ToastComponentProps {
 
 function ToastComponent({ toast, onHide }: ToastComponentProps): any {
   const [, forceUpdate] = useState(0)
-  
+  const dimensions = useTerminalDimensions()
+
   useEffect(() => {
     const onUpdate = () => {
       forceUpdate(n => n + 1)
@@ -131,7 +132,7 @@ function ToastComponent({ toast, onHide }: ToastComponentProps): any {
       toast._setCallbacks({})
     }
   }, [toast, onHide])
-  
+
   const getIcon = () => {
     switch (toast.style) {
       case Toast.Style.Success:
@@ -192,25 +193,74 @@ function ToastComponent({ toast, onHide }: ToastComponentProps): any {
     }
   })
 
+  // TODO use flexWrap when implemented
+  const wrapText = (text: string, maxWidth: number): string[] => {
+    if (!text) return []
+
+    const words = text.split(' ')
+    const lines: string[] = []
+    let currentLine = ''
+
+    for (const word of words) {
+      const testLine = currentLine ? `${currentLine} ${word}` : word
+      if (testLine.length <= maxWidth) {
+        currentLine = testLine
+      } else {
+        if (currentLine) {
+          lines.push(currentLine)
+        }
+        currentLine = word
+      }
+    }
+
+    if (currentLine) {
+      lines.push(currentLine)
+    }
+
+    return lines.slice(0, 3)
+  }
+
+  const iconLength = 2
+  const titleLength = toast.title.length
+  const actionsLength = (() => {
+    let length = 0
+    if (toast.primaryAction) {
+      length += toast.primaryAction.title.length + 4
+    }
+    if (toast.secondaryAction) {
+      length += toast.secondaryAction.title.length + 4
+    }
+    return length
+  })()
+
+  const availableWidth = dimensions.width - iconLength - titleLength - actionsLength - 8
+  const messageLines = toast.message ? wrapText(toast.message, Math.max(20, availableWidth)) : []
+
   return (
     <box
       borderColor={Theme.border}
       paddingLeft={1}
       paddingRight={1}
-      flexDirection="row"
-      alignItems="center"
+      flexDirection="column"
     >
-      <text fg={getIconColor()}>{icon} </text>
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>{toast.title}</text>
-      {toast.message && (
-        <text fg={Theme.textMuted}> - {toast.message}</text>
-      )}
-      {toast.primaryAction && (
-        <text fg={Theme.primary}> [{toast.primaryAction.title} ↵]</text>
-      )}
-      {toast.secondaryAction && (
-        <text fg={Theme.textMuted}> [{toast.secondaryAction.title} ⇥]</text>
-      )}
+      <box flexDirection="row" alignItems="center">
+        <text fg={getIconColor()}>{icon} </text>
+        <text fg={Theme.text} attributes={TextAttributes.BOLD}>{toast.title}</text>
+        {messageLines.length > 0 && (
+          <text fg={Theme.textMuted}> - {messageLines[0]}</text>
+        )}
+        {toast.primaryAction && (
+          <text fg={Theme.primary}> [{toast.primaryAction.title} ↵]</text>
+        )}
+        {toast.secondaryAction && (
+          <text fg={Theme.textMuted}> [{toast.secondaryAction.title} ⇥]</text>
+        )}
+      </box>
+      {messageLines.slice(1).map((line, index) => (
+        <box key={index} paddingLeft={iconLength + titleLength + 3}>
+          <text fg={Theme.textMuted}>{line}</text>
+        </box>
+      ))}
     </box>
   )
 }

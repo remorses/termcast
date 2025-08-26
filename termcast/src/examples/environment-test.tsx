@@ -1,6 +1,6 @@
 import React from 'react'
 import { List, environment, Toast, showToast } from '@termcast/api'
-import { renderExample } from '@termcast/api/src/utils'
+import { renderWithProviders } from '@termcast/api/src/utils'
 
 function EnvironmentExample(): any {
     const handleShowEnvironment = async () => {
@@ -17,13 +17,13 @@ Support Path: ${environment.supportPath}
 Assets Path: ${environment.assetsPath}
 Command Mode: ${environment.commandMode}
         `.trim()
-        
+
         await showToast(Toast.Style.Success, 'Environment Info', envInfo)
     }
 
     return (
         <List>
-            <List.Item 
+            <List.Item
                 title="Show Environment Info"
                 subtitle={`Current theme: ${environment.appearance}`}
                 actions={
@@ -32,15 +32,15 @@ Command Mode: ${environment.commandMode}
                     </ActionPanel>
                 }
             />
-            <List.Item 
+            <List.Item
                 title="Extension Name"
                 subtitle={environment.extensionName}
             />
-            <List.Item 
+            <List.Item
                 title="Development Mode"
                 subtitle={environment.isDevelopment ? "Yes" : "No"}
             />
-            <List.Item 
+            <List.Item
                 title="Launch Type"
                 subtitle={environment.launchType.type}
             />
@@ -52,5 +52,5 @@ Command Mode: ${environment.commandMode}
 import { ActionPanel, Action } from '@termcast/api/src/actions'
 
 if (require.main === module) {
-    renderExample(<EnvironmentExample />)
+    renderWithProviders(<EnvironmentExample />)
 }
