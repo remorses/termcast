@@ -1,8 +1,9 @@
 import React, { type ReactNode } from 'react'
 import { DialogProvider } from '@termcast/api/src/internal/dialog'
 import { NavigationProvider } from '@termcast/api/src/internal/navigation'
+import { CommonProps } from '@termcast/api/src/utils'
 
-interface ProvidersProps {
+interface ProvidersProps extends CommonProps {
     children: ReactNode
 }
 

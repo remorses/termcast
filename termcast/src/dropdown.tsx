@@ -13,6 +13,7 @@ import { TextAttributes } from '@opentui/core'
 import { Theme } from '@termcast/api/src/theme'
 import { logger } from '@termcast/api/src/logger'
 import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
+import { CommonProps } from './utils'
 
 // SearchBarInterface provides the common search bar props
 interface SearchBarInterface {
@@ -22,9 +23,9 @@ interface SearchBarInterface {
     throttle?: boolean
 }
 
-export interface DropdownProps extends SearchBarInterface {
+export interface DropdownProps extends SearchBarInterface, CommonProps {
     id?: string
-    tooltip: string
+    tooltip?: string
     placeholder?: string
     storeValue?: boolean | undefined
     value?: string
@@ -33,15 +34,16 @@ export interface DropdownProps extends SearchBarInterface {
     onChange?: (newValue: string) => void
 }
 
-export interface DropdownItemProps {
+export interface DropdownItemProps extends CommonProps {
     title: string
     value: string
     icon?: ReactNode
+
     keywords?: string[]
     label?: string
 }
 
-export interface DropdownSectionProps {
+export interface DropdownSectionProps extends CommonProps {
     title?: string
     children?: ReactNode
 }
@@ -79,10 +81,12 @@ function extractItems(children: ReactNode): ProcessedItem[] {
 }
 
 // Group items by section
-function groupBySection(items: ProcessedItem[]): [string | undefined, ProcessedItem[]][] {
+function groupBySection(
+    items: ProcessedItem[],
+): [string | undefined, ProcessedItem[]][] {
     const grouped: Map<string | undefined, ProcessedItem[]> = new Map()
-    
-    items.forEach(item => {
+
+    items.forEach((item) => {
         const section = item.section
         if (!grouped.has(section)) {
             grouped.set(section, [])
@@ -94,16 +98,17 @@ function groupBySection(items: ProcessedItem[]): [string | undefined, ProcessedI
 }
 
 // Filter items based on search query
-function filterItems(items: ProcessedItem[], query: string, filtering?: boolean | { keepSectionOrder: boolean }): ProcessedItem[] {
+function filterItems(
+    items: ProcessedItem[],
+    query: string,
+    filtering?: boolean | { keepSectionOrder: boolean },
+): ProcessedItem[] {
     if (!query.trim() || filtering === false) return items
 
     const needle = query.toLowerCase().trim()
-    
-    return items.filter(item => {
-        const searchableText = [
-            item.title,
-            ...(item.keywords || []),
-        ]
+
+    return items.filter((item) => {
+        const searchableText = [item.title, ...(item.keywords || [])]
             .filter(Boolean)
             .join(' ')
             .toLowerCase()
@@ -119,40 +124,42 @@ interface DropdownType {
 }
 
 const Dropdown: DropdownType = (props) => {
-    const { 
-        tooltip, 
-        onChange, 
+    const {
+        tooltip,
+        onChange,
         value,
         defaultValue,
-        children, 
-        placeholder = "Search…",
+        children,
+        placeholder = 'Search…',
         storeValue,
         isLoading,
         filtering,
         onSearchTextChange,
-        throttle
+        throttle,
     } = props
 
     const [selected, setSelected] = useState(0)
     const [searchText, setSearchText] = useState('')
-    const [currentValue, setCurrentValue] = useState<string | undefined>(value || defaultValue)
+    const [currentValue, setCurrentValue] = useState<string | undefined>(
+        value || defaultValue,
+    )
     const inputRef = useRef<any>(null)
     const lastSearchTextRef = useRef('')
     const throttleTimeoutRef = useRef<NodeJS.Timeout>()
 
     // Extract and process items from children
     const allItems = useMemo(() => extractItems(children), [children])
-    
+
     // Filter items based on search
     const filteredItems = useMemo(
         () => filterItems(allItems, searchText, filtering),
-        [allItems, searchText, filtering]
+        [allItems, searchText, filtering],
     )
-    
+
     // Group filtered items by section
     const grouped = useMemo(
         () => groupBySection(filteredItems),
-        [filteredItems]
+        [filteredItems],
     )
 
     // Update controlled value
@@ -170,7 +177,7 @@ const Dropdown: DropdownType = (props) => {
     // Handle search text change with throttling
     const handleSearchTextChange = (text: string) => {
         if (!inFocus) return
-        
+
         setSearchText(text)
 
         if (onSearchTextChange) {
@@ -210,11 +217,11 @@ const Dropdown: DropdownType = (props) => {
 
     // Get focus state
     const inFocus = useIsInFocus()
-    
+
     // Handle keyboard navigation
     useKeyboard((evt) => {
         if (!inFocus) return
-        
+
         if (evt.name === 'up') {
             move(-1)
         }
@@ -230,7 +237,12 @@ const Dropdown: DropdownType = (props) => {
         <group>
             <group style={{ paddingLeft: 2, paddingRight: 2 }}>
                 <group style={{ paddingLeft: 1, paddingRight: 1 }}>
-                    <group style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <group
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                        }}
+                    >
                         <text attributes={TextAttributes.BOLD}>{tooltip}</text>
                         <text fg={Theme.textMuted}>esc</text>
                     </group>
@@ -249,24 +261,30 @@ const Dropdown: DropdownType = (props) => {
                 </group>
                 <group style={{ paddingBottom: 1 }}>
                     {grouped.map(([section, items], groupIndex) => (
-                        <group key={`group-${groupIndex}`} style={{ paddingTop: 1, flexShrink: 0 }}>
+                        <group
+                            key={`group-${groupIndex}`}
+                            style={{ paddingTop: 1, flexShrink: 0 }}
+                        >
                             {section && (
                                 <group style={{ paddingLeft: 1 }}>
-                                    <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
+                                    <text
+                                        fg={Theme.accent}
+                                        attributes={TextAttributes.BOLD}
+                                    >
                                         {section}
                                     </text>
                                 </group>
                             )}
                             {items.map((item) => (
-                                <Fragment key={item.value}>
-                                    <ItemOption
-                                        title={item.title}
-                                        icon={item.icon}
-                                        active={flat[selected]?.value === item.value}
-                                        current={item.value === currentValue}
-                                        label={item.label}
-                                    />
-                                </Fragment>
+                                <ItemOption
+                                    title={item.title}
+                                    icon={item.icon}
+                                    active={
+                                        flat[selected]?.value === item.value
+                                    }
+                                    current={item.value === currentValue}
+                                    label={item.label}
+                                />
                             ))}
                         </group>
                     ))}
@@ -292,7 +310,7 @@ const Dropdown: DropdownType = (props) => {
                 </text>
                 <text fg={Theme.textMuted}> select</text>
                 <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                    {"   "}↑↓
+                    {'   '}↑↓
                 </text>
                 <text fg={Theme.textMuted}> navigate</text>
             </box>
@@ -320,14 +338,18 @@ function ItemOption(props: {
         >
             <group style={{ flexDirection: 'row' }}>
                 {props.icon && (
-                    <text
-                        fg={props.active ? Theme.background : Theme.text}
-                    >
+                    <text fg={props.active ? Theme.background : Theme.text}>
                         {props.icon}{' '}
                     </text>
                 )}
                 <text
-                    fg={props.active ? Theme.background : props.current ? Theme.primary : Theme.text}
+                    fg={
+                        props.active
+                            ? Theme.background
+                            : props.current
+                              ? Theme.primary
+                              : Theme.text
+                    }
                     attributes={props.active ? TextAttributes.BOLD : undefined}
                 >
                     {props.title}
@@ -353,7 +375,7 @@ const DropdownItem: (props: DropdownItemProps) => any = () => {
 
 const DropdownSection: (props: DropdownSectionProps) => any = () => {
     // This component doesn't render anything directly
-    // It's processed by the parent Dropdown component  
+    // It's processed by the parent Dropdown component
     return null
 }
 

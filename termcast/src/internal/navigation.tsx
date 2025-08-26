@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 import { useKeyboard } from "@opentui/react"
+import { CommonProps } from '@termcast/api/src/utils'
 
 interface NavigationStackItem {
   component: ReactNode
@@ -18,7 +19,7 @@ interface NavigationContextType {
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined)
 
-interface NavigationProviderProps {
+interface NavigationProviderProps extends CommonProps {
   children: ReactNode
 }
 
@@ -77,7 +78,7 @@ export function useNavigation(): Navigation {
   return context.navigation
 }
 
-interface NavigationContainerProps {
+interface NavigationContainerProps extends CommonProps {
   children: ReactNode
 }
 

@@ -9,7 +9,8 @@
     "scripts": {
         "build": "tsc && tsc -m es6 --outDir esm",
         "watch": "tsc -w",
-        "play": "bun example.tsx"
+        "play": "bun example.tsx",
+        "test": "vitest --run"
     },
     "exports": {
         ".": {
@@ -32,9 +33,13 @@
         "@opentui/react": "^0.1.10",
         "@raycast/api": "^1.102.5",
         "@raycast/utils": "^2.2.1",
+        "better-sqlite3": "^12.2.0",
+        "change-case": "^5.4.4",
         "react": "^19.1.1"
     },
     "devDependencies": {
-        "@types/bun": "^1.2.21"
+        "@types/bun": "^1.2.21",
+        "@vitest/ui": "^3.2.4",
+        "vitest": "^3.2.4"
     }
 }

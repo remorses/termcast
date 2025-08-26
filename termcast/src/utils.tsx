@@ -9,3 +9,7 @@ export function renderExample(element: ReactNode): void {
     </Providers>
   )
 }
+
+export type CommonProps = {
+  key?: string
+}

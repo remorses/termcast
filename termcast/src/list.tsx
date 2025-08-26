@@ -15,6 +15,7 @@ import { logger } from './logger'
 import { Theme } from './theme'
 import { Action, ActionPanel } from './actions'
 import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
+import { CommonProps } from '@termcast/api/src/utils'
 
 interface ActionsInterface {
     actions?: ReactNode
@@ -80,7 +81,7 @@ export type ItemAccessory =
           tooltip?: string | null
       }
 
-export interface ItemProps extends ActionsInterface {
+export interface ItemProps extends ActionsInterface, CommonProps {
     id?: string
     title:
         | string
@@ -105,29 +106,29 @@ export interface ItemProps extends ActionsInterface {
     detail?: ReactElement<DetailProps>
 }
 
-export interface DetailProps {
+export interface DetailProps extends CommonProps {
     isLoading?: boolean
     markdown?: string
     metadata?: ReactElement<MetadataProps>
 }
 
-export interface MetadataProps {
+export interface MetadataProps extends CommonProps {
     children?: ReactNode
 }
 
-export interface DropdownItemProps {
+export interface DropdownItemProps extends CommonProps {
     value: string
     title: string
     icon?: Image.ImageLike | null
     keywords?: string[]
 }
 
-export interface DropdownSectionProps {
+export interface DropdownSectionProps extends CommonProps {
     children?: ReactNode
     title?: string
 }
 
-export interface DropdownProps extends SearchBarInterface {
+export interface DropdownProps extends SearchBarInterface, CommonProps {
     id?: string
     tooltip: string
     placeholder?: string
@@ -138,7 +139,7 @@ export interface DropdownProps extends SearchBarInterface {
     children?: ReactNode
 }
 
-export interface SectionProps {
+export interface SectionProps extends CommonProps {
     children?: ReactNode
     id?: string
     title?: string
@@ -149,7 +150,8 @@ export interface ListProps
     extends ActionsInterface,
         NavigationChildInterface,
         SearchBarInterface,
-        PaginationInterface {
+        PaginationInterface,
+        CommonProps {
     actions?: ReactNode
     children?: ReactNode
     onSelectionChange?: (id: string | null) => void
@@ -185,7 +187,7 @@ interface ListDropdownType {
     Section: (props: DropdownSectionProps) => any
 }
 
-interface EmptyViewProps extends ActionsInterface {
+interface EmptyViewProps extends ActionsInterface, CommonProps {
     icon?: Image.ImageLike
     title?: string
     description?: string
@@ -339,10 +341,10 @@ function ListItemRow(props: {
             {accessoryElements.length > 0 && (
                 <group style={{ flexDirection: 'row' }}>
                     {accessoryElements.map((elem, i) => (
-                        <Fragment key={i}>
+                        <group key={i} style={{ flexDirection: 'row' }}>
                             {i > 0 && <text> </text>}
                             {elem}
-                        </Fragment>
+                        </group>
                     ))}
                 </group>
             )}
@@ -391,7 +393,7 @@ export const List: ListType = (props) => {
 
     // Calculate flat list for keyboard navigation
     const flat = useMemo(() => filteredItems, [filteredItems])
-    
+
     // Mount the focused item's actions
     const focusedActions = useMemo(() => {
         const currentItem = flat[selectedIndex]
@@ -424,12 +426,12 @@ export const List: ListType = (props) => {
     const inFocus = useIsInFocus()
     useKeyboard((evt) => {
         if (!inFocus) return
-        
+
         if (evt.name === 'up') move(-1)
         if (evt.name === 'down') move(1)
         if (evt.name === 'return' && flat[selectedIndex]) {
             const item = flat[selectedIndex]
-            
+
             // If item has no actions, fallback to onSelectionChange
             if (!item.actions && onSelectionChange) {
                 onSelectionChange(item.id || item.titleText)
@@ -440,7 +442,7 @@ export const List: ListType = (props) => {
 
     const handleSearchChange = (newValue: string) => {
         if (!inFocus) return
-        
+
         if (controlledSearchText === undefined) {
             setInternalSearchText(newValue)
         }
@@ -457,7 +459,7 @@ export const List: ListType = (props) => {
                     {focusedActions}
                 </InFocus>
             )}
-            
+
             {/* Navigation title */}
             {navigationTitle && (
                 <box border={false} style={{ paddingLeft: 1, paddingRight: 1, paddingBottom: 1 }}>
@@ -512,13 +514,11 @@ export const List: ListType = (props) => {
                                         </box>
                                     )}
                                     {items.map((item) => (
-                                        <Fragment key={item.id || item.originalIndex}>
-                                            <ListItemRow
-                                                item={item}
-                                                active={flat[selectedIndex] === item}
-                                                isShowingDetail={isShowingDetail}
-                                            />
-                                        </Fragment>
+                                        <ListItemRow
+                                            item={item}
+                                            active={flat[selectedIndex] === item}
+                                            isShowingDetail={isShowingDetail}
+                                        />
                                     ))}
                                 </group>
                             ))}
@@ -543,6 +543,10 @@ export const List: ListType = (props) => {
                                 {"   "}↑↓
                             </text>
                             <text fg={Theme.textMuted}> navigate</text>
+                            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                                {"   "}^k
+                            </text>
+                            <text fg={Theme.textMuted}> actions</text>
                         </box>
                     </>
                 )}

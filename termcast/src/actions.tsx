@@ -5,13 +5,14 @@ import { copyToClipboard, openInBrowser, openFile, pasteContent } from "@termcas
 import { useDialog } from "@termcast/api/src/internal/dialog"
 import { Dropdown } from "@termcast/api/src/dropdown"
 import { useIsInFocus } from "@termcast/api/src/internal/focus-context"
+import { CommonProps } from "@termcast/api/src/utils"
 
 export enum ActionStyle {
   Regular = "regular",
   Destructive = "destructive"
 }
 
-export interface ActionProps {
+export interface ActionProps extends CommonProps {
   title: string
   icon?: string | null
   style?: ActionStyle
@@ -23,12 +24,12 @@ export interface ActionProps {
   autoFocus?: boolean
 }
 
-export interface ActionPanelProps {
+export interface ActionPanelProps extends CommonProps {
   children?: ReactNode
   title?: string
 }
 
-export interface ActionPanelSectionProps {
+export interface ActionPanelSectionProps extends CommonProps {
   title?: string
   children?: ReactNode
 }
@@ -143,10 +144,10 @@ function isPushAction(element: ReactElement, props: any): props is PushActionPro
 // Helper function to format shortcuts for display
 function formatShortcut(shortcut?: { modifiers?: string[]; key: string } | null): string {
   if (!shortcut) return ''
-  
+
   const modifiers = shortcut.modifiers || []
   const parts = [...modifiers, shortcut.key]
-  
+
   return parts
     .map(part => {
       // Convert common modifiers to symbols
@@ -181,13 +182,13 @@ function collectAllActions(children: ReactNode): Array<{
     shortcut?: { modifiers?: string[]; key: string } | null
     execute: () => void
   }> = []
-  
+
   const processChildren = (nodes: ReactNode) => {
     React.Children.forEach(nodes, (child) => {
       if (!React.isValidElement(child)) return
-      
+
       const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
-      
+
       if (actionTypes.includes(child.type as any)) {
         const props = child.props
         const execute = () => {
@@ -209,7 +210,7 @@ function collectAllActions(children: ReactNode): Array<{
             props.onPush?.()
           }
         }
-        
+
         actions.push({
           title: props.title,
           shortcut: props.shortcut,
@@ -223,7 +224,7 @@ function collectAllActions(children: ReactNode): Array<{
       }
     })
   }
-  
+
   processChildren(children)
   return actions
 }
@@ -232,21 +233,21 @@ const ActionPanel: ActionPanelType = (props) => {
   const { children } = props
   const dialog = useDialog()
   const inFocus = useIsInFocus()
-  
+
   // Handle keyboard events when this ActionPanel is focused
   useKeyboard((evt) => {
     if (!inFocus) return
-    
+
     // Handle Ctrl+K to show all actions in dropdown
     if (evt.name === 'k' && evt.ctrl) {
       const allActions = collectAllActions(children)
-      
+
       if (allActions.length === 0) return
-      
+
       const ActionDropdown = () => {
         return (
           <Dropdown
-            tooltip="Select Action"
+            // tooltip="Select Action"
             placeholder="Search actions..."
             onChange={(value) => {
               const action = allActions.find(a => a.title === value)
@@ -257,35 +258,33 @@ const ActionPanel: ActionPanelType = (props) => {
             }}
           >
             {allActions.map((action, index) => (
-              <Fragment key={index}>
                 <Dropdown.Item
                   value={action.title}
                   title={action.title}
                   label={formatShortcut(action.shortcut)}
                 />
-              </Fragment>
             ))}
           </Dropdown>
         )
       }
-      
+
       dialog.push(<ActionDropdown />, 'bottom-right')
       return
     }
-    
+
     // Handle Enter key to execute first action
     if (evt.name !== 'return') return
-    
+
     // Find the first action in children
     const findFirstAction = (nodes: ReactNode): { element: ReactElement, props: any } | null => {
       let firstAction: { element: ReactElement, props: any } | null = null
-      
+
       React.Children.forEach(nodes, (child) => {
         if (firstAction) return
-        
+
         if (React.isValidElement(child)) {
           const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
-          
+
           if (actionTypes.includes(child.type as any)) {
             firstAction = { element: child, props: child.props }
           } else if (child.type === ActionPanel.Section) {
@@ -296,16 +295,16 @@ const ActionPanel: ActionPanelType = (props) => {
           }
         }
       })
-      
+
       return firstAction
     }
-    
+
     const firstAction = findFirstAction(children)
-    
+
     // Execute the first action based on its type
     if (firstAction) {
       const { element, props } = firstAction
-      
+
       // Check the component type and execute accordingly
       if (isRegularAction(element, props)) {
         props.onAction?.()
@@ -326,7 +325,7 @@ const ActionPanel: ActionPanelType = (props) => {
       }
     }
   })
-  
+
   // ActionPanel doesn't render anything visible
   return null
 }

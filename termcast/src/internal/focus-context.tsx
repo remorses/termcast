@@ -1,4 +1,5 @@
 import React, { createContext, useContext, ReactNode } from 'react'
+import { CommonProps } from '@termcast/api/src/utils'
 
 interface FocusContextValue {
     inFocus: boolean
@@ -6,7 +7,7 @@ interface FocusContextValue {
 
 const FocusContext = createContext<FocusContextValue>({ inFocus: true })
 
-interface InFocusProps {
+interface InFocusProps extends CommonProps {
     children: ReactNode
     inFocus: boolean
 }

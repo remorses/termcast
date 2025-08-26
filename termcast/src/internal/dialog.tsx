@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useCallback, type ReactNode
 import { Theme } from "@termcast/api/src/theme"
 import { RGBA } from "@opentui/core"
 import { InFocus } from '@termcast/api/src/internal/focus-context'
+import { CommonProps } from '@termcast/api/src/utils'
 
 const Border = {
   topLeft: "┃",
@@ -20,7 +21,7 @@ const Border = {
 
 export type DialogPosition = 'center' | 'top-right' | 'bottom-right'
 
-interface DialogProps {
+interface DialogProps extends CommonProps {
   children: ReactNode
   position?: DialogPosition
 }
