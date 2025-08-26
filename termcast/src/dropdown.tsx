@@ -1,4 +1,4 @@
-import {
+import React, {
     ReactNode,
     Children,
     isValidElement,
@@ -72,6 +72,9 @@ function extractItems(children: ReactNode): ProcessedItem[] {
             } else if (child.type === DropdownSection) {
                 const props = child.props as DropdownSectionProps
                 processChildren(props.children, props.title)
+            } else if (child.type === Fragment || child.type === React.Fragment) {
+                // Handle Fragment components recursively
+                processChildren(child.props.children, currentSection)
             }
         })
     }
