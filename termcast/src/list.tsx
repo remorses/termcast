@@ -4,8 +4,10 @@ import {
     Children,
     isValidElement,
     useState,
+    useEffect,
 } from 'react'
 import { SelectOption, fg, t } from '@opentui/core'
+import { useKeyboard } from '@opentui/react'
 import { logger } from './logger'
 
 interface ActionsInterface {
@@ -285,12 +287,28 @@ const List: ListType = (props) => {
     } = props
 
     const [internalSearchText, setInternalSearchText] = useState('')
+    const [focusedElement, setFocusedElement] = useState<'input' | 'select'>('input')
+    const [selectedIndex, setSelectedIndex] = useState(0)
+    
     const searchText =
         controlledSearchText !== undefined
             ? controlledSearchText
             : internalSearchText
 
-    logger.log('Current searchText:', searchText)
+    // Handle keyboard navigation between input and select
+    useKeyboard((key) => {
+        if (key.name === 'tab') {
+            setFocusedElement((prev) => prev === 'input' ? 'select' : 'input')
+        }
+        // Navigate from input to select when pressing down
+        if (key.name === 'down' && focusedElement === 'input') {
+            setFocusedElement('select')
+        }
+        // Navigate from select to input when pressing up on first item
+        if (key.name === 'up' && focusedElement === 'select' && selectedIndex === 0) {
+            setFocusedElement('input')
+        }
+    })
 
     // Convert children to SelectOptions
     const allOptions: (SelectOption & { keywords?: string[] })[] = []
@@ -332,22 +350,22 @@ const List: ListType = (props) => {
             return searchableText.includes(query)
         })
 
-        logger.log('Filtering:', {
-            query,
-            allOptions: allOptions.length,
-            filtered: filtered.length,
-        })
         return filtered
     })()
 
+    // Reset selected index when filtered options change
+    useEffect(() => {
+        setSelectedIndex(0)
+    }, [filteredOptions.length])
+
     const handleChange = (index: number, option: SelectOption | null) => {
+        setSelectedIndex(index)
         if (onSelectionChange && option) {
             onSelectionChange(option.value)
         }
     }
 
     const handleSearchChange = (newValue: string) => {
-        logger.log('Search change:', newValue)
         if (controlledSearchText === undefined) {
             setInternalSearchText(newValue)
         }
@@ -369,11 +387,10 @@ const List: ListType = (props) => {
             >
                 <input
                     placeholder={searchBarPlaceholder}
-                    focused
+                    focused={focusedElement === 'input'}
                     paddingBottom={1}
                     value={searchText}
                     onInput={(value) => {
-                        logger.log('Input onChange:', value)
                         handleSearchChange(value)
                     }}
                 />
@@ -381,7 +398,7 @@ const List: ListType = (props) => {
             <select
                 options={filteredOptions}
                 key={`select-${filteredOptions.length}-${searchText}`} // Force re-render when options or search changes
-                focused={false} // Input is always focused
+                focused={focusedElement === 'select'}
                 onChange={handleChange}
                 showDescription={true}
                 showScrollIndicator={true}
