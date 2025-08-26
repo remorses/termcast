@@ -1,3 +1,5 @@
+## Porting @raycast/api components and hooks to @termcast/api
+
 ALWAYS use @termcast/api to import things, instead of relative imports. This is possible thanks to exports in package.json. for example:
 
 import {List} from '@termcast/api/src/list'
