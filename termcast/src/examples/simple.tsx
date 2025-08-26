@@ -8,11 +8,6 @@ export const App = () => {
         'tiny',
     )
 
-    const { width, height } = measureText({
-        text,
-        font,
-    })
-
     return (
         <select
             focused
@@ -21,8 +16,19 @@ export const App = () => {
             options={[
                 {
                     name: 'First Item',
-                    description: 'This is a subtitle  Badge',
-                    value: 'First Item',
+                    description: (
+                        <box
+                            style={{
+                                alignItems: 'space-between',
+                                flexGrow: 1,
+                                flexDirection: 'row',
+                            }}
+                        >
+                            <text>First</text>
+                            <text>Item</text>
+                        </box>
+                    ),
+                    value: 'xxx',
                 },
                 {
                     name: 'Second Item',
