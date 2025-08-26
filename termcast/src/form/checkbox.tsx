@@ -52,9 +52,9 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref
         }
     }
 
-    // Handle space key to toggle when focused
+    // Handle space or enter key to toggle when focused
     useKeyboard((evt) => {
-        if (isFocused && evt.name === 'space') {
+        if (isFocused && (evt.name === 'space' || evt.name === 'return')) {
             handleToggle()
         }
     })

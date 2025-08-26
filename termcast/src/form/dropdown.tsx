@@ -4,6 +4,8 @@ import { useKeyboard } from '@opentui/react'
 import { useFormContext, FormItemProps, FormItemRef } from '@termcast/api/src/form/index'
 import { logger } from '@termcast/api/src/logger'
 import { Theme } from '@termcast/api/src/theme'
+import { Dropdown as BaseDropdown } from '@termcast/api/src/dropdown'
+import { useDialog } from '@termcast/api/src/internal/dialog'
 
 export interface DropdownProps extends FormItemProps<string> {
     placeholder?: string
@@ -42,8 +44,9 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
     const [localValue, setLocalValue] = useState(props.defaultValue || props.value || '')
     const [isOpen, setIsOpen] = useState(false)
     const isFocused = formContext.focusedField === props.id
+    const dialog = useDialog()
 
-    // Parse children to extract items
+    // Parse children to extract items for display
     const items: DropdownItemProps[] = []
     const sections: { title?: string; items: DropdownItemProps[] }[] = []
     let currentSection: { title?: string; items: DropdownItemProps[] } | null = null
@@ -74,7 +77,6 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
 
     const allItems = [...items, ...sections.flatMap(s => s.items)]
     const selectedItem = allItems.find(item => item.value === localValue)
-    const [highlightedIndex, setHighlightedIndex] = useState(0)
 
     useEffect(() => {
         if (props.value !== undefined) {
@@ -107,30 +109,33 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
     const handleSelect = (value: string) => {
         setLocalValue(value)
         setIsOpen(false)
+        dialog.clear()
         if (props.onChange) {
             props.onChange(value)
         }
+    }
+
+    const openDropdown = () => {
+        setIsOpen(true)
+        dialog.push(
+            <BaseDropdown
+                value={localValue}
+                onChange={handleSelect}
+                placeholder={props.placeholder}
+                tooltip={props.title}
+            >
+                {props.children}
+            </BaseDropdown>,
+            'center'
+        )
     }
 
     // Handle keyboard navigation when focused
     useKeyboard((evt) => {
         if (!isFocused) return
 
-        if (evt.name === 'space' || evt.name === 'enter') {
-            if (!isOpen) {
-                setIsOpen(true)
-                setHighlightedIndex(Math.max(0, allItems.findIndex(i => i.value === localValue)))
-            } else {
-                handleSelect(allItems[highlightedIndex]?.value || '')
-            }
-        } else if (isOpen) {
-            if (evt.name === 'escape') {
-                setIsOpen(false)
-            } else if (evt.name === 'up') {
-                setHighlightedIndex(Math.max(0, highlightedIndex - 1))
-            } else if (evt.name === 'down') {
-                setHighlightedIndex(Math.min(allItems.length - 1, highlightedIndex + 1))
-            }
+        if ((evt.name === 'return' || evt.name === 'space') && !isOpen) {
+            openDropdown()
         }
     })
 
@@ -151,21 +156,6 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
                     {isFocused ? ' ▼' : ''}
                 </text>
             </box>
-            {isOpen && isFocused && (
-                <box border marginTop={1} flexDirection="column">
-                    {allItems.map((item, index) => (
-                        <box 
-                            key={item.value}
-                            padding={1}
-                            backgroundColor={index === highlightedIndex ? Theme.primary : undefined}
-                        >
-                            <text fg={index === highlightedIndex ? Theme.background : Theme.text}>
-                                {item.icon ? `${item.icon} ` : ''}{item.title}
-                            </text>
-                        </box>
-                    ))}
-                </box>
-            )}
             {props.error && (
                 <text fg={Theme.error}>
                     {props.error}

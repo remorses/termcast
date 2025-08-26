@@ -4,7 +4,7 @@ import { Theme } from "@termcast/api/src/theme"
 import { RGBA } from "@opentui/core"
 import { InFocus } from '@termcast/api/src/internal/focus-context'
 import { CommonProps } from '@termcast/api/src/utils'
-import { useStore, type DialogPosition } from '@termcast/api/src/state'
+import { useStore, type DialogPosition, type DialogStackItem } from '@termcast/api/src/state'
 
 const Border = {
   topLeft: "┃",
@@ -134,11 +134,15 @@ export function DialogProvider(props: DialogProviderProps): any {
   )
 }
 
-export function useDialog(): any {
+export function useDialog() {
   const pushDialog = useStore((state) => state.pushDialog)
   const clearDialogs = useStore((state) => state.clearDialogs)
   const replaceDialog = useStore((state) => state.replaceDialog)
   const dialogStack = useStore((state) => state.dialogStack)
+  
+  if (!pushDialog || !clearDialogs || !replaceDialog) {
+    throw new Error('useDialog must be used within DialogProvider')
+  }
   
   return {
     push: pushDialog,

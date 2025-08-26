@@ -3,7 +3,7 @@ import { type ReactNode } from 'react'
 
 export type DialogPosition = 'center' | 'top-right' | 'bottom-right'
 
-interface DialogStackItem {
+export interface DialogStackItem {
   element: ReactNode
   position?: DialogPosition
 }

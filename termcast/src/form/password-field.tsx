@@ -67,8 +67,8 @@ export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldPro
                     ref={inputRef}
                     value={displayValue}
                     onInput={(value: string) => {
-                        // Only update if focused (prevents issues when masked)
-                        if (isFocused) {
+                        // Ignore masked input (all asterisks) when not focused
+                        if (isFocused && !(/^\*+$/.test(value) && !localValue.startsWith('*'))) {
                             handleChange(value)
                         }
                     }}
