@@ -1,0 +1,43 @@
+This project ports @raycast/api components and apis to use @opentui/react and other Bun APIs
+
+We are basically implementing the package @raycast/api from scratch
+
+This should be done one piece at a time, one hook and component at a time
+
+Here is the process to follow to implement each API:
+
+- decide which component or hook or function we are porting
+- read the .d.ts of the @raycast/api package for the component or hook
+- generate a new file or decide to which file to add this new API in src folder
+- start by adding a signature without any actual implementation. Only a function or class or constant without any actual implementation
+- try typechecking with `pnpm tsc`. fix any errors that is not related to the missing implementation (like missing returns)
+- then think, is the signature the same as Raycast?
+- start implementing the component or function
+-
+
+## rules
+
+- for return type of React components just use any
+- keep types as close as possible to rayacst
+- DO NOT use as any. instead try to understand how to fix the types in other ways
+- to implement compound components like `List.Item` first define the type of List, using a interface, then use : to implement it and add compound components later using . and omitting the props types given they are already typed by the interface, here is an example
+
+```typescript
+interface ListType {
+    (props: ListProps): any
+    Item: (props: ListItemProps) => any
+    Section: (props: ListSectionProps) => any
+}
+
+const List: ListType = (props) => {
+    // implementation
+}
+
+List.Item = (props) => {
+    // implementation
+}
+
+List.Section = (props) => {
+    // implementation
+}
+```
