@@ -468,7 +468,7 @@ const List: ListType = (props) => {
             </box>
             
             {/* List content */}
-            <group style={{ flexGrow: 1, flexShrink: 1, marginTop: 1 }}>
+            <group style={{ marginTop: 1 }}>
                 {isLoading ? (
                     <box border={false} style={{ padding: 2 }}>
                         <text fg={Theme.textMuted}>Loading...</text>
@@ -478,50 +478,53 @@ const List: ListType = (props) => {
                         <text fg={Theme.textMuted}>No results found</text>
                     </box>
                 ) : (
-                    <group style={{ flexGrow: 1, flexShrink: 1 }}>
-                        {grouped.map(([sectionTitle, items], groupIndex) => (
-                            <group key={`section-${groupIndex}`} style={{ flexShrink: 0 }}>
-                                {sectionTitle && (
-                                    <box border={false} style={{ paddingLeft: 1, paddingTop: groupIndex > 0 ? 1 : 0 }}>
-                                        <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
-                                            {sectionTitle}
-                                        </text>
-                                    </box>
-                                )}
-                                {items.map((item) => (
-                                    <Fragment key={item.id || item.originalIndex}>
-                                        <ListItemRow
-                                            item={item}
-                                            active={flat[selectedIndex] === item}
-                                            isShowingDetail={isShowingDetail}
-                                        />
-                                    </Fragment>
-                                ))}
-                            </group>
-                        ))}
-                    </group>
+                    <>
+                        <group>
+                            {grouped.map(([sectionTitle, items], groupIndex) => (
+                                <group key={`section-${groupIndex}`} style={{ flexShrink: 0 }}>
+                                    {sectionTitle && (
+                                        <box border={false} style={{ paddingLeft: 1, paddingTop: groupIndex > 0 ? 1 : 0 }}>
+                                            <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
+                                                {sectionTitle}
+                                            </text>
+                                        </box>
+                                    )}
+                                    {items.map((item) => (
+                                        <Fragment key={item.id || item.originalIndex}>
+                                            <ListItemRow
+                                                item={item}
+                                                active={flat[selectedIndex] === item}
+                                                isShowingDetail={isShowingDetail}
+                                            />
+                                        </Fragment>
+                                    ))}
+                                </group>
+                            ))}
+                        </group>
+                        
+                        {/* Footer with keyboard shortcuts */}
+                        <box
+                            border={false}
+                            style={{
+                                paddingLeft: 1,
+                                paddingRight: 1,
+                                paddingTop: 1,
+                                marginTop: 1,
+                                flexDirection: 'row',
+                            }}
+                        >
+                            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                                ↵
+                            </text>
+                            <text fg={Theme.textMuted}> select</text>
+                            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                                {"   "}↑↓
+                            </text>
+                            <text fg={Theme.textMuted}> navigate</text>
+                        </box>
+                    </>
                 )}
             </group>
-            
-            {/* Footer with keyboard shortcuts */}
-            <box
-                border={false}
-                style={{
-                    paddingLeft: 1,
-                    paddingRight: 1,
-                    paddingTop: 1,
-                    flexDirection: 'row',
-                }}
-            >
-                <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                    ↵
-                </text>
-                <text fg={Theme.textMuted}> select</text>
-                <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                    {"   "}↑↓
-                </text>
-                <text fg={Theme.textMuted}> navigate</text>
-            </box>
         </group>
     )
 }
