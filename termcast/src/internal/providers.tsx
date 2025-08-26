@@ -1,5 +1,6 @@
 import React, { type ReactNode } from 'react'
 import { DialogProvider } from '@termcast/api/src/internal/dialog'
+import { NavigationProvider } from '@termcast/api/src/internal/navigation'
 
 interface ProvidersProps {
     children: ReactNode
@@ -8,7 +9,12 @@ interface ProvidersProps {
 export function Providers(props: ProvidersProps): any {
     return (
         <DialogProvider>
-            <group padding={2}>{props.children}</group>
+            <group padding={2}>
+                {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
+                <NavigationProvider>
+                    {props.children}
+                </NavigationProvider>
+            </group>
         </DialogProvider>
     )
 }

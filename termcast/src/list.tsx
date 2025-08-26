@@ -1,4 +1,4 @@
-import {
+import React, {
     ReactNode,
     ReactElement,
     Children,
@@ -13,6 +13,7 @@ import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import { logger } from './logger'
 import { Theme } from './theme'
+import { Action, ActionPanel } from './actions'
 
 interface ActionsInterface {
     actions?: ReactNode
@@ -214,7 +215,7 @@ function extractItems(children: ReactNode): ProcessedItem[] {
                         ? props.subtitle
                         : props.subtitle.value || ''
                     : undefined
-                
+
                 items.push({
                     ...props,
                     originalIndex: index++,
@@ -236,7 +237,7 @@ function extractItems(children: ReactNode): ProcessedItem[] {
 // Group items by section
 function groupBySection(items: ProcessedItem[]): [string, ProcessedItem[]][] {
     const grouped: Record<string, ProcessedItem[]> = {}
-    
+
     items.forEach(item => {
         const section = item.sectionTitle || ''
         if (!grouped[section]) {
@@ -253,7 +254,7 @@ function filterItems(items: ProcessedItem[], query: string): ProcessedItem[] {
     if (!query.trim()) return items
 
     const needle = query.toLowerCase().trim()
-    
+
     return items.filter(item => {
         const searchableText = [
             item.titleText,
@@ -276,14 +277,14 @@ function ListItemRow(props: {
     isShowingDetail?: boolean
 }) {
     const { item, active } = props
-    
+
     // Format accessories for display
     const accessoryElements: ReactNode[] = []
     if (item.accessories) {
         item.accessories.forEach((accessory) => {
             if ('text' in accessory && accessory.text) {
-                const textValue = typeof accessory.text === 'string' 
-                    ? accessory.text 
+                const textValue = typeof accessory.text === 'string'
+                    ? accessory.text
                     : accessory.text?.value
                 if (textValue) {
                     accessoryElements.push(
@@ -307,7 +308,7 @@ function ListItemRow(props: {
             }
         })
     }
-    
+
     return (
         <box
             style={{
@@ -346,7 +347,7 @@ function ListItemRow(props: {
     )
 }
 
-const List: ListType = (props) => {
+export const List: ListType = (props) => {
     const {
         children,
         onSelectionChange,
@@ -364,7 +365,7 @@ const List: ListType = (props) => {
     const [internalSearchText, setInternalSearchText] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const inputRef = useRef<any>(null)
-    
+
     const searchText =
         controlledSearchText !== undefined
             ? controlledSearchText
@@ -372,13 +373,13 @@ const List: ListType = (props) => {
 
     // Extract and process items from children
     const allItems = useMemo(() => extractItems(children), [children])
-    
+
     // Apply filtering
     const filteredItems = useMemo(() => {
         if (!filtering) return allItems
         return filterItems(allItems, searchText)
     }, [allItems, searchText, filtering])
-    
+
     // Group filtered items by section
     const grouped = useMemo(
         () => groupBySection(filteredItems),
@@ -405,12 +406,8 @@ const List: ListType = (props) => {
         if (next < 0) next = flat.length - 1
         if (next >= flat.length) next = 0
         setSelectedIndex(next)
-        
-        // Trigger selection change
-        const item = flat[next]
-        if (item && onSelectionChange) {
-            onSelectionChange(item.id || item.titleText)
-        }
+
+        // Don't trigger onSelectionChange when just moving - only on Enter
     }
 
     // Handle keyboard navigation
@@ -419,6 +416,78 @@ const List: ListType = (props) => {
         if (evt.name === 'down') move(1)
         if (evt.name === 'return' && flat[selectedIndex]) {
             const item = flat[selectedIndex]
+            
+            // Check if the item has actions
+            if (item.actions) {
+                // The actions prop should be a React element (ActionPanel)
+                const actionPanelElement = item.actions
+                if (React.isValidElement(actionPanelElement) && actionPanelElement.type === ActionPanel) {
+                    // Get the ActionPanel props
+                    const actionPanelProps = actionPanelElement.props
+                    // Try to extract the first action from children
+                    const children = actionPanelProps.children
+                    let firstAction: any = null
+                    
+                    // Find the first Action component
+                    React.Children.forEach(children, (child) => {
+                        if (!firstAction && React.isValidElement(child)) {
+                            // Check if it's an Action or one of its variants
+                            const actionTypes = [
+                                Action,
+                                Action.Push,
+                                Action.CopyToClipboard,
+                                Action.OpenInBrowser,
+                                Action.Open,
+                                Action.Paste
+                            ]
+                            
+                            if (actionTypes.includes(child.type)) {
+                                firstAction = child.props
+                            } else if (child.type === ActionPanel.Section) {
+                                // Look for actions in the section
+                                const sectionChildren = child.props.children
+                                React.Children.forEach(sectionChildren, (sectionChild) => {
+                                    if (!firstAction && React.isValidElement(sectionChild)) {
+                                        if (actionTypes.includes(sectionChild.type)) {
+                                            firstAction = sectionChild.props
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
+                    
+                    if (firstAction) {
+                        // Handle different action types
+                        if (typeof firstAction.onAction === 'function') {
+                            firstAction.onAction()
+                            return
+                        } else if (typeof firstAction.onCopy === 'function') {
+                            // CopyToClipboard action
+                            console.log("Copy to clipboard:", firstAction.content)
+                            firstAction.onCopy(firstAction.content)
+                            return
+                        } else if (typeof firstAction.onOpen === 'function') {
+                            // OpenInBrowser or Open action
+                            console.log("Opening:", firstAction.url || firstAction.target)
+                            firstAction.onOpen(firstAction.url || firstAction.target)
+                            return
+                        } else if (typeof firstAction.onPaste === 'function') {
+                            // Paste action
+                            console.log("Pasting:", firstAction.content)
+                            firstAction.onPaste(firstAction.content)
+                            return
+                        } else if (typeof firstAction.onPush === 'function') {
+                            // Push action
+                            console.log("Push action")
+                            firstAction.onPush()
+                            return
+                        }
+                    }
+                }
+            }
+            
+            // Fallback to onSelectionChange if no action
             if (onSelectionChange) {
                 onSelectionChange(item.id || item.titleText)
             }
@@ -444,7 +513,7 @@ const List: ListType = (props) => {
                     </text>
                 </box>
             )}
-            
+
             {/* Search bar */}
             <box
                 border={false}
@@ -466,7 +535,7 @@ const List: ListType = (props) => {
                     focusedTextColor={Theme.text}
                 />
             </box>
-            
+
             {/* List content */}
             <group style={{ marginTop: 1 }}>
                 {isLoading ? (
@@ -501,7 +570,7 @@ const List: ListType = (props) => {
                                 </group>
                             ))}
                         </group>
-                        
+
                         {/* Footer with keyboard shortcuts */}
                         <box
                             border={false}
