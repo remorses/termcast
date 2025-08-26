@@ -5,8 +5,11 @@ import {
     isValidElement,
     useState,
     useEffect,
+    useRef,
+    Fragment,
+    useMemo,
 } from 'react'
-import { SelectOption, fg, t } from '@opentui/core'
+import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import { logger } from './logger'
 import { Theme } from './theme'
@@ -186,185 +189,241 @@ interface EmptyViewProps extends ActionsInterface {
     description?: string
 }
 
-// Helper function to convert ItemProps to SelectOption
-function convertItemToOption(
-    itemProps: ItemProps,
-): SelectOption & { keywords?: string[] } {
-    const { title, subtitle, accessories, id, keywords } = itemProps
-
-    // Get title text (handle both string and object forms)
-    const titleText = typeof title === 'string' ? title : title.value
-
-    // Build description from subtitle and accessories
-    let descriptionParts: ReactNode[] = []
-
-    // Add subtitle if present
-    if (subtitle) {
-        const subtitleText =
-            typeof subtitle === 'string' ? subtitle : subtitle.value || ''
-        if (subtitleText) {
-            descriptionParts.push(subtitleText)
-        }
-    }
-
-    // Add accessories with different colors
-    if (accessories) {
-        const accessoryTexts = accessories.map(formatAccessory).filter(Boolean)
-        descriptionParts = descriptionParts.concat(accessoryTexts)
-    }
-
-    return {
-        name: titleText,
-        description: descriptionParts.join(' • '), // Use bullet separator
-        value: id || titleText, // Use id if provided, otherwise fallback to title
-        keywords: keywords || [], // Include keywords for search
-    }
+// Process list item to extract searchable and displayable data
+interface ProcessedItem extends ItemProps {
+    originalIndex: number
+    sectionTitle?: string
+    titleText: string
+    subtitleText?: string
 }
 
-// Helper function to format accessories with colors using OpenTUI t template and fg
-function formatAccessory(accessory: ItemAccessory): ReactNode {
-    if ('text' in accessory && accessory.text) {
-        const textValue =
-            typeof accessory.text === 'string'
-                ? accessory.text
-                : accessory.text?.value
-        if (textValue) {
-            return t`${fg(Theme.info)(textValue)}` // Cyan for text accessories
-        }
+// Extract and process items from children
+function extractItems(children: ReactNode): ProcessedItem[] {
+    const items: ProcessedItem[] = []
+    let index = 0
+
+    const processChildren = (nodes: ReactNode, currentSection?: string) => {
+        Children.forEach(nodes, (child) => {
+            if (!isValidElement(child)) return
+
+            if (child.type === ListItem) {
+                const props = child.props as ItemProps
+                const titleText = typeof props.title === 'string' ? props.title : props.title.value
+                const subtitleText = props.subtitle
+                    ? typeof props.subtitle === 'string'
+                        ? props.subtitle
+                        : props.subtitle.value || ''
+                    : undefined
+                
+                items.push({
+                    ...props,
+                    originalIndex: index++,
+                    sectionTitle: currentSection,
+                    titleText,
+                    subtitleText,
+                })
+            } else if (child.type === ListSection) {
+                const props = child.props as SectionProps
+                processChildren(props.children, props.title)
+            }
+        })
     }
 
-    if ('date' in accessory && accessory.date) {
-        const dateValue =
-            typeof accessory.date === 'object' && 'value' in accessory.date
-                ? accessory.date.value
-                : (accessory.date as Date)
-        if (dateValue) {
-            const formattedDate = formatRelativeDate(dateValue)
-            return t`${fg(Theme.success)(formattedDate)}` // Green for date accessories
-        }
-    }
-
-    if ('tag' in accessory && accessory.tag) {
-        const tagValue =
-            typeof accessory.tag === 'string'
-                ? accessory.tag
-                : accessory.tag?.value
-        if (tagValue) {
-            return t`${fg(Theme.warning)(tagValue)}` // Yellow/orange for tag accessories
-        }
-    }
-
-    if ('icon' in accessory && (accessory.text || accessory.tooltip)) {
-        const text = accessory.text || accessory.tooltip || 'icon'
-        return t`${fg(Theme.yellow)(text)}` // Yellow for icon accessories
-    }
-
-    return ''
+    processChildren(children)
+    return items
 }
 
-// Simple relative date formatter
-function formatRelativeDate(date: Date): string {
-    const now = new Date()
-    const diffMs = now.getTime() - date.getTime()
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+// Group items by section
+function groupBySection(items: ProcessedItem[]): [string, ProcessedItem[]][] {
+    const grouped: Record<string, ProcessedItem[]> = {}
+    
+    items.forEach(item => {
+        const section = item.sectionTitle || ''
+        if (!grouped[section]) {
+            grouped[section] = []
+        }
+        grouped[section].push(item)
+    })
 
-    if (diffDays === 0) return 'today'
-    if (diffDays === 1) return '1d ago'
-    if (diffDays < 7) return `${diffDays}d ago`
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)}m ago`
-    return `${Math.floor(diffDays / 365)}y ago`
+    return Object.entries(grouped)
+}
+
+// Filter items based on search query
+function filterItems(items: ProcessedItem[], query: string): ProcessedItem[] {
+    if (!query.trim()) return items
+
+    const needle = query.toLowerCase().trim()
+    
+    return items.filter(item => {
+        const searchableText = [
+            item.titleText,
+            item.subtitleText,
+            item.sectionTitle,
+            ...(item.keywords || []),
+        ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase()
+
+        return searchableText.includes(needle)
+    })
+}
+
+// Render a single list item row
+function ListItemRow(props: {
+    item: ProcessedItem
+    active?: boolean
+    isShowingDetail?: boolean
+}) {
+    const { item, active } = props
+    
+    // Format accessories for display
+    const accessoryElements: ReactNode[] = []
+    if (item.accessories) {
+        item.accessories.forEach((accessory) => {
+            if ('text' in accessory && accessory.text) {
+                const textValue = typeof accessory.text === 'string' 
+                    ? accessory.text 
+                    : accessory.text?.value
+                if (textValue) {
+                    accessoryElements.push(
+                        <text key={`text-${textValue}`} fg={active ? Theme.background : Theme.info}>
+                            {textValue}
+                        </text>
+                    )
+                }
+            }
+            if ('tag' in accessory && accessory.tag) {
+                const tagValue = typeof accessory.tag === 'string'
+                    ? accessory.tag
+                    : accessory.tag?.value
+                if (tagValue) {
+                    accessoryElements.push(
+                        <text key={`tag-${tagValue}`} fg={active ? Theme.background : Theme.warning}>
+                            [{tagValue}]
+                        </text>
+                    )
+                }
+            }
+        })
+    }
+    
+    return (
+        <box
+            style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                backgroundColor: active ? Theme.primary : undefined,
+                paddingLeft: 1,
+                paddingRight: 1,
+            }}
+            border={false}
+        >
+            <group style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
+                <text
+                    fg={active ? Theme.background : Theme.text}
+                    attributes={active ? TextAttributes.BOLD : undefined}
+                >
+                    {item.titleText}
+                </text>
+                {item.subtitleText && (
+                    <text fg={active ? Theme.background : Theme.textMuted}>
+                        {' '}{item.subtitleText}
+                    </text>
+                )}
+            </group>
+            {accessoryElements.length > 0 && (
+                <group style={{ flexDirection: 'row' }}>
+                    {accessoryElements.map((elem, i) => (
+                        <Fragment key={i}>
+                            {i > 0 && <text> </text>}
+                            {elem}
+                        </Fragment>
+                    ))}
+                </group>
+            )}
+        </box>
+    )
 }
 
 const List: ListType = (props) => {
     const {
         children,
         onSelectionChange,
-        filtering = true, // Default to true like Raycast when onSearchTextChange is not specified
+        filtering = true,
         searchText: controlledSearchText,
         onSearchTextChange,
         searchBarPlaceholder = 'Search...',
+        isLoading,
+        navigationTitle,
+        isShowingDetail,
+        selectedItemId,
         ...otherProps
     } = props
 
     const [internalSearchText, setInternalSearchText] = useState('')
-    const [focusedElement, setFocusedElement] = useState<'input' | 'select'>('input')
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const inputRef = useRef<any>(null)
     
     const searchText =
         controlledSearchText !== undefined
             ? controlledSearchText
             : internalSearchText
 
-    // Handle keyboard navigation between input and select
-    useKeyboard((key) => {
-        if (key.name === 'tab') {
-            setFocusedElement((prev) => prev === 'input' ? 'select' : 'input')
-        }
-        // Navigate from input to select when pressing down
-        if (key.name === 'down' && focusedElement === 'input') {
-            setFocusedElement('select')
-        }
-        // Navigate from select to input when pressing up on first item
-        if (key.name === 'up' && focusedElement === 'select' && selectedIndex === 0) {
-            setFocusedElement('input')
-        }
-    })
+    // Extract and process items from children
+    const allItems = useMemo(() => extractItems(children), [children])
+    
+    // Apply filtering
+    const filteredItems = useMemo(() => {
+        if (!filtering) return allItems
+        return filterItems(allItems, searchText)
+    }, [allItems, searchText, filtering])
+    
+    // Group filtered items by section
+    const grouped = useMemo(
+        () => groupBySection(filteredItems),
+        [filteredItems]
+    )
 
-    // Convert children to SelectOptions
-    const allOptions: (SelectOption & { keywords?: string[] })[] = []
+    // Calculate flat list for keyboard navigation
+    const flat = useMemo(() => filteredItems, [filteredItems])
 
-    Children.forEach(children, (child) => {
-        if (isValidElement(child) && child.type === ListItem) {
-            const itemProps = child.props as ItemProps
-            const option = convertItemToOption(itemProps)
-            allOptions.push(option)
-        }
-    })
-
-    // Apply filtering based on search text
-    // When filtering is false, the extension handles filtering (controlled mode)
-    // When filtering is true, we handle filtering internally (native mode)
-    const filteredOptions = (() => {
-        // If filtering is disabled, show all options (extension handles filtering)
-        if (!filtering) {
-            return allOptions
-        }
-
-        // If no search text, show all options
-        if (!searchText.trim()) {
-            return allOptions
-        }
-
-        // Native filtering: filter based on title, description, and keywords
-        const query = searchText.toLowerCase().trim()
-        const filtered = allOptions.filter((option) => {
-            const searchableText = [
-                option.name,
-                option.description,
-                ...(option.keywords || []),
-            ]
-                .filter(Boolean)
-                .join(' ')
-                .toLowerCase()
-
-            return searchableText.includes(query)
-        })
-
-        return filtered
-    })()
-
-    // Reset selected index when filtered options change
+    // Reset selected index when items change
     useEffect(() => {
+        if (selectedItemId) {
+            const index = flat.findIndex(item => item.id === selectedItemId)
+            if (index !== -1) {
+                setSelectedIndex(index)
+                return
+            }
+        }
         setSelectedIndex(0)
-    }, [filteredOptions.length])
+    }, [flat, selectedItemId])
 
-    const handleChange = (index: number, option: SelectOption | null) => {
-        setSelectedIndex(index)
-        if (onSelectionChange && option) {
-            onSelectionChange(option.value)
+    const move = (direction: -1 | 1) => {
+        let next = selectedIndex + direction
+        if (next < 0) next = flat.length - 1
+        if (next >= flat.length) next = 0
+        setSelectedIndex(next)
+        
+        // Trigger selection change
+        const item = flat[next]
+        if (item && onSelectionChange) {
+            onSelectionChange(item.id || item.titleText)
         }
     }
+
+    // Handle keyboard navigation
+    useKeyboard((evt) => {
+        if (evt.name === 'up') move(-1)
+        if (evt.name === 'down') move(1)
+        if (evt.name === 'return' && flat[selectedIndex]) {
+            const item = flat[selectedIndex]
+            if (onSelectionChange) {
+                onSelectionChange(item.id || item.titleText)
+            }
+        }
+    })
 
     const handleSearchChange = (newValue: string) => {
         if (controlledSearchText === undefined) {
@@ -375,36 +434,91 @@ const List: ListType = (props) => {
         }
     }
 
-    // TODO: Handle other props like isLoading, navigationTitle, actions, searchBarAccessory
-    // TODO: Handle pagination
-
     return (
-        <group style={{ padding: 1, flexDirection: 'column', flexGrow: 1 }}>
+        <group style={{ flexDirection: 'column', flexGrow: 1 }}>
+            {/* Navigation title */}
+            {navigationTitle && (
+                <box border={false} style={{ paddingLeft: 1, paddingRight: 1, paddingBottom: 1 }}>
+                    <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                        {navigationTitle}
+                    </text>
+                </box>
+            )}
+            
+            {/* Search bar */}
             <box
-                title='search'
-                height={2}
-                borderStyle='rounded'
-                // border={true}
+                border={false}
+                style={{
+                    paddingLeft: 1,
+                    paddingRight: 1,
+                    paddingBottom: 1,
+                }}
             >
                 <input
+                    ref={inputRef}
                     placeholder={searchBarPlaceholder}
-                    focused={focusedElement === 'input'}
-                    paddingBottom={1}
+                    focused={true}
                     value={searchText}
-                    onInput={(value) => {
-                        handleSearchChange(value)
-                    }}
+                    onInput={handleSearchChange}
+                    focusedBackgroundColor={Theme.backgroundPanel}
+                    cursorColor={Theme.primary}
+                    focusedTextColor={Theme.text}
                 />
             </box>
-            <select
-                options={filteredOptions}
-                key={`select-${filteredOptions.length}-${searchText}`} // Force re-render when options or search changes
-                focused={focusedElement === 'select'}
-                onChange={handleChange}
-                showDescription={true}
-                showScrollIndicator={true}
-                style={{ flexGrow: 1, marginTop: 1 }}
-            />
+            
+            {/* Loading state */}
+            {isLoading ? (
+                <box border={false} style={{ padding: 2 }}>
+                    <text fg={Theme.textMuted}>Loading...</text>
+                </box>
+            ) : flat.length === 0 ? (
+                <box border={false} style={{ padding: 2 }}>
+                    <text fg={Theme.textMuted}>No results found</text>
+                </box>
+            ) : (
+                <group style={{ flexGrow: 1, flexShrink: 1 }}>
+                    {grouped.map(([sectionTitle, items], groupIndex) => (
+                        <group key={`section-${groupIndex}`} style={{ flexShrink: 0 }}>
+                            {sectionTitle && (
+                                <box border={false} style={{ paddingLeft: 1, paddingTop: groupIndex > 0 ? 1 : 0 }}>
+                                    <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
+                                        {sectionTitle}
+                                    </text>
+                                </box>
+                            )}
+                            {items.map((item) => (
+                                <Fragment key={item.id || item.originalIndex}>
+                                    <ListItemRow
+                                        item={item}
+                                        active={flat[selectedIndex] === item}
+                                        isShowingDetail={isShowingDetail}
+                                    />
+                                </Fragment>
+                            ))}
+                        </group>
+                    ))}
+                </group>
+            )}
+            
+            {/* Footer with keyboard shortcuts */}
+            <box
+                border={false}
+                style={{
+                    paddingLeft: 1,
+                    paddingRight: 1,
+                    paddingTop: 1,
+                    flexDirection: 'row',
+                }}
+            >
+                <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                    ↵
+                </text>
+                <text fg={Theme.textMuted}> select</text>
+                <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                    {"   "}↑↓
+                </text>
+                <text fg={Theme.textMuted}> navigate</text>
+            </box>
         </group>
     )
 }
@@ -439,9 +553,12 @@ ListDropdown.Section = (props) => {
 }
 
 List.Item = ListItem
-List.Section = (props) => {
+const ListSection = (props: SectionProps) => {
+    // List.Section components are processed by their parent List component
     return null
 }
+
+List.Section = ListSection
 List.Dropdown = ListDropdown
 List.EmptyView = (props) => {
     return null
