@@ -90,18 +90,19 @@ const aliasPlugin: BunPlugin = {
                     if (key === 'default') {
                         // Special handling for react default export
                         if (pkg.path === 'react') {
-                            exports.push(`export default globalThis.${pkg.globalName};`)
+                            exports.push(`export default /* @__PURE__ */ globalThis.${pkg.globalName};`)
                         } else {
-                            exports.push(`export default globalThis.${pkg.globalName}.default;`)
+                            exports.push(`export default /* @__PURE__ */ globalThis.${pkg.globalName}.default;`)
                         }
                     } else {
-                        exports.push(`export const ${key} = globalThis.${pkg.globalName}.${key};`)
+                        exports.push(`export const ${key} = /* @__PURE__ */ globalThis.${pkg.globalName}.${key};`)
                     }
                 }
                 
                 return {
                     contents: exports.join('\n'),
                     loader: 'js',
+                    pure: true,
                 }
             }
             
@@ -117,21 +118,23 @@ const aliasPlugin: BunPlugin = {
                         // Skip default export for jsx-runtime
                         continue
                     }
-                    exports.push(`export const ${key} = globalThis.reactJsxRuntime.${key};`)
+                    exports.push(`export const ${key} = /* @__PURE__ */ globalThis.reactJsxRuntime.${key};`)
                 }
                 
                 // Also export jsxDEV from jsx-dev-runtime
-                exports.push(`export const jsxDEV = globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx;`)
+                exports.push(`export const jsxDEV = /* @__PURE__ */ (globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx);`)
                 
                 return {
                     contents: exports.join('\n'),
                     loader: 'js',
+                    pure: true,
                 }
             }
             
             return {
                 contents: '',
                 loader: 'js',
+                pure: true,
             }
         })
     },
