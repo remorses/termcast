@@ -39,7 +39,9 @@ function ExtensionCommandsList({
             }
 
             const devRebuildCount = useStore.getState().devRebuildCount
-            const module = await import(`${command.bundledPath}?rebuild=${devRebuildCount}`)
+            const module = await import(
+                `${command.bundledPath}?rebuild=${devRebuildCount}`
+            )
             const Component = module.default
 
             if (!Component) {
@@ -153,7 +155,7 @@ export async function startDevMode(extensionPath: string): Promise<void> {
         const devElement = useStore((state) => state.devElement)
         const devRebuildCount = useStore((state) => state.devRebuildCount)
 
-      return <Providers key={String(devRebuildCount)}>{devElement}<text>{devRebuildCount}</text></Providers>
+        return <Providers key={String(devRebuildCount)}>{devElement}</Providers>
     }
 
     await render(<App />)
