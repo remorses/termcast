@@ -7,7 +7,7 @@ export interface DescriptionProps {
     text: string
 }
 
-export const Description = (props: DescriptionProps) => {
+export const Description = (props: DescriptionProps): any => {
     return (
         <box flexDirection='column' paddingTop={1} paddingBottom={1}>
             {props.title && (
