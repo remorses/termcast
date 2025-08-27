@@ -9,6 +9,7 @@ export default function ListItems() {
     { id: "5", title: "Fifth Item", subtitle: "This is the fifth item" },
   ];
 
+
   return (
     <List navigationTitle="List Items">
       <List.Section title="Items">
@@ -24,11 +25,13 @@ export default function ListItems() {
                 <Action.CopyToClipboard
                   title="Copy Item Title"
                   content={item.title}
+
                 />
                 <Action.OpenInBrowser
                   title="Open Example"
                   url="https://example.com"
                 />
+
               </ActionPanel>
             }
           />

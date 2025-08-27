@@ -16,7 +16,7 @@
     },
     {
       "name": "search-items",
-      "title": "Search Items", 
+      "title": "Search Items",
       "subtitle": "Search through items",
       "description": "Search and filter through a list of items",
       "mode": "view"
