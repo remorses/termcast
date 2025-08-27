@@ -144,14 +144,16 @@ interface BundledCommand extends CommandWithFile {
     bundledPath: string
 }
 
-interface BuildResult {
+export interface BuildResult {
     commands: BundledCommand[]
     bundleDir: string
 }
 
-export async function buildExtensionCommands(
-    extensionPath: string,
-): Promise<BuildResult> {
+export async function buildExtensionCommands({
+    extensionPath,
+}: {
+    extensionPath: string
+}): Promise<BuildResult> {
     const resolvedPath = path.resolve(extensionPath)
     const bundleDir = path.join(resolvedPath, '.termcast-bundle')
 
@@ -160,9 +162,9 @@ export async function buildExtensionCommands(
         fs.mkdirSync(bundleDir, { recursive: true })
     }
 
-    const commandsData = getCommandsWithFiles(
-        path.join(resolvedPath, 'package.json'),
-    )
+    const commandsData = getCommandsWithFiles({
+        packageJsonPath: path.join(resolvedPath, 'package.json'),
+    })
 
     // Filter existing command files as entrypoints
     const entrypoints = commandsData.commands

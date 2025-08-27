@@ -6,6 +6,8 @@ import {List} from '@termcast/api'
 
 ALWAYS use .tsx extension for every new file.
 
+prefer object args instead of positional args. as a way to implement named arguments, put the typescript definition inline
+
 ## Goal
 
 This project ports @raycast/api components and apis to use @opentui/react and other Bun APIs

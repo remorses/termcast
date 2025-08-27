@@ -73,7 +73,11 @@ interface RaycastPackageJson {
     external?: string[]
 }
 
-export function parsePackageJson(packageJsonPath?: string): RaycastPackageJson {
+export function parsePackageJson({
+    packageJsonPath,
+}: {
+    packageJsonPath?: string
+} = {}): RaycastPackageJson {
     const resolvedPath =
         packageJsonPath || path.join(process.cwd(), 'package.json')
 
@@ -120,13 +124,15 @@ interface CommandsWithFiles {
     commands: CommandWithFile[]
 }
 
-export function getCommandsWithFiles(
-    packageJsonPath?: string,
-): CommandsWithFiles {
+export function getCommandsWithFiles({
+    packageJsonPath,
+}: {
+    packageJsonPath?: string
+} = {}): CommandsWithFiles {
     const resolvedPath =
         packageJsonPath || path.join(process.cwd(), 'package.json')
     const projectRoot = path.dirname(resolvedPath)
-    const packageJson = parsePackageJson(resolvedPath)
+    const packageJson = parsePackageJson({ packageJsonPath: resolvedPath })
 
     const commands: CommandWithFile[] = (packageJson.commands || []).map(
         (command) => {

@@ -5,7 +5,7 @@ import { buildExtensionCommands } from './build'
 describe('buildExtensionCommands', () => {
     test('builds a simple extension with multiple commands', async () => {
         const fixtureDir = path.join(process.cwd(), 'fixtures/simple-extension')
-        const result = await buildExtensionCommands(fixtureDir)
+        const result = await buildExtensionCommands({ extensionPath: fixtureDir })
         
         expect(result).toMatchInlineSnapshot(`
           {
