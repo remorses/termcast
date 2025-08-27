@@ -99,7 +99,3 @@ cli.help()
 cli.version('0.1.0')
 
 cli.parse()
-
-export function runCLI() {
-    // CLI is already parsed in global scope
-}
