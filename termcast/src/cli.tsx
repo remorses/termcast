@@ -2,6 +2,7 @@ import path from 'node:path'
 import { cac } from 'cac'
 import chokidar from 'chokidar'
 import { buildExtensionCommands } from './build'
+import { logger } from './logger'
 
 const cli = cac('termcast')
 
@@ -15,10 +16,10 @@ cli.command('dev', 'Run the extension in the current working directory')
         let isBuilding = false
 
         // Dynamically import the UI module
-        const { renderExtensionCommands } = await import('./dev-ui')
+        const { startDevMode, triggerRebuild } = await import('./dev-ui')
 
-        // Initial render
-        await renderExtensionCommands(extensionPath)
+        // Start dev mode with initial render
+        await startDevMode(extensionPath)
 
         // Only watch if running in a TTY (interactive terminal)
         if (!process.stdout.isTTY) {
@@ -34,20 +35,32 @@ cli.command('dev', 'Run the extension in the current working directory')
         const watcher = chokidar.watch(extensionPath, {
             persistent: true,
             ignoreInitial: true,
-            ignored: [
-                '**/node_modules/**',
-                '**/.termcast-bundle/**',
-                '**/.git/**',
-                '**/dist/**',
-                '**/build/**',
-            ],
             awaitWriteFinish: {
                 stabilityThreshold: 300,
                 pollInterval: 100,
             },
         })
 
-        const rebuild = async () => {
+        const ignoredPatterns = [
+            'node_modules',
+            '.termcast-bundle',
+            '.git',
+            'dist',
+            'build',
+        ]
+
+        const shouldIgnore = (filePath: string) => {
+            const relativePath = path.relative(extensionPath, filePath)
+            return ignoredPatterns.some(pattern => 
+                relativePath.includes(pattern) || filePath.endsWith('.log')
+            )
+        }
+
+        const rebuild = async (filePath: string) => {
+            if (shouldIgnore(filePath)) {
+                return
+            }
+
             if (isBuilding) {
                 console.log('Build already in progress, skipping...')
                 return
@@ -56,10 +69,10 @@ cli.command('dev', 'Run the extension in the current working directory')
             isBuilding = true
             console.log('\nFile changed, rebuilding...')
             try {
-                await renderExtensionCommands(extensionPath)
+                await triggerRebuild(extensionPath)
                 console.log('Rebuild complete')
             } catch (error: any) {
-                console.error('Build failed:', error.message)
+                console.error('Failed to trigger rebuild:', error.message)
             } finally {
                 isBuilding = false
             }
@@ -69,7 +82,7 @@ cli.command('dev', 'Run the extension in the current working directory')
             .on('change', rebuild)
             .on('add', rebuild)
             .on('unlink', rebuild)
-            .on('error', (error) => console.error('Watcher error:', error))
+            .on('error', (error) => logger.error('Watcher error:', error))
     })
 
 cli.command('build', 'Build the extension without watching')

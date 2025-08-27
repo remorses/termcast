@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import React from 'react'
 import { render } from '@opentui/react'
-import { List } from '@termcast/api'
+import { List, useStore } from '@termcast/api'
 import { Action, ActionPanel } from '@termcast/api'
 import { useNavigation } from '@termcast/api/src/internal/navigation'
 import { Providers } from '@termcast/api/src/internal/providers'
@@ -38,7 +38,8 @@ function ExtensionCommandsList({
                 return
             }
 
-            const module = await import(command.bundledPath)
+            const devRebuildCount = useStore.getState().devRebuildCount
+            const module = await import(`${command.bundledPath}?rebuild=${devRebuildCount}`)
             const Component = module.default
 
             if (!Component) {
@@ -124,9 +125,7 @@ function ExtensionCommandsList({
     )
 }
 
-export async function renderExtensionCommands(
-    extensionPath: string,
-): Promise<void> {
+export async function startDevMode(extensionPath: string): Promise<void> {
     const resolvedPath = path.resolve(extensionPath)
 
     if (!fs.existsSync(resolvedPath)) {
@@ -138,19 +137,46 @@ export async function renderExtensionCommands(
         throw new Error(`No package.json found at: ${packageJsonPath}`)
     }
 
-    // Build all commands
+    // Build and set initial devElement
     const { commands } = await buildExtensionCommands(resolvedPath)
+    useStore.setState(useStore.getInitialState())
+    const state = useStore.getState()
+    state.setDevElement(
+        <ExtensionCommandsList
+            extensionPath={resolvedPath}
+            commands={commands}
+        />,
+    )
+    state.incrementDevRebuildCount()
 
     function App(): any {
-        return (
-            <Providers>
-                <ExtensionCommandsList
-                    extensionPath={resolvedPath}
-                    commands={commands}
-                />
-            </Providers>
-        )
+        const devElement = useStore((state) => state.devElement)
+        const devRebuildCount = useStore((state) => state.devRebuildCount)
+
+      return <Providers key={String(devRebuildCount)}>{devElement}<text>{devRebuildCount}</text></Providers>
     }
 
-    render(<App />)
+    await render(<App />)
+}
+
+export async function triggerRebuild(extensionPath: string): Promise<void> {
+    try {
+        const { commands } = await buildExtensionCommands(extensionPath)
+
+        // Update the devElement with new commands and increment rebuild count
+        const state = useStore.getState()
+        state.setDevElement(
+            <ExtensionCommandsList
+                extensionPath={extensionPath}
+                commands={commands}
+            />,
+        )
+        state.incrementDevRebuildCount()
+    } catch (error: any) {
+        await showToast({
+            style: Toast.Style.Failure,
+            title: 'Rebuild failed',
+            message: error.message,
+        })
+    }
 }

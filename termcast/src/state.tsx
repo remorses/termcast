@@ -16,6 +16,11 @@ interface AppState {
   clearDialogs: () => void
   replaceDialog: (element: ReactNode, position?: DialogPosition) => void
   popDialog: () => void
+  // Dev mode state
+  devElement: ReactNode | null
+  setDevElement: (element: ReactNode | null) => void
+  devRebuildCount: number
+  incrementDevRebuildCount: () => void
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -31,5 +36,10 @@ export const useStore = create<AppState>((set) => ({
   }),
   popDialog: () => set((state) => ({ 
     dialogStack: state.dialogStack.slice(0, -1) 
-  }))
+  })),
+  // Dev mode state
+  devElement: null,
+  setDevElement: (element) => set({ devElement: element }),
+  devRebuildCount: 0,
+  incrementDevRebuildCount: () => set((state) => ({ devRebuildCount: state.devRebuildCount + 1 }))
 }))
