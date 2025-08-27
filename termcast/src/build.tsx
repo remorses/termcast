@@ -11,8 +11,33 @@ const aliasPlugin: BunPlugin = {
             logger.log('Resolving @raycast/api to @termcast/api')
             return {
                 path: require.resolve('@termcast/api'),
+                // external: true,
             }
         })
+
+        // // Mark @termcast packages as external
+        // build.onResolve({ filter: /^@termcast\// }, (args) => {
+        //     return {
+        //         path: require.resolve(args.path),
+        //         external: true,
+        //     }
+        // })
+
+        // // Mark @opentui packages as external
+        // build.onResolve({ filter: /^@opentui\// }, (args) => {
+        //     return {
+        //         path: require.resolve(args.path),
+        //         external: true,
+        //     }
+        // })
+
+        // // Mark react and react subpaths as external
+        // build.onResolve({ filter: /^react($|\/)/ }, (args) => {
+        //     return {
+        //         path: require.resolve(args.path),
+        //         external: true,
+        //     }
+        // })
     },
 }
 
@@ -30,7 +55,7 @@ export async function buildExtensionCommands(
 ): Promise<BuildResult> {
     const resolvedPath = path.resolve(extensionPath)
     const bundleDir = path.join(resolvedPath, '.termcast-bundle')
-    
+
     // Ensure bundle directory exists
     if (!fs.existsSync(bundleDir)) {
         fs.mkdirSync(bundleDir, { recursive: true })
@@ -50,12 +75,14 @@ export async function buildExtensionCommands(
     }
 
     logger.log(`Building ${entrypoints.length} commands...`)
-    
+
     const result = await Bun.build({
         entrypoints,
         outdir: bundleDir,
         target: 'bun',
         format: 'esm',
+        external: [],
+
         plugins: [aliasPlugin],
         naming: '[name].js',
     })
@@ -93,7 +120,7 @@ export async function buildExtensionCommands(
     })
 
     logger.log(`Successfully built ${result.outputs.length} files`)
-    
+
     return {
         commands: bundledCommands,
         bundleDir,
