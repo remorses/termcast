@@ -1,0 +1,5 @@
+# bunfig.toml
+preload = ["./src/preload.tsx"]
+
+[install]
+auto = "fallback"   # same behavior as: -i / --install=fallback
