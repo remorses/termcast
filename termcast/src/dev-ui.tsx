@@ -23,9 +23,9 @@ function ExtensionCommandsList({
     commands: BundledCommand[]
 }): any {
     const { push } = useNavigation()
-    const packageJson = getCommandsWithFiles(
-        path.join(extensionPath, 'package.json'),
-    ).packageJson
+    const packageJson = getCommandsWithFiles({
+        packageJsonPath: path.join(extensionPath, 'package.json'),
+    }).packageJson
 
     const handleCommandSelect = async (command: BundledCommand) => {
         try {
@@ -127,7 +127,7 @@ function ExtensionCommandsList({
     )
 }
 
-export async function startDevMode(extensionPath: string): Promise<void> {
+export async function startDevMode({ extensionPath }: { extensionPath: string }): Promise<void> {
     const resolvedPath = path.resolve(extensionPath)
 
     if (!fs.existsSync(resolvedPath)) {
@@ -140,7 +140,7 @@ export async function startDevMode(extensionPath: string): Promise<void> {
     }
 
     // Build and set initial devElement
-    const { commands } = await buildExtensionCommands(resolvedPath)
+    const { commands } = await buildExtensionCommands({ extensionPath: resolvedPath })
     useStore.setState(useStore.getInitialState())
     const state = useStore.getState()
     state.setDevElement(
@@ -161,9 +161,9 @@ export async function startDevMode(extensionPath: string): Promise<void> {
     await render(<App />)
 }
 
-export async function triggerRebuild(extensionPath: string): Promise<void> {
+export async function triggerRebuild({ extensionPath }: { extensionPath: string }): Promise<void> {
     try {
-        const { commands } = await buildExtensionCommands(extensionPath)
+        const { commands } = await buildExtensionCommands({ extensionPath })
 
         // Update the devElement with new commands and increment rebuild count
         const state = useStore.getState()

@@ -1,8 +1,10 @@
+import fs from 'node:fs'
 import path from 'node:path'
 import { cac } from 'cac'
 import chokidar from 'chokidar'
 import { buildExtensionCommands } from './build'
 import { logger } from './logger'
+import { installExtension } from './store'
 
 const cli = cac('termcast')
 
@@ -19,7 +21,7 @@ cli.command('dev', 'Run the extension in the current working directory')
         const { startDevMode, triggerRebuild } = await import('./dev-ui')
 
         // Start dev mode with initial render
-        await startDevMode(extensionPath)
+        await startDevMode({ extensionPath })
 
         // Only watch if running in a TTY (interactive terminal)
         if (!process.stdout.isTTY) {
@@ -69,7 +71,7 @@ cli.command('dev', 'Run the extension in the current working directory')
             isBuilding = true
             console.log('\nFile changed, rebuilding...')
             try {
-                await triggerRebuild(extensionPath)
+                await triggerRebuild({ extensionPath })
                 console.log('Rebuild complete')
             } catch (error: any) {
                 console.error('Failed to trigger rebuild:', error.message)
@@ -85,7 +87,7 @@ cli.command('dev', 'Run the extension in the current working directory')
             .on('error', (error) => logger.error('Watcher error:', error))
     })
 
-cli.command('build', 'Build the extension without watching')
+cli.command('build', 'Build and install the extension to user store')
     .option('--path <path>', 'Path to the extension directory', {
         default: process.cwd(),
     })
@@ -94,18 +96,32 @@ cli.command('build', 'Build the extension without watching')
 
         console.log('Building extension...')
         try {
-            const { commands } = await buildExtensionCommands(extensionPath)
-            console.log(`Successfully built ${commands.length} commands`)
+            const buildResult = await buildExtensionCommands({ extensionPath })
+            console.log(`Successfully built ${buildResult.commands.length} commands`)
 
-            for (const cmd of commands) {
+            for (const cmd of buildResult.commands) {
                 if (cmd.bundledPath) {
                     console.log(`  ✓ ${cmd.name}`)
                 }
             }
+
+            const packageJsonPath = path.join(extensionPath, 'package.json')
+            const packageJson = JSON.parse(
+                fs.readFileSync(packageJsonPath, 'utf-8')
+            )
+            const extensionName = packageJson.name || path.basename(extensionPath)
+            installExtension({ extensionName, bundleDir: buildResult.bundleDir })
+            console.log(`\nExtension installed to store as '${extensionName}'`)
         } catch (error: any) {
             console.error('Build failed:', error.message)
             process.exit(1)
         }
+    })
+
+cli.command('', 'List and run installed extensions')
+    .action(async () => {
+        const { runHomeCommand } = await import('./home-command')
+        await runHomeCommand()
     })
 
 cli.help()
