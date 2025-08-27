@@ -169,7 +169,7 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
             )}
         </box>
     )
-}) as DropdownType
+}) as unknown as DropdownType
 
 DropdownComponent.Item = DropdownItem
 DropdownComponent.Section = DropdownSection

@@ -7,17 +7,15 @@ export interface DescriptionProps {
     text: string
 }
 
-export const Description: React.FC<DescriptionProps> = (props) => {
+export const Description = (props: DescriptionProps) => {
     return (
-        <box flexDirection="column" paddingTop={1} paddingBottom={1}>
+        <box flexDirection='column' paddingTop={1} paddingBottom={1}>
             {props.title && (
                 <text fg={Theme.text} attributes={TextAttributes.BOLD}>
                     {props.title}
                 </text>
             )}
-            <text fg={Theme.textMuted}>
-                {props.text}
-            </text>
+            <text fg={Theme.textMuted}>{props.text}</text>
         </box>
     )
 }

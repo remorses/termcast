@@ -74,7 +74,7 @@ function extractItems(children: ReactNode): ProcessedItem[] {
                 processChildren(props.children, props.title)
             } else if (child.type === Fragment || child.type === React.Fragment) {
                 // Handle Fragment components recursively
-                processChildren(child.props.children, currentSection)
+                processChildren((child.props as any).children, currentSection)
             }
         })
     }
@@ -148,7 +148,7 @@ const Dropdown: DropdownType = (props) => {
     )
     const inputRef = useRef<any>(null)
     const lastSearchTextRef = useRef('')
-    const throttleTimeoutRef = useRef<NodeJS.Timeout>()
+    const throttleTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
     // Extract and process items from children
     const allItems = useMemo(() => extractItems(children), [children])
@@ -342,7 +342,7 @@ function ItemOption(props: {
             <group style={{ flexDirection: 'row' }}>
                 {props.icon && (
                     <text fg={props.active ? Theme.background : Theme.text}>
-                        {props.icon}{' '}
+                        {String(props.icon)}{' '}
                     </text>
                 )}
                 <text

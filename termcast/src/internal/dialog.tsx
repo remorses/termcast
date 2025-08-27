@@ -120,13 +120,11 @@ export function DialogProvider(props: DialogProviderProps): any {
         {dialogStack.map((item, index) => {
           const isLastItem = index === dialogStack.length - 1
           return (
-            <React.Fragment key={index}>
-              <InFocus inFocus={isLastItem}>
-                <Dialog position={item.position}>
-                  {item.element}
-                </Dialog>
-              </InFocus>
-            </React.Fragment>
+            <InFocus key={String(index)} inFocus={isLastItem}>
+              <Dialog position={item.position}>
+                {item.element}
+              </Dialog>
+            </InFocus>
           )
         })}
       </group>

@@ -121,7 +121,7 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>((pr
             )}
         </box>
     )
-}) as DatePickerComponentType
+}) as unknown as DatePickerComponentType
 
 DatePickerComponent.Type = DatePickerType
 

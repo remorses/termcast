@@ -190,7 +190,7 @@ function collectAllActions(children: ReactNode): Array<{
       const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
 
       if (actionTypes.includes(child.type as any)) {
-        const props = child.props
+        const props = child.props as any
         const execute = () => {
           if (isRegularAction(child, props)) {
             props.onAction?.()
@@ -217,10 +217,10 @@ function collectAllActions(children: ReactNode): Array<{
           execute
         })
       } else if (child.type === ActionPanel.Section || child.type === ActionPanel.Submenu) {
-        processChildren(child.props.children)
+        processChildren((child.props as any).children)
       } else if (child.type === Fragment || child.type === React.Fragment) {
         // Handle Fragment components
-        processChildren(child.props.children)
+        processChildren((child.props as any).children)
       }
     })
   }
@@ -288,7 +288,7 @@ const ActionPanel: ActionPanelType = (props) => {
           if (actionTypes.includes(child.type as any)) {
             firstAction = { element: child, props: child.props }
           } else if (child.type === ActionPanel.Section) {
-            const nestedAction = findFirstAction(child.props.children)
+            const nestedAction = findFirstAction((child.props as any).children)
             if (nestedAction) {
               firstAction = nestedAction
             }
