@@ -23571,7 +23571,7 @@ class EnvironmentImpl {
     return process.env.TERMCAST_EXTENSION_NAME || "termcast-extension";
   }
   get isDevelopment() {
-    return process.env.TERMCAST_ENV === "development" || false;
+    return true;
   }
   get launchType() {
     const type = process.env.TERMCAST_LAUNCH_TYPE || "user-initiated";
