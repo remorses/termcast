@@ -1,3 +1,8 @@
+// Import globals to set up global references
+import './globals'
+
+// termcastApi will be set by the runtime when needed
+
 // Core UI Components - Lists
 export { List } from '@termcast/api/src/components/list'
 export { List as default } from '@termcast/api/src/components/list'
