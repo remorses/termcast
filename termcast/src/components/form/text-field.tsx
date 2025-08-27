@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { useFormContext, FormItemProps, FormItemRef } from '@termcast/api/src/form/index'
+import { useFormContext } from './index'
+import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/api/src/logger'
 import { Theme } from '@termcast/api/src/theme'
 
-export interface TextAreaProps extends FormItemProps<string> {
+export interface TextFieldProps extends FormItemProps<string> {
     placeholder?: string
-    enableMarkdown?: boolean
 }
 
-export type TextAreaRef = FormItemRef
+export type TextFieldRef = FormItemRef
 
-export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>((props, ref) => {
+export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>((props, ref) => {
     const formContext = useFormContext()
     const [localValue, setLocalValue] = useState(props.defaultValue || props.value || '')
     const inputRef = useRef<any>(null)
@@ -60,7 +60,7 @@ export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>((props, ref
                     {props.title}
                 </text>
             )}
-            <box border padding={1} height={4} backgroundColor={isFocused ? Theme.backgroundPanel : undefined}>
+            <box border padding={1} backgroundColor={isFocused ? Theme.backgroundPanel : undefined}>
                 <input
                     ref={inputRef}
                     value={localValue}

@@ -3,7 +3,7 @@ import { useKeyboard } from "@opentui/react"
 import { Theme } from "@termcast/api/src/theme"
 import { copyToClipboard, openInBrowser, openFile, pasteContent } from "@termcast/api/src/action-utils"
 import { useDialog } from "@termcast/api/src/internal/dialog"
-import { Dropdown } from "@termcast/api/src/dropdown"
+import { Dropdown } from "@termcast/api/src/components/dropdown"
 import { useIsInFocus } from "@termcast/api/src/internal/focus-context"
 import { CommonProps } from "@termcast/api/src/utils"
 

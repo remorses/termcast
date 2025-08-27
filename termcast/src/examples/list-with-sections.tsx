@@ -1,5 +1,5 @@
-import { renderWithProviders } from '@termcast/api/src/utils'
-import List from '@termcast/api/src/list'
+import { renderWithProviders } from '@termcast/api'
+import List from '@termcast/api'
 
 function SimpleListExample() {
     return (

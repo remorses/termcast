@@ -1,5 +1,6 @@
-// Core UI Components
-export { List } from '@termcast/api/src/list'
+// Core UI Components - Lists
+export { List } from '@termcast/api/src/components/list'
+export { List as default } from '@termcast/api/src/components/list'
 export type {
   ListProps,
   ItemProps as ListItemProps,
@@ -11,43 +12,44 @@ export type {
   DropdownSectionProps as ListDropdownSectionProps,
   ItemAccessory,
   Color as ListColor
-} from '@termcast/api/src/list'
+} from '@termcast/api/src/components/list'
 
-export { Dropdown } from '@termcast/api/src/dropdown'
+// Core UI Components - Dropdowns
+export { Dropdown } from '@termcast/api/src/components/dropdown'
 export type {
   DropdownProps,
   DropdownItemProps,
   DropdownSectionProps
-} from '@termcast/api/src/dropdown'
+} from '@termcast/api/src/components/dropdown'
 
-export { Action, ActionPanel } from '@termcast/api/src/actions'
-export { ActionStyle } from '@termcast/api/src/actions'
+// Core UI Components - Actions
+export { Action, ActionPanel, ActionStyle } from '@termcast/api/src/components/actions'
 export type {
   ActionProps,
   ActionPanelProps,
   ActionPanelSectionProps
-} from '@termcast/api/src/actions'
+} from '@termcast/api/src/components/actions'
 
 // Form Components
 export {
   Form,
   useFormContext
-} from '@termcast/api/src/form/index'
-export { TextField } from '@termcast/api/src/form/text-field'
-export type { TextFieldProps, TextFieldRef } from '@termcast/api/src/form/text-field'
-export { TextArea } from '@termcast/api/src/form/text-area'
-export type { TextAreaProps, TextAreaRef } from '@termcast/api/src/form/text-area'
-export { PasswordField } from '@termcast/api/src/form/password-field'
-export type { PasswordFieldProps, PasswordFieldRef } from '@termcast/api/src/form/password-field'
-export { Checkbox } from '@termcast/api/src/form/checkbox'
-export type { CheckboxProps, CheckboxRef } from '@termcast/api/src/form/checkbox'
-export { Dropdown as FormDropdown } from '@termcast/api/src/form/dropdown'
+} from '@termcast/api/src/components/form/index'
+export { TextField } from '@termcast/api/src/components/form/text-field'
+export type { TextFieldProps, TextFieldRef } from '@termcast/api/src/components/form/text-field'
+export { TextArea } from '@termcast/api/src/components/form/text-area'
+export type { TextAreaProps, TextAreaRef } from '@termcast/api/src/components/form/text-area'
+export { PasswordField } from '@termcast/api/src/components/form/password-field'
+export type { PasswordFieldProps, PasswordFieldRef } from '@termcast/api/src/components/form/password-field'
+export { Checkbox } from '@termcast/api/src/components/form/checkbox'
+export type { CheckboxProps, CheckboxRef } from '@termcast/api/src/components/form/checkbox'
+export { Dropdown as FormDropdown } from '@termcast/api/src/components/form/dropdown'
 export type {
   DropdownProps as FormDropdownProps,
   DropdownItemProps as FormDropdownItemProps,
   DropdownSectionProps as FormDropdownSectionProps,
   DropdownRef as FormDropdownRef
-} from '@termcast/api/src/form/dropdown'
+} from '@termcast/api/src/components/form/dropdown'
 export type {
   FormProps,
   FormValues,
@@ -56,17 +58,20 @@ export type {
   FormItemRef,
   FormEvent,
   FormEventType
-} from '@termcast/api/src/form/types'
+} from '@termcast/api/src/components/form/types'
 
 // Icons and Images
-export { Icon, getIconEmoji, IconComponent } from '@termcast/api/src/icon'
-export { Image, ImageMask } from '@termcast/api/src/image'
+export { Icon, getIconEmoji, IconComponent } from '@termcast/api/src/components/icon'
+export { Image, ImageMask } from '@termcast/api/src/components/image'
 export type {
   ImageProps,
   ImageSource,
   FileIcon,
   ImageLike
-} from '@termcast/api/src/image'
+} from '@termcast/api/src/components/image'
+
+// Alerts
+export { Alert, confirmAlert } from '@termcast/api/src/components/alert'
 
 // Colors
 export { Color } from '@termcast/api/src/colors'
@@ -79,9 +84,6 @@ export { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
 
 // Dialog
 export { Dialog, DialogProvider, useDialog } from '@termcast/api/src/internal/dialog'
-
-// Alert
-export { Alert, confirmAlert } from '@termcast/api/src/alert'
 
 // Toast
 export { Toast, showToast } from '@termcast/api/src/toast'
@@ -107,6 +109,15 @@ export {
   showInFinder,
   moveToTrash
 } from '@termcast/api/src/action-utils'
+
+export {
+  getApplications,
+  getDefaultApplication,
+  getFrontmostApplication,
+  trash,
+  open,
+  captureException
+} from '@termcast/api/src/utils'
 
 // Environment
 export {
@@ -137,4 +148,4 @@ export type { DialogPosition } from '@termcast/api/src/state'
 export { Providers } from '@termcast/api/src/internal/providers'
 
 // Helper function for rendering examples
-export { renderWithProviders as renderExample } from '@termcast/api/src/utils'
+export { renderWithProviders as renderExample, renderWithProviders } from '@termcast/api/src/utils'

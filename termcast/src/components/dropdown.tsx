@@ -13,7 +13,7 @@ import { TextAttributes } from '@opentui/core'
 import { Theme } from '@termcast/api/src/theme'
 import { logger } from '@termcast/api/src/logger'
 import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
-import { CommonProps } from './utils'
+import { CommonProps } from '@termcast/api/src/utils'
 
 // SearchBarInterface provides the common search bar props
 interface SearchBarInterface {

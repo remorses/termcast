@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { List } from '@termcast/api/src/list'
-import { Action, ActionPanel } from '@termcast/api/src/actions'
+import { List } from '@termcast/api'
+import { Action, ActionPanel } from '@termcast/api'
 
-import { Clipboard } from '@termcast/api/src/clipboard'
-import { logger } from '@termcast/api/src/logger'
-import { Form } from '@termcast/api/src/form/index'
-import '@termcast/api/src/form/assign-components'
+import { Clipboard } from '@termcast/api'
+import { logger } from '@termcast/api'
+import { Form } from '@termcast/api'
 import { useNavigation } from '@termcast/api/src/internal/navigation'
-import { environment } from '@termcast/api/src/environment'
+import { environment } from '@termcast/api'
 import { 
   renderWithProviders, 
   getApplications,
@@ -17,9 +16,9 @@ import {
   trash,
   open,
   captureException
-} from '../utils'
-import { confirmAlert, Alert } from '../alert'
-import { showToast, Toast } from '../toast'
+} from '@termcast/api'
+import { confirmAlert, Alert } from '@termcast/api'
+import { showToast, Toast } from '@termcast/api'
 
 function FormExample(): any {
   const handleFormSubmit = async (values: any) => {

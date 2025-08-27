@@ -1,4 +1,4 @@
-import { Icon, getIconEmoji } from '@termcast/api/src/icon'
+import { Icon, getIconEmoji } from '@termcast/api/src/components/icon'
 
 // Image types similar to Raycast
 export interface ImageProps {

@@ -2,15 +2,19 @@
 
 ALWAYS use @termcast/api to import things, instead of relative imports. This is possible thanks to exports in package.json. for example:
 
-import {List} from '@termcast/api/src/list'
+import {List} from '@termcast/api'
 
-ALWAYS use .tsx extension for every file.
+ALWAYS use .tsx extension for every new file.
+
+## Goal
 
 This project ports @raycast/api components and apis to use @opentui/react and other Bun APIs
 
 We are basically implementing the package @raycast/api from scratch
 
 This should be done one piece at a time, one hook and component at a time
+
+## Porting a new Raycast component or feature
 
 Here is the process to follow to implement each API:
 
@@ -31,7 +35,7 @@ Here is the process to follow to implement each API:
 - DO NOT run the examples then. instead ask me to do it. do not add these as scripts in package.json
 - typecheck to make sure the example is correct
 
-## rules
+## Rules
 
 - for return type of React components just use any
 - keep types as close as possible to rayacst

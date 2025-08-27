@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { useFormContext, FormItemProps, FormItemRef } from '@termcast/api/src/form/index'
+import { useKeyboard } from '@opentui/react'
+import { useFormContext } from './index'
+import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/api/src/logger'
 import { Theme } from '@termcast/api/src/theme'
 
-export interface TextFieldProps extends FormItemProps<string> {
-    placeholder?: string
+export interface CheckboxProps extends FormItemProps<boolean> {
+    label: string
 }
 
-export type TextFieldRef = FormItemRef
+export type CheckboxRef = FormItemRef
 
-export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>((props, ref) => {
+export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref) => {
     const formContext = useFormContext()
-    const [localValue, setLocalValue] = useState(props.defaultValue || props.value || '')
-    const inputRef = useRef<any>(null)
+    const [localValue, setLocalValue] = useState(props.defaultValue || props.value || false)
     const isFocused = formContext.focusedField === props.id
 
     useEffect(() => {
@@ -28,11 +29,10 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>((props, 
 
     const fieldRef: FormItemRef = {
         focus: () => {
-            inputRef.current?.focus()
             formContext.setFocusedField(props.id)
         },
         reset: () => {
-            const resetValue = props.defaultValue || ''
+            const resetValue = props.defaultValue || false
             setLocalValue(resetValue)
             formContext.setFieldValue(props.id, resetValue)
         }
@@ -45,12 +45,20 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>((props, 
         return () => formContext.unregisterField(props.id)
     }, [props.id])
 
-    const handleChange = (value: string) => {
-        setLocalValue(value)
+    const handleToggle = () => {
+        const newValue = !localValue
+        setLocalValue(newValue)
         if (props.onChange) {
-            props.onChange(value)
+            props.onChange(newValue)
         }
     }
+
+    // Handle space or enter key to toggle when focused
+    useKeyboard((evt) => {
+        if (isFocused && (evt.name === 'space' || evt.name === 'return')) {
+            handleToggle()
+        }
+    })
 
     return (
         <box flexDirection="column">
@@ -59,14 +67,14 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>((props, 
                     {props.title}
                 </text>
             )}
-            <box border padding={1} backgroundColor={isFocused ? Theme.backgroundPanel : undefined}>
-                <input
-                    ref={inputRef}
-                    value={localValue}
-                    onInput={(value: string) => handleChange(value)}
-                    placeholder={props.placeholder}
-                    focused={isFocused}
-                />
+            <box 
+                border
+                padding={1}
+                backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+            >
+                <text fg={localValue ? Theme.accent : Theme.text}>
+                    [{localValue ? '✓' : ' '}] {props.label}
+                </text>
             </box>
             {props.error && (
                 <text fg={Theme.error}>

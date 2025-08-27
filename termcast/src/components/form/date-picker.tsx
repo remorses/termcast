@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { useFormContext, FormItemProps, FormItemRef } from '@termcast/api/src/form/index'
+import { useFormContext } from './index'
+import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/api/src/logger'
 import { Theme } from '@termcast/api/src/theme'
 

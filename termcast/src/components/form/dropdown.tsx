@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
-import { useFormContext, FormItemProps, FormItemRef } from '@termcast/api/src/form/index'
+import { useFormContext } from './index'
+import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/api/src/logger'
 import { Theme } from '@termcast/api/src/theme'
-import { Dropdown as BaseDropdown } from '@termcast/api/src/dropdown'
+import { Dropdown as BaseDropdown } from '@termcast/api/src/components/dropdown'
 import { useDialog } from '@termcast/api/src/internal/dialog'
 
 export interface DropdownProps extends FormItemProps<string> {

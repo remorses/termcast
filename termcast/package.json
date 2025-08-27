@@ -19,9 +19,7 @@
     },
     "exports": {
         ".": {
-            "import": "./esm/index.js",
-            "require": "./dist/index.js",
-            "types": "./dist/index.d.ts"
+            "default": "./src/index.tsx"
         },
         "./src/*": "./src/*.tsx"
     },

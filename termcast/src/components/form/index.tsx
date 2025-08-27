@@ -9,7 +9,7 @@ import React, {
     cloneElement,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { ActionPanel } from '@termcast/api/src/actions'
+import { ActionPanel } from '@termcast/api/src/components/actions'
 import { logger } from '@termcast/api/src/logger'
 import {
     FormValues,
@@ -22,9 +22,9 @@ import {
     FormValues_2,
     FormProps_2,
     FormItemProps_2,
-} from '@termcast/api/src/form/types'
+} from './types'
 
-export * from '@termcast/api/src/form/types'
+export * from './types'
 
 interface FormContextValue {
     values: FormValues
@@ -49,31 +49,31 @@ export const useFormContext = () => {
 import type {
     TextFieldProps,
     TextFieldRef,
-} from '@termcast/api/src/form/text-field'
+} from './text-field'
 import type {
     PasswordFieldProps,
     PasswordFieldRef,
-} from '@termcast/api/src/form/password-field'
+} from './password-field'
 import type {
     TextAreaProps,
     TextAreaRef,
-} from '@termcast/api/src/form/text-area'
+} from './text-area'
 import type {
     CheckboxProps,
     CheckboxRef,
-} from '@termcast/api/src/form/checkbox'
+} from './checkbox'
 import type {
     DropdownProps,
     DropdownRef,
     DropdownItemProps,
     DropdownSectionProps,
-} from '@termcast/api/src/form/dropdown'
+} from './dropdown'
 import type {
     DatePickerProps,
     DatePickerRef,
     DatePickerType as DatePickerEnum,
-} from '@termcast/api/src/form/date-picker'
-import type { DescriptionProps } from '@termcast/api/src/form/description'
+} from './date-picker'
+import type { DescriptionProps } from './description'
 
 interface DropdownType {
     (props: DropdownProps): any

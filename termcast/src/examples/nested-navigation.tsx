@@ -1,7 +1,7 @@
 import React from "react"
 import { render } from "@opentui/react"
-import List from "@termcast/api/src/list"
-import { Action, ActionPanel } from "@termcast/api/src/actions"
+import List from "@termcast/api"
+import { Action, ActionPanel } from "@termcast/api"
 import { useNavigation } from "@termcast/api/src/internal/navigation"
 import { Providers } from "@termcast/api/src/internal/providers"
 

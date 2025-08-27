@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { render } from '@opentui/react'
-import { Form } from '@termcast/api/src/form/index'
-import '@termcast/api/src/form/assign-components'
-import { logger } from '@termcast/api/src/logger'
-import { showToast, Toast } from '@termcast/api/src/toast'
-import { renderWithProviders } from '../utils'
+import { Form } from '@termcast/api'
+import { logger } from '@termcast/api'
+import { showToast, Toast } from '@termcast/api'
+import { renderWithProviders } from '@termcast/api'
 
 export function FormBasicExample(): any {
     const [submittedData, setSubmittedData] = useState<any>(null)

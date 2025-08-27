@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { useKeyboard } from '@opentui/react'
-import { useFormContext, FormItemProps, FormItemRef } from '@termcast/api/src/form/index'
+import { useFormContext } from './index'
+import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/api/src/logger'
 import { Theme } from '@termcast/api/src/theme'
 
-export interface CheckboxProps extends FormItemProps<boolean> {
-    label: string
+export interface PasswordFieldProps extends FormItemProps<string> {
+    placeholder?: string
 }
 
-export type CheckboxRef = FormItemRef
+export type PasswordFieldRef = FormItemRef
 
-export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref) => {
+export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldProps>((props, ref) => {
     const formContext = useFormContext()
-    const [localValue, setLocalValue] = useState(props.defaultValue || props.value || false)
+    const [localValue, setLocalValue] = useState(props.defaultValue || props.value || '')
+    const inputRef = useRef<any>(null)
     const isFocused = formContext.focusedField === props.id
 
     useEffect(() => {
@@ -28,10 +29,11 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref
 
     const fieldRef: FormItemRef = {
         focus: () => {
+            inputRef.current?.focus()
             formContext.setFocusedField(props.id)
         },
         reset: () => {
-            const resetValue = props.defaultValue || false
+            const resetValue = props.defaultValue || ''
             setLocalValue(resetValue)
             formContext.setFieldValue(props.id, resetValue)
         }
@@ -44,20 +46,15 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref
         return () => formContext.unregisterField(props.id)
     }, [props.id])
 
-    const handleToggle = () => {
-        const newValue = !localValue
-        setLocalValue(newValue)
+    const handleChange = (value: string) => {
+        setLocalValue(value)
         if (props.onChange) {
-            props.onChange(newValue)
+            props.onChange(value)
         }
     }
 
-    // Handle space or enter key to toggle when focused
-    useKeyboard((evt) => {
-        if (isFocused && (evt.name === 'space' || evt.name === 'return')) {
-            handleToggle()
-        }
-    })
+    // Always show masked value when not focused
+    const displayValue = isFocused ? localValue : '*'.repeat(localValue.length)
 
     return (
         <box flexDirection="column">
@@ -66,14 +63,19 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref
                     {props.title}
                 </text>
             )}
-            <box 
-                border
-                padding={1}
-                backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
-            >
-                <text fg={localValue ? Theme.accent : Theme.text}>
-                    [{localValue ? '✓' : ' '}] {props.label}
-                </text>
+            <box border padding={1} backgroundColor={isFocused ? Theme.backgroundPanel : undefined}>
+                <input
+                    ref={inputRef}
+                    value={displayValue}
+                    onInput={(value: string) => {
+                        // Ignore masked input (all asterisks) when not focused
+                        if (isFocused && !(/^\*+$/.test(value) && !localValue.startsWith('*'))) {
+                            handleChange(value)
+                        }
+                    }}
+                    placeholder={props.placeholder}
+                    focused={isFocused}
+                />
             </box>
             {props.error && (
                 <text fg={Theme.error}>

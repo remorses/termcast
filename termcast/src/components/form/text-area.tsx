@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { useFormContext, FormItemProps, FormItemRef } from '@termcast/api/src/form/index'
+import { useFormContext } from './index'
+import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/api/src/logger'
 import { Theme } from '@termcast/api/src/theme'
 
-export interface PasswordFieldProps extends FormItemProps<string> {
+export interface TextAreaProps extends FormItemProps<string> {
     placeholder?: string
+    enableMarkdown?: boolean
 }
 
-export type PasswordFieldRef = FormItemRef
+export type TextAreaRef = FormItemRef
 
-export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldProps>((props, ref) => {
+export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>((props, ref) => {
     const formContext = useFormContext()
     const [localValue, setLocalValue] = useState(props.defaultValue || props.value || '')
     const inputRef = useRef<any>(null)
@@ -52,9 +54,6 @@ export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldPro
         }
     }
 
-    // Always show masked value when not focused
-    const displayValue = isFocused ? localValue : '*'.repeat(localValue.length)
-
     return (
         <box flexDirection="column">
             {props.title && (
@@ -62,16 +61,11 @@ export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldPro
                     {props.title}
                 </text>
             )}
-            <box border padding={1} backgroundColor={isFocused ? Theme.backgroundPanel : undefined}>
+            <box border padding={1} height={4} backgroundColor={isFocused ? Theme.backgroundPanel : undefined}>
                 <input
                     ref={inputRef}
-                    value={displayValue}
-                    onInput={(value: string) => {
-                        // Ignore masked input (all asterisks) when not focused
-                        if (isFocused && !(/^\*+$/.test(value) && !localValue.startsWith('*'))) {
-                            handleChange(value)
-                        }
-                    }}
+                    value={localValue}
+                    onInput={(value: string) => handleChange(value)}
                     placeholder={props.placeholder}
                     focused={isFocused}
                 />
