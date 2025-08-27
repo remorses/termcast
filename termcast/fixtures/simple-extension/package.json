@@ -1,0 +1,25 @@
+{
+  "name": "simple-extension",
+  "title": "Simple Test Extension",
+  "description": "A simple Raycast extension for testing",
+  "icon": "command-icon.png",
+  "author": "test",
+  "categories": ["Productivity"],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "list-items",
+      "title": "List Items",
+      "subtitle": "Shows a list of items",
+      "description": "Displays a simple list with some items",
+      "mode": "view"
+    },
+    {
+      "name": "search-items",
+      "title": "Search Items", 
+      "subtitle": "Search through items",
+      "description": "Search and filter through a list of items",
+      "mode": "view"
+    }
+  ]
+}

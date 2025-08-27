@@ -6,13 +6,13 @@
     "module": "esm/index.js",
     "types": "dist/index.d.ts",
     "bin": {
-        "termcast": "src/runner.tsx"
+        "termcast": "src/cli.tsx"
     },
     "repository": "https://github.com/remorses/",
     "scripts": {
         "build": "tsc && tsc -m es6 --outDir esm",
         "watch": "tsc -w",
-        "binary": "bun build --watch ./src/runner.tsx --compile --outfile bin ",
+        "binary": "bun build --watch ./src/cli.tsx --compile --outfile bin ",
         "raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
         "play": "bun example.tsx",
         "test": "vitest --run"
@@ -37,6 +37,7 @@
         "@raycast/api": "^1.102.5",
         "@raycast/utils": "^2.2.1",
         "better-sqlite3": "^12.2.0",
+        "cac": "^6.7.14",
         "change-case": "^5.4.4",
         "react": "^19.1.1",
         "zustand": "^5.0.8"
