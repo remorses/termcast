@@ -1,18 +1,23 @@
 // @ts-nocheck
 // Set up global references for external packages
 
+import * as opentuiCore from '@opentui/core'
+import * as opentuiReact from '@opentui/react'
+import * as react from 'react'
+import * as reactJsxRuntime from 'react/jsx-runtime'
+import * as termcastApi from '@termcast/api'
+
 declare global {
-    var opentuiCore: typeof import('@opentui/core')
-    var opentuiReact: typeof import('@opentui/react')
-    var react: typeof import('react')
-    var reactJsxRuntime: typeof import('react/jsx-runtime')
-    var termcastApi: typeof import('@termcast/api')
+    var opentuiCore: typeof opentuiCore
+    var opentuiReact: typeof opentuiReact
+    var react: typeof react
+    var reactJsxRuntime: typeof reactJsxRuntime
+    var termcastApi: typeof termcastApi
 }
 
-// Initialize globals - these will be set by the runtime before bundled code runs
-// For now, set them to empty objects to prevent undefined errors
-globalThis.opentuiCore = globalThis.opentuiCore || {}
-globalThis.opentuiReact = globalThis.opentuiReact || {}
-globalThis.react = globalThis.react || {}
-globalThis.reactJsxRuntime = globalThis.reactJsxRuntime || {}
-globalThis.termcastApi = globalThis.termcastApi || {}
+// Initialize globals
+globalThis.opentuiCore = opentuiCore
+globalThis.opentuiReact = opentuiReact
+globalThis.react = react
+globalThis.reactJsxRuntime = reactJsxRuntime
+globalThis.termcastApi = termcastApi

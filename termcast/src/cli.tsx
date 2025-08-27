@@ -10,12 +10,13 @@ cli.command('dev', 'Run the extension in the current working directory')
         default: process.cwd(),
     })
     .action(async (options) => {
+        await import('./globals')
         const extensionPath = path.resolve(options.path)
         let isBuilding = false
 
         // Dynamically import the UI module
         const { renderExtensionCommands } = await import('./dev-ui')
-        
+
         // Initial render
         await renderExtensionCommands(extensionPath)
 

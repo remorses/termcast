@@ -108,7 +108,7 @@ var jsx = globalThis.reactJsxRuntime.jsx;
 var jsxs = globalThis.reactJsxRuntime.jsxs;
 var jsxDEV = globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx;
 
-// src/search-items.tsx
+// fixtures/simple-extension/src/search-items.tsx
 function SearchItems() {
   const [searchText, setSearchText] = useState("");
   const allItems = [

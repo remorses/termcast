@@ -64,7 +64,7 @@ var jsx = globalThis.reactJsxRuntime.jsx;
 var jsxs = globalThis.reactJsxRuntime.jsxs;
 var jsxDEV = globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx;
 
-// src/list-items.tsx
+// fixtures/simple-extension/src/list-items.tsx
 function ListItems() {
   const items = [
     { id: "1", title: "First Item", subtitle: "This is the first item" },
