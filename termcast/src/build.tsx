@@ -4,40 +4,136 @@ import type { BunPlugin } from 'bun'
 import { logger } from './logger'
 import { getCommandsWithFiles, CommandWithFile } from './package-json'
 
+const GLOBALS_NAMESPACE = 'globals'
+
 const aliasPlugin: BunPlugin = {
     name: 'alias-raycast-to-termcast',
-    setup(build) {
+    async setup(build) {
+        // Import packages once at setup time
+        const packages = [
+            { path: '@termcast/api', module: await import('@termcast/api'), globalName: 'termcastApi' },
+            { path: '@opentui/react', module: await import('@opentui/react'), globalName: 'opentuiReact' },
+            { path: '@opentui/core', module: await import('@opentui/core'), globalName: 'opentuiCore' },
+            { path: 'react', module: await import('react'), globalName: 'react' },
+        ]
+        
+        // Alias @raycast/api to @termcast/api using namespace
         build.onResolve({ filter: /@raycast\/api/ }, () => {
             logger.log('Resolving @raycast/api to @termcast/api')
             return {
-                path: require.resolve('@termcast/api'),
-                // external: true,
+                path: '@termcast/api',
+                namespace: GLOBALS_NAMESPACE,
             }
         })
 
-        // // Mark @termcast packages as external
-        // build.onResolve({ filter: /^@termcast\// }, (args) => {
-        //     return {
-        //         path: require.resolve(args.path),
-        //         external: true,
-        //     }
-        // })
+        // Resolve external packages to globals namespace
+        build.onResolve({ filter: /^@termcast\/api/ }, () => {
+            return {
+                path: '@termcast/api',
+                namespace: GLOBALS_NAMESPACE,
+            }
+        })
 
-        // // Mark @opentui packages as external
-        // build.onResolve({ filter: /^@opentui\// }, (args) => {
-        //     return {
-        //         path: require.resolve(args.path),
-        //         external: true,
-        //     }
-        // })
+        build.onResolve({ filter: /^@opentui\/react/ }, (args) => {
+            // Handle @opentui/react/jsx-dev-runtime specifically
+            if (args.path.includes('jsx')) {
+                return {
+                    path: 'react/jsx-runtime',
+                    namespace: GLOBALS_NAMESPACE,
+                }
+            }
+            return {
+                path: '@opentui/react',
+                namespace: GLOBALS_NAMESPACE,
+            }
+        })
+        
+        build.onResolve({ filter: /^@opentui\/core/ }, () => {
+            return {
+                path: '@opentui/core',
+                namespace: GLOBALS_NAMESPACE,
+            }
+        })
 
-        // // Mark react and react subpaths as external
-        // build.onResolve({ filter: /^react($|\/)/ }, (args) => {
-        //     return {
-        //         path: require.resolve(args.path),
-        //         external: true,
-        //     }
-        // })
+        build.onResolve({ filter: /^react\/jsx-runtime/ }, () => {
+            return {
+                path: 'react/jsx-runtime',
+                namespace: GLOBALS_NAMESPACE,
+            }
+        })
+        
+        build.onResolve({ filter: /^react($|\/|$)/ }, (args) => {
+            if (args.path === 'react' || args.path === 'react/') {
+                return {
+                    path: 'react',
+                    namespace: GLOBALS_NAMESPACE,
+                }
+            }
+            // For jsx-dev-runtime
+            if (args.path.includes('jsx')) {
+                return {
+                    path: 'react/jsx-runtime',
+                    namespace: GLOBALS_NAMESPACE,
+                }
+            }
+            return null
+        })
+
+        // Handle loading from globals namespace
+        build.onLoad({ filter: /.*/, namespace: GLOBALS_NAMESPACE }, async (args) => {
+            // Handle regular packages
+            const pkg = packages.find(p => p.path === args.path)
+            if (pkg) {
+                const exports: string[] = []
+                
+                for (const key in pkg.module) {
+                    if (key === 'default') {
+                        // Special handling for react default export
+                        if (pkg.path === 'react') {
+                            exports.push(`export default globalThis.${pkg.globalName};`)
+                        } else {
+                            exports.push(`export default globalThis.${pkg.globalName}.default;`)
+                        }
+                    } else {
+                        exports.push(`export const ${key} = globalThis.${pkg.globalName}.${key};`)
+                    }
+                }
+                
+                return {
+                    contents: exports.join('\n'),
+                    loader: 'js',
+                }
+            }
+            
+            // Special handling for react/jsx-runtime
+            if (args.path === 'react/jsx-runtime') {
+                const jsxRuntime = await import('react/jsx-runtime')
+                const jsxDevRuntime = await import('react/jsx-dev-runtime')
+                const exports: string[] = []
+                
+                // Export from jsx-runtime
+                for (const key in jsxRuntime) {
+                    if (key === 'default') {
+                        // Skip default export for jsx-runtime
+                        continue
+                    }
+                    exports.push(`export const ${key} = globalThis.reactJsxRuntime.${key};`)
+                }
+                
+                // Also export jsxDEV from jsx-dev-runtime
+                exports.push(`export const jsxDEV = globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx;`)
+                
+                return {
+                    contents: exports.join('\n'),
+                    loader: 'js',
+                }
+            }
+            
+            return {
+                contents: '',
+                loader: 'js',
+            }
+        })
     },
 }
 
@@ -82,7 +178,6 @@ export async function buildExtensionCommands(
         target: 'bun',
         format: 'esm',
         external: [],
-
         plugins: [aliasPlugin],
         naming: '[name].js',
     })
