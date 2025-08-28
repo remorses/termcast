@@ -1,14 +1,6 @@
-import React, {
-    createContext,
-    useContext,
-    useState,
-    useRef,
-    useEffect,
-    Children,
-    isValidElement,
-    cloneElement,
-} from 'react'
+import React, { useState, createContext, useContext, useEffect } from 'react'
 import { useKeyboard } from '@opentui/react'
+import { useForm, FormProvider } from 'react-hook-form'
 import { ActionPanel } from '@termcast/api/src/components/actions'
 import { logger } from '@termcast/api/src/logger'
 import {
@@ -25,26 +17,24 @@ import {
 } from './types'
 
 export * from './types'
+export { useFormContext } from 'react-hook-form'
 
-interface FormContextValue {
-    values: FormValues
-    setFieldValue: (id: string, value: any) => void
-    getFieldValue: (id: string) => any
-    registerField: (id: string, ref: FormItemRef) => void
-    unregisterField: (id: string) => void
+// Context for managing focused field
+interface FocusContextValue {
     focusedField: string | null
     setFocusedField: (id: string | null) => void
 }
 
-const FormContext = createContext<FormContextValue | null>(null)
+const FocusContext = createContext<FocusContextValue | null>(null)
 
-export const useFormContext = () => {
-    const context = useContext(FormContext)
+export const useFocusContext = () => {
+    const context = useContext(FocusContext)
     if (!context) {
         throw new Error('Form components must be used within a Form')
     }
     return context
 }
+
 
 import type {
     TextFieldProps,
@@ -109,71 +99,64 @@ interface FormType {
 }
 
 export const Form: FormType = ((props) => {
-    const [values, setValues] = useState<FormValues>({})
+    const methods = useForm<FormValues>({
+        defaultValues: {},
+        mode: 'onChange',
+    })
+
     const [focusedField, setFocusedField] = useState<string | null>(null)
-    const fieldRefs = useRef<Map<string, FormItemRef>>(new Map())
-    const fieldOrder = useRef<string[]>([])
 
-    const setFieldValue = (id: string, value: any) => {
-        setValues((prev) => ({ ...prev, [id]: value }))
-    }
-
-    const getFieldValue = (id: string) => {
-        return values[id]
-    }
-
-    const registerField = (id: string, ref: FormItemRef) => {
-        fieldRefs.current.set(id, ref)
-        if (!fieldOrder.current.includes(id)) {
-            fieldOrder.current.push(id)
+    // Auto-focus first field on mount
+    useEffect(() => {
+        const fieldNames = Object.keys(methods.getValues())
+        if (fieldNames.length > 0 && !focusedField) {
+            setFocusedField(fieldNames[0])
         }
-        // Auto-focus first field
-        if (fieldOrder.current.length === 1 && !focusedField) {
-            setFocusedField(id)
-            setTimeout(() => ref.focus(), 0)
-        }
-    }
+    }, [])
 
-    const unregisterField = (id: string) => {
-        fieldRefs.current.delete(id)
-        fieldOrder.current = fieldOrder.current.filter((fid) => fid !== id)
-    }
-
-    const handleSubmit = () => {
+    const handleSubmit = methods.handleSubmit((data) => {
         if (props.onSubmit) {
-            props.onSubmit(values)
+            props.onSubmit(data)
         }
-    }
+    })
 
-    // Handle Tab and Shift+Tab navigation
+    // Handle Tab/Shift+Tab and arrow key navigation
     useKeyboard((evt) => {
-        if (evt.name === 'tab') {
-            const currentIndex = focusedField
-                ? fieldOrder.current.indexOf(focusedField)
-                : -1
-            let nextIndex: number
+        const fieldNames = Object.keys(methods.getValues())
+        if (fieldNames.length === 0) return
 
+        const currentIndex = focusedField ? fieldNames.indexOf(focusedField) : -1
+        let nextIndex: number | null = null
+
+        if (evt.name === 'tab') {
             if (evt.shift) {
                 // Shift+Tab: go to previous field
-                nextIndex =
-                    currentIndex > 0
-                        ? currentIndex - 1
-                        : fieldOrder.current.length - 1
+                nextIndex = currentIndex > 0
+                    ? currentIndex - 1
+                    : fieldNames.length - 1
             } else {
                 // Tab: go to next field
-                nextIndex =
-                    currentIndex < fieldOrder.current.length - 1
-                        ? currentIndex + 1
-                        : 0
+                nextIndex = currentIndex < fieldNames.length - 1
+                    ? currentIndex + 1
+                    : 0
             }
+        } else if (evt.name === 'up') {
+            // Arrow up: go to previous field
+            nextIndex = currentIndex > 0
+                ? currentIndex - 1
+                : fieldNames.length - 1
+        } else if (evt.name === 'down') {
+            // Arrow down: go to next field
+            nextIndex = currentIndex < fieldNames.length - 1
+                ? currentIndex + 1
+                : 0
+        }
 
-            const nextFieldId = fieldOrder.current[nextIndex]
-            if (nextFieldId) {
-                const nextRef = fieldRefs.current.get(nextFieldId)
-                if (nextRef) {
-                    setFocusedField(nextFieldId)
-                    nextRef.focus()
-                }
+        if (nextIndex !== null) {
+            const nextFieldName = fieldNames[nextIndex]
+            if (nextFieldName) {
+                // Just update the focused field in context
+                setFocusedField(nextFieldName)
             }
         } else if (evt.name === 'enter' && evt.meta) {
             // Cmd+Enter submits the form
@@ -182,18 +165,31 @@ export const Form: FormType = ((props) => {
     })
 
     return (
-        <FormContext.Provider
-            value={{
-                values,
-                setFieldValue,
-                getFieldValue,
-                registerField,
-                unregisterField,
-                focusedField,
-                setFocusedField,
-            }}
-        >
-            <box flexDirection='column'>{props.children}</box>
-        </FormContext.Provider>
+        <FormProvider {...methods}>
+            <FocusContext.Provider value={{ focusedField, setFocusedField }}>
+                <box flexDirection='column'>{props.children}</box>
+            </FocusContext.Provider>
+        </FormProvider>
     )
 }) as FormType
+
+// Import and assign components after Form is defined
+import { TextField } from './text-field'
+import { PasswordField } from './password-field'
+import { TextArea } from './text-area'
+import { Checkbox } from './checkbox'
+import { Dropdown } from './dropdown'
+import { DatePicker } from './date-picker'
+import { Separator } from './separator'
+import { Description } from './description'
+
+Form.TextField = TextField
+Form.PasswordField = PasswordField
+Form.TextArea = TextArea
+Form.Checkbox = Checkbox
+Form.Dropdown = Dropdown
+Form.DatePicker = DatePicker
+Form.TagPicker = null // TODO: implement
+Form.FilePicker = null // TODO: implement
+Form.Separator = Separator
+Form.Description = Description

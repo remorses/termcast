@@ -78,6 +78,9 @@ class ErrorBoundaryClass extends Component<{ children: ReactNode }, ErrorBoundar
                     <text fg={Theme.error}>
                         {this.state.error?.message || 'An unexpected error occurred'}
                     </text>
+                    <text fg={Theme.error}>
+                        {this.state.error?.stack || ''}
+                    </text>
                 </group>
             )
         }
