@@ -123,7 +123,6 @@ interface CommandsWithFiles {
     projectRoot: string
     commands: CommandWithFile[]
 }
-
 export function getCommandsWithFiles({
     packageJsonPath,
 }: {
@@ -140,10 +139,10 @@ export function getCommandsWithFiles({
             let filePath = ''
             let exists = false
 
+            // First, look for the file outside "src"
             for (const ext of possibleExtensions) {
                 const candidatePath = path.join(
                     projectRoot,
-                    'src',
                     `${command.name}${ext}`,
                 )
                 if (fs.existsSync(candidatePath)) {
@@ -153,6 +152,23 @@ export function getCommandsWithFiles({
                 }
             }
 
+            // If not found, look for the file inside "src"
+            if (!exists) {
+                for (const ext of possibleExtensions) {
+                    const candidatePath = path.join(
+                        projectRoot,
+                        'src',
+                        `${command.name}${ext}`,
+                    )
+                    if (fs.existsSync(candidatePath)) {
+                        filePath = candidatePath
+                        exists = true
+                        break
+                    }
+                }
+            }
+
+            // If still not found, default to "src/commandName.tsx"
             if (!filePath) {
                 filePath = path.join(projectRoot, 'src', `${command.name}.tsx`)
             }
