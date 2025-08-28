@@ -13,10 +13,10 @@ describe('downloadExtension', () => {
         // Just check we get some files
         expect(filenames).toMatchInlineSnapshot(`
           [
-            "spiceblow-database/assets/extension-icon.png",
-            "spiceblow-database/package.json",
-            "spiceblow-database/search-database.js",
-            "spiceblow-database/search-database.js.map",
+            "assets/extension-icon.png",
+            "package.json",
+            "search-database.js",
+            "search-database.js.map",
           ]
         `)
         expect(filenames.length).toBeGreaterThan(0)
