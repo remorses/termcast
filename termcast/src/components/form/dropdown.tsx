@@ -48,42 +48,59 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
     const isFocused = focusedField === props.id
     const dialog = useDialog()
 
+    // Parse children to extract items for display
+    const items: DropdownItemProps[] = []
+    const sections: { title?: string; items: DropdownItemProps[] }[] = []
+    let currentSection: { title?: string; items: DropdownItemProps[] } | null = null
+
+    React.Children.forEach(props.children, (child: any) => {
+        if (child?.type === DropdownSection) {
+            if (currentSection) {
+                sections.push(currentSection)
+            }
+            currentSection = { title: child.props.title, items: [] }
+            React.Children.forEach(child.props.children, (item: any) => {
+                if (item?.type === DropdownItem) {
+                    currentSection!.items.push(item.props)
+                }
+            })
+        } else if (child?.type === DropdownItem) {
+            if (currentSection) {
+                currentSection.items.push(child.props)
+            } else {
+                items.push(child.props)
+            }
+        }
+    })
+
+    if (currentSection) {
+        sections.push(currentSection)
+    }
+
+    const allItems = [...items, ...sections.flatMap(s => s.items)]
+
+    // Convert parsed items back to BaseDropdown compatible children
+    const dropdownChildren = (
+        <>
+            {items.map(item => (
+                <BaseDropdown.Item key={item.value} value={item.value} title={item.title} icon={item.icon} />
+            ))}
+            {sections.map((section, idx) => (
+                <BaseDropdown.Section key={`section-${idx}`} title={section.title}>
+                    {section.items.map(item => (
+                        <BaseDropdown.Item key={item.value} value={item.value} title={item.title} icon={item.icon} />
+                    ))}
+                </BaseDropdown.Section>
+            ))}
+        </>
+    )
+
     return (
         <Controller
             name={props.id}
             control={control}
             defaultValue={props.defaultValue || props.value || ''}
             render={({ field, fieldState, formState }) => {
-                // Parse children to extract items for display
-                const items: DropdownItemProps[] = []
-                const sections: { title?: string; items: DropdownItemProps[] }[] = []
-                let currentSection: { title?: string; items: DropdownItemProps[] } | null = null
-
-                React.Children.forEach(props.children, (child: any) => {
-                    if (child?.type === DropdownSection) {
-                        if (currentSection) {
-                            sections.push(currentSection)
-                        }
-                        currentSection = { title: child.props.title, items: [] }
-                        React.Children.forEach(child.props.children, (item: any) => {
-                            if (item?.type === DropdownItem) {
-                                currentSection!.items.push(item.props)
-                            }
-                        })
-                    } else if (child?.type === DropdownItem) {
-                        if (currentSection) {
-                            currentSection.items.push(child.props)
-                        } else {
-                            items.push(child.props)
-                        }
-                    }
-                })
-
-                if (currentSection) {
-                    sections.push(currentSection)
-                }
-
-                const allItems = [...items, ...sections.flatMap(s => s.items)]
                 const selectedItem = allItems.find(item => item.value === field.value)
 
                 const handleSelect = (value: string) => {
@@ -104,7 +121,7 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
                             placeholder={props.placeholder}
                             tooltip={props.title}
                         >
-                            {props.children}
+                            {dropdownChildren}
                         </BaseDropdown>,
                         'center'
                     )
