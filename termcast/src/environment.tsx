@@ -1,3 +1,20 @@
+/**
+ * Environment API - Provides access to environment information and context
+ * 
+ * Raycast Docs: https://developers.raycast.com/api-reference/environment
+ * 
+ * The environment object provides information about the command's runtime context,
+ * including theme settings, development mode, launch type, and paths. LaunchType enum
+ * indicates whether the command was triggered by user action or background process.
+ * 
+ * Key features:
+ * - Access to appearance/theme (dark/light)
+ * - Extension and command metadata
+ * - Launch context (user-initiated vs background)
+ * - Support and assets paths for file storage
+ * - System integration (selected Finder items, selected text)
+ */
+
 import os from 'node:os'
 import path from 'node:path'
 import fs from 'node:fs'
@@ -19,9 +36,9 @@ export interface Environment {
   theme: "dark" | "light"
 }
 
-export interface LaunchType {
-  type: "background" | "user-initiated"
-  reason?: string
+export enum LaunchType {
+  UserInitiated = "userInitiated",
+  Background = "background"
 }
 
 export interface LaunchProps<T extends Record<string, any> = Record<string, any>> {
@@ -81,9 +98,8 @@ class EnvironmentImpl implements Environment {
   }
 
   get launchType(): LaunchType {
-    const type = process.env.TERMCAST_LAUNCH_TYPE as "background" | "user-initiated" || "user-initiated"
-    const reason = process.env.TERMCAST_LAUNCH_REASON
-    return reason ? { type, reason } : { type }
+    const type = process.env.TERMCAST_LAUNCH_TYPE
+    return type === "background" ? LaunchType.Background : LaunchType.UserInitiated
   }
 
   get ownerOrAuthorName(): string {
@@ -137,7 +153,11 @@ class EnvironmentImpl implements Environment {
 export const environment = new EnvironmentImpl()
 
 export async function getSelectedFinderItems(): Promise<string[]> {
-  // This requires platform-specific implementation
+  // TODO: Improve cross-platform support
+  // Currently only works on macOS using AppleScript
+  // Should add support for:
+  // 1. Windows Explorer selection (via PowerShell or COM)
+  // 2. Linux file managers (Nautilus, Dolphin, etc.)
   if (process.platform === 'darwin') {
     try {
       // Use AppleScript to get selected Finder items
@@ -157,13 +177,20 @@ export async function getSelectedFinderItems(): Promise<string[]> {
       return []
     }
   }
+  // TODO: Implement for other platforms
   return []
 }
 
 export async function getSelectedText(): Promise<string> {
-  // This requires platform-specific implementation
+  // TODO: Improve implementation and cross-platform support
+  // Current implementation has issues:
+  // 1. Modifies the clipboard (should preserve original content)
+  // 2. Uses delay which may not be reliable
+  // 3. Only works on macOS
+  // Should add support for Windows and Linux
   if (process.platform === 'darwin') {
     try {
+      // TODO: Save and restore clipboard contents to avoid side effects
       // Use AppleScript to get selected text from frontmost application
       const script = `
         tell application "System Events"
@@ -178,5 +205,6 @@ export async function getSelectedText(): Promise<string> {
       return ''
     }
   }
+  // TODO: Implement for Windows (via PowerShell) and Linux (xclip/xsel)
   return ''
 }

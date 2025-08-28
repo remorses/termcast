@@ -1,5 +1,6 @@
 // @bun
 // globals:@termcast/api
+var AI = globalThis.termcastApi.AI;
 var Action = globalThis.termcastApi.Action;
 var ActionPanel = globalThis.termcastApi.ActionPanel;
 var ActionStyle = globalThis.termcastApi.ActionStyle;
@@ -18,9 +19,12 @@ var IconComponent = globalThis.termcastApi.IconComponent;
 var Image = globalThis.termcastApi.Image;
 var ImageMask = globalThis.termcastApi.ImageMask;
 var InFocus = globalThis.termcastApi.InFocus;
+var LaunchType = globalThis.termcastApi.LaunchType;
 var List = globalThis.termcastApi.List;
 var LocalStorage = globalThis.termcastApi.LocalStorage;
+var MenuBarExtra = globalThis.termcastApi.MenuBarExtra;
 var NavigationContainer = globalThis.termcastApi.NavigationContainer;
+var OAuth = globalThis.termcastApi.OAuth;
 var PasswordField = globalThis.termcastApi.PasswordField;
 var Providers = globalThis.termcastApi.Providers;
 var TextArea = globalThis.termcastApi.TextArea;
