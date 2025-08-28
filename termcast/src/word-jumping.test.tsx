@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { nextWordEndCrossLine, previousWordStartCrossLine } from './word-jumping'
+import { nextWordEndCrossLines, previousWordStartCrossLines } from './word-jumping'
 
 describe('word-jumping', () => {
     describe('nextWordEndCrossLine', () => {
@@ -7,7 +7,7 @@ describe('word-jumping', () => {
             const text = 'hello| world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello world|"`)
         })
 
@@ -15,7 +15,7 @@ describe('word-jumping', () => {
             const text = 'hello |  world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello   world|"`)
         })
 
@@ -23,7 +23,7 @@ describe('word-jumping', () => {
             const text = 'hello|, world!'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toBe('hello, world|!')
         })
 
@@ -31,7 +31,7 @@ describe('word-jumping', () => {
             const text = 'hello|... world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello...| world"`)
         })
 
@@ -39,7 +39,7 @@ describe('word-jumping', () => {
             const text = 'hello|\nworld'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`
               "hello
               |world"
@@ -50,7 +50,7 @@ describe('word-jumping', () => {
             const text = 'hello|\n\nworld'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`
               "hello
 
@@ -62,7 +62,7 @@ describe('word-jumping', () => {
             const text = 'hello|WorldCase'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"helloWorldCase|"`)
         })
 
@@ -70,7 +70,7 @@ describe('word-jumping', () => {
             const text = 'hello|_world_case'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello_world|_case"`)
         })
 
@@ -78,7 +78,7 @@ describe('word-jumping', () => {
             const text = 'hello world|'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello world|"`)
         })
 
@@ -86,7 +86,7 @@ describe('word-jumping', () => {
             const text = 'function| test() {\n    return true;\n}'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = nextWordEndCrossLine(cleanText, caret)
+            const result = nextWordEndCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`
               "function test|() {
                   return true;
@@ -100,7 +100,7 @@ describe('word-jumping', () => {
             const text = 'hello wor|ld'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello |world"`)
         })
 
@@ -108,7 +108,7 @@ describe('word-jumping', () => {
             const text = 'hello  |world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"|hello  world"`)
         })
 
@@ -116,7 +116,7 @@ describe('word-jumping', () => {
             const text = 'hello, |world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello|, world"`)
         })
 
@@ -124,7 +124,7 @@ describe('word-jumping', () => {
             const text = 'hello... |world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello|... world"`)
         })
 
@@ -132,7 +132,7 @@ describe('word-jumping', () => {
             const text = 'hello\n|world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`
               "hello|
               world"
@@ -143,7 +143,7 @@ describe('word-jumping', () => {
             const text = 'hello\n\n|world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`
               "hello
               |
@@ -155,7 +155,7 @@ describe('word-jumping', () => {
             const text = 'helloWorld|Case'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"|helloWorldCase"`)
         })
 
@@ -163,7 +163,7 @@ describe('word-jumping', () => {
             const text = 'hello_world_|case'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello_world_|case"`)
         })
 
@@ -171,7 +171,7 @@ describe('word-jumping', () => {
             const text = '|hello world'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"|hello world"`)
         })
 
@@ -179,7 +179,7 @@ describe('word-jumping', () => {
             const text = 'function test() {\n    return| true;\n}'
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
-            const result = previousWordStartCrossLine(cleanText, caret)
+            const result = previousWordStartCrossLines(cleanText, caret)
             expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`
               "function test() {
                   |return true;
