@@ -32,6 +32,7 @@ export function NavigationProvider(props: NavigationProviderProps): any {
   ])
 
   const push = useCallback((component: ReactNode, onPop?: () => void) => {
+    logger.log('pushing', (component as any)?.type?.name)
     setStack((prev) => [...prev, { component, onPop }])
     useStore.setState({ dialogStack: [] })
   }, [])
