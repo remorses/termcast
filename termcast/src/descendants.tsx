@@ -15,7 +15,7 @@ export function createDescendants<T = any>() {
         DescendantContextType<T> | undefined
     >(undefined)
 
-    function Descendants(props: {
+    function DescendantsProvider(props: {
         value: DescendantContextType<T>
         children: React.ReactNode
     }) {
@@ -71,10 +71,10 @@ export function createDescendants<T = any>() {
         return index
     }
 
-    return { Descendants, useDescendants, useDescendant }
+    return { DescendantsProvider, useDescendants, useDescendant }
 }
 
-const { Descendants, useDescendants, useDescendant } = createDescendants<{
+const { DescendantsProvider: Descendants, useDescendants, useDescendant } = createDescendants<{
     title?: string
 }>()
 
