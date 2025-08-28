@@ -36,6 +36,13 @@ export type {
   ActionPanelSectionProps
 } from '@termcast/api/src/components/actions'
 
+// Core UI Components - Detail
+export { Detail } from '@termcast/api/src/components/detail'
+export type {
+  DetailProps,
+  DetailPropsWithLoading
+} from '@termcast/api/src/components/detail'
+
 // Form Components
 export {
   Form,

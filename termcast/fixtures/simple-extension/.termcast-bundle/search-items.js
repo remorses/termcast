@@ -9,6 +9,7 @@ var Cache = globalThis.termcastApi.Cache;
 var Checkbox = globalThis.termcastApi.Checkbox;
 var Clipboard = globalThis.termcastApi.Clipboard;
 var Color = globalThis.termcastApi.Color;
+var Detail = globalThis.termcastApi.Detail;
 var Dialog = globalThis.termcastApi.Dialog;
 var DialogProvider = globalThis.termcastApi.DialogProvider;
 var Dropdown = globalThis.termcastApi.Dropdown;

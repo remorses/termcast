@@ -19,6 +19,24 @@ import {
 } from '@termcast/api'
 import { confirmAlert, Alert } from '@termcast/api'
 import { showToast, Toast } from '@termcast/api'
+import { Detail } from '@termcast/api'
+import dedent from 'dedent'
+
+function DetailExample(): any {
+  return (
+    <Detail
+      markdown={dedent`
+        # Simple Detail View
+        
+        This is a basic **Detail** component showing markdown content.
+        
+        - Item 1
+        - Item 2
+        - Item 3
+      `}
+    />
+  )
+}
 
 function FormExample(): any {
   const handleFormSubmit = async (values: any) => {
@@ -414,6 +432,19 @@ function MiscellaneousExample(): any {
               <Action
                 title="Open Form"
                 onAction={() => push(<FormExample />)}
+              />
+            </ActionPanel>
+          }
+        />
+        
+        <List.Item
+          title="Show Detail View"
+          subtitle="Display a markdown detail view"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Open Detail"
+                onAction={() => push(<DetailExample />)}
               />
             </ActionPanel>
           }
