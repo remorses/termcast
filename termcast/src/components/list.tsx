@@ -399,7 +399,9 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                             justifyContent: 'space-between',
                         }}
                     >
-                        <text attributes={TextAttributes.BOLD}>{props.tooltip}</text>
+                        <text attributes={TextAttributes.BOLD}>
+                            {props.tooltip}
+                        </text>
                         <text fg={Theme.textMuted}>esc</text>
                     </group>
                     <group style={{ paddingTop: 1, paddingBottom: 1 }}>
@@ -433,16 +435,16 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                                     </text>
                                 </group>
                             )}
-                        {items.map((item) => {
-                            const isActive =
-                                filteredItems[selectedIndex] === item
-                            const isCurrent = item.value === props.value
-                            return (
-                                <box
-                                    key={item.value}
-                                    style={{
-                                        flexDirection: 'row',
-                                        backgroundColor: isActive
+                            {items.map((item) => {
+                                const isActive =
+                                    filteredItems[selectedIndex] === item
+                                const isCurrent = item.value === props.value
+                                return (
+                                    <box
+                                        key={item.value}
+                                        style={{
+                                            flexDirection: 'row',
+                                            backgroundColor: isActive
                                                 ? Theme.primary
                                                 : undefined,
                                             paddingLeft: 1,
@@ -453,22 +455,26 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                                     >
                                         <group style={{ flexDirection: 'row' }}>
                                             <text
-                                        fg={
-                                            isActive
-                                                ? Theme.background
-                                                : isCurrent
-                                                  ? Theme.primary
-                                                  : Theme.text
+                                                fg={
+                                                    isActive
+                                                        ? Theme.background
+                                                        : isCurrent
+                                                          ? Theme.primary
+                                                          : Theme.text
                                                 }
-                                                attributes={isActive ? TextAttributes.BOLD : undefined}
+                                                attributes={
+                                                    isActive
+                                                        ? TextAttributes.BOLD
+                                                        : undefined
+                                                }
                                             >
                                                 {item.title}
                                             </text>
                                         </group>
                                     </box>
-                            )
-                        })}
-                    </group>
+                                )
+                            })}
+                        </group>
                     ))}
                 </group>
                 {props.isLoading && (
@@ -1012,28 +1018,25 @@ const ListDropdown: ListDropdownType = (props) => {
     // Get current selected item
     const currentItem = items.find((item) => item.value === dropdownValue)
 
+    const value = currentItem?.title || dropdownValue || 'All'
     return (
         <DropdownContext.Provider value={dropdownContextValue}>
             {/* Render children to collect items - hidden */}
             {props.children}
             {/* Render dropdown UI */}
             <box
+                key={value}
                 style={{
                     paddingTop: 2,
                     paddingLeft: 2,
+                    // minWidth: value.length + 4,
                     flexDirection: 'row',
                     flexShrink: 0,
                 }}
             >
-                <text fg={Theme.textMuted}>
-                    {currentItem?.title || dropdownValue || 'All'}
-                </text>
-                <text  fg={Theme.textMuted}>
-                    {' '}
-                    ▾
-                </text>
-
-                {/*<text fg={Theme.accent} attributes={TextAttributes.BOLD}>^P</text>*/}
+                {/*<text >^p </text>*/}
+                <text fg={Theme.textMuted}>{value}</text>
+                <text fg={Theme.textMuted}> ▾</text>
             </box>
         </DropdownContext.Provider>
     )
