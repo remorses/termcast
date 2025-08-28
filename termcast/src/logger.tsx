@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import { useEffect } from 'react'
 
 const LOG_FILE = path.join(process.cwd(), 'app.log')
 
@@ -34,3 +35,13 @@ export const logger = {
         fs.appendFileSync(LOG_FILE, logEntry)
     },
 }
+
+// Catch unhandled errors and exceptions
+process.on('uncaughtException', (error: Error) => {
+    logger.error('Uncaught Exception:', error.message, error.stack)
+    process.exit(1)
+})
+
+process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
+    logger.error('Unhandled Rejection at:', promise, 'reason:', reason)
+})
