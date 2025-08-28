@@ -8,6 +8,30 @@ interface BundledCommand extends CommandWithFile {
     bundledPath: string
 }
 
+export function resolveCommandPath({
+    commandName,
+    dir,
+}: {
+    commandName: string
+    dir: string
+}): string {
+    // First check for .termcast-bundle directory
+    const bundleDir = path.join(dir, '.termcast-bundle')
+    const bundledPath = path.join(bundleDir, `${commandName}.js`)
+    if (fs.existsSync(bundledPath)) {
+        return bundledPath
+    }
+    
+    // Then check for top-level command file
+    const topLevelPath = path.join(dir, `${commandName}.js`)
+    if (fs.existsSync(topLevelPath)) {
+        return topLevelPath
+    }
+    
+    // Return empty string if not found
+    return ''
+}
+
 interface StoredExtension {
     name: string
     packageJsonPath: string
@@ -28,10 +52,10 @@ export function getStoreDirectory(): string {
 
 export function installExtension({
     extensionName,
-    bundleDir,
+    extensionSourcePath,
 }: {
     extensionName: string
-    bundleDir: string
+    extensionSourcePath: string
 }): void {
     const storeDir = getStoreDirectory()
     const extensionDir = path.join(storeDir, extensionName)
@@ -44,14 +68,8 @@ export function installExtension({
     // Create extension directory
     fs.mkdirSync(extensionDir, { recursive: true })
     
-    // Copy bundle directory
-    const targetBundleDir = path.join(extensionDir, '.termcast-bundle')
-    fs.cpSync(bundleDir, targetBundleDir, { recursive: true })
-    
-    // Copy package.json
-    const sourcePackageJson = path.join(path.dirname(bundleDir), 'package.json')
-    const targetPackageJson = path.join(extensionDir, 'package.json')
-    fs.copyFileSync(sourcePackageJson, targetPackageJson)
+    // Copy entire extension source directory
+    fs.cpSync(extensionSourcePath, extensionDir, { recursive: true })
     
     logger.log(`Extension '${extensionName}' installed to ${extensionDir}`)
 }
@@ -79,16 +97,17 @@ export function getStoredExtensions(): StoredExtension[] {
         
         try {
             const commandsData = getCommandsWithFiles({ packageJsonPath })
-            const bundleDir = path.join(extensionDir, '.termcast-bundle')
             
-            // Map commands to bundled commands
+            // Map commands to bundled commands using the resolver
             const bundledCommands: BundledCommand[] = commandsData.commands.map((command) => {
-                const bundledPath = path.join(bundleDir, `${command.name}.js`)
-                const exists = fs.existsSync(bundledPath)
+                const bundledPath = resolveCommandPath({
+                    commandName: command.name,
+                    dir: extensionDir,
+                })
                 
                 return {
                     ...command,
-                    bundledPath: exists ? bundledPath : '',
+                    bundledPath,
                 }
             })
             

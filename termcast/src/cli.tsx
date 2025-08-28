@@ -110,7 +110,7 @@ cli.command('build', 'Build and install the extension to user store')
                 fs.readFileSync(packageJsonPath, 'utf-8')
             )
             const extensionName = packageJson.name || path.basename(extensionPath)
-            installExtension({ extensionName, bundleDir: buildResult.bundleDir })
+            installExtension({ extensionName, extensionSourcePath: extensionPath })
             console.log(`\nExtension installed to store as '${extensionName}'`)
         } catch (error: any) {
             console.error('Build failed:', error.message)
