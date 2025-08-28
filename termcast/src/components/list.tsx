@@ -10,6 +10,7 @@ import React, {
     useMemo,
     createContext,
     useContext,
+    useLayoutEffect,
 } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
@@ -20,6 +21,7 @@ import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
 import { CommonProps } from '@termcast/api/src/utils'
 import { useStore } from '@termcast/api/src/state'
 import { useDialog } from '@termcast/api/src/internal/dialog'
+import { createDescendants } from '@termcast/api/src/descendants'
 
 interface ActionsInterface {
     actions?: ReactNode
@@ -248,25 +250,35 @@ interface ListContextValue {
     isDropdownOpen: boolean
     setIsDropdownOpen: (value: boolean) => void
     openDropdown: () => void
+    selectedIndex: number
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
 
+// Create descendants for List items
+interface ListItemDescendant {
+    id?: string
+    title: string
+    actions?: ReactNode
+    hidden?: boolean
+}
+
+const { DescendantsProvider: ListDescendantsProvider, useDescendants: useListDescendants, useDescendant: useListItemDescendant } = createDescendants<ListItemDescendant>()
+
+// Create descendants for Dropdown items
+interface DropdownItemDescendant {
+    value: string
+    title: string
+    section?: string
+    hidden?: boolean
+}
+
+const { DescendantsProvider: DropdownDescendantsProvider, useDescendants: useDropdownDescendants, useDescendant: useDropdownItemDescendant } = createDescendants<DropdownItemDescendant>()
 
 // Dropdown context for passing data to dropdown items
 interface DropdownContextValue {
-    value?: string
-    onChange?: (value: string) => void
-    selectedIndex: number
-    setSelectedIndex: (index: number) => void
-    items: { value: string; title: string; icon?: any; section?: string }[]
-    registerItem: (
-        value: string,
-        title: string,
-        icon?: any,
-        section?: string,
-    ) => void
-    unregisterItem: (value: string) => void
+    searchText: string
+    filtering?: boolean | { keepSectionOrder: boolean }
     currentSection?: string
 }
 
@@ -274,62 +286,41 @@ const DropdownContext = createContext<DropdownContextValue | undefined>(
     undefined,
 )
 
-// Process list item to extract searchable and displayable data
-interface ProcessedItem extends ItemProps {
-    originalIndex: number
-    sectionTitle?: string
-    titleText: string
-    subtitleText?: string
-    originalElement?: ReactElement
-}
 // Dropdown dialog component
 interface ListDropdownDialogProps extends DropdownProps {
-    items: { value: string; title: string; icon?: any; section?: string }[]
+    items: { value: string; title: string; icon?: any; section?: string }[] // Legacy, not used
     onCancel: () => void
+    children?: ReactNode
 }
 
 function ListDropdownDialog(props: ListDropdownDialogProps): any {
     const [searchText, setSearchText] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const inputRef = useRef<any>(null)
+    const descendantsContext = useDropdownDescendants()
 
-    // Use items passed from props, sorted to maintain section order
-    const allItems = useMemo(() => {
-        const sorted = [...(props.items || [])]
-        // Sort by section first, then maintain original order
-        sorted.sort((a, b) => {
-            if (a.section === b.section) return 0
-            if (!a.section) return 1 // No section comes last
-            if (!b.section) return -1
-            return a.section.localeCompare(b.section)
-        })
-        return sorted
-    }, [props.items])
-
-    // Filter items based on search
-    const filteredItems = useMemo(() => {
-        if (!searchText.trim() || props.filtering === false) return allItems
-        const needle = searchText.toLowerCase()
-        return allItems.filter((item) =>
-            item.title.toLowerCase().includes(needle),
-        )
-    }, [allItems, searchText, props.filtering])
+    // Get items from descendants
+    const visibleItems = Object.values(descendantsContext.map.current)
+        .filter(item => item.index !== -1)
+        .sort((a, b) => a.index - b.index)
+        .map(item => item.props) as DropdownItemDescendant[]
 
     // Group by section
     const grouped = useMemo(() => {
-        const groups: Map<string | undefined, typeof filteredItems> = new Map()
-        filteredItems.forEach((item) => {
-            const key = item.section
+        const groups: Map<string | undefined, DropdownItemDescendant[]> = new Map()
+        visibleItems.forEach((item) => {
+            const key = item?.section
             if (!groups.has(key)) groups.set(key, [])
-            groups.get(key)!.push(item)
+            groups.get(key)!.push(item!)
         })
         return Array.from(groups.entries())
-    }, [filteredItems])
+    }, [searchText])
 
     const move = (direction: -1 | 1) => {
+        if (visibleItems.length === 0) return
         let next = selectedIndex + direction
-        if (next < 0) next = filteredItems.length - 1
-        if (next >= filteredItems.length) next = 0
+        if (next < 0) next = visibleItems.length - 1
+        if (next >= visibleItems.length) next = 0
         setSelectedIndex(next)
     }
 
@@ -343,40 +334,41 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
         }
         if (evt.name === 'up') move(-1)
         if (evt.name === 'down') move(1)
-        if (evt.name === 'return' && filteredItems[selectedIndex]) {
-            props.onChange?.(filteredItems[selectedIndex].value)
+        if (evt.name === 'return' && visibleItems[selectedIndex]) {
+            props.onChange?.(visibleItems[selectedIndex].value)
         }
     })
 
     return (
-        <group>
-            <group style={{ paddingLeft: 2, paddingRight: 2 }}>
-                <group style={{ paddingLeft: 1, paddingRight: 1 }}>
-                    {/* Header */}
-                    <group
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <text attributes={TextAttributes.BOLD}>
-                            {props.tooltip}
-                        </text>
-                        <text fg={Theme.textMuted}>esc</text>
+        <DropdownDescendantsProvider value={descendantsContext}>
+            <group>
+                <group style={{ paddingLeft: 2, paddingRight: 2 }}>
+                    <group style={{ paddingLeft: 1, paddingRight: 1 }}>
+                        {/* Header */}
+                        <group
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <text attributes={TextAttributes.BOLD}>
+                                {props.tooltip}
+                            </text>
+                            <text fg={Theme.textMuted}>esc</text>
+                        </group>
+                        <group style={{ paddingTop: 1, paddingBottom: 1 }}>
+                            <input
+                                ref={inputRef}
+                                onInput={setSearchText}
+                                placeholder={props.placeholder || 'Search...'}
+                                focused={inFocus}
+                                value={searchText}
+                                focusedBackgroundColor={Theme.backgroundPanel}
+                                cursorColor={Theme.primary}
+                                focusedTextColor={Theme.textMuted}
+                            />
+                        </group>
                     </group>
-                    <group style={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <input
-                            ref={inputRef}
-                            onInput={setSearchText}
-                            placeholder={props.placeholder || 'Search...'}
-                            focused={inFocus}
-                            value={searchText}
-                            focusedBackgroundColor={Theme.backgroundPanel}
-                            cursorColor={Theme.primary}
-                            focusedTextColor={Theme.textMuted}
-                        />
-                    </group>
-                </group>
 
                 {/* Items list */}
                 <group style={{ paddingBottom: 1 }}>
@@ -395,13 +387,13 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                                     </text>
                                 </group>
                             )}
-                            {items.map((item) => {
-                                const isActive =
-                                    filteredItems[selectedIndex] === item
-                                const isCurrent = item.value === props.value
+                            {items.map((item, itemIndex) => {
+                                const globalIndex = visibleItems.indexOf(item)
+                                const isActive = globalIndex === selectedIndex
+                                const isCurrent = item?.value === props.value
                                 return (
                                     <box
-                                        key={item.value}
+                                        key={item?.value || itemIndex}
                                         style={{
                                             flexDirection: 'row',
                                             backgroundColor: isActive
@@ -428,7 +420,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                                                         : undefined
                                                 }
                                             >
-                                                {item.title}
+                                                {item?.title || ''}
                                             </text>
                                         </group>
                                     </box>
@@ -463,98 +455,35 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 </text>
                 <text fg={Theme.textMuted}> navigate</text>
             </box>
+            
+            {/* Render children to collect items (hidden - they return null anyway) */}
+            <DropdownContext.Provider value={{
+                searchText,
+                filtering: props.filtering,
+                currentSection: undefined,
+            }}>
+                {props.children}
+            </DropdownContext.Provider>
         </group>
+        </DropdownDescendantsProvider>
     )
 }
 
-// Extract and process items from children
-function extractItems(children: ReactNode): ProcessedItem[] {
-    const items: ProcessedItem[] = []
-    let index = 0
-
-    const processChildren = (nodes: ReactNode, currentSection?: string) => {
-        Children.forEach(nodes, (child) => {
-            if (!isValidElement(child)) return
-
-            if (child.type === ListItem) {
-                const props = child.props as ItemProps
-                const titleText =
-                    typeof props.title === 'string'
-                        ? props.title
-                        : props.title.value
-                const subtitleText = props.subtitle
-                    ? typeof props.subtitle === 'string'
-                        ? props.subtitle
-                        : props.subtitle.value || ''
-                    : undefined
-
-                items.push({
-                    ...props,
-                    originalIndex: index++,
-                    sectionTitle: currentSection,
-                    titleText,
-                    subtitleText,
-                    originalElement: child,
-                })
-            } else if (child.type === ListSection) {
-                const props = child.props as SectionProps
-                processChildren(props.children, props.title)
-            }
-        })
-    }
-
-    processChildren(children)
-    return items
-}
-
-// Group items by section
-function groupBySection(items: ProcessedItem[]): [string, ProcessedItem[]][] {
-    const grouped: Record<string, ProcessedItem[]> = {}
-
-    items.forEach((item) => {
-        const section = item.sectionTitle || ''
-        if (!grouped[section]) {
-            grouped[section] = []
-        }
-        grouped[section].push(item)
-    })
-
-    return Object.entries(grouped)
-}
-
-// Filter items based on search query
-function filterItems(items: ProcessedItem[], query: string): ProcessedItem[] {
-    if (!query.trim()) return items
-
-    const needle = query.toLowerCase().trim()
-
-    return items.filter((item) => {
-        const searchableText = [
-            item.titleText,
-            item.subtitleText,
-            item.sectionTitle,
-            ...(item.keywords || []),
-        ]
-            .filter(Boolean)
-            .join(' ')
-            .toLowerCase()
-
-        return searchableText.includes(needle)
-    })
-}
 
 // Render a single list item row
 function ListItemRow(props: {
-    item: ProcessedItem
+    title: string
+    subtitle?: string
+    accessories?: ItemAccessory[]
     active?: boolean
     isShowingDetail?: boolean
 }) {
-    const { item, active } = props
+    const { title, subtitle, accessories, active } = props
 
     // Format accessories for display
     const accessoryElements: ReactNode[] = []
-    if (item.accessories) {
-        item.accessories.forEach((accessory) => {
+    if (accessories) {
+        accessories.forEach((accessory) => {
             if ('text' in accessory && accessory.text) {
                 const textValue =
                     typeof accessory.text === 'string'
@@ -606,12 +535,12 @@ function ListItemRow(props: {
                     fg={active ? Theme.background : Theme.text}
                     attributes={active ? TextAttributes.BOLD : undefined}
                 >
-                    {item.titleText}
+                    {title}
                 </text>
-                {item.subtitleText && (
+                {subtitle && (
                     <text fg={active ? Theme.background : Theme.textMuted}>
                         {' '}
-                        {item.subtitleText}
+                        {subtitle}
                     </text>
                 )}
             </group>
@@ -649,6 +578,7 @@ export const List: ListType = (props) => {
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const inputRef = useRef<any>(null)
+    const descendantsContext = useListDescendants()
 
     const searchText =
         controlledSearchText !== undefined
@@ -664,54 +594,38 @@ export const List: ListType = (props) => {
             isDropdownOpen,
             setIsDropdownOpen,
             openDropdown,
+            selectedIndex,
         }),
-        [isDropdownOpen],
+        [isDropdownOpen, selectedIndex],
     )
 
-    // Extract and process items from children
-    const allItems = useMemo(() => extractItems(children), [children])
-
-    // Apply filtering
-    const filteredItems = useMemo(() => {
-        if (!filtering) return allItems
-        return filterItems(allItems, searchText)
-    }, [allItems, searchText, filtering])
-
-    // Group filtered items by section
-    const grouped = useMemo(
-        () => groupBySection(filteredItems),
-        [filteredItems],
-    )
-
-    // Calculate flat list for keyboard navigation
-    const flat = useMemo(() => filteredItems, [filteredItems])
-
-    // Mount the focused item's actions
-    const focusedActions = useMemo(() => {
-        const currentItem = flat[selectedIndex]
-        if (!currentItem || !currentItem.actions) return null
-        return currentItem.actions
-    }, [flat, selectedIndex])
-
-    // Reset selected index when items change
+    // Reset selected index when items change or selectedItemId changes
     useEffect(() => {
+        const items = Object.values(descendantsContext.map.current)
+            .filter(item => item.index !== -1)
+            .sort((a, b) => a.index - b.index)
+        
         if (selectedItemId) {
-            const index = flat.findIndex((item) => item.id === selectedItemId)
+            const index = items.findIndex((item) => item.props?.id === selectedItemId)
             if (index !== -1) {
                 setSelectedIndex(index)
                 return
             }
         }
         setSelectedIndex(0)
-    }, [flat, selectedItemId])
+    }, [children, selectedItemId])
 
     const move = (direction: -1 | 1) => {
+        const items = Object.values(descendantsContext.map.current)
+            .filter(item => item.index !== -1)
+            .sort((a, b) => a.index - b.index)
+        
+        if (items.length === 0) return
+        
         let next = selectedIndex + direction
-        if (next < 0) next = flat.length - 1
-        if (next >= flat.length) next = 0
+        if (next < 0) next = items.length - 1
+        if (next >= items.length) next = 0
         setSelectedIndex(next)
-
-        // Don't trigger onSelectionChange when just moving - only on Enter
     }
 
     // Handle keyboard navigation
@@ -732,12 +646,17 @@ export const List: ListType = (props) => {
 
         if (evt.name === 'up') move(-1)
         if (evt.name === 'down') move(1)
-        if (evt.name === 'return' && flat[selectedIndex]) {
-            const item = flat[selectedIndex]
+        if (evt.name === 'return') {
+            const items = Object.values(descendantsContext.map.current)
+                .filter(item => item.index !== -1)
+                .sort((a, b) => a.index - b.index)
+            
+            const currentItem = items[selectedIndex]
+            if (!currentItem?.props) return
 
             // If item has no actions, fallback to onSelectionChange
-            if (!item.actions && onSelectionChange) {
-                onSelectionChange(item.id || item.titleText)
+            if (!currentItem.props.actions && onSelectionChange) {
+                onSelectionChange(currentItem.props.id || currentItem.props.title)
             }
             // Actions will handle Enter key themselves when focused
         }
@@ -754,13 +673,23 @@ export const List: ListType = (props) => {
         }
     }
 
+    // Get focused item's actions from descendants
+    const focusedActions = (() => {
+        const items = Object.values(descendantsContext.map.current)
+            .filter(item => item.index !== -1)
+            .sort((a, b) => a.index - b.index)
+        const currentItem = items[selectedIndex]
+        return currentItem?.props?.actions || null
+    })()
+
     return (
         <ListContext.Provider value={listContextValue}>
-            <group style={{ flexDirection: 'column', flexGrow: 1 }}>
-                {/* Mount focused actions (invisible but handles keyboard) */}
-                {focusedActions && (
-                    <InFocus inFocus={true}>{focusedActions}</InFocus>
-                )}
+            <ListDescendantsProvider value={descendantsContext}>
+                <group style={{ flexDirection: 'column', flexGrow: 1 }}>
+                    {/* Mount focused actions (invisible but handles keyboard) */}
+                    {focusedActions && (
+                        <InFocus inFocus={true}>{focusedActions}</InFocus>
+                    )}
 
                 {/* Navigation title */}
                 {navigationTitle && (
@@ -807,78 +736,116 @@ export const List: ListType = (props) => {
                     {searchBarAccessory}
                 </box>
 
-                {/* List content */}
+                {/* List content - render children which will register themselves */}
                 <group style={{ marginTop: 1 }}>
                     {isLoading ? (
                         <box border={false} style={{ padding: 2 }}>
                             <text fg={Theme.textMuted}>Loading...</text>
                         </box>
-                    ) : flat.length === 0 ? (
-                        <box border={false} style={{ padding: 2 }}>
-                            <text fg={Theme.textMuted}>No results found</text>
-                        </box>
                     ) : (
                         <>
-                            <group>
-                                {grouped.map(
-                                    ([sectionTitle, items], groupIndex) => (
-                                        <group
-                                            key={`section-${groupIndex}`}
-                                            style={{ flexShrink: 0 }}
-                                        >
-                                            {sectionTitle && (
-                                                <box
-                                                    border={false}
-                                                    style={{
-                                                        paddingLeft: 1,
-                                                        paddingTop:
-                                                            groupIndex > 0
-                                                                ? 1
-                                                                : 0,
-                                                    }}
-                                                >
-                                                    <text
-                                                        fg={Theme.accent}
-                                                        attributes={
-                                                            TextAttributes.BOLD
-                                                        }
-                                                    >
-                                                        {sectionTitle}
-                                                    </text>
-                                                </box>
-                                            )}
-                                            {items.map((item) => (
-                                                <ListItemRow
-                                                    item={item}
-                                                    active={
-                                                        flat[selectedIndex] ===
-                                                        item
-                                                    }
-                                                    isShowingDetail={
-                                                        isShowingDetail
-                                                    }
-                                                />
-                                            ))}
-                                        </group>
-                                    ),
-                                )}
-                            </group>
+                            {/* Render children - they will register as descendants */}
+                            <ListItemsRenderer selectedIndex={selectedIndex} searchText={searchText} filtering={filtering} isShowingDetail={isShowingDetail}>
+                                {children}
+                            </ListItemsRenderer>
 
                             {/* Footer with keyboard shortcuts or toast */}
                             <ListFooter />
                         </>
                     )}
                 </group>
-            </group>
+                </group>
+            </ListDescendantsProvider>
         </ListContext.Provider>
     )
 }
 
+// Component to render list items and sections
+function ListItemsRenderer(props: {
+    children?: ReactNode
+    selectedIndex: number
+    searchText: string
+    filtering?: boolean | { keepSectionOrder: boolean }
+    isShowingDetail?: boolean
+}): any {
+    const { children, selectedIndex, searchText, filtering, isShowingDetail } = props
+    
+    // Simply render children - they handle their own registration and rendering
+    return (
+        <ListSectionContext.Provider value={{ searchText, filtering }}>
+            {children}
+        </ListSectionContext.Provider>
+    )
+}
+
+// Context for passing search/filter state to items
+interface ListSectionContextValue {
+    searchText: string
+    filtering?: boolean | { keepSectionOrder: boolean }
+    sectionTitle?: string
+}
+
+const ListSectionContext = createContext<ListSectionContextValue>({
+    searchText: '',
+    filtering: true,
+})
+
 const ListItem: ListItemType = (props) => {
-    // List.Item components are processed by their parent List component
-    // They don't render anything directly in the TUI context
-    // TODO: Support detail view rendering
-    return null
+    const listSectionContext = useContext(ListSectionContext)
+    const { searchText, filtering, sectionTitle } = listSectionContext
+    const listContext = useContext(ListContext)
+    
+    // Extract text values for filtering
+    const titleText = typeof props.title === 'string' ? props.title : props.title.value
+    const subtitleText = props.subtitle
+        ? typeof props.subtitle === 'string'
+            ? props.subtitle
+            : props.subtitle.value || ''
+        : undefined
+    
+    // Apply filtering logic here
+    const shouldHide = (() => {
+        if (!filtering || !searchText.trim()) return false
+        
+        const needle = searchText.toLowerCase().trim()
+        const searchableText = [
+            titleText,
+            subtitleText,
+            sectionTitle,
+            ...(props.keywords || []),
+        ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase()
+        
+        return !searchableText.includes(needle)
+    })()
+    
+    // Register as descendant
+    const index = useListItemDescendant({
+        id: props.id,
+        title: titleText,
+        actions: props.actions,
+        hidden: shouldHide,
+    })
+    
+    // Don't render if hidden
+    if (shouldHide) return null
+    
+    // Get selected index from parent List context
+    const selectedIndex = listContext?.selectedIndex ?? 0
+    const isActive = index === selectedIndex
+    
+    // Render the item row directly
+    return (
+        <ListItemRow
+            title={titleText}
+            subtitle={subtitleText}
+            accessories={props.accessories}
+            active={isActive}
+            isShowingDetail={props.detail !== undefined}
+        />
+    )
 }
 
 const ListItemDetail: ListItemDetailType = (props) => {
@@ -903,10 +870,7 @@ const ListDropdown: ListDropdownType = (props) => {
     const [dropdownValue, setDropdownValue] = useState(
         props.value || props.defaultValue || '',
     )
-    const [selectedIndex, setSelectedIndex] = useState(0)
-    const [items, setItems] = useState<
-        { value: string; title: string; icon?: any; section?: string }[]
-    >([])
+    const descendantsContext = useDropdownDescendants()
     const dialog = useDialog()
     const inFocus = useIsInFocus()
 
@@ -917,44 +881,23 @@ const ListDropdown: ListDropdownType = (props) => {
         }
     }, [props.value])
 
-    // Register/unregister item functions
-    const registerItem = (
-        value: string,
-        title: string,
-        icon?: any,
-        section?: string,
-    ) => {
-        setItems((prev) => [
-            ...prev.filter((i) => i.value !== value),
-            { value, title, icon, section },
-        ])
-    }
-
-    const unregisterItem = (value: string) => {
-        setItems((prev) => prev.filter((i) => i.value !== value))
-    }
-
     const dropdownContextValue = useMemo<DropdownContextValue>(
         () => ({
-            value: dropdownValue,
-            onChange: props.onChange,
-            selectedIndex,
-            setSelectedIndex,
-            items,
-            registerItem,
-            unregisterItem,
+            searchText: '',
+            filtering: props.filtering,
             currentSection: undefined,
         }),
-        [dropdownValue, props.onChange, selectedIndex, items],
+        [props.filtering],
     )
 
     // Open dropdown dialog when triggered
     useEffect(() => {
         if (isDropdownOpen && !dialog.stack.length) {
+            // Pass the children to the dialog to render them there
             dialog.push(
                 <ListDropdownDialog
                     {...props}
-                    items={items}
+                    items={[]} // Not used anymore
                     value={dropdownValue}
                     onChange={(newValue) => {
                         setDropdownValue(newValue)
@@ -969,36 +912,45 @@ const ListDropdown: ListDropdownType = (props) => {
                         setIsDropdownOpen(false)
                         dialog.clear()
                     }}
-                />,
+                >
+                    {props.children}
+                </ListDropdownDialog>,
                 'top-right',
             )
         }
-    }, [isDropdownOpen])
+    }, [isDropdownOpen, props.children])
 
-    // Get current selected item
-    const currentItem = items.find((item) => item.value === dropdownValue)
+    // Get current selected item from descendants
+    const currentItem = (() => {
+        const items = Object.values(descendantsContext.map.current)
+            .filter(item => item.index !== -1)
+            .map(item => item.props) as DropdownItemDescendant[]
+        return items.find((item) => item?.value === dropdownValue)
+    })()
 
     const value = currentItem?.title || dropdownValue || 'All'
     return (
-        <DropdownContext.Provider value={dropdownContextValue}>
-            {/* Render children to collect items - hidden */}
-            {props.children}
-            {/* Render dropdown UI */}
-            <box
-                key={value}
-                style={{
-                    paddingTop: 2,
-                    paddingLeft: 2,
-                    // minWidth: value.length + 4,
-                    flexDirection: 'row',
-                    flexShrink: 0,
-                }}
-            >
-                {/*<text >^p </text>*/}
-                <text fg={Theme.textMuted}>{value}</text>
-                <text fg={Theme.textMuted}> ▾</text>
-            </box>
-        </DropdownContext.Provider>
+        <DropdownDescendantsProvider value={descendantsContext}>
+            <DropdownContext.Provider value={dropdownContextValue}>
+                {/* Render children to collect items - they return null anyway */}
+                {props.children}
+                {/* Render dropdown UI */}
+                <box
+                    key={value}
+                    style={{
+                        paddingTop: 2,
+                        paddingLeft: 2,
+                        // minWidth: value.length + 4,
+                        flexDirection: 'row',
+                        flexShrink: 0,
+                    }}
+                >
+                    {/*<text >^p </text>*/}
+                    <text fg={Theme.textMuted}>{value}</text>
+                    <text fg={Theme.textMuted}> ▾</text>
+                </box>
+            </DropdownContext.Provider>
+        </DropdownDescendantsProvider>
     )
 }
 
@@ -1010,12 +962,22 @@ ListDropdown.Item = (props) => {
         return null
     }
 
-    const { registerItem, unregisterItem, currentSection } = dropdownContext
-
-    useEffect(() => {
-        registerItem(props.value, props.title, props.icon, currentSection)
-        return () => unregisterItem(props.value)
-    }, [props.value, props.title, props.icon, currentSection])
+    const { searchText, filtering, currentSection } = dropdownContext
+    
+    // Apply filtering logic
+    const shouldHide = (() => {
+        if (!filtering || !searchText.trim()) return false
+        const needle = searchText.toLowerCase()
+        return !props.title.toLowerCase().includes(needle)
+    })()
+    
+    // Register as descendant
+    useDropdownItemDescendant({
+        value: props.value,
+        title: props.title,
+        section: currentSection,
+        hidden: shouldHide,
+    })
 
     return null
 }
@@ -1046,8 +1008,39 @@ ListDropdown.Section = (props) => {
 
 List.Item = ListItem
 const ListSection = (props: SectionProps) => {
-    // List.Section components are processed by their parent List component
-    return null
+    const parentContext = useContext(ListSectionContext)
+    
+    // Create new context with section title
+    const sectionContextValue = useMemo(() => ({
+        ...parentContext,
+        sectionTitle: props.title,
+    }), [parentContext, props.title])
+    
+    return (
+        <>
+            {/* Render section title if provided */}
+            {props.title && (
+                <box
+                    border={false}
+                    style={{
+                        paddingLeft: 1,
+                        paddingTop: 1,
+                    }}
+                >
+                    <text
+                        fg={Theme.accent}
+                        attributes={TextAttributes.BOLD}
+                    >
+                        {props.title}
+                    </text>
+                </box>
+            )}
+            {/* Render children with section context */}
+            <ListSectionContext.Provider value={sectionContextValue}>
+                {props.children}
+            </ListSectionContext.Provider>
+        </>
+    )
 }
 
 List.Section = ListSection

@@ -24,6 +24,14 @@ opentui is the framework used to render the tui, using react.
 
 IMPORTANT! before starting every task ALWAYS read opentui docs with `curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/react/README.md`
 
+## React
+
+NEVER pass function or callbacks as dependencies of useEffect, this will very easily cause infinite loops if you forget to use useCallback
+
+NEVER use useCallback. it is useless if we never pass functions in useEffect dependencies
+
+Try to never use useEffect if possible. usually you can move logic directly in event handlers instead
+
 
 ## Porting a new Raycast component or feature
 
