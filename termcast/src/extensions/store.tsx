@@ -9,6 +9,7 @@ import { searchStoreListings } from '../store-api/search'
 import { fetchExtension } from '../store-api/extension'
 import { downloadExtension } from '../store-api/download'
 import { getStoreDirectory } from '../store'
+import { buildExtensionCommands } from '../build'
 import { logger } from '../logger'
 
 interface StoreListing {
@@ -50,8 +51,8 @@ function StoreSearch(): any {
             const response = await searchStoreListings({ query })
             return response.data
         },
-        
-        
+
+
         placeholderData: (previousData) => previousData, // Keep previous data while fetching
     })
 
@@ -138,15 +139,38 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
 
             fs.mkdirSync(extensionDir, { recursive: true })
 
+            // Write all files to the extension directory
             for (const file of files) {
                 const filePath = path.join(extensionDir, file.filename)
                 const fileDir = path.dirname(filePath)
-                
+
                 if (!fs.existsSync(fileDir)) {
                     fs.mkdirSync(fileDir, { recursive: true })
                 }
-                
+
                 fs.writeFileSync(filePath, file.buffer)
+            }
+
+            await showToast({
+                style: Toast.Style.Animated,
+                title: 'Building extension...',
+            })
+
+            // Build the extension commands to create bundles
+            try {
+                const buildResult = await buildExtensionCommands({
+                    extensionPath: extensionDir
+                })
+                logger.log(`Built ${buildResult.commands.length} commands for ${extension.name}`)
+            } catch (buildError: any) {
+                // Log build error but don't fail installation
+                logger.error(`Failed to build extension commands: ${buildError.message}`)
+                await showToast({
+                    style: Toast.Style.Animated,
+                    title: 'Warning',
+                    message: buildError?.message,
+                })
+                return
             }
 
             await showToast({
