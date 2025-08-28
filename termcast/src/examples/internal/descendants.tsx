@@ -11,15 +11,11 @@ const Menu = () => {
 
     const items = Object.values(context.map.current)
 
-    logger.log(items)
     return (
         <Descendants value={context}>
             <box>
                 <Item title='First Item' />
                 <Item title='Second Item' />
-                {items.map((x) => {
-                    return <text>{x.props?.title}</text>
-                })}
             </box>
         </Descendants>
     )
@@ -28,7 +24,7 @@ const Menu = () => {
 const Item = ({ title }: { title: string }) => {
     const index = useDescendant({ title })
 
-    return null
+    return <text>{title}</text>
 }
 
 renderWithProviders(<Menu />)
