@@ -1,5 +1,11 @@
 # Changelog
 
+## 2025-01-28 14:17
+
+- Replaced `better-sqlite3` with `@farjs/better-sqlite3-wrapper` for cross-runtime compatibility
+- Updated database initialization to use `prepare().run()` instead of `exec()` in cache.tsx and localstorage.tsx
+- Fixed ActionPanel component by adding proper context providers and removing legacy code
+
 ## 2025-08-26 21:00
 
 - Implement Clipboard API from @raycast/api
