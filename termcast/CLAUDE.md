@@ -102,3 +102,16 @@ To understand how to use these components read other files in the project. try t
 ## todos
 
 if you cannot port a real implementation for some raycast APIs and instead simulate a "fake" response, always add `// TODO` comments so i can easily find these later and implement them
+
+
+## zustand
+
+NEVER add zustand state setter methods. instead use useStore.setState to set state.
+
+you can use zustand state from @state.tsx also outside of React using `useStore.getState()`
+
+zustand already merges new partial state with the previous state. NEVER DO `useStore.setState({ ...useStore.getInitialState(), ... })` unless for resetting state
+
+## adding new core extensions
+
+when adding core extensions like a store extension that installs other extensions you should carefully manage @state.tsx state, setting it appropriately when navigating to another extension or command

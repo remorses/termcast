@@ -19,6 +19,7 @@ import os from 'node:os'
 import path from 'node:path'
 import fs from 'node:fs'
 import { execSync } from 'node:child_process'
+import { useStore } from './state'
 
 export interface Environment {
   appearance: "dark" | "light"
@@ -49,10 +50,6 @@ export interface LaunchProps<T extends Record<string, any> = Record<string, any>
 
 class EnvironmentImpl implements Environment {
   get appearance(): "dark" | "light" {
-    // Check for system appearance preference
-    if (process.env.TERMCAST_APPEARANCE) {
-      return process.env.TERMCAST_APPEARANCE as "dark" | "light"
-    }
     // Try to detect system theme on macOS
     if (process.platform === 'darwin') {
       try {
@@ -66,65 +63,77 @@ class EnvironmentImpl implements Environment {
   }
 
   get assetsPath(): string {
-    // Return the assets directory path
-    return process.env.TERMCAST_ASSETS_PATH || path.join(process.cwd(), 'assets')
+    const state = useStore.getState()
+    if (state.extensionPath) {
+      return path.join(state.extensionPath, 'assets')
+    }
+    // TODO: Fallback for non-dev mode extensions
+    return path.join(os.homedir(), '.termcast', 'assets')
   }
 
   get commandMode(): "view" | "no-view" | "menu-bar" {
-    return process.env.TERMCAST_COMMAND_MODE as any || 'view'
+    const state = useStore.getState()
+    if (state.currentCommandName && state.extensionPackageJson?.commands) {
+      const command = state.extensionPackageJson.commands.find(
+        cmd => cmd.name === state.currentCommandName
+      )
+      if (command) {
+        return command.mode
+      }
+    }
+    return 'view'
   }
 
   get commandName(): string {
-    // Get the command name from environment or package.json
-    return process.env.TERMCAST_COMMAND_NAME || process.argv[1]?.split('/').pop() || 'command'
+    const state = useStore.getState()
+    if (state.currentCommandName) {
+      return state.currentCommandName
+    }
+    return 'command'
   }
 
   get extensionName(): string {
-    // Try to read from package.json
-    try {
-      const packagePath = path.join(process.cwd(), 'package.json')
-      if (fs.existsSync(packagePath)) {
-        const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
-        return pkg.name || 'termcast-extension'
-      }
-    } catch {
-      // Ignore errors
+    const state = useStore.getState()
+    if (state.extensionPackageJson?.name) {
+      return state.extensionPackageJson.name
     }
-    return process.env.TERMCAST_EXTENSION_NAME || 'termcast-extension'
+    if (state.extensionPath) {
+      return path.basename(state.extensionPath)
+    }
+    return 'termcast-extension'
   }
 
   get isDevelopment(): boolean {
-    return process.env.NODE_ENV === 'development' || process.env.TERMCAST_ENV === 'development' || false
+    const state = useStore.getState()
+    // We're in development mode if devElement is set
+    return state.devElement !== null
   }
 
   get launchType(): LaunchType {
-    const type = process.env.TERMCAST_LAUNCH_TYPE
-    return type === "background" ? LaunchType.Background : LaunchType.UserInitiated
+    // TODO: Support background commands when implemented
+    return LaunchType.UserInitiated
   }
 
   get ownerOrAuthorName(): string {
-    // Try to read from package.json
-    try {
-      const packagePath = path.join(process.cwd(), 'package.json')
-      if (fs.existsSync(packagePath)) {
-        const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
-        return pkg.author?.name || pkg.author || 'Unknown'
-      }
-    } catch {
-      // Ignore errors
+    const state = useStore.getState()
+    const pkg = state.extensionPackageJson
+    if (pkg?.author) {
+      return pkg.author
     }
-    return process.env.TERMCAST_AUTHOR || 'Unknown'
+    if (pkg?.owner) {
+      return pkg.owner
+    }
+    return 'Unknown'
   }
 
   get raycastVersion(): string {
     // Return a version that indicates termcast compatibility
-    return process.env.TERMCAST_VERSION || '1.0.0-termcast'
+    return '1.0.0-termcast'
   }
 
   get supportPath(): string {
     // Create a support directory in the user's data directory
-    const baseDir = process.env.TERMCAST_SUPPORT_PATH || 
-      path.join(os.homedir(), '.termcast', 'support', this.extensionName)
+    const baseDir = path.join(os.homedir(), '.termcast', 'support', this.extensionName)
     
     // Ensure the directory exists
     if (!fs.existsSync(baseDir)) {
@@ -135,7 +144,8 @@ class EnvironmentImpl implements Environment {
   }
 
   get textSize(): "medium" | "large" {
-    return process.env.TERMCAST_TEXT_SIZE as any || 'medium'
+    // TODO: Make this configurable via preferences
+    return 'medium'
   }
 
   // Alias for appearance to match Raycast API

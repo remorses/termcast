@@ -92,8 +92,7 @@ export class Toast {
   }
 
   async hide(): Promise<void> {
-    const setToast = useStore.getState().setToast
-    setToast(null)
+    useStore.setState({ toast: null })
     if (this.callbacks.onHide) {
       this.callbacks.onHide()
     }
@@ -269,16 +268,17 @@ let currentToastInstance: Toast | null = null
 
 function showToastInternal(toast: Toast): void {
   currentToastInstance = toast
-  const setToast = useStore.getState().setToast
-  setToast(
-    <ToastComponent
-      toast={toast}
-      onHide={() => {
-        setToast(null)
-        currentToastInstance = null
-      }}
-    />
-  )
+  useStore.setState({ 
+    toast: (
+      <ToastComponent
+        toast={toast}
+        onHide={() => {
+          useStore.setState({ toast: null })
+          currentToastInstance = null
+        }}
+      />
+    )
+  })
 }
 
 export async function showToast(options: Toast.Options): Promise<Toast>
