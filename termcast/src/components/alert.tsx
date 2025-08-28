@@ -4,6 +4,7 @@ import { Theme } from '@termcast/api/src/theme'
 import { TextAttributes } from '@opentui/core'
 import { LocalStorage } from '@termcast/api/src/localstorage'
 import { useStore } from '@termcast/api/src/state'
+import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
 
 export namespace Alert {
   export interface Options {
@@ -40,8 +41,11 @@ interface AlertComponentProps {
 
 function AlertComponent({ options, onConfirm, onDismiss }: AlertComponentProps): any {
   const [rememberChoice, setRememberChoice] = useState(false)
+  const inFocus = useIsInFocus()
 
   useKeyboard((evt) => {
+    if (!inFocus) return
+    
     if (evt.name === 'enter') {
       if (options.rememberUserChoice && rememberChoice) {
         LocalStorage.setItem(`alert-remember-${options.title}`, 'true')
