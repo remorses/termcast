@@ -150,3 +150,35 @@ useKeyboard((evt) => {
 
 
 ```
+## descendants pattern and map.current
+
+IMPORTANT: When using the descendants pattern from src/descendants.tsx, the `map.current` from `useDescendants()` is NOT reactive and CANNOT be used during render. It can only be accessed inside:
+- useEffect or useLayoutEffect to handle effects
+- Event handlers (useKeyboard, onChange, etc)
+
+Example of WRONG usage (accessing map.current during render):
+```tsx
+// WRONG - this will not update when descendants change
+const items = Object.values(descendantsContext.map.current)
+```
+
+Example of CORRECT usage (accessing map.current inside an event handler, such as with useKeyboard, see @src/examples/internal/descendants.tsx):
+```tsx
+import { useKeyboard } from '@opentui/react'
+import { useDescendants } from '@termcast/api/src/descendants'
+
+const { map } = useDescendants()
+
+useKeyboard((evt) => {
+    // Access map.current during useEffect or event handlers, NOT during render
+    const items = Object.values(map.current)
+        .filter(item => item.index !== -1)
+        .sort((a, b) => a.index - b.index)
+        .map(item => item.props)
+    // Handle your logic with items, e.g. navigating with up/down
+})
+```
+
+You CANNOT use .map.current to render items of a list for example. Instead move the rendering in the items themselves! To handle filtering render null in the item component and pass the search query via context
+
+read file @src/examples/internal/descendants.tsx for a real usage example

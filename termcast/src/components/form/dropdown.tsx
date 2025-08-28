@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, createContext, useContext, useMemo, useRef, useLayoutEffect } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
@@ -8,6 +8,7 @@ import { logger } from '@termcast/api/src/logger'
 import { Theme } from '@termcast/api/src/theme'
 import { Dropdown as BaseDropdown } from '@termcast/api/src/components/dropdown'
 import { useDialog } from '@termcast/api/src/internal/dialog'
+import { createDescendants } from '@termcast/api/src/descendants'
 
 export interface DropdownProps extends FormItemProps<string> {
     placeholder?: string
@@ -33,12 +34,49 @@ interface DropdownType {
     Section: (props: DropdownSectionProps) => any
 }
 
+// Create descendants for form dropdown items - minimal fields
+interface FormDropdownItemDescendant {
+    value: string
+    title: string
+    icon?: string
+}
+
+const { DescendantsProvider: FormDropdownDescendantsProvider, useDescendants: useFormDropdownDescendants, useDescendant: useFormDropdownItemDescendant } = createDescendants<FormDropdownItemDescendant>()
+
+// Context for section information
+interface FormDropdownContextValue {
+    currentSection?: string
+}
+
+const FormDropdownContext = createContext<FormDropdownContextValue>({})
+
 const DropdownItem = (props: DropdownItemProps) => {
+    const context = useContext(FormDropdownContext)
+    
+    // Register as descendant
+    useFormDropdownItemDescendant({
+        value: props.value,
+        title: props.title,
+        icon: props.icon,
+    })
+    
     return null
 }
 
 const DropdownSection = (props: DropdownSectionProps) => {
-    return null
+    const parentContext = useContext(FormDropdownContext)
+    
+    // Create new context with section title
+    const sectionContextValue = useMemo(() => ({
+        ...parentContext,
+        currentSection: props.title,
+    }), [parentContext, props.title])
+    
+    return (
+        <FormDropdownContext.Provider value={sectionContextValue}>
+            {props.children}
+        </FormDropdownContext.Provider>
+    )
 }
 
 const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, ref) => {
@@ -47,85 +85,82 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
     const [isOpen, setIsOpen] = useState(false)
     const isFocused = focusedField === props.id
     const dialog = useDialog()
-
-    // Parse children to extract items for display
-    const items: DropdownItemProps[] = []
-    const sections: { title?: string; items: DropdownItemProps[] }[] = []
-    let currentSection: { title?: string; items: DropdownItemProps[] } | null = null
-
-    React.Children.forEach(props.children, (child: any) => {
-        if (child?.type === DropdownSection) {
-            if (currentSection) {
-                sections.push(currentSection)
-            }
-            currentSection = { title: child.props.title, items: [] }
-            React.Children.forEach(child.props.children, (item: any) => {
-                if (item?.type === DropdownItem) {
-                    currentSection!.items.push(item.props)
-                }
-            })
-        } else if (child?.type === DropdownItem) {
-            if (currentSection) {
-                currentSection.items.push(child.props)
-            } else {
-                items.push(child.props)
-            }
-        }
-    })
-
-    if (currentSection) {
-        sections.push(currentSection)
-    }
-
-    const allItems = [...items, ...sections.flatMap(s => s.items)]
-
-    // Convert parsed items back to BaseDropdown compatible children
-    const dropdownChildren = (
-        <>
-            {items.map(item => (
-                <BaseDropdown.Item key={item.value} value={item.value} title={item.title} icon={item.icon} />
-            ))}
-            {sections.map((section, idx) => (
-                <BaseDropdown.Section key={`section-${idx}`} title={section.title}>
-                    {section.items.map(item => (
-                        <BaseDropdown.Item key={item.value} value={item.value} title={item.title} icon={item.icon} />
-                    ))}
-                </BaseDropdown.Section>
-            ))}
-        </>
-    )
+    const descendantsContext = useFormDropdownDescendants()
 
     return (
-        <Controller
-            name={props.id}
-            control={control}
-            defaultValue={props.defaultValue || props.value || ''}
-            render={({ field, fieldState, formState }) => {
-                const selectedItem = allItems.find(item => item.value === field.value)
+        <FormDropdownDescendantsProvider value={descendantsContext}>
+            <FormDropdownContext.Provider value={{}}>
+                {/* Render children to collect items (they return null but register) */}
+                {props.children}
+            </FormDropdownContext.Provider>
+            
+            <Controller
+                name={props.id}
+                control={control}
+                defaultValue={props.defaultValue || props.value || ''}
+                render={({ field, fieldState, formState }) => {
+                    // Store selected title for display
+                    const [selectedTitle, setSelectedTitle] = React.useState<string>('')
 
                 const handleSelect = (value: string) => {
                     field.onChange(value)
                     setIsOpen(false)
                     dialog.clear()
+                    
+                    // Find and store the selected item's title
+                    const items = Object.values(descendantsContext.map.current)
+                        .filter((item: any) => item.index !== -1)
+                        .map((item: any) => item.props) as FormDropdownItemDescendant[]
+                    const selectedItem = items.find(item => item.value === value)
+                    if (selectedItem) {
+                        setSelectedTitle(selectedItem.title)
+                    }
+                    
                     if (props.onChange) {
                         props.onChange(value)
                     }
                 }
 
-                const openDropdown = () => {
-                    setIsOpen(true)
-                    dialog.push(
-                        <BaseDropdown
-                            value={field.value}
-                            onChange={handleSelect}
-                            placeholder={props.placeholder}
-                            tooltip={props.title}
-                        >
-                            {dropdownChildren}
-                        </BaseDropdown>,
-                        'center'
-                    )
-                }
+                    const openDropdown = () => {
+                        setIsOpen(true)
+                        
+                        // Access map.current ONLY in event handler
+                        const items = Object.values(descendantsContext.map.current)
+                            .filter((item: any) => item.index !== -1)
+                            .sort((a: any, b: any) => a.index - b.index)
+                            .map((item: any) => item.props) as FormDropdownItemDescendant[]
+                        
+                        // Update selected title if field has a value
+                        if (field.value) {
+                            const selectedItem = items.find(item => item.value === field.value)
+                            if (selectedItem) {
+                                setSelectedTitle(selectedItem.title)
+                            }
+                        }
+                        
+                        // Build BaseDropdown children from descendants
+                        const dropdownChildren = items.map(item => (
+                            <BaseDropdown.Item 
+                                key={item.value} 
+                                value={item.value} 
+                                title={item.title} 
+                                icon={item.icon} 
+                            />
+                        ))
+                        
+                        dialog.push(
+                            <BaseDropdown
+                                value={field.value}
+                                onChange={handleSelect}
+                                placeholder={props.placeholder}
+                                tooltip={props.title}
+                                filtering={true}
+                            >
+                                {dropdownChildren}
+                            </BaseDropdown>,
+                            'center'
+                        )
+                    }
 
                 // Handle keyboard navigation when focused
                 useKeyboard((evt) => {
@@ -148,8 +183,8 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
                                 padding={1}
                                 backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
                             >
-                                <text fg={selectedItem ? Theme.text : Theme.textMuted}>
-                                    {selectedItem ? selectedItem.title : (props.placeholder || 'Select...')}
+                                <text fg={selectedTitle ? Theme.text : Theme.textMuted}>
+                                    {selectedTitle || props.placeholder || 'Select...'}
                                     {isFocused ? ' ▼' : ''}
                                 </text>
                             </box>
@@ -164,9 +199,10 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
                                 </text>
                             )}
                         </box>
-                ) as React.ReactElement
-            }}
-        />
+                    ) as React.ReactElement
+                }}
+            />
+        </FormDropdownDescendantsProvider>
     )
 })
 

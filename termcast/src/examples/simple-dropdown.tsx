@@ -17,6 +17,7 @@ const App: any = () => {
             onChange={handleChange}
             value={selectedValue}
             placeholder="Search drinks..."
+            filtering
             storeValue={true}
         >
             <Dropdown.Section title="Alcoholic Beverages">

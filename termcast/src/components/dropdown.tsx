@@ -1,12 +1,11 @@
 import React, {
     ReactNode,
-    Children,
-    isValidElement,
     useState,
     useEffect,
     useMemo,
     useRef,
-    Fragment,
+    createContext,
+    useContext,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
 import { TextAttributes } from '@opentui/core'
@@ -14,6 +13,7 @@ import { Theme } from '@termcast/api/src/theme'
 import { logger } from '@termcast/api/src/logger'
 import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
 import { CommonProps } from '@termcast/api/src/utils'
+import { createDescendants } from '@termcast/api/src/descendants'
 
 // SearchBarInterface provides the common search bar props
 interface SearchBarInterface {
@@ -48,77 +48,29 @@ export interface DropdownSectionProps extends CommonProps {
     children?: ReactNode
 }
 
-interface ProcessedItem extends DropdownItemProps {
-    originalIndex: number
-    section?: string
+// Create descendants for Dropdown items - minimal fields needed
+interface DropdownItemDescendant {
+    value: string
+    title: string
+    hidden?: boolean
 }
 
-// Helper function to extract items from children
-function extractItems(children: ReactNode): ProcessedItem[] {
-    const items: ProcessedItem[] = []
-    let index = 0
+const { DescendantsProvider: DropdownDescendantsProvider, useDescendants: useDropdownDescendants, useDescendant: useDropdownItemDescendant } = createDescendants<DropdownItemDescendant>()
 
-    const processChildren = (nodes: ReactNode, currentSection?: string) => {
-        Children.forEach(nodes, (child) => {
-            if (!isValidElement(child)) return
-
-            if (child.type === DropdownItem) {
-                const props = child.props as DropdownItemProps
-                items.push({
-                    ...props,
-                    section: currentSection,
-                    originalIndex: index++,
-                })
-            } else if (child.type === DropdownSection) {
-                const props = child.props as DropdownSectionProps
-                processChildren(props.children, props.title)
-            } else if (child.type === Fragment || child.type === React.Fragment) {
-                // Handle Fragment components recursively
-                processChildren((child.props as any).children, currentSection)
-            }
-        })
-    }
-
-    processChildren(children)
-    return items
+// Context for passing data to dropdown items
+interface DropdownContextValue {
+    searchText: string
+    filtering?: boolean | { keepSectionOrder: boolean }
+    currentSection?: string
+    selectedIndex: number
+    currentValue?: string
 }
 
-// Group items by section
-function groupBySection(
-    items: ProcessedItem[],
-): [string | undefined, ProcessedItem[]][] {
-    const grouped: Map<string | undefined, ProcessedItem[]> = new Map()
-
-    items.forEach((item) => {
-        const section = item.section
-        if (!grouped.has(section)) {
-            grouped.set(section, [])
-        }
-        grouped.get(section)!.push(item)
-    })
-
-    return Array.from(grouped.entries())
-}
-
-// Filter items based on search query
-function filterItems(
-    items: ProcessedItem[],
-    query: string,
-    filtering?: boolean | { keepSectionOrder: boolean },
-): ProcessedItem[] {
-    if (!query.trim() || filtering === false) return items
-
-    const needle = query.toLowerCase().trim()
-
-    return items.filter((item) => {
-        const searchableText = [item.title, ...(item.keywords || [])]
-            .filter(Boolean)
-            .join(' ')
-            .toLowerCase()
-
-        return searchableText.includes(needle)
-    })
-}
+const DropdownContext = createContext<DropdownContextValue>({
+    searchText: '',
+    filtering: true,
+    selectedIndex: 0,
+})
 
 interface DropdownType {
     (props: DropdownProps): any
@@ -136,7 +88,7 @@ const Dropdown: DropdownType = (props) => {
         placeholder = 'Search…',
         storeValue,
         isLoading,
-        filtering,
+        filtering=true,
         onSearchTextChange,
         throttle,
     } = props
@@ -149,20 +101,18 @@ const Dropdown: DropdownType = (props) => {
     const inputRef = useRef<any>(null)
     const lastSearchTextRef = useRef('')
     const throttleTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
+    const descendantsContext = useDropdownDescendants()
 
-    // Extract and process items from children
-    const allItems = useMemo(() => extractItems(children), [children])
-
-    // Filter items based on search
-    const filteredItems = useMemo(
-        () => filterItems(allItems, searchText, filtering),
-        [allItems, searchText, filtering],
-    )
-
-    // Group filtered items by section
-    const grouped = useMemo(
-        () => groupBySection(filteredItems),
-        [filteredItems],
+    // Create context value for children
+    const contextValue = useMemo<DropdownContextValue>(
+        () => ({
+            searchText,
+            filtering,
+            currentSection: undefined,
+            selectedIndex: selected,
+            currentValue,
+        }),
+        [searchText, filtering, selected, currentValue],
     )
 
     // Update controlled value
@@ -197,13 +147,16 @@ const Dropdown: DropdownType = (props) => {
         }
     }
 
-    // Calculate flat list for keyboard navigation
-    const flat = useMemo(() => filteredItems, [filteredItems])
-
     const move = (direction: -1 | 1) => {
+        const items = Object.values(descendantsContext.map.current)
+            .filter((item: any) => item.index !== -1)
+            .sort((a: any, b: any) => a.index - b.index)
+
+        if (items.length === 0) return
+
         let next = selected + direction
-        if (next < 0) next = flat.length - 1
-        if (next >= flat.length) next = 0
+        if (next < 0) next = items.length - 1
+        if (next >= items.length) next = 0
         setSelected(next)
     }
 
@@ -231,93 +184,78 @@ const Dropdown: DropdownType = (props) => {
         if (evt.name === 'down') {
             move(1)
         }
-        if (evt.name === 'return' && flat[selected]) {
-            selectItem(flat[selected].value)
+        if (evt.name === 'return') {
+            const items = Object.values(descendantsContext.map.current)
+                .filter((item: any) => item.index !== -1)
+                .sort((a: any, b: any) => a.index - b.index)
+
+            const currentItem = items[selected]
+            if (currentItem?.props) {
+                selectItem((currentItem.props as DropdownItemDescendant).value)
+            }
         }
     })
 
     return (
-        <group>
-            <group style={{ paddingLeft: 2, paddingRight: 2 }}>
-                <group style={{ paddingLeft: 1, paddingRight: 1 }}>
-                    <group
+        <DropdownDescendantsProvider value={descendantsContext}>
+            <DropdownContext.Provider value={contextValue}>
+                <group>
+                    <group style={{ paddingLeft: 2, paddingRight: 2 }}>
+                        <group style={{ paddingLeft: 1, paddingRight: 1 }}>
+                            <group
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                }}
+                            >
+                                <text attributes={TextAttributes.BOLD}>{tooltip}</text>
+                                <text fg={Theme.textMuted}>esc</text>
+                            </group>
+                            <group style={{ paddingTop: 1, paddingBottom: 1 }}>
+                                <input
+                                    ref={inputRef}
+                                    onInput={(value) => handleSearchTextChange(value)}
+                                    placeholder={placeholder}
+                                    focused={inFocus}
+                                    value={searchText}
+                                    focusedBackgroundColor={Theme.backgroundPanel}
+                                    cursorColor={Theme.primary}
+                                    focusedTextColor={Theme.textMuted}
+                                />
+                            </group>
+                        </group>
+                        <group style={{ paddingBottom: 1 }}>
+                            {/* Render children - they will register as descendants and render themselves */}
+                            {children}
+                        </group>
+                        {isLoading && (
+                            <group style={{ paddingLeft: 1 }}>
+                                <text fg={Theme.textMuted}>Loading...</text>
+                            </group>
+                        )}
+                    </group>
+                    <box
+                        border={false}
                         style={{
+                            paddingRight: 2,
+                            paddingLeft: 3,
+                            paddingBottom: 1,
+                            paddingTop: 1,
                             flexDirection: 'row',
-                            justifyContent: 'space-between',
                         }}
                     >
-                        <text attributes={TextAttributes.BOLD}>{tooltip}</text>
-                        <text fg={Theme.textMuted}>esc</text>
-                    </group>
-                    <group style={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <input
-                            ref={inputRef}
-                            onInput={(value) => handleSearchTextChange(value)}
-                            placeholder={placeholder}
-                            focused={inFocus}
-                            value={searchText}
-                            focusedBackgroundColor={Theme.backgroundPanel}
-                            cursorColor={Theme.primary}
-                            focusedTextColor={Theme.textMuted}
-                        />
-                    </group>
+                        <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                            ↵
+                        </text>
+                        <text fg={Theme.textMuted}> select</text>
+                        <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                            {'   '}↑↓
+                        </text>
+                        <text fg={Theme.textMuted}> navigate</text>
+                    </box>
                 </group>
-                <group style={{ paddingBottom: 1 }}>
-                    {grouped.map(([section, items], groupIndex) => (
-                        <group
-                            key={`group-${groupIndex}`}
-                            style={{ paddingTop: 1, flexShrink: 0 }}
-                        >
-                            {section && (
-                                <group style={{ paddingLeft: 1 }}>
-                                    <text
-                                        fg={Theme.accent}
-                                        attributes={TextAttributes.BOLD}
-                                    >
-                                        {section}
-                                    </text>
-                                </group>
-                            )}
-                            {items.map((item) => (
-                                <ItemOption
-                                    title={item.title}
-                                    icon={item.icon}
-                                    active={
-                                        flat[selected]?.value === item.value
-                                    }
-                                    current={item.value === currentValue}
-                                    label={item.label}
-                                />
-                            ))}
-                        </group>
-                    ))}
-                </group>
-                {isLoading && (
-                    <group style={{ paddingLeft: 1 }}>
-                        <text fg={Theme.textMuted}>Loading...</text>
-                    </group>
-                )}
-            </group>
-            <box
-                border={false}
-                style={{
-                    paddingRight: 2,
-                    paddingLeft: 3,
-                    paddingBottom: 1,
-                    paddingTop: 1,
-                    flexDirection: 'row',
-                }}
-            >
-                <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                    ↵
-                </text>
-                <text fg={Theme.textMuted}> select</text>
-                <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                    {'   '}↑↓
-                </text>
-                <text fg={Theme.textMuted}> navigate</text>
-            </box>
-        </group>
+            </DropdownContext.Provider>
+        </DropdownDescendantsProvider>
     )
 }
 
@@ -370,16 +308,78 @@ function ItemOption(props: {
     )
 }
 
-const DropdownItem: (props: DropdownItemProps) => any = () => {
-    // This component doesn't render anything directly
-    // It's processed by the parent Dropdown component
-    return null
+const DropdownItem: (props: DropdownItemProps) => any = (props) => {
+    const context = useContext(DropdownContext)
+    if (!context) return null
+
+    const { searchText, filtering, currentSection, selectedIndex, currentValue } = context
+
+    // Apply filtering logic
+    const shouldHide = (() => {
+        if (!filtering || !searchText.trim()) return false
+        const needle = searchText.toLowerCase().trim()
+        const searchableText = [props.title, ...(props.keywords || [])]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase()
+        return !searchableText.includes(needle)
+    })()
+
+    // Register as descendant
+    const index = useDropdownItemDescendant({
+        value: props.value,
+        title: props.title,
+        hidden: shouldHide,
+    })
+
+    // Don't render if hidden
+    if (shouldHide) return null
+
+    // Determine if active (index will be -1 if hidden)
+    const isActive = index === selectedIndex && index !== -1
+    const isCurrent = props.value === currentValue
+
+    // Render the item directly
+    return (
+        <ItemOption
+            title={props.title}
+            icon={props.icon}
+            active={isActive}
+            current={isCurrent}
+            label={props.label}
+        />
+    )
 }
 
-const DropdownSection: (props: DropdownSectionProps) => any = () => {
-    // This component doesn't render anything directly
-    // It's processed by the parent Dropdown component
-    return null
+const DropdownSection: (props: DropdownSectionProps) => any = (props) => {
+    const parentContext = useContext(DropdownContext)
+    if (!parentContext) return null
+
+    // Create new context with section title
+    const sectionContextValue = useMemo(() => ({
+        ...parentContext,
+        currentSection: props.title,
+    }), [parentContext, props.title])
+
+    return (
+        <>
+            {/* Render section title if provided */}
+            {props.title && (
+                <group style={{ paddingTop: 1, paddingLeft: 1 }}>
+                    <text
+                        fg={Theme.accent}
+                        attributes={TextAttributes.BOLD}
+                    >
+                        {props.title}
+                    </text>
+                </group>
+            )}
+            {/* Render children with section context */}
+            <DropdownContext.Provider value={sectionContextValue}>
+                {props.children}
+            </DropdownContext.Provider>
+        </>
+    )
 }
 
 Dropdown.Item = DropdownItem

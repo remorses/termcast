@@ -1,4 +1,4 @@
-import React, { type ReactNode, type ReactElement, Fragment } from "react"
+import React, { type ReactNode, type ReactElement, createContext, useContext, useMemo } from "react"
 import { useKeyboard } from "@opentui/react"
 import { Theme } from "@termcast/api/src/theme"
 import { copyToClipboard, openInBrowser, openFile, pasteContent } from "@termcast/api/src/action-utils"
@@ -7,6 +7,7 @@ import { Dropdown } from "@termcast/api/src/components/dropdown"
 import { useIsInFocus } from "@termcast/api/src/internal/focus-context"
 import { CommonProps } from "@termcast/api/src/utils"
 import { showToast, Toast } from "@termcast/api/src/toast"
+import { createDescendants } from "@termcast/api/src/descendants"
 
 export enum ActionStyle {
   Regular = "regular",
@@ -71,33 +72,132 @@ interface PasteProps extends Omit<ActionProps, 'onAction'> {
   onPaste?: (content: string | number) => void
 }
 
+// Create descendants for Actions - minimal fields needed
+interface ActionDescendant {
+  title: string
+  shortcut?: { modifiers?: string[]; key: string } | null
+  execute: () => void
+}
+
+const { DescendantsProvider: ActionDescendantsProvider, useDescendants: useActionDescendants, useDescendant: useActionDescendant } = createDescendants<ActionDescendant>()
+
+// Context for ActionPanel
+interface ActionPanelContextValue {
+  currentSection?: string
+}
+
+const ActionPanelContext = createContext<ActionPanelContextValue>({})
+
 const Action: ActionType = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title,
+    shortcut: props.shortcut,
+    execute: () => props.onAction?.()
+  })
+
   // Action components don't render anything visible
-  // They're just containers for the action data
   return null
 }
 
 Action.Push = (props) => {
+  const dialog = useDialog()
+
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title,
+    shortcut: props.shortcut,
+    execute: () => {
+      props.onPush?.()
+      // Push the target to dialog if needed
+      if (props.target) {
+        dialog.push(props.target, 'center')
+      }
+    }
+  })
+
   // Action components don't render anything visible
   return null
 }
 
 Action.CopyToClipboard = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title,
+    shortcut: props.shortcut,
+    execute: () => {
+      copyToClipboard(props.content, props.concealed)
+      props.onCopy?.(props.content)
+      const displayContent = props.concealed ? "Concealed content" : String(props.content)
+      showToast({
+        title: "Copied to Clipboard",
+        message: displayContent.length > 50 ? displayContent.substring(0, 50) + "..." : displayContent,
+        style: Toast.Style.Success
+      })
+    }
+  })
+
   // Action components don't render anything visible
   return null
 }
 
 Action.OpenInBrowser = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title,
+    shortcut: props.shortcut,
+    execute: () => {
+      openInBrowser(props.url)
+      props.onOpen?.(props.url)
+      showToast({
+        title: "Opening in Browser",
+        message: props.url,
+        style: Toast.Style.Success
+      })
+    }
+  })
+
   // Action components don't render anything visible
   return null
 }
 
 Action.Open = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title,
+    shortcut: props.shortcut,
+    execute: () => {
+      openFile(props.target, props.application)
+      props.onOpen?.(props.target)
+      const appText = props.application ? ` with ${props.application}` : ""
+      showToast({
+        title: `Opening File${appText}`,
+        message: props.target,
+        style: Toast.Style.Success
+      })
+    }
+  })
+
   // Action components don't render anything visible
   return null
 }
 
 Action.Paste = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title,
+    shortcut: props.shortcut,
+    execute: () => {
+      pasteContent(props.content)
+      props.onPaste?.(props.content)
+      showToast({
+        title: "Content Pasted",
+        message: String(props.content).length > 50 ? String(props.content).substring(0, 50) + "..." : String(props.content),
+        style: Toast.Style.Success
+      })
+    }
+  })
+
   // Action components don't render anything visible
   return null
 }
@@ -117,30 +217,6 @@ interface ActionPanelSubmenuProps extends ActionPanelSectionProps {
   } | null
 }
 
-// Type guards for action types
-function isRegularAction(element: ReactElement, props: any): props is ActionProps {
-  return element.type === Action
-}
-
-function isCopyToClipboardAction(element: ReactElement, props: any): props is CopyToClipboardProps {
-  return element.type === Action.CopyToClipboard
-}
-
-function isOpenInBrowserAction(element: ReactElement, props: any): props is OpenInBrowserProps {
-  return element.type === Action.OpenInBrowser
-}
-
-function isOpenAction(element: ReactElement, props: any): props is OpenProps {
-  return element.type === Action.Open
-}
-
-function isPasteAction(element: ReactElement, props: any): props is PasteProps {
-  return element.type === Action.Paste
-}
-
-function isPushAction(element: ReactElement, props: any): props is PushActionProps {
-  return element.type === Action.Push
-}
 
 // Helper function to format shortcuts for display
 function formatShortcut(shortcut?: { modifiers?: string[]; key: string } | null): string {
@@ -172,90 +248,18 @@ function formatShortcut(shortcut?: { modifiers?: string[]; key: string } | null)
     .join('')
 }
 
-// Helper function to collect all actions from children
-function collectAllActions(children: ReactNode): Array<{
-  title: string
-  shortcut?: { modifiers?: string[]; key: string } | null
-  execute: () => void
-}> {
-  const actions: Array<{
-    title: string
-    shortcut?: { modifiers?: string[]; key: string } | null
-    execute: () => void
-  }> = []
-
-  const processChildren = (nodes: ReactNode) => {
-    React.Children.forEach(nodes, (child) => {
-      if (!React.isValidElement(child)) return
-
-      const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
-
-      if (actionTypes.includes(child.type as any)) {
-        const props = child.props as any
-        const execute = () => {
-          if (isRegularAction(child, props)) {
-            props.onAction?.()
-          } else if (isCopyToClipboardAction(child, props)) {
-            copyToClipboard(props.content, props.concealed)
-            props.onCopy?.(props.content)
-            const displayContent = props.concealed ? "Concealed content" : String(props.content)
-            showToast({
-              title: "Copied to Clipboard",
-              message: displayContent.length > 50 ? displayContent.substring(0, 50) + "..." : displayContent,
-              style: Toast.Style.Success
-            })
-          } else if (isOpenInBrowserAction(child, props)) {
-            openInBrowser(props.url)
-            props.onOpen?.(props.url)
-            showToast({
-              title: "Opening in Browser",
-              message: props.url,
-              style: Toast.Style.Success
-            })
-          } else if (isOpenAction(child, props)) {
-            openFile(props.target, props.application)
-            props.onOpen?.(props.target)
-            const appText = props.application ? ` with ${props.application}` : ""
-            showToast({
-              title: `Opening File${appText}`,
-              message: props.target,
-              style: Toast.Style.Success
-            })
-          } else if (isPasteAction(child, props)) {
-            pasteContent(props.content)
-            props.onPaste?.(props.content)
-            showToast({
-              title: "Content Pasted",
-              message: String(props.content).length > 50 ? String(props.content).substring(0, 50) + "..." : String(props.content),
-              style: Toast.Style.Success
-            })
-          } else if (isPushAction(child, props)) {
-            props.onPush?.()
-          }
-        }
-
-        actions.push({
-          title: props.title,
-          shortcut: props.shortcut,
-          execute
-        })
-      } else if (child.type === ActionPanel.Section || child.type === ActionPanel.Submenu) {
-        processChildren((child.props as any).children)
-      } else if (child.type === Fragment || child.type === React.Fragment) {
-        // Handle Fragment components
-        processChildren((child.props as any).children)
-      }
-    })
-  }
-
-  processChildren(children)
-  return actions
-}
 
 const ActionPanel: ActionPanelType = (props) => {
   const { children } = props
   const dialog = useDialog()
   const inFocus = useIsInFocus()
+  const descendantsContext = useActionDescendants()
+
+  // Create context value
+  const contextValue = useMemo<ActionPanelContextValue>(
+    () => ({ currentSection: undefined }),
+    [],
+  )
 
   // Handle keyboard events when this ActionPanel is focused
   useKeyboard((evt) => {
@@ -263,7 +267,11 @@ const ActionPanel: ActionPanelType = (props) => {
 
     // Handle Ctrl+K to show all actions in dropdown
     if (evt.name === 'k' && evt.ctrl) {
-      const allActions = collectAllActions(children)
+      // Get all registered actions from descendants
+      const allActions = Object.values(descendantsContext.map.current)
+        .filter((item: any) => item.index !== -1)
+        .sort((a: any, b: any) => a.index - b.index)
+        .map((item: any) => item.props as ActionDescendant)
 
       if (allActions.length === 0) return
 
@@ -272,6 +280,7 @@ const ActionPanel: ActionPanelType = (props) => {
           <Dropdown
             // tooltip="Select Action"
             placeholder="Search actions..."
+            filtering={true}
             onChange={(value) => {
               const action = allActions.find(a => a.title === value)
               if (action) {
@@ -282,6 +291,7 @@ const ActionPanel: ActionPanelType = (props) => {
           >
             {allActions.map((action, index) => (
                 <Dropdown.Item
+                  key={action.title}
                   value={action.title}
                   title={action.title}
                   label={formatShortcut(action.shortcut)}
@@ -298,91 +308,59 @@ const ActionPanel: ActionPanelType = (props) => {
     // Handle Enter key to execute first action
     if (evt.name !== 'return') return
 
-    // Find the first action in children
-    const findFirstAction = (nodes: ReactNode): { element: ReactElement, props: any } | null => {
-      let firstAction: { element: ReactElement, props: any } | null = null
+    // Get first action from descendants
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item: any) => item.index !== -1)
+      .sort((a: any, b: any) => a.index - b.index)
 
-      React.Children.forEach(nodes, (child) => {
-        if (firstAction) return
-
-        if (React.isValidElement(child)) {
-          const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
-
-          if (actionTypes.includes(child.type as any)) {
-            firstAction = { element: child, props: child.props }
-          } else if (child.type === ActionPanel.Section) {
-            const nestedAction = findFirstAction((child.props as any).children)
-            if (nestedAction) {
-              firstAction = nestedAction
-            }
-          }
-        }
-      })
-
-      return firstAction
-    }
-
-    const firstAction = findFirstAction(children)
-
-    // Execute the first action based on its type
-    if (firstAction) {
-      const { element, props } = firstAction
-
-      // Check the component type and execute accordingly
-      if (isRegularAction(element, props)) {
-        props.onAction?.()
-      } else if (isCopyToClipboardAction(element, props)) {
-        copyToClipboard(props.content, props.concealed)
-        props.onCopy?.(props.content)
-        const displayContent = props.concealed ? "Concealed content" : String(props.content)
-        showToast({
-          title: "Copied to Clipboard",
-          message: displayContent.length > 50 ? displayContent.substring(0, 50) + "..." : displayContent,
-          style: Toast.Style.Success
-        })
-      } else if (isOpenInBrowserAction(element, props)) {
-        openInBrowser(props.url)
-        props.onOpen?.(props.url)
-        showToast({
-          title: "Opening in Browser",
-          message: props.url,
-          style: Toast.Style.Success
-        })
-      } else if (isOpenAction(element, props)) {
-        openFile(props.target, props.application)
-        props.onOpen?.(props.target)
-        const appText = props.application ? ` with ${props.application}` : ""
-        showToast({
-          title: `Opening File${appText}`,
-          message: props.target,
-          style: Toast.Style.Success
-        })
-      } else if (isPasteAction(element, props)) {
-        pasteContent(props.content)
-        props.onPaste?.(props.content)
-        showToast({
-          title: "Content Pasted",
-          message: String(props.content).length > 50 ? String(props.content).substring(0, 50) + "..." : String(props.content),
-          style: Toast.Style.Success
-        })
-      } else if (isPushAction(element, props)) {
-        props.onPush?.()
-      }
+    if (items.length > 0) {
+      const firstAction = (items[0] as any).props as ActionDescendant
+      firstAction.execute()
     }
   })
 
-  // ActionPanel doesn't render anything visible
-  return null
+  // ActionPanel renders children with context
+  return (
+    <ActionDescendantsProvider value={descendantsContext}>
+      <ActionPanelContext.Provider value={contextValue}>
+        {children}
+      </ActionPanelContext.Provider>
+    </ActionDescendantsProvider>
+  )
 }
 
 ActionPanel.Section = (props) => {
-  // Section doesn't render anything visible
-  return null
+  const parentContext = useContext(ActionPanelContext)
+
+  // Create new context with section title
+  const sectionContextValue = useMemo(() => ({
+    ...parentContext,
+    currentSection: props.title,
+  }), [parentContext, props.title])
+
+  // Section provides context to its children
+  return (
+    <ActionPanelContext.Provider value={sectionContextValue}>
+      {props.children}
+    </ActionPanelContext.Provider>
+  )
 }
 
 ActionPanel.Submenu = (props) => {
-  // Submenu doesn't render anything visible
-  return null
+  const parentContext = useContext(ActionPanelContext)
+
+  // Create new context with submenu title
+  const submenuContextValue = useMemo(() => ({
+    ...parentContext,
+    currentSection: props.title,
+  }), [parentContext, props.title])
+
+  // Submenu provides context to its children
+  return (
+    <ActionPanelContext.Provider value={submenuContextValue}>
+      {props.children}
+    </ActionPanelContext.Provider>
+  )
 }
 
 export { Action, ActionPanel }
