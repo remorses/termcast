@@ -1,10 +1,12 @@
-import React, { type ReactNode } from 'react'
+import React, { Component, Suspense, type ReactNode, type ErrorInfo } from 'react'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { DialogProvider } from '@termcast/api/src/internal/dialog'
 import { NavigationProvider } from '@termcast/api/src/internal/navigation'
 import { CommonProps } from '@termcast/api/src/utils'
 import { Cache } from '@termcast/api/src/cache'
+import { logger } from '@termcast/api/src/logger'
+import { Theme } from '@termcast/api/src/theme'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -37,23 +39,76 @@ interface ProvidersProps extends CommonProps {
     children: ReactNode
 }
 
+function LoadingFallback(): any {
+    return (
+        <group padding={2}>
+            <text>Loading...</text>
+        </group>
+    )
+}
+
+interface ErrorBoundaryState {
+    hasError: boolean
+    error: Error | null
+}
+
+class ErrorBoundaryClass extends Component<{ children: ReactNode }, ErrorBoundaryState> {
+    constructor(props: { children: ReactNode }) {
+        super(props)
+        this.state = { hasError: false, error: null }
+    }
+
+    static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+        return { hasError: true, error }
+    }
+
+    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+        logger.error('ErrorBoundary caught error:', {
+            message: error.message,
+            stack: error.stack,
+            componentStack: errorInfo.componentStack,
+        })
+    }
+
+    render(): any {
+        if (this.state.hasError) {
+            return (
+                <group padding={2} flexDirection="column">
+                    <text>An error occurred</text>
+                    <text fg={Theme.error}>
+                        {this.state.error?.message || 'An unexpected error occurred'}
+                    </text>
+                </group>
+            )
+        }
+
+        return this.props.children
+    }
+}
+
+const ErrorBoundary = ErrorBoundaryClass as any
+
 export function Providers(props: ProvidersProps): any {
     return (
-        <PersistQueryClientProvider 
-            client={queryClient} 
-            persistOptions={{ 
-                persister,
-                maxAge: 1000 * 60 * 60 * 24, // 24 hours
-            }}
-        >
-            <DialogProvider>
-                <group padding={2}>
-                    {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
-                    <NavigationProvider>
-                        {props.children}
-                    </NavigationProvider>
-                </group>
-            </DialogProvider>
-        </PersistQueryClientProvider>
+        <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback />}>
+                <PersistQueryClientProvider
+                    client={queryClient}
+                    persistOptions={{
+                        persister,
+                        maxAge: 1000 * 60 * 60 * 24, // 24 hours
+                    }}
+                >
+                    <DialogProvider>
+                        <group padding={2}>
+                            {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
+                            <NavigationProvider>
+                                {props.children}
+                            </NavigationProvider>
+                        </group>
+                    </DialogProvider>
+                </PersistQueryClientProvider>
+            </Suspense>
+        </ErrorBoundary>
     )
 }
