@@ -18,6 +18,13 @@ We are basically implementing the package @raycast/api from scratch
 
 This should be done one piece at a time, one hook and component at a time
 
+## opentui
+
+opentui is the framework used to render the tui, using react.
+
+before starting every task read opentui docs with `curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/react/README.md`
+
+
 ## Porting a new Raycast component or feature
 
 Here is the process to follow to implement each API:
@@ -69,12 +76,7 @@ List.Section = (props) => {
 }
 ```
 
-To render with opentui use
 
-```ts
-import { render } from '@opentui/react'
-render(<App />)
-```
 
 ## keeping the implementation compatible with raycast
 
