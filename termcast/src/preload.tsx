@@ -2,26 +2,32 @@ import { plugin } from 'bun'
 import path from 'node:path'
 import { logger } from './logger'
 
+
 plugin({
     name: 'alias-raycast-to-termcast',
     setup(build) {
         build.onResolve({ filter: /@raycast\/api/ }, () => {
-            logger.log('loading @raycast shit')
             return {
                 path: require.resolve('@termcast/api'),
             }
         })
+        // build.onResolve({ filter: /@raycast\/utils/ }, (args) => {
+        //     return {
+        //         path: require.resolve('@raycast/utils', {
+        //             paths: [args.importer],
+        //         }),
 
-        build.onResolve({ filter: /^react\/jsx-runtime$/ }, () => {
-            return {
-                path: require.resolve('@opentui/react'),
-            }
-        })
+        //     }
+        // })
+        // build.onLoad({ filter: /@raycast\/utils/ }, (args) => {
+        //     const filePath = require
+        //         .resolve(args.path.replace('file:', ''))
+        //         .replace('file:', '')
+        //     return {
+        //         contents: require('fs').readFileSync(filePath, 'utf8'),
 
-        build.onResolve({ filter: /^react\/jsx-dev-runtime$/ }, () => {
-            return {
-                path: require.resolve('@opentui/react'),
-            }
-        })
+        //         loader: 'js',
+        //     }
+        // })
     },
 })

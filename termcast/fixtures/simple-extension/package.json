@@ -20,6 +20,13 @@
       "subtitle": "Search through items",
       "description": "Search and filter through a list of items",
       "mode": "view"
+    },
+    {
+      "name": "use-promise-demo",
+      "title": "usePromise Demo",
+      "subtitle": "Demonstrates usePromise hook",
+      "description": "Shows how to use the usePromise hook from @raycast/utils",
+      "mode": "view"
     }
   ]
 }
