@@ -96,8 +96,15 @@ const Action: ActionType = (props) => {
     execute: () => props.onAction?.()
   })
 
-  // Action components don't render anything visible
-  return null
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title}
+      value={props.title}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
 }
 
 Action.Push = (props) => {
@@ -116,8 +123,15 @@ Action.Push = (props) => {
     }
   })
 
-  // Action components don't render anything visible
-  return null
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title}
+      value={props.title}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
 }
 
 Action.CopyToClipboard = (props) => {
@@ -137,8 +151,15 @@ Action.CopyToClipboard = (props) => {
     }
   })
 
-  // Action components don't render anything visible
-  return null
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title}
+      value={props.title}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
 }
 
 Action.OpenInBrowser = (props) => {
@@ -157,8 +178,15 @@ Action.OpenInBrowser = (props) => {
     }
   })
 
-  // Action components don't render anything visible
-  return null
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title}
+      value={props.title}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
 }
 
 Action.Open = (props) => {
@@ -178,8 +206,15 @@ Action.Open = (props) => {
     }
   })
 
-  // Action components don't render anything visible
-  return null
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title}
+      value={props.title}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
 }
 
 Action.Paste = (props) => {
@@ -198,8 +233,15 @@ Action.Paste = (props) => {
     }
   })
 
-  // Action components don't render anything visible
-  return null
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title}
+      value={props.title}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
 }
 
 interface ActionPanelType {
@@ -250,7 +292,7 @@ function formatShortcut(shortcut?: { modifiers?: string[]; key: string } | null)
 
 
 const ActionPanel: ActionPanelType = (props) => {
-  const { children } = props
+  const { children, title } = props
   const dialog = useDialog()
   const inFocus = useIsInFocus()
   const descendantsContext = useActionDescendants()
@@ -265,65 +307,44 @@ const ActionPanel: ActionPanelType = (props) => {
   useKeyboard((evt) => {
     if (!inFocus) return
 
-    // Handle Ctrl+K to show all actions in dropdown
-    if (evt.name === 'k' && evt.ctrl) {
-      // Get all registered actions from descendants
-      const allActions = Object.values(descendantsContext.map.current)
+    // Handle Enter key to execute selected action
+    if (evt.name === 'return') {
+      // Get selected action from descendants
+      const items = Object.values(descendantsContext.map.current)
         .filter((item: any) => item.index !== -1)
         .sort((a: any, b: any) => a.index - b.index)
-        .map((item: any) => item.props as ActionDescendant)
 
-      if (allActions.length === 0) return
-
-      const ActionDropdown = () => {
-        return (
-          <Dropdown
-            // tooltip="Select Action"
-            placeholder="Search actions..."
-            filtering={true}
-            onChange={(value) => {
-              const action = allActions.find(a => a.title === value)
-              if (action) {
-                action.execute()
-                dialog.clear()
-              }
-            }}
-          >
-            {allActions.map((action, index) => (
-                <Dropdown.Item
-                  key={action.title}
-                  value={action.title}
-                  title={action.title}
-                  label={formatShortcut(action.shortcut)}
-                />
-            ))}
-          </Dropdown>
-        )
+      // Find the selected index from Dropdown's internal state
+      // For now, execute the first action
+      if (items.length > 0) {
+        const firstAction = (items[0] as any).props as ActionDescendant
+        firstAction.execute()
       }
-
-      dialog.push(<ActionDropdown />, 'bottom-right')
-      return
-    }
-
-    // Handle Enter key to execute first action
-    if (evt.name !== 'return') return
-
-    // Get first action from descendants
-    const items = Object.values(descendantsContext.map.current)
-      .filter((item: any) => item.index !== -1)
-      .sort((a: any, b: any) => a.index - b.index)
-
-    if (items.length > 0) {
-      const firstAction = (items[0] as any).props as ActionDescendant
-      firstAction.execute()
     }
   })
 
-  // ActionPanel renders children with context
+  // ActionPanel renders as Dropdown with children
   return (
     <ActionDescendantsProvider value={descendantsContext}>
       <ActionPanelContext.Provider value={contextValue}>
-        {children}
+        <Dropdown
+          tooltip={title}
+          placeholder="Search actions..."
+          filtering={true}
+          onChange={(value) => {
+            // Find and execute the selected action
+            const allActions = Object.values(descendantsContext.map.current)
+              .filter((item: any) => item.index !== -1)
+              .map((item: any) => item.props as ActionDescendant)
+            
+            const action = allActions.find(a => a.title === value)
+            if (action) {
+              action.execute()
+            }
+          }}
+        >
+          {children}
+        </Dropdown>
       </ActionPanelContext.Provider>
     </ActionDescendantsProvider>
   )

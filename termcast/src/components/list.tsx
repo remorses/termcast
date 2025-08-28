@@ -569,6 +569,8 @@ export const List: ListType = (props) => {
 
     // Handle keyboard navigation
     const inFocus = useIsInFocus()
+    const dialog = useDialog()
+    
     useKeyboard((evt) => {
         if (!inFocus) return
 
@@ -580,6 +582,25 @@ export const List: ListType = (props) => {
             !isDropdownOpen
         ) {
             openDropdown()
+            return
+        }
+
+        // Handle Ctrl+K to show actions
+        if (evt.name === 'k' && evt.ctrl) {
+            const items = Object.values(descendantsContext.map.current)
+                .filter(item => item.index !== -1)
+                .sort((a, b) => a.index - b.index)
+            
+            const currentItem = items[selectedIndex]
+            
+            // Show current item's actions if available
+            if (currentItem?.props?.actions) {
+                dialog.push(currentItem.props.actions, 'center')
+            }
+            // Otherwise show List's own actions
+            else if (props.actions) {
+                dialog.push(props.actions, 'center')
+            }
             return
         }
 

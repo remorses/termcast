@@ -1,11 +1,13 @@
 import React, { ReactNode, useMemo, ReactElement } from 'react'
 import { TextAttributes } from '@opentui/core'
+import { useKeyboard } from '@opentui/react'
 import { Theme } from '@termcast/api/src/theme'
-import { InFocus } from '@termcast/api/src/internal/focus-context'
+import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
 import { ActionPanel, Action } from '@termcast/api/src/components/actions'
 import { Image } from '@termcast/api/src/components/list'
 import { Color } from '@termcast/api/src/colors'
 import { useStore } from '@termcast/api/src/state'
+import { useDialog } from '@termcast/api/src/internal/dialog'
 
 interface ActionsInterface {
     actions?: ReactNode
@@ -267,6 +269,8 @@ function getFirstActionTitle(actions: ReactNode): string | undefined {
 
 const Detail: DetailType = (props) => {
     const { actions } = props
+    const dialog = useDialog()
+    const inFocus = useIsInFocus()
 
     const markdownLines = useMemo(() => {
         if (!props.markdown) return []
@@ -277,6 +281,15 @@ const Detail: DetailType = (props) => {
     const firstActionTitle = useMemo(() => {
         return actions ? getFirstActionTitle(actions) : undefined
     }, [actions])
+
+    // Handle Ctrl+K to show actions
+    useKeyboard((evt) => {
+        if (!inFocus) return
+        
+        if (evt.name === 'k' && evt.ctrl && actions) {
+            dialog.push(actions, 'center')
+        }
+    })
 
     const content = (
         <box
