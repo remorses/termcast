@@ -305,7 +305,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
         const items = Object.values(descendantsContext.map.current)
             .filter((item: any) => item.index !== -1)
             .sort((a: any, b: any) => a.index - b.index)
-        
+
         if (items.length === 0) return
         let next = selectedIndex + direction
         if (next < 0) next = items.length - 1
@@ -543,7 +543,7 @@ export const List: ListType = (props) => {
         const items = Object.values(descendantsContext.map.current)
             .filter(item => item.index !== -1)
             .sort((a, b) => a.index - b.index)
-        
+
         if (selectedItemId) {
             const index = items.findIndex((item) => item.props?.id === selectedItemId)
             if (index !== -1) {
@@ -558,9 +558,9 @@ export const List: ListType = (props) => {
         const items = Object.values(descendantsContext.map.current)
             .filter(item => item.index !== -1)
             .sort((a, b) => a.index - b.index)
-        
+
         if (items.length === 0) return
-        
+
         let next = selectedIndex + direction
         if (next < 0) next = items.length - 1
         if (next >= items.length) next = 0
@@ -570,7 +570,7 @@ export const List: ListType = (props) => {
     // Handle keyboard navigation
     const inFocus = useIsInFocus()
     const dialog = useDialog()
-    
+
     useKeyboard((evt) => {
         if (!inFocus) return
 
@@ -590,16 +590,16 @@ export const List: ListType = (props) => {
             const items = Object.values(descendantsContext.map.current)
                 .filter(item => item.index !== -1)
                 .sort((a, b) => a.index - b.index)
-            
+
             const currentItem = items[selectedIndex]
-            
+
             // Show current item's actions if available
             if (currentItem?.props?.actions) {
-                dialog.push(currentItem.props.actions, 'center')
+                dialog.push(currentItem.props.actions, 'bottom-right')
             }
             // Otherwise show List's own actions
             else if (props.actions) {
-                dialog.push(props.actions, 'center')
+                dialog.push(props.actions, 'bottom-right')
             }
             return
         }
@@ -610,15 +610,14 @@ export const List: ListType = (props) => {
             const items = Object.values(descendantsContext.map.current)
                 .filter(item => item.index !== -1)
                 .sort((a, b) => a.index - b.index)
-            
+
             const currentItem = items[selectedIndex]
             if (!currentItem?.props) return
 
-            // If item has no actions, fallback to onSelectionChange
-            if (!currentItem.props.actions && onSelectionChange) {
-                onSelectionChange(currentItem.props.id || currentItem.props.title)
+            if (currentItem?.props?.actions) {
+                dialog.push(currentItem.props.actions, 'bottom-right')
             }
-            // Actions will handle Enter key themselves when focused
+
         }
     })
 
@@ -719,7 +718,7 @@ function ListItemsRenderer(props: {
     isShowingDetail?: boolean
 }): any {
     const { children, selectedIndex, searchText, filtering, isShowingDetail } = props
-    
+
     // Simply render children - they handle their own registration and rendering
     return (
         <ListSectionContext.Provider value={{ searchText, filtering }}>
@@ -744,7 +743,7 @@ const ListItem: ListItemType = (props) => {
     const listSectionContext = useContext(ListSectionContext)
     const { searchText, filtering, sectionTitle } = listSectionContext
     const listContext = useContext(ListContext)
-    
+
     // Extract text values for filtering
     const titleText = typeof props.title === 'string' ? props.title : props.title.value
     const subtitleText = props.subtitle
@@ -752,11 +751,11 @@ const ListItem: ListItemType = (props) => {
             ? props.subtitle
             : props.subtitle.value || ''
         : undefined
-    
+
     // Apply filtering logic here
     const shouldHide = (() => {
         if (!filtering || !searchText.trim()) return false
-        
+
         const needle = searchText.toLowerCase().trim()
         const searchableText = [
             titleText,
@@ -767,10 +766,10 @@ const ListItem: ListItemType = (props) => {
             .filter(Boolean)
             .join(' ')
             .toLowerCase()
-        
+
         return !searchableText.includes(needle)
     })()
-    
+
     // Register as descendant
     const index = useListItemDescendant({
         id: props.id,
@@ -778,14 +777,14 @@ const ListItem: ListItemType = (props) => {
         actions: props.actions,
         hidden: shouldHide,
     })
-    
+
     // Don't render if hidden
     if (shouldHide) return null
-    
+
     // Get selected index from parent List context
     const selectedIndex = listContext?.selectedIndex ?? 0
     const isActive = index === selectedIndex
-    
+
     // Render the item row directly
     return (
         <ListItemRow
@@ -906,14 +905,14 @@ ListDropdown.Item = (props) => {
     }
 
     const { searchText, filtering, currentSection, selectedIndex, currentValue } = dropdownContext
-    
+
     // Apply filtering logic
     const shouldHide = (() => {
         if (!filtering || !searchText.trim()) return false
         const needle = searchText.toLowerCase()
         return !props.title.toLowerCase().includes(needle)
     })()
-    
+
     // Register as descendant
     const index = useDropdownItemDescendant({
         value: props.value,
@@ -921,15 +920,15 @@ ListDropdown.Item = (props) => {
         section: currentSection,
         hidden: shouldHide,
     })
-    
+
     // Don't render if hidden
     if (shouldHide) return null
-    
+
     // If we're in the dialog, render the item
     if (selectedIndex !== undefined) {
         const isActive = index === selectedIndex
         const isCurrent = props.value === currentValue
-        
+
         return (
             <box
                 style={{
@@ -1006,13 +1005,13 @@ ListDropdown.Section = (props) => {
 List.Item = ListItem
 const ListSection = (props: SectionProps) => {
     const parentContext = useContext(ListSectionContext)
-    
+
     // Create new context with section title
     const sectionContextValue = useMemo(() => ({
         ...parentContext,
         sectionTitle: props.title,
     }), [parentContext, props.title])
-    
+
     return (
         <>
             {/* Render section title if provided */}

@@ -1,4 +1,3 @@
 bin
 .termcast-bundle/**
 .termcast-bundle
-*.log

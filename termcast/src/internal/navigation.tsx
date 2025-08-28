@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useCallback, type ReactNode
 import { useKeyboard } from "@opentui/react"
 import { CommonProps } from '@termcast/api/src/utils'
 import { useStore } from '@termcast/api/src/state'
+import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
+import { logger } from "../logger"
 
 interface NavigationStackItem {
   component: ReactNode
@@ -56,9 +58,18 @@ export function NavigationProvider(props: NavigationProviderProps): any {
     stack
   }), [navigation, stack])
 
+  const inFocus = useIsInFocus()
+
   // Handle ESC key to pop navigation
   useKeyboard((evt) => {
+    if (!inFocus) return
     if (evt.name === 'escape' && stack.length > 1) {
+      logger.log(
+        'popping navigation',
+        stack.length - 1,
+        'stack:',
+        stack.map((item) => (item.component as any).type.name)
+      )
       pop()
     }
   })
