@@ -8,9 +8,9 @@ import React, {
     useRef,
     Fragment,
     useMemo,
+    useLayoutEffect,
     createContext,
     useContext,
-    useLayoutEffect,
 } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
@@ -280,6 +280,8 @@ interface DropdownContextValue {
     searchText: string
     filtering?: boolean | { keepSectionOrder: boolean }
     currentSection?: string
+    selectedIndex?: number
+    currentValue?: string
 }
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
@@ -299,28 +301,15 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
     const inputRef = useRef<any>(null)
     const descendantsContext = useDropdownDescendants()
 
-    // Get items from descendants
-    const visibleItems = Object.values(descendantsContext.map.current)
-        .filter(item => item.index !== -1)
-        .sort((a, b) => a.index - b.index)
-        .map(item => item.props) as DropdownItemDescendant[]
-
-    // Group by section
-    const grouped = useMemo(() => {
-        const groups: Map<string | undefined, DropdownItemDescendant[]> = new Map()
-        visibleItems.forEach((item) => {
-            const key = item?.section
-            if (!groups.has(key)) groups.set(key, [])
-            groups.get(key)!.push(item!)
-        })
-        return Array.from(groups.entries())
-    }, [searchText])
-
     const move = (direction: -1 | 1) => {
-        if (visibleItems.length === 0) return
+        const items = Object.values(descendantsContext.map.current)
+            .filter((item: any) => item.index !== -1)
+            .sort((a: any, b: any) => a.index - b.index)
+        
+        if (items.length === 0) return
         let next = selectedIndex + direction
-        if (next < 0) next = visibleItems.length - 1
-        if (next >= visibleItems.length) next = 0
+        if (next < 0) next = items.length - 1
+        if (next >= items.length) next = 0
         setSelectedIndex(next)
     }
 
@@ -334,8 +323,14 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
         }
         if (evt.name === 'up') move(-1)
         if (evt.name === 'down') move(1)
-        if (evt.name === 'return' && visibleItems[selectedIndex]) {
-            props.onChange?.(visibleItems[selectedIndex].value)
+        if (evt.name === 'return') {
+            const items = Object.values(descendantsContext.map.current)
+                .filter((item: any) => item.index !== -1)
+                .sort((a: any, b: any) => a.index - b.index)
+            const currentItem = items[selectedIndex]
+            if (currentItem?.props) {
+                props.onChange?.((currentItem.props as DropdownItemDescendant).value)
+            }
         }
     })
 
@@ -370,64 +365,17 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                         </group>
                     </group>
 
-                {/* Items list */}
+                {/* Items list - children will render themselves */}
                 <group style={{ paddingBottom: 1 }}>
-                    {grouped.map(([section, items], groupIndex) => (
-                        <group
-                            key={section || 'default'}
-                            style={{ paddingTop: 1, flexShrink: 0 }}
-                        >
-                            {section && (
-                                <group style={{ paddingLeft: 1 }}>
-                                    <text
-                                        fg={Theme.accent}
-                                        attributes={TextAttributes.BOLD}
-                                    >
-                                        {section}
-                                    </text>
-                                </group>
-                            )}
-                            {items.map((item, itemIndex) => {
-                                const globalIndex = visibleItems.indexOf(item)
-                                const isActive = globalIndex === selectedIndex
-                                const isCurrent = item?.value === props.value
-                                return (
-                                    <box
-                                        key={item?.value || itemIndex}
-                                        style={{
-                                            flexDirection: 'row',
-                                            backgroundColor: isActive
-                                                ? Theme.primary
-                                                : undefined,
-                                            paddingLeft: 1,
-                                            paddingRight: 1,
-                                            justifyContent: 'space-between',
-                                        }}
-                                        border={false}
-                                    >
-                                        <group style={{ flexDirection: 'row' }}>
-                                            <text
-                                                fg={
-                                                    isActive
-                                                        ? Theme.background
-                                                        : isCurrent
-                                                          ? Theme.primary
-                                                          : Theme.text
-                                                }
-                                                attributes={
-                                                    isActive
-                                                        ? TextAttributes.BOLD
-                                                        : undefined
-                                                }
-                                            >
-                                                {item?.title || ''}
-                                            </text>
-                                        </group>
-                                    </box>
-                                )
-                            })}
-                        </group>
-                    ))}
+                    <DropdownContext.Provider value={{
+                        searchText,
+                        filtering: props.filtering,
+                        currentSection: undefined,
+                        selectedIndex,
+                        currentValue: props.value,
+                    }}>
+                        {props.children}
+                    </DropdownContext.Provider>
                 </group>
                 {props.isLoading && (
                     <group style={{ paddingLeft: 1 }}>
@@ -455,15 +403,6 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 </text>
                 <text fg={Theme.textMuted}> navigate</text>
             </box>
-            
-            {/* Render children to collect items (hidden - they return null anyway) */}
-            <DropdownContext.Provider value={{
-                searchText,
-                filtering: props.filtering,
-                currentSection: undefined,
-            }}>
-                {props.children}
-            </DropdownContext.Provider>
         </group>
         </DropdownDescendantsProvider>
     )
@@ -673,23 +612,13 @@ export const List: ListType = (props) => {
         }
     }
 
-    // Get focused item's actions from descendants
-    const focusedActions = (() => {
-        const items = Object.values(descendantsContext.map.current)
-            .filter(item => item.index !== -1)
-            .sort((a, b) => a.index - b.index)
-        const currentItem = items[selectedIndex]
-        return currentItem?.props?.actions || null
-    })()
+    // Cannot get focused actions during render - descendants are not accessible here
 
     return (
         <ListContext.Provider value={listContextValue}>
             <ListDescendantsProvider value={descendantsContext}>
                 <group style={{ flexDirection: 'column', flexGrow: 1 }}>
-                    {/* Mount focused actions (invisible but handles keyboard) */}
-                    {focusedActions && (
-                        <InFocus inFocus={true}>{focusedActions}</InFocus>
-                    )}
+                    {/* Cannot mount focused actions here - would need to be handled differently */}
 
                 {/* Navigation title */}
                 {navigationTitle && (
@@ -920,15 +849,8 @@ const ListDropdown: ListDropdownType = (props) => {
         }
     }, [isDropdownOpen, props.children])
 
-    // Get current selected item from descendants
-    const currentItem = (() => {
-        const items = Object.values(descendantsContext.map.current)
-            .filter(item => item.index !== -1)
-            .map(item => item.props) as DropdownItemDescendant[]
-        return items.find((item) => item?.value === dropdownValue)
-    })()
-
-    const value = currentItem?.title || dropdownValue || 'All'
+    // Cannot get current item during render - just use dropdownValue
+    const value = dropdownValue || 'All'
     return (
         <DropdownDescendantsProvider value={descendantsContext}>
             <DropdownContext.Provider value={dropdownContextValue}>
@@ -962,7 +884,7 @@ ListDropdown.Item = (props) => {
         return null
     }
 
-    const { searchText, filtering, currentSection } = dropdownContext
+    const { searchText, filtering, currentSection, selectedIndex, currentValue } = dropdownContext
     
     // Apply filtering logic
     const shouldHide = (() => {
@@ -972,12 +894,53 @@ ListDropdown.Item = (props) => {
     })()
     
     // Register as descendant
-    useDropdownItemDescendant({
+    const index = useDropdownItemDescendant({
         value: props.value,
         title: props.title,
         section: currentSection,
         hidden: shouldHide,
     })
+    
+    // Don't render if hidden
+    if (shouldHide) return null
+    
+    // If we're in the dialog, render the item
+    if (selectedIndex !== undefined) {
+        const isActive = index === selectedIndex
+        const isCurrent = props.value === currentValue
+        
+        return (
+            <box
+                style={{
+                    flexDirection: 'row',
+                    backgroundColor: isActive ? Theme.primary : undefined,
+                    paddingLeft: 1,
+                    paddingRight: 1,
+                    justifyContent: 'space-between',
+                }}
+                border={false}
+            >
+                <group style={{ flexDirection: 'row' }}>
+                    <text
+                        fg={
+                            isActive
+                                ? Theme.background
+                                : isCurrent
+                                  ? Theme.primary
+                                  : Theme.text
+                        }
+                        attributes={
+                            isActive
+                                ? TextAttributes.BOLD
+                                : undefined
+                        }
+                    >
+                        {props.title}
+                    </text>
+                </group>
+            </box>
+        )
+    }
 
     return null
 }
@@ -1000,9 +963,22 @@ ListDropdown.Section = (props) => {
     )
 
     return (
-        <DropdownContext.Provider value={sectionContextValue}>
-            {props.children}
-        </DropdownContext.Provider>
+        <>
+            {/* Render section title if we're in the dialog */}
+            {parentContext.selectedIndex !== undefined && props.title && (
+                <group style={{ paddingTop: 1, paddingLeft: 1 }}>
+                    <text
+                        fg={Theme.accent}
+                        attributes={TextAttributes.BOLD}
+                    >
+                        {props.title}
+                    </text>
+                </group>
+            )}
+            <DropdownContext.Provider value={sectionContextValue}>
+                {props.children}
+            </DropdownContext.Provider>
+        </>
     )
 }
 
