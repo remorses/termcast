@@ -8,6 +8,7 @@ import { useIsInFocus } from "@termcast/api/src/internal/focus-context"
 import { CommonProps } from "@termcast/api/src/utils"
 import { showToast, Toast } from "@termcast/api/src/toast"
 import { createDescendants } from "@termcast/api/src/descendants"
+import { logger } from "../logger"
 
 export enum ActionStyle {
   Regular = "regular",
@@ -305,20 +306,20 @@ const ActionPanel: ActionPanelType = (props) => {
 
   // Handle keyboard events when this ActionPanel is focused
   useKeyboard((evt) => {
+
     if (!inFocus) return
 
     // Handle Enter key to execute selected action
     if (evt.name === 'return') {
-      // Get selected action from descendants
+      // Get all registered actions sorted by index
       const items = Object.values(descendantsContext.map.current)
         .filter((item: any) => item.index !== -1)
         .sort((a: any, b: any) => a.index - b.index)
+        .map((item: any) => item.props as ActionDescendant)
 
-      // Find the selected index from Dropdown's internal state
-      // For now, execute the first action
+      // Execute the first action if available
       if (items.length > 0) {
-        const firstAction = (items[0] as any).props as ActionDescendant
-        firstAction.execute()
+        items[0].execute()
       }
     }
   })
@@ -336,7 +337,7 @@ const ActionPanel: ActionPanelType = (props) => {
             const allActions = Object.values(descendantsContext.map.current)
               .filter((item: any) => item.index !== -1)
               .map((item: any) => item.props as ActionDescendant)
-            
+
             const action = allActions.find(a => a.title === value)
             if (action) {
               action.execute()

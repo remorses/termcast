@@ -2,7 +2,7 @@ import { useKeyboard, useTerminalDimensions } from "@opentui/react"
 import React, { type ReactNode } from "react"
 import { Theme } from "@termcast/api/src/theme"
 import { RGBA } from "@opentui/core"
-import { InFocus } from '@termcast/api/src/internal/focus-context'
+import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
 import { CommonProps } from '@termcast/api/src/utils'
 import { useStore, type DialogPosition, type DialogStackItem } from '@termcast/api/src/state'
 
@@ -103,11 +103,15 @@ interface DialogProviderProps {
 
 export function DialogProvider(props: DialogProviderProps): any {
   const dialogStack = useStore((state) => state.dialogStack)
+  const inFocus = useIsInFocus()
 
   useKeyboard((evt) => {
-    if (evt.name === "escape" && dialogStack.length > 0) {
+    if (!inFocus) return
+    if (evt.name === "escape") {
       const state = useStore.getState()
-      useStore.setState({ dialogStack: state.dialogStack.slice(0, -1) })
+      if (state.dialogStack.length > 0) {
+        useStore.setState({ dialogStack: state.dialogStack.slice(0, -1) })
+      }
     }
   })
 

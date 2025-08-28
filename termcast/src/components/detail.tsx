@@ -251,7 +251,7 @@ function getFirstActionTitle(actions: ReactNode): string | undefined {
 
             if (React.isValidElement(child)) {
                 const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
-                
+
                 if (actionTypes.includes(child.type as any)) {
                     firstTitle = (child.props as any).title
                 } else if (child.type === ActionPanel) {
@@ -285,7 +285,7 @@ const Detail: DetailType = (props) => {
     // Handle Ctrl+K to show actions
     useKeyboard((evt) => {
         if (!inFocus) return
-        
+
         if (evt.name === 'k' && evt.ctrl && actions) {
             dialog.push(actions, 'center')
         }
