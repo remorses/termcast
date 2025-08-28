@@ -4,6 +4,7 @@ type DescendantMap<T> = { [id: string]: { index: number; props?: T } }
 
 interface DescendantContextType<T> {
     get: (id: string, props?: T) => number
+    // IMPORTANT! map is not reactive, it cannot be used in render, only in useEffect or other event handlers like useKeyboard
     map: React.RefObject<DescendantMap<T>>
     reset: () => void
 }
@@ -28,6 +29,7 @@ export function createDescendants<T = any>() {
             </DescendantContext.Provider>
         )
     }
+
 
     const useDescendants = (): DescendantContextType<T> => {
         const indexCounter = React.useRef<number>(0)
