@@ -136,3 +136,9 @@ when adding core extensions like a store extension that installs other extension
 ## strings with new lines
 
 to create strings with new lines use the dedent package so it is more readable
+
+## examples
+
+NEVER run examples yourself with bun src/examples/etc
+
+These will hang. These are made for real people
