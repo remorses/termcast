@@ -22,7 +22,7 @@ This should be done one piece at a time, one hook and component at a time
 
 opentui is the framework used to render the tui, using react.
 
-before starting every task read opentui docs with `curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/react/README.md`
+IMPORTANT! before starting every task ALWAYS read opentui docs with `curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/react/README.md`
 
 
 ## Porting a new Raycast component or feature
