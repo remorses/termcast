@@ -3,13 +3,34 @@ import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
 import { logger } from './logger'
+import { useStore } from './state'
 
-const CACHE_DIR = path.join(os.homedir(), '.termcast', 'cache')
-const DB_PATH = path.join(os.homedir(), '.termcast-cache.db')
+function getCurrentDatabasePath(namespace?: string): string {
+    const extensionPath = useStore.getState().extensionPath
+    
+    if (extensionPath) {
+        const dbName = namespace ? `cache-${namespace}.db` : 'cache.db'
+        return path.join(extensionPath, dbName)
+    } else {
+        const dbName = namespace ? `.termcast-cache-${namespace}.db` : '.termcast-cache.db'
+        return path.join(os.homedir(), '.termcast', dbName)
+    }
+}
+
+function getCurrentCacheDir(namespace?: string): string {
+    const extensionPath = useStore.getState().extensionPath
+    
+    if (extensionPath) {
+        return namespace ? path.join(extensionPath, 'cache', namespace) : path.join(extensionPath, 'cache')
+    } else {
+        return namespace ? path.join(os.homedir(), '.termcast', 'cache', namespace) : path.join(os.homedir(), '.termcast', 'cache')
+    }
+}
 
 export class Cache {
     static get STORAGE_DIRECTORY_NAME(): string {
-        return '.termcast-cache'
+        const extensionPath = useStore.getState().extensionPath
+        return extensionPath ? 'cache' : '.termcast-cache'
     }
     
     static get DEFAULT_CAPACITY(): number {
@@ -26,10 +47,14 @@ export class Cache {
         this.capacity = options?.capacity || Cache.DEFAULT_CAPACITY
         this.namespace = options?.namespace
         
-        const dbPath = this.namespace 
-            ? path.join(os.homedir(), `.termcast-cache-${this.namespace}.db`)
-            : DB_PATH
-            
+        const dbPath = getCurrentDatabasePath(this.namespace)
+        
+        // Ensure parent directory exists
+        const dbDir = path.dirname(dbPath)
+        if (!fs.existsSync(dbDir)) {
+            fs.mkdirSync(dbDir, { recursive: true })
+        }
+        
         this.db = new Database(dbPath)
         
         // Use rowid for ordering - it auto-increments and provides natural LRU order
@@ -53,10 +78,7 @@ export class Cache {
     }
     
     get storageDirectory(): string {
-        if (this.namespace) {
-            return path.join(CACHE_DIR, this.namespace)
-        }
-        return CACHE_DIR
+        return getCurrentCacheDir(this.namespace)
     }
     
     get(key: string): string | undefined {

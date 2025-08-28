@@ -1,15 +1,42 @@
 import Database from 'better-sqlite3'
 import * as path from 'path'
 import * as os from 'os'
+import * as fs from 'fs'
 import { logger } from './logger'
-
-const DB_PATH = path.join(os.homedir(), '.termcast.db')
+import { useStore } from './state'
 
 let db: Database.Database | null = null
+let currentDbPath: string | null = null
+
+function getCurrentDatabasePath(): string {
+    const extensionPath = useStore.getState().extensionPath
+    
+    if (extensionPath) {
+        return path.join(extensionPath, 'localstorage.db')
+    } else {
+        return path.join(os.homedir(), '.termcast', 'localstorage.db')
+    }
+}
 
 function getDatabase(): Database.Database {
+    const dbPath = getCurrentDatabasePath()
+    
+    // Check if we need to reconnect due to path change
+    if (db && currentDbPath !== dbPath) {
+        db.close()
+        db = null
+        currentDbPath = null
+    }
+    
     if (!db) {
-        db = new Database(DB_PATH)
+        // Ensure parent directory exists
+        const dbDir = path.dirname(dbPath)
+        if (!fs.existsSync(dbDir)) {
+            fs.mkdirSync(dbDir, { recursive: true })
+        }
+        
+        db = new Database(dbPath)
+        currentDbPath = dbPath
         db.exec(`
             CREATE TABLE IF NOT EXISTS localstorage (
                 key TEXT PRIMARY KEY,

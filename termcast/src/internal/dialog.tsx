@@ -103,11 +103,11 @@ interface DialogProviderProps {
 
 export function DialogProvider(props: DialogProviderProps): any {
   const dialogStack = useStore((state) => state.dialogStack)
-  const popDialog = useStore((state) => state.popDialog)
 
   useKeyboard((evt) => {
     if (evt.name === "escape" && dialogStack.length > 0) {
-      popDialog()
+      const state = useStore.getState()
+      useStore.setState({ dialogStack: state.dialogStack.slice(0, -1) })
     }
   })
 
@@ -133,13 +133,21 @@ export function DialogProvider(props: DialogProviderProps): any {
 }
 
 export function useDialog() {
-  const pushDialog = useStore((state) => state.pushDialog)
-  const clearDialogs = useStore((state) => state.clearDialogs)
-  const replaceDialog = useStore((state) => state.replaceDialog)
   const dialogStack = useStore((state) => state.dialogStack)
   
-  if (!pushDialog || !clearDialogs || !replaceDialog) {
-    throw new Error('useDialog must be used within DialogProvider')
+  const pushDialog = (element: ReactNode, position?: DialogPosition) => {
+    const state = useStore.getState()
+    useStore.setState({ 
+      dialogStack: [...state.dialogStack, { element, position }] 
+    })
+  }
+  
+  const clearDialogs = () => {
+    useStore.setState({ dialogStack: [] })
+  }
+  
+  const replaceDialog = (element: ReactNode, position?: DialogPosition) => {
+    useStore.setState({ dialogStack: [{ element, position }] })
   }
   
   return {

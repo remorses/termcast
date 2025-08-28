@@ -38,7 +38,12 @@ function ExtensionCommandsList({
                 return
             }
 
-            const devRebuildCount = useStore.getState().devRebuildCount
+            const state = useStore.getState()
+            const devRebuildCount = state.devRebuildCount
+            
+            // Set the current command in state
+            useStore.setState({ currentCommandName: command.name })
+            
             const module = await import(
                 `${command.bundledPath}?rebuild=${devRebuildCount}`
             )
@@ -139,17 +144,25 @@ export async function startDevMode({ extensionPath }: { extensionPath: string })
         throw new Error(`No package.json found at: ${packageJsonPath}`)
     }
 
+    // Parse the package.json to get extension metadata
+    const { packageJson } = getCommandsWithFiles({ packageJsonPath })
+    
     // Build and set initial devElement
     const { commands } = await buildExtensionCommands({ extensionPath: resolvedPath })
-    useStore.setState(useStore.getInitialState())
-    const state = useStore.getState()
-    state.setDevElement(
-        <ExtensionCommandsList
-            extensionPath={resolvedPath}
-            commands={commands}
-        />,
-    )
-    state.incrementDevRebuildCount()
+    
+    // Reset state and set extension information
+    useStore.setState({
+        ...useStore.getInitialState(),
+        extensionPath: resolvedPath,
+        extensionPackageJson: packageJson,
+        devElement: (
+            <ExtensionCommandsList
+                extensionPath={resolvedPath}
+                commands={commands}
+            />
+        ),
+        devRebuildCount: 1
+    })
 
     function App(): any {
         const devElement = useStore((state) => state.devElement)
@@ -164,16 +177,24 @@ export async function startDevMode({ extensionPath }: { extensionPath: string })
 export async function triggerRebuild({ extensionPath }: { extensionPath: string }): Promise<void> {
     try {
         const { commands } = await buildExtensionCommands({ extensionPath })
+        
+        // Re-parse package.json in case it changed
+        const packageJsonPath = path.join(extensionPath, 'package.json')
+        const { packageJson } = getCommandsWithFiles({ packageJsonPath })
 
         // Update the devElement with new commands and increment rebuild count
         const state = useStore.getState()
-        state.setDevElement(
-            <ExtensionCommandsList
-                extensionPath={extensionPath}
-                commands={commands}
-            />,
-        )
-        state.incrementDevRebuildCount()
+        
+        useStore.setState({
+            extensionPackageJson: packageJson,
+            devElement: (
+                <ExtensionCommandsList
+                    extensionPath={extensionPath}
+                    commands={commands}
+                />
+            ),
+            devRebuildCount: state.devRebuildCount + 1
+        })
     } catch (error: any) {
         await showToast({
             style: Toast.Style.Failure,

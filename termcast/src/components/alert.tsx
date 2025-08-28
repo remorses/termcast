@@ -138,25 +138,28 @@ export async function confirmAlert(options: Alert.Options): Promise<boolean> {
   }
 
   return new Promise<boolean>((resolve) => {
-    const { pushDialog, clearDialogs } = useStore.getState()
-    
     const handleConfirm = () => {
-      clearDialogs()
+      useStore.setState({ dialogStack: [] })
       resolve(true)
     }
     
     const handleDismiss = () => {
-      clearDialogs()
+      useStore.setState({ dialogStack: [] })
       resolve(false)
     }
     
-    pushDialog(
-      <AlertComponent
-        options={options}
-        onConfirm={handleConfirm}
-        onDismiss={handleDismiss}
-      />,
-      'center'
-    )
+    const state = useStore.getState()
+    useStore.setState({ 
+      dialogStack: [...state.dialogStack, { 
+        element: (
+          <AlertComponent
+            options={options}
+            onConfirm={handleConfirm}
+            onDismiss={handleDismiss}
+          />
+        ), 
+        position: 'center' 
+      }] 
+    })
   })
 }
