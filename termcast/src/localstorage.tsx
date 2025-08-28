@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3'
+import Database from '@farjs/better-sqlite3-wrapper'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
@@ -37,13 +37,13 @@ function getDatabase(): Database.Database {
         
         db = new Database(dbPath)
         currentDbPath = dbPath
-        db.exec(`
+        db.prepare(`
             CREATE TABLE IF NOT EXISTS localstorage (
                 key TEXT PRIMARY KEY,
                 value TEXT NOT NULL,
                 type TEXT NOT NULL
             )
-        `)
+        `).run()
     }
     return db
 }

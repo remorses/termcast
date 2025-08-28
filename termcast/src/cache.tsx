@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3'
+import Database from '@farjs/better-sqlite3-wrapper'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
@@ -58,19 +58,19 @@ export class Cache {
         this.db = new Database(dbPath)
         
         // Use rowid for ordering - it auto-increments and provides natural LRU order
-        this.db.exec(`
+        this.db.prepare(`
             CREATE TABLE IF NOT EXISTS cache (
                 rowid INTEGER PRIMARY KEY AUTOINCREMENT,
                 key TEXT UNIQUE NOT NULL,
                 data TEXT NOT NULL,
                 size INTEGER NOT NULL
             )
-        `)
+        `).run()
         
         // Create index on key for fast lookups
-        this.db.exec(`
+        this.db.prepare(`
             CREATE INDEX IF NOT EXISTS idx_cache_key ON cache(key)
-        `)
+        `).run()
         
         // Calculate initial size
         const row = this.db.prepare('SELECT SUM(size) as total FROM cache').get() as { total: number | null }
