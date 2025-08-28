@@ -132,3 +132,7 @@ This approach is more flexible than children traversal and supports arbitrary co
 ## adding new core extensions
 
 when adding core extensions like a store extension that installs other extensions you should carefully manage @state.tsx state, setting it appropriately when navigating to another extension or command
+
+## strings with new lines
+
+to create strings with new lines use the dedent package so it is more readable

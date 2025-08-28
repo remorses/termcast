@@ -6,6 +6,7 @@ import { useDialog } from "@termcast/api/src/internal/dialog"
 import { Dropdown } from "@termcast/api/src/components/dropdown"
 import { useIsInFocus } from "@termcast/api/src/internal/focus-context"
 import { CommonProps } from "@termcast/api/src/utils"
+import { showToast, Toast } from "@termcast/api/src/toast"
 
 export enum ActionStyle {
   Regular = "regular",
@@ -197,15 +198,37 @@ function collectAllActions(children: ReactNode): Array<{
           } else if (isCopyToClipboardAction(child, props)) {
             copyToClipboard(props.content, props.concealed)
             props.onCopy?.(props.content)
+            const displayContent = props.concealed ? "Concealed content" : String(props.content)
+            showToast({
+              title: "Copied to Clipboard",
+              message: displayContent.length > 50 ? displayContent.substring(0, 50) + "..." : displayContent,
+              style: Toast.Style.Success
+            })
           } else if (isOpenInBrowserAction(child, props)) {
             openInBrowser(props.url)
             props.onOpen?.(props.url)
+            showToast({
+              title: "Opening in Browser",
+              message: props.url,
+              style: Toast.Style.Success
+            })
           } else if (isOpenAction(child, props)) {
             openFile(props.target, props.application)
             props.onOpen?.(props.target)
+            const appText = props.application ? ` with ${props.application}` : ""
+            showToast({
+              title: `Opening File${appText}`,
+              message: props.target,
+              style: Toast.Style.Success
+            })
           } else if (isPasteAction(child, props)) {
             pasteContent(props.content)
             props.onPaste?.(props.content)
+            showToast({
+              title: "Content Pasted",
+              message: String(props.content).length > 50 ? String(props.content).substring(0, 50) + "..." : String(props.content),
+              style: Toast.Style.Success
+            })
           } else if (isPushAction(child, props)) {
             props.onPush?.()
           }
@@ -311,15 +334,37 @@ const ActionPanel: ActionPanelType = (props) => {
       } else if (isCopyToClipboardAction(element, props)) {
         copyToClipboard(props.content, props.concealed)
         props.onCopy?.(props.content)
+        const displayContent = props.concealed ? "Concealed content" : String(props.content)
+        showToast({
+          title: "Copied to Clipboard",
+          message: displayContent.length > 50 ? displayContent.substring(0, 50) + "..." : displayContent,
+          style: Toast.Style.Success
+        })
       } else if (isOpenInBrowserAction(element, props)) {
         openInBrowser(props.url)
         props.onOpen?.(props.url)
+        showToast({
+          title: "Opening in Browser",
+          message: props.url,
+          style: Toast.Style.Success
+        })
       } else if (isOpenAction(element, props)) {
         openFile(props.target, props.application)
         props.onOpen?.(props.target)
+        const appText = props.application ? ` with ${props.application}` : ""
+        showToast({
+          title: `Opening File${appText}`,
+          message: props.target,
+          style: Toast.Style.Success
+        })
       } else if (isPasteAction(element, props)) {
         pasteContent(props.content)
         props.onPaste?.(props.content)
+        showToast({
+          title: "Content Pasted",
+          message: String(props.content).length > 50 ? String(props.content).substring(0, 50) + "..." : String(props.content),
+          style: Toast.Style.Success
+        })
       } else if (isPushAction(element, props)) {
         props.onPush?.()
       }

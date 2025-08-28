@@ -46,6 +46,12 @@ importers:
       '@raycast/utils':
         specifier: ^2.2.1
         version: 2.2.1(@raycast/api@1.102.5(@types/node@24.3.0)(@types/react@19.1.12))(react@19.1.1)
+      '@tanstack/react-query':
+        specifier: ^5.85.5
+        version: 5.85.5(react@19.1.1)
+      '@tanstack/react-query-persist-client':
+        specifier: ^5.85.5
+        version: 5.85.5(@tanstack/react-query@5.85.5(react@19.1.1))(react@19.1.1)
       better-sqlite3:
         specifier: ^12.2.0
         version: 12.2.0
@@ -751,6 +757,23 @@ packages:
     resolution: {integrity: sha512-8a/caCUN4vkTChxkaIJcMtwIVcBhi4X2PQRoT+yCK3qRYaZ7cURrmJFL5Ux9H9RaMIXj9RuihckdmkBX3zZsgg==}
     cpu: [x64]
     os: [win32]
+
+  '@tanstack/query-core@5.85.5':
+    resolution: {integrity: sha512-KO0WTob4JEApv69iYp1eGvfMSUkgw//IpMnq+//cORBzXf0smyRwPLrUvEe5qtAEGjwZTXrjxg+oJNP/C00t6w==}
+
+  '@tanstack/query-persist-client-core@5.85.5':
+    resolution: {integrity: sha512-2JQiyiTVaaUu8pwPqOp6tjNa64ZN+0T9eZ3lfksV4le1VuG99fTcAYmZFIydvzwWlSM7GEF/1kpl5bwW2Y1qfQ==}
+
+  '@tanstack/react-query-persist-client@5.85.5':
+    resolution: {integrity: sha512-KzISZPtJtWZAwH/Ln1FclaiHVwdeV04WX7wUYLe1vw7zyfcPljHeyXlmVf8nxhFm8ujMBdGQVzP2iNn6ehzjQA==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.85.5
+      react: ^18 || ^19
+
+  '@tanstack/react-query@5.85.5':
+    resolution: {integrity: sha512-/X4EFNcnPiSs8wM2v+b6DqS5mmGeuJQvxBglmDxl6ZQb5V26ouD2SJYAcC3VjbNwqhY2zjxVD15rDA5nGbMn3A==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
@@ -2615,6 +2638,23 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.48.1':
     optional: true
+
+  '@tanstack/query-core@5.85.5': {}
+
+  '@tanstack/query-persist-client-core@5.85.5':
+    dependencies:
+      '@tanstack/query-core': 5.85.5
+
+  '@tanstack/react-query-persist-client@5.85.5(@tanstack/react-query@5.85.5(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@tanstack/query-persist-client-core': 5.85.5
+      '@tanstack/react-query': 5.85.5(react@19.1.1)
+      react: 19.1.1
+
+  '@tanstack/react-query@5.85.5(react@19.1.1)':
+    dependencies:
+      '@tanstack/query-core': 5.85.5
+      react: 19.1.1
 
   '@tokenizer/token@0.3.0': {}
 
