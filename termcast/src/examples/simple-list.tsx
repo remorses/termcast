@@ -1,7 +1,10 @@
-import { renderWithProviders } from '@termcast/api'
+import { renderWithProviders, Detail, Action, ActionPanel } from '@termcast/api'
 import List from '@termcast/api'
+import { useNavigation } from '@termcast/api/src/internal/navigation'
+import dedent from 'dedent'
 
 function ListExample() {
+  const { push } = useNavigation()
   const handleSelectionChange = (id: string | null) => {
     console.log('Selected item:', id)
   }
@@ -14,6 +17,25 @@ function ListExample() {
         accessories={[
           { text: "Badge" }
         ]}
+        actions={
+          <ActionPanel>
+            <Action
+              title="View Details"
+              onAction={() => push(
+                <Detail markdown={dedent`
+                  # First Item
+                  
+                  This is the detail view for the first item.
+                  
+                  ## Features
+                  - Shows markdown content
+                  - Can have metadata
+                  - Supports actions
+                `} />
+              )}
+            />
+          </ActionPanel>
+        }
       />
 
       <List.Item
@@ -22,6 +44,22 @@ function ListExample() {
         accessories={[
           { text: "Important" }
         ]}
+        actions={
+          <ActionPanel>
+            <Action
+              title="View Details"
+              onAction={() => push(
+                <Detail markdown={dedent`
+                  # Second Item
+                  
+                  Another detail view with different content.
+                  
+                  **Important** information can be shown here.
+                `} />
+              )}
+            />
+          </ActionPanel>
+        }
       />
 
       <List.Item
@@ -30,15 +68,66 @@ function ListExample() {
           { text: "Starred" },
           { text: "Multiple accessories" }
         ]}
+        actions={
+          <ActionPanel>
+            <Action
+              title="View Details"
+              onAction={() => push(
+                <Detail markdown={dedent`
+                  # Third Item
+                  
+                  This item has multiple accessories and is marked as starred.
+                  
+                  ⭐ **Starred Item**
+                `} />
+              )}
+            />
+          </ActionPanel>
+        }
       />
 
       <List.Item
         title="Fourth Item"
         subtitle="This item is searchable"
+        actions={
+          <ActionPanel>
+            <Action
+              title="View Details"
+              onAction={() => push(
+                <Detail markdown={dedent`
+                  # Fourth Item
+                  
+                  This item is searchable and can be found easily using the search bar.
+                  
+                  ## Search Features
+                  - Keyword matching
+                  - Fuzzy search support
+                  - Real-time filtering
+                `} />
+              )}
+            />
+          </ActionPanel>
+        }
       />
 
       <List.Item
         title="Simple Item"
+        actions={
+          <ActionPanel>
+            <Action
+              title="View Details"
+              onAction={() => push(
+                <Detail markdown={dedent`
+                  # Simple Item
+                  
+                  A simple list item with minimal information.
+                  
+                  Sometimes less is more.
+                `} />
+              )}
+            />
+          </ActionPanel>
+        }
       />
     </List>
   )

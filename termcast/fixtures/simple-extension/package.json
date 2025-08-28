@@ -27,6 +27,13 @@
       "subtitle": "Demonstrates usePromise hook",
       "description": "Shows how to use the usePromise hook from @raycast/utils",
       "mode": "view"
+    },
+    {
+      "name": "show-state",
+      "title": "Show State",
+      "subtitle": "Display current state as JSON",
+      "description": "Shows the current application state in JSON format",
+      "mode": "view"
     }
   ]
 }

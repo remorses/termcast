@@ -112,6 +112,23 @@ you can use zustand state from @state.tsx also outside of React using `useStore.
 
 zustand already merges new partial state with the previous state. NEVER DO `useStore.setState({ ...useStore.getInitialState(), ... })` unless for resetting state
 
+## context-based component architecture
+
+When implementing compound components (like List.Dropdown), use React contexts instead of traversing children:
+
+- Create a context at the parent level (e.g., ListContext) to share state with descendants
+- Create child-specific contexts (e.g., DropdownContext) for component-specific state
+- Move rendering logic into child components - they register themselves via context
+- This allows wrapping components in custom wrappers without breaking functionality
+
+Example pattern:
+- Parent provides context with state/methods
+- Children use context to register themselves (e.g., Dropdown.Item registers its value/title)
+- Parent collects registered items through context, not by traversing children
+- Child components handle their own rendering based on context state
+
+This approach is more flexible than children traversal and supports arbitrary component wrapping.
+
 ## adding new core extensions
 
 when adding core extensions like a store extension that installs other extensions you should carefully manage @state.tsx state, setting it appropriately when navigating to another extension or command

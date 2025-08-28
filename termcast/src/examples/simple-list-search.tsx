@@ -1,7 +1,10 @@
-import { renderWithProviders } from '@termcast/api'
+import { renderWithProviders, Detail, Action, ActionPanel } from '@termcast/api'
 import List from '@termcast/api'
+import { useNavigation } from '@termcast/api/src/internal/navigation'
+import dedent from 'dedent'
 
 const App: any = () => {
+    const { push } = useNavigation()
     return (
         <List
             searchBarPlaceholder="Search items..."
@@ -13,6 +16,22 @@ const App: any = () => {
                 subtitle="This is the first item"
                 keywords={['first', 'one', 'primary']}
                 id="item1"
+                actions={
+                    <ActionPanel>
+                        <Action
+                            title="View Details"
+                            onAction={() => push(
+                                <Detail markdown={dedent`
+                                    # First Item
+                                    
+                                    This is the first item in the searchable list.
+                                    
+                                    Keywords: first, one, primary
+                                `} />
+                            )}
+                        />
+                    </ActionPanel>
+                }
             />
             <List.Item
                 title="Second Item"
@@ -31,6 +50,25 @@ const App: any = () => {
                 subtitle="A red fruit"
                 keywords={['fruit', 'red', 'healthy']}
                 id="apple"
+                actions={
+                    <ActionPanel>
+                        <Action
+                            title="View Details"
+                            onAction={() => push(
+                                <Detail markdown={dedent`
+                                    # Apple
+                                    
+                                    A delicious red fruit.
+                                    
+                                    ## Health Benefits
+                                    - High in fiber
+                                    - Rich in antioxidants
+                                    - Supports heart health
+                                `} />
+                            )}
+                        />
+                    </ActionPanel>
+                }
             />
             <List.Item
                 title="Banana"

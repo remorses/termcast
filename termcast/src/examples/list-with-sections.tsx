@@ -1,7 +1,10 @@
-import { renderWithProviders } from '@termcast/api'
+import { renderWithProviders, Detail, Action, ActionPanel } from '@termcast/api'
 import List from '@termcast/api'
+import { useNavigation } from '@termcast/api/src/internal/navigation'
+import dedent from 'dedent'
 
 function SimpleListExample() {
+    const { push } = useNavigation()
     return (
         <List
             navigationTitle="Simple List Example"
@@ -20,6 +23,25 @@ function SimpleListExample() {
                         { text: 'Fresh' },
                         { tag: 'Popular' }
                     ]}
+                    actions={
+                        <ActionPanel>
+                            <Action
+                                title="View Details"
+                                onAction={() => push(
+                                    <Detail markdown={dedent`
+                                        # Apple
+                                        
+                                        A delicious red fruit that's sweet and crunchy.
+                                        
+                                        ## Nutrition Facts
+                                        - High in fiber
+                                        - Rich in antioxidants
+                                        - Good source of vitamin C
+                                    `} />
+                                )}
+                            />
+                        </ActionPanel>
+                    }
                 />
                 <List.Item
                     id="banana"
@@ -29,6 +51,25 @@ function SimpleListExample() {
                     accessories={[
                         { text: 'Ripe' }
                     ]}
+                    actions={
+                        <ActionPanel>
+                            <Action
+                                title="View Details"
+                                onAction={() => push(
+                                    <Detail markdown={dedent`
+                                        # Banana
+                                        
+                                        A yellow tropical fruit that's nutritious and energy-rich.
+                                        
+                                        ## Benefits
+                                        - High in potassium
+                                        - Natural energy booster
+                                        - Aids digestion
+                                    `} />
+                                )}
+                            />
+                        </ActionPanel>
+                    }
                 />
             </List.Section>
             <List.Section title="Vegetables">
@@ -40,12 +81,52 @@ function SimpleListExample() {
                     accessories={[
                         { tag: 'Healthy' }
                     ]}
+                    actions={
+                        <ActionPanel>
+                            <Action
+                                title="View Details"
+                                onAction={() => push(
+                                    <Detail markdown={dedent`
+                                        # Carrot
+                                        
+                                        A crunchy orange vegetable rich in vitamins.
+                                        
+                                        ## Health Benefits
+                                        - Excellent source of beta carotene
+                                        - Improves eye health
+                                        - Boosts immune system
+                                        - Low in calories
+                                    `} />
+                                )}
+                            />
+                        </ActionPanel>
+                    }
                 />
                 <List.Item
                     id="lettuce"
                     title="Lettuce"
                     subtitle="Green and fresh"
                     keywords={['vegetable', 'green', 'salad']}
+                    actions={
+                        <ActionPanel>
+                            <Action
+                                title="View Details"
+                                onAction={() => push(
+                                    <Detail markdown={dedent`
+                                        # Lettuce
+                                        
+                                        Fresh green leafy vegetable perfect for salads.
+                                        
+                                        ## Nutritional Value
+                                        - High in water content
+                                        - Low in calories
+                                        - Contains folate and vitamin K
+                                        - Good source of fiber
+                                    `} />
+                                )}
+                            />
+                        </ActionPanel>
+                    }
                 />
             </List.Section>
             <List.Item
@@ -57,6 +138,26 @@ function SimpleListExample() {
                     { text: 'Today' },
                     { tag: 'New' }
                 ]}
+                actions={
+                    <ActionPanel>
+                        <Action
+                            title="View Details"
+                            onAction={() => push(
+                                <Detail markdown={dedent`
+                                    # Bread
+                                    
+                                    Freshly baked bread from our bakery.
+                                    
+                                    ## Product Details
+                                    - Baked fresh daily
+                                    - Made with organic flour
+                                    - No preservatives
+                                    - Perfect for sandwiches or toast
+                                `} />
+                            )}
+                        />
+                    </ActionPanel>
+                }
             />
         </List>
     )
