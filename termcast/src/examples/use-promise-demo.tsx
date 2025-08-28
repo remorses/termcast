@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, ActionPanel, Action, showToast, Toast } from '@termcast/api';
-import { usePromise } from '@raycast/utils';
+import { useCachedPromise } from '@raycast/utils';
 import { renderWithProviders } from '@termcast/api';
 
 interface User {
@@ -39,7 +39,7 @@ function UsePromiseExample() {
     data: users,
     error,
     revalidate,
-  } = usePromise(fetchUsers, [searchText], {
+  } = useCachedPromise(fetchUsers, [searchText], {
     onError: (error) => {
       showToast({
         style: Toast.Style.Failure,
@@ -50,6 +50,7 @@ function UsePromiseExample() {
     onData: (data) => {
       console.log(`Fetched ${data.length} users`);
     },
+    keepPreviousData: true
   });
 
   return (

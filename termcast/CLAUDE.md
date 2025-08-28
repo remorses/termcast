@@ -6,6 +6,8 @@ import {List} from '@termcast/api'
 
 ALWAYS use .tsx extension for every new file.
 
+NEVER use mocks in vitest tests
+
 prefer object args instead of positional args. as a way to implement named arguments, put the typescript definition inline
 
 ## Goal
@@ -96,3 +98,7 @@ NEVER import @raycast/api to reuse their types. we are porting that package into
 This is not a plain react project, instead it is a React with opentui renderer, which supports box, group, input, etc
 
 To understand how to use these components read other files in the project. try to use the theme.tsx file for colors
+
+## todos
+
+if you cannot port a real implementation for some raycast APIs and instead simulate a "fake" response, always add `// TODO` comments so i can easily find these later and implement them

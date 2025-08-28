@@ -1,4 +1,5 @@
 // Import globals to set up global references
+import { LaunchType } from '@termcast/api/src/environment'
 import './globals'
 
 // termcastApi will be set by the runtime when needed
@@ -78,6 +79,23 @@ export type {
 // Alerts
 export { Alert, confirmAlert } from '@termcast/api/src/components/alert'
 
+// MenuBar
+export { MenuBarExtra } from '@termcast/api/src/components/menubar-extra'
+export type {
+  MenuBarExtraProps,
+  MenuBarExtraItemProps,
+  MenuBarExtraSeparatorProps,
+  MenuBarExtraSubmenuProps,
+  MenuBarExtraSectionProps,
+  MenuBarExtraActionEvent
+} from '@termcast/api/src/components/menubar-extra'
+
+// AI
+export { AI } from '@termcast/api/src/ai'
+
+// OAuth
+export { OAuth } from '@termcast/api/src/oauth'
+
 // Colors
 export { Color } from '@termcast/api/src/colors'
 
@@ -132,9 +150,10 @@ export {
 } from '@termcast/api/src/environment'
 export type {
   Environment,
-  LaunchType,
   LaunchProps
 } from '@termcast/api/src/environment'
+
+export {LaunchType}
 
 // Common Types
 export type { CommonProps } from '@termcast/api/src/utils'

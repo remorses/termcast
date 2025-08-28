@@ -11,7 +11,7 @@ Command: ${environment.commandName}
 Theme: ${environment.appearance}
 Text Size: ${environment.textSize}
 Is Development: ${environment.isDevelopment}
-Launch Type: ${environment.launchType.type}
+Launch Type: ${environment.launchType}
 Owner/Author: ${environment.ownerOrAuthorName}
 Support Path: ${environment.supportPath}
 Assets Path: ${environment.assetsPath}
@@ -42,7 +42,7 @@ Command Mode: ${environment.commandMode}
             />
             <List.Item
                 title="Launch Type"
-                subtitle={environment.launchType.type}
+                subtitle={environment.launchType}
             />
         </List>
     )
