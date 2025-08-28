@@ -6,16 +6,13 @@ const isPunctuation = (ch: string) => PUNCTUATION.has(ch)
 const isWordChar = (ch: string) => /[A-Za-z0-9_]/.test(ch)
 
 type Kind = 'space' | 'punct' | 'word' | 'other'
-const kindOf = (ch: string): Kind =>
-    isWhitespace(ch)
-        ? 'space'
-        : isNewline(ch)
-          ? 'other'
-          : isPunctuation(ch)
-            ? 'punct'
-            : isWordChar(ch)
-              ? 'word'
-              : 'other'
+const kindOf = (ch: string): Kind => {
+    if (isWhitespace(ch)) return 'space';
+    if (isNewline(ch))   return 'other';
+    if (isPunctuation(ch)) return 'punct';
+    if (isWordChar(ch))  return 'word';
+    return 'other';
+}
 
 
 function nextWordEnd(text: string, caret: number): number {
