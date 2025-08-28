@@ -3,6 +3,7 @@ import { useKeyboard } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { ActionPanel } from '@termcast/api/src/components/actions'
 import { logger } from '@termcast/api/src/logger'
+import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
 import {
     FormValues,
     FormProps,
@@ -120,8 +121,14 @@ export const Form: FormType = ((props) => {
         }
     })
 
+    // Get focus state
+    const inFocus = useIsInFocus()
+
     // Handle Tab/Shift+Tab and arrow key navigation
     useKeyboard((evt) => {
+        // Only handle keyboard events when form is in focus
+        if (!inFocus) return
+
         const fieldNames = Object.keys(methods.getValues())
         if (fieldNames.length === 0) return
 

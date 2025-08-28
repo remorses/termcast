@@ -69,7 +69,6 @@ List.Section = (props) => {
 }
 ```
 
-
 To render with opentui use
 
 ```ts
@@ -103,7 +102,6 @@ To understand how to use these components read other files in the project. try t
 
 if you cannot port a real implementation for some raycast APIs and instead simulate a "fake" response, always add `// TODO` comments so i can easily find these later and implement them
 
-
 ## zustand
 
 NEVER add zustand state setter methods. instead use useStore.setState to set state.
@@ -111,7 +109,6 @@ NEVER add zustand state setter methods. instead use useStore.setState to set sta
 you can use zustand state from @state.tsx also outside of React using `useStore.getState()`
 
 zustand already merges new partial state with the previous state. NEVER DO `useStore.setState({ ...useStore.getInitialState(), ... })` unless for resetting state
-
 
 ## adding new core extensions
 
@@ -126,3 +123,20 @@ to create strings with new lines use the dedent package so it is more readable
 NEVER run examples yourself with bun src/examples/etc
 
 These will hang. These are made for real people
+
+## focus
+
+when you handle key presses with
+
+```tsx
+import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
+
+const inFocus = useIsInFocus()
+useKeyboard((evt) => {
+    if (!inFocus) return
+    // ...
+    // notice that enter is called return in evt.name
+})
+
+
+```
