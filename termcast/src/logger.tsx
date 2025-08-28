@@ -34,6 +34,21 @@ export const logger = {
         const logEntry = `[${timestamp}] WARN: ${formattedMessages}\n`
         fs.appendFileSync(LOG_FILE, logEntry)
     },
+    trace: (...messages: any[]) => {
+        const timestamp = new Date().toISOString()
+        let stack: string = ''
+        try {
+            throw new Error()
+        } catch (err: any) {
+            // Remove this function's stack frame from the trace output
+            stack = err && err.stack ? err.stack.split('\n').slice(2).join('\n') : ''
+        }
+        const formattedMessages = messages.map(msg =>
+            typeof msg === 'string' ? msg : JSON.stringify(msg, null, 2)
+        ).join(' ')
+        const logEntry = `[${timestamp}] TRACE: ${formattedMessages}\n${stack}\n`
+        fs.appendFileSync(LOG_FILE, logEntry)
+    },
 }
 
 // Catch unhandled errors and exceptions

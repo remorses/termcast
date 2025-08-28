@@ -304,25 +304,6 @@ const ActionPanel: ActionPanelType = (props) => {
     [],
   )
 
-  // Handle keyboard events when this ActionPanel is focused
-  useKeyboard((evt) => {
-
-    if (!inFocus) return
-
-    // Handle Enter key to execute selected action
-    if (evt.name === 'return') {
-      // Get all registered actions sorted by index
-      const items = Object.values(descendantsContext.map.current)
-        .filter((item: any) => item.index !== -1)
-        .sort((a: any, b: any) => a.index - b.index)
-        .map((item: any) => item.props as ActionDescendant)
-
-      // Execute the first action if available
-      if (items.length > 0) {
-        items[0].execute()
-      }
-    }
-  })
 
   // ActionPanel renders as Dropdown with children
   return (
@@ -333,6 +314,7 @@ const ActionPanel: ActionPanelType = (props) => {
           placeholder="Search actions..."
           filtering={true}
           onChange={(value) => {
+            logger.log(`actions dropdown onChange`, value)
             // Find and execute the selected action
             const allActions = Object.values(descendantsContext.map.current)
               .filter((item: any) => item.index !== -1)
