@@ -6,3 +6,7 @@ esm
 .ultra.cache.json
 coverage
 build
+
+*.env
+
+.wrangler
