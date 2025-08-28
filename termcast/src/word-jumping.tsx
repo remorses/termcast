@@ -85,6 +85,9 @@ function nextWordEnd(text: string, caret: number): number {
     i = skipWhileRight(text, i, isWhitespace)
     i = skipSingleAdjacentPunctRight(text, i)
     if (i >= n) return n
+    // After skipping punctuation, we might be on a space again
+    i = skipWhileRight(text, i, isWhitespace)
+    if (i >= n) return n
     const k = kindOf(text[i])
     return runEndRight(text, i, k)
 }
@@ -93,6 +96,9 @@ function previousWordStart(text: string, caret: number): number {
     let i = caret
     i = skipWhileLeft(text, i, isWhitespace)
     i = skipSingleAdjacentPunctLeft(text, i)
+    if (i <= 0) return 0
+    // After skipping punctuation, we might be after a space again
+    i = skipWhileLeft(text, i, isWhitespace)
     if (i <= 0) return 0
     const k = kindOf(text[i - 1])
     return runStartLeft(text, i, k)

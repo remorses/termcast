@@ -24,7 +24,7 @@ describe('word-jumping', () => {
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
             const result = nextWordEndCrossLine(cleanText, caret)
-            expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"hello, world!|"`)
+            expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toBe('hello, world|!')
         })
 
         test('handles multiple punctuation', () => {
@@ -117,7 +117,7 @@ describe('word-jumping', () => {
             const caret = text.indexOf('|')
             const cleanText = text.replace('|', '')
             const result = previousWordStartCrossLine(cleanText, caret)
-            expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toMatchInlineSnapshot(`"h|ello, world"`)
+            expect(cleanText.slice(0, result) + '|' + cleanText.slice(result)).toBe('h|ello, world')
         })
 
         test('handles multiple punctuation', () => {
