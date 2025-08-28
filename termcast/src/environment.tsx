@@ -89,7 +89,7 @@ class EnvironmentImpl implements Environment {
     if (state.currentCommandName) {
       return state.currentCommandName
     }
-    return 'command'
+    return ''
   }
 
   get extensionName(): string {
@@ -100,7 +100,7 @@ class EnvironmentImpl implements Environment {
     if (state.extensionPath) {
       return path.basename(state.extensionPath)
     }
-    return 'termcast-extension'
+    return ''
   }
 
   get isDevelopment(): boolean {
@@ -123,7 +123,7 @@ class EnvironmentImpl implements Environment {
     if (pkg?.owner) {
       return pkg.owner
     }
-    return 'Unknown'
+    return ''
   }
 
   get raycastVersion(): string {
