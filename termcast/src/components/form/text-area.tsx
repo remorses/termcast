@@ -35,7 +35,6 @@ export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>((props, ref
                             <input
                                 value={field.value}
                                 onInput={(value: string) => {
-                                    setFocusedField(props.id)
                                     field.onChange(value)
                                     if (props.onChange) {
                                         props.onChange(value)

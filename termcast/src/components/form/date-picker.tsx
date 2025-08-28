@@ -79,7 +79,6 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>((pr
                                 <input
                                     value={displayValue}
                                     onInput={(value: string) => {
-                                        setFocusedField(props.id)
                                         if (isFocused) {
                                             handleChange(value)
                                         } else {

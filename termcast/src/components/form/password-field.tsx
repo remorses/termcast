@@ -37,7 +37,6 @@ export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldPro
                                 <input
                                     value={displayValue}
                                     onInput={(value: string) => {
-                                        setFocusedField(props.id)
                                         // Ignore masked input (all asterisks) when not focused
                                         if (isFocused && !(/^\*+$/.test(value) && !field.value.startsWith('*'))) {
                                             field.onChange(value)
