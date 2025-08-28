@@ -45,6 +45,7 @@
         "dedent": "^1.6.0",
         "jszip": "^3.10.1",
         "react": "^19.1.1",
+        "react-hook-form": "^7.62.0",
         "zustand": "^5.0.8"
     },
     "devDependencies": {

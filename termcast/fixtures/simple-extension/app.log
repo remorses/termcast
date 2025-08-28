@@ -1,6 +1,0 @@
-[2025-08-27T18:01:12.481Z] Building 2 commands...
-[2025-08-27T18:01:12.486Z] Resolving @raycast/api to @termcast/api
-[2025-08-27T18:01:12.486Z] Resolving @raycast/api to @termcast/api
-[2025-08-27T18:01:12.487Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
-[2025-08-27T18:01:12.487Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
-[2025-08-27T18:01:12.487Z] Successfully built 2 files

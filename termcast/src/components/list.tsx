@@ -252,13 +252,6 @@ interface ListContextValue {
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
 
-function useListContext() {
-    const context = useContext(ListContext)
-    if (!context) {
-        throw new Error('useListContext must be used within a List component')
-    }
-    return context
-}
 
 // Dropdown context for passing data to dropdown items
 interface DropdownContextValue {
@@ -281,16 +274,6 @@ const DropdownContext = createContext<DropdownContextValue | undefined>(
     undefined,
 )
 
-function useDropdownContext() {
-    const context = useContext(DropdownContext)
-    if (!context) {
-        throw new Error(
-            'useDropdownContext must be used within a List.Dropdown component',
-        )
-    }
-    return context
-}
-
 // Process list item to extract searchable and displayable data
 interface ProcessedItem extends ItemProps {
     originalIndex: number
@@ -299,29 +282,6 @@ interface ProcessedItem extends ItemProps {
     subtitleText?: string
     originalElement?: ReactElement
 }
-
-// Extract dropdown items from children
-function extractDropdownItems(children: ReactNode): DropdownItemProps[] {
-    const items: DropdownItemProps[] = []
-
-    const processChildren = (nodes: ReactNode) => {
-        Children.forEach(nodes, (child) => {
-            if (!isValidElement(child)) return
-
-            if (child.type === ListDropdown.Item) {
-                const props = child.props as DropdownItemProps
-                items.push(props)
-            } else if (child.type === ListDropdown.Section) {
-                const props = child.props as DropdownSectionProps
-                processChildren(props.children)
-            }
-        })
-    }
-
-    processChildren(children)
-    return items
-}
-
 // Dropdown dialog component
 interface ListDropdownDialogProps extends DropdownProps {
     items: { value: string; title: string; icon?: any; section?: string }[]
