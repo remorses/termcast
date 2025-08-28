@@ -8,27 +8,58 @@ import { Providers } from '@termcast/api/src/internal/providers'
 import { showToast, Toast } from '@termcast/api/src/toast'
 import { Icon } from '@termcast/api'
 import { getStoredExtensions } from './store'
+import Store from './extensions/store'
 
 interface ExtensionCommand {
     extensionName: string
     extensionTitle: string
     command: any
-    bundledPath: string
+    bundledPath?: string
+    Component?: () => any
 }
+
+// Built-in extensions available globally
+const builtinExtensions: ExtensionCommand[] = [
+    {
+        extensionName: 'termcast-store',
+        extensionTitle: 'Termcast Store',
+        command: {
+            name: 'store',
+            title: 'Store - Install Extensions',
+            description: 'Browse and install extensions from the Raycast Store',
+            mode: 'view',
+            icon: 'Store',
+        },
+        Component: Store,
+    },
+]
 
 function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): any {
     const { push } = useNavigation()
 
     const handleCommandSelect = async (item: ExtensionCommand) => {
         try {
-            const module = await import(item.bundledPath)
-            const Component = module.default
+            let Component: (() => any) | undefined
 
-            if (!Component) {
+            if (item.Component) {
+                Component = item.Component
+            } else if (item.bundledPath) {
+                const module = await import(item.bundledPath)
+                Component = module.default
+
+                if (!Component) {
+                    await showToast({
+                        style: Toast.Style.Failure,
+                        title: 'No default export',
+                        message: `Command file ${item.command.name} has no default export`,
+                    })
+                    return
+                }
+            } else {
                 await showToast({
                     style: Toast.Style.Failure,
-                    title: 'No default export',
-                    message: `Command file ${item.command.name} has no default export`,
+                    title: 'Command not available',
+                    message: `Command ${item.command.name} has no implementation`,
                 })
                 return
             }
@@ -73,7 +104,7 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
                                     ? Icon[item.command.icon as keyof typeof Icon]
                                     : undefined
                             }
-                            accessories={[{ text: item.command.mode }]}
+                            accessories={item.command.mode ? [{ text: item.command.mode }] : []}
                             keywords={item.command.keywords}
                             actions={
                                 <ActionPanel>
@@ -83,10 +114,12 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
                                             handleCommandSelect(item)
                                         }}
                                     />
-                                    <Action.CopyToClipboard
-                                        content={item.bundledPath}
-                                        title='Copy Bundle Path'
-                                    />
+                                    {item.bundledPath && (
+                                        <Action.CopyToClipboard
+                                            content={item.bundledPath}
+                                            title='Copy Bundle Path'
+                                        />
+                                    )}
                                     <Action.CopyToClipboard
                                         content={JSON.stringify(item.command, null, 2)}
                                         title='Copy Command Info'
@@ -116,6 +149,8 @@ export async function runHomeCommand(): Promise<void> {
     const storedExtensions = getStoredExtensions()
 
     const allCommands: ExtensionCommand[] = []
+
+    allCommands.push(...builtinExtensions)
 
     for (const extension of storedExtensions) {
         const packageJson = JSON.parse(

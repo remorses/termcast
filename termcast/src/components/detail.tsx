@@ -1,8 +1,8 @@
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo, ReactElement } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { Theme } from '@termcast/api/src/theme'
 import { InFocus } from '@termcast/api/src/internal/focus-context'
-import { ActionPanel } from '@termcast/api/src/components/actions'
+import { ActionPanel, Action } from '@termcast/api/src/components/actions'
 import { Image } from '@termcast/api/src/components/list'
 import { Color } from '@termcast/api/src/colors'
 import { useStore } from '@termcast/api/src/state'
@@ -185,7 +185,7 @@ DetailMetadata.Separator = DetailMetadataSeparator
 DetailMetadata.Link = DetailMetadataLink
 DetailMetadata.TagList = DetailMetadataTagList
 
-function DetailFooter({ hasActions }: { hasActions?: boolean }): any {
+function DetailFooter({ hasActions, firstActionTitle }: { hasActions?: boolean; firstActionTitle?: string }): any {
     const toast = useStore((state) => state.toast)
 
     if (toast) {
@@ -227,8 +227,42 @@ function DetailFooter({ hasActions }: { hasActions?: boolean }): any {
                     <text fg={Theme.textMuted}> actions</text>
                 </>
             )}
+            {hasActions && firstActionTitle && (
+                <>
+                    <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                        {"   "}↵
+                    </text>
+                    <text fg={Theme.textMuted}> {firstActionTitle}</text>
+                </>
+            )}
         </box>
     )
+}
+
+// Helper to extract first action title from actions
+function getFirstActionTitle(actions: ReactNode): string | undefined {
+    let firstTitle: string | undefined
+
+    const findFirstAction = (nodes: ReactNode): void => {
+        React.Children.forEach(nodes, (child) => {
+            if (firstTitle) return
+
+            if (React.isValidElement(child)) {
+                const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
+                
+                if (actionTypes.includes(child.type as any)) {
+                    firstTitle = (child.props as any).title
+                } else if (child.type === ActionPanel) {
+                    findFirstAction((child.props as any).children)
+                } else if (child.type === ActionPanel.Section) {
+                    findFirstAction((child.props as any).children)
+                }
+            }
+        })
+    }
+
+    findFirstAction(actions)
+    return firstTitle
 }
 
 const Detail: DetailType = (props) => {
@@ -239,6 +273,10 @@ const Detail: DetailType = (props) => {
         // TODO: Implement proper markdown parsing
         return props.markdown.split('\n')
     }, [props.markdown])
+
+    const firstActionTitle = useMemo(() => {
+        return actions ? getFirstActionTitle(actions) : undefined
+    }, [actions])
 
     const content = (
         <box
@@ -281,7 +319,7 @@ const Detail: DetailType = (props) => {
             <InFocus inFocus={true}>
                 <box style={{ flexDirection: 'column', height: '100%' }}>
                     {content}
-                    <DetailFooter hasActions={true} />
+                    <DetailFooter hasActions={true} firstActionTitle={firstActionTitle} />
                 </box>
                 {actions}
             </InFocus>
