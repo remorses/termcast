@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 import { useKeyboard } from "@opentui/react"
 import { CommonProps } from '@termcast/api/src/utils'
+import { useStore } from '@termcast/api/src/state'
 
 interface NavigationStackItem {
   component: ReactNode
@@ -30,6 +31,7 @@ export function NavigationProvider(props: NavigationProviderProps): any {
 
   const push = useCallback((component: ReactNode, onPop?: () => void) => {
     setStack((prev) => [...prev, { component, onPop }])
+    useStore.setState({ dialogStack: [] })
   }, [])
 
   const pop = useCallback(() => {
