@@ -1,4 +1,5 @@
 import JSZip from 'jszip'
+import path from 'path'
 
 export async function downloadExtension({
     author,
@@ -25,13 +26,15 @@ export async function downloadExtension({
     })
 
     const arrayBuffer = await response.arrayBuffer()
-    
+
     // Check if we got an error response instead of a zip
     if (!response.ok) {
         const text = new TextDecoder().decode(arrayBuffer)
-        throw new Error(`Failed to download extension: ${response.status} - ${text}`)
+        throw new Error(
+            `Failed to download extension: ${response.status} - ${text}`,
+        )
     }
-    
+
     const zip = await JSZip.loadAsync(Buffer.from(arrayBuffer))
 
     const files: { buffer: Buffer; filename: string }[] = []
@@ -39,7 +42,9 @@ export async function downloadExtension({
     for (const [filename, file] of Object.entries(zip.files)) {
         if (!file.dir) {
             const buffer = await file.async('nodebuffer')
-            files.push({ buffer, filename })
+            const pathParts = filename.split('/')
+            const filenameWithoutTopLevel = path.posix.join(...pathParts.slice(1))
+            files.push({ buffer, filename: filenameWithoutTopLevel })
         }
     }
 
