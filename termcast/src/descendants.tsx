@@ -1,3 +1,5 @@
+// inspired by https://github.com/pacocoursey/use-descendants
+//
 import * as React from 'react'
 
 type DescendantMap<T> = { [id: string]: { index: number; props?: T } }
