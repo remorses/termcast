@@ -16,7 +16,7 @@ function serialize(msg: any): string {
     if (typeof msg === 'string') {
         return msg
     }
-    return JSON.stringify(msg, null, 2)
+    return Bun.inspect(msg, {depth: 3})
 }
 
 export const logger = {
