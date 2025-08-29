@@ -8,7 +8,7 @@
     "repository": "https://github.com/remorses/termcast",
     "scripts": {
         "build": "tsc && bun run binary",
-        "binary": "bun build --watch ./src/cli.tsx --compile --outfile bin ",
+        "binary": "bun build ./src/cli.tsx --compile --outfile bin ",
         "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
         "play": "bun src/cli.tsx",
         "test": "vitest --run"
