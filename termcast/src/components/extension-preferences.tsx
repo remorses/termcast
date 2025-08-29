@@ -11,6 +11,7 @@ import type { RaycastPackageJson } from '@termcast/cli/src/package-json'
 interface ExtensionPreferencesProps {
     extensionName: string
     commandName?: string
+    onSubmit?: (values: Record<string, any>) => void
 }
 
 interface PreferenceManifest {
@@ -24,7 +25,7 @@ interface PreferenceManifest {
     data?: Array<{ title: string; value: string }>  // For dropdown
 }
 
-export function ExtensionPreferences({ extensionName, commandName }: ExtensionPreferencesProps): any {
+export function ExtensionPreferences({ extensionName, commandName, onSubmit }: ExtensionPreferencesProps): any {
     const [preferences, setPreferences] = useState<PreferenceManifest[]>([])
     const [savedValues, setSavedValues] = useState<Record<string, any>>({})
     const [isLoading, setIsLoading] = useState(true)
@@ -107,7 +108,11 @@ export function ExtensionPreferences({ extensionName, commandName }: ExtensionPr
                     : `Preferences for ${extensionName} have been saved`
             })
             
-            pop()
+            if (onSubmit) {
+                onSubmit(values)
+            } else {
+                pop()
+            }
         } catch (error) {
             await showToast({
                 style: Toast.Style.Failure,
@@ -122,6 +127,12 @@ export function ExtensionPreferences({ extensionName, commandName }: ExtensionPr
     }
 
     if (preferences.length === 0) {
+        // If no preferences but onSubmit provided, call it immediately
+        if (onSubmit) {
+            onSubmit({})
+            return null
+        }
+        
         return (
             <Form onSubmit={() => pop()}>
                 <Form.Description text={
