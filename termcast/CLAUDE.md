@@ -41,7 +41,7 @@ Here is the process to follow to implement each API:
 - read the .d.ts of the @raycast/api package for the component or hook
 - generate a new file or decide to which file to add this new API in src folder
 - start by adding a signature without any actual implementation. Only a function or class or constant without any actual implementation
-- try typechecking with `pnpm tsc`. fix any errors that is not related to the missing implementation (like missing returns)
+- try typechecking with `bun run tsc`. fix any errors that is not related to the missing implementation (like missing returns)
 - then think, is the signature the same as Raycast?
 - start implementing the component or function, before doing this
     - decide on what @opentui/react components to use
