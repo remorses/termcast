@@ -10,7 +10,7 @@ interface Item {
 
 export default function SearchItems() {
   const [searchText, setSearchText] = useState("");
-  
+
   const allItems: Item[] = [
     { id: "1", title: "Apple", subtitle: "A red fruit", category: "Fruits" },
     { id: "2", title: "Banana", subtitle: "A yellow fruit", category: "Fruits" },
@@ -67,7 +67,7 @@ export default function SearchItems() {
             ))}
         </List.Section>
       ))}
-      
+
       {filteredItems.length === 0 && (
         <List.EmptyView
           title="No items found"

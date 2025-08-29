@@ -1,3 +1,11 @@
-[2025-08-29T11:00:29.963Z] actions dropdown onChange Run Command
-[2025-08-29T11:00:29.996Z] No extension context found for preferences
-[2025-08-29T11:00:30.028Z] pushing X6
+[2025-08-29T11:16:53.780Z] Building 4 commands...
+[2025-08-29T11:16:53.785Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T11:16:53.785Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T11:16:53.785Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T11:16:53.786Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T11:16:53.787Z] ERROR: Build failed: Could not resolve: "@termcast/cli". Maybe you need to "bun install"?
+Could not resolve: "@termcast/cli/state". Maybe you need to "bun install"?
+Error: Build failed: Could not resolve: "@termcast/cli". Maybe you need to "bun install"?
+Could not resolve: "@termcast/cli/state". Maybe you need to "bun install"?
+    at buildExtensionCommands (/Users/morse/Documents/GitHub/termcast/termcast/src/build.tsx:224:19)
+    at processTicksAndRejections (native:7:39)

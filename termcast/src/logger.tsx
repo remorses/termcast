@@ -64,7 +64,7 @@ process.on('uncaughtException', (error: Error) => {
     process.exit(1)
 })
 
-process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
+process.on('unhandledRejection', async (reason: any, promise: Promise<any>) => {
     if (reason instanceof Error) {
         logger.error('Unhandled Rejection at:', promise, 'reason:', reason.message, reason.stack)
     } else {
