@@ -3,6 +3,7 @@ name: Release Bun binaries
 on:
     push:
         tags: ['@termcast/cli@**']
+    workflow_dispatch:
 
 permissions:
     contents: write
