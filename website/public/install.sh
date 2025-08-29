@@ -5,7 +5,7 @@ platform=$(uname -ms)
 
 if [[ ${OS:-} = Windows_NT ]]; then
   if [[ $platform != MINGW64* ]]; then
-    powershell -c "irm bun.com/install.ps1|iex"
+    powershell -c "irm termcast.app/install.ps1|iex"
     exit $?
   fi
 fi
@@ -53,109 +53,76 @@ success() {
     echo -e "${Green}$@ ${Color_Off}"
 }
 
-command -v unzip >/dev/null ||
-    error 'unzip is required to install bun'
+# No unzip required since binaries are not compressed
 
-if [[ $# -gt 2 ]]; then
-    error 'Too many arguments, only 2 are allowed. The first can be a specific tag of bun to install. (e.g. "bun-v0.1.4") The second can be a build variant of bun to install. (e.g. "debug-info")'
+if [[ $# -gt 1 ]]; then
+    error 'Too many arguments, only 1 is allowed. The first can be a specific tag of termcast to install. (e.g. "@termcast/cli@0.1.0")'
 fi
 
 case $platform in
 'Darwin x86_64')
-    target=darwin-x64
+    target=macos-X64
     ;;
 'Darwin arm64')
-    target=darwin-aarch64
+    target=macos-ARM64
     ;;
 'Linux aarch64' | 'Linux arm64')
-    target=linux-aarch64
+    target=linux-ARM64
     ;;
 'MINGW64'*)
-    target=windows-x64
+    target=windows-X64
+    ext=.exe
     ;;
 'Linux riscv64')
     error 'Not supported on riscv64'
     ;;
 'Linux x86_64' | *)
-    target=linux-x64
+    target=linux-X64
     ;;
 esac
 
-case "$target" in
-'linux'*)
-    if [ -f /etc/alpine-release ]; then
-        target="$target-musl"
-    fi
-    ;;
-esac
+# No musl variant for termcast
 
-if [[ $target = darwin-x64 ]]; then
+if [[ $target = macos-X64 ]]; then
     # Is this process running in Rosetta?
     # redirect stderr to devnull to avoid error message when not running in Rosetta
     if [[ $(sysctl -n sysctl.proc_translated 2>/dev/null) = 1 ]]; then
-        target=darwin-aarch64
-        info "Your shell is running in Rosetta 2. Downloading bun for $target instead"
+        target=macos-ARM64
+        info "Your shell is running in Rosetta 2. Downloading termcast for $target instead"
     fi
 fi
 
 GITHUB=${GITHUB-"https://github.com"}
 
-github_repo="$GITHUB/oven-sh/bun"
+github_repo="$GITHUB/remorses/termcast"
 
-# If AVX2 isn't supported, use the -baseline build
-case "$target" in
-'darwin-x64'*)
-    if [[ $(sysctl -a | grep machdep.cpu | grep AVX2) == '' ]]; then
-        target="$target-baseline"
-    fi
-    ;;
-'linux-x64'*)
-    # If AVX2 isn't supported, use the -baseline build
-    if [[ $(cat /proc/cpuinfo | grep avx2) = '' ]]; then
-        target="$target-baseline"
-    fi
-    ;;
-esac
+# No baseline builds for termcast
 
-exe_name=bun
-
-if [[ $# = 2 && $2 = debug-info ]]; then
-    target=$target-profile
-    exe_name=bun-profile
-    info "You requested a debug build of bun. More information will be shown if a crash occurs."
-fi
+exe_name=termcast-$target${ext:-}
 
 if [[ $# = 0 ]]; then
-    bun_uri=$github_repo/releases/latest/download/bun-$target.zip
+    termcast_uri=$github_repo/releases/latest/download/termcast-$target${ext:-}
 else
-    bun_uri=$github_repo/releases/download/$1/bun-$target.zip
+    termcast_uri=$github_repo/releases/download/$1/termcast-$target${ext:-}
 fi
 
-install_env=BUN_INSTALL
+install_env=TERMCAST_INSTALL
 bin_env=\$$install_env/bin
 
-install_dir=${!install_env:-$HOME/.bun}
+install_dir=${!install_env:-$HOME/.termcast}
 bin_dir=$install_dir/bin
-exe=$bin_dir/bun
+exe=$bin_dir/termcast
 
 if [[ ! -d $bin_dir ]]; then
     mkdir -p "$bin_dir" ||
         error "Failed to create install directory \"$bin_dir\""
 fi
 
-curl --fail --location --progress-bar --output "$exe.zip" "$bun_uri" ||
-    error "Failed to download bun from \"$bun_uri\""
-
-unzip -oqd "$bin_dir" "$exe.zip" ||
-    error 'Failed to extract bun'
-
-mv "$bin_dir/bun-$target/$exe_name" "$exe" ||
-    error 'Failed to move extracted bun to destination'
+curl --fail --location --progress-bar --output "$exe" "$termcast_uri" ||
+    error "Failed to download termcast from \"$termcast_uri\""
 
 chmod +x "$exe" ||
-    error 'Failed to set permissions on bun executable'
-
-rm -r "$bin_dir/bun-$target" "$exe.zip"
+    error 'Failed to set permissions on termcast executable'
 
 tildify() {
     if [[ $1 = $HOME/* ]]; then
@@ -167,13 +134,10 @@ tildify() {
     fi
 }
 
-success "bun was installed successfully to $Bold_Green$(tildify "$exe")"
+success "termcast was installed successfully to $Bold_Green$(tildify "$exe")"
 
-if command -v bun >/dev/null; then
-    # Install completions, but we don't care if it fails
-    IS_BUN_AUTO_UPDATE=true $exe completions &>/dev/null || :
-
-    echo "Run 'bun --help' to get started"
+if command -v termcast >/dev/null; then
+    echo "Run 'termcast --help' to get started"
     exit
 fi
 
@@ -190,9 +154,6 @@ echo
 
 case $(basename "$SHELL") in
 fish)
-    # Install completions, but we don't care if it fails
-    IS_BUN_AUTO_UPDATE=true SHELL=fish $exe completions &>/dev/null || :
-
     commands=(
         "set --export $install_env $quoted_install_dir"
         "set --export PATH $bin_env \$PATH"
@@ -203,7 +164,7 @@ fish)
 
     if [[ -w $fish_config ]]; then
         {
-            echo -e '\n# bun'
+            echo -e '\n# termcast'
 
             for command in "${commands[@]}"; do
                 echo "$command"
@@ -222,9 +183,6 @@ fish)
     fi
     ;;
 zsh)
-    # Install completions, but we don't care if it fails
-    IS_BUN_AUTO_UPDATE=true SHELL=zsh $exe completions &>/dev/null || :
-
     commands=(
         "export $install_env=$quoted_install_dir"
         "export PATH=\"$bin_env:\$PATH\""
@@ -235,7 +193,7 @@ zsh)
 
     if [[ -w $zsh_config ]]; then
         {
-            echo -e '\n# bun'
+            echo -e '\n# termcast'
 
             for command in "${commands[@]}"; do
                 echo "$command"
@@ -254,9 +212,6 @@ zsh)
     fi
     ;;
 bash)
-    # Install completions, but we don't care if it fails
-    IS_BUN_AUTO_UPDATE=true SHELL=bash $exe completions &>/dev/null || :
-
     commands=(
         "export $install_env=$quoted_install_dir"
         "export PATH=\"$bin_env:\$PATH\""
@@ -282,7 +237,7 @@ bash)
 
         if [[ -w $bash_config ]]; then
             {
-                echo -e '\n# bun'
+                echo -e '\n# termcast'
 
                 for command in "${commands[@]}"; do
                     echo "$command"
@@ -320,4 +275,4 @@ if [[ $refresh_command ]]; then
     info_bold "  $refresh_command"
 fi
 
-info_bold "  bun --help"
+info_bold "  termcast --help"
