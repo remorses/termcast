@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach, afterAll, vi } from 'vitest'
+import { describe, test, expect, beforeEach, afterAll, jest } from 'bun:test'
 import { Cache } from './cache'
 import * as os from 'os'
 import * as path from 'path'
@@ -134,7 +134,7 @@ describe('Cache', () => {
 
     describe('subscribe', () => {
         test('notifies subscriber on set', () => {
-            const subscriber = vi.fn()
+            const subscriber = jest.fn()
             cache.subscribe(subscriber)
             
             cache.set('key', 'value')
@@ -143,7 +143,7 @@ describe('Cache', () => {
         })
 
         test('notifies subscriber on remove', () => {
-            const subscriber = vi.fn()
+            const subscriber = jest.fn()
             cache.set('key', 'value')
             cache.subscribe(subscriber)
             
@@ -153,7 +153,7 @@ describe('Cache', () => {
         })
 
         test('notifies subscriber on clear', () => {
-            const subscriber = vi.fn()
+            const subscriber = jest.fn()
             cache.set('key', 'value')
             cache.subscribe(subscriber)
             
@@ -163,7 +163,7 @@ describe('Cache', () => {
         })
 
         test('does not notify when clear called with notifySubscribers: false', () => {
-            const subscriber = vi.fn()
+            const subscriber = jest.fn()
             cache.set('key', 'value')
             cache.subscribe(subscriber)
             
@@ -173,7 +173,7 @@ describe('Cache', () => {
         })
 
         test('unsubscribe stops notifications', () => {
-            const subscriber = vi.fn()
+            const subscriber = jest.fn()
             const unsubscribe = cache.subscribe(subscriber)
             
             cache.set('key1', 'value1')
@@ -186,8 +186,8 @@ describe('Cache', () => {
         })
 
         test('handles multiple subscribers', () => {
-            const subscriber1 = vi.fn()
-            const subscriber2 = vi.fn()
+            const subscriber1 = jest.fn()
+            const subscriber2 = jest.fn()
             
             cache.subscribe(subscriber1)
             cache.subscribe(subscriber2)
@@ -199,10 +199,10 @@ describe('Cache', () => {
         })
 
         test('handles subscriber errors gracefully', () => {
-            const errorSubscriber = vi.fn(() => {
+            const errorSubscriber = jest.fn(() => {
                 throw new Error('Subscriber error')
             })
-            const normalSubscriber = vi.fn()
+            const normalSubscriber = jest.fn()
             
             cache.subscribe(errorSubscriber)
             cache.subscribe(normalSubscriber)

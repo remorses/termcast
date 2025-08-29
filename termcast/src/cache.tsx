@@ -1,4 +1,4 @@
-import Database from '@signalapp/sqlcipher'
+import { Database } from 'bun:sqlite'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
@@ -58,7 +58,7 @@ export class Cache {
         this.db = new Database(dbPath)
         
         // Enable WAL mode for better concurrency
-        this.db.pragma('journal_mode = WAL')
+        this.db.exec('PRAGMA journal_mode = WAL')
         
         // Use rowid for ordering - it auto-increments and provides natural LRU order
         this.db.exec(`
@@ -95,13 +95,13 @@ export class Cache {
     }
     
     get(key: string): string | undefined {
-        const row = this.db.prepare('SELECT rowid, data, size FROM cache WHERE key = ?').get([key]) as { rowid: number; data: string; size: number } | undefined
+        const row = this.db.prepare('SELECT rowid, data, size FROM cache WHERE key = ?').get(key) as { rowid: number; data: string; size: number } | undefined
         
         if (row) {
             // Move to end of LRU by deleting and reinserting (gets new rowid)
             const tx = this.db.transaction(() => {
-                this.db.prepare('DELETE FROM cache WHERE key = ?').run([key])
-                this.db.prepare('INSERT INTO cache (key, data, size) VALUES (?, ?, ?)').run([key, row.data, row.size])
+                this.db.prepare('DELETE FROM cache WHERE key = ?').run(key)
+                this.db.prepare('INSERT INTO cache (key, data, size) VALUES (?, ?, ?)').run(key, row.data, row.size)
             })
             tx()
             
@@ -112,7 +112,7 @@ export class Cache {
     }
     
     has(key: string): boolean {
-        const row = this.db.prepare('SELECT 1 FROM cache WHERE key = ?').get([key])
+        const row = this.db.prepare('SELECT 1 FROM cache WHERE key = ?').get(key)
         return !!row
     }
     
@@ -125,7 +125,7 @@ export class Cache {
         const dataSize = Buffer.byteLength(data, 'utf8')
         
         // Get existing size if any
-        const existingRow = this.db.prepare('SELECT size FROM cache WHERE key = ?').get([key]) as { size: number } | undefined
+        const existingRow = this.db.prepare('SELECT size FROM cache WHERE key = ?').get(key) as { size: number } | undefined
         const oldSize = existingRow?.size || 0
         const newTotalSize = this.currentSize - oldSize + dataSize
         
@@ -136,7 +136,7 @@ export class Cache {
         // Insert or update the cache entry
         this.db.prepare(
             'INSERT OR REPLACE INTO cache (key, data, size) VALUES (?, ?, ?)'
-        ).run([key, data, dataSize])
+        ).run(key, data, dataSize)
         
         this.currentSize = this.currentSize - oldSize + dataSize
         this.notifySubscribers(key, data)
@@ -144,11 +144,11 @@ export class Cache {
     
     remove(key: string): boolean {
         // Check if key exists and get its size
-        const row = this.db.prepare('SELECT size FROM cache WHERE key = ?').get([key]) as { size: number } | undefined
+        const row = this.db.prepare('SELECT size FROM cache WHERE key = ?').get(key) as { size: number } | undefined
         
         if (row) {
             // Delete the key
-            this.db.prepare('DELETE FROM cache WHERE key = ?').run([key])
+            this.db.prepare('DELETE FROM cache WHERE key = ?').run(key)
             
             this.currentSize -= row.size
             this.notifySubscribers(key, undefined)
@@ -195,7 +195,7 @@ export class Cache {
         if (keysToRemove.length > 0) {
             const placeholders = keysToRemove.map(() => '?').join(',')
             const stmt = this.db.prepare(`DELETE FROM cache WHERE key IN (${placeholders})`)
-            stmt.run(keysToRemove)
+            stmt.run(...keysToRemove as [string, ...string[]])
             this.currentSize -= freedBytes
         }
     }

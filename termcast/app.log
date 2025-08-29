@@ -1,2 +1,18 @@
-[2025-08-29T17:32:04.153Z] preparing to render the home command component
-[2025-08-29T17:32:04.163Z] rendered home command component
+[2025-08-29T18:00:56.611Z] ERROR: Cache subscriber error: Subscriber error
+Error: Subscriber error
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.test.ts:203:27)
+    at unknown
+    at notifySubscribers (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.tsx:206:17)
+    at set (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.tsx:142:14)
+    at toThrow (unknown)
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.test.ts:211:57)
+[2025-08-29T18:00:56.741Z] Building 4 commands...
+[2025-08-29T18:00:56.743Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T18:00:56.743Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T18:00:56.743Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T18:00:56.745Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T18:00:56.746Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-08-29T18:00:56.746Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-08-29T18:00:56.746Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-08-29T18:00:56.746Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-08-29T18:00:56.746Z] Successfully built 4 files

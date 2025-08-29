@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect } from 'bun:test'
 import { downloadExtension } from './download'
 describe('downloadExtension', () => {
     test('downloads a real raycast extension and returns filenames', async () => {
