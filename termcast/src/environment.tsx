@@ -49,6 +49,11 @@ export interface LaunchProps<T extends Record<string, any> = Record<string, any>
 }
 
 class EnvironmentImpl implements Environment {
+  constructor() {
+    // Bind all methods to this instance
+    this.canAccess = this.canAccess.bind(this)
+  }
+
   get appearance(): "dark" | "light" {
     // Try to detect system theme on macOS
     if (process.platform === 'darwin') {

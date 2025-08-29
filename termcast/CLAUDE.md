@@ -63,6 +63,18 @@ Here is the process to follow to implement each API:
 - DO NOT use console.log. only use logger.log instead
 - <input> uses onInput not onChange. it is passed a simple string value and not an event object
 - to render examples components use renderExample not render
+- ALWAYS bind all class methods to `this` in the constructor. This ensures methods work correctly when called in any context (callbacks, event handlers, etc). Example:
+  ```typescript
+  constructor(options: Options) {
+    // Initialize properties
+    this.prop = options.prop
+    
+    // Bind all methods to this instance
+    this.method1 = this.method1.bind(this)
+    this.method2 = this.method2.bind(this)
+    this.privateMethod = this.privateMethod.bind(this)
+  }
+  ```
 
 ```typescript
 interface ListType {
