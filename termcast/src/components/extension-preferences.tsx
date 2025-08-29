@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import fs from 'node:fs'
 import path from 'node:path'
-import { Form, showToast, Toast } from '@termcast/cli'
+import { Form, showToast, Toast, ActionPanel, Action } from '@termcast/cli'
 import { LocalStorage } from '@termcast/cli/src/localstorage'
 import { useNavigation } from '@termcast/cli/src/internal/navigation'
 import { logger } from '@termcast/cli/src/logger'
@@ -134,7 +134,16 @@ export function ExtensionPreferences({ extensionName, commandName, onSubmit }: E
         }
         
         return (
-            <Form onSubmit={() => pop()}>
+            <Form 
+                actions={
+                    <ActionPanel>
+                        <Action.SubmitForm 
+                            title="Close"
+                            onSubmit={() => pop()}
+                        />
+                    </ActionPanel>
+                }
+            >
                 <Form.Description text={
                     commandName 
                         ? `No preferences available for ${extensionName}/${commandName}`
@@ -146,7 +155,14 @@ export function ExtensionPreferences({ extensionName, commandName, onSubmit }: E
 
     return (
         <Form
-            onSubmit={handleSubmit}
+            actions={
+                <ActionPanel>
+                    <Action.SubmitForm 
+                        title="Save Preferences"
+                        onSubmit={handleSubmit}
+                    />
+                </ActionPanel>
+            }
             navigationTitle={
                 commandName 
                     ? `${extensionName}/${commandName} Preferences`

@@ -3,7 +3,8 @@ import { useKeyboard } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { ActionPanel } from '@termcast/cli/src/components/actions'
 import { logger } from '@termcast/cli/src/logger'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { useDialog } from '@termcast/cli/src/internal/dialog'
 import {
     FormValues,
     FormProps,
@@ -38,7 +39,6 @@ export const useFocusContext = () => {
 
 // Context for form submission
 interface FormSubmitContextValue {
-    submitForm: () => void
     getFormValues: () => FormValues
 }
 
@@ -102,9 +102,7 @@ interface FormType {
 export const Form: FormType = ((props) => {
     const methods = useForm<FormValues>({
         // defaultValues: {},
-        mode: 'onChange',
-
-
+        // mode: 'onChange',
     })
 
     const [focusedField, setFocusedField] = useState<string | null>(null)
@@ -120,14 +118,9 @@ export const Form: FormType = ((props) => {
         }
     }, [])
 
-    const handleSubmit = methods.handleSubmit((data) => {
-        if (props.onSubmit) {
-            props.onSubmit(data)
-        }
-    })
-
-    // Get focus state
+    // Get focus state and dialog
     const inFocus = useIsInFocus()
+    const dialog = useDialog()
 
     // Handle Tab/Shift+Tab and arrow key navigation
     useKeyboard((evt) => {
@@ -168,21 +161,30 @@ export const Form: FormType = ((props) => {
                 // Just update the focused field in context
                 setFocusedField(nextFieldName)
             }
-        } else if (evt.name === 'enter' && evt.meta) {
-            // Cmd+Enter submits the form
-            handleSubmit()
+        } else if (
+            (evt.name === 'k' && evt.ctrl && props.actions) ||
+            (evt.name === 'return' && evt.meta && props.actions)
+        ) {
+            // Ctrl+K or Return shows actions
+            dialog.push(
+                <FormSubmitContext.Provider value={submitContextValue}>
+                    {props.actions}
+                </FormSubmitContext.Provider>,
+                'bottom-right'
+            )
         }
     })
 
-    const submitContextValue = {
-        submitForm: handleSubmit,
-        getFormValues: methods.getValues
+    const submitContextValue: FormSubmitContextValue = {
+        getFormValues: () => methods.getValues(),
     }
 
     return (
         <FormProvider {...methods}>
             <FormSubmitContext.Provider value={submitContextValue}>
-                <FocusContext.Provider value={{ focusedField, setFocusedField }}>
+                <FocusContext.Provider
+                    value={{ focusedField, setFocusedField }}
+                >
                     <box flexDirection='column'>{props.children}</box>
                 </FocusContext.Provider>
             </FormSubmitContext.Provider>

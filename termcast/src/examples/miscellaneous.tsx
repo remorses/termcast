@@ -51,7 +51,16 @@ function FormExample(): any {
   }
 
   return (
-    <Form onSubmit={handleFormSubmit}>
+    <Form 
+      actions={
+        <ActionPanel>
+          <Action.SubmitForm 
+            title="Submit"
+            onSubmit={handleFormSubmit}
+          />
+        </ActionPanel>
+      }
+    >
       <Form.TextField
         id="name"
         title="Your Name"

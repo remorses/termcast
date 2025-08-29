@@ -358,7 +358,7 @@ Action.OpenWith = (props) => {
 
 Action.Trash = (props) => {
   const paths = Array.isArray(props.paths) ? props.paths : [props.paths]
-  
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || "Move to Trash",
@@ -389,26 +389,24 @@ Action.Trash = (props) => {
 
 Action.SubmitForm = (props) => {
   const dialog = useDialog()
-  
+
   // Get form context - will be null if not in a form
   const formContext = useFormSubmit()
-  
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || "Submit",
     shortcut: props.shortcut || { modifiers: ["cmd"], key: "return" },
     execute: () => {
       if (formContext) {
-        // Submit the form through the form context
-        formContext.submitForm()
+
         // Also call the onSubmit if provided
         if (props.onSubmit) {
           const values = formContext.getFormValues()
           props.onSubmit(values)
         }
       } else if (props.onSubmit) {
-        // No form context, just call onSubmit with empty object
-        props.onSubmit({})
+        throw new Error(`SubmitForm should be called inside a Form`)
       }
       dialog.clear()
     }
@@ -513,7 +511,7 @@ Action.ToggleQuickLook = (props) => {
 
 Action.PickDate = (props) => {
   const dialog = useDialog()
-  
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || "Pick Date",
@@ -609,7 +607,7 @@ const ActionPanel: ActionPanelType = (props) => {
     const allActions = Object.values(descendantsContext.map.current)
       .filter((item: any) => item.index !== -1)
       .map((item: any) => item.props as ActionDescendant)
-    
+
     if (allActions.length === 1) {
       logger.log(`Auto-executing single action: ${allActions[0].title}`)
       dialog.clear()
