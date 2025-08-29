@@ -14,6 +14,12 @@ Differences with Raycast
 - Uses Bun instead of Node
 - Renders in a terminal instead of a custom MacOS App
 
+## Install
+
+```sh
+curl -sf http://termcast.app/install.sh | bash
+```
+
 ## Why
 
 Raycast is a wonderful idea and it helps doing things faster. But do we really need an additional app to do these things?
