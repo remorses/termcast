@@ -46,7 +46,8 @@ export type {
 // Form Components
 export {
   Form,
-  useFormContext
+  useFormContext,
+  useFormSubmit
 } from '@termcast/cli/src/components/form/index'
 export { TextField } from '@termcast/cli/src/components/form/text-field'
 export type { TextFieldProps, TextFieldRef } from '@termcast/cli/src/components/form/text-field'
