@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode } from 'react'
-import { CommonProps } from '@termcast/api/src/utils'
+import { CommonProps } from '@termcast/cli/src/utils'
 
 interface FocusContextValue {
     inFocus: boolean

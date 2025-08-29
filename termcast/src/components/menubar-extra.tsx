@@ -22,8 +22,8 @@
  */
 
 import React, { ReactNode } from 'react'
-import { Image, ImageLike } from '@termcast/api/src/components/image'
-import { logger } from '@termcast/api/src/logger'
+import { Image, ImageLike } from '@termcast/cli/src/components/image'
+import { logger } from '@termcast/cli/src/logger'
 
 export interface MenuBarExtraProps {
   isLoading?: boolean

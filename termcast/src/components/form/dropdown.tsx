@@ -4,11 +4,11 @@ import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { logger } from '@termcast/api/src/logger'
-import { Theme } from '@termcast/api/src/theme'
-import { Dropdown as BaseDropdown } from '@termcast/api/src/components/dropdown'
-import { useDialog } from '@termcast/api/src/internal/dialog'
-import { createDescendants } from '@termcast/api/src/descendants'
+import { logger } from '@termcast/cli/src/logger'
+import { Theme } from '@termcast/cli/src/theme'
+import { Dropdown as BaseDropdown } from '@termcast/cli/src/components/dropdown'
+import { useDialog } from '@termcast/cli/src/internal/dialog'
+import { createDescendants } from '@termcast/cli/src/descendants'
 
 export interface DropdownProps extends FormItemProps<string> {
     placeholder?: string

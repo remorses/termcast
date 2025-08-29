@@ -1,6 +1,6 @@
 import { exec } from 'child_process'
 import { promisify } from 'util'
-import { logger } from '@termcast/api/src/logger'
+import { logger } from '@termcast/cli/src/logger'
 
 const execAsync = promisify(exec)
 const platform = process.platform

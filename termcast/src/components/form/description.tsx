@@ -1,6 +1,6 @@
 import React from 'react'
 import { TextAttributes } from '@opentui/core'
-import { Theme } from '@termcast/api/src/theme'
+import { Theme } from '@termcast/cli/src/theme'
 
 export interface DescriptionProps {
     title?: string

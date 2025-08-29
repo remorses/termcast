@@ -1,6 +1,6 @@
-import { renderWithProviders } from '@termcast/api'
-import { Dropdown } from '@termcast/api'
-import { logger } from '@termcast/api'
+import { renderWithProviders } from '@termcast/cli'
+import { Dropdown } from '@termcast/cli'
+import { logger } from '@termcast/cli'
 import { useState } from 'react'
 
 const App: any = () => {

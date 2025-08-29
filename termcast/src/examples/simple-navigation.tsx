@@ -1,9 +1,9 @@
 import React from "react"
 import { render } from "@opentui/react"
-import List from "@termcast/api"
-import { Action, ActionPanel } from "@termcast/api"
-import { useNavigation } from "@termcast/api/src/internal/navigation"
-import { Providers } from "@termcast/api/src/internal/providers"
+import List from "@termcast/cli"
+import { Action, ActionPanel } from "@termcast/cli"
+import { useNavigation } from "@termcast/cli/src/internal/navigation"
+import { Providers } from "@termcast/cli/src/internal/providers"
 
 function DetailView({ title }: { title: string }): any {
   const { pop } = useNavigation()

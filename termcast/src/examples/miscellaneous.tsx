@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { List } from '@termcast/api'
-import { Action, ActionPanel } from '@termcast/api'
+import { List } from '@termcast/cli'
+import { Action, ActionPanel } from '@termcast/cli'
 
-import { Clipboard } from '@termcast/api'
-import { logger } from '@termcast/api'
-import { Form } from '@termcast/api'
-import { useNavigation } from '@termcast/api/src/internal/navigation'
-import { environment } from '@termcast/api'
+import { Clipboard } from '@termcast/cli'
+import { logger } from '@termcast/cli'
+import { Form } from '@termcast/cli'
+import { useNavigation } from '@termcast/cli/src/internal/navigation'
+import { environment } from '@termcast/cli'
 import { 
   renderWithProviders, 
   getApplications,
@@ -19,10 +19,10 @@ import {
   getPreferenceValues,
   openExtensionPreferences,
   openCommandPreferences
-} from '@termcast/api'
-import { confirmAlert, Alert } from '@termcast/api'
-import { showToast, Toast } from '@termcast/api'
-import { Detail } from '@termcast/api'
+} from '@termcast/cli'
+import { confirmAlert, Alert } from '@termcast/cli'
+import { showToast, Toast } from '@termcast/cli'
+import { Detail } from '@termcast/cli'
 import dedent from 'dedent'
 
 function DetailExample(): any {

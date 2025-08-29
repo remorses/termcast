@@ -1,8 +1,8 @@
-## Porting @raycast/api components and hooks to @termcast/api
+## Porting @raycast/api components and hooks to @termcast/cli
 
-ALWAYS use @termcast/api to import things, instead of relative imports. This is possible thanks to exports in package.json. for example:
+ALWAYS use @termcast/cli to import things, instead of relative imports. This is possible thanks to exports in package.json. for example:
 
-import {List} from '@termcast/api'
+import {List} from '@termcast/cli'
 
 ALWAYS use .tsx extension for every new file.
 
@@ -151,7 +151,7 @@ These will hang. These are made for real people
 when you handle key presses with
 
 ```tsx
-import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
+import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
 const inFocus = useIsInFocus()
 useKeyboard((evt) => {
@@ -177,7 +177,7 @@ const items = Object.values(descendantsContext.map.current)
 Example of CORRECT usage (accessing map.current inside an event handler, such as with useKeyboard, see @src/examples/internal/descendants.tsx):
 ```tsx
 import { useKeyboard } from '@opentui/react'
-import { useDescendants } from '@termcast/api/src/descendants'
+import { useDescendants } from '@termcast/cli/src/descendants'
 
 const { map } = useDescendants()
 

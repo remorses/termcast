@@ -33,9 +33,9 @@
  */
 
 import crypto from 'node:crypto'
-import { ImageLike } from '@termcast/api/src/components/image'
-import { logger } from '@termcast/api/src/logger'
-import { LocalStorage } from '@termcast/api/src/localstorage'
+import { ImageLike } from '@termcast/cli/src/components/image'
+import { logger } from '@termcast/cli/src/logger'
+import { LocalStorage } from '@termcast/cli/src/localstorage'
 
 export namespace OAuth {
   export enum RedirectMethod {
