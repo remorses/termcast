@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import React from 'react'
 import { render } from '@opentui/react'
-import { List, useStore } from '@termcast/cli'
+import { List, logger, useStore } from '@termcast/cli'
 import { Action, ActionPanel } from '@termcast/cli'
 import { useNavigation } from '@termcast/cli/src/internal/navigation'
 import { Providers } from '@termcast/cli/src/internal/providers'
@@ -11,6 +11,7 @@ import { getStoredExtensions } from './store'
 import Store from './extensions/store'
 import { ExtensionPreferences } from './components/extension-preferences'
 import { LocalStorage } from '@termcast/cli/src/localstorage'
+import './globals'
 
 interface ExtensionCommand {
     extensionName: string
@@ -51,7 +52,7 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
             })
         }
     }
-    
+
     const runCommand = async (item: ExtensionCommand) => {
         // Check if command has required preferences that are missing
         const checkRequiredPreferences = async (): Promise<{
@@ -63,51 +64,51 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
                 // Built-in commands or commands without packageJson don't have preferences
                 return { hasRequiredPreferences: true }
             }
-            
+
             const packageJson = item.packageJson
-            
+
             // Check command-specific preferences
             const command = packageJson.commands?.find((cmd: any) => cmd.name === item.command.name)
             const commandPrefs = command?.preferences || []
-            
+
             // Check extension-wide preferences
             const extensionPrefs = packageJson.preferences || []
-            
+
             // Get saved preferences
             const commandPrefsKey = `preferences.${item.extensionName}.${item.command.name}`
             const extensionPrefsKey = `preferences.${item.extensionName}`
-            
+
             const savedCommandPrefs = await LocalStorage.getItem(commandPrefsKey)
             const savedExtensionPrefs = await LocalStorage.getItem(extensionPrefsKey)
-            
+
             const parsedCommandPrefs = savedCommandPrefs ? JSON.parse(savedCommandPrefs as string) : {}
             const parsedExtensionPrefs = savedExtensionPrefs ? JSON.parse(savedExtensionPrefs as string) : {}
-            
+
             // Check if all required command preferences are set
             for (const pref of commandPrefs) {
                 if (pref.required && parsedCommandPrefs[pref.name] == null) {
-                    return { 
+                    return {
                         hasRequiredPreferences: false,
                         requiredPreferences: 'command'
                     }
                 }
             }
-            
+
             // Check if all required extension preferences are set
             for (const pref of extensionPrefs) {
                 if (pref.required && parsedExtensionPrefs[pref.name] == null) {
-                    return { 
+                    return {
                         hasRequiredPreferences: false,
                         requiredPreferences: 'extension'
                     }
                 }
             }
-            
+
             return { hasRequiredPreferences: true }
         }
-        
+
         const prefsCheck = await checkRequiredPreferences()
-        
+
         if (!prefsCheck.hasRequiredPreferences) {
             // TODO: Use replace instead of push to avoid stacking navigation
             // Redirect to preferences with onSubmit to run command after
@@ -123,7 +124,7 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
             )
             return
         }
-        
+
         let Component: (() => any) | undefined
 
         if (item.Component) {
@@ -195,7 +196,7 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
                                     <Action
                                         title='Configure Extension'
                                         onAction={() => {
-                                            push(<ExtensionPreferences 
+                                            push(<ExtensionPreferences
                                                 extensionName={item.extensionName}
                                                 onSubmit={() => {
                                                     // After configuring extension preferences, try to run the command
@@ -207,8 +208,8 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
                                     <Action
                                         title='Configure Command'
                                         onAction={() => {
-                                            push(<ExtensionPreferences 
-                                                extensionName={item.extensionName} 
+                                            push(<ExtensionPreferences
+                                                extensionName={item.extensionName}
                                                 commandName={item.command.name}
                                                 onSubmit={() => {
                                                     // After configuring command preferences, try to run the command
@@ -247,8 +248,6 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
 }
 
 export async function runHomeCommand(): Promise<void> {
-    await import('./globals')
-
     const storedExtensions = getStoredExtensions()
 
     const allCommands: ExtensionCommand[] = []
@@ -280,6 +279,8 @@ export async function runHomeCommand(): Promise<void> {
             </Providers>
         )
     }
+    logger.log(`preparing to render the home command component`)
 
     await render(<App />)
+    logger.log(`rendered home command component`)
 }

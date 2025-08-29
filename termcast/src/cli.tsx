@@ -5,6 +5,9 @@ import chokidar from 'chokidar'
 import { buildExtensionCommands } from './build'
 import { logger } from './logger'
 import { installExtension } from './store'
+import './globals'
+import { startDevMode, triggerRebuild } from './dev-ui'
+import { runHomeCommand } from './home-command'
 
 const cli = cac('termcast')
 
@@ -14,12 +17,8 @@ cli.command('dev', 'Run the extension in the current working directory')
     })
     .action(async (options) => {
         try {
-            await import('./globals')
             const extensionPath = path.resolve(options.path)
             let isBuilding = false
-
-            // Dynamically import the UI module
-            const { startDevMode, triggerRebuild } = await import('./dev-ui')
 
             // Start dev mode with initial render
             await startDevMode({ extensionPath })
@@ -132,7 +131,6 @@ cli.command('build', 'Build and install the extension to user store')
     })
 
 cli.command('', 'List and run installed extensions').action(async () => {
-    const { runHomeCommand } = await import('./home-command')
     await runHomeCommand()
 })
 

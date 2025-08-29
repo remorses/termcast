@@ -3,6 +3,10 @@ import path from 'node:path'
 import type { BunPlugin } from 'bun'
 import { logger } from './logger'
 import { getCommandsWithFiles, CommandWithFile } from './package-json'
+import * as termcastApi from '@termcast/cli'
+import * as opentuiReact from '@opentui/react'
+import * as opentuiCore from '@opentui/core'
+import * as react from 'react'
 
 const GLOBALS_NAMESPACE = 'globals'
 
@@ -13,22 +17,22 @@ const aliasPlugin: BunPlugin = {
         const packages = [
             {
                 path: '@termcast/cli',
-                module: await import('@termcast/cli'),
+                module: termcastApi,
                 globalName: 'termcastApi',
             },
             {
                 path: '@opentui/react',
-                module: await import('@opentui/react'),
+                module: opentuiReact,
                 globalName: 'opentuiReact',
             },
             {
                 path: '@opentui/core',
-                module: await import('@opentui/core'),
+                module: opentuiCore,
                 globalName: 'opentuiCore',
             },
             {
                 path: 'react',
-                module: await import('react'),
+                module: react,
                 globalName: 'react',
             },
         ]
