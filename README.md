@@ -17,7 +17,7 @@ Differences with Raycast
 ## Install
 
 ```sh
-curl -sf http://termcast.app/install.sh | bash
+curl -sf https://termcast.app/install | bash
 ```
 
 ## Why
