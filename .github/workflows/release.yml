@@ -9,7 +9,7 @@ permissions:
 
 jobs:
     build:
-        name: build (${{ matrix.os }} / ${{ runner.arch }})
+        name: build (${{ matrix.os }} / ${{ matrix.arch }})
         strategy:
             fail-fast: false
             matrix:
@@ -17,12 +17,15 @@ jobs:
                 include:
                     - os: ubuntu-latest
                       os_id: linux
+                      arch: x64
                       ext: ''
-                    - os: macos-latest
+                    - os: macos-14
                       os_id: macos
+                      arch: arm64
                       ext: ''
                     - os: windows-latest
                       os_id: windows
+                      arch: x64
                       ext: '.exe'
         runs-on: ${{ matrix.os }}
 
@@ -41,16 +44,16 @@ jobs:
               shell: bash
               run: |
                   mkdir -p bins
-                  bun build termcast/src/cli.ts --compile --outfile "bins/termcast-${{ matrix.os_id }}-${{ runner.arch }}${{ matrix.ext }}"
+                  bun build termcast/src/cli.ts --compile --outfile "bins/termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
 
             - name: Make executable (unix)
               if: runner.os != 'Windows'
-              run: chmod +x "bins/termcast-${{ matrix.os_id }}-${{ runner.arch }}${{ matrix.ext }}"
+              run: chmod +x "bins/termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: ${{ matrix.os_id }}-${{ runner.arch }}
+                  name: ${{ matrix.os_id }}-${{ matrix.arch }}
                   path: bins/*
 
     release:
