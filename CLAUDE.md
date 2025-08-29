@@ -8,15 +8,15 @@ NEVER commit yourself unless asked to do so. I will commit the code myself.
 
 NEVER add comments unless I tell you
 
-# package manager: pnpm with workspace
+# package manager: bun with workspace
 
-This project uses pnpm workspaces to manage dependencies. Important scripts are in the root package.json or various packages package.json
+This project uses bun workspaces to manage dependencies. Important scripts are in the root package.json or various packages package.json
 
-try to run commands inside the package folder that you are working on. for example you should never run `pnpm test` from the root
+try to run commands inside the package folder that you are working on. for example you should never run `bun test` from the root
 
-if you need to install packages always use pnpm
+if you need to install packages always use bun
 
-instead of adding packages directly in package.json use `pnpm install package` inside the right workspace folder. NEVER manually add a package by updating package.json
+instead of adding packages directly in package.json use `bun add package` inside the right workspace folder. NEVER manually add a package by updating package.json
 
 # typescript
 
@@ -34,13 +34,13 @@ instead of adding packages directly in package.json use `pnpm install package` i
 
 - use early returns (and breaks in loops): do not nest code too much, follow the go best practice of if statements: avoid else, nest as little as possible, use top level ifs. minimize nesting. instead of doing `if (x) { if (b) {} }` you should do `if (x && b) {};` for example. You can always convert multiple nested ifs or elses into many linear ifs at one nesting level. Use the @think tool for this if necessary.
 
-- typecheck after updating code: after any change to typescript code ALWAYS run the `pnpm typecheck` script of that package, or if there is no typecheck script run `pnpm tsc` yourself
+- typecheck after updating code: after any change to typescript code ALWAYS run the `bun run typecheck` script of that package, or if there is no typecheck script run `bun run tsc` yourself
 
 - do not use any: you must NEVER use any, if you find yourself using `as any` or `:any` use the @think tool to think hard if there are types you can import instead. do even a search in the project for what the type could be. any should be used as a last resort.
 
 - NEVER do `(x as any).field` or `'field' in x` before checking if the code compiles first without it. the code probably doesn't need any or the in check. even if it does not compile, use think tool first! Before adding (x as any).something ALWAYS read the .d.ts to understand the types
 
-- after any change to typescript code ALWAYS run the `pnpm typecheck` script of that package, or if there is no typecheck script run `pnpm tsc` yourself
+- after any change to typescript code ALWAYS run the `bun run typecheck` script of that package, or if there is no typecheck script run `bun run tsc` yourself
 
 - do not declare uninitialized variables that are defined later in the flow. Instead use an IIFE with returns. this way there is less state. Also define the type of the variable before the iife. Here is an example:
 
@@ -50,7 +50,7 @@ instead of adding packages directly in package.json use `pnpm install package` i
 
 - for node built ins imports never import singular names, instead do `import fs from 'node:fs'`, same for path, os, etc.
 
-- NEVER start the development server with pnpm dev yourself. there is not reason to do so, even with &
+- NEVER start the development server with bun dev yourself. there is not reason to do so, even with &
 
 - if you encounter typescript lint errors for a npm package, read the node_modules/package/\*.d.ts files to understand the typescript types of the package. If you cannot understand them, ask me to help you with it.
 
@@ -85,7 +85,7 @@ const favicon: string = () => {
 }
 ```
 
-- when a package has to import files from another packages in the workspace never add a new tsconfig path, instead add that package as a workspace dependency using `pnpm i "package@workspace:*"`
+- when a package has to import files from another packages in the workspace never add a new tsconfig path, instead add that package as a workspace dependency using `bun add "package@workspace:*"`
 
 ## react
 
@@ -103,9 +103,9 @@ tests should validate complex and non obvious logic, if a test looks like a plac
 
 Use vitest to run tests. Tests should be run from the current package directory and not root, try using the test script instead of vitest directly. Additional vitest flags can be added at the end, like --run to disable watch mode or -u to update snapshots.
 
-To understand how the code you are writing works you should add inline snapshots in the test files with expect().toMatchInlineSnapshot(), then run the test with `pnpm test -u --run` or `pnpm vitest -u --run` to update the snapshot in the file, then read the file again to inspect the result. If the result is not expected, update the code and repeat until the snapshot matches your expectations. Never write the inline snapshots in test files yourself. Just leave them empty and run `pnpm test -u --run` to update them.
+To understand how the code you are writing works you should add inline snapshots in the test files with expect().toMatchInlineSnapshot(), then run the test with `bun test -u --run` or `bun run vitest -u --run` to update the snapshot in the file, then read the file again to inspect the result. If the result is not expected, update the code and repeat until the snapshot matches your expectations. Never write the inline snapshots in test files yourself. Just leave them empty and run `bun test -u --run` to update them.
 
-> Always call `pnpm vitest` or `pnpm test` with `--run` or they will hang forever waiting for changes!
+> Always call `bun run vitest` or `bun test` with `--run` or they will hang forever waiting for changes!
 > ALWAYS read back the test if you use the `-u` option, to make sure the inline snapshot are as you expect.
 
 - for very long snapshots you should use `toMatchFileSnapshot(filename)` instead of `toMatchInlineSnapshot()`. Put the snapshots files in a snapshots/ directory and use the appropriate extension for the file based on the content
@@ -154,7 +154,7 @@ if (navigation.state === 'loading' || navigation.state === 'submitting') {
 }
 ```
 
-> when making changes to the website code only use the `pnpm typecheck` script to validate changes, NEVER run `pnpm build` unless asked. It is too slow.
+> when making changes to the website code only use the `bun run typecheck` script to validate changes, NEVER run `bun run build` unless asked. It is too slow.
 
 ## react-router layout routes
 
@@ -367,7 +367,7 @@ prisma upsert calls are preferable over updates, so that you also handle the cas
 
 never make changes to schema.prisma yourself, instead propose a change with a message and ask me to do it. this file is too important to be edited by agents.
 
-NEVER run `pnpm push` in db or commands like `pnpm prisma db push` or other prisma commands that mutate the database!
+NEVER run `bun run push` in db or commands like `bun run prisma db push` or other prisma commands that mutate the database!
 
 ### prisma queries for relations
 
@@ -493,7 +493,7 @@ use lucide-react to import icons. always add the Icon import name, for example `
 
 the cli uses cac npm package.
 
-notice that if you add a route in the spiceflow server you will need to run `pnpm --filter website gen-client` to update the apiClient inside cli.
+notice that if you add a route in the spiceflow server you will need to run `bun run --filter website gen-client` to update the apiClient inside cli.
 
 ## files
 
@@ -569,13 +569,13 @@ when generating a .md or .mdx file to document things, always add a frontmatter 
 You can use gitchamber.com to read repos files. run `curl https://gitchamber.com` to see how the API works. Always use curl to fetch the responses of gitchamber.com
 
 
-## fixing duplicate pnpm dependencies
+## fixing duplicate bun dependencies
 
-sometimes typescript will fail if there are 2 duplicate packages in the workspace node_modules. this can happen in pnpm if a package is usedin 2 different places (even if inside a node_module package, transitive dependency) with a different set of versions for a peer dependency
+sometimes typescript will fail if there are 2 duplicate packages in the workspace node_modules. this can happen in bun if a package is usedin 2 different places (even if inside a node_module package, transitive dependency) with a different set of versions for a peer dependency
 
 for example if better-auth depends on zod peer dep and zod is in different versions in 2 dependency subtrees
 
-to identify if a pnpm package is duplicated search for the string " packagename@" inside `pnpm-lock.yaml`, notice the space in the search string. Then if the result returns multiple instances with a different set of peer deps inside the round brackets it means that this package is being duplicated. Here is an example of a package getting duplicated:
+to identify if a bun package is duplicated search for the string " packagename@" inside `bun.lockb`, notice the space in the search string. Then if the result returns multiple instances with a different set of peer deps inside the round brackets it means that this package is being duplicated. Here is an example of a package getting duplicated:
 
 ```
 
@@ -619,13 +619,13 @@ to identify if a pnpm package is duplicated search for the string " packagename@
 
 As you can see better-auth is listed twice with different set of peer deps. In this case it's because of zod being in version 3 and 4 in two subtrees of our workspace dependencies.
 
-As a first step try running `pnpm dedupe better-auth` with your package name and see if there is still the problem.
+As a first step try running `bun dedupe better-auth` with your package name and see if there is still the problem.
 
 below i will describe how to generally deduplicate a package, I will use zod as an example. It works with any dependency found in the previous step.
 
 To deduplicate the package we have to make sure we only have 1 version of zod installed in your workspace. DO NOT use overrides for this. Instead fix the problem by manually updating the dependencies that are forcing the older version of zod in the dependency tree.
 
-to do so we have first to run the command `pnpm -r why zod@3.25.76` to see the reason the older zod version is installed. In this case the result is something like this:
+to do so we have first to run the command `bun why zod@3.25.76` to see the reason the older zod version is installed. In this case the result is something like this:
 
 ```
 
@@ -665,7 +665,7 @@ db link:../db
 Here we can see zod 3 is installed because of @modelcontextprotocol/sdk, @better-auth/stripe and agents packages. To fix the problem we can run
 
 ```
-pnpm update -r --latest  @modelcontextprotocol/sdk @better-auth/stripe agents
+bun update --latest @modelcontextprotocol/sdk @better-auth/stripe agents
 ```
 
 This way if these packages include the newer version of the dependency zod will be deduplicated automatically.

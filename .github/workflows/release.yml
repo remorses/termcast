@@ -1,0 +1,77 @@
+name: Release Bun binaries
+
+on:
+    push:
+        tags: ['@termcast/cli@**']
+
+permissions:
+    contents: write
+
+jobs:
+    build:
+        name: build (${{ matrix.os }} / ${{ runner.arch }})
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, macos-14, windows-latest]
+                include:
+                    - os: ubuntu-latest
+                      os_id: linux
+                      ext: ''
+                    - os: macos-14
+                      os_id: macos
+                      ext: ''
+                    - os: windows-latest
+                      os_id: windows
+                      ext: '.exe'
+        runs-on: ${{ matrix.os }}
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Set up Bun
+              uses: oven-sh/setup-bun@v1
+              with:
+                  bun-version: latest
+
+            - name: Install deps
+              run: bun install
+
+            - name: Compile binary
+              shell: bash
+              run: |
+                  mkdir -p dist
+                  bun build ./src/cli.ts --compile --outfile "dist/termcast-${{ matrix.os_id }}-${{ runner.arch }}${{ matrix.ext }}"
+
+            - name: Make executable (unix)
+              if: runner.os != 'Windows'
+              run: chmod +x "dist/termcast-${{ matrix.os_id }}-${{ runner.arch }}${{ matrix.ext }}"
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: ${{ matrix.os_id }}-${{ runner.arch }}
+                  path: dist/*
+
+    release:
+        name: publish release (gh)
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download all artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: dist
+                  merge-multiple: true
+
+            - name: Create or update GitHub Release with gh
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  TAG: ${{ github.ref_name }}
+              run: |
+                  # Create release if it doesn't exist; otherwise upload (clobber) assets
+                  if gh release view "$TAG" >/dev/null 2>&1; then
+                    gh release upload "$TAG" dist/** --clobber
+                  else
+                    gh release create "$TAG" dist/** --generate-notes --latest --title "$TAG"
+                  fi
