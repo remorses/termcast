@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "doppler run --preserve-env -- react-router build",
+    "build": "pnpm tsc && doppler run --preserve-env -- react-router build",
+    "vercel-build": "pnpm tsc && react-router build",
     "dev": "doppler run -- react-router dev --port 8041",
     "start": "doppler run -- node ./build/server/server.js",
     "typecheck": "react-router typegen && tsc"
