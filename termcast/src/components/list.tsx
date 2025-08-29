@@ -251,6 +251,7 @@ interface ListContextValue {
     setIsDropdownOpen: (value: boolean) => void
     openDropdown: () => void
     selectedIndex: number
+    filteredIndices: number[]
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -259,6 +260,8 @@ const ListContext = createContext<ListContextValue | undefined>(undefined)
 interface ListItemDescendant {
     id?: string
     title: string
+    subtitle?: string
+    keywords?: string[]
     actions?: ReactNode
     hidden?: boolean
 }
@@ -277,11 +280,10 @@ const { DescendantsProvider: DropdownDescendantsProvider, useDescendants: useDro
 
 // Dropdown context for passing data to dropdown items
 interface DropdownContextValue {
-    searchText: string
-    filtering?: boolean | { keepSectionOrder: boolean }
     currentSection?: string
     selectedIndex?: number
     currentValue?: string
+    filteredIndices?: number[]
 }
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
@@ -296,20 +298,59 @@ interface ListDropdownDialogProps extends DropdownProps {
 }
 
 function ListDropdownDialog(props: ListDropdownDialogProps): any {
-    const [searchText, setSearchText] = useState('')
+    const [searchText, setSearchTextRaw] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const [filteredIndices, setFilteredIndices] = useState<number[]>([])
     const inputRef = useRef<any>(null)
     const descendantsContext = useDropdownDescendants()
 
-    const move = (direction: -1 | 1) => {
-        const items = Object.values(descendantsContext.map.current)
-            .filter((item: any) => item.index !== -1)
-            .sort((a: any, b: any) => a.index - b.index)
+    // Wrapper function that updates search text and filtered indices together
+    const setSearchText = (value: string) => {
+        setSearchTextRaw(value)
 
-        if (items.length === 0) return
+        // Update filtered indices based on search
+        if (!props.filtering || !value.trim()) {
+            // Show all items when not filtering
+            const allIndices = Object.values(descendantsContext.map.current)
+                .filter(item => item.index !== -1)
+                .map(item => item.index)
+            setFilteredIndices(allIndices)
+            return
+        }
+
+        const needle = value.toLowerCase().trim()
+        const filtered = Object.values(descendantsContext.map.current)
+            .filter(item => {
+                if (item.index === -1) return false
+                const itemProps = item.props as DropdownItemDescendant
+                const searchableText = [
+                    itemProps.title,
+                    itemProps.section,
+                ]
+                    .filter(Boolean)
+                    .join(' ')
+                    .toLowerCase()
+                return searchableText.includes(needle)
+            })
+            .map(item => item.index)
+
+        setFilteredIndices(filtered)
+        setSelectedIndex(0) // Reset selection when search changes
+    }
+
+    // TODO if a List.Item is added during a search, it will not be displayed. I am fine with this
+    useLayoutEffect(() => {
+        const allIndices = Object.values(descendantsContext.map.current)
+            .filter(item => item.index !== -1)
+            .map(item => item.index)
+        setFilteredIndices(allIndices)
+    })
+
+    const move = (direction: -1 | 1) => {
+        if (filteredIndices.length === 0) return
         let next = selectedIndex + direction
-        if (next < 0) next = items.length - 1
-        if (next >= items.length) next = 0
+        if (next < 0) next = filteredIndices.length - 1
+        if (next >= filteredIndices.length) next = 0
         setSelectedIndex(next)
     }
 
@@ -324,12 +365,14 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
         if (evt.name === 'up') move(-1)
         if (evt.name === 'down') move(1)
         if (evt.name === 'return') {
-            const items = Object.values(descendantsContext.map.current)
-                .filter((item: any) => item.index !== -1)
-                .sort((a: any, b: any) => a.index - b.index)
-            const currentItem = items[selectedIndex]
-            if (currentItem?.props) {
-                props.onChange?.((currentItem.props as DropdownItemDescendant).value)
+            if (filteredIndices.length > 0 && selectedIndex < filteredIndices.length) {
+                const currentIndex = filteredIndices[selectedIndex]
+                const items = Object.values(descendantsContext.map.current)
+                    .filter(item => item.index === currentIndex)
+                const currentItem = items[0]
+                if (currentItem?.props) {
+                    props.onChange?.((currentItem.props as DropdownItemDescendant).value)
+                }
             }
         }
     })
@@ -368,11 +411,10 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 {/* Items list - children will render themselves */}
                 <group style={{ paddingBottom: 1 }}>
                     <DropdownContext.Provider value={{
-                        searchText,
-                        filtering: props.filtering,
                         currentSection: undefined,
                         selectedIndex,
                         currentValue: props.value,
+                        filteredIndices,
                     }}>
                         {props.children}
                     </DropdownContext.Provider>
@@ -513,9 +555,10 @@ export const List: ListType = (props) => {
         ...otherProps
     } = props
 
-    const [internalSearchText, setInternalSearchText] = useState('')
+    const [internalSearchText, setInternalSearchTextRaw] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const [filteredIndices, setFilteredIndices] = useState<number[]>([])
     const inputRef = useRef<any>(null)
     const descendantsContext = useListDescendants()
 
@@ -528,14 +571,58 @@ export const List: ListType = (props) => {
         setIsDropdownOpen(true)
     }
 
+    // Wrapper function that updates search text and filtered indices together
+    const setInternalSearchText = (value: string) => {
+        setInternalSearchTextRaw(value)
+
+        // Update filtered indices based on search
+        if (!filtering || !value.trim()) {
+            // Show all items when not filtering
+            const allIndices = Object.values(descendantsContext.map.current)
+                .filter(item => item.index !== -1)
+                .map(item => item.index)
+            setFilteredIndices(allIndices)
+            return
+        }
+
+        const needle = value.toLowerCase().trim()
+        const filtered = Object.values(descendantsContext.map.current)
+            .filter(item => {
+                if (item.index === -1) return false
+                const props = item.props as ListItemDescendant
+                const searchableText = [
+                    props.title,
+                    props.subtitle,
+                    ...(props.keywords || []),
+                ]
+                    .filter(Boolean)
+                    .join(' ')
+                    .toLowerCase()
+                return searchableText.includes(needle)
+            })
+            .map(item => item.index)
+
+        setFilteredIndices(filtered)
+        setSelectedIndex(0) // Reset selection when search changes
+    }
+
+    // Initialize filtered indices when descendants change
+    useLayoutEffect(() => {
+        const allIndices = Object.values(descendantsContext.map.current)
+            .filter(item => item.index !== -1)
+            .map(item => item.index)
+        setFilteredIndices(allIndices)
+    }, [])
+
     const listContextValue = useMemo<ListContextValue>(
         () => ({
             isDropdownOpen,
             setIsDropdownOpen,
             openDropdown,
             selectedIndex,
+            filteredIndices,
         }),
-        [isDropdownOpen, selectedIndex],
+        [isDropdownOpen, selectedIndex, filteredIndices],
     )
 
     // Reset selected index when items change or selectedItemId changes
@@ -555,15 +642,11 @@ export const List: ListType = (props) => {
     }, [children, selectedItemId])
 
     const move = (direction: -1 | 1) => {
-        const items = Object.values(descendantsContext.map.current)
-            .filter(item => item.index !== -1)
-            .sort((a, b) => a.index - b.index)
-
-        if (items.length === 0) return
+        if (filteredIndices.length === 0) return
 
         let next = selectedIndex + direction
-        if (next < 0) next = items.length - 1
-        if (next >= items.length) next = 0
+        if (next < 0) next = filteredIndices.length - 1
+        if (next >= filteredIndices.length) next = 0
         setSelectedIndex(next)
     }
 
@@ -587,18 +670,21 @@ export const List: ListType = (props) => {
 
         // Handle Ctrl+K to show actions
         if (evt.name === 'k' && evt.ctrl) {
-            const items = Object.values(descendantsContext.map.current)
-                .filter(item => item.index !== -1)
-                .sort((a, b) => a.index - b.index)
+            if (filteredIndices.length > 0 && selectedIndex < filteredIndices.length) {
+                const currentIndex = filteredIndices[selectedIndex]
+                const items = Object.values(descendantsContext.map.current)
+                    .filter(item => item.index === currentIndex)
+                const currentItem = items[0]
 
-            const currentItem = items[selectedIndex]
-
-            // Show current item's actions if available
-            if (currentItem?.props?.actions) {
-                dialog.push(currentItem.props.actions, 'bottom-right')
-            }
-            // Otherwise show List's own actions
-            else if (props.actions) {
+                // Show current item's actions if available
+                if (currentItem?.props?.actions) {
+                    dialog.push(currentItem.props.actions, 'bottom-right')
+                }
+                // Otherwise show List's own actions
+                else if (props.actions) {
+                    dialog.push(props.actions, 'bottom-right')
+                }
+            } else if (props.actions) {
                 dialog.push(props.actions, 'bottom-right')
             }
             return
@@ -607,17 +693,17 @@ export const List: ListType = (props) => {
         if (evt.name === 'up') move(-1)
         if (evt.name === 'down') move(1)
         if (evt.name === 'return') {
-            const items = Object.values(descendantsContext.map.current)
-                .filter(item => item.index !== -1)
-                .sort((a, b) => a.index - b.index)
+            if (filteredIndices.length > 0 && selectedIndex < filteredIndices.length) {
+                const currentIndex = filteredIndices[selectedIndex]
+                const items = Object.values(descendantsContext.map.current)
+                    .filter(item => item.index === currentIndex)
+                const currentItem = items[0]
+                if (!currentItem?.props) return
 
-            const currentItem = items[selectedIndex]
-            if (!currentItem?.props) return
-
-            if (currentItem?.props?.actions) {
-                dialog.push(currentItem.props.actions, 'bottom-right')
+                if (currentItem?.props?.actions) {
+                    dialog.push(currentItem.props.actions, 'bottom-right')
+                }
             }
-
         }
     })
 
@@ -626,9 +712,37 @@ export const List: ListType = (props) => {
 
         if (controlledSearchText === undefined) {
             setInternalSearchText(newValue)
-        }
-        if (onSearchTextChange) {
+        } else if (onSearchTextChange) {
+            // For controlled search, we need to update filtered indices here too
             onSearchTextChange(newValue)
+
+            // Update filtered indices based on controlled search text
+            if (!filtering || !newValue.trim()) {
+                const allIndices = Object.values(descendantsContext.map.current)
+                    .filter(item => item.index !== -1)
+                    .map(item => item.index)
+                setFilteredIndices(allIndices)
+            } else {
+                const needle = newValue.toLowerCase().trim()
+                const filtered = Object.values(descendantsContext.map.current)
+                    .filter(item => {
+                        if (item.index === -1) return false
+                        const props = item.props as ListItemDescendant
+                        const searchableText = [
+                            props.title,
+                            props.subtitle,
+                            ...(props.keywords || []),
+                        ]
+                            .filter(Boolean)
+                            .join(' ')
+                            .toLowerCase()
+                        return searchableText.includes(needle)
+                    })
+                    .map(item => item.index)
+
+                setFilteredIndices(filtered)
+                setSelectedIndex(0)
+            }
         }
     }
 
@@ -694,7 +808,7 @@ export const List: ListType = (props) => {
                     ) : (
                         <>
                             {/* Render children - they will register as descendants */}
-                            <ListItemsRenderer selectedIndex={selectedIndex} searchText={searchText} filtering={filtering} isShowingDetail={isShowingDetail}>
+                            <ListItemsRenderer>
                                 {children}
                             </ListItemsRenderer>
 
@@ -712,41 +826,28 @@ export const List: ListType = (props) => {
 // Component to render list items and sections
 function ListItemsRenderer(props: {
     children?: ReactNode
-    selectedIndex: number
-    searchText: string
-    filtering?: boolean | { keepSectionOrder: boolean }
-    isShowingDetail?: boolean
 }): any {
-    const { children, selectedIndex, searchText, filtering, isShowingDetail } = props
+    const { children } = props
 
     // Simply render children - they handle their own registration and rendering
     return (
-        <ListSectionContext.Provider value={{ searchText, filtering }}>
-            {children}
-        </ListSectionContext.Provider>
+        <>{children}</>
     )
 }
 
-// Context for passing search/filter state to items
+// Context for passing section state to items
 interface ListSectionContextValue {
-    searchText: string
-    filtering?: boolean | { keepSectionOrder: boolean }
     sectionTitle?: string
-    registerItemVisibility?: (itemId: string, isVisible: boolean) => void
 }
 
-const ListSectionContext = createContext<ListSectionContextValue>({
-    searchText: '',
-    filtering: true,
-})
+const ListSectionContext = createContext<ListSectionContextValue>({})
 
 const ListItem: ListItemType = (props) => {
     const listSectionContext = useContext(ListSectionContext)
-    const { searchText, filtering, sectionTitle, registerItemVisibility } = listSectionContext
+    const { sectionTitle } = listSectionContext
     const listContext = useContext(ListContext)
-    const itemId = useRef(Math.random().toString(36).substr(2, 9))
 
-    // Extract text values for filtering
+    // Extract text values for descendant registration
     const titleText = typeof props.title === 'string' ? props.title : props.title.value
     const subtitleText = props.subtitle
         ? typeof props.subtitle === 'string'
@@ -754,50 +855,24 @@ const ListItem: ListItemType = (props) => {
             : props.subtitle.value || ''
         : undefined
 
-    // Apply filtering logic here
-    const shouldHide = (() => {
-        if (!filtering || !searchText.trim()) return false
-
-        const needle = searchText.toLowerCase().trim()
-        const searchableText = [
-            titleText,
-            subtitleText,
-            sectionTitle,
-            ...(props.keywords || []),
-        ]
-            .filter(Boolean)
-            .join(' ')
-            .toLowerCase()
-
-        return !searchableText.includes(needle)
-    })()
-
-    // Register visibility with section
-    useEffect(() => {
-        if (registerItemVisibility) {
-            registerItemVisibility(itemId.current, !shouldHide)
-        }
-        return () => {
-            if (registerItemVisibility) {
-                registerItemVisibility(itemId.current, false)
-            }
-        }
-    }, [shouldHide, registerItemVisibility])
-
-    // Register as descendant
+    // Register as descendant with all searchable data
     const index = useListItemDescendant({
         id: props.id,
         title: titleText,
+        subtitle: subtitleText,
+        keywords: [...(props.keywords || []), sectionTitle].filter(Boolean) as string[],
         actions: props.actions,
-        hidden: shouldHide,
+        hidden: false,
     })
 
-    // Don't render if hidden
-    if (shouldHide) return null
+    // Check if this item is visible based on filtered indices
+    const isVisible = listContext?.filteredIndices?.includes(index) ?? true
+    if (!isVisible) return null
 
     // Get selected index from parent List context
     const selectedIndex = listContext?.selectedIndex ?? 0
-    const isActive = index === selectedIndex
+    const filteredIndices = listContext?.filteredIndices ?? []
+    const isActive = filteredIndices[selectedIndex] === index
 
     // Render the item row directly
     return (
@@ -846,11 +921,9 @@ const ListDropdown: ListDropdownType = (props) => {
 
     const dropdownContextValue = useMemo<DropdownContextValue>(
         () => ({
-            searchText: '',
-            filtering: props.filtering,
             currentSection: undefined,
         }),
-        [props.filtering],
+        [],
     )
 
     // Open dropdown dialog when triggered
@@ -918,29 +991,23 @@ ListDropdown.Item = (props) => {
         return null
     }
 
-    const { searchText, filtering, currentSection, selectedIndex, currentValue } = dropdownContext
-
-    // Apply filtering logic
-    const shouldHide = (() => {
-        if (!filtering || !searchText.trim()) return false
-        const needle = searchText.toLowerCase()
-        return !props.title.toLowerCase().includes(needle)
-    })()
+    const { currentSection, selectedIndex, currentValue, filteredIndices } = dropdownContext
 
     // Register as descendant
     const index = useDropdownItemDescendant({
         value: props.value,
         title: props.title,
         section: currentSection,
-        hidden: shouldHide,
+        hidden: false,
     })
 
-    // Don't render if hidden
-    if (shouldHide) return null
+    // Check if this item is visible based on filtered indices
+    const isVisible = filteredIndices?.includes(index) ?? true
+    if (!isVisible) return null
 
     // If we're in the dialog, render the item
-    if (selectedIndex !== undefined) {
-        const isActive = index === selectedIndex
+    if (selectedIndex !== undefined && filteredIndices) {
+        const isActive = filteredIndices[selectedIndex] === index
         const isCurrent = props.value === currentValue
 
         return (
@@ -1019,29 +1086,13 @@ ListDropdown.Section = (props) => {
 List.Item = ListItem
 const ListSection = (props: SectionProps) => {
     const parentContext = useContext(ListSectionContext)
-    const visibleItems = useRef<Set<string>>(new Set())
-    const [hasVisibleItems, setHasVisibleItems] = useState(true)
 
-    const registerItemVisibility = (itemId: string, isVisible: boolean) => {
-        if (isVisible) {
-            visibleItems.current.add(itemId)
-        } else {
-            visibleItems.current.delete(itemId)
-        }
-        setHasVisibleItems(visibleItems.current.size > 0)
-    }
-
-    // Create new context with section title and visibility registration
+    // Create new context with section title
     const sectionContextValue = useMemo(() => ({
         ...parentContext,
         sectionTitle: props.title,
-        registerItemVisibility,
     }), [parentContext, props.title])
 
-    // Don't render section if no visible items when searching
-    if (!hasVisibleItems && parentContext.searchText.trim()) {
-        return null
-    }
 
     return (
         <>
