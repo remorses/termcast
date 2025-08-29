@@ -41,6 +41,13 @@ export class Toast {
   constructor(props: Toast.Options) {
     this.options = { ...props }
     this.id = Math.random().toString(36).substring(7)
+    
+    // Bind all methods to this instance
+    this.show = this.show.bind(this)
+    this.hide = this.hide.bind(this)
+    this.update = this.update.bind(this)
+    this._setCallbacks = this._setCallbacks.bind(this)
+    this._getId = this._getId.bind(this)
   }
 
   get style(): Toast.Style {

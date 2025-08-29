@@ -122,6 +122,15 @@ export namespace OAuth {
       this.description = options.description
       this.storageKey = `oauth-${this.providerId}`
       
+      // Bind all methods to this instance
+      this.authorizationRequest = this.authorizationRequest.bind(this)
+      this.authorize = this.authorize.bind(this)
+      this.setTokens = this.setTokens.bind(this)
+      this.getTokens = this.getTokens.bind(this)
+      this.removeTokens = this.removeTokens.bind(this)
+      this.generateCodeVerifier = this.generateCodeVerifier.bind(this)
+      this.generateCodeChallenge = this.generateCodeChallenge.bind(this)
+      
       logger.log('PKCEClient initialized', {
         providerName: this.providerName,
         providerId: this.providerId,
