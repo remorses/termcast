@@ -1,16 +1,16 @@
-import Database from '@farjs/better-sqlite3-wrapper'
+import Database from '@signalapp/sqlcipher'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
 import { logger } from './logger'
 import { useStore } from './state'
 
-let db: Database.Database | null = null
+let db: Database | null = null
 let currentDbPath: string | null = null
 
 function getCurrentDatabasePath(): string {
     const extensionPath = useStore.getState().extensionPath
-    
+
     if (extensionPath) {
         return path.join(extensionPath, 'localstorage.db')
     } else {
@@ -18,32 +18,35 @@ function getCurrentDatabasePath(): string {
     }
 }
 
-function getDatabase(): Database.Database {
+function getDatabase(): Database {
     const dbPath = getCurrentDatabasePath()
-    
+
     // Check if we need to reconnect due to path change
     if (db && currentDbPath !== dbPath) {
         db.close()
         db = null
         currentDbPath = null
     }
-    
+
     if (!db) {
         // Ensure parent directory exists
         const dbDir = path.dirname(dbPath)
         if (!fs.existsSync(dbDir)) {
             fs.mkdirSync(dbDir, { recursive: true })
         }
-        
+
         db = new Database(dbPath)
         currentDbPath = dbPath
-        db.prepare(`
+
+        // db.pragma('journal_mode = WAL')
+
+        db.exec(`
             CREATE TABLE IF NOT EXISTS localstorage (
                 key TEXT PRIMARY KEY,
                 value TEXT NOT NULL,
                 type TEXT NOT NULL
             )
-        `).run()
+        `)
     }
     return db
 }
@@ -59,8 +62,8 @@ export namespace LocalStorage {
         return new Promise((resolve) => {
             try {
                 const db = getDatabase()
-                const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get(key) as { value: string; type: string } | undefined
-                
+                const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get([key]) as { value: string; type: string } | undefined
+
                 if (!row) {
                     resolve(undefined)
                     return
@@ -77,7 +80,7 @@ export namespace LocalStorage {
                     default:
                         value = row.value
                 }
-                
+
                 resolve(value as T)
             } catch (err) {
                 logger.error('LocalStorage.getItem error:', err)
@@ -89,8 +92,8 @@ export namespace LocalStorage {
     export function getItemSync<T extends Value = Value>(key: string): T | undefined {
         try {
             const db = getDatabase()
-            const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get(key) as { value: string; type: string } | undefined
-            
+            const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get([key]) as { value: string; type: string } | undefined
+
             if (!row) {
                 return undefined
             }
@@ -106,7 +109,7 @@ export namespace LocalStorage {
                 default:
                     value = row.value
             }
-            
+
             return value as T
         } catch (err) {
             logger.error('LocalStorage.getItemSync error:', err)
@@ -120,8 +123,8 @@ export namespace LocalStorage {
                 const db = getDatabase()
                 const type = typeof value
                 const stringValue = String(value)
-                
-                db.prepare('INSERT OR REPLACE INTO localstorage (key, value, type) VALUES (?, ?, ?)').run(key, stringValue, type)
+
+                db.prepare('INSERT OR REPLACE INTO localstorage (key, value, type) VALUES (?, ?, ?)').run([key, stringValue, type])
                 resolve()
             } catch (err) {
                 logger.error('LocalStorage.setItem error:', err)
@@ -134,7 +137,7 @@ export namespace LocalStorage {
         return new Promise((resolve, reject) => {
             try {
                 const db = getDatabase()
-                db.prepare('DELETE FROM localstorage WHERE key = ?').run(key)
+                db.prepare('DELETE FROM localstorage WHERE key = ?').run([key])
                 resolve()
             } catch (err) {
                 logger.error('LocalStorage.removeItem error:', err)
@@ -148,7 +151,7 @@ export namespace LocalStorage {
             try {
                 const db = getDatabase()
                 const rows = db.prepare('SELECT key, value, type FROM localstorage').all() as Array<{ key: string; value: string; type: string }>
-                
+
                 const result: Values = {}
                 for (const row of rows) {
                     let value: Value
@@ -164,7 +167,7 @@ export namespace LocalStorage {
                     }
                     result[row.key] = value
                 }
-                
+
                 resolve(result as T)
             } catch (err) {
                 logger.error('LocalStorage.allItems error:', err)
@@ -177,7 +180,7 @@ export namespace LocalStorage {
         return new Promise((resolve, reject) => {
             try {
                 const db = getDatabase()
-                db.prepare('DELETE FROM localstorage').run()
+                db.exec('DELETE FROM localstorage')
                 resolve()
             } catch (err) {
                 logger.error('LocalStorage.clear error:', err)

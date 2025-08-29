@@ -4,6 +4,7 @@ export default defineConfig({
     test: {
         globals: false,
         environment: 'node',
-        testTimeout: 10000
+        testTimeout: 10000,
+        exclude: ['esm', 'dist']
     }
 })

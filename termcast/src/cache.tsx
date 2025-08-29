@@ -1,4 +1,4 @@
-import Database from '@farjs/better-sqlite3-wrapper'
+import Database from '@signalapp/sqlcipher'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
@@ -37,7 +37,7 @@ export class Cache {
         return 10 * 1024 * 1024 // 10 MB
     }
     
-    private db: Database.Database
+    private db: Database
     private capacity: number
     private namespace?: string
     private subscribers: Cache.Subscriber[] = []
@@ -57,23 +57,26 @@ export class Cache {
         
         this.db = new Database(dbPath)
         
+        // Enable WAL mode for better concurrency
+        this.db.pragma('journal_mode = WAL')
+        
         // Use rowid for ordering - it auto-increments and provides natural LRU order
-        this.db.prepare(`
+        this.db.exec(`
             CREATE TABLE IF NOT EXISTS cache (
                 rowid INTEGER PRIMARY KEY AUTOINCREMENT,
                 key TEXT UNIQUE NOT NULL,
                 data TEXT NOT NULL,
                 size INTEGER NOT NULL
             )
-        `).run()
+        `)
         
         // Create index on key for fast lookups
-        this.db.prepare(`
+        this.db.exec(`
             CREATE INDEX IF NOT EXISTS idx_cache_key ON cache(key)
-        `).run()
+        `)
         
         // Calculate initial size
-        const row = this.db.prepare('SELECT SUM(size) as total FROM cache').get() as { total: number | null }
+        const row = this.db.prepare('SELECT SUM(size) as total FROM cache').get() as { total: number | null } | undefined
         this.currentSize = row?.total || 0
     }
     
@@ -82,14 +85,15 @@ export class Cache {
     }
     
     get(key: string): string | undefined {
-        const row = this.db.prepare('SELECT rowid, data, size FROM cache WHERE key = ?').get(key) as { rowid: number; data: string; size: number } | undefined
+        const row = this.db.prepare('SELECT rowid, data, size FROM cache WHERE key = ?').get([key]) as { rowid: number; data: string; size: number } | undefined
         
         if (row) {
             // Move to end of LRU by deleting and reinserting (gets new rowid)
-            this.db.transaction(() => {
-                this.db.prepare('DELETE FROM cache WHERE key = ?').run(key)
-                this.db.prepare('INSERT INTO cache (key, data, size) VALUES (?, ?, ?)').run(key, row.data, row.size)
-            })()
+            const tx = this.db.transaction(() => {
+                this.db.prepare('DELETE FROM cache WHERE key = ?').run([key])
+                this.db.prepare('INSERT INTO cache (key, data, size) VALUES (?, ?, ?)').run([key, row.data, row.size])
+            })
+            tx()
             
             return row.data
         }
@@ -98,7 +102,7 @@ export class Cache {
     }
     
     has(key: string): boolean {
-        const row = this.db.prepare('SELECT 1 FROM cache WHERE key = ?').get(key)
+        const row = this.db.prepare('SELECT 1 FROM cache WHERE key = ?').get([key])
         return !!row
     }
     
@@ -111,7 +115,7 @@ export class Cache {
         const dataSize = Buffer.byteLength(data, 'utf8')
         
         // Get existing size if any
-        const existingRow = this.db.prepare('SELECT size FROM cache WHERE key = ?').get(key) as { size: number } | undefined
+        const existingRow = this.db.prepare('SELECT size FROM cache WHERE key = ?').get([key]) as { size: number } | undefined
         const oldSize = existingRow?.size || 0
         const newTotalSize = this.currentSize - oldSize + dataSize
         
@@ -122,7 +126,7 @@ export class Cache {
         // Insert or update the cache entry
         this.db.prepare(
             'INSERT OR REPLACE INTO cache (key, data, size) VALUES (?, ?, ?)'
-        ).run(key, data, dataSize)
+        ).run([key, data, dataSize])
         
         this.currentSize = this.currentSize - oldSize + dataSize
         this.notifySubscribers(key, data)
@@ -130,11 +134,11 @@ export class Cache {
     
     remove(key: string): boolean {
         // Check if key exists and get its size
-        const row = this.db.prepare('SELECT size FROM cache WHERE key = ?').get(key) as { size: number } | undefined
+        const row = this.db.prepare('SELECT size FROM cache WHERE key = ?').get([key]) as { size: number } | undefined
         
         if (row) {
             // Delete the key
-            this.db.prepare('DELETE FROM cache WHERE key = ?').run(key)
+            this.db.prepare('DELETE FROM cache WHERE key = ?').run([key])
             
             this.currentSize -= row.size
             this.notifySubscribers(key, undefined)
@@ -145,7 +149,7 @@ export class Cache {
     }
     
     clear(options?: { notifySubscribers: boolean }): void {
-        this.db.prepare('DELETE FROM cache').run()
+        this.db.exec('DELETE FROM cache')
         this.currentSize = 0
         
         if (options?.notifySubscribers !== false) {
@@ -180,7 +184,8 @@ export class Cache {
         
         if (keysToRemove.length > 0) {
             const placeholders = keysToRemove.map(() => '?').join(',')
-            this.db.prepare(`DELETE FROM cache WHERE key IN (${placeholders})`).run(...keysToRemove)
+            const stmt = this.db.prepare(`DELETE FROM cache WHERE key IN (${placeholders})`)
+            stmt.run(keysToRemove)
             this.currentSize -= freedBytes
         }
     }

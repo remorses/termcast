@@ -1,4 +1,10 @@
-[2025-08-29T10:04:33.913Z] actions dropdown onChange Open
-[2025-08-29T10:04:35.656Z] actions dropdown onChange Get Preferences
-[2025-08-29T10:04:35.657Z] No extension context found for preferences
-[2025-08-29T10:04:37.283Z] actions dropdown onChange Open
+[2025-08-29T10:29:34.593Z] actions dropdown onChange Configure Command
+[2025-08-29T10:29:34.597Z] pushing ExtensionPreferences
+[2025-08-29T10:29:34.605Z] no fields to focus in form
+[2025-08-29T10:29:43.053Z] popping navigation 1 stack: [
+  "ExtensionsList",
+  "ExtensionPreferences"
+]
+[2025-08-29T10:29:45.722Z] actions dropdown onChange Configure Extension
+[2025-08-29T10:29:45.724Z] pushing ExtensionPreferences
+[2025-08-29T10:29:45.729Z] no fields to focus in form
