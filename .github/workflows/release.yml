@@ -18,7 +18,7 @@ jobs:
                     - os: ubuntu-latest
                       os_id: linux
                       ext: ''
-                    - os: macos-14
+                    - os: macos-latest
                       os_id: macos
                       ext: ''
                     - os: windows-latest
