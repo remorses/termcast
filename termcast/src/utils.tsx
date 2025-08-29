@@ -1,6 +1,6 @@
 import React, { type ReactNode } from "react"
 import { render } from "@opentui/react"
-import { Providers } from "@termcast/api/src/internal/providers"
+import { Providers } from "@termcast/cli/src/internal/providers"
 
 export function renderWithProviders(element: ReactNode): void {
   render(

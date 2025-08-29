@@ -1,19 +1,15 @@
 {
-    "name": "@termcast/api",
+    "name": "@termcast/cli",
     "version": "0.0.0",
-    "description": "",
-    "main": "dist/index.js",
-    "module": "esm/index.js",
-    "types": "dist/index.d.ts",
+    "description": "Raycast for the terminal",
     "bin": {
         "termcast": "src/cli.tsx"
     },
-    "repository": "https://github.com/remorses/",
+    "repository": "https://github.com/remorses/termcast",
     "scripts": {
-        "build": "tsc && tsc -m es6 --outDir esm",
-        "watch": "tsc -w",
+        "build": "tsc && pnpm binary",
         "binary": "bun build --watch ./src/cli.tsx --compile --outfile bin ",
-        "raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
+        "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
         "play": "bun src/cli.tsx",
         "test": "vitest --run"
     },

@@ -3,8 +3,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { exec } from 'child_process'
 import { promisify } from 'util'
-import { copyToClipboard, pasteContent } from '@termcast/api/src/action-utils'
-import { logger } from '@termcast/api/src/logger'
+import { copyToClipboard, pasteContent } from '@termcast/cli/src/action-utils'
+import { logger } from '@termcast/cli/src/logger'
 
 const execAsync = promisify(exec)
 const platform = process.platform

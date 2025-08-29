@@ -1,6 +1,6 @@
 import React from 'react'
-import { List, environment, Toast, showToast } from '@termcast/api'
-import { renderWithProviders } from '@termcast/api'
+import { List, environment, Toast, showToast } from '@termcast/cli'
+import { renderWithProviders } from '@termcast/cli'
 
 function EnvironmentExample(): any {
     const handleShowEnvironment = async () => {
@@ -49,7 +49,7 @@ Command Mode: ${environment.commandMode}
 }
 
 // Import ActionPanel and Action to use them
-import { ActionPanel, Action } from '@termcast/api'
+import { ActionPanel, Action } from '@termcast/cli'
 
 if (require.main === module) {
     renderWithProviders(<EnvironmentExample />)

@@ -7,9 +7,9 @@ import React, {
     useLayoutEffect,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { CommonProps } from '@termcast/api/src/utils'
-import { useStore, type NavigationStackItem } from '@termcast/api/src/state'
-import { useIsInFocus } from '@termcast/api/src/internal/focus-context'
+import { CommonProps } from '@termcast/cli/src/utils'
+import { useStore, type NavigationStackItem } from '@termcast/cli/src/state'
+import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 import { logger } from '../logger'
 
 interface Navigation {

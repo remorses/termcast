@@ -1,8 +1,8 @@
 import React from 'react'
-import { useStore } from '@termcast/api/src/state'
-import { logger } from '@termcast/api/src/logger'
-import { LocalStorage } from '@termcast/api/src/localstorage'
-import { ExtensionPreferences } from '@termcast/api/src/components/extension-preferences'
+import { useStore } from '@termcast/cli/src/state'
+import { logger } from '@termcast/cli/src/logger'
+import { LocalStorage } from '@termcast/cli/src/localstorage'
+import { ExtensionPreferences } from '@termcast/cli/src/components/extension-preferences'
 
 export type PreferenceValues = {
     [preferenceName: string]: any

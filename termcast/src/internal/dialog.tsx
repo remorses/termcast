@@ -1,10 +1,10 @@
 import { useKeyboard, useTerminalDimensions } from "@opentui/react"
 import React, { type ReactNode } from "react"
-import { Theme } from "@termcast/api/src/theme"
+import { Theme } from "@termcast/cli/src/theme"
 import { RGBA } from "@opentui/core"
-import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
-import { CommonProps } from '@termcast/api/src/utils'
-import { useStore, type DialogPosition, type DialogStackItem } from '@termcast/api/src/state'
+import { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { CommonProps } from '@termcast/cli/src/utils'
+import { useStore, type DialogPosition, type DialogStackItem } from '@termcast/cli/src/state'
 
 const Border = {
   topLeft: "┃",
@@ -20,7 +20,7 @@ const Border = {
   cross: "+",
 }
 
-export type { DialogPosition } from '@termcast/api/src/state'
+export type { DialogPosition } from '@termcast/cli/src/state'
 
 interface DialogProps extends CommonProps {
   children: ReactNode

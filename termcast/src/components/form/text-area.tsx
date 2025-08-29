@@ -3,8 +3,8 @@ import { TextAttributes } from '@opentui/core'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { logger } from '@termcast/api/src/logger'
-import { Theme } from '@termcast/api/src/theme'
+import { logger } from '@termcast/cli/src/logger'
+import { Theme } from '@termcast/cli/src/theme'
 
 export interface TextAreaProps extends FormItemProps<string> {
     placeholder?: string

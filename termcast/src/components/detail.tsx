@@ -1,13 +1,13 @@
 import React, { ReactNode, useMemo, ReactElement } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
-import { Theme } from '@termcast/api/src/theme'
-import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
-import { ActionPanel, Action } from '@termcast/api/src/components/actions'
-import { Image } from '@termcast/api/src/components/list'
-import { Color } from '@termcast/api/src/colors'
-import { useStore } from '@termcast/api/src/state'
-import { useDialog } from '@termcast/api/src/internal/dialog'
+import { Theme } from '@termcast/cli/src/theme'
+import { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { ActionPanel, Action } from '@termcast/cli/src/components/actions'
+import { Image } from '@termcast/cli/src/components/list'
+import { Color } from '@termcast/cli/src/colors'
+import { useStore } from '@termcast/cli/src/state'
+import { useDialog } from '@termcast/cli/src/internal/dialog'
 
 interface ActionsInterface {
     actions?: ReactNode

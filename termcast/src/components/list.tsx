@@ -14,14 +14,14 @@ import React, {
 } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
-import { logger } from '@termcast/api/src/logger'
-import { Theme } from '@termcast/api/src/theme'
-import { Action, ActionPanel } from '@termcast/api/src/components/actions'
-import { InFocus, useIsInFocus } from '@termcast/api/src/internal/focus-context'
-import { CommonProps } from '@termcast/api/src/utils'
-import { useStore } from '@termcast/api/src/state'
-import { useDialog } from '@termcast/api/src/internal/dialog'
-import { createDescendants } from '@termcast/api/src/descendants'
+import { logger } from '@termcast/cli/src/logger'
+import { Theme } from '@termcast/cli/src/theme'
+import { Action, ActionPanel } from '@termcast/cli/src/components/actions'
+import { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { CommonProps } from '@termcast/cli/src/utils'
+import { useStore } from '@termcast/cli/src/state'
+import { useDialog } from '@termcast/cli/src/internal/dialog'
+import { createDescendants } from '@termcast/cli/src/descendants'
 
 interface ActionsInterface {
     actions?: ReactNode

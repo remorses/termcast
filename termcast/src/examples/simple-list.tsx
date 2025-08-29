@@ -1,6 +1,6 @@
-import { renderWithProviders, Detail, Action, ActionPanel } from '@termcast/api'
-import List from '@termcast/api'
-import { useNavigation } from '@termcast/api/src/internal/navigation'
+import { renderWithProviders, Detail, Action, ActionPanel } from '@termcast/cli'
+import List from '@termcast/cli'
+import { useNavigation } from '@termcast/cli/src/internal/navigation'
 import dedent from 'dedent'
 
 function ListExample() {

@@ -4,8 +4,8 @@ import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { logger } from '@termcast/api/src/logger'
-import { Theme } from '@termcast/api/src/theme'
+import { logger } from '@termcast/cli/src/logger'
+import { Theme } from '@termcast/cli/src/theme'
 
 export interface CheckboxProps extends FormItemProps<boolean> {
     label: string

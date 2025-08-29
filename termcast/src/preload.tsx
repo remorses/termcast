@@ -8,7 +8,7 @@ plugin({
     setup(build) {
         build.onResolve({ filter: /@raycast\/api/ }, () => {
             return {
-                path: require.resolve('@termcast/api'),
+                path: require.resolve('@termcast/cli'),
             }
         })
         // build.onResolve({ filter: /@raycast\/utils/ }, (args) => {

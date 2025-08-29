@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme } from '@termcast/api/src/theme'
+import { Theme } from '@termcast/cli/src/theme'
 
 export const Separator = (): any => {
     return (

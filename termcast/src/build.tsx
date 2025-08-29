@@ -11,17 +11,17 @@ const aliasPlugin: BunPlugin = {
     async setup(build) {
         // Import packages once at setup time
         const packages = [
-            { path: '@termcast/api', module: await import('@termcast/api'), globalName: 'termcastApi' },
+            { path: '@termcast/cli', module: await import('@termcast/cli'), globalName: 'termcastApi' },
             { path: '@opentui/react', module: await import('@opentui/react'), globalName: 'opentuiReact' },
             { path: '@opentui/core', module: await import('@opentui/core'), globalName: 'opentuiCore' },
             { path: 'react', module: await import('react'), globalName: 'react' },
         ]
 
-        // Alias @raycast/api to @termcast/api using namespace
+        // Alias @raycast/api to @termcast/cli using namespace
         build.onResolve({ filter: /@raycast\/api/ }, () => {
-            logger.log('Resolving @raycast/api to @termcast/api')
+            logger.log('Resolving @raycast/api to @termcast/cli')
             return {
-                path: '@termcast/api',
+                path: '@termcast/cli',
                 namespace: GLOBALS_NAMESPACE,
             }
         })
@@ -29,7 +29,7 @@ const aliasPlugin: BunPlugin = {
         // Resolve external packages to globals namespace
         build.onResolve({ filter: /^@termcast\/api/ }, () => {
             return {
-                path: '@termcast/api',
+                path: '@termcast/cli',
                 namespace: GLOBALS_NAMESPACE,
             }
         })

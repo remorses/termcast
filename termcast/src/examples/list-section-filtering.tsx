@@ -1,4 +1,4 @@
-import { List } from '@termcast/api'
+import { List } from '@termcast/cli'
 import { renderWithProviders as renderExample } from '../utils'
 
 function ListSectionFilteringExample() {
