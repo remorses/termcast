@@ -10,6 +10,7 @@ import { Icon } from '@termcast/cli'
 import { getStoredExtensions } from './store'
 import Store from './extensions/store'
 import { ExtensionPreferences } from './components/extension-preferences'
+import { LocalStorage } from '@termcast/cli/src/localstorage'
 
 interface ExtensionCommand {
     extensionName: string
@@ -17,6 +18,7 @@ interface ExtensionCommand {
     command: any
     bundledPath?: string
     Component?: () => any
+    packageJson?: any
 }
 
 // Built-in extensions available globally
@@ -40,32 +42,7 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
 
     const handleCommandSelect = async (item: ExtensionCommand) => {
         try {
-            let Component: (() => any) | undefined
-
-            if (item.Component) {
-                Component = item.Component
-            } else if (item.bundledPath) {
-                const module = await import(item.bundledPath)
-                Component = module.default
-
-                if (!Component) {
-                    await showToast({
-                        style: Toast.Style.Failure,
-                        title: 'No default export',
-                        message: `Command file ${item.command.name} has no default export`,
-                    })
-                    return
-                }
-            } else {
-                await showToast({
-                    style: Toast.Style.Failure,
-                    title: 'Command not available',
-                    message: `Command ${item.command.name} has no implementation`,
-                })
-                return
-            }
-
-            push(<Component />)
+            await runCommand(item)
         } catch (error: any) {
             await showToast({
                 style: Toast.Style.Failure,
@@ -73,6 +50,106 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
                 message: error.message || String(error),
             })
         }
+    }
+    
+    const runCommand = async (item: ExtensionCommand) => {
+        // Check if command has required preferences that are missing
+        const checkRequiredPreferences = async (): Promise<{
+            hasRequiredPreferences: boolean
+            requiredPreferences?: 'command' | 'extension'
+        }> => {
+            // Get package.json to check required preferences
+            if (!item.bundledPath || item.Component || !item.packageJson) {
+                // Built-in commands or commands without packageJson don't have preferences
+                return { hasRequiredPreferences: true }
+            }
+            
+            const packageJson = item.packageJson
+            
+            // Check command-specific preferences
+            const command = packageJson.commands?.find((cmd: any) => cmd.name === item.command.name)
+            const commandPrefs = command?.preferences || []
+            
+            // Check extension-wide preferences
+            const extensionPrefs = packageJson.preferences || []
+            
+            // Get saved preferences
+            const commandPrefsKey = `preferences.${item.extensionName}.${item.command.name}`
+            const extensionPrefsKey = `preferences.${item.extensionName}`
+            
+            const savedCommandPrefs = await LocalStorage.getItem(commandPrefsKey)
+            const savedExtensionPrefs = await LocalStorage.getItem(extensionPrefsKey)
+            
+            const parsedCommandPrefs = savedCommandPrefs ? JSON.parse(savedCommandPrefs as string) : {}
+            const parsedExtensionPrefs = savedExtensionPrefs ? JSON.parse(savedExtensionPrefs as string) : {}
+            
+            // Check if all required command preferences are set
+            for (const pref of commandPrefs) {
+                if (pref.required && parsedCommandPrefs[pref.name] == null) {
+                    return { 
+                        hasRequiredPreferences: false,
+                        requiredPreferences: 'command'
+                    }
+                }
+            }
+            
+            // Check if all required extension preferences are set
+            for (const pref of extensionPrefs) {
+                if (pref.required && parsedExtensionPrefs[pref.name] == null) {
+                    return { 
+                        hasRequiredPreferences: false,
+                        requiredPreferences: 'extension'
+                    }
+                }
+            }
+            
+            return { hasRequiredPreferences: true }
+        }
+        
+        const prefsCheck = await checkRequiredPreferences()
+        
+        if (!prefsCheck.hasRequiredPreferences) {
+            // TODO: Use replace instead of push to avoid stacking navigation
+            // Redirect to preferences with onSubmit to run command after
+            push(
+                <ExtensionPreferences
+                    extensionName={item.extensionName}
+                    commandName={prefsCheck.requiredPreferences === 'command' ? item.command.name : undefined}
+                    onSubmit={() => {
+                        // Recursively run command after preferences are set
+                        runCommand(item)
+                    }}
+                />
+            )
+            return
+        }
+        
+        let Component: (() => any) | undefined
+
+        if (item.Component) {
+            Component = item.Component
+        } else if (item.bundledPath) {
+            const module = await import(item.bundledPath)
+            Component = module.default
+
+            if (!Component) {
+                await showToast({
+                    style: Toast.Style.Failure,
+                    title: 'No default export',
+                    message: `Command file ${item.command.name} has no default export`,
+                })
+                return
+            }
+        } else {
+            await showToast({
+                style: Toast.Style.Failure,
+                title: 'Command not available',
+                message: `Command ${item.command.name} has no implementation`,
+            })
+            return
+        }
+
+        push(<Component />)
     }
 
     // Group commands by extension
@@ -118,13 +195,26 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
                                     <Action
                                         title='Configure Extension'
                                         onAction={() => {
-                                            push(<ExtensionPreferences extensionName={item.extensionName} />)
+                                            push(<ExtensionPreferences 
+                                                extensionName={item.extensionName}
+                                                onSubmit={() => {
+                                                    // After configuring extension preferences, try to run the command
+                                                    runCommand(item)
+                                                }}
+                                            />)
                                         }}
                                     />
                                     <Action
                                         title='Configure Command'
                                         onAction={() => {
-                                            push(<ExtensionPreferences extensionName={item.extensionName} commandName={item.command.name} />)
+                                            push(<ExtensionPreferences 
+                                                extensionName={item.extensionName} 
+                                                commandName={item.command.name}
+                                                onSubmit={() => {
+                                                    // After configuring command preferences, try to run the command
+                                                    runCommand(item)
+                                                }}
+                                            />)
                                         }}
                                     />
                                     {item.bundledPath && (
@@ -177,6 +267,7 @@ export async function runHomeCommand(): Promise<void> {
                     extensionTitle: packageJson.title || extension.name,
                     command,
                     bundledPath: command.bundledPath,
+                    packageJson,
                 })
             }
         }

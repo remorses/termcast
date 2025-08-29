@@ -1,4 +1,4 @@
-import React, { type ReactNode, type ReactElement, createContext, useContext, useMemo } from "react"
+import React, { type ReactNode, type ReactElement, createContext, useContext, useMemo, useLayoutEffect } from "react"
 import { useKeyboard } from "@opentui/react"
 import { Theme } from "@termcast/cli/src/theme"
 import { copyToClipboard, openInBrowser, openFile, pasteContent, showInFinder, moveToTrash } from "@termcast/cli/src/action-utils"
@@ -603,6 +603,19 @@ const ActionPanel: ActionPanelType = (props) => {
   // prevent showing actions if no dialog is shown
   if (!dialog.stack.length) return null
   // if (!inFocus) return
+
+  // Check if there's only one action and execute it immediately
+  useLayoutEffect(() => {
+    const allActions = Object.values(descendantsContext.map.current)
+      .filter((item: any) => item.index !== -1)
+      .map((item: any) => item.props as ActionDescendant)
+    
+    if (allActions.length === 1) {
+      logger.log(`Auto-executing single action: ${allActions[0].title}`)
+      dialog.clear()
+      allActions[0].execute()
+    }
+  }, [descendantsContext.map, dialog])
 
   // ActionPanel renders as Dropdown with children
   return (
