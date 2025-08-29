@@ -20,7 +20,7 @@ export function FormBasicExample(): any {
 
     return (
         <box flexDirection="column">
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} >
                 <Form.Description
                     title="Form Component Demo"
                     text="This demonstrates all available form input types. Use Tab to navigate between fields."
