@@ -5,6 +5,7 @@ import dedent from 'dedent'
 import { useQuery } from '@tanstack/react-query'
 import { List, Detail, Action, ActionPanel, showToast, Toast, Icon } from '@termcast/api'
 import { useNavigation } from '@termcast/api/src/internal/navigation'
+import { ExtensionPreferences } from '../components/extension-preferences'
 import { searchStoreListings } from '../store-api/search'
 import { fetchExtension } from '../store-api/extension'
 import { downloadExtension } from '../store-api/download'
@@ -107,7 +108,15 @@ function StoreSearch(): any {
 
 function ExtensionDetails({ extension }: { extension: StoreListing }): any {
     const [isInstalling, setIsInstalling] = useState(false)
-    const { pop } = useNavigation()
+    const [isInstalled, setIsInstalled] = useState(false)
+    const { pop, push } = useNavigation()
+    
+    // Check if extension is already installed
+    React.useEffect(() => {
+        const storeDir = getStoreDirectory()
+        const extensionDir = path.join(storeDir, extension.name)
+        setIsInstalled(fs.existsSync(extensionDir))
+    }, [extension.name])
 
     const formatDate = (timestamp: number) => {
         return new Date(timestamp * 1000).toLocaleDateString('en-US', {
@@ -180,7 +189,20 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
             })
 
             logger.log(`Extension '${extension.name}' installed to ${extensionDir}`)
-            pop()
+            setIsInstalled(true)
+            
+            // Ask if user wants to configure preferences
+            await showToast({
+                style: Toast.Style.Success,
+                title: 'Configure preferences?',
+                message: 'Would you like to configure extension preferences now?',
+                primaryAction: {
+                    title: 'Configure',
+                    onAction: () => {
+                        push(<ExtensionPreferences extensionName={extension.name} />)
+                    }
+                }
+            })
         } catch (error: any) {
             await showToast({
                 style: Toast.Style.Failure,
@@ -233,10 +255,23 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
             }
             actions={
                 <ActionPanel>
-                    <Action
-                        title={isInstalling ? "Installing..." : "Install Extension"}
-                        onAction={handleInstall}
-                    />
+                    {!isInstalled ? (
+                        <Action
+                            title={isInstalling ? "Installing..." : "Install Extension"}
+                            onAction={handleInstall}
+                        />
+                    ) : (
+                        <>
+                            <Action
+                                title="Configure Extension"
+                                onAction={() => push(<ExtensionPreferences extensionName={extension.name} />)}
+                            />
+                            <Action
+                                title="Reinstall Extension"
+                                onAction={handleInstall}
+                            />
+                        </>
+                    )}
                     <Action.OpenInBrowser
                         url={`https://raycast.com/${extension.owner.handle}/${extension.name}`}
                         title="View in Raycast Store"

@@ -9,9 +9,16 @@ export interface DialogStackItem {
   position?: DialogPosition
 }
 
+export interface NavigationStackItem {
+  component: ReactNode
+  onPop?: () => void
+}
+
 interface AppState {
   toast: ReactNode | null
   dialogStack: DialogStackItem[]
+  // Navigation state
+  navigationStack: NavigationStackItem[]
   // Dev mode state
   devElement: ReactNode | null
   devRebuildCount: number
@@ -24,6 +31,8 @@ interface AppState {
 export const useStore = create<AppState>(() => ({
   toast: null,
   dialogStack: [],
+  // Navigation state
+  navigationStack: [],
   // Dev mode state
   devElement: null,
   devRebuildCount: 0,

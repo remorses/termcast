@@ -162,6 +162,16 @@ export type {
 
 export {LaunchType}
 
+// Preferences
+export {
+  getPreferenceValues,
+  openExtensionPreferences,
+  openCommandPreferences
+} from '@termcast/api/src/preferences'
+export type {
+  PreferenceValues
+} from '@termcast/api/src/preferences'
+
 // Common Types
 export type { CommonProps } from '@termcast/api/src/utils'
 

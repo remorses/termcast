@@ -36,23 +36,10 @@ export const useFocusContext = () => {
     return context
 }
 
-
-import type {
-    TextFieldProps,
-    TextFieldRef,
-} from './text-field'
-import type {
-    PasswordFieldProps,
-    PasswordFieldRef,
-} from './password-field'
-import type {
-    TextAreaProps,
-    TextAreaRef,
-} from './text-area'
-import type {
-    CheckboxProps,
-    CheckboxRef,
-} from './checkbox'
+import type { TextFieldProps, TextFieldRef } from './text-field'
+import type { PasswordFieldProps, PasswordFieldRef } from './password-field'
+import type { TextAreaProps, TextAreaRef } from './text-area'
+import type { CheckboxProps, CheckboxRef } from './checkbox'
 import type {
     DropdownProps,
     DropdownRef,
@@ -101,8 +88,10 @@ interface FormType {
 
 export const Form: FormType = ((props) => {
     const methods = useForm<FormValues>({
-        defaultValues: {},
+        // defaultValues: {},
         mode: 'onChange',
+
+
     })
 
     const [focusedField, setFocusedField] = useState<string | null>(null)
@@ -110,8 +99,11 @@ export const Form: FormType = ((props) => {
     // Auto-focus first field on mount
     useEffect(() => {
         const fieldNames = Object.keys(methods.getValues())
-        if (fieldNames.length > 0 && !focusedField) {
+        if (fieldNames.length > 0) {
+            logger.log(`focusing `, fieldNames[0])
             setFocusedField(fieldNames[0])
+        } else {
+            logger.log(`no fields to focus in form`)
         }
     }, [])
 
@@ -132,31 +124,29 @@ export const Form: FormType = ((props) => {
         const fieldNames = Object.keys(methods.getValues())
         if (fieldNames.length === 0) return
 
-        const currentIndex = focusedField ? fieldNames.indexOf(focusedField) : -1
+        const currentIndex = focusedField
+            ? fieldNames.indexOf(focusedField)
+            : -1
         let nextIndex: number | null = null
 
         if (evt.name === 'tab') {
             if (evt.shift) {
                 // Shift+Tab: go to previous field
-                nextIndex = currentIndex > 0
-                    ? currentIndex - 1
-                    : fieldNames.length - 1
+                nextIndex =
+                    currentIndex > 0 ? currentIndex - 1 : fieldNames.length - 1
             } else {
                 // Tab: go to next field
-                nextIndex = currentIndex < fieldNames.length - 1
-                    ? currentIndex + 1
-                    : 0
+                nextIndex =
+                    currentIndex < fieldNames.length - 1 ? currentIndex + 1 : 0
             }
         } else if (evt.name === 'up') {
             // Arrow up: go to previous field
-            nextIndex = currentIndex > 0
-                ? currentIndex - 1
-                : fieldNames.length - 1
+            nextIndex =
+                currentIndex > 0 ? currentIndex - 1 : fieldNames.length - 1
         } else if (evt.name === 'down') {
             // Arrow down: go to next field
-            nextIndex = currentIndex < fieldNames.length - 1
-                ? currentIndex + 1
-                : 0
+            nextIndex =
+                currentIndex < fieldNames.length - 1 ? currentIndex + 1 : 0
         }
 
         if (nextIndex !== null) {

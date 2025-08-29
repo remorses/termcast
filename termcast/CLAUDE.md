@@ -94,7 +94,7 @@ to understand behaviour (not covered by .d.ts) you MUST read the racyast docs us
 
 curl -s https://developers.raycast.com/api-reference/user-interface/list.md
 
-> Notice the ending .md to fetch markdown
+> IMPORTANT! Add the ending .md to fetch markdown! Or it will return html!
 
 You can see the full list of raycast docs pages using
 

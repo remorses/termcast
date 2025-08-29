@@ -86,6 +86,34 @@ export namespace LocalStorage {
         })
     }
 
+    export function getItemSync<T extends Value = Value>(key: string): T | undefined {
+        try {
+            const db = getDatabase()
+            const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get(key) as { value: string; type: string } | undefined
+            
+            if (!row) {
+                return undefined
+            }
+
+            let value: Value
+            switch (row.type) {
+                case 'number':
+                    value = parseFloat(row.value)
+                    break
+                case 'boolean':
+                    value = row.value === 'true'
+                    break
+                default:
+                    value = row.value
+            }
+            
+            return value as T
+        } catch (err) {
+            logger.error('LocalStorage.getItemSync error:', err)
+            return undefined
+        }
+    }
+
     export async function setItem(key: string, value: Value): Promise<void> {
         return new Promise((resolve, reject) => {
             try {

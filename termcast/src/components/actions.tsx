@@ -322,6 +322,7 @@ const ActionPanel: ActionPanelType = (props) => {
 
             const action = allActions.find(a => a.title === value)
             if (action) {
+              dialog.clear()
               action.execute()
             }
           }}

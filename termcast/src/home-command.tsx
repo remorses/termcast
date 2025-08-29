@@ -9,6 +9,7 @@ import { showToast, Toast } from '@termcast/api/src/toast'
 import { Icon } from '@termcast/api'
 import { getStoredExtensions } from './store'
 import Store from './extensions/store'
+import { ExtensionPreferences } from './components/extension-preferences'
 
 interface ExtensionCommand {
     extensionName: string
@@ -112,6 +113,18 @@ function ExtensionsList({ allCommands }: { allCommands: ExtensionCommand[] }): a
                                         title='Run Command'
                                         onAction={() => {
                                             handleCommandSelect(item)
+                                        }}
+                                    />
+                                    <Action
+                                        title='Configure Extension'
+                                        onAction={() => {
+                                            push(<ExtensionPreferences extensionName={item.extensionName} />)
+                                        }}
+                                    />
+                                    <Action
+                                        title='Configure Command'
+                                        onAction={() => {
+                                            push(<ExtensionPreferences extensionName={item.extensionName} commandName={item.command.name} />)
                                         }}
                                     />
                                     {item.bundledPath && (

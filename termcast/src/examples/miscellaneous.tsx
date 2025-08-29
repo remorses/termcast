@@ -15,7 +15,10 @@ import {
   showInFinder,
   trash,
   open,
-  captureException
+  captureException,
+  getPreferenceValues,
+  openExtensionPreferences,
+  openCommandPreferences
 } from '@termcast/api'
 import { confirmAlert, Alert } from '@termcast/api'
 import { showToast, Toast } from '@termcast/api'
@@ -465,6 +468,76 @@ function MiscellaneousExample(): any {
                     title: "Environment",
                     message: `Extension: ${environment.extensionName}, Raycast: ${environment.raycastVersion}`
                   })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+      </List.Section>
+
+      <List.Section title="Preferences">
+        <List.Item
+          title="Get Preference Values"
+          subtitle="Access preference values for the current command"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Get Preferences"
+                onAction={async () => {
+                  const preferences = getPreferenceValues()
+                  await showToast({
+                    style: Toast.Style.Success,
+                    title: "Preferences",
+                    message: Object.keys(preferences).length > 0 
+                      ? JSON.stringify(preferences) 
+                      : "No preferences configured"
+                  })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Open Extension Preferences"
+          subtitle="Open preferences for the current extension"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Open Preferences"
+                onAction={async () => {
+                  try {
+                    await openExtensionPreferences()
+                  } catch (error) {
+                    await showToast({
+                      style: Toast.Style.Failure,
+                      title: "Error",
+                      message: String(error)
+                    })
+                  }
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Open Command Preferences"
+          subtitle="Open preferences for the current command"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Open Preferences"
+                onAction={async () => {
+                  try {
+                    await openCommandPreferences()
+                  } catch (error) {
+                    await showToast({
+                      style: Toast.Style.Failure,
+                      title: "Error",
+                      message: String(error)
+                    })
+                  }
                 }}
               />
             </ActionPanel>
