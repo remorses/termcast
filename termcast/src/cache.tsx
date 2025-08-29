@@ -78,6 +78,16 @@ export class Cache {
         // Calculate initial size
         const row = this.db.prepare('SELECT SUM(size) as total FROM cache').get() as { total: number | null } | undefined
         this.currentSize = row?.total || 0
+        
+        // Bind all methods to this instance
+        this.get = this.get.bind(this)
+        this.has = this.has.bind(this)
+        this.set = this.set.bind(this)
+        this.remove = this.remove.bind(this)
+        this.clear = this.clear.bind(this)
+        this.subscribe = this.subscribe.bind(this)
+        this.maintainCapacity = this.maintainCapacity.bind(this)
+        this.notifySubscribers = this.notifySubscribers.bind(this)
     }
     
     get storageDirectory(): string {

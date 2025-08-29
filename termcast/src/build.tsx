@@ -16,7 +16,7 @@ const aliasPlugin: BunPlugin = {
             { path: '@opentui/core', module: await import('@opentui/core'), globalName: 'opentuiCore' },
             { path: 'react', module: await import('react'), globalName: 'react' },
         ]
-        
+
         // Alias @raycast/api to @termcast/api using namespace
         build.onResolve({ filter: /@raycast\/api/ }, () => {
             logger.log('Resolving @raycast/api to @termcast/api')
@@ -47,7 +47,7 @@ const aliasPlugin: BunPlugin = {
                 namespace: GLOBALS_NAMESPACE,
             }
         })
-        
+
         build.onResolve({ filter: /^@opentui\/core/ }, () => {
             return {
                 path: '@opentui/core',
@@ -61,7 +61,7 @@ const aliasPlugin: BunPlugin = {
                 namespace: GLOBALS_NAMESPACE,
             }
         })
-        
+
         build.onResolve({ filter: /^react($|\/|$)/ }, (args) => {
             if (args.path === 'react' || args.path === 'react/') {
                 return {
@@ -85,7 +85,7 @@ const aliasPlugin: BunPlugin = {
             const pkg = packages.find(p => p.path === args.path)
             if (pkg) {
                 const exports: string[] = []
-                
+
                 for (const key in pkg.module) {
                     if (key === 'default') {
                         // Special handling for react default export
@@ -98,20 +98,20 @@ const aliasPlugin: BunPlugin = {
                         exports.push(`export const ${key} = /* @__PURE__ */ globalThis.${pkg.globalName}.${key};`)
                     }
                 }
-                
+
                 return {
                     contents: exports.join('\n'),
                     loader: 'js',
                     pure: true,
                 }
             }
-            
+
             // Special handling for react/jsx-runtime
             if (args.path === 'react/jsx-runtime') {
                 const jsxRuntime = await import('react/jsx-runtime')
                 const jsxDevRuntime = await import('react/jsx-dev-runtime')
                 const exports: string[] = []
-                
+
                 // Export from jsx-runtime
                 for (const key in jsxRuntime) {
                     if (key === 'default') {
@@ -120,17 +120,17 @@ const aliasPlugin: BunPlugin = {
                     }
                     exports.push(`export const ${key} = /* @__PURE__ */ globalThis.reactJsxRuntime.${key};`)
                 }
-                
+
                 // Also export jsxDEV from jsx-dev-runtime
                 exports.push(`export const jsxDEV = /* @__PURE__ */ (globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx);`)
-                
+
                 return {
                     contents: exports.join('\n'),
                     loader: 'js',
                     pure: true,
                 }
             }
-            
+
             return {
                 contents: '',
                 loader: 'js',
@@ -181,7 +181,7 @@ export async function buildExtensionCommands({
         entrypoints,
         outdir: bundleDir,
         target: 'bun',
-        format: 'esm',
+        format: 'cjs',
         external: [],
         plugins: [aliasPlugin],
         naming: '[name].js',
