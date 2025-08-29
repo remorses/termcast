@@ -44,7 +44,7 @@ jobs:
               shell: bash
               run: |
                   mkdir -p bins
-                  bun build termcast/src/cli.ts --compile --outfile "bins/termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
+                  bun build termcast/src/cli.tsx --compile --outfile "bins/termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
 
             - name: Make executable (unix)
               if: runner.os != 'Windows'
