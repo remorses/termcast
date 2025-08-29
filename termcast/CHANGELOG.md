@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.2
+
+### Patch Changes
+
+- nn
+
 ## 0.0.1
 
 ### Patch Changes
