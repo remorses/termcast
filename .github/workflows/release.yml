@@ -40,18 +40,18 @@ jobs:
             - name: Compile binary
               shell: bash
               run: |
-                  mkdir -p dist
-                  bun build ./src/cli.ts --compile --outfile "dist/termcast-${{ matrix.os_id }}-${{ runner.arch }}${{ matrix.ext }}"
+                  mkdir -p bins
+                  bun build termcast/src/cli.ts --compile --outfile "bins/termcast-${{ matrix.os_id }}-${{ runner.arch }}${{ matrix.ext }}"
 
             - name: Make executable (unix)
               if: runner.os != 'Windows'
-              run: chmod +x "dist/termcast-${{ matrix.os_id }}-${{ runner.arch }}${{ matrix.ext }}"
+              run: chmod +x "bins/termcast-${{ matrix.os_id }}-${{ runner.arch }}${{ matrix.ext }}"
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
                   name: ${{ matrix.os_id }}-${{ runner.arch }}
-                  path: dist/*
+                  path: bins/*
 
     release:
         name: publish release (gh)
@@ -61,7 +61,7 @@ jobs:
             - name: Download all artifacts
               uses: actions/download-artifact@v4
               with:
-                  path: dist
+                  path: bins
                   merge-multiple: true
 
             - name: Create or update GitHub Release with gh
@@ -71,7 +71,7 @@ jobs:
               run: |
                   # Create release if it doesn't exist; otherwise upload (clobber) assets
                   if gh release view "$TAG" >/dev/null 2>&1; then
-                    gh release upload "$TAG" dist/** --clobber
+                    gh release upload "$TAG" bins/** --clobber
                   else
-                    gh release create "$TAG" dist/** --generate-notes --latest --title "$TAG"
+                    gh release create "$TAG" bins/** --generate-notes --latest --title "$TAG"
                   fi
