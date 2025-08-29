@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect } from 'bun:test'
 import { searchStoreListings } from './search'
 
 describe('searchStoreListings', () => {
@@ -42,7 +42,7 @@ describe('searchStoreListings', () => {
             "easings",
             "linkding",
             "odoo-companion",
-            "workouts",
+            "vixai",
             "yap",
           ]
         `)

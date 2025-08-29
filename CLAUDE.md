@@ -22,8 +22,6 @@ curl -s https://raw.githubusercontent.com/remorses/AGENTS.md/main/lucide.md
 # Playwright MCP tools for browser automation and testing
 curl -s https://raw.githubusercontent.com/remorses/AGENTS.md/main/playwright.md
 
-# pnpm workspace management
-curl -s https://raw.githubusercontent.com/remorses/AGENTS.md/main/pnpm.md
 
 # Prisma ORM best practices: queries, transactions, security, and authorization
 curl -s https://raw.githubusercontent.com/remorses/AGENTS.md/main/prisma.md
@@ -48,3 +46,6 @@ curl -s https://raw.githubusercontent.com/remorses/AGENTS.md/main/vitest.md
 
 # Zod schema validation for API routes and other schemas
 curl -s https://raw.githubusercontent.com/remorses/AGENTS.md/main/zod.md
+
+
+This project uses bun as package manager

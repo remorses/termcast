@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach, afterAll } from 'vitest'
+import { describe, test, expect, beforeEach, afterAll } from 'bun:test'
 import { LocalStorage } from './localstorage'
 import * as os from 'os'
 import * as path from 'path'
@@ -69,7 +69,9 @@ describe('LocalStorage', () => {
         })
 
         test('does not throw when removing non-existent key', async () => {
-            await expect(LocalStorage.removeItem('non-existent')).resolves.not.toThrow()
+            // Should complete without throwing
+            await LocalStorage.removeItem('non-existent')
+            expect(true).toBe(true) // Test passes if we reach here
         })
     })
 

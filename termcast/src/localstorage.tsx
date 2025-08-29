@@ -1,4 +1,4 @@
-import Database from '@signalapp/sqlcipher'
+import { Database } from 'bun:sqlite'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
@@ -38,7 +38,7 @@ function getDatabase(): Database {
         db = new Database(dbPath)
         currentDbPath = dbPath
 
-        // db.pragma('journal_mode = WAL')
+        db.exec('PRAGMA journal_mode = WAL')
 
         db.exec(`
             CREATE TABLE IF NOT EXISTS localstorage (
@@ -62,7 +62,7 @@ export namespace LocalStorage {
         return new Promise((resolve) => {
             try {
                 const db = getDatabase()
-                const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get([key]) as { value: string; type: string } | undefined
+                const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get(key) as { value: string; type: string } | undefined
 
                 if (!row) {
                     resolve(undefined)
@@ -92,7 +92,7 @@ export namespace LocalStorage {
     export function getItemSync<T extends Value = Value>(key: string): T | undefined {
         try {
             const db = getDatabase()
-            const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get([key]) as { value: string; type: string } | undefined
+            const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get(key) as { value: string; type: string } | undefined
 
             if (!row) {
                 return undefined
@@ -124,7 +124,7 @@ export namespace LocalStorage {
                 const type = typeof value
                 const stringValue = String(value)
 
-                db.prepare('INSERT OR REPLACE INTO localstorage (key, value, type) VALUES (?, ?, ?)').run([key, stringValue, type])
+                db.prepare('INSERT OR REPLACE INTO localstorage (key, value, type) VALUES (?, ?, ?)').run(key, stringValue, type)
                 resolve()
             } catch (err) {
                 logger.error('LocalStorage.setItem error:', err)
@@ -137,7 +137,7 @@ export namespace LocalStorage {
         return new Promise((resolve, reject) => {
             try {
                 const db = getDatabase()
-                db.prepare('DELETE FROM localstorage WHERE key = ?').run([key])
+                db.prepare('DELETE FROM localstorage WHERE key = ?').run(key)
                 resolve()
             } catch (err) {
                 logger.error('LocalStorage.removeItem error:', err)

@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect } from 'bun:test'
 import path from 'node:path'
 import { buildExtensionCommands } from './build'
 
@@ -30,6 +30,26 @@ describe('buildExtensionCommands', () => {
                 "name": "search-items",
                 "subtitle": "Search through items",
                 "title": "Search Items",
+              },
+              {
+                "bundledPath": "/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js",
+                "description": "Shows how to use the usePromise hook from @raycast/utils",
+                "exists": true,
+                "filePath": "/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/src/use-promise-demo.tsx",
+                "mode": "view",
+                "name": "use-promise-demo",
+                "subtitle": "Demonstrates usePromise hook",
+                "title": "usePromise Demo",
+              },
+              {
+                "bundledPath": "/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js",
+                "description": "Shows the current application state in JSON format",
+                "exists": true,
+                "filePath": "/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/src/show-state.tsx",
+                "mode": "view",
+                "name": "show-state",
+                "subtitle": "Display current state as JSON",
+                "title": "Show State",
               },
             ],
           }
