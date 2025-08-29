@@ -62,6 +62,10 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0  # Need full history to get all tags
+
             - name: Download all artifacts
               uses: actions/download-artifact@v4
               with:
@@ -71,8 +75,16 @@ jobs:
             - name: Create or update GitHub Release with gh
               env:
                   GH_TOKEN: ${{ github.token }}
-                  TAG: ${{ github.ref_name }}
               run: |
+                  # Get TAG from github.ref_name or use the last tag if triggered via workflow_dispatch
+                  if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+                    TAG=$(git tag --sort=-version:refname | head -1)
+                  else
+                    TAG="${{ github.ref_name }}"
+                  fi
+                  
+                  echo "Using tag: $TAG"
+                  
                   # Create release if it doesn't exist; otherwise upload (clobber) assets
                   if gh release view "$TAG" >/dev/null 2>&1; then
                     gh release upload "$TAG" bins/** --clobber
