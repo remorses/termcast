@@ -626,6 +626,24 @@ function MiscellaneousExample(): any {
         />
 
         <List.Item
+          title="Show in Finder (Action Component)"
+          subtitle="Use Action.ShowInFinder to reveal package.json"
+          actions={
+            <ActionPanel>
+              <Action.ShowInFinder
+                path="package.json"
+                title="Reveal in Finder"
+                icon="📁"
+                shortcut={{ modifiers: ["cmd", "shift"], key: "r" }}
+                onShow={(path) => {
+                  logger.log(`Showing ${path} in Finder`)
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
           title="Move to Trash"
           subtitle="Move a file to trash"
           actions={

@@ -120,18 +120,20 @@ export function DialogProvider(props: DialogProviderProps): any {
       <InFocus inFocus={dialogStack.length === 0}>
         {props.children}
       </InFocus>
-      <group position="absolute">
-        {dialogStack.map((item, index) => {
-          const isLastItem = index === dialogStack.length - 1
-          return (
-            <InFocus key={String(index)} inFocus={isLastItem}>
-              <Dialog position={item.position}>
-                {item.element}
-              </Dialog>
-            </InFocus>
-          )
-        })}
-      </group>
+      {dialogStack.length > 0 && (
+        <group position="absolute">
+          {dialogStack.map((item, index) => {
+            const isLastItem = index === dialogStack.length - 1
+            return (
+              <InFocus key={String(index)} inFocus={isLastItem}>
+                <Dialog position={item.position}>
+                  {item.element}
+                </Dialog>
+              </InFocus>
+            )
+          })}
+        </group>
+      )}
     </>
   )
 }
