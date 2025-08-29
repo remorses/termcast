@@ -61,33 +61,33 @@ fi
 
 case $platform in
 'Darwin x86_64')
-    target=macos-X64
+    target=macos-x64
     ;;
 'Darwin arm64')
-    target=macos-ARM64
+    target=macos-arm64
     ;;
 'Linux aarch64' | 'Linux arm64')
-    target=linux-ARM64
+    target=linux-arm64
     ;;
 'MINGW64'*)
-    target=windows-X64
+    target=windows-x64
     ext=.exe
     ;;
 'Linux riscv64')
     error 'Not supported on riscv64'
     ;;
 'Linux x86_64' | *)
-    target=linux-X64
+    target=linux-x64
     ;;
 esac
 
 # No musl variant for termcast
 
-if [[ $target = macos-X64 ]]; then
+if [[ $target = macos-x64 ]]; then
     # Is this process running in Rosetta?
     # redirect stderr to devnull to avoid error message when not running in Rosetta
     if [[ $(sysctl -n sysctl.proc_translated 2>/dev/null) = 1 ]]; then
-        target=macos-ARM64
+        target=macos-arm64
         info "Your shell is running in Rosetta 2. Downloading termcast for $target instead"
     fi
 fi

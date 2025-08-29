@@ -97,7 +97,7 @@ function Install-Termcast {
     $Version = "@termcast/cli@$($Version.Substring(1))"
   }
 
-  $Arch = "X64"
+  $Arch = "x64"
 
   $TermcastRoot = if ($env:TERMCAST_INSTALL) { $env:TERMCAST_INSTALL } else { "${Home}\.termcast" }
   $TermcastBin = mkdir -Force "${TermcastRoot}\bin"
