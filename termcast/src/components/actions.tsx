@@ -1,7 +1,7 @@
 import React, { type ReactNode, type ReactElement, createContext, useContext, useMemo } from "react"
 import { useKeyboard } from "@opentui/react"
 import { Theme } from "@termcast/cli/src/theme"
-import { copyToClipboard, openInBrowser, openFile, pasteContent } from "@termcast/cli/src/action-utils"
+import { copyToClipboard, openInBrowser, openFile, pasteContent, showInFinder } from "@termcast/cli/src/action-utils"
 import { useDialog } from "@termcast/cli/src/internal/dialog"
 import { Dropdown } from "@termcast/cli/src/components/dropdown"
 import { useIsInFocus } from "@termcast/cli/src/internal/focus-context"
@@ -44,6 +44,7 @@ interface ActionType {
   OpenInBrowser: (props: OpenInBrowserProps) => any
   Open: (props: OpenProps) => any
   Paste: (props: PasteProps) => any
+  ShowInFinder: (props: ShowInFinderProps) => any
 }
 
 interface PushActionProps extends Omit<ActionProps, 'onAction'> {
@@ -71,6 +72,11 @@ interface OpenProps extends Omit<ActionProps, 'onAction'> {
 interface PasteProps extends Omit<ActionProps, 'onAction'> {
   content: string | number
   onPaste?: (content: string | number) => void
+}
+
+interface ShowInFinderProps extends Omit<ActionProps, 'onAction'> {
+  path: string
+  onShow?: (path: string) => void
 }
 
 // Create descendants for Actions - minimal fields needed
@@ -245,6 +251,33 @@ Action.Paste = (props) => {
   )
 }
 
+Action.ShowInFinder = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title || "Show in Finder",
+    shortcut: props.shortcut,
+    execute: () => {
+      showInFinder(props.path)
+      props.onShow?.(props.path)
+      showToast({
+        title: "Showing in Finder",
+        message: props.path,
+        style: Toast.Style.Success
+      })
+    }
+  })
+
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title || "Show in Finder"}
+      value={props.title || "Show in Finder"}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
+}
+
 interface ActionPanelType {
   (props: ActionPanelProps): any
   Section: (props: ActionPanelSectionProps) => any
@@ -304,6 +337,9 @@ const ActionPanel: ActionPanelType = (props) => {
     [],
   )
 
+  // prevent showing actions if no dialog is shown
+  if (!dialog.stack.length) return null
+  // if (!inFocus) return
 
   // ActionPanel renders as Dropdown with children
   return (
