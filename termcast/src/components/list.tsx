@@ -732,6 +732,7 @@ interface ListSectionContextValue {
     searchText: string
     filtering?: boolean | { keepSectionOrder: boolean }
     sectionTitle?: string
+    registerItemVisibility?: (itemId: string, isVisible: boolean) => void
 }
 
 const ListSectionContext = createContext<ListSectionContextValue>({
@@ -741,8 +742,9 @@ const ListSectionContext = createContext<ListSectionContextValue>({
 
 const ListItem: ListItemType = (props) => {
     const listSectionContext = useContext(ListSectionContext)
-    const { searchText, filtering, sectionTitle } = listSectionContext
+    const { searchText, filtering, sectionTitle, registerItemVisibility } = listSectionContext
     const listContext = useContext(ListContext)
+    const itemId = useRef(Math.random().toString(36).substr(2, 9))
 
     // Extract text values for filtering
     const titleText = typeof props.title === 'string' ? props.title : props.title.value
@@ -769,6 +771,18 @@ const ListItem: ListItemType = (props) => {
 
         return !searchableText.includes(needle)
     })()
+
+    // Register visibility with section
+    useEffect(() => {
+        if (registerItemVisibility) {
+            registerItemVisibility(itemId.current, !shouldHide)
+        }
+        return () => {
+            if (registerItemVisibility) {
+                registerItemVisibility(itemId.current, false)
+            }
+        }
+    }, [shouldHide, registerItemVisibility])
 
     // Register as descendant
     const index = useListItemDescendant({
@@ -1005,12 +1019,29 @@ ListDropdown.Section = (props) => {
 List.Item = ListItem
 const ListSection = (props: SectionProps) => {
     const parentContext = useContext(ListSectionContext)
+    const visibleItems = useRef<Set<string>>(new Set())
+    const [hasVisibleItems, setHasVisibleItems] = useState(true)
 
-    // Create new context with section title
+    const registerItemVisibility = (itemId: string, isVisible: boolean) => {
+        if (isVisible) {
+            visibleItems.current.add(itemId)
+        } else {
+            visibleItems.current.delete(itemId)
+        }
+        setHasVisibleItems(visibleItems.current.size > 0)
+    }
+
+    // Create new context with section title and visibility registration
     const sectionContextValue = useMemo(() => ({
         ...parentContext,
         sectionTitle: props.title,
+        registerItemVisibility,
     }), [parentContext, props.title])
+
+    // Don't render section if no visible items when searching
+    if (!hasVisibleItems && parentContext.searchText.trim()) {
+        return null
+    }
 
     return (
         <>
