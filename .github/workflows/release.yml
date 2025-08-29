@@ -76,6 +76,9 @@ jobs:
                   path: bins
                   merge-multiple: true
 
+            - name: List downloaded artifacts
+              run: ls -la bins/
+
             - name: Create or update GitHub Release with gh
               env:
                   GH_TOKEN: ${{ github.token }}
@@ -83,6 +86,10 @@ jobs:
                   # Get TAG from github.ref_name or use the last tag if triggered via workflow_dispatch
                   if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
                     TAG=$(git tag --sort=-version:refname | head -1)
+                    if [ -z "$TAG" ]; then
+                      echo "No tags found in repository"
+                      exit 1
+                    fi
                   else
                     TAG="${{ github.ref_name }}"
                   fi
@@ -91,7 +98,7 @@ jobs:
                   
                   # Create release if it doesn't exist; otherwise upload (clobber) assets
                   if gh release view "$TAG" >/dev/null 2>&1; then
-                    gh release upload "$TAG" bins/** --clobber
+                    gh release upload "$TAG" bins/* --clobber
                   else
-                    gh release create "$TAG" bins/** --generate-notes --latest --title "$TAG"
+                    gh release create "$TAG" bins/* --generate-notes --latest --title "$TAG"
                   fi
