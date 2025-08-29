@@ -252,6 +252,7 @@ interface ListContextValue {
     openDropdown: () => void
     selectedIndex: number
     filteredIndices: number[]
+    searchText: string
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -284,6 +285,7 @@ interface DropdownContextValue {
     selectedIndex?: number
     currentValue?: string
     filteredIndices?: number[]
+    searchText?: string
 }
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
@@ -415,6 +417,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                         selectedIndex,
                         currentValue: props.value,
                         filteredIndices,
+                        searchText,
                     }}>
                         {props.children}
                     </DropdownContext.Provider>
@@ -621,8 +624,9 @@ export const List: ListType = (props) => {
             openDropdown,
             selectedIndex,
             filteredIndices,
+            searchText,
         }),
-        [isDropdownOpen, selectedIndex, filteredIndices],
+        [isDropdownOpen, selectedIndex, filteredIndices, searchText],
     )
 
     // Reset selected index when items change or selectedItemId changes
@@ -828,16 +832,21 @@ function ListItemsRenderer(props: {
     children?: ReactNode
 }): any {
     const { children } = props
+    const listContext = useContext(ListContext)
+    const searchText = listContext?.searchText || ''
 
-    // Simply render children - they handle their own registration and rendering
+    // Pass search text down via context
     return (
-        <>{children}</>
+        <ListSectionContext.Provider value={{ searchText }}>
+            {children}
+        </ListSectionContext.Provider>
     )
 }
 
 // Context for passing section state to items
 interface ListSectionContextValue {
     sectionTitle?: string
+    searchText?: string
 }
 
 const ListSectionContext = createContext<ListSectionContextValue>({})
@@ -1063,10 +1072,13 @@ ListDropdown.Section = (props) => {
         [parentContext, props.title],
     )
 
+    // Hide section title when searching
+    const showTitle = parentContext.selectedIndex !== undefined && props.title && !parentContext.searchText?.trim()
+
     return (
         <>
-            {/* Render section title if we're in the dialog */}
-            {parentContext.selectedIndex !== undefined && props.title && (
+            {/* Render section title if we're in the dialog and not searching */}
+            {showTitle && (
                 <group style={{ paddingTop: 1, paddingLeft: 1 }}>
                     <text
                         fg={Theme.accent}
@@ -1086,18 +1098,23 @@ ListDropdown.Section = (props) => {
 List.Item = ListItem
 const ListSection = (props: SectionProps) => {
     const parentContext = useContext(ListSectionContext)
+    const listContext = useContext(ListContext)
+    const searchText = listContext?.searchText || ''
 
-    // Create new context with section title
+    // Create new context with section title and search text
     const sectionContextValue = useMemo(() => ({
         ...parentContext,
         sectionTitle: props.title,
-    }), [parentContext, props.title])
+        searchText,
+    }), [parentContext, props.title, searchText])
 
+    // Hide section title when searching
+    const showTitle = props.title && !searchText.trim()
 
     return (
         <>
-            {/* Render section title if provided */}
-            {props.title && (
+            {/* Render section title if provided and not searching */}
+            {showTitle && (
                 <box
                     border={false}
                     style={{
