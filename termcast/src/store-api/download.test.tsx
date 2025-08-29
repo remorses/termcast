@@ -23,7 +23,7 @@ describe('downloadExtension', () => {
 
         // Check package.json commands field
         const packageJson = files.find(
-            (f) => f.filename === 'spiceblow-database/package.json',
+            (f) => f.filename === 'package.json',
         )
         const packageData = JSON.parse(packageJson?.buffer.toString()!)
         expect(packageData.commands).toMatchInlineSnapshot(`

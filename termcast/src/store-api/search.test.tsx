@@ -39,11 +39,11 @@ describe('searchStoreListings', () => {
         const extensionNames = results.data.map(d => d.name).sort()
         expect(extensionNames).toMatchInlineSnapshot(`
           [
-            "custom-wordle",
             "easings",
-            "file-organizer",
+            "linkding",
             "odoo-companion",
-            "raydocs",
+            "workouts",
+            "yap",
           ]
         `)
     }, 10000)
