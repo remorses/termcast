@@ -1,11 +1,12 @@
-[2025-08-29T11:16:53.780Z] Building 4 commands...
-[2025-08-29T11:16:53.785Z] Resolving @raycast/api to @termcast/cli
-[2025-08-29T11:16:53.785Z] Resolving @raycast/api to @termcast/cli
-[2025-08-29T11:16:53.785Z] Resolving @raycast/api to @termcast/cli
-[2025-08-29T11:16:53.786Z] Resolving @raycast/api to @termcast/cli
-[2025-08-29T11:16:53.787Z] ERROR: Build failed: Could not resolve: "@termcast/cli". Maybe you need to "bun install"?
-Could not resolve: "@termcast/cli/state". Maybe you need to "bun install"?
-Error: Build failed: Could not resolve: "@termcast/cli". Maybe you need to "bun install"?
-Could not resolve: "@termcast/cli/state". Maybe you need to "bun install"?
-    at buildExtensionCommands (/Users/morse/Documents/GitHub/termcast/termcast/src/build.tsx:224:19)
-    at processTicksAndRejections (native:7:39)
+[2025-08-29T11:18:43.049Z] Building 4 commands...
+[2025-08-29T11:18:43.055Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T11:18:43.055Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T11:18:43.055Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T11:18:43.056Z] Resolving @raycast/api to @termcast/cli
+[2025-08-29T11:18:43.062Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-08-29T11:18:43.062Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-08-29T11:18:43.062Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-08-29T11:18:43.062Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-08-29T11:18:43.062Z] Successfully built 4 files
+[2025-08-29T11:18:46.166Z] actions dropdown onChange Run Command
+[2025-08-29T11:18:46.170Z] pushing ShowState

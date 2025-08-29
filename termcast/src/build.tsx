@@ -43,7 +43,7 @@ const aliasPlugin: BunPlugin = {
         })
 
         // Resolve external packages to globals namespace
-        build.onResolve({ filter: /^@termcast\/api/ }, () => {
+        build.onResolve({ filter: /^@termcast\/cli/ }, (args) => {
             return {
                 path: '@termcast/cli',
                 namespace: GLOBALS_NAMESPACE,

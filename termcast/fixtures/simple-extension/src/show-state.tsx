@@ -1,5 +1,5 @@
-import { Detail, ActionPanel, Action } from "@termcast/cli"
-import { useStore } from "@termcast/cli/state"
+import { useStore, Detail, ActionPanel, Action } from "@termcast/cli"
+
 
 export default function ShowState() {
   const state = useStore()
