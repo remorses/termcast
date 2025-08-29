@@ -30,7 +30,6 @@ export function createDescendants<T = any>() {
         )
     }
 
-
     const useDescendants = (): DescendantContextType<T> => {
         const indexCounter = React.useRef<number>(0)
         const map = React.useRef<DescendantMap<T>>({})
@@ -76,28 +75,56 @@ export function createDescendants<T = any>() {
     return { DescendantsProvider, useDescendants, useDescendant }
 }
 
-const { DescendantsProvider: Descendants, useDescendants, useDescendant } = createDescendants<{
-    title?: string
-}>()
+// EXAMPLE
+const { DescendantsProvider, useDescendants, useDescendant } =
+    createDescendants<{
+        title?: string
+    }>()
 
+const FilteredIndexesContext = React.createContext<number[]>([])
 const Menu = () => {
     const context = useDescendants()
+    const [search, setSearchRaw] = React.useState('')
+    const [filteredIndexes, setFilteredIndexes] = React.useState<number[]>([])
 
-    const items = Object.values(context.map.current)
+    // Filtering logic is now in this wrapper
+    const setSearch = (value: string) => {
+        setSearchRaw(value)
+        const items = Object.entries(context.map.current)
+        const filtered = items
+            .filter(([, item]) =>
+                item.props?.title?.toLowerCase().includes(value.toLowerCase()),
+            )
+            .map(([, item]) => item.index)
+        setFilteredIndexes(filtered)
+    }
 
     return (
-        <Descendants value={context}>
-            <Item title='First Item' />
-            <Item title='Second Item' />
-            {items.map((x) => {
-                return <box>{x.props?.title}</box>
-            })}
-        </Descendants>
+        <DescendantsProvider value={context}>
+            <FilteredIndexesContext.Provider value={filteredIndexes}>
+                <box>
+                    <input
+                        value={search}
+                        onInput={setSearch}
+                        placeholder='Search...'
+                    />
+                    <Item title='First Item' />
+                    <Item title='Second Item' />
+                    <Item title='Third Item' />
+                </box>
+            </FilteredIndexesContext.Provider>
+        </DescendantsProvider>
     )
 }
 
 const Item = ({ title }: { title: string }) => {
     const index = useDescendant({ title })
+    const filteredIndexes = React.useContext(FilteredIndexesContext)
 
-    return null
+    // If index is not in filteredIndexes, don't render
+    if (!filteredIndexes.includes(index)) {
+        return null
+    }
+
+    return <text>{title}</text>
 }
