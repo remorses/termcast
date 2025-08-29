@@ -11,10 +11,26 @@ const aliasPlugin: BunPlugin = {
     async setup(build) {
         // Import packages once at setup time
         const packages = [
-            { path: '@termcast/cli', module: await import('@termcast/cli'), globalName: 'termcastApi' },
-            { path: '@opentui/react', module: await import('@opentui/react'), globalName: 'opentuiReact' },
-            { path: '@opentui/core', module: await import('@opentui/core'), globalName: 'opentuiCore' },
-            { path: 'react', module: await import('react'), globalName: 'react' },
+            {
+                path: '@termcast/cli',
+                module: await import('@termcast/cli'),
+                globalName: 'termcastApi',
+            },
+            {
+                path: '@opentui/react',
+                module: await import('@opentui/react'),
+                globalName: 'opentuiReact',
+            },
+            {
+                path: '@opentui/core',
+                module: await import('@opentui/core'),
+                globalName: 'opentuiCore',
+            },
+            {
+                path: 'react',
+                module: await import('react'),
+                globalName: 'react',
+            },
         ]
 
         // Alias @raycast/api to @termcast/cli using namespace
@@ -80,63 +96,76 @@ const aliasPlugin: BunPlugin = {
         })
 
         // Handle loading from globals namespace
-        build.onLoad({ filter: /.*/, namespace: GLOBALS_NAMESPACE }, async (args) => {
-            // Handle regular packages
-            const pkg = packages.find(p => p.path === args.path)
-            if (pkg) {
-                const exports: string[] = []
+        build.onLoad(
+            { filter: /.*/, namespace: GLOBALS_NAMESPACE },
+            async (args) => {
+                // Handle regular packages
+                const pkg = packages.find((p) => p.path === args.path)
+                if (pkg) {
+                    const exports: string[] = []
 
-                for (const key in pkg.module) {
-                    if (key === 'default') {
-                        // Special handling for react default export
-                        if (pkg.path === 'react') {
-                            exports.push(`export default /* @__PURE__ */ globalThis.${pkg.globalName};`)
+                    for (const key in pkg.module) {
+                        if (key === 'default') {
+                            // Special handling for react default export
+                            if (pkg.path === 'react') {
+                                exports.push(
+                                    `export default /* @__PURE__ */ globalThis.${pkg.globalName};`,
+                                )
+                            } else {
+                                exports.push(
+                                    `export default /* @__PURE__ */ globalThis.${pkg.globalName}.default;`,
+                                )
+                            }
                         } else {
-                            exports.push(`export default /* @__PURE__ */ globalThis.${pkg.globalName}.default;`)
+                            exports.push(
+                                `export const ${key} = /* @__PURE__ */ globalThis.${pkg.globalName}.${key};`,
+                            )
                         }
-                    } else {
-                        exports.push(`export const ${key} = /* @__PURE__ */ globalThis.${pkg.globalName}.${key};`)
+                    }
+
+                    return {
+                        contents: exports.join('\n'),
+                        loader: 'js',
+                        pure: true,
+                    }
+                }
+
+                // Special handling for react/jsx-runtime
+                if (args.path === 'react/jsx-runtime') {
+                    const jsxRuntime = await import('react/jsx-runtime')
+                    const jsxDevRuntime = await import('react/jsx-dev-runtime')
+                    const exports: string[] = []
+
+                    // Export from jsx-runtime
+                    for (const key in jsxRuntime) {
+                        if (key === 'default') {
+                            // Skip default export for jsx-runtime
+                            continue
+                        }
+                        exports.push(
+                            `export const ${key} = /* @__PURE__ */ globalThis.reactJsxRuntime.${key};`,
+                        )
+                    }
+
+                    // Also export jsxDEV from jsx-dev-runtime
+                    exports.push(
+                        `export const jsxDEV = /* @__PURE__ */ (globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx);`,
+                    )
+
+                    return {
+                        contents: exports.join('\n'),
+                        loader: 'js',
+                        pure: true,
                     }
                 }
 
                 return {
-                    contents: exports.join('\n'),
+                    contents: '',
                     loader: 'js',
                     pure: true,
                 }
-            }
-
-            // Special handling for react/jsx-runtime
-            if (args.path === 'react/jsx-runtime') {
-                const jsxRuntime = await import('react/jsx-runtime')
-                const jsxDevRuntime = await import('react/jsx-dev-runtime')
-                const exports: string[] = []
-
-                // Export from jsx-runtime
-                for (const key in jsxRuntime) {
-                    if (key === 'default') {
-                        // Skip default export for jsx-runtime
-                        continue
-                    }
-                    exports.push(`export const ${key} = /* @__PURE__ */ globalThis.reactJsxRuntime.${key};`)
-                }
-
-                // Also export jsxDEV from jsx-dev-runtime
-                exports.push(`export const jsxDEV = /* @__PURE__ */ (globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx);`)
-
-                return {
-                    contents: exports.join('\n'),
-                    loader: 'js',
-                    pure: true,
-                }
-            }
-
-            return {
-                contents: '',
-                loader: 'js',
-                pure: true,
-            }
-        })
+            },
+        )
     },
 }
 
@@ -168,8 +197,8 @@ export async function buildExtensionCommands({
 
     // Filter existing command files as entrypoints
     const entrypoints = commandsData.commands
-        .filter(cmd => cmd.exists)
-        .map(cmd => cmd.filePath)
+        .filter((cmd) => cmd.exists)
+        .map((cmd) => cmd.filePath)
 
     if (entrypoints.length === 0) {
         throw new Error('No command files found to build')
@@ -185,39 +214,44 @@ export async function buildExtensionCommands({
         external: [],
         plugins: [aliasPlugin],
         naming: '[name].js',
+        throw: false,
     })
 
     if (!result.success) {
-        const errorMessage = result.logs.map((log: any) => log.message || log).join('\n')
+        const errorMessage = result.logs
+            .map((log: any) => log.message || log)
+            .join('\n')
         throw new Error(`Build failed: ${errorMessage}`)
     }
 
     // Map outputs back to commands
-    const bundledCommands: BundledCommand[] = commandsData.commands.map((command) => {
-        if (!command.exists) {
-            return {
-                ...command,
-                bundledPath: '',
+    const bundledCommands: BundledCommand[] = commandsData.commands.map(
+        (command) => {
+            if (!command.exists) {
+                return {
+                    ...command,
+                    bundledPath: '',
+                }
             }
-        }
 
-        // Find the corresponding output for this command
-        const outputFileName = `${command.name}.js`
-        const output = result.outputs.find(out => {
-            return path.basename(out.path) === outputFileName
-        })
+            // Find the corresponding output for this command
+            const outputFileName = `${command.name}.js`
+            const output = result.outputs.find((out) => {
+                return path.basename(out.path) === outputFileName
+            })
 
-        if (output) {
-            const bundledPath = path.join(bundleDir, outputFileName)
-            logger.log(`Built ${command.name} -> ${bundledPath}`)
-            return {
-                ...command,
-                bundledPath,
+            if (output) {
+                const bundledPath = path.join(bundleDir, outputFileName)
+                logger.log(`Built ${command.name} -> ${bundledPath}`)
+                return {
+                    ...command,
+                    bundledPath,
+                }
+            } else {
+                throw new Error(`No output found for command: ${command.name}`)
             }
-        } else {
-            throw new Error(`No output found for command: ${command.name}`)
-        }
-    })
+        },
+    )
 
     logger.log(`Successfully built ${result.outputs.length} files`)
 
