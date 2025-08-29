@@ -282,12 +282,14 @@ const Detail: DetailType = (props) => {
         return actions ? getFirstActionTitle(actions) : undefined
     }, [actions])
 
-    // Handle Ctrl+K to show actions
+    // Handle Ctrl+K and Return to show actions
     useKeyboard((evt) => {
         if (!inFocus) return
 
         if (evt.name === 'k' && evt.ctrl && actions) {
-            dialog.push(actions, 'center')
+            dialog.push(actions, 'bottom-right')
+        } else if (evt.name === 'return' && actions) {
+            dialog.push(actions, 'bottom-right')
         }
     })
 
@@ -327,22 +329,10 @@ const Detail: DetailType = (props) => {
         </box>
     )
 
-    if (actions) {
-        return (
-            <InFocus inFocus={true}>
-                <box style={{ flexDirection: 'column', height: '100%' }}>
-                    {content}
-                    <DetailFooter hasActions={true} firstActionTitle={firstActionTitle} />
-                </box>
-                {actions}
-            </InFocus>
-        )
-    }
-
     return (
         <box style={{ flexDirection: 'column', height: '100%' }}>
             {content}
-            <DetailFooter hasActions={false} />
+            <DetailFooter hasActions={!!actions} firstActionTitle={firstActionTitle} />
         </box>
     )
 }

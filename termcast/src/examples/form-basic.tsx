@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { render } from '@opentui/react'
-import { Form } from '@termcast/cli'
+import { Form, ActionPanel, Action } from '@termcast/cli'
 import { logger } from '@termcast/cli'
 import { showToast, Toast } from '@termcast/cli'
 import { renderWithProviders } from '@termcast/cli'
@@ -20,7 +20,16 @@ export function FormBasicExample(): any {
 
     return (
         <box flexDirection="column">
-            <Form onSubmit={handleSubmit} >
+            <Form 
+                actions={
+                    <ActionPanel>
+                        <Action.SubmitForm 
+                            title="Submit Form"
+                            onSubmit={handleSubmit}
+                        />
+                    </ActionPanel>
+                }
+            >
                 <Form.Description
                     title="Form Component Demo"
                     text="This demonstrates all available form input types. Use Tab to navigate between fields."

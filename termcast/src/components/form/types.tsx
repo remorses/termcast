@@ -7,10 +7,9 @@ export interface FormValues {
 }
 
 export interface FormProps {
-    actions?: React.ReactElement
+    actions?: React.ReactNode
     children?: React.ReactNode
     navigationTitle?: string
-    onSubmit?: (values: FormValues) => void | Promise<void>
     isLoading?: boolean
     enableDrafts?: boolean
 }
