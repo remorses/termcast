@@ -36,6 +36,19 @@ export const useFocusContext = () => {
     return context
 }
 
+// Context for form submission
+interface FormSubmitContextValue {
+    submitForm: () => void
+    getFormValues: () => FormValues
+}
+
+const FormSubmitContext = createContext<FormSubmitContextValue | null>(null)
+
+export const useFormSubmit = () => {
+    const context = useContext(FormSubmitContext)
+    return context // Can be null if not in a form
+}
+
 import type { TextFieldProps, TextFieldRef } from './text-field'
 import type { PasswordFieldProps, PasswordFieldRef } from './password-field'
 import type { TextAreaProps, TextAreaRef } from './text-area'
@@ -161,11 +174,18 @@ export const Form: FormType = ((props) => {
         }
     })
 
+    const submitContextValue = {
+        submitForm: handleSubmit,
+        getFormValues: methods.getValues
+    }
+
     return (
         <FormProvider {...methods}>
-            <FocusContext.Provider value={{ focusedField, setFocusedField }}>
-                <box flexDirection='column'>{props.children}</box>
-            </FocusContext.Provider>
+            <FormSubmitContext.Provider value={submitContextValue}>
+                <FocusContext.Provider value={{ focusedField, setFocusedField }}>
+                    <box flexDirection='column'>{props.children}</box>
+                </FocusContext.Provider>
+            </FormSubmitContext.Provider>
         </FormProvider>
     )
 }) as FormType

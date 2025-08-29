@@ -1,13 +1,14 @@
 import React, { type ReactNode, type ReactElement, createContext, useContext, useMemo } from "react"
 import { useKeyboard } from "@opentui/react"
 import { Theme } from "@termcast/cli/src/theme"
-import { copyToClipboard, openInBrowser, openFile, pasteContent, showInFinder } from "@termcast/cli/src/action-utils"
+import { copyToClipboard, openInBrowser, openFile, pasteContent, showInFinder, moveToTrash } from "@termcast/cli/src/action-utils"
 import { useDialog } from "@termcast/cli/src/internal/dialog"
 import { Dropdown } from "@termcast/cli/src/components/dropdown"
 import { useIsInFocus } from "@termcast/cli/src/internal/focus-context"
 import { CommonProps } from "@termcast/cli/src/utils"
 import { showToast, Toast } from "@termcast/cli/src/toast"
 import { createDescendants } from "@termcast/cli/src/descendants"
+import { useFormSubmit } from "@termcast/cli"
 import { logger } from "../logger"
 
 export enum ActionStyle {
@@ -43,8 +44,15 @@ interface ActionType {
   CopyToClipboard: (props: CopyToClipboardProps) => any
   OpenInBrowser: (props: OpenInBrowserProps) => any
   Open: (props: OpenProps) => any
+  OpenWith: (props: OpenWithProps) => any
   Paste: (props: PasteProps) => any
   ShowInFinder: (props: ShowInFinderProps) => any
+  Trash: (props: TrashProps) => any
+  SubmitForm: (props: SubmitFormProps) => any
+  CreateSnippet: (props: CreateSnippetProps) => any
+  CreateQuicklink: (props: CreateQuicklinkProps) => any
+  ToggleQuickLook: (props: ToggleQuickLookProps) => any
+  PickDate: (props: PickDateProps) => any
 }
 
 interface PushActionProps extends Omit<ActionProps, 'onAction'> {
@@ -77,6 +85,49 @@ interface PasteProps extends Omit<ActionProps, 'onAction'> {
 interface ShowInFinderProps extends Omit<ActionProps, 'onAction'> {
   path: string
   onShow?: (path: string) => void
+}
+
+interface OpenWithProps extends Omit<ActionProps, 'onAction'> {
+  path: string
+  application: string
+  onOpen?: (path: string) => void
+}
+
+interface TrashProps extends Omit<ActionProps, 'onAction'> {
+  paths: string | string[]
+  onTrash?: (paths: string[]) => void
+}
+
+interface SubmitFormProps<T = any> extends Omit<ActionProps, 'onAction'> {
+  onSubmit?: (values: T) => void | Promise<void>
+}
+
+interface CreateSnippetProps extends Omit<ActionProps, 'onAction'> {
+  snippet: {
+    name?: string
+    text: string
+  }
+  onCreated?: () => void
+}
+
+interface CreateQuicklinkProps extends Omit<ActionProps, 'onAction'> {
+  quicklink: {
+    name?: string
+    link: string
+  }
+  onCreated?: () => void
+}
+
+interface ToggleQuickLookProps extends Omit<ActionProps, 'onAction'> {
+  path?: string
+  onToggle?: () => void
+}
+
+interface PickDateProps extends Omit<ActionProps, 'onAction'> {
+  type?: "date" | "datetime"
+  min?: Date
+  max?: Date
+  onPick?: (date: Date | null) => void
 }
 
 // Create descendants for Actions - minimal fields needed
@@ -272,6 +323,218 @@ Action.ShowInFinder = (props) => {
     <Dropdown.Item
       title={props.title || "Show in Finder"}
       value={props.title || "Show in Finder"}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
+}
+
+Action.OpenWith = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title || `Open with ${props.application}`,
+    shortcut: props.shortcut,
+    execute: () => {
+      openFile(props.path, props.application)
+      props.onOpen?.(props.path)
+      showToast({
+        title: `Opening with ${props.application}`,
+        message: props.path,
+        style: Toast.Style.Success
+      })
+    }
+  })
+
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title || `Open with ${props.application}`}
+      value={props.title || `Open with ${props.application}`}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
+}
+
+Action.Trash = (props) => {
+  const paths = Array.isArray(props.paths) ? props.paths : [props.paths]
+  
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title || "Move to Trash",
+    shortcut: props.shortcut,
+    execute: async () => {
+      for (const path of paths) {
+        await moveToTrash(path)
+      }
+      props.onTrash?.(paths)
+      showToast({
+        title: "Moved to Trash",
+        message: paths.length > 1 ? `${paths.length} items` : paths[0],
+        style: Toast.Style.Success
+      })
+    }
+  })
+
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title || "Move to Trash"}
+      value={props.title || "Move to Trash"}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
+}
+
+Action.SubmitForm = (props) => {
+  const dialog = useDialog()
+  
+  // Get form context - will be null if not in a form
+  const formContext = useFormSubmit()
+  
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title || "Submit",
+    shortcut: props.shortcut || { modifiers: ["cmd"], key: "return" },
+    execute: () => {
+      if (formContext) {
+        // Submit the form through the form context
+        formContext.submitForm()
+        // Also call the onSubmit if provided
+        if (props.onSubmit) {
+          const values = formContext.getFormValues()
+          props.onSubmit(values)
+        }
+      } else if (props.onSubmit) {
+        // No form context, just call onSubmit with empty object
+        props.onSubmit({})
+      }
+      dialog.clear()
+    }
+  })
+
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title || "Submit"}
+      value={props.title || "Submit"}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut || { modifiers: ["cmd"], key: "return" })}
+    />
+  )
+}
+
+Action.CreateSnippet = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title || "Create Snippet",
+    shortcut: props.shortcut,
+    execute: () => {
+      // TODO: Navigate to Create Snippet command when extension system is implemented
+      logger.log(`Creating snippet: ${props.snippet.name || 'Untitled'} - ${props.snippet.text}`)
+      props.onCreated?.()
+      showToast({
+        title: "Create Snippet",
+        message: "Snippet creation not yet implemented",
+        style: Toast.Style.Failure
+      })
+    }
+  })
+
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title || "Create Snippet"}
+      value={props.title || "Create Snippet"}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
+}
+
+Action.CreateQuicklink = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title || "Create Quicklink",
+    shortcut: props.shortcut,
+    execute: () => {
+      // TODO: Navigate to Create Quicklink command when extension system is implemented
+      logger.log(`Creating quicklink: ${props.quicklink.name || 'Untitled'} - ${props.quicklink.link}`)
+      props.onCreated?.()
+      showToast({
+        title: "Create Quicklink",
+        message: "Quicklink creation not yet implemented",
+        style: Toast.Style.Failure
+      })
+    }
+  })
+
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title || "Create Quicklink"}
+      value={props.title || "Create Quicklink"}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut)}
+    />
+  )
+}
+
+Action.ToggleQuickLook = (props) => {
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title || "Quick Look",
+    shortcut: props.shortcut || { key: "space" },
+    execute: () => {
+      // TODO: Implement Quick Look using macOS qlmanage command
+      if (props.path) {
+        logger.log(`Quick Look: ${props.path}`)
+      }
+      props.onToggle?.()
+      showToast({
+        title: "Quick Look",
+        message: "Quick Look not yet implemented",
+        style: Toast.Style.Failure
+      })
+    }
+  })
+
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title || "Quick Look"}
+      value={props.title || "Quick Look"}
+      icon={props.icon}
+      label={formatShortcut(props.shortcut || { key: "space" })}
+    />
+  )
+}
+
+Action.PickDate = (props) => {
+  const dialog = useDialog()
+  
+  // Register as descendant with execute function
+  useActionDescendant({
+    title: props.title || "Pick Date",
+    shortcut: props.shortcut,
+    execute: () => {
+      // TODO: Show date picker dialog when implemented
+      logger.log(`Picking ${props.type || 'date'}`)
+      props.onPick?.(new Date())
+      showToast({
+        title: "Pick Date",
+        message: "Date picker not yet implemented",
+        style: Toast.Style.Failure
+      })
+    }
+  })
+
+  // Render as Dropdown.Item
+  return (
+    <Dropdown.Item
+      title={props.title || "Pick Date"}
+      value={props.title || "Pick Date"}
       icon={props.icon}
       label={formatShortcut(props.shortcut)}
     />
