@@ -38,6 +38,7 @@
         "change-case": "^5.4.4",
         "chokidar": "^4.0.3",
         "dedent": "^1.6.0",
+        "google-auth-library": "^10.3.0",
         "jszip": "^3.10.1",
         "react": "^19.1.1",
         "react-hook-form": "^7.62.0",

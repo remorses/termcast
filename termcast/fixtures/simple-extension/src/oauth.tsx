@@ -87,10 +87,12 @@ export default function GoogleImplicitExample(): any {
   const handleAuthorize = async () => {
     setIsLoading(true)
     try {
-      // Use the OAuthService to authorize
-      await google.authorize()
+      // Try to authorize, but catch token exchange error since we use implicit flow
 
-      // Get the tokens that were stored
+        await google.authorize()
+
+
+      // Get the tokens that were stored by implicit flow
       const tokens = await google.client.getTokens()
 
       if (!tokens?.idToken) {
@@ -149,26 +151,31 @@ export default function GoogleImplicitExample(): any {
     }
 
     try {
-      // You can use this ID token with Google's OAuth2Client.verifyIdToken()
-      // on your backend without needing the client secret
-      logger.log('ID Token for verification:', rawIdToken)
-      logger.log('Client ID for verification:', googleClientId)
+      const { OAuth2Client } = await import('google-auth-library')
+      const client = new OAuth2Client(googleClientId)
+
+      const ticket = await client.verifyIdToken({
+        idToken: rawIdToken || "",
+        audience: googleClientId,
+      })
+
+      const payload = ticket.getPayload()
+
+      logger.log('Token verified successfully:', payload)
 
       await showToast({
         style: Toast.Style.Success,
-        title: 'ID Token Ready',
-        message: 'Check logs for the token to verify server-side'
+        title: 'Token Verified',
+        message: `Verified for ${payload?.email}`
       })
 
-      // Example of what you'd do server-side:
-      // const ticket = await client.verifyIdToken({
-      //   idToken: rawIdToken,
-      //   audience: googleClientId,
-      // });
-      // const payload = ticket.getPayload();
-
     } catch (error) {
-      logger.error('Token verification prep error:', error)
+      logger.error('Token verification error:', error)
+      await showToast({
+        style: Toast.Style.Failure,
+        title: 'Verification Failed',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      })
     }
   }
 
@@ -191,7 +198,7 @@ export default function GoogleImplicitExample(): any {
               ) : (
                 <>
                   <Action
-                    title="Prepare Token for Backend Verification"
+                    title="Verify ID Token"
                     onAction={handleVerifyToken}
                   />
                   <Action

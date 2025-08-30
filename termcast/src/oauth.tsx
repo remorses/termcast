@@ -1,35 +1,37 @@
 /**
- * OAuth API - OAuth 2.0 authentication with PKCE support
- *
- * Raycast Docs: https://developers.raycast.com/api-reference/oauth
- *
- * The OAuth namespace provides a PKCE (Proof Key for Code Exchange) client
- * for secure OAuth 2.0 authentication flows. It handles authorization,
- * token exchange, and secure token storage.
+ * OAuth Implicit Flow Implementation
+ * 
+ * The implicit flow returns tokens directly in the redirect URL fragment
+ * without requiring a client secret. This is ideal for public clients
+ * like browser extensions and CLI tools that need ID tokens.
  *
  * Key features:
- * - PKCE flow implementation for enhanced security
- * - Support for Web, App, and AppURI redirect methods
+ * - Implicit flow for public clients (no client secret required)
+ * - Direct token retrieval without server-side exchange
+ * - Support for ID tokens and access tokens
  * - Automatic token storage and retrieval
  * - Token expiration checking with buffer
  * - Provider configuration with name and icon
  *
  * Usage:
  * const client = new OAuth.PKCEClient({
- *   redirectMethod: OAuth.RedirectMethod.Web,
- *   providerName: "GitHub",
- *   providerIcon: "github-icon.png"
+ *   redirectMethod: OAuth.RedirectMethod.AppURI,
+ *   providerName: "Google",
+ *   providerIcon: "google-icon.png"
  * })
  *
  * const authRequest = await client.authorizationRequest({
- *   endpoint: "https://github.com/login/oauth/authorize",
+ *   endpoint: "https://accounts.google.com/o/oauth2/v2/auth",
  *   clientId: "your-client-id",
- *   scope: "repo user"
+ *   scope: "openid email profile"
  * })
  *
  * const authResponse = await client.authorize(authRequest)
- * // Exchange authResponse.authorizationCode for tokens via provider's token endpoint
- * await client.setTokens(tokenResponse)
+ * // Tokens are returned directly (idToken, accessToken)
+ * await client.setTokens({
+ *   accessToken: authResponse.accessToken,
+ *   idToken: authResponse.idToken
+ * })
  */
 
 import crypto from 'node:crypto'
@@ -139,6 +141,11 @@ export namespace OAuth {
     providerId: string
     description?: string
     private storageKey: string
+    private implicitFlowTokens?: TokenSetOptions // Store tokens from implicit flow
+    
+    // Properties expected by @raycast/utils
+    isAuthorizing: boolean = false
+    authorizationURL?: string
 
     constructor(options: PKCEClient.Options) {
       this.redirectMethod = options.redirectMethod
@@ -170,30 +177,8 @@ export namespace OAuth {
       const codeChallenge = this.generateCodeChallenge(codeVerifier)
       const state = crypto.randomBytes(32).toString('hex')
 
-      // Determine redirect URI based on redirect method
-      let redirectURI: string
-      switch (this.redirectMethod) {
-        case RedirectMethod.Web:
-
-          redirectURI = `http://localhost:8989/oauth/callback`
-          break
-        case RedirectMethod.App:
-          // redirectURI = `raycast://oauth?package_name=${encodeURIComponent(this.providerId)}`
-          // break
-        case RedirectMethod.AppURI:
-          // redirectURI = `com.raycast:/oauth?package_name=${encodeURIComponent(this.providerId)}`
-          // break
-        case RedirectMethod.Device:
-
-          // redirectURI = 'urn:ietf:wg:oauth:2.0:oob'
-          // break
-        case RedirectMethod.Implicit:
-          // Implicit flow uses localhost for redirect
-          redirectURI = `http://localhost:8989/oauth/callback`
-          break
-        default:
-          redirectURI = 'http://localhost:8989/oauth/callback'
-      }
+      // Always use localhost for implicit flow
+      const redirectURI = 'http://localhost:8989/oauth/callback'
 
       const request: AuthorizationRequest = {
         codeChallenge,
@@ -201,17 +186,16 @@ export namespace OAuth {
         state,
         redirectURI,
         toURL: () => {
+          // Always use implicit flow parameters
           const params = new URLSearchParams({
-
             response_type: options.extraParameters?.response_type || 'id_token token',
             client_id: options.clientId,
             redirect_uri: redirectURI,
             scope: options.scope,
             state: state,
+            nonce: crypto.randomBytes(32).toString('hex'),
             ...options.extraParameters
           })
-
-          params.append('nonce', crypto.randomBytes(32).toString('hex'))
 
           return `${options.endpoint}?${params.toString()}`
         }
@@ -390,130 +374,169 @@ export namespace OAuth {
       const url = 'toURL' in options ? options.toURL() : options.url
       const expectedState = 'toURL' in options ? options.state : undefined
 
-      logger.log('Starting OAuth authorization', { url })
+      logger.log('Starting OAuth implicit flow authorization', { url })
+      
+      this.isAuthorizing = true
+      this.authorizationURL = url
 
       return new Promise((resolve, reject) => {
+        const port = 8989
+        
         // Create a local server to handle the OAuth callback
         const server = http.createServer((req, res) => {
           const requestUrl = new URL(req.url || '', `http://localhost:${port}`)
 
           // Check if this is the callback
           if (requestUrl.pathname === '/oauth/callback') {
-
-              res.writeHead(200, { 'Content-Type': 'text/html' })
-              res.end(`
-                <!DOCTYPE html>
-                <html>
-                  <head>
-                    <title>OAuth Authorization</title>
-                    <style>
-                      body { font-family: system-ui; padding: 40px; text-align: center; }
-                      .success { color: #28a745; }
-                    </style>
-                  </head>
-                  <body>
-                    <h1 id="status">Processing...</h1>
-                    <p id="message"></p>
-                    <script>
-                      const hash = window.location.hash.substring(1);
-                      const params = new URLSearchParams(hash);
-                      const data = {
-                        access_token: params.get('access_token'),
-                        id_token: params.get('id_token'),
-                        expires_in: params.get('expires_in'),
-                        state: params.get('state'),
-                        error: params.get('error')
-                      };
-
-                      fetch('/oauth/implicit-callback', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                      }).then(() => {
-                        document.getElementById('status').className = 'success';
-                        document.getElementById('status').innerHTML = '&#10003; Authorization Successful';
-                        document.getElementById('message').textContent = 'You can close this window and return to the terminal.';
-                        setTimeout(() => window.close(), 2000);
-                      });
-                    </script>
-                  </body>
-                </html>
-              `)
-              return
-
-          } else if (requestUrl.pathname === '/oauth/implicit-callback' ) {
-            // Handle implicit flow tokens sent from browser
-            let body = ''
-            req.on('data', chunk => { body += chunk })
-            req.on('end', () => {
-              try {
-                const data = JSON.parse(body)
-
-                if (data.error) {
-                  res.writeHead(400)
-                  res.end()
-                  server.close()
-                  reject(new Error(`OAuth error: ${data.error}`))
-                  return
-                }
-
-                if (data.state !== expectedState) {
-                  res.writeHead(400)
-                  res.end()
-                  server.close()
-                  reject(new Error('OAuth state mismatch'))
-                  return
-                }
-
-                res.writeHead(200)
-                res.end()
-                server.close()
-
-                // Return tokens for implicit flow
-                resolve({
-                  authorizationCode: data.access_token || '', // Use access token as code for compatibility
-                  accessToken: data.access_token,
-                  idToken: data.id_token,
-                  state: data.state
-                })
-              } catch (error) {
-                res.writeHead(500)
-                res.end()
-                server.close()
-                reject(error)
-              }
-            })
-          } else {
-            // Default response for other paths
+            // For implicit flow, tokens come in the fragment (#), not query
+            // We need to serve an HTML page that extracts the fragment and sends it back
             res.writeHead(200, { 'Content-Type': 'text/html' })
             res.end(`
               <!DOCTYPE html>
               <html>
                 <head>
-                  <title>OAuth Redirect</title>
+                  <title>OAuth Authorization</title>
                   <style>
-                    body { font-family: system-ui; padding: 40px; text-align: center; }
+                    body { 
+                      font-family: system-ui; 
+                      padding: 40px; 
+                      text-align: center;
+                      background: #f5f5f5;
+                    }
+                    .success { color: #28a745; }
+                    .error { color: #dc3545; }
+                    .token-info {
+                      background: white;
+                      padding: 20px;
+                      border-radius: 8px;
+                      margin: 20px auto;
+                      max-width: 600px;
+                      text-align: left;
+                    }
                   </style>
                 </head>
                 <body>
-                  <h1>OAuth Authorization</h1>
-                  <p>Waiting for authorization callback...</p>
+                  <h1 id="status">Processing...</h1>
+                  <div id="message"></div>
+                  <script>
+                    // Extract tokens from URL fragment
+                    const hash = window.location.hash.substring(1);
+                    const params = new URLSearchParams(hash);
+                    
+                    const data = {
+                      access_token: params.get('access_token'),
+                      id_token: params.get('id_token'),
+                      expires_in: params.get('expires_in'),
+                      token_type: params.get('token_type'),
+                      scope: params.get('scope'),
+                      state: params.get('state'),
+                      error: params.get('error'),
+                      error_description: params.get('error_description')
+                    };
+                    
+                    // Send tokens back to our server
+                    fetch('/oauth/implicit-callback', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data)
+                    }).then(response => {
+                      if (response.ok) {
+                        document.getElementById('status').className = 'success';
+                        document.getElementById('status').innerHTML = '&#10003; Authorization Successful';
+                        document.getElementById('message').innerHTML = 
+                          '<p>You can close this window and return to the terminal.</p>' +
+                          '<div class="token-info">' +
+                          (data.id_token ? '<p><strong>ID Token received:</strong> Yes</p>' : '') +
+                          (data.access_token ? '<p><strong>Access Token received:</strong> Yes</p>' : '') +
+                          (data.expires_in ? '<p><strong>Expires in:</strong> ' + data.expires_in + ' seconds</p>' : '') +
+                          '</div>';
+                      } else {
+                        document.getElementById('status').className = 'error';
+                        document.getElementById('status').textContent = 'Authorization Failed';
+                        document.getElementById('message').textContent = data.error_description || data.error || 'Unknown error';
+                      }
+                      setTimeout(() => window.close(), 3000);
+                    }).catch(err => {
+                      document.getElementById('status').className = 'error';
+                      document.getElementById('status').textContent = 'Communication Error';
+                      document.getElementById('message').textContent = err.message;
+                    });
+                  </script>
                 </body>
               </html>
             `)
+          } else if (requestUrl.pathname === '/oauth/implicit-callback') {
+            // Handle the tokens sent from the browser
+            let body = ''
+            req.on('data', chunk => { body += chunk })
+            req.on('end', () => {
+              try {
+                const data = JSON.parse(body)
+                
+                if (data.error) {
+                  res.writeHead(400, { 'Content-Type': 'application/json' })
+                  res.end(JSON.stringify({ error: data.error }))
+                  server.close()
+                  reject(new Error(`OAuth error: ${data.error} - ${data.error_description || ''}`))
+                  return
+                }
+                
+                // Validate state
+                if (data.state !== expectedState) {
+                  res.writeHead(400, { 'Content-Type': 'application/json' })
+                  res.end(JSON.stringify({ error: 'state_mismatch' }))
+                  server.close()
+                  reject(new Error('OAuth state mismatch'))
+                  return
+                }
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' })
+                res.end(JSON.stringify({ success: true }))
+                
+                server.close()
+                this.isAuthorizing = false
+                
+                // For implicit flow, save tokens immediately since we won't do token exchange
+                const tokens = {
+                  accessToken: data.access_token || '',
+                  idToken: data.id_token,
+                  expiresIn: data.expires_in ? parseInt(data.expires_in) : 3600,
+                  scope: data.scope
+                }
+                
+                // Store tokens in memory for later retrieval
+                this.implicitFlowTokens = tokens
+                
+                // Save tokens directly to storage
+                this.setTokens(tokens).then(() => {
+                  logger.log('Implicit flow tokens saved directly')
+                  
+                  // Return the tokens (authorizationCode is a dummy value for compatibility)
+                  resolve({
+                    authorizationCode: 'implicit_flow_dummy_code', // Dummy code for compatibility
+                    accessToken: data.access_token,
+                    idToken: data.id_token,
+                    state: data.state
+                  })
+                }).catch(err => {
+                  logger.error('Failed to save implicit flow tokens:', err)
+                  reject(err)
+                })
+              } catch (error) {
+                res.writeHead(500, { 'Content-Type': 'application/json' })
+                res.end(JSON.stringify({ error: 'parse_error' }))
+                server.close()
+                reject(error)
+              }
+            })
+          } else {
+            res.writeHead(404, { 'Content-Type': 'text/plain' })
+            res.end('Not found')
           }
         })
 
-        // Find an available port
-        const port = 8989
-
         server.listen(port, async () => {
-          logger.log(`OAuth callback server listening on http://localhost:${port}/oauth/callback`)
-
-          // The URL should already have the correct redirect_uri from authorizationRequest
-          // Don't override it here as it needs to match what was configured in Google Console
-          const finalUrl = url
-          logger.log('Opening browser with OAuth URL:', finalUrl)
+          logger.log(`OAuth implicit flow server listening on http://localhost:${port}/oauth/callback`)
 
           // Open the browser
           try {
@@ -521,16 +544,16 @@ export namespace OAuth {
             let command: string
 
             if (platform === 'darwin') {
-              command = `open "${finalUrl}"`
+              command = `open "${url}"`
             } else if (platform === 'win32') {
-              command = `start "" "${finalUrl}"`
+              command = `start "" "${url}"`
             } else {
               // Linux and others
-              command = `xdg-open "${finalUrl}" || sensible-browser "${finalUrl}" || x-www-browser "${finalUrl}"`
+              command = `xdg-open "${url}" || sensible-browser "${url}" || x-www-browser "${url}"`
             }
 
             await execAsync(command)
-            logger.log('Browser opened successfully')
+            logger.log('Browser opened for implicit flow authorization')
           } catch (error) {
             server.close()
             reject(new Error(`Failed to open browser: ${error}`))
@@ -538,7 +561,7 @@ export namespace OAuth {
         })
 
         server.on('error', (error) => {
-          logger.error('OAuth server error:', error)
+          logger.error('OAuth implicit flow server error:', error)
           reject(error)
         })
 
@@ -627,7 +650,26 @@ export namespace OAuth {
 
     async removeTokens(): Promise<void> {
       await LocalStorage.removeItem(this.storageKey)
+      this.implicitFlowTokens = undefined // Clear in-memory tokens
       logger.log('Tokens removed for', this.providerId)
+    }
+    
+    // Method to check if we have implicit flow tokens ready
+    hasImplicitFlowTokens(): boolean {
+      return !!this.implicitFlowTokens
+    }
+    
+    // Method to get implicit flow tokens (for mocking token exchange)
+    getImplicitFlowTokens(): TokenResponse | undefined {
+      if (!this.implicitFlowTokens) return undefined
+      
+      return {
+        access_token: this.implicitFlowTokens.accessToken,
+        id_token: this.implicitFlowTokens.idToken,
+        expires_in: this.implicitFlowTokens.expiresIn,
+        scope: this.implicitFlowTokens.scope,
+        refresh_token: this.implicitFlowTokens.refreshToken
+      }
     }
 
     private generateCodeVerifier(): string {
