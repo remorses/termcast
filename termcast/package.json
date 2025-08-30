@@ -1,6 +1,6 @@
 {
     "name": "@termcast/cli",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Raycast for the terminal",
     "bin": {
         "termcast": "src/cli.tsx"

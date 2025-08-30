@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.3
+
+### Patch Changes
+
+- use bun sqlite
+
 ## 0.0.2
 
 ### Patch Changes

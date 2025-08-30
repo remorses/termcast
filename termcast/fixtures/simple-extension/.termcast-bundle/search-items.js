@@ -110,6 +110,7 @@ var showToast = globalThis.termcastApi.showToast;
 var trash = globalThis.termcastApi.trash;
 var useDialog = globalThis.termcastApi.useDialog;
 var useFormContext = globalThis.termcastApi.useFormContext;
+var useFormSubmit = globalThis.termcastApi.useFormSubmit;
 var useIsInFocus = globalThis.termcastApi.useIsInFocus;
 var useNavigation = globalThis.termcastApi.useNavigation;
 var useStore = globalThis.termcastApi.useStore;
