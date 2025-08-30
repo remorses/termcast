@@ -16,42 +16,73 @@ Color_Off=''
 # Regular Colors
 Red=''
 Green=''
-Dim='' # White
+Yellow=''
+Blue=''
+Purple=''
+Cyan=''
+Dim=''
 
 # Bold
 Bold_White=''
 Bold_Green=''
+Bold_Blue=''
+Bold_Cyan=''
+Bold_Purple=''
 
 if [[ -t 1 ]]; then
     # Reset
     Color_Off='\033[0m' # Text Reset
 
     # Regular Colors
-    Red='\033[0;31m'   # Red
-    Green='\033[0;32m' # Green
-    Dim='\033[0;2m'    # White
+    Red='\033[0;31m'    # Red
+    Green='\033[0;32m'  # Green
+    Yellow='\033[0;33m' # Yellow
+    Blue='\033[0;34m'   # Blue
+    Purple='\033[0;35m' # Purple
+    Cyan='\033[0;36m'   # Cyan
+    Dim='\033[0;2m'     # Dim
 
     # Bold
-    Bold_Green='\033[1;32m' # Bold Green
-    Bold_White='\033[1m'    # Bold White
+    Bold_White='\033[1m'     # Bold White
+    Bold_Green='\033[1;32m'  # Bold Green
+    Bold_Blue='\033[1;34m'   # Bold Blue
+    Bold_Cyan='\033[1;36m'   # Bold Cyan
+    Bold_Purple='\033[1;35m' # Bold Purple
 fi
 
 error() {
-    echo -e "${Red}error${Color_Off}:" "$@" >&2
+    echo -e "\n  ${Red}✗${Color_Off} ${Bold_White}Error:${Color_Off} $@" >&2
     exit 1
 }
 
 info() {
-    echo -e "${Dim}$@ ${Color_Off}"
+    echo -e "  ${Dim}$@ ${Color_Off}"
 }
 
 info_bold() {
-    echo -e "${Bold_White}$@ ${Color_Off}"
+    echo -e "  ${Bold_White}$@ ${Color_Off}"
 }
 
 success() {
-    echo -e "${Green}$@ ${Color_Off}"
+    echo -e "  ${Green}✓${Color_Off} ${Bold_White}$@${Color_Off}"
 }
+
+header() {
+    echo -e "\n${Bold_Cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${Color_Off}"
+    echo -e "${Bold_Purple}  ▶ TERMCAST${Color_Off} ${Cyan}// Raycast for the Terminal${Color_Off}"
+    echo -e "${Bold_Cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${Color_Off}\n"
+}
+
+step() {
+    echo -e "\n${Bold_Blue}▸${Color_Off} ${Bold_White}$@${Color_Off}"
+}
+
+substep() {
+    echo -e "  ${Cyan}◦${Color_Off} $@"
+}
+
+# Display header
+header
 
 # No unzip required since binaries are not compressed
 
@@ -59,25 +90,32 @@ if [[ $# -gt 1 ]]; then
     error 'Too many arguments, only 1 is allowed. The first can be a specific tag of termcast to install. (e.g. "@termcast/cli@0.1.0")'
 fi
 
+step "Detecting system architecture"
+
 case $platform in
 'Darwin x86_64')
     target=macos-x64
+    substep "macOS Intel detected"
     ;;
 'Darwin arm64')
     target=macos-arm64
+    substep "macOS Apple Silicon detected"
     ;;
 'Linux aarch64' | 'Linux arm64')
     target=linux-arm64
+    substep "Linux ARM64 detected"
     ;;
 'MINGW64'*)
     target=windows-x64
     ext=.exe
+    substep "Windows detected"
     ;;
 'Linux riscv64')
-    error 'Not supported on riscv64'
+    error 'Platform not supported: RISC-V 64-bit'
     ;;
 'Linux x86_64' | *)
     target=linux-x64
+    substep "Linux x64 detected"
     ;;
 esac
 
@@ -88,7 +126,7 @@ if [[ $target = macos-x64 ]]; then
     # redirect stderr to devnull to avoid error message when not running in Rosetta
     if [[ $(sysctl -n sysctl.proc_translated 2>/dev/null) = 1 ]]; then
         target=macos-arm64
-        info "Your shell is running in Rosetta 2. Downloading termcast for $target instead"
+        substep "${Yellow}Rosetta 2 detected${Color_Off} - switching to Apple Silicon build"
     fi
 fi
 
@@ -113,14 +151,42 @@ install_dir=${!install_env:-$HOME/.termcast}
 bin_dir=$install_dir/bin
 exe=$bin_dir/termcast
 
+step "Preparing installation"
+
 if [[ ! -d $bin_dir ]]; then
+    substep "Creating directory: $(tildify "$bin_dir")"
     mkdir -p "$bin_dir" ||
         error "Failed to create install directory \"$bin_dir\""
 fi
 
-curl --fail --location --progress-bar --output "$exe" "$termcast_uri" ||
-    error "Failed to download termcast from \"$termcast_uri\""
+step "Downloading Termcast"
+substep "${Dim}Source: $termcast_uri${Color_Off}"
 
+echo -e "\n  ${Bold_Cyan}◆${Color_Off} ${Bold_White}Downloading binary...${Color_Off}"
+
+# Simple animated spinner during download
+(
+    curl --fail --location --silent --output "$exe" "$termcast_uri" &
+    curl_pid=$!
+    
+    # Spinner animation
+    spin='⣾⣽⣻⢿⡿⣟⣯⣷'
+    i=0
+    while kill -0 $curl_pid 2>/dev/null; do
+        i=$(( (i+1) % ${#spin} ))
+        echo -ne "\r  ${Cyan}${spin:$i:1}${Color_Off} Downloading..."
+        sleep 0.1
+    done
+    
+    wait $curl_pid
+    result=$?
+    echo -ne "\r                          \r"  # Clear spinner line
+    exit $result
+) || error "Failed to download termcast from \"$termcast_uri\""
+
+success "Download complete!"
+
+substep "Setting executable permissions"
 chmod +x "$exe" ||
     error 'Failed to set permissions on termcast executable'
 
@@ -134,10 +200,17 @@ tildify() {
     fi
 }
 
-success "termcast was installed successfully to $Bold_Green$(tildify "$exe")"
+echo
+success "Installation complete!"
+substep "Binary location: ${Bold_Green}$(tildify "$exe")${Color_Off}"
 
 if command -v termcast >/dev/null; then
-    echo "Run 'termcast --help' to get started"
+    echo
+    echo -e "${Bold_Cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${Color_Off}"
+    echo -e "  ${Green}✓${Color_Off} ${Bold_White}Termcast is ready to use!${Color_Off}"
+    echo -e "  ${Cyan}▸${Color_Off} Run ${Bold_Cyan}termcast --help${Color_Off} to get started"
+    echo -e "${Bold_Cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${Color_Off}"
+    echo
     exit
 fi
 
@@ -150,10 +223,11 @@ if [[ $quoted_install_dir = \"$HOME/* ]]; then
     quoted_install_dir=${quoted_install_dir/$HOME\//\$HOME/}
 fi
 
-echo
+step "Configuring shell environment"
 
 case $(basename "$SHELL") in
 fish)
+    substep "${Cyan}Fish shell${Color_Off} detected"
     commands=(
         "set --export $install_env $quoted_install_dir"
         "set --export PATH $bin_env \$PATH"
@@ -171,18 +245,23 @@ fish)
             done
         } >>"$fish_config"
 
-        info "Added \"$tilde_bin_dir\" to \$PATH in \"$tilde_fish_config\""
+        success "Updated ${Bold_White}$tilde_fish_config${Color_Off}"
+        substep "Added $(tildify "$bin_dir") to PATH"
 
         refresh_command="source $tilde_fish_config"
     else
-        echo "Manually add the directory to $tilde_fish_config (or similar):"
+        echo
+        echo -e "  ${Yellow}⚠${Color_Off}  ${Bold_White}Manual configuration required${Color_Off}"
+        echo -e "  Add these lines to ${Bold_Cyan}$tilde_fish_config${Color_Off}:"
+        echo
 
         for command in "${commands[@]}"; do
-            info_bold "  $command"
+            echo -e "    ${Dim}$command${Color_Off}"
         done
     fi
     ;;
 zsh)
+    substep "${Cyan}Zsh shell${Color_Off} detected"
     commands=(
         "export $install_env=$quoted_install_dir"
         "export PATH=\"$bin_env:\$PATH\""
@@ -200,18 +279,23 @@ zsh)
             done
         } >>"$zsh_config"
 
-        info "Added \"$tilde_bin_dir\" to \$PATH in \"$tilde_zsh_config\""
+        success "Updated ${Bold_White}$tilde_zsh_config${Color_Off}"
+        substep "Added $(tildify "$bin_dir") to PATH"
 
         refresh_command="exec $SHELL"
     else
-        echo "Manually add the directory to $tilde_zsh_config (or similar):"
+        echo
+        echo -e "  ${Yellow}⚠${Color_Off}  ${Bold_White}Manual configuration required${Color_Off}"
+        echo -e "  Add these lines to ${Bold_Cyan}$tilde_zsh_config${Color_Off}:"
+        echo
 
         for command in "${commands[@]}"; do
-            info_bold "  $command"
+            echo -e "    ${Dim}$command${Color_Off}"
         done
     fi
     ;;
 bash)
+    substep "${Cyan}Bash shell${Color_Off} detected"
     commands=(
         "export $install_env=$quoted_install_dir"
         "export PATH=\"$bin_env:\$PATH\""
@@ -244,7 +328,8 @@ bash)
                 done
             } >>"$bash_config"
 
-            info "Added \"$tilde_bin_dir\" to \$PATH in \"$tilde_bash_config\""
+            success "Updated ${Bold_White}$tilde_bash_config${Color_Off}"
+            substep "Added $(tildify "$bin_dir") to PATH"
 
             refresh_command="source $bash_config"
             set_manually=false
@@ -253,26 +338,48 @@ bash)
     done
 
     if [[ $set_manually = true ]]; then
-        echo "Manually add the directory to $tilde_bash_config (or similar):"
+        echo
+        echo -e "  ${Yellow}⚠${Color_Off}  ${Bold_White}Manual configuration required${Color_Off}"
+        echo -e "  Add these lines to ${Bold_Cyan}~/.bashrc${Color_Off} (or similar):"
+        echo
 
         for command in "${commands[@]}"; do
-            info_bold "  $command"
+            echo -e "    ${Dim}$command${Color_Off}"
         done
     fi
     ;;
 *)
-    echo 'Manually add the directory to ~/.bashrc (or similar):'
-    info_bold "  export $install_env=$quoted_install_dir"
-    info_bold "  export PATH=\"$bin_env:\$PATH\""
+    substep "${Cyan}Unknown shell${Color_Off} detected"
+    echo
+    echo -e "  ${Yellow}⚠${Color_Off}  ${Bold_White}Manual configuration required${Color_Off}"
+    echo -e "  Add these lines to your shell config:"
+    echo
+    echo -e "    ${Dim}export $install_env=$quoted_install_dir${Color_Off}"
+    echo -e "    ${Dim}export PATH=\"$bin_env:\$PATH\"${Color_Off}"
     ;;
 esac
 
 echo
-info "To get started, run:"
+echo -e "${Bold_Cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${Color_Off}"
+echo -e "  ${Green}✓${Color_Off} ${Bold_White}Installation complete!${Color_Off}"
+echo -e "${Bold_Cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${Color_Off}"
 echo
 
 if [[ $refresh_command ]]; then
-    info_bold "  $refresh_command"
+    echo -e "  ${Bold_Blue}Next steps:${Color_Off}"
+    echo
+    echo -e "  ${Cyan}1.${Color_Off} Reload your shell configuration:"
+    echo -e "     ${Bold_Cyan}$refresh_command${Color_Off}"
+    echo
+    echo -e "  ${Cyan}2.${Color_Off} Start using Termcast:"
+    echo -e "     ${Bold_Cyan}termcast --help${Color_Off}"
+else
+    echo -e "  ${Bold_Blue}Start using Termcast:${Color_Off}"
+    echo
+    echo -e "     ${Bold_Cyan}termcast --help${Color_Off}"
 fi
 
-info_bold "  termcast --help"
+echo
+echo -e "  ${Purple}◆${Color_Off} ${Bold_Purple}Termcast${Color_Off} - Raycast for the Terminal"
+echo -e "  ${Dim}Learn more at ${Bold_Cyan}https://termcast.app${Color_Off}"
+echo
