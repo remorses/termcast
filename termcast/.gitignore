@@ -1,3 +1,4 @@
 bin
+*.db*
 .termcast-bundle/**
 .termcast-bundle
