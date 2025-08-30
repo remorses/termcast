@@ -1,52 +1,104 @@
-[2025-08-30T17:13:42.546Z] Building 5 commands...
-[2025-08-30T17:13:42.552Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:42.552Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:42.552Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:42.553Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:42.555Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
-[2025-08-30T17:13:42.555Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
-[2025-08-30T17:13:42.555Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
-[2025-08-30T17:13:42.555Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
-[2025-08-30T17:13:42.555Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
-[2025-08-30T17:13:42.555Z] Successfully built 5 files
-[2025-08-30T17:13:45.223Z] actions dropdown onChange Run Command
-[2025-08-30T17:13:45.225Z] PKCEClient initialized {
+[2025-08-30T17:36:23.591Z] Building 5 commands...
+[2025-08-30T17:36:23.596Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:23.596Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:23.596Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:23.596Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:23.612Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-08-30T17:36:23.612Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-08-30T17:36:23.612Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-08-30T17:36:23.612Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-08-30T17:36:23.612Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-08-30T17:36:23.612Z] Successfully built 5 files
+[2025-08-30T17:36:29.259Z] actions dropdown onChange Run Command
+[2025-08-30T17:36:29.266Z] PKCEClient initialized {
   providerName: "Google",
   providerId: "google",
   redirectMethod: "appURI",
 }
-[2025-08-30T17:13:45.226Z] pushing GoogleImplicitExample
-[2025-08-30T17:13:45.240Z] Getting tokens for google {
+[2025-08-30T17:36:29.266Z] pushing GoogleImplicitExample
+[2025-08-30T17:36:29.276Z] Getting tokens for google {
   storageKey: "oauth-google",
 }
-[2025-08-30T17:13:45.256Z] No tokens found for google
-[2025-08-30T17:13:45.566Z] Building 5 commands...
-[2025-08-30T17:13:45.568Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:45.568Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:45.568Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:45.570Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:45.571Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
-[2025-08-30T17:13:45.571Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
-[2025-08-30T17:13:45.571Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
-[2025-08-30T17:13:45.571Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
-[2025-08-30T17:13:45.572Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
-[2025-08-30T17:13:45.572Z] Successfully built 5 files
-[2025-08-30T17:13:45.578Z] Getting tokens for google {
+[2025-08-30T17:36:29.287Z] Retrieved tokens for google {
+  hasAccessToken: true,
+  hasRefreshToken: false,
+  isExpired: false,
+}
+[2025-08-30T17:36:29.595Z] Building 5 commands...
+[2025-08-30T17:36:29.596Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:29.596Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:29.597Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:29.602Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:29.610Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-08-30T17:36:29.610Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-08-30T17:36:29.610Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-08-30T17:36:29.610Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-08-30T17:36:29.610Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-08-30T17:36:29.610Z] Successfully built 5 files
+[2025-08-30T17:36:29.619Z] Getting tokens for google {
   storageKey: "oauth-google",
 }
-[2025-08-30T17:13:45.588Z] No tokens found for google
-[2025-08-30T17:13:46.444Z] Auto-executing single action: Sign in with Google
-[2025-08-30T17:13:46.445Z] Getting tokens for google {
+[2025-08-30T17:36:29.630Z] Retrieved tokens for google {
+  hasAccessToken: true,
+  hasRefreshToken: false,
+  isExpired: false,
+}
+[2025-08-30T17:36:33.252Z] Building 5 commands...
+[2025-08-30T17:36:33.255Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:33.256Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:33.256Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:33.259Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:33.262Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-08-30T17:36:33.262Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-08-30T17:36:33.262Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-08-30T17:36:33.262Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-08-30T17:36:33.262Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-08-30T17:36:33.263Z] Successfully built 5 files
+[2025-08-30T17:36:33.269Z] Getting tokens for google {
   storageKey: "oauth-google",
 }
-[2025-08-30T17:13:46.449Z] No tokens found for google
-[2025-08-30T17:13:46.450Z] Starting OAuth authorization {
-  url: "https://accounts.google.com/o/oauth2/v2/auth?response_type=id_token+token&client_id=561871153864-i08nqb0tu0rpa5kkd5gpkp3sqspfmdvl.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8989%2Foauth%2Fcallback&scope=openid+email+profile&state=ce6184c9fb7894fba1ecddfd11e4ae51c9e84d4b8d63d08084ee64ee4c886988&prompt=select_account&nonce=f6fef9895e0690af6cb4525423cb352f3793687d26de9d73eb8ccf31dfbd9c11",
+[2025-08-30T17:36:33.279Z] Retrieved tokens for google {
+  hasAccessToken: true,
+  hasRefreshToken: false,
+  isExpired: false,
 }
-[2025-08-30T17:13:46.458Z] OAuth callback server listening on http://localhost:8989/oauth/callback
-[2025-08-30T17:13:46.458Z] Opening browser with OAuth URL: https://accounts.google.com/o/oauth2/v2/auth?response_type=id_token+token&client_id=561871153864-i08nqb0tu0rpa5kkd5gpkp3sqspfmdvl.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8989%2Foauth%2Fcallback&scope=openid+email+profile&state=ce6184c9fb7894fba1ecddfd11e4ae51c9e84d4b8d63d08084ee64ee4c886988&prompt=select_account&nonce=f6fef9895e0690af6cb4525423cb352f3793687d26de9d73eb8ccf31dfbd9c11
-[2025-08-30T17:13:46.590Z] Browser opened successfully
-[2025-08-30T17:13:49.019Z] ERROR: Authorization error: Error while fetching tokens: 400 (Bad Request)
+[2025-08-30T17:36:34.321Z] actions dropdown onChange Logout
+[2025-08-30T17:36:34.326Z] Tokens removed for google
+[2025-08-30T17:36:34.642Z] Building 5 commands...
+[2025-08-30T17:36:34.644Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:34.644Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:34.644Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:34.647Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:34.652Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-08-30T17:36:34.652Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-08-30T17:36:34.652Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-08-30T17:36:34.652Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-08-30T17:36:34.652Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-08-30T17:36:34.652Z] Successfully built 5 files
+[2025-08-30T17:36:34.657Z] Getting tokens for google {
+  storageKey: "oauth-google",
+}
+[2025-08-30T17:36:34.668Z] No tokens found for google
+[2025-08-30T17:36:35.250Z] Auto-executing single action: Sign in with Google
+[2025-08-30T17:36:35.250Z] Getting tokens for google {
+  storageKey: "oauth-google",
+}
+[2025-08-30T17:36:35.252Z] No tokens found for google
+[2025-08-30T17:36:35.252Z] Starting OAuth implicit flow authorization {
+  url: "https://accounts.google.com/o/oauth2/v2/auth?response_type=id_token+token&client_id=561871153864-i08nqb0tu0rpa5kkd5gpkp3sqspfmdvl.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8989%2Foauth%2Fcallback&scope=openid+email+profile&state=403c3a0ce36a29620c7557fd3719ff9c8a5acf3d505b2eebeee07c6239459d7c&nonce=d40bbb4c96dc3f93ba1d2d684d3e2001e43f86f3a11c3c37129e22d0441a6a27",
+}
+[2025-08-30T17:36:35.256Z] OAuth implicit flow server listening on http://localhost:8989/oauth/callback
+[2025-08-30T17:36:35.382Z] Browser opened for implicit flow authorization
+[2025-08-30T17:36:37.682Z] Storing tokens for google {
+  storageKey: "oauth-google",
+  hasAccessToken: true,
+  hasRefreshToken: false,
+  hasIdToken: true,
+  expiresIn: 3599,
+}
+[2025-08-30T17:36:37.684Z] Tokens successfully stored and verified for google
+[2025-08-30T17:36:37.684Z] Implicit flow tokens saved directly
+[2025-08-30T17:36:37.834Z] ERROR: Authorization error: Error while fetching tokens: 400 (Bad Request)
 {
   "error": "invalid_request",
   "error_description": "client_secret is missing."
@@ -56,35 +108,24 @@ Error: Error while fetching tokens: 400 (Bad Request)
   "error": "invalid_request",
   "error_description": "client_secret is missing."
 }
-    at fetchTokens (/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js:893:22)
+    at fetchTokens (/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js:11279:22)
     at processTicksAndRejections (native:7:39)
-[2025-08-30T17:13:51.125Z] Building 5 commands...
-[2025-08-30T17:13:51.126Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:51.127Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:51.127Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:51.130Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:13:51.132Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
-[2025-08-30T17:13:51.132Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
-[2025-08-30T17:13:51.132Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
-[2025-08-30T17:13:51.132Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
-[2025-08-30T17:13:51.132Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
-[2025-08-30T17:13:51.132Z] Successfully built 5 files
-[2025-08-30T17:13:51.139Z] Getting tokens for google {
+[2025-08-30T17:36:37.989Z] Building 5 commands...
+[2025-08-30T17:36:37.990Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:37.990Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:37.990Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:37.993Z] Resolving @raycast/api to @termcast/cli
+[2025-08-30T17:36:37.996Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-08-30T17:36:37.996Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-08-30T17:36:37.996Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-08-30T17:36:37.996Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-08-30T17:36:37.996Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-08-30T17:36:37.996Z] Successfully built 5 files
+[2025-08-30T17:36:38.001Z] Getting tokens for google {
   storageKey: "oauth-google",
 }
-[2025-08-30T17:13:51.150Z] No tokens found for google
-[2025-08-30T17:14:11.303Z] Building 5 commands...
-[2025-08-30T17:14:11.313Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:14:11.313Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:14:11.313Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:14:11.319Z] Resolving @raycast/api to @termcast/cli
-[2025-08-30T17:14:11.322Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
-[2025-08-30T17:14:11.322Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
-[2025-08-30T17:14:11.323Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
-[2025-08-30T17:14:11.324Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
-[2025-08-30T17:14:11.324Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
-[2025-08-30T17:14:11.324Z] Successfully built 5 files
-[2025-08-30T17:14:11.330Z] Getting tokens for google {
-  storageKey: "oauth-google",
+[2025-08-30T17:36:38.009Z] Retrieved tokens for google {
+  hasAccessToken: true,
+  hasRefreshToken: false,
+  isExpired: false,
 }
-[2025-08-30T17:14:11.339Z] No tokens found for google

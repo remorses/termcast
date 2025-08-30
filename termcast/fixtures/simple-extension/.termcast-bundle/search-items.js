@@ -30,6 +30,7 @@ var __toCommonJS = (from) => {
   __moduleCache.set(from, entry);
   return entry;
 };
+var __commonJS = (cb, mod) => () => (mod || cb((mod = { exports: {} }).exports, mod), mod.exports);
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, {
