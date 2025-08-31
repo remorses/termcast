@@ -223,4 +223,4 @@ then run `bun test -u` to update the snapshots
 
 read back the inline snapshots and make sure they are what you expect
 
-> notice that await driver.text() already waits for the pty to render so no need to add `waitIdle` everywhere
+> notice that await driver.text() already waits for the pty to render so no need to add `waitIdle` everywhere. only add one if the test seems flaky

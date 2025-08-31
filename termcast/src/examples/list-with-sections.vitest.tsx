@@ -1,10 +1,14 @@
 // node-pty does not work in bun, so we use vitest to run this test
-import { test, expect, afterEach } from 'vitest'
+import { test, expect, afterEach, afterAll, beforeEach } from 'vitest'
 import { NodeTuiDriver } from '../e2e-node'
 
-let driver = new NodeTuiDriver('bun', ['src/examples/list-with-sections.tsx'], {
-    cols: 100,
-    rows: 50,
+let driver: NodeTuiDriver
+
+beforeEach(() => {
+    driver = new NodeTuiDriver('bun', ['src/examples/list-with-sections.tsx'], {
+        cols: 100,
+        rows: 50,
+    })
 })
 
 afterEach(() => {
