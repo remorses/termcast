@@ -88,7 +88,7 @@ export default function GoogleImplicitExample(): any {
     setIsLoading(true)
     try {
       // Try to authorize, but catch token exchange error since we use implicit flow
-      await google.authorize()
+      // await google.authorize()
 
       // Get the tokens that were stored by implicit flow
       const tokens = await google.client.getTokens()
