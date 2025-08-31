@@ -530,7 +530,11 @@ function ListItemRow(props: {
             style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                backgroundColor: active ? Theme.primary : isHovered ? Theme.backgroundPanel : undefined,
+                backgroundColor: active
+                    ? Theme.primary
+                    : isHovered
+                      ? Theme.backgroundPanel
+                      : undefined,
                 paddingLeft: active ? 0 : 1,
                 paddingRight: 1,
             }}
@@ -540,7 +544,11 @@ function ListItemRow(props: {
             onMouseDown={props.onMouseDown}
         >
             <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
-                {active && <text fg={Theme.textMuted} selectable={false}>›</text>}
+                {active && (
+                    <text fg={Theme.textMuted} selectable={false}>
+                        ›
+                    </text>
+                )}
                 <text
                     fg={active ? Theme.background : Theme.text}
                     attributes={active ? TextAttributes.BOLD : undefined}
@@ -549,7 +557,10 @@ function ListItemRow(props: {
                     {title}
                 </text>
                 {subtitle && (
-                    <text fg={active ? Theme.background : Theme.textMuted} selectable={false}>
+                    <text
+                        fg={active ? Theme.background : Theme.textMuted}
+                        selectable={false}
+                    >
                         {' '}
                         {subtitle}
                     </text>
@@ -789,64 +800,72 @@ export const List: ListType = (props) => {
         }
     }
 
-    // Cannot get focused actions during render - descendants are not accessible here
-
     return (
         <ListContext.Provider value={listContextValue}>
             <ListDescendantsProvider value={descendantsContext}>
                 <box style={{ flexDirection: 'column', flexGrow: 1 }}>
                     {/* Cannot mount focused actions here - would need to be handled differently */}
 
-                    {/* Navigation title */}
                     {navigationTitle && (
                         <box
                             border={false}
                             style={{
                                 paddingLeft: 1,
                                 paddingRight: 1,
-                                paddingBottom: 1,
+                                paddingBottom: 0,
                             }}
                         >
                             <text
                                 fg={Theme.text}
                                 attributes={TextAttributes.BOLD}
                             >
-                                {navigationTitle}
+                                {navigationTitle}{' '}
+                                ───────────────────────────────────────────────────────────────────────────────────────
                             </text>
                         </box>
                     )}
 
                     {/* Search bar with optional dropdown accessory */}
-                    <box
-                        border={false}
-                        style={{
-                            paddingLeft: 1,
-                            paddingRight: 1,
-                            // marginTop: 1,
-                            marginBottom: 1,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
+                    <box>
+                        <box
+                            border={false}
+                            style={{
+                                paddingLeft: 1,
+                                paddingRight: 1,
+                                // marginTop: 1,
+                                marginBottom: 1,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
 
-                            alignItems: 'center',
-                        }}
-                    >
-                        <box style={{ flexGrow: 1, flexShrink: 1 }}>
-                            <input
-                                ref={inputRef}
-                                placeholder={searchBarPlaceholder}
-                                focused={inFocus && !isDropdownOpen}
-                                value={searchText}
-                                onInput={handleSearchChange}
-                                focusedBackgroundColor={Theme.backgroundPanel}
-                                cursorColor={Theme.primary}
-                                focusedTextColor={Theme.text}
-                            />
+                                alignItems: 'center',
+                            }}
+                        >
+                            <box
+                                style={{
+                                    flexGrow: 1,
+                                    flexDirection: 'column',
+                                    flexShrink: 1,
+                                }}
+                            >
+                                <input
+                                    ref={inputRef}
+                                    placeholder={searchBarPlaceholder}
+                                    focused={inFocus && !isDropdownOpen}
+                                    value={searchText}
+                                    onInput={handleSearchChange}
+                                    focusedBackgroundColor={
+                                        Theme.backgroundPanel
+                                    }
+                                    cursorColor={Theme.primary}
+                                    focusedTextColor={Theme.text}
+                                />
+                            </box>
+                            {searchBarAccessory}
                         </box>
-                        {searchBarAccessory}
                     </box>
 
                     {/* List content - render children which will register themselves */}
-                    <box style={{ marginTop: 1 }}>
+                    <box style={{ marginTop: 0 }}>
                         {isLoading ? (
                             <box border={false} style={{ padding: 2 }}>
                                 <text fg={Theme.textMuted}>Loading...</text>
@@ -1040,12 +1059,14 @@ const ListDropdown: ListDropdownType = (props) => {
                 <box
                     key={value}
                     style={{
-                        paddingTop: 2,
+                        paddingTop: 1,
                         paddingLeft: 2,
                         // minWidth: value.length + 4,
                         flexDirection: 'row',
                         flexShrink: 0,
-                        backgroundColor: isHovered ? Theme.backgroundPanel : undefined,
+                        backgroundColor: isHovered
+                            ? Theme.backgroundPanel
+                            : undefined,
                     }}
                     onMouseMove={() => setIsHovered(true)}
                     onMouseOut={() => setIsHovered(false)}
@@ -1057,8 +1078,19 @@ const ListDropdown: ListDropdownType = (props) => {
                     }}
                 >
                     {/*<text >^p </text>*/}
-                    <text fg={isHovered ? Theme.text : Theme.textMuted} selectable={false}>{value}</text>
-                    <text fg={isHovered ? Theme.text : Theme.textMuted} selectable={false}> ▾</text>
+                    <text
+                        fg={isHovered ? Theme.text : Theme.textMuted}
+                        selectable={false}
+                    >
+                        {value}
+                    </text>
+                    <text
+                        fg={isHovered ? Theme.text : Theme.textMuted}
+                        selectable={false}
+                    >
+                        {' '}
+                        ▾
+                    </text>
                 </box>
             </DropdownContext.Provider>
         </DropdownDescendantsProvider>
@@ -1074,8 +1106,14 @@ ListDropdown.Item = (props) => {
         return null
     }
 
-    const { currentSection, selectedIndex, currentValue, filteredIndices, setSelectedIndex, onChange } =
-        dropdownContext
+    const {
+        currentSection,
+        selectedIndex,
+        currentValue,
+        filteredIndices,
+        setSelectedIndex,
+        onChange,
+    } = dropdownContext
 
     // Register as descendant
     const index = useDropdownItemDescendant({
@@ -1093,7 +1131,7 @@ ListDropdown.Item = (props) => {
     if (selectedIndex !== undefined && filteredIndices) {
         const isActive = filteredIndices[selectedIndex] === index
         const isCurrent = props.value === currentValue
-        
+
         const handleMouseMove = () => {
             setIsHovered(true)
             // Update selected index on hover
@@ -1104,7 +1142,7 @@ ListDropdown.Item = (props) => {
                 }
             }
         }
-        
+
         const handleMouseDown = () => {
             // Trigger selection on click
             if (onChange) {
@@ -1116,7 +1154,11 @@ ListDropdown.Item = (props) => {
             <box
                 style={{
                     flexDirection: 'row',
-                    backgroundColor: isActive ? Theme.primary : isHovered ? Theme.backgroundPanel : undefined,
+                    backgroundColor: isActive
+                        ? Theme.primary
+                        : isHovered
+                          ? Theme.backgroundPanel
+                          : undefined,
                     paddingLeft: 1,
                     paddingRight: 1,
                     justifyContent: 'space-between',
