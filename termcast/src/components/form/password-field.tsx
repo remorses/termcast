@@ -33,6 +33,9 @@ export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldPro
                                 title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
                                 padding={1} 
                                 backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                                onMouseDown={() => {
+                                    setFocusedField(props.id)
+                                }}
                             >
                                 <input
                                     value={displayValue}
@@ -47,6 +50,9 @@ export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldPro
                                     }}
                                     placeholder={props.placeholder}
                                     focused={isFocused}
+                                    onMouseDown={() => {
+                                        setFocusedField(props.id)
+                                    }}
                                 />
                             </box>
                             {(fieldState.error || props.error) && (

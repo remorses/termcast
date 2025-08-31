@@ -29,8 +29,8 @@
     "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
     "license": "",
     "dependencies": {
-        "@opentui/core": "^0.1.12",
-        "@opentui/react": "^0.1.12",
+        "@opentui/core": "0.1.12",
+        "@opentui/react": "0.1.12",
         "@raycast/api": "^1.102.5",
         "@raycast/utils": "^2.2.1",
         "@tanstack/react-query": "^5.85.5",

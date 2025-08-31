@@ -178,8 +178,18 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
                                 title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
                                 padding={1}
                                 backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                                onMouseDown={() => {
+                                    // Focus if not already focused
+                                    if (!isFocused) {
+                                        setFocusedField(props.id)
+                                    }
+                                    // Always try to open if not already open
+                                    if (!isOpen) {
+                                        openDropdown()
+                                    }
+                                }}
                             >
-                                <text fg={selectedTitle ? Theme.text : Theme.textMuted}>
+                                <text fg={selectedTitle ? Theme.text : Theme.textMuted} selectable={false}>
                                     {selectedTitle || props.placeholder || 'Select...'}
                                     {isFocused ? ' ▼' : ''}
                                 </text>

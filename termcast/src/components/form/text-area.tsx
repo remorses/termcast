@@ -32,6 +32,9 @@ export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>((props, ref
                             padding={1} 
                             height={4} 
                             backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                            onMouseDown={() => {
+                                setFocusedField(props.id)
+                            }}
                         >
                             <input
                                 value={field.value}
@@ -43,6 +46,9 @@ export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>((props, ref
                                 }}
                                 placeholder={props.placeholder}
                                 focused={isFocused}
+                                onMouseDown={() => {
+                                    setFocusedField(props.id)
+                                }}
                             />
                         </box>
                         {(fieldState.error || props.error) && (
