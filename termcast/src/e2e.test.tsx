@@ -1,12 +1,15 @@
 import { test, expect } from 'bun:test'
 import { TuiDriver } from './e2e'
-import { sleep } from './utils'
 
 test('list with sections navigation', async () => {
-    const driver = new TuiDriver('bun', ['src/examples/list-with-sections.tsx'], {
-        cols: 100,
-        rows: 50,
-    })
+    const driver = new TuiDriver(
+        'bun',
+        ['src/examples/list-with-sections.tsx'],
+        {
+            cols: 100,
+            rows: 50,
+        },
+    )
 
     try {
         await sleep(500)
@@ -23,7 +26,13 @@ test('list with sections navigation', async () => {
         if (!hasBread) {
             console.log('WARNING: Bread item is missing from the display!')
         }
-        console.log('Items found:', { hasApple, hasBanana, hasCarrot, hasLettuce, hasBread })
+        console.log('Items found:', {
+            hasApple,
+            hasBanana,
+            hasCarrot,
+            hasLettuce,
+            hasBread,
+        })
 
         // Find where Bread appears in the snapshot
         const lines = initialSnapshot.split('\n')
@@ -38,19 +47,19 @@ test('list with sections navigation', async () => {
             console.warn('Bread item is not visible in the terminal output')
         }
         expect(initialSnapshot).toMatchInlineSnapshot(`
-          "                                                                                                    
-                                                                                                              
-             Simple List Example                                                                              
-                                                                                                              
-             Search items...                                                                                  
-                                                                                                              
-                                                                                                              
-             Fruits                                                                                           
-             Apple Red and sweet                                                            Fresh [Popular]   
-             Banana Yellow and nutritious                                                              Ripe   
-                                                                                                              
-             Vegetables                                                                                       
-             Carrot Orange and crunchy                                                            [Healthy]   
+          "
+
+             Simple List Example
+
+             Search items...
+
+
+             Fruits
+             Apple Red and sweet                                                            Fresh [Popular]
+             Banana Yellow and nutritious                                                              Ripe
+
+             Vegetables
+             Carrot Orange and crunchy                                                            [Healthy]
              Lettuce Green and fresh                                                                          "
         `)
 
@@ -59,19 +68,19 @@ test('list with sections navigation', async () => {
 
         const afterDownSnapshot = driver.text()
         expect(afterDownSnapshot).toMatchInlineSnapshot(`
-          "                                                                                                    
-                                                                                                              
-             Simple List Example                                                                              
-                                                                                                              
-             Search items...                                                                                  
-                                                                                                              
-                                                                                                              
-             Fruits                                                                                           
-             Apple Red and sweet                                                            Fresh [Popular]   
-             Banana Yellow and nutritious                                                              Ripe   
-                                                                                                              
-             Vegetables                                                                                       
-             Carrot Orange and crunchy                                                            [Healthy]   
+          "
+
+             Simple List Example
+
+             Search items...
+
+
+             Fruits
+             Apple Red and sweet                                                            Fresh [Popular]
+             Banana Yellow and nutritious                                                              Ripe
+
+             Vegetables
+             Carrot Orange and crunchy                                                            [Healthy]
              Lettuce Green and fresh                                                                          "
         `)
 
@@ -80,19 +89,19 @@ test('list with sections navigation', async () => {
 
         const secondDownSnapshot = driver.text()
         expect(secondDownSnapshot).toMatchInlineSnapshot(`
-          "                                                                                                    
-                                                                                                              
-             Simple List Example                                                                              
-                                                                                                              
-             Search items...                                                                                  
-                                                                                                              
-                                                                                                              
-             Fruits                                                                                           
-             Apple Red and sweet                                                            Fresh [Popular]   
-             Banana Yellow and nutritious                                                              Ripe   
-                                                                                                              
-             Vegetables                                                                                       
-             Carrot Orange and crunchy                                                            [Healthy]   
+          "
+
+             Simple List Example
+
+             Search items...
+
+
+             Fruits
+             Apple Red and sweet                                                            Fresh [Popular]
+             Banana Yellow and nutritious                                                              Ripe
+
+             Vegetables
+             Carrot Orange and crunchy                                                            [Healthy]
              Lettuce Green and fresh                                                                          "
         `)
 
@@ -101,30 +110,34 @@ test('list with sections navigation', async () => {
 
         const afterEnterSnapshot = driver.text()
         expect(afterEnterSnapshot).toMatchInlineSnapshot(`
-          "                                                                                                    
-                                                                                                              
-                                                                                                              
-                                                                                                              
-            # Carrot                                                                                          
-                                                                                                              
-            A crunchy orange vegetable rich in vitamins.                                                      
-                                                                                                              
-            ## Health Benefits                                                                                
-            - Excellent source of beta carotene                                                               
-            - Improves eye health                                                                             
-            - Boosts immune system                                                                            
-            - Low in calories                                                                                 
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
+          "
+
+
+
+            # Carrot
+
+            A crunchy orange vegetable rich in vitamins.
+
+            ## Health Benefits
+            - Excellent source of beta carotene
+            - Improves eye health
+            - Boosts immune system
+            - Low in calories
+
+
+
+
+
+
+
+
              esc go back                                                                                      "
         `)
     } finally {
         driver.dispose()
     }
 })
+
+function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}

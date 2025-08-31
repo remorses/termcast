@@ -1,25 +1,31 @@
 {
-    "name": "root",
-    "private": true,
-    "scripts": {
-        "test": "NODE_ENV=test vitest",
-        "watch": "bun run --filter '*' watch",
-        "build": "bun run --filter '*' build",
-        "release": "bun run build && changeset"
-    },
-    "devDependencies": {
-        "@changesets/cli": "^2.29.6",
-        "@types/react": "^19.1.12",
-        "prettier": "^3.6.2",
-        "tsx": "^4.20.5",
-        "typescript": "^5.9.2",
-        "vite": "^7.1.3",
-        "vitest": "^3.2.4"
-    },
-    "repository": "https://github.com/remorses/",
-    "author": "remorses <beats.by.morse@gmail.com>",
-    "license": "",
-    "workspaces": [
-        "./*"
-    ]
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "test": "NODE_ENV=test vitest",
+    "watch": "bun run --filter '*' watch",
+    "build": "bun run --filter '*' build",
+    "release": "bun run build && changeset"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.6",
+    "@types/react": "^19.1.12",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "vitest": "^3.2.4"
+  },
+  "repository": "https://github.com/remorses/",
+  "author": "remorses <beats.by.morse@gmail.com>",
+  "license": "",
+  "workspaces": [
+    "./*"
+  ],
+  "trustedDependencies": [
+    "@tailwindcss/oxide",
+    "esbuild",
+    "node-pty",
+    "node-pty-prebuilt-multiarch"
+  ]
 }
