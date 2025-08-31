@@ -68,7 +68,7 @@ Here is the process to follow to implement each API:
   constructor(options: Options) {
     // Initialize properties
     this.prop = options.prop
-    
+
     // Bind all methods to this instance
     this.method1 = this.method1.bind(this)
     this.method2 = this.method2.bind(this)
@@ -194,3 +194,11 @@ useKeyboard((evt) => {
 You CANNOT use .map.current to render items of a list for example. Instead move the rendering in the items themselves! To handle filtering render null in the item component and pass the search query via context
 
 read file @src/examples/internal/descendants.tsx for a real usage example
+
+## testing
+
+bun must be used to write tests
+
+inline snapshots with .toMatchInlineSnapshots or other snapshots are the preferred way to test things. NO MOCKS.
+
+never update inline snapshots manually, instead always use `bun test -u` to update snapshots. No need to reset snapshots before updating them with -u

@@ -3,3 +3,8 @@ preload = ["./src/preload.tsx"]
 
 [install]
 auto = "fallback"   # same behavior as: -i / --install=fallback
+
+[test]
+# Exclude test files from dist and esm directories when running tests
+# This prevents Bun from discovering and running compiled test files
+pathFilter = ["!dist/**/*.test.*", "!esm/**/*.test.*"]

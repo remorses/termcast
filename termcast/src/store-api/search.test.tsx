@@ -39,11 +39,11 @@ describe('searchStoreListings', () => {
         const extensionNames = results.data.map(d => d.name).sort()
         expect(extensionNames).toMatchInlineSnapshot(`
           [
-            "easings",
+            "anonaddy",
             "linkding",
-            "odoo-companion",
-            "vixai",
-            "yap",
+            "rehooks",
+            "wave",
+            "wppb",
           ]
         `)
     }, 10000)

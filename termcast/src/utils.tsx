@@ -23,6 +23,10 @@ export interface Application {
 
 export type PathLike = string | Buffer | { href: string; toString(): string }
 
+export function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export async function getApplications(path?: PathLike): Promise<Application[]> {
   // TODO: Implement system call to get applications
   // For now, return common applications
