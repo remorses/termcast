@@ -11,7 +11,8 @@
         "binary": "bun build ./src/cli.tsx --compile --outfile bin",
         "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
         "play": "bun src/cli.tsx",
-        "test": "bun test"
+        "test": "bun test",
+        "test:vitest": "vitest"
     },
     "exports": {
         ".": {
@@ -50,6 +51,7 @@
         "@types/node": "^24.3.0",
         "@xterm/addon-serialize": "^0.13.0",
         "@xterm/headless": "^5.5.0",
-        "bun-pty": "^0.3.2"
+        "bun-pty": "^0.3.2",
+        "vitest": "^3.2.4"
     }
 }

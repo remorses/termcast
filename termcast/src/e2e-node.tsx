@@ -1,3 +1,5 @@
+// TODO node-pty has bugs, not all text is shown
+
 import * as pty from 'node-pty'
 import { Terminal } from '@xterm/headless'
 import { SerializeAddon } from '@xterm/addon-serialize'
