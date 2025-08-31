@@ -67,17 +67,18 @@ export class NodeTuiDriver {
                 r.forEach((fn) => {
                     fn()
                 })
-            }, 50)
+            }, 10)
         })
     }
 
-    async waitIdle({ timeout = 500 }: { timeout?: number } = {}) {
+    async waitIdle({ timeout = 100 }: { timeout?: number } = {}) {
         return new Promise<void>((resolve, reject) => {
             if (!this.idleTimer) {
-                setTimeout(() => resolve(), 100)
+                setTimeout(() => resolve(), 10)
                 return
             }
             const t = setTimeout(() => {
+                // console.warn(`reached timeout for waitIdle`)
                 resolve() // Just resolve instead of rejecting
             }, timeout)
             this.idleResolvers.push(() => {
@@ -89,7 +90,6 @@ export class NodeTuiDriver {
 
     async write(data: string) {
         this.pty!.write(data)
-        await new Promise((resolve) => setTimeout(resolve, 50))
         return this.waitIdle()
     }
 
@@ -104,6 +104,9 @@ export class NodeTuiDriver {
             return this.write('\x1b')
         },
         bs: () => {
+            return this.write('\x7f')
+        },
+        backspace: () => {
             return this.write('\x7f')
         },
         up: () => {
@@ -124,39 +127,96 @@ export class NodeTuiDriver {
         ctrlK: () => {
             return this.write('\x0b')
         },
+        ctrlC: () => {
+            return this.write('\x03')
+        },
+        ctrlD: () => {
+            return this.write('\x04')
+        },
+        ctrlZ: () => {
+            return this.write('\x1a')
+        },
+        home: () => {
+            return this.write('\x1b[H')
+        },
+        end: () => {
+            return this.write('\x1b[F')
+        },
+        pageUp: () => {
+            return this.write('\x1b[5~')
+        },
+        pageDown: () => {
+            return this.write('\x1b[6~')
+        },
+        delete: () => {
+            return this.write('\x1b[3~')
+        },
+        type: async (text: string) => {
+            for (const ch of text.split('')) {
+                await this.write(ch)
+            }
+            await this.write('')
+        },
     }
 
-    async text(): Promise<string> {
-        // small idle to allow terminal to settle
-        await this.waitIdle({ timeout: 100 })
-        const b = this.term.buffer.active
-        const lines: string[] = []
-        for (let y = 0; y < this.rows; y++) {
-            const line = b.getLine(y)?.translateToString(true) ?? ''
-            lines.push(line)
+    async text(options?: {
+        waitFor?: (text: string) => boolean
+        timeout?: number
+    }): Promise<string> {
+        const timeout = options?.timeout ?? 5000
+        const waitFor = options?.waitFor
+        const startTime = Date.now()
+
+        // Helper function to get the current text
+        const getCurrentText = () => {
+            const b = this.term.buffer.active
+            const lines: string[] = []
+            for (let y = 0; y < this.rows; y++) {
+                const line = b.getLine(y)?.translateToString(true) ?? ''
+                lines.push(line)
+            }
+            // Remove trailing lines that are only spaces
+            let lastNonEmpty = lines.length - 1
+            while (lastNonEmpty >= 0 && lines[lastNonEmpty].trim() === '') {
+                lastNonEmpty--
+            }
+            const trimmed = lines.slice(0, lastNonEmpty + 1)
+            // Strip leading indentation common to all non-empty lines
+            const nonEmpty = trimmed.filter((l) => l.trim().length > 0)
+            const leadingSpaces = nonEmpty.length
+                ? Math.min(
+                      ...nonEmpty.map((l) => {
+                          const m = l.match(/^\s*/)
+                          return m ? m[0].length : 0
+                      }),
+                  )
+                : 0
+            const deindented = trimmed.map((l) =>
+                l.length >= leadingSpaces
+                    ? l.slice(leadingSpaces)
+                    : l.trimStart(),
+            )
+            // Trim right all lines
+            const rightTrimmed = deindented.map((l) => l.replace(/\s+$/, ''))
+            return rightTrimmed.join('\n')
         }
-        // Remove trailing lines that are only spaces
-        let lastNonEmpty = lines.length - 1
-        while (lastNonEmpty >= 0 && lines[lastNonEmpty].trim() === '') {
-            lastNonEmpty--
+
+        // If waitFor is provided, poll until condition is met or timeout
+        if (waitFor) {
+            while (Date.now() - startTime < timeout) {
+                await this.waitIdle({ timeout: 100 })
+                const text = getCurrentText()
+                if (waitFor(text)) {
+                    return text
+                }
+            }
+
+            return getCurrentText()
         }
-        const trimmed = lines.slice(0, lastNonEmpty + 1)
-        // Strip leading indentation common to all non-empty lines
-        const nonEmpty = trimmed.filter((l) => l.trim().length > 0)
-        const leadingSpaces = nonEmpty.length
-            ? Math.min(
-                  ...nonEmpty.map((l) => {
-                      const m = l.match(/^\s*/)
-                      return m ? m[0].length : 0
-                  }),
-              )
-            : 0
-        const deindented = trimmed.map((l) =>
-            l.length >= leadingSpaces ? l.slice(leadingSpaces) : l.trimStart(),
-        )
-        // Trim right all lines
-        const rightTrimmed = deindented.map((l) => l.replace(/\s+$/, ''))
-        return rightTrimmed.join('\n')
+
+
+        // await this.waitIdle({ timeout: 200 })
+        return getCurrentText()
     }
 
     vt(): string {
