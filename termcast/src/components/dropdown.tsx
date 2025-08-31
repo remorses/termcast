@@ -63,7 +63,9 @@ interface DropdownContextValue {
     filtering?: boolean | { keepSectionOrder: boolean }
     currentSection?: string
     selectedIndex: number
+    setSelectedIndex?: (index: number) => void
     currentValue?: string
+    onChange?: (value: string) => void
 }
 
 const DropdownContext = createContext<DropdownContextValue>({
@@ -110,7 +112,9 @@ const Dropdown: DropdownType = (props) => {
             filtering,
             currentSection: undefined,
             selectedIndex: selected,
+            setSelectedIndex: setSelected,
             currentValue,
+            onChange: (value: string) => selectItem(value),
         }),
         [searchText, filtering, selected, currentValue],
     )
@@ -265,21 +269,31 @@ function ItemOption(props: {
     active?: boolean
     current?: boolean
     label?: string
+    onMouseDown?: () => void
+    onMouseMove?: () => void
 }) {
+    const [isHovered, setIsHovered] = useState(false)
+    
     return (
         <box
             style={{
                 flexDirection: 'row',
-                backgroundColor: props.active ? Theme.primary : undefined,
+                backgroundColor: props.active ? Theme.primary : isHovered ? Theme.backgroundPanel : undefined,
                 paddingLeft: 1,
                 paddingRight: 1,
                 justifyContent: 'space-between',
             }}
             border={false}
+            onMouseMove={() => {
+                setIsHovered(true)
+                if (props.onMouseMove) props.onMouseMove()
+            }}
+            onMouseOut={() => setIsHovered(false)}
+            onMouseDown={props.onMouseDown}
         >
             <group style={{ flexDirection: 'row' }}>
                 {props.icon && (
-                    <text fg={props.active ? Theme.background : Theme.text}>
+                    <text fg={props.active ? Theme.background : Theme.text} selectable={false}>
                         {String(props.icon)}{' '}
                     </text>
                 )}
@@ -292,6 +306,7 @@ function ItemOption(props: {
                               : Theme.text
                     }
                     attributes={props.active ? TextAttributes.BOLD : undefined}
+                    selectable={false}
                 >
                     {props.title}
                 </text>
@@ -300,6 +315,7 @@ function ItemOption(props: {
                 <text
                     fg={props.active ? Theme.background : Theme.textMuted}
                     attributes={props.active ? TextAttributes.BOLD : undefined}
+                    selectable={false}
                 >
                     {props.label}
                 </text>
@@ -339,6 +355,21 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
     const isActive = index === selectedIndex && index !== -1
     const isCurrent = props.value === currentValue
 
+    // Handle mouse events
+    const handleMouseMove = () => {
+        // Update selected index on hover
+        if (context.setSelectedIndex && context.selectedIndex !== index && index !== -1) {
+            context.setSelectedIndex(index)
+        }
+    }
+    
+    const handleMouseDown = () => {
+        // Trigger selection on click
+        if (context.onChange && props.value) {
+            context.onChange(props.value)
+        }
+    }
+    
     // Render the item directly
     return (
         <ItemOption
@@ -347,6 +378,8 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
             active={isActive}
             current={isCurrent}
             label={props.label}
+            onMouseMove={handleMouseMove}
+            onMouseDown={handleMouseDown}
         />
     )
 }

@@ -75,6 +75,9 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>((pr
                                 title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
                                 padding={1} 
                                 backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                                onMouseDown={() => {
+                                    setFocusedField(props.id)
+                                }}
                             >
                                 <input
                                     value={displayValue}
@@ -87,6 +90,9 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>((pr
                                     }}
                                     placeholder={props.type === DatePickerType.DateTime ? 'YYYY-MM-DD HH:MM' : 'YYYY-MM-DD'}
                                     focused={isFocused}
+                                    onMouseDown={() => {
+                                        setFocusedField(props.id)
+                                    }}
                                 />
                             </box>
                             {(fieldState.error || props.error) && (

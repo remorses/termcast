@@ -44,6 +44,9 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
                                             : undefined
                                     }
                                     flexGrow={1}
+                                    onMouseDown={() => {
+                                        setFocusedField(props.id)
+                                    }}
                                 >
                                     <input
                                         value={field.value}
@@ -55,6 +58,9 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
                                         }}
                                         placeholder={props.placeholder}
                                         focused={isFocused}
+                                        onMouseDown={() => {
+                                            setFocusedField(props.id)
+                                        }}
                                     />
                                 </box>
                             </group>

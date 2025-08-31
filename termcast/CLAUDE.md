@@ -24,6 +24,8 @@ opentui is the framework used to render the tui, using react.
 
 IMPORTANT! before starting every task ALWAYS read opentui docs with `curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/react/README.md`
 
+ALWAYS!
+
 ## React
 
 NEVER pass function or callbacks as dependencies of useEffect, this will very easily cause infinite loops if you forget to use useCallback

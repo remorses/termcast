@@ -251,6 +251,7 @@ interface ListContextValue {
     setIsDropdownOpen: (value: boolean) => void
     openDropdown: () => void
     selectedIndex: number
+    setSelectedIndex?: (index: number) => void
     filteredIndices: number[]
     searchText: string
 }
@@ -291,9 +292,11 @@ const {
 interface DropdownContextValue {
     currentSection?: string
     selectedIndex?: number
+    setSelectedIndex?: (index: number) => void
     currentValue?: string
     filteredIndices?: number[]
     searchText?: string
+    onChange?: (value: string) => void
 }
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
@@ -427,9 +430,13 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                             value={{
                                 currentSection: undefined,
                                 selectedIndex,
+                                setSelectedIndex,
                                 currentValue: props.value,
                                 filteredIndices,
                                 searchText,
+                                onChange: (value: string) => {
+                                    props.onChange?.(value)
+                                },
                             }}
                         >
                             {props.children}
@@ -473,8 +480,11 @@ function ListItemRow(props: {
     accessories?: ItemAccessory[]
     active?: boolean
     isShowingDetail?: boolean
+    onMouseDown?: () => void
+    index?: number
 }) {
     const { title, subtitle, accessories, active } = props
+    const [isHovered, setIsHovered] = useState(false)
 
     // Format accessories for display
     const accessoryElements: ReactNode[] = []
@@ -520,22 +530,26 @@ function ListItemRow(props: {
             style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                backgroundColor: active ? Theme.primary : undefined,
+                backgroundColor: active ? Theme.primary : isHovered ? Theme.backgroundPanel : undefined,
                 paddingLeft: active ? 0 : 1,
                 paddingRight: 1,
             }}
             border={false}
+            onMouseMove={() => setIsHovered(true)}
+            onMouseOut={() => setIsHovered(false)}
+            onMouseDown={props.onMouseDown}
         >
             <group style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
-                {active && <text fg={Theme.textMuted}>›</text>}
+                {active && <text fg={Theme.textMuted} selectable={false}>›</text>}
                 <text
                     fg={active ? Theme.background : Theme.text}
                     attributes={active ? TextAttributes.BOLD : undefined}
+                    selectable={false}
                 >
                     {title}
                 </text>
                 {subtitle && (
-                    <text fg={active ? Theme.background : Theme.textMuted}>
+                    <text fg={active ? Theme.background : Theme.textMuted} selectable={false}>
                         {' '}
                         {subtitle}
                     </text>
@@ -637,6 +651,7 @@ export const List: ListType = (props) => {
             setIsDropdownOpen,
             openDropdown,
             selectedIndex,
+            setSelectedIndex,
             filteredIndices,
             searchText,
         }),
@@ -880,6 +895,7 @@ const ListItem: ListItemType = (props) => {
     const listSectionContext = useContext(ListSectionContext)
     const { sectionTitle } = listSectionContext
     const listContext = useContext(ListContext)
+    const dialog = useDialog()
 
     // Extract text values for descendant registration
     const titleText =
@@ -911,6 +927,23 @@ const ListItem: ListItemType = (props) => {
     const filteredIndices = listContext?.filteredIndices ?? []
     const isActive = filteredIndices[selectedIndex] === index
 
+    // Handle mouse click on item
+    const handleMouseDown = () => {
+        if (listContext && index !== -1) {
+            // Find position in filtered indices
+            const filteredPosition = listContext.filteredIndices.indexOf(index)
+            if (filteredPosition !== -1) {
+                // If clicking on already selected item, show actions (like pressing Enter)
+                if (isActive && props.actions) {
+                    dialog.push(props.actions, 'bottom-right')
+                } else if (listContext.setSelectedIndex) {
+                    // Otherwise just select the item
+                    listContext.setSelectedIndex(filteredPosition)
+                }
+            }
+        }
+    }
+
     // Render the item row directly
     return (
         <ListItemRow
@@ -919,6 +952,8 @@ const ListItem: ListItemType = (props) => {
             accessories={props.accessories}
             active={isActive}
             isShowingDetail={props.detail !== undefined}
+            onMouseDown={handleMouseDown}
+            index={index}
         />
     )
 }
@@ -935,6 +970,7 @@ ListItem.Detail = ListItemDetail
 
 const ListDropdown: ListDropdownType = (props) => {
     const listContext = useContext(ListContext)
+    const [isHovered, setIsHovered] = useState(false)
 
     // If not inside a List, just render nothing (for type safety)
     if (!listContext) {
@@ -1009,11 +1045,20 @@ const ListDropdown: ListDropdownType = (props) => {
                         // minWidth: value.length + 4,
                         flexDirection: 'row',
                         flexShrink: 0,
+                        backgroundColor: isHovered ? Theme.backgroundPanel : undefined,
+                    }}
+                    onMouseMove={() => setIsHovered(true)}
+                    onMouseOut={() => setIsHovered(false)}
+                    onMouseDown={() => {
+                        // Open dropdown when clicked
+                        if (!isDropdownOpen) {
+                            listContext.openDropdown()
+                        }
                     }}
                 >
                     {/*<text >^p </text>*/}
-                    <text fg={Theme.textMuted}>{value}</text>
-                    <text fg={Theme.textMuted}> ▾</text>
+                    <text fg={isHovered ? Theme.text : Theme.textMuted} selectable={false}>{value}</text>
+                    <text fg={isHovered ? Theme.text : Theme.textMuted} selectable={false}> ▾</text>
                 </box>
             </DropdownContext.Provider>
         </DropdownDescendantsProvider>
@@ -1022,13 +1067,14 @@ const ListDropdown: ListDropdownType = (props) => {
 
 ListDropdown.Item = (props) => {
     const dropdownContext = useContext(DropdownContext)
+    const [isHovered, setIsHovered] = useState(false)
 
     // If not inside a Dropdown, just render nothing
     if (!dropdownContext) {
         return null
     }
 
-    const { currentSection, selectedIndex, currentValue, filteredIndices } =
+    const { currentSection, selectedIndex, currentValue, filteredIndices, setSelectedIndex, onChange } =
         dropdownContext
 
     // Register as descendant
@@ -1047,17 +1093,38 @@ ListDropdown.Item = (props) => {
     if (selectedIndex !== undefined && filteredIndices) {
         const isActive = filteredIndices[selectedIndex] === index
         const isCurrent = props.value === currentValue
+        
+        const handleMouseMove = () => {
+            setIsHovered(true)
+            // Update selected index on hover
+            if (setSelectedIndex) {
+                const position = filteredIndices.indexOf(index)
+                if (position !== -1 && position !== selectedIndex) {
+                    setSelectedIndex(position)
+                }
+            }
+        }
+        
+        const handleMouseDown = () => {
+            // Trigger selection on click
+            if (onChange) {
+                onChange(props.value)
+            }
+        }
 
         return (
             <box
                 style={{
                     flexDirection: 'row',
-                    backgroundColor: isActive ? Theme.primary : undefined,
+                    backgroundColor: isActive ? Theme.primary : isHovered ? Theme.backgroundPanel : undefined,
                     paddingLeft: 1,
                     paddingRight: 1,
                     justifyContent: 'space-between',
                 }}
                 border={false}
+                onMouseMove={handleMouseMove}
+                onMouseOut={() => setIsHovered(false)}
+                onMouseDown={handleMouseDown}
             >
                 <group style={{ flexDirection: 'row' }}>
                     <text
@@ -1069,6 +1136,7 @@ ListDropdown.Item = (props) => {
                                   : Theme.text
                         }
                         attributes={isActive ? TextAttributes.BOLD : undefined}
+                        selectable={false}
                     >
                         {props.title}
                     </text>

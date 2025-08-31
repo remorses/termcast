@@ -46,8 +46,16 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref
                                 title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
                                 padding={1}
                                 backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                                onMouseDown={() => {
+                                    // Always focus the field when clicked
+                                    if (!isFocused) {
+                                        setFocusedField(props.id)
+                                    }
+                                    // Always toggle the value when clicked
+                                    handleToggle()
+                                }}
                             >
-                                <text fg={field.value ? Theme.accent : Theme.text}>
+                                <text fg={field.value ? Theme.accent : Theme.text} selectable={false}>
                                     [{field.value ? '✓' : ' '}] {props.label}
                                 </text>
                             </box>

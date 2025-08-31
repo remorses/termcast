@@ -105,22 +105,45 @@ function AlertComponent({ options, onConfirm, onDismiss }: AlertComponentProps):
         )}
 
         {options.rememberUserChoice && (
-          <box marginTop={1} marginBottom={1}>
-            <text fg={Theme.textMuted}>
+          <box 
+            marginTop={1} 
+            marginBottom={1}
+            onMouseDown={() => setRememberChoice(!rememberChoice)}
+          >
+            <text fg={Theme.textMuted} selectable={false}>
               {rememberChoice ? '[x]' : '[ ]'} Do not show this message again (Space to toggle)
             </text>
           </box>
         )}
         
         <group flexDirection="row" marginTop={2}>
-          <box marginRight={2}>
-            <text fg={getPrimaryColor()} attributes={TextAttributes.BOLD}>
+          <box 
+            marginRight={2}
+            onMouseDown={() => {
+              if (options.rememberUserChoice && rememberChoice) {
+                LocalStorage.setItem(`alert-remember-${options.title}`, 'true')
+              }
+              options.primaryAction?.onAction?.()
+              onConfirm()
+            }}
+          >
+            <text fg={getPrimaryColor()} attributes={TextAttributes.BOLD} selectable={false}>
               [{options.primaryAction?.title || 'OK'} (↵)]
             </text>
           </box>
-          <text fg={Theme.textMuted}>
-            [{options.dismissAction?.title || 'Cancel'} (ESC)]
-          </text>
+          <box
+            onMouseDown={() => {
+              if (options.rememberUserChoice && rememberChoice) {
+                LocalStorage.setItem(`alert-remember-${options.title}`, 'false')
+              }
+              options.dismissAction?.onAction?.()
+              onDismiss()
+            }}
+          >
+            <text fg={Theme.textMuted} selectable={false}>
+              [{options.dismissAction?.title || 'Cancel'} (ESC)]
+            </text>
+          </box>
         </group>
       </group>
     </box>
