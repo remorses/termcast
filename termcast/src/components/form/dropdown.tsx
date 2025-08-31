@@ -173,13 +173,9 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>((props, r
 
                 return (
                     <box flexDirection="column">
-                            {props.title && (
-                                <text fg={Theme.primary}>
-                                    {props.title}
-                                </text>
-                            )}
                             <box 
                                 border
+                                title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
                                 padding={1}
                                 backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
                             >

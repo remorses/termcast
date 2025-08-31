@@ -202,3 +202,7 @@ bun must be used to write tests
 inline snapshots with .toMatchInlineSnapshots or other snapshots are the preferred way to test things. NO MOCKS.
 
 never update inline snapshots manually, instead always use `bun test -u` to update snapshots. No need to reset snapshots before updating them with -u
+
+never use -- to pass flags to pnpm. just add at bottom of the command.
+
+some tests end with .vitest.tsx. to run these you will need to use `bun test:vitest`

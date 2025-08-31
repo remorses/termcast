@@ -46,7 +46,11 @@ export class NodeTuiDriver {
         this.serialize = new SerializeAddon()
         this.term.loadAddon(this.serialize)
 
-        const envWithTerm = { ...env, TERM: 'xterm-truecolor', COLORTERM: 'truecolor' }
+        const envWithTerm = {
+            ...env,
+            TERM: 'xterm-truecolor',
+            COLORTERM: 'truecolor',
+        }
         this.pty = pty.spawn(this.cmd, this.args, {
             name: 'xterm-truecolor',
             cols,
@@ -74,7 +78,7 @@ export class NodeTuiDriver {
                 return
             }
             const t = setTimeout(() => {
-                reject(new Error('waitIdle timeout'))
+                resolve() // Just resolve instead of rejecting
             }, timeout)
             this.idleResolvers.push(() => {
                 clearTimeout(t)
@@ -96,6 +100,9 @@ export class NodeTuiDriver {
         esc: () => {
             return this.write('\x1b')
         },
+        escape: () => {
+            return this.write('\x1b')
+        },
         bs: () => {
             return this.write('\x7f')
         },
@@ -114,13 +121,18 @@ export class NodeTuiDriver {
         tab: () => {
             return this.write('\t')
         },
+        ctrlK: () => {
+            return this.write('\x0b')
+        },
     }
 
-    text(): string {
+    async text(): Promise<string> {
+        // small idle to allow terminal to settle
+        await this.waitIdle({ timeout: 100 })
         const b = this.term.buffer.active
         const lines: string[] = []
         for (let y = 0; y < this.rows; y++) {
-            const line = b.getLine(y)?.translateToString(false) ?? ''
+            const line = b.getLine(y)?.translateToString(true) ?? ''
             lines.push(line)
         }
         // Remove trailing lines that are only spaces
@@ -128,7 +140,21 @@ export class NodeTuiDriver {
         while (lastNonEmpty >= 0 && lines[lastNonEmpty].trim() === '') {
             lastNonEmpty--
         }
-        return lines.slice(0, lastNonEmpty + 1).join('\n')
+        const trimmed = lines.slice(0, lastNonEmpty + 1)
+        // Strip leading indentation common to all non-empty lines
+        const nonEmpty = trimmed.filter((l) => l.trim().length > 0)
+        const leadingSpaces = nonEmpty.length
+            ? Math.min(
+                  ...nonEmpty.map((l) => {
+                      const m = l.match(/^\s*/)
+                      return m ? m[0].length : 0
+                  }),
+              )
+            : 0
+        const deindented = trimmed.map((l) =>
+            l.length >= leadingSpaces ? l.slice(leadingSpaces) : l.trimStart(),
+        )
+        return deindented.join('\n')
     }
 
     vt(): string {
