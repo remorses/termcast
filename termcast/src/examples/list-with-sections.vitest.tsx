@@ -39,7 +39,7 @@ test('list with sections navigation', async () => {
        Bread Freshly baked                                                                Today [New]
 
 
-       ↵ select   ↑↓ navigate   ^k actions                                                              "
+       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
     await driver.keys.down()
@@ -63,7 +63,7 @@ test('list with sections navigation', async () => {
        Bread Freshly baked                                                                Today [New]
 
 
-       ↵ select   ↑↓ navigate   ^k actions                                                              "
+       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
     await driver.keys.enter()
@@ -91,7 +91,7 @@ test('list with sections navigation', async () => {
 
 
 
-       esc go back                                                                                      "
+       esc go back"
     `)
 
     // Go back to list with Escape
@@ -116,6 +116,6 @@ test('list with sections navigation', async () => {
        Bread Freshly baked                                                                Today [New]
 
 
-       ↵ select   ↑↓ navigate   ^k actions                                                              "
+       ↵ select   ↑↓ navigate   ^k actions"
     `)
 })

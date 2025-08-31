@@ -11,7 +11,7 @@
         "binary": "bun build ./src/cli.tsx --compile --outfile bin",
         "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
         "play": "bun src/cli.tsx",
-        "test": "bun test",
+        "test": "bun test && bun e2e",
         "e2e": "vitest"
     },
     "exports": {

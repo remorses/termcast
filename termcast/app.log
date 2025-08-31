@@ -1,6 +1,3 @@
-[2025-08-31T12:17:59.453Z] Auto-executing single action: View Details
-[2025-08-31T12:17:59.453Z] pushing Detail
-[2025-08-31T12:17:59.454Z] Auto-executing single action: View Details
-[2025-08-31T12:17:59.454Z] pushing Detail
-[2025-08-31T12:17:59.617Z] popping navigation 1 stack: [ "SimpleListExample", "Detail" ]
-[2025-08-31T12:17:59.617Z] popping navigation 1 stack: [ "SimpleListExample", "Detail" ]
+[2025-08-31T12:23:45.638Z] Auto-executing single action: View Details
+[2025-08-31T12:23:45.639Z] pushing Detail
+[2025-08-31T12:23:45.798Z] popping navigation 1 stack: [ "SimpleListExample", "Detail" ]
