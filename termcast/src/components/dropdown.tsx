@@ -203,10 +203,10 @@ const Dropdown: DropdownType = (props) => {
     return (
         <DropdownDescendantsProvider value={descendantsContext}>
             <DropdownContext.Provider value={contextValue}>
-                <group>
-                    <group style={{ paddingLeft: 2, paddingRight: 2 }}>
-                        <group style={{ paddingLeft: 1, paddingRight: 1 }}>
-                            <group
+                <box>
+                    <box style={{ paddingLeft: 2, paddingRight: 2 }}>
+                        <box style={{ paddingLeft: 1, paddingRight: 1 }}>
+                            <box
                                 style={{
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
@@ -214,8 +214,8 @@ const Dropdown: DropdownType = (props) => {
                             >
                                 <text attributes={TextAttributes.BOLD}>{tooltip}</text>
                                 <text fg={Theme.textMuted}>esc</text>
-                            </group>
-                            <group style={{ paddingTop: 1, paddingBottom: 1 }}>
+                            </box>
+                            <box style={{ paddingTop: 1, paddingBottom: 1 }}>
                                 <input
                                     ref={inputRef}
                                     onInput={(value) => handleSearchTextChange(value)}
@@ -226,18 +226,18 @@ const Dropdown: DropdownType = (props) => {
                                     cursorColor={Theme.primary}
                                     focusedTextColor={Theme.textMuted}
                                 />
-                            </group>
-                        </group>
-                        <group style={{ paddingBottom: 1 }}>
+                            </box>
+                        </box>
+                        <box style={{ paddingBottom: 1 }}>
                             {/* Render children - they will register as descendants and render themselves */}
                             {children}
-                        </group>
+                        </box>
                         {isLoading && (
-                            <group style={{ paddingLeft: 1 }}>
+                            <box style={{ paddingLeft: 1 }}>
                                 <text fg={Theme.textMuted}>Loading...</text>
-                            </group>
+                            </box>
                         )}
-                    </group>
+                    </box>
                     <box
                         border={false}
                         style={{
@@ -257,7 +257,7 @@ const Dropdown: DropdownType = (props) => {
                         </text>
                         <text fg={Theme.textMuted}> navigate</text>
                     </box>
-                </group>
+                </box>
             </DropdownContext.Provider>
         </DropdownDescendantsProvider>
     )
@@ -291,7 +291,7 @@ function ItemOption(props: {
             onMouseOut={() => setIsHovered(false)}
             onMouseDown={props.onMouseDown}
         >
-            <group style={{ flexDirection: 'row' }}>
+            <box style={{ flexDirection: 'row' }}>
                 {props.icon && (
                     <text fg={props.active ? Theme.background : Theme.text} selectable={false}>
                         {String(props.icon)}{' '}
@@ -310,7 +310,7 @@ function ItemOption(props: {
                 >
                     {props.title}
                 </text>
-            </group>
+            </box>
             {props.label && (
                 <text
                     fg={props.active ? Theme.background : Theme.textMuted}
@@ -398,14 +398,14 @@ const DropdownSection: (props: DropdownSectionProps) => any = (props) => {
         <>
             {/* Render section title if provided */}
             {props.title && (
-                <group style={{ paddingTop: 1, paddingLeft: 1 }}>
+                <box style={{ paddingTop: 1, paddingLeft: 1 }}>
                     <text
                         fg={Theme.accent}
                         attributes={TextAttributes.BOLD}
                     >
                         {props.title}
                     </text>
-                </group>
+                </box>
             )}
             {/* Render children with section context */}
             <DropdownContext.Provider value={sectionContextValue}>

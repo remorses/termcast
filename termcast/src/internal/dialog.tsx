@@ -121,7 +121,7 @@ export function DialogProvider(props: DialogProviderProps): any {
         {props.children}
       </InFocus>
       {dialogStack.length > 0 && (
-        <group position="absolute">
+        <box position="absolute">
           {dialogStack.map((item, index) => {
             const isLastItem = index === dialogStack.length - 1
             return (
@@ -132,7 +132,7 @@ export function DialogProvider(props: DialogProviderProps): any {
               </InFocus>
             )
           })}
-        </group>
+        </box>
       )}
     </>
   )

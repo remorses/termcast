@@ -41,9 +41,9 @@ interface ProvidersProps extends CommonProps {
 
 function LoadingFallback(): any {
     return (
-        <group padding={2}>
+        <box padding={2}>
             <text>Loading...</text>
-        </group>
+        </box>
     )
 }
 
@@ -73,7 +73,7 @@ class ErrorBoundaryClass extends Component<{ children: ReactNode }, ErrorBoundar
     render(): any {
         if (this.state.hasError) {
             return (
-                <group padding={2} flexDirection="column">
+                <box padding={2} flexDirection="column">
                     <text>An error occurred</text>
                     <text fg={Theme.error}>
                         {this.state.error?.message || 'An unexpected error occurred'}
@@ -81,7 +81,7 @@ class ErrorBoundaryClass extends Component<{ children: ReactNode }, ErrorBoundar
                     <text fg={Theme.error}>
                         {this.state.error?.stack || ''}
                     </text>
-                </group>
+                </box>
             )
         }
 
@@ -103,12 +103,12 @@ export function Providers(props: ProvidersProps): any {
                     }}
                 >
                     <DialogProvider>
-                        <group padding={2}>
+                        <box padding={2}>
                             {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
                             <NavigationProvider>
                                 {props.children}
                             </NavigationProvider>
-                        </group>
+                        </box>
                     </DialogProvider>
                 </PersistQueryClientProvider>
             </Suspense>

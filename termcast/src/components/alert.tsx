@@ -87,7 +87,7 @@ function AlertComponent({ options, onConfirm, onDismiss }: AlertComponentProps):
       paddingRight={3}
       width={60}
     >
-      <group flexDirection="column" alignItems="center">
+      <box flexDirection="column" alignItems="center">
         {options.icon && (
           <box marginBottom={1}>
             <text fg={Theme.accent}>⚠️</text>
@@ -116,7 +116,7 @@ function AlertComponent({ options, onConfirm, onDismiss }: AlertComponentProps):
           </box>
         )}
         
-        <group flexDirection="row" marginTop={2}>
+        <box flexDirection="row" marginTop={2}>
           <box 
             marginRight={2}
             onMouseDown={() => {
@@ -144,8 +144,8 @@ function AlertComponent({ options, onConfirm, onDismiss }: AlertComponentProps):
               [{options.dismissAction?.title || 'Cancel'} (ESC)]
             </text>
           </box>
-        </group>
-      </group>
+        </box>
+      </box>
     </box>
   )
 }

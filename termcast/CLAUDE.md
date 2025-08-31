@@ -230,3 +230,13 @@ read back the inline snapshots and make sure they are what you expect
 > notice that await driver.text() already waits for the pty to render so no need to add `waitIdle` everywhere. only add one if the test seems flaky
 
 make sure to pass an adeguate timeout in the test, passing a number as second arg of test
+
+## npm diffs
+
+you can see diffs for different npm packages versions using
+
+`curl -fs https://npmdiff.dev/%40opentui%2Fcore/0.1.11/0.1.13/`
+
+> NOTICE the need for using url encoded strings in the path!
+
+this is helpful when an update breaks our code
