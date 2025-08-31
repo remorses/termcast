@@ -32,6 +32,16 @@ describe('buildExtensionCommands', () => {
                 "title": "Search Items",
               },
               {
+                "bundledPath": "/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js",
+                "description": "",
+                "exists": true,
+                "filePath": "/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/src/oauth.tsx",
+                "mode": "view",
+                "name": "oauth",
+                "subtitle": "auth",
+                "title": "Google Oauth",
+              },
+              {
                 "bundledPath": "/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js",
                 "description": "Shows how to use the usePromise hook from @raycast/utils",
                 "exists": true,

@@ -28,12 +28,30 @@ export class TuiDriver {
     ) {
         this.cols = cols
         this.rows = rows
-        this.term = new Terminal({ cols, rows, scrollback: 0, allowProposedApi: true })
+        this.term = new Terminal({
+            cols,
+            rows,
+            scrollback: 0,
+            allowProposedApi: true,
+            minimumContrastRatio: 1,
+            drawBoldTextInBrightColors: true,
+            allowTransparency: false,
+            theme: {
+                background: '#000000',
+                foreground: '#ffffff',
+            },
+        })
         this.serialize = new SerializeAddon()
         this.term.loadAddon(this.serialize)
 
-        env = { ...env, TERM: 'xterm-256color' }
-        this.pty = spawn(this.cmd, this.args, { cols, rows, cwd, env })
+        env = { ...env, TERM: 'xterm-truecolor', COLORTERM: 'truecolor' }
+        this.pty = spawn(this.cmd, this.args, {
+            name: 'xterm-truecolor',
+            cols,
+            rows,
+            cwd,
+            env: env as any,
+        })
 
         this.pty.onData((data) => {
             this.term.write(data)
@@ -65,7 +83,7 @@ export class TuiDriver {
 
     async write(data: string) {
         this.pty!.write(data)
-        await new Promise(resolve => setTimeout(resolve, 50))
+        await new Promise((resolve) => setTimeout(resolve, 50))
         return this.waitIdle()
     }
 
@@ -100,9 +118,15 @@ export class TuiDriver {
         const b = this.term.buffer.active
         const lines: string[] = []
         for (let y = 0; y < this.rows; y++) {
-            lines.push(b.getLine(y)?.translateToString(true) ?? '')
+            const line = b.getLine(y)?.translateToString(false) ?? ''
+            lines.push(line)
         }
-        return lines.join('\n')
+        // Remove trailing lines that are only spaces
+        let lastNonEmpty = lines.length - 1
+        while (lastNonEmpty >= 0 && lines[lastNonEmpty].trim() === '') {
+            lastNonEmpty--
+        }
+        return lines.slice(0, lastNonEmpty + 1).join('\n')
     }
 
     vt(): string {
