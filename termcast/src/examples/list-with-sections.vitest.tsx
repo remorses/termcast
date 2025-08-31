@@ -6,7 +6,7 @@ let driver: NodeTuiDriver
 
 beforeEach(() => {
     driver = new NodeTuiDriver('bun', ['src/examples/list-with-sections.tsx'], {
-        cols: 100,
+        cols: 70,
         rows: 50,
     })
 })
@@ -24,7 +24,26 @@ test('list with sections navigation', async () => {
     })
 
     const initialSnapshot = await driver.text()
-    expect(initialSnapshot).toMatchInlineSnapshot(`""`)
+    expect(initialSnapshot).toMatchInlineSnapshot(`
+      "
+
+       Simple List Example
+
+       Search items...
+
+
+       Fruits
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+
+       Vegetables
+       Carrot Orange and crunchy                              [Healthy]
+       Lettuce Green and fresh
+       Bread Freshly baked                                  Today [New]
+
+
+       ↵ select   ↑↓ navigate   ^k actions"
+    `)
 
     await driver.keys.down()
 
@@ -38,13 +57,13 @@ test('list with sections navigation', async () => {
 
 
        Fruits
-      ›Apple Red and sweet                                                            Fresh [Popular]
-       Banana Yellow and nutritious                                                              Ripe
+       Apple Red and sweet                              Fresh [Popular]
+      ›Banana Yellow and nutritious                                Ripe
 
        Vegetables
-       Carrot Orange and crunchy                                                            [Healthy]
+       Carrot Orange and crunchy                              [Healthy]
        Lettuce Green and fresh
-       Bread Freshly baked                                                                Today [New]
+       Bread Freshly baked                                  Today [New]
 
 
        ↵ select   ↑↓ navigate   ^k actions"
@@ -62,13 +81,13 @@ test('list with sections navigation', async () => {
 
 
        Fruits
-       Apple Red and sweet                                                            Fresh [Popular]
-      ›Banana Yellow and nutritious                                                              Ripe
+       Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
 
        Vegetables
-       Carrot Orange and crunchy                                                            [Healthy]
+      ›Carrot Orange and crunchy                              [Healthy]
        Lettuce Green and fresh
-       Bread Freshly baked                                                                Today [New]
+       Bread Freshly baked                                  Today [New]
 
 
        ↵ select   ↑↓ navigate   ^k actions"
@@ -82,15 +101,15 @@ test('list with sections navigation', async () => {
 
 
 
-      # Banana
+      # Carrot
 
-      A yellow tropical fruit that's nutritious and energy-rich.
+      A crunchy orange vegetable rich in vitamins.
 
-      ## Benefits
-      - High in potassium
-      - Natural energy booster
-      - Aids digestion
-
+      ## Health Benefits
+      - Excellent source of beta carotene
+      - Improves eye health
+      - Boosts immune system
+      - Low in calories
 
 
 
@@ -115,13 +134,13 @@ test('list with sections navigation', async () => {
 
 
        Fruits
-      ›Apple Red and sweet                                                            Fresh [Popular]
-       Banana Yellow and nutritious                                                              Ripe
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
 
        Vegetables
-       Carrot Orange and crunchy                                                            [Healthy]
+       Carrot Orange and crunchy                              [Healthy]
        Lettuce Green and fresh
-       Bread Freshly baked                                                                Today [New]
+       Bread Freshly baked                                  Today [New]
 
 
        ↵ select   ↑↓ navigate   ^k actions"
@@ -151,7 +170,7 @@ test('list with sections search functionality', async () => {
 
        ban
 
-      ›Banana Yellow and nutritious                                                              Ripe
+      ›Banana Yellow and nutritious                                Ripe
 
 
        ↵ select   ↑↓ navigate   ^k actions"
@@ -196,13 +215,13 @@ test('list with sections search functionality', async () => {
 
 
        Fruits
-      ›Apple Red and sweet                                                            Fresh [Popular]
-       Banana Yellow and nutritious                                                              Ripe
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
 
        Vegetables
-       Carrot Orange and crunchy                                                            [Healthy]
+       Carrot Orange and crunchy                              [Healthy]
        Lettuce Green and fresh
-       Bread Freshly baked                                                                Today [New]
+       Bread Freshly baked                                  Today [New]
 
 
        ↵ select   ↑↓ navigate   ^k actions"
@@ -223,7 +242,7 @@ test('list with sections search functionality', async () => {
 
        bread
 
-      ›Bread Freshly baked                                                                Today [New]
+      ›Bread Freshly baked                                  Today [New]
 
 
        ↵ select   ↑↓ navigate   ^k actions"
