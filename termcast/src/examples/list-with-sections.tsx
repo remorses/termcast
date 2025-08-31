@@ -40,6 +40,12 @@ function SimpleListExample() {
                                     `} />
                                 )}
                             />
+                            <Action
+                                title="Add to Cart"
+                                onAction={() => {
+                                    console.log('Apple added to cart!')
+                                }}
+                            />
                         </ActionPanel>
                     }
                 />
