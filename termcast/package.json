@@ -46,6 +46,9 @@
     },
     "devDependencies": {
         "@types/bun": "^1.2.21",
-        "@types/node": "^24.3.0"
+        "@types/node": "^24.3.0",
+        "@xterm/addon-serialize": "^0.13.0",
+        "@xterm/headless": "^5.5.0",
+        "bun-pty": "^0.3.2"
     }
 }
