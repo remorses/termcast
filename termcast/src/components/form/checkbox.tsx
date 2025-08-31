@@ -41,13 +41,9 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref
 
                 return (
                     <box flexDirection="column">
-                            {props.title && (
-                                <text fg={Theme.primary}>
-                                    {props.title}
-                                </text>
-                            )}
                             <box 
                                 border
+                                title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
                                 padding={1}
                                 backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
                             >

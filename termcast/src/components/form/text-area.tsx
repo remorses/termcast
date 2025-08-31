@@ -26,12 +26,13 @@ export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>((props, ref
             render={({ field, fieldState, formState }) => {
                 return (
                     <box flexDirection="column">
-                        {props.title && (
-                            <text fg={Theme.primary}>
-                                {props.title}
-                            </text>
-                        )}
-                        <box border padding={1} height={4} backgroundColor={isFocused ? Theme.backgroundPanel : undefined}>
+                        <box 
+                            border 
+                            title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
+                            padding={1} 
+                            height={4} 
+                            backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                        >
                             <input
                                 value={field.value}
                                 onInput={(value: string) => {

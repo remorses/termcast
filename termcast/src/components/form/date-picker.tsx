@@ -70,12 +70,12 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>((pr
 
                 return (
                     <box flexDirection="column">
-                            {props.title && (
-                                <text fg={Theme.primary}>
-                                    {props.title}
-                                </text>
-                            )}
-                            <box border padding={1} backgroundColor={isFocused ? Theme.backgroundPanel : undefined}>
+                            <box 
+                                border 
+                                title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
+                                padding={1} 
+                                backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                            >
                                 <input
                                     value={displayValue}
                                     onInput={(value: string) => {
