@@ -1,4 +1,4 @@
-import { renderWithProviders, Detail, Action, ActionPanel } from '@termcast/cli'
+import { renderWithProviders, Detail, Action, ActionPanel, showToast, Toast } from '@termcast/cli'
 import List from '@termcast/cli'
 import { useNavigation } from '@termcast/cli/src/internal/navigation'
 import dedent from 'dedent'
@@ -43,7 +43,11 @@ function SimpleListExample() {
                             <Action
                                 title="Add to Cart"
                                 onAction={() => {
-                                    console.log('Apple added to cart!')
+                                    showToast({
+                                        style: Toast.Style.Success,
+                                        title: 'Added to Cart',
+                                        message: 'Apple has been added to your cart'
+                                    })
                                 }}
                             />
                         </ActionPanel>

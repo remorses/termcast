@@ -409,6 +409,6 @@ test('list actions panel with ctrl+k', async () => {
        Bread Freshly baked                                  Today [New]
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
+        ✓ Added to Cart - Apple has been added to your cart"
     `)
 }, 10000)
