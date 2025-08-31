@@ -155,7 +155,6 @@ test('list with sections search functionality', async () => {
         },
     })
 
-    // Type 'ban' to filter for Banana
     await driver.keys.type('ban')
 
     const afterSearchBanSnapshot = await driver.text({
