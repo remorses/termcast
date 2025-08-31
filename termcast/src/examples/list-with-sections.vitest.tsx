@@ -270,3 +270,145 @@ test('list with sections search functionality', async () => {
        esc go back"
     `)
 }, 10000)
+
+test('list actions panel with ctrl+k', async () => {
+    await driver.text({
+        waitFor: (text) => {
+            // wait for list to show up
+            return /search/i.test(text)
+        },
+    })
+
+    // Press ctrl+k to open actions panel
+    await driver.keys.ctrlK()
+
+    const afterCtrlKSnapshot = await driver.text()
+    expect(afterCtrlKSnapshot).toMatchInlineSnapshot(`
+      "
+
+       Simple List Example
+
+       Search items...
+
+
+       Fruits
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+
+       Vegetables
+       Carrot Orange and crunchy                              [Healthy]
+       Lettuce Green and fresh
+       Bread Freshly baked                                  Today [New]
+
+
+       ↵ select   ↑↓ navigate   ^k actions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  esc
+
+       Search actions...
+       View Details
+       Add to Cart
+
+
+       ↵ select   ↑↓ navigate"
+    `)
+
+    // Navigate down to second action
+    await driver.keys.down()
+
+    const afterDownInActionsSnapshot = await driver.text()
+    expect(afterDownInActionsSnapshot).toMatchInlineSnapshot(`
+      "
+
+       Simple List Example
+
+       Search items...
+
+
+       Fruits
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+
+       Vegetables
+       Carrot Orange and crunchy                              [Healthy]
+       Lettuce Green and fresh
+       Bread Freshly baked                                  Today [New]
+
+
+       ↵ select   ↑↓ navigate   ^k actions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  esc
+
+       Search actions...
+       View Details
+       Add to Cart
+
+
+       ↵ select   ↑↓ navigate"
+    `)
+
+    // Trigger the second action (Add to Cart)
+    await driver.keys.enter()
+
+    const afterSelectSecondActionSnapshot = await driver.text()
+    expect(afterSelectSecondActionSnapshot).toMatchInlineSnapshot(`
+      "
+
+       Simple List Example
+
+       Search items...
+
+
+       Fruits
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+
+       Vegetables
+       Carrot Orange and crunchy                              [Healthy]
+       Lettuce Green and fresh
+       Bread Freshly baked                                  Today [New]
+
+
+       ↵ select   ↑↓ navigate   ^k actions"
+    `)
+}, 10000)

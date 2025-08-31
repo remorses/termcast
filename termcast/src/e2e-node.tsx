@@ -151,6 +151,18 @@ export class NodeTuiDriver {
         delete: () => {
             return this.write('\x1b[3~')
         },
+        space: () => {
+            return this.write(' ')
+        },
+        shiftTab: () => {
+            return this.write('\x1b[Z')
+        },
+        cmdEnter: () => {
+            return this.write('\x1b\r')
+        },
+        ctrlA: () => {
+            return this.write('\x01')
+        },
         type: async (text: string) => {
             for (const ch of text.split('')) {
                 await this.write(ch)
