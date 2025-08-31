@@ -395,11 +395,11 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
 
     return (
         <DropdownDescendantsProvider value={descendantsContext}>
-            <group>
-                <group style={{ paddingLeft: 2, paddingRight: 2 }}>
-                    <group style={{ paddingLeft: 1, paddingRight: 1 }}>
+            <box>
+                <box style={{ paddingLeft: 2, paddingRight: 2 }}>
+                    <box style={{ paddingLeft: 1, paddingRight: 1 }}>
                         {/* Header */}
-                        <group
+                        <box
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
@@ -409,8 +409,8 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                                 {props.tooltip}
                             </text>
                             <text fg={Theme.textMuted}>esc</text>
-                        </group>
-                        <group style={{ paddingTop: 1, paddingBottom: 1 }}>
+                        </box>
+                        <box style={{ paddingTop: 1, paddingBottom: 1 }}>
                             <input
                                 ref={inputRef}
                                 onInput={setSearchText}
@@ -421,11 +421,11 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                                 cursorColor={Theme.primary}
                                 focusedTextColor={Theme.textMuted}
                             />
-                        </group>
-                    </group>
+                        </box>
+                    </box>
 
                     {/* Items list - children will render themselves */}
-                    <group style={{ paddingBottom: 1 }}>
+                    <box style={{ paddingBottom: 1 }}>
                         <DropdownContext.Provider
                             value={{
                                 currentSection: undefined,
@@ -441,13 +441,13 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                         >
                             {props.children}
                         </DropdownContext.Provider>
-                    </group>
+                    </box>
                     {props.isLoading && (
-                        <group style={{ paddingLeft: 1 }}>
+                        <box style={{ paddingLeft: 1 }}>
                             <text fg={Theme.textMuted}>Loading...</text>
-                        </group>
+                        </box>
                     )}
-                </group>
+                </box>
 
                 <box
                     border={false}
@@ -468,7 +468,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                     </text>
                     <text fg={Theme.textMuted}> navigate</text>
                 </box>
-            </group>
+            </box>
         </DropdownDescendantsProvider>
     )
 }
@@ -539,7 +539,7 @@ function ListItemRow(props: {
             onMouseOut={() => setIsHovered(false)}
             onMouseDown={props.onMouseDown}
         >
-            <group style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
+            <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
                 {active && <text fg={Theme.textMuted} selectable={false}>›</text>}
                 <text
                     fg={active ? Theme.background : Theme.text}
@@ -554,16 +554,16 @@ function ListItemRow(props: {
                         {subtitle}
                     </text>
                 )}
-            </group>
+            </box>
             {accessoryElements.length > 0 && (
-                <group style={{ flexDirection: 'row' }}>
+                <box style={{ flexDirection: 'row' }}>
                     {accessoryElements.map((elem, i) => (
-                        <group key={i} style={{ flexDirection: 'row' }}>
+                        <box key={i} style={{ flexDirection: 'row' }}>
                             {i > 0 && <text> </text>}
                             {elem}
-                        </group>
+                        </box>
                     ))}
-                </group>
+                </box>
             )}
             {/*{active && <text fg={Theme.textMuted}>‹</text>}*/}
         </box>
@@ -794,7 +794,7 @@ export const List: ListType = (props) => {
     return (
         <ListContext.Provider value={listContextValue}>
             <ListDescendantsProvider value={descendantsContext}>
-                <group style={{ flexDirection: 'column', flexGrow: 1 }}>
+                <box style={{ flexDirection: 'column', flexGrow: 1 }}>
                     {/* Cannot mount focused actions here - would need to be handled differently */}
 
                     {/* Navigation title */}
@@ -846,7 +846,7 @@ export const List: ListType = (props) => {
                     </box>
 
                     {/* List content - render children which will register themselves */}
-                    <group style={{ marginTop: 1 }}>
+                    <box style={{ marginTop: 1 }}>
                         {isLoading ? (
                             <box border={false} style={{ padding: 2 }}>
                                 <text fg={Theme.textMuted}>Loading...</text>
@@ -862,8 +862,8 @@ export const List: ListType = (props) => {
                                 <ListFooter />
                             </>
                         )}
-                    </group>
-                </group>
+                    </box>
+                </box>
             </ListDescendantsProvider>
         </ListContext.Provider>
     )
@@ -1126,7 +1126,7 @@ ListDropdown.Item = (props) => {
                 onMouseOut={() => setIsHovered(false)}
                 onMouseDown={handleMouseDown}
             >
-                <group style={{ flexDirection: 'row' }}>
+                <box style={{ flexDirection: 'row' }}>
                     <text
                         fg={
                             isActive
@@ -1140,7 +1140,7 @@ ListDropdown.Item = (props) => {
                     >
                         {props.title}
                     </text>
-                </group>
+                </box>
             </box>
         )
     }
@@ -1175,11 +1175,11 @@ ListDropdown.Section = (props) => {
         <>
             {/* Render section title if we're in the dialog and not searching */}
             {showTitle && (
-                <group style={{ paddingTop: 1, paddingLeft: 1 }}>
+                <box style={{ paddingTop: 1, paddingLeft: 1 }}>
                     <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
                         {props.title}
                     </text>
-                </group>
+                </box>
             )}
             <DropdownContext.Provider value={sectionContextValue}>
                 {props.children}

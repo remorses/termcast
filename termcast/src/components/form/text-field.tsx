@@ -32,7 +32,7 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
                 render={({ field, fieldState, formState }) => {
                     return (
                         <box flexDirection='column'>
-                            <group flexDirection='row'>
+                            <box flexDirection='row'>
 
                                 <box
                                     border
@@ -63,7 +63,7 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
                                         }}
                                     />
                                 </box>
-                            </group>
+                            </box>
                             {(fieldState.error || props.error) && (
                                 <text fg={Theme.error}>
                                     {fieldState.error?.message || props.error}

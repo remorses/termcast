@@ -56,20 +56,20 @@ function TextStackingExample() {
                         }}
                         border={false}
                     >
-                        <group style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
+                        <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
                             <text>
                                 {item.titleText}
                             </text>
-                        </group>
+                        </box>
                         {accessoryElements.length > 0 && (
-                            <group style={{ flexDirection: 'row' }}>
+                            <box style={{ flexDirection: 'row' }}>
                                 {accessoryElements.map((elem, i) => (
-                                    <group key={i} style={{ flexDirection: 'row' }}>
+                                    <box key={i} style={{ flexDirection: 'row' }}>
                                         {i > 0 && <text> </text>}
                                         {elem}
-                                    </group>
+                                    </box>
                                 ))}
-                            </group>
+                            </box>
                         )}
                     </box>
                 )
