@@ -154,7 +154,9 @@ export class NodeTuiDriver {
         const deindented = trimmed.map((l) =>
             l.length >= leadingSpaces ? l.slice(leadingSpaces) : l.trimStart(),
         )
-        return deindented.join('\n')
+        // Trim right all lines
+        const rightTrimmed = deindented.map((l) => l.replace(/\s+$/, ''))
+        return rightTrimmed.join('\n')
     }
 
     vt(): string {

@@ -1,1 +1,6 @@
-[2025-08-31T12:17:16.403Z] focusing  username
+[2025-08-31T12:17:59.453Z] Auto-executing single action: View Details
+[2025-08-31T12:17:59.453Z] pushing Detail
+[2025-08-31T12:17:59.454Z] Auto-executing single action: View Details
+[2025-08-31T12:17:59.454Z] pushing Detail
+[2025-08-31T12:17:59.617Z] popping navigation 1 stack: [ "SimpleListExample", "Detail" ]
+[2025-08-31T12:17:59.617Z] popping navigation 1 stack: [ "SimpleListExample", "Detail" ]
