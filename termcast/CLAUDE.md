@@ -205,4 +205,22 @@ never update inline snapshots manually, instead always use `bun test -u` to upda
 
 never use -- to pass flags to pnpm. just add at bottom of the command.
 
-some tests end with .vitest.tsx. to run these you will need to use `bun test:vitest`
+some tests in src/examples end with .vitest.tsx. to run these you will need to use `bun e2e -u`
+
+these tests are for ensuring the examples work correctly
+
+## adding an test for an example in src/examples
+
+To see an example of a test see @src/examples/list-with-sections.vitest.tsx
+
+you should first understand what the example file does and which key sequences should be used to test it
+
+then create a file ending with .vitest.tsx with same basename as the example.
+
+then add empty .toMatchInlineSnapshot() calls for every expected output
+
+then run `bun test -u` to update the snapshots
+
+read back the inline snapshots and make sure they are what you expect
+
+> notice that await driver.text() already waits for the pty to render so no need to add `waitIdle` everywhere
