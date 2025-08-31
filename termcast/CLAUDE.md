@@ -209,7 +209,7 @@ some tests in src/examples end with .vitest.tsx. to run these you will need to u
 
 these tests are for ensuring the examples work correctly
 
-## adding an test for an example in src/examples
+## adding a test for an example in src/examples
 
 To see an example of a test see @src/examples/list-with-sections.vitest.tsx
 
@@ -219,8 +219,12 @@ then create a file ending with .vitest.tsx with same basename as the example.
 
 then add empty .toMatchInlineSnapshot() calls for every expected output
 
+run pnpm tsc to make sure it typechecks. if some keys you are trying to press are missing add them in the e2e-node.tsx file as methods.
+
 then run `bun test -u` to update the snapshots
 
 read back the inline snapshots and make sure they are what you expect
 
 > notice that await driver.text() already waits for the pty to render so no need to add `waitIdle` everywhere. only add one if the test seems flaky
+
+make sure to pass an adeguate timeout in the test, passing a number as second arg of test
