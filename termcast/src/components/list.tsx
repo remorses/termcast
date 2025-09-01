@@ -811,15 +811,13 @@ export const List: ListType = (props) => {
                         <box
                             border={false}
                             style={{
-                                paddingLeft: 1,
-                                paddingRight: 1,
                                 paddingBottom: 0,
+                                flexGrow: 1
                             }}
                         >
                             <LoadingBar 
                                 title={navigationTitle}
                                 isLoading={isLoading}
-                                barLength={80}
                             />
                         </box>
                     )}
