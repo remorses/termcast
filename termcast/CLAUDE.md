@@ -34,7 +34,6 @@ NEVER use useCallback. it is useless if we never pass functions in useEffect dep
 
 Try to never use useEffect if possible. usually you can move logic directly in event handlers instead
 
-
 ## Porting a new Raycast component or feature
 
 Here is the process to follow to implement each API:
@@ -66,17 +65,18 @@ Here is the process to follow to implement each API:
 - <input> uses onInput not onChange. it is passed a simple string value and not an event object
 - to render examples components use renderExample not render
 - ALWAYS bind all class methods to `this` in the constructor. This ensures methods work correctly when called in any context (callbacks, event handlers, etc). Example:
-  ```typescript
-  constructor(options: Options) {
-    // Initialize properties
-    this.prop = options.prop
 
-    // Bind all methods to this instance
-    this.method1 = this.method1.bind(this)
-    this.method2 = this.method2.bind(this)
-    this.privateMethod = this.privateMethod.bind(this)
-  }
-  ```
+    ```typescript
+    constructor(options: Options) {
+      // Initialize properties
+      this.prop = options.prop
+
+      // Bind all methods to this instance
+      this.method1 = this.method1.bind(this)
+      this.method2 = this.method2.bind(this)
+      this.privateMethod = this.privateMethod.bind(this)
+    }
+    ```
 
 ```typescript
 interface ListType {
@@ -97,8 +97,6 @@ List.Section = (props) => {
     // implementation
 }
 ```
-
-
 
 ## keeping the implementation compatible with raycast
 
@@ -161,22 +159,24 @@ useKeyboard((evt) => {
     // ...
     // notice that enter is called return in evt.name
 })
-
-
 ```
+
 ## descendants pattern and map.current
 
 IMPORTANT: When using the descendants pattern from src/descendants.tsx, the `map.current` from `useDescendants()` is NOT reactive and CANNOT be used during render. It can only be accessed inside:
+
 - useEffect or useLayoutEffect to handle effects
 - Event handlers (useKeyboard, onChange, etc)
 
 Example of WRONG usage (accessing map.current during render):
+
 ```tsx
 // WRONG - this will not update when descendants change
 const items = Object.values(descendantsContext.map.current)
 ```
 
 Example of CORRECT usage (accessing map.current inside an event handler, such as with useKeyboard, see @src/examples/internal/descendants.tsx):
+
 ```tsx
 import { useKeyboard } from '@opentui/react'
 import { useDescendants } from '@termcast/cli/src/descendants'
@@ -186,9 +186,9 @@ const { map } = useDescendants()
 useKeyboard((evt) => {
     // Access map.current during useEffect or event handlers, NOT during render
     const items = Object.values(map.current)
-        .filter(item => item.index !== -1)
+        .filter((item) => item.index !== -1)
         .sort((a, b) => a.index - b.index)
-        .map(item => item.props)
+        .map((item) => item.props)
     // Handle your logic with items, e.g. navigating with up/down
 })
 ```
@@ -210,6 +210,17 @@ never use -- to pass flags to pnpm. just add at bottom of the command.
 some tests in src/examples end with .vitest.tsx. to run these you will need to use `bun e2e -u`
 
 these tests are for ensuring the examples work correctly
+
+## fixing bugs in termcast
+
+when you are trying to fix an issue identify first the issue in an existing .vitest.tsx test file. by looking if the existing snapshots already exhibit the issue. if not add a new test case for the issue.
+
+then iterate to
+
+- try to fix the issue by changing code in src
+- run tests again
+- read back the test snapshot. if not fixed repeat
+- try to keep changes minimal to fix the issue
 
 ## adding a test for an example in src/examples
 
@@ -240,3 +251,14 @@ you can see diffs for different npm packages versions using
 > NOTICE the need for using url encoded strings in the path!
 
 this is helpful when an update breaks our code
+
+## reading .d.ts for node_modules
+
+you should read the .d.ts for the packages you want to use to discover their API. for opentui you must also read the web guide fetching the .md file.
+
+if you are inside the termcast/termcast folder (the termcast package) you will usually find node modules in the parent folder: `../node_modules/@opentui/core`
+
+## important reminders
+
+- never update snapshots yourself. if you want to test something you must read the snapshots yourself after running the tests
+- NEVER run examples files with commands like `bun src/examlpes/something.tsx`! This is very important. this will hang the command and give you no information and break the current claude code terminal! instead use vitest tests
