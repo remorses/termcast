@@ -11,7 +11,7 @@ interface LoadingBarProps {
 }
 
 export function LoadingBar(props: LoadingBarProps): any {
-    let { title, isLoading = true, barLength: propBarLength } = props
+    let { title, isLoading = false, barLength: propBarLength } = props
     const [position, setPosition] = useState(0)
     const [calculatedBarLength, setCalculatedBarLength] = useState(
         propBarLength || 0,
@@ -45,17 +45,30 @@ export function LoadingBar(props: LoadingBarProps): any {
     // Define gradient colors using xterm-256 colors for consistency
     const waveColors = [
         '#585858', // xterm 240
+        '#585858', // xterm 240
+        '#6c6c6c', // xterm 242
         '#6c6c6c', // xterm 242
         '#808080', // xterm 244
+        '#808080', // xterm 244
+        '#949494', // xterm 246
         '#949494', // xterm 246
         '#a8a8a8', // xterm 248
+        '#a8a8a8', // xterm 248
+        '#bcbcbc', // xterm 250
         '#bcbcbc', // xterm 250
         '#d0d0d0', // xterm 252
+        '#d0d0d0', // xterm 252
+        '#bcbcbc', // xterm 250
         '#bcbcbc', // xterm 250
         '#a8a8a8', // xterm 248
+        '#a8a8a8', // xterm 248
+        '#949494', // xterm 246
         '#949494', // xterm 246
         '#808080', // xterm 244
+        '#808080', // xterm 244
         '#6c6c6c', // xterm 242
+        '#6c6c6c', // xterm 242
+        '#585858', // xterm 240
         '#585858', // xterm 240
     ]
 
@@ -67,7 +80,7 @@ export function LoadingBar(props: LoadingBarProps): any {
                 setPosition(
                     (prev) => (prev + 1) % (characters.length + waveWidth),
                 )
-            }, 25) // Faster animation
+            }, 10)
         } else {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current)
