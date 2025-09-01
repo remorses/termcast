@@ -355,7 +355,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
             .filter((item) => item.index !== -1)
             .map((item) => item.index)
         setFilteredIndices(allIndices)
-    })
+    }, []) // Add empty dependency array to run only once on mount
 
     const move = (direction: -1 | 1) => {
         if (filteredIndices.length === 0) return
@@ -994,19 +994,35 @@ const ListDropdown: ListDropdownType = (props) => {
     }
 
     const { isDropdownOpen, setIsDropdownOpen } = listContext
-    const [dropdownValue, setDropdownValue] = useState(
-        props.value || props.defaultValue || '',
-    )
+    // Store both value and title together
+    const [dropdownState, setDropdownState] = useState<{ value: string; title: string }>(() => {
+        const initialValue = props.value || props.defaultValue || ''
+        return { value: initialValue, title: initialValue || 'All' }
+    })
     const descendantsContext = useDropdownDescendants()
     const dialog = useDialog()
     const inFocus = useIsInFocus()
 
-    // Update controlled value
-    useEffect(() => {
-        if (props.value !== undefined) {
-            setDropdownValue(props.value)
+    // Update value and find its title
+    useLayoutEffect(() => {
+        const valueToUse = props.value !== undefined ? props.value : dropdownState.value
+        if (!valueToUse) return
+        
+        // Try to find the title for this value
+        let title = valueToUse
+        for (const item of Object.values(descendantsContext.map.current)) {
+            const itemProps = item.props as DropdownItemDescendant
+            if (itemProps.value === valueToUse) {
+                title = itemProps.title
+                break
+            }
         }
-    }, [props.value])
+        
+        // Only update if something changed
+        if (dropdownState.value !== valueToUse || dropdownState.title !== title) {
+            setDropdownState({ value: valueToUse, title })
+        }
+    }, [props.value]) // Run when props.value changes and on mount
 
     const dropdownContextValue = useMemo<DropdownContextValue>(
         () => ({
@@ -1023,9 +1039,18 @@ const ListDropdown: ListDropdownType = (props) => {
                 <ListDropdownDialog
                     {...props}
                     items={[]} // Not used anymore
-                    value={dropdownValue}
+                    value={dropdownState.value}
                     onChange={(newValue) => {
-                        setDropdownValue(newValue)
+                        // Find the title for this value
+                        let title = newValue
+                        for (const item of Object.values(descendantsContext.map.current)) {
+                            const itemProps = item.props as DropdownItemDescendant
+                            if (itemProps.value === newValue) {
+                                title = itemProps.title
+                                break
+                            }
+                        }
+                        setDropdownState({ value: newValue, title })
                         setIsDropdownOpen(false)
                         dialog.clear()
                         if (props.onChange) {
@@ -1045,8 +1070,9 @@ const ListDropdown: ListDropdownType = (props) => {
         }
     }, [isDropdownOpen, props.children])
 
-    // Cannot get current item during render - just use dropdownValue
-    const value = dropdownValue || 'All'
+    // Display the title from our state
+    const displayValue = dropdownState.title || 'All'
+    
     return (
         <DropdownDescendantsProvider value={descendantsContext}>
             <DropdownContext.Provider value={dropdownContextValue}>
@@ -1054,7 +1080,7 @@ const ListDropdown: ListDropdownType = (props) => {
                 {props.children}
                 {/* Render dropdown UI */}
                 <box
-                    key={value}
+                    key={dropdownState.value}
                     style={{
                         paddingTop: 1,
                         paddingLeft: 2,
@@ -1079,7 +1105,7 @@ const ListDropdown: ListDropdownType = (props) => {
                         fg={isHovered ? Theme.text : Theme.textMuted}
                         selectable={false}
                     >
-                        {value}
+                        {displayValue}
                     </text>
                     <text
                         fg={isHovered ? Theme.text : Theme.textMuted}
