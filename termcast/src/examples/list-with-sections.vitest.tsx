@@ -27,10 +27,8 @@ test('list with sections navigation', async () => {
     expect(initialSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        Search items...
-
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -51,10 +49,8 @@ test('list with sections navigation', async () => {
     expect(afterDownSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        Search items...
-
 
        Fruits
        Apple Red and sweet                              Fresh [Popular]
@@ -75,10 +71,8 @@ test('list with sections navigation', async () => {
     expect(secondDownSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        Search items...
-
 
        Fruits
        Apple Red and sweet                              Fresh [Popular]
@@ -112,12 +106,6 @@ test('list with sections navigation', async () => {
       - Low in calories
 
 
-
-
-
-
-
-
        esc go back"
     `)
 
@@ -128,10 +116,8 @@ test('list with sections navigation', async () => {
     expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        Search items...
-
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -165,10 +151,8 @@ test('list with sections search functionality', async () => {
     expect(afterSearchBanSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        ban
-
       ›Banana Yellow and nutritious                                Ripe
 
 
@@ -189,10 +173,8 @@ test('list with sections search functionality', async () => {
     expect(afterSearchLetSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        let
-
       ›Lettuce Green and fresh
 
 
@@ -208,10 +190,8 @@ test('list with sections search functionality', async () => {
     expect(afterClearSearchSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        Search items...
-
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -237,10 +217,8 @@ test('list with sections search functionality', async () => {
     expect(afterSearchBreadSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        bread
-
       ›Bread Freshly baked                                  Today [New]
 
 
@@ -271,6 +249,84 @@ test('list with sections search functionality', async () => {
     `)
 }, 10000)
 
+test('list click functionality', async () => {
+    await driver.text({
+        waitFor: (text) => {
+            // wait for list to show up
+            return /search/i.test(text)
+        },
+    })
+
+    // Click on "Lettuce" item
+    await driver.clickText('Lettuce')
+
+    const afterClickLettuceSnapshot = await driver.text()
+    expect(afterClickLettuceSnapshot).toMatchInlineSnapshot(`
+      "
+
+       Simple List Example ────────────────────────────────────────────
+       Search items...
+
+       Fruits
+       Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+
+       Vegetables
+       Carrot Orange and crunchy                              [Healthy]
+      ›Lettuce Green and fresh
+       Bread Freshly baked                                  Today [New]
+
+
+       ↵ select   ↑↓ navigate   ^k actions"
+    `)
+
+    // Click on "Apple" item
+    await driver.clickText('Apple')
+
+    const afterClickAppleSnapshot = await driver.text()
+    expect(afterClickAppleSnapshot).toMatchInlineSnapshot(`
+      "
+
+       Simple List Example ────────────────────────────────────────────
+       Search items...
+
+       Fruits
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+
+       Vegetables
+       Carrot Orange and crunchy                              [Healthy]
+       Lettuce Green and fresh
+       Bread Freshly baked                                  Today [New]
+
+
+       ↵ select   ↑↓ navigate   ^k actions"
+    `)
+
+    // Click on the last item "Bread"
+    await driver.clickText('Bread')
+
+    const afterClickBreadSnapshot = await driver.text()
+    expect(afterClickBreadSnapshot).toMatchInlineSnapshot(`
+      "
+
+       Simple List Example ────────────────────────────────────────────
+       Search items...
+
+       Fruits
+       Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+
+       Vegetables
+       Carrot Orange and crunchy                              [Healthy]
+       Lettuce Green and fresh
+      ›Bread Freshly baked                                  Today [New]
+
+
+       ↵ select   ↑↓ navigate   ^k actions"
+    `)
+}, 10000)
+
 test('list actions panel with ctrl+k', async () => {
     await driver.text({
         waitFor: (text) => {
@@ -286,10 +342,8 @@ test('list actions panel with ctrl+k', async () => {
     expect(afterCtrlKSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        Search items...
-
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -302,6 +356,8 @@ test('list actions panel with ctrl+k', async () => {
 
 
        ↵ select   ↑↓ navigate   ^k actions
+
+
 
 
 
@@ -340,10 +396,8 @@ test('list actions panel with ctrl+k', async () => {
     expect(afterDownInActionsSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        Search items...
-
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -356,6 +410,8 @@ test('list actions panel with ctrl+k', async () => {
 
 
        ↵ select   ↑↓ navigate   ^k actions
+
+
 
 
 
@@ -394,10 +450,8 @@ test('list actions panel with ctrl+k', async () => {
     expect(afterSelectSecondActionSnapshot).toMatchInlineSnapshot(`
       "
 
-       Simple List Example
-
+       Simple List Example ────────────────────────────────────────────
        Search items...
-
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
