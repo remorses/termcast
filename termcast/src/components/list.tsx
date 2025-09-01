@@ -22,6 +22,7 @@ import { CommonProps } from '@termcast/cli/src/utils'
 import { useStore } from '@termcast/cli/src/state'
 import { useDialog } from '@termcast/cli/src/internal/dialog'
 import { createDescendants } from '@termcast/cli/src/descendants'
+import { LoadingBar } from '@termcast/cli/src/components/loading-bar'
 
 interface ActionsInterface {
     actions?: ReactNode
@@ -815,13 +816,11 @@ export const List: ListType = (props) => {
                                 paddingBottom: 0,
                             }}
                         >
-                            <text
-                                fg={Theme.text}
-                                attributes={TextAttributes.BOLD}
-                            >
-                                {navigationTitle}{' '}
-                                ───────────────────────────────────────────────────────────────────────────────────────
-                            </text>
+                            <LoadingBar 
+                                title={navigationTitle}
+                                isLoading={isLoading}
+                                barLength={80}
+                            />
                         </box>
                     )}
 
