@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import { BoxRenderable } from '@opentui/core'
+import {} from '@opentui/react'
 import { Theme } from '@termcast/cli/src/theme'
+import { logger } from '@termcast/cli/src/logger'
 
 interface LoadingBarProps {
     title: string
@@ -8,11 +11,33 @@ interface LoadingBarProps {
 }
 
 export function LoadingBar(props: LoadingBarProps): any {
-    let { title, isLoading = true, barLength = 80 } = props
+    let { title, isLoading = true, barLength: propBarLength } = props
     const [position, setPosition] = useState(0)
+    const [calculatedBarLength, setCalculatedBarLength] = useState(
+        propBarLength || 0,
+    )
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
+    const containerRef = useRef<BoxRenderable>(null)
+
+    // Calculate bar length based on container width
+    useLayoutEffect(() => {
+        if (containerRef.current) {
+            // TODO i am using the full terminal width for now. it would be better to use the box width for real instead
+            const containerWidth = containerRef.current.ctx.width - 4
+
+            // logger.log('LoadingBar container width:', containerWidth)
+            if (!containerWidth) return
+            // Account for padding (1 on each side) and the title length + space
+            const availableWidth = containerWidth - 2 - title.length - 1
+
+            const calculatedLength = Math.max(availableWidth, 10) // Minimum bar length of 10
+
+            setCalculatedBarLength(calculatedLength)
+        }
+    }, [title, propBarLength])
 
     // Create the full text including title and bar
+    const barLength = propBarLength || calculatedBarLength
     const bar = '─'.repeat(barLength)
     const fullText = `${title} ${bar}`
     const characters = fullText.split('')
@@ -39,7 +64,9 @@ export function LoadingBar(props: LoadingBarProps): any {
     useEffect(() => {
         if (isLoading) {
             intervalRef.current = setInterval(() => {
-                setPosition((prev) => (prev + 1) % (characters.length + waveWidth))
+                setPosition(
+                    (prev) => (prev + 1) % (characters.length + waveWidth),
+                )
             }, 25) // Faster animation
         } else {
             if (intervalRef.current) {
@@ -65,11 +92,11 @@ export function LoadingBar(props: LoadingBarProps): any {
 
         // Title text stays static when loading, only animate the bar
         if (index < title.length) {
-            return Theme.textMuted  // Keep title text muted during loading
+            return Theme.textMuted // Keep title text muted during loading
         }
 
         // Only animate the bar part
-        const barIndex = index - title.length - 1  // Adjust for space after title
+        const barIndex = index - title.length - 1 // Adjust for space after title
         const distance = position - barIndex
 
         // If character is within the wave (behind the current position)
@@ -82,13 +109,19 @@ export function LoadingBar(props: LoadingBarProps): any {
     }
 
     return (
-        <box style={{ flexDirection: 'row' }}>
+        <box
+            ref={(el) => {
+                containerRef.current = el
+            }}
+            style={{
+                flexDirection: 'row',
+                flexGrow: 1,
+                paddingLeft: 1,
+                paddingRight: 1,
+            }}
+        >
             {characters.map((char, index) => (
-                <text
-                    key={index}
-                    fg={getCharacterColor(index)}
-                    attributes={index <= title.length && !isLoading ? 1 : undefined} // Bold for title when not loading
-                >
+                <text key={index} fg={getCharacterColor(index)}>
                     {char}
                 </text>
             ))}
