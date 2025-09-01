@@ -67,7 +67,7 @@ function ListWithDropdownExample() {
     return (
         <List
             navigationTitle="Search Beers"
-            searchBarPlaceholder="Search your favorite drink"
+            // searchBarPlaceholder="Search your favorite drink"
             searchBarAccessory={
                 <DrinkDropdown
                     drinkTypes={drinkTypes}

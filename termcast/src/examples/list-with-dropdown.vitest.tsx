@@ -48,6 +48,30 @@ test('list with dropdown navigation', async () => {
 
     // Press ctrl+p to open dropdown
     await driver.keys.ctrlP()
+    
+    // Capture snapshot immediately after pressing ctrl+p
+    const immediatelyAfterCtrlPSnapshot = await driver.text()
+    expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
+      "
+
+
+      Select Drink Type                                          esc
+
+      Search...
+
+      Alcoholic Beverages
+      Beer
+      Wine
+
+      Non-Alcoholic
+      Soda
+      Juice
+
+
+      ↵ select   ↑↓ navigate
+
+      ↵ select   ↑↓ navigate   ^k actions"
+    `)
 
     const afterCtrlPSnapshot = await driver.text({
         waitFor: (text) => {
@@ -163,6 +187,30 @@ test('list with dropdown search and filter', async () => {
 
     // Open dropdown
     await driver.keys.ctrlP()
+    
+    // Capture snapshot immediately after pressing ctrl+p
+    const immediatelyAfterCtrlPSnapshot = await driver.text()
+    expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
+      "
+
+
+      Select Drink Type                                          esc
+
+      Search...
+
+      Alcoholic Beverages
+      Beer
+      Wine
+
+      Non-Alcoholic
+      Soda
+      Juice
+
+
+      ↵ select   ↑↓ navigate
+
+      ↵ select   ↑↓ navigate   ^k actions"
+    `)
 
     await driver.text({
         waitFor: (text) => {
