@@ -96,7 +96,7 @@ export function Dialog({ children, position = 'center', onClickOutside }: Dialog
       left={0}
       top={0}
       backgroundColor={RGBA.fromInts(0, 0, 0, 150)}
-      onMouseDown={inFocus && onClickOutside ? handleBackdropClick : undefined}
+      onMouseDown={handleBackdropClick}
     >
       <box
         border={false}
@@ -135,7 +135,7 @@ export function DialogProvider(props: DialogProviderProps): any {
 
   return (
     <>
-      <InFocus key={String(dialogStack?.length)} inFocus={!dialogStack?.length}>
+      <InFocus inFocus={!dialogStack?.length}>
         {props.children}
       </InFocus>
       {dialogStack.length > 0 && (
@@ -143,7 +143,7 @@ export function DialogProvider(props: DialogProviderProps): any {
           {dialogStack.map((item, index) => {
             const isLastItem = index === dialogStack.length - 1
             return (
-              <InFocus key={String(index)} inFocus={isLastItem}>
+              <InFocus key={'dialog'+String(index)} inFocus={isLastItem}>
                 <Dialog
                   position={item.position}
                   onClickOutside={() => {
