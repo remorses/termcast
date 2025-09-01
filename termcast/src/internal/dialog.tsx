@@ -1,10 +1,11 @@
 import { useKeyboard, useTerminalDimensions } from "@opentui/react"
-import React, { type ReactNode } from "react"
+import React, { type ReactNode, useRef } from "react"
 import { Theme } from "@termcast/cli/src/theme"
 import { RGBA } from "@opentui/core"
 import { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 import { CommonProps } from '@termcast/cli/src/utils'
 import { useStore, type DialogPosition, type DialogStackItem } from '@termcast/cli/src/state'
+import { logger } from "../logger"
 
 const Border = {
   topLeft: "┃",
@@ -25,10 +26,25 @@ export type { DialogPosition } from '@termcast/cli/src/state'
 interface DialogProps extends CommonProps {
   children: ReactNode
   position?: DialogPosition
+  onClickOutside?: () => void
 }
 
-export function Dialog({ children, position = 'center' }: DialogProps): any {
+export function Dialog({ children, position = 'center', onClickOutside }: DialogProps): any {
   const dimensions = useTerminalDimensions()
+  const inFocus = useIsInFocus()
+  const clickedInsideDialog = useRef(false)
+
+  const handleBackdropClick = () => {
+    if (!inFocus) return
+    if (!clickedInsideDialog.current) {
+      onClickOutside?.()
+    }
+    clickedInsideDialog.current = false
+  }
+
+  const handleDialogClick = () => {
+    clickedInsideDialog.current = true
+  }
 
   const getPositionStyles = () => {
     switch (position) {
@@ -80,6 +96,7 @@ export function Dialog({ children, position = 'center' }: DialogProps): any {
       left={0}
       top={0}
       backgroundColor={RGBA.fromInts(0, 0, 0, 150)}
+      onMouseDown={inFocus && onClickOutside ? handleBackdropClick : undefined}
     >
       <box
         border={false}
@@ -89,6 +106,7 @@ export function Dialog({ children, position = 'center' }: DialogProps): any {
         backgroundColor={Theme.backgroundPanel}
         borderColor={Theme.border}
         paddingTop={1}
+        onMouseDown={handleDialogClick}
       >
         {children}
       </box>
@@ -117,7 +135,7 @@ export function DialogProvider(props: DialogProviderProps): any {
 
   return (
     <>
-      <InFocus inFocus={dialogStack.length === 0}>
+      <InFocus key={String(dialogStack?.length)} inFocus={!dialogStack?.length}>
         {props.children}
       </InFocus>
       {dialogStack.length > 0 && (
@@ -126,7 +144,16 @@ export function DialogProvider(props: DialogProviderProps): any {
             const isLastItem = index === dialogStack.length - 1
             return (
               <InFocus key={String(index)} inFocus={isLastItem}>
-                <Dialog position={item.position}>
+                <Dialog
+                  position={item.position}
+                  onClickOutside={() => {
+                    if (!isLastItem) return
+                    const state = useStore.getState()
+                    if (state.dialogStack.length > 0) {
+                      useStore.setState({ dialogStack: state.dialogStack.slice(0, -1) })
+                    }
+                  }}
+                >
                   {item.element}
                 </Dialog>
               </InFocus>
@@ -140,22 +167,22 @@ export function DialogProvider(props: DialogProviderProps): any {
 
 export function useDialog() {
   const dialogStack = useStore((state) => state.dialogStack)
-  
+
   const pushDialog = (element: ReactNode, position?: DialogPosition) => {
     const state = useStore.getState()
-    useStore.setState({ 
-      dialogStack: [...state.dialogStack, { element, position }] 
+    useStore.setState({
+      dialogStack: [...state.dialogStack, { element, position }]
     })
   }
-  
+
   const clearDialogs = () => {
     useStore.setState({ dialogStack: [] })
   }
-  
+
   const replaceDialog = (element: ReactNode, position?: DialogPosition) => {
     useStore.setState({ dialogStack: [{ element, position }] })
   }
-  
+
   return {
     push: pushDialog,
     clear: clearDialogs,
