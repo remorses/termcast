@@ -127,6 +127,9 @@ export class NodeTuiDriver {
         ctrlK: () => {
             return this.write('\x0b')
         },
+        ctrlP: () => {
+            return this.write('\x10')
+        },
         ctrlC: () => {
             return this.write('\x03')
         },
