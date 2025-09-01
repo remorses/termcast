@@ -100,7 +100,7 @@ export function LoadingBar(props: LoadingBarProps): any {
     const getCharacterColor = (index: number): string => {
         if (!isLoading) {
             // When not loading, use default theme colors
-            return index < title.length ? Theme.text : Theme.textMuted
+            return index < title.length ? Theme.text : '#626262'
         }
 
         // Title text stays static when loading, only animate the bar
