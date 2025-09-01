@@ -245,6 +245,50 @@ export class NodeTuiDriver {
         this.pty!.resize(cols, rows)
     }
 
+    click(x: number, y: number) {
+        // Send mouse click escape sequence
+        // ESC[<0;x;yM for button press, ESC[<0;x;ym for button release
+        // x and y are 1-based in the terminal protocol
+        const xPos = x + 1
+        const yPos = y + 1
+        // Button press (0 = left button)
+        this.pty!.write(`\x1b[<0;${xPos};${yPos}M`)
+        // Button release
+        return this.write(`\x1b[<0;${xPos};${yPos}m`)
+    }
+
+    async clickText(
+        pattern: string | RegExp,
+        options?: { timeout?: number }
+    ): Promise<void> {
+        const timeout = options?.timeout ?? 5000
+        const startTime = Date.now()
+        const regex = typeof pattern === 'string' 
+            ? new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+            : pattern
+
+        while (Date.now() - startTime < timeout) {
+            await this.waitIdle({ timeout: 100 })
+            
+            // Get the current buffer state
+            const b = this.term.buffer.active
+            
+            // Search through each line for the pattern
+            for (let y = 0; y < this.rows; y++) {
+                const line = b.getLine(y)?.translateToString(true) ?? ''
+                const match = line.match(regex)
+                
+                if (match && match.index !== undefined) {
+                    // Found the text, click on the first character
+                    await this.click(match.index, y)
+                    return
+                }
+            }
+        }
+
+        throw new Error(`Text matching pattern "${pattern}" not found within ${timeout}ms`)
+    }
+
     dispose() {
         this.pty?.kill()
         this.term.dispose()
