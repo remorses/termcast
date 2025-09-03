@@ -22,10 +22,15 @@
   "workspaces": [
     "./*"
   ],
+
+
   "trustedDependencies": [
     "@tailwindcss/oxide",
     "esbuild",
     "node-pty",
-    "node-pty-prebuilt-multiarch"
+    "node-pty-prebuilt-multiarch",
+    "node-window-manager",
+    "extract-file-icon",
+    "node-gyp-build"
   ]
 }
