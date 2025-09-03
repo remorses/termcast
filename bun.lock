@@ -37,6 +37,7 @@
         "google-auth-library": "^10.3.0",
         "jszip": "^3.10.1",
         "node-pty": "^1.1.0-beta34",
+        "node-window-manager": "^2.2.4",
         "react": "^19.1.1",
         "react-hook-form": "^7.62.0",
         "zustand": "^5.0.8",
@@ -90,6 +91,9 @@
     "@tailwindcss/oxide",
     "esbuild",
     "node-pty",
+    "extract-file-icon",
+    "node-gyp-build",
+    "node-window-manager",
   ],
   "packages": {
     "@actions/cache": ["@actions/cache@3.3.0", "", { "dependencies": { "@actions/core": "^1.11.1", "@actions/exec": "^1.0.1", "@actions/glob": "^0.1.0", "@actions/http-client": "^2.1.1", "@actions/io": "^1.0.1", "@azure/abort-controller": "^1.1.0", "@azure/ms-rest-js": "^2.6.0", "@azure/storage-blob": "^12.13.0", "semver": "^6.3.1" } }, "sha512-+eCsMTIZUEm+QA9GqjollOhCdvRrZ1JV8d9Rp34zVNizBkYITO8dhKczP5Xps1dFzc5n59p7vYVtZrGt18bb5Q=="],
@@ -920,6 +924,8 @@
 
     "extendable-error": ["extendable-error@0.1.7", "", {}, "sha512-UOiS2in6/Q0FK0R0q6UY9vYpQ21mr/Qn1KOnte7vsACuNJf514WvCCUHSRCPcgjPT2bAhNIJdlE6bVap1GKmeg=="],
 
+    "extract-file-icon": ["extract-file-icon@0.3.2", "", { "dependencies": { "node-addon-api": "1.7.1" } }, "sha512-We5/HaMDlioOx3c9zDjit8RtKWEvT94sJF8jTujaKVOyWL8Kkqu4QGnwDr5fID6XsbKvWT0JJNuWuV2Tmr7yiw=="],
+
     "fast-glob": ["fast-glob@3.3.3", "", { "dependencies": { "@nodelib/fs.stat": "^2.0.2", "@nodelib/fs.walk": "^1.2.3", "glob-parent": "^5.1.2", "merge2": "^1.3.0", "micromatch": "^4.0.8" } }, "sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg=="],
 
     "fast-levenshtein": ["fast-levenshtein@3.0.0", "", { "dependencies": { "fastest-levenshtein": "^1.0.7" } }, "sha512-hKKNajm46uNmTlhHSyZkmToAc56uZJwYq7yrciZjqOxnlfQwERDQJmHPUp7m1m9wx8vgOe8IaCKZ5Kv2k1DdCQ=="],
@@ -1190,9 +1196,13 @@
 
     "node-fetch": ["node-fetch@3.3.2", "", { "dependencies": { "data-uri-to-buffer": "^4.0.0", "fetch-blob": "^3.1.4", "formdata-polyfill": "^4.0.10" } }, "sha512-dRB78srN/l6gqWulah9SrxeYnxeddIG30+GOqK/9OlLVyLg3HPnr6SqOWTWOXKRwC2eGYCkZ59NNuSgvSrpgOA=="],
 
+    "node-gyp-build": ["node-gyp-build@4.8.4", "", { "bin": { "node-gyp-build": "bin.js", "node-gyp-build-optional": "optional.js", "node-gyp-build-test": "build-test.js" } }, "sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ=="],
+
     "node-pty": ["node-pty@1.1.0-beta9", "", { "dependencies": { "node-addon-api": "^7.1.0" } }, "sha512-/Ue38pvXJdgRZ3+me1FgfglLd301GhJN0NStiotdt61tm43N5htUyR/IXOUzOKuNaFmCwIhy6nwb77Ky41LMbw=="],
 
     "node-releases": ["node-releases@2.0.19", "", {}, "sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw=="],
+
+    "node-window-manager": ["node-window-manager@2.2.4", "", { "dependencies": { "extract-file-icon": "^0.3.2", "node-addon-api": "2.0.0", "node-gyp-build": "^4.2.1" } }, "sha512-Dgq9a7qx6+Gi+BifWM79leteNz76QUtwSsdiqEe7SjvoJsc8TYQsRl1IA5uxqz5iSLeHS1iA/8YI/snoq0DblA=="],
 
     "normalize-package-data": ["normalize-package-data@5.0.0", "", { "dependencies": { "hosted-git-info": "^6.0.0", "is-core-module": "^2.8.1", "semver": "^7.3.5", "validate-npm-package-license": "^3.0.4" } }, "sha512-h9iPVIfrVZ9wVYQnxFgtw1ugSvGEMOlyPWWtm8BMJhnwyEL/FLbYbTY3V3PpjI/BUK67n9PEWDu6eHzu1fB15Q=="],
 
@@ -1696,6 +1706,8 @@
 
     "express/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
 
+    "extract-file-icon/node-addon-api": ["node-addon-api@1.7.1", "", {}, "sha512-2+DuKodWvwRTrCfKOeR24KIc5unKjOh8mz17NCzVnHWfjAdDqbfbjqh7gUT+BkXBRQM52+xCHciKWonJ3CbJMQ=="],
+
     "filelist/minimatch": ["minimatch@5.1.6", "", { "dependencies": { "brace-expansion": "^2.0.1" } }, "sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g=="],
 
     "finalhandler/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
@@ -1715,6 +1727,8 @@
     "morgan/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
 
     "morgan/on-finished": ["on-finished@2.3.0", "", { "dependencies": { "ee-first": "1.1.1" } }, "sha512-ikqdkGAAyf/X/gPhXGvfgAytDZtDbr+bkNUJ0N9h5MI/dmdgCs3l6hoHrcUv41sRKew3jIwrp4qQDXiK99Utww=="],
+
+    "node-window-manager/node-addon-api": ["node-addon-api@2.0.0", "", {}, "sha512-ASCL5U13as7HhOExbT6OlWJJUV/lLzL2voOSP1UVehpRD8FbSrSDjfScK/KwAvVTI5AS6r4VwbOMlIqtvRidnA=="],
 
     "p-locate/p-limit": ["p-limit@4.0.0", "", { "dependencies": { "yocto-queue": "^1.0.0" } }, "sha512-5b0R4txpzjPWVw/cXXUResoD4hb6U/x9BH08L7nw+GN1sezDzPdxeRvpc9c433fZhBan/wusjbCsqwqm4EIBIQ=="],
 

@@ -18,7 +18,9 @@ import {
   captureException,
   getPreferenceValues,
   openExtensionPreferences,
-  openCommandPreferences
+  openCommandPreferences,
+  closeMainWindow,
+  PopToRootType
 } from '@termcast/cli'
 import { confirmAlert, Alert } from '@termcast/cli'
 import { showToast, Toast } from '@termcast/cli'
@@ -707,6 +709,53 @@ function MiscellaneousExample(): any {
                       title: "Exception captured"
                     })
                   }
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+      </List.Section>
+
+      <List.Section title="Window Management">
+        <List.Item
+          title="Close Main Window"
+          subtitle="Close window and switch to previous app"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Close Window"
+                onAction={async () => {
+                  await closeMainWindow()
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Close Window with Clear Search"
+          subtitle="Close and clear root search"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Close & Clear"
+                onAction={async () => {
+                  await closeMainWindow({ clearRootSearch: true })
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title="Close Window (Suspended)"
+          subtitle="Close without popping to root"
+          actions={
+            <ActionPanel>
+              <Action
+                title="Close Suspended"
+                onAction={async () => {
+                  await closeMainWindow({ popToRootType: PopToRootType.Suspended })
                 }}
               />
             </ActionPanel>
