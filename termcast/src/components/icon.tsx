@@ -78,7 +78,7 @@ export const iconToEmoji: Record<string, string> = {
   'center-16': '⬚',
   'check-16': '✓',
   'check-circle-16': '✅',
-  'check-list-16': '☑',
+  'check-list-16': '✓',
   'check-rosette-16': '✅',
   'checkmark-16': '✓',
   'chess-piece-16': '♟️',
