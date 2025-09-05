@@ -15,16 +15,18 @@ The iOS OAuth client (ID: `561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.go
 5. Give it a name (e.g., "Termcast CLI")
 6. Click **Create**
 7. You'll receive:
-   - Client ID (e.g., `123456-abc.apps.googleusercontent.com`)
-   - Client Secret (e.g., `GOCSPX-...`)
+    - Client ID (e.g., `123456-abc.apps.googleusercontent.com`)
+    - Client Secret (e.g., `GOCSPX-...`)
 
 Then update your environment variables:
+
 ```bash
 export GOOGLE_DEVICE_CLIENT_ID="your-new-client-id"
 export GOOGLE_DEVICE_CLIENT_SECRET="your-client-secret"
 ```
 
 And run:
+
 ```bash
 bun src/examples/oauth-google.tsx
 ```
@@ -38,8 +40,8 @@ bun src/examples/oauth-google.tsx
 5. Give it a name (e.g., "Termcast Desktop")
 6. Click **Create**
 7. You'll receive:
-   - Client ID
-   - Client Secret
+    - Client ID
+    - Client Secret
 
 Desktop clients also support the standard OAuth flow with localhost redirect.
 
@@ -52,24 +54,26 @@ bun src/examples/oauth-google-ios.tsx
 ```
 
 This will:
+
 - Open your browser
 - Redirect to `http://localhost:8989/oauth/callback`
 - Exchange the code for tokens
 
 ## Client Type Comparison
 
-| Client Type | Device Flow | Localhost Redirect | Client Secret | Use Case |
-|------------|-------------|-------------------|---------------|-----------|
-| iOS | ❌ No | ✅ Yes | ❌ No | Mobile apps |
-| TVs and Limited Input | ✅ Yes | ❌ No | ✅ Yes | CLI tools, smart TVs |
-| Desktop app | ❌ No | ✅ Yes | ✅ Yes | Desktop applications |
-| Web application | ❌ No | ✅ Yes* | ✅ Yes | Web servers |
+| Client Type           | Device Flow | Localhost Redirect | Client Secret | Use Case             |
+| --------------------- | ----------- | ------------------ | ------------- | -------------------- |
+| iOS                   | ❌ No       | ✅ Yes             | ❌ No         | Mobile apps          |
+| TVs and Limited Input | ✅ Yes      | ❌ No              | ✅ Yes        | CLI tools, smart TVs |
+| Desktop app           | ❌ No       | ✅ Yes             | ✅ Yes        | Desktop applications |
+| Web application       | ❌ No       | ✅ Yes\*           | ✅ Yes        | Web servers          |
 
-*Web applications require specific redirect URIs to be configured
+\*Web applications require specific redirect URIs to be configured
 
 ## Why This Happens
 
 Google segregates OAuth clients by type for security:
+
 - **iOS/Android clients**: For mobile apps, use custom URL schemes
 - **TV/Device clients**: For devices without keyboards, use device flow
 - **Desktop clients**: For desktop apps, use localhost redirects
@@ -84,23 +88,25 @@ Once you have the right credentials:
 ```typescript
 // For TV/Device client (device flow):
 const googleOAuth = OAuthService.google({
-  clientId: process.env.GOOGLE_DEVICE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_DEVICE_CLIENT_SECRET,
-  scope: 'https://www.googleapis.com/auth/userinfo.email'
+    clientId: process.env.GOOGLE_DEVICE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_DEVICE_CLIENT_SECRET,
+    scope: 'https://www.googleapis.com/auth/userinfo.email',
 })
 
 // For iOS client (standard flow):
 const googleOAuth = new OAuthService({
-  clientId: '561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.googleusercontent.com',
-  clientSecret: undefined,
-  useDeviceFlow: false,
-  // ... rest of config
+    clientId:
+        '561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.googleusercontent.com',
+    clientSecret: undefined,
+    useDeviceFlow: false,
+    // ... rest of config
 })
 ```
 
 ## Recommendation
 
 For a CLI tool like Termcast, use **"TVs and Limited Input devices"** OAuth client. It's specifically designed for terminal/CLI scenarios where:
+
 - You can't easily redirect back to the app
 - The user might be in SSH or remote terminal
 - You want a simple "go to this URL and enter this code" flow

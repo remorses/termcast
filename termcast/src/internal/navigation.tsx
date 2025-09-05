@@ -47,9 +47,10 @@ export function NavigationProvider(props: NavigationProviderProps): any {
             throw new Error(`cannot push falsy value ${component}`)
         }
 
-
-
-        logger.log('pushing', (component as any)?.type?.name || (component as any)?.type)
+        logger.log(
+            'pushing',
+            (component as any)?.type?.name || (component as any)?.type,
+        )
 
         const currentStack = useStore.getState().navigationStack
         useStore.setState({

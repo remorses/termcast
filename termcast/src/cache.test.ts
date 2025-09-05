@@ -10,7 +10,7 @@ describe('Cache', () => {
     beforeEach(() => {
         cache = new Cache({ namespace: `test-${Date.now()}-${Math.random()}` })
     })
-    
+
     afterAll(() => {
         // Optional: Clean up test databases after all tests
         // const testDbPattern = path.join(os.homedir(), '.termcast-cache*.db')
@@ -74,12 +74,12 @@ describe('Cache', () => {
         test('does not affect LRU order', () => {
             cache.set('key1', 'value1')
             cache.set('key2', 'value2')
-            
+
             // has() should not affect LRU, so key1 is still oldest
             cache.has('key1')
             cache.has('key1')
             cache.has('key1')
-            
+
             // Add more data to potentially trigger eviction
             // key1 should still be first to be evicted since has() doesn't update LRU
             expect(cache.has('key1')).toBe(true)
@@ -122,9 +122,9 @@ describe('Cache', () => {
             cache.set('key1', 'value1')
             cache.set('key2', 'value2')
             cache.set('key3', 'value3')
-            
+
             cache.clear()
-            
+
             expect(cache.get('key1')).toBeUndefined()
             expect(cache.get('key2')).toBeUndefined()
             expect(cache.get('key3')).toBeUndefined()
@@ -136,9 +136,9 @@ describe('Cache', () => {
         test('notifies subscriber on set', () => {
             const subscriber = jest.fn()
             cache.subscribe(subscriber)
-            
+
             cache.set('key', 'value')
-            
+
             expect(subscriber).toHaveBeenCalledWith('key', 'value')
         })
 
@@ -146,9 +146,9 @@ describe('Cache', () => {
             const subscriber = jest.fn()
             cache.set('key', 'value')
             cache.subscribe(subscriber)
-            
+
             cache.remove('key')
-            
+
             expect(subscriber).toHaveBeenCalledWith('key', undefined)
         })
 
@@ -156,9 +156,9 @@ describe('Cache', () => {
             const subscriber = jest.fn()
             cache.set('key', 'value')
             cache.subscribe(subscriber)
-            
+
             cache.clear()
-            
+
             expect(subscriber).toHaveBeenCalledWith(undefined, undefined)
         })
 
@@ -166,21 +166,21 @@ describe('Cache', () => {
             const subscriber = jest.fn()
             cache.set('key', 'value')
             cache.subscribe(subscriber)
-            
+
             cache.clear({ notifySubscribers: false })
-            
+
             expect(subscriber).not.toHaveBeenCalled()
         })
 
         test('unsubscribe stops notifications', () => {
             const subscriber = jest.fn()
             const unsubscribe = cache.subscribe(subscriber)
-            
+
             cache.set('key1', 'value1')
             expect(subscriber).toHaveBeenCalledTimes(1)
-            
+
             unsubscribe()
-            
+
             cache.set('key2', 'value2')
             expect(subscriber).toHaveBeenCalledTimes(1) // Still 1, not called again
         })
@@ -188,12 +188,12 @@ describe('Cache', () => {
         test('handles multiple subscribers', () => {
             const subscriber1 = jest.fn()
             const subscriber2 = jest.fn()
-            
+
             cache.subscribe(subscriber1)
             cache.subscribe(subscriber2)
-            
+
             cache.set('key', 'value')
-            
+
             expect(subscriber1).toHaveBeenCalledWith('key', 'value')
             expect(subscriber2).toHaveBeenCalledWith('key', 'value')
         })
@@ -203,10 +203,10 @@ describe('Cache', () => {
                 throw new Error('Subscriber error')
             })
             const normalSubscriber = jest.fn()
-            
+
             cache.subscribe(errorSubscriber)
             cache.subscribe(normalSubscriber)
-            
+
             // Should not throw, and normal subscriber should still be called
             expect(() => cache.set('key', 'value')).not.toThrow()
             expect(normalSubscriber).toHaveBeenCalledWith('key', 'value')
@@ -215,13 +215,16 @@ describe('Cache', () => {
 
     describe('capacity management', () => {
         test('evicts least recently used items when capacity exceeded', () => {
-            const smallCache = new Cache({ capacity: 100, namespace: `capacity-test-${Date.now()}` })
-            
+            const smallCache = new Cache({
+                capacity: 100,
+                namespace: `capacity-test-${Date.now()}`,
+            })
+
             // Add items that together exceed capacity
             smallCache.set('old', 'x'.repeat(40))
             smallCache.set('medium', 'y'.repeat(40))
             smallCache.set('new', 'z'.repeat(40)) // This should trigger eviction
-            
+
             // Old item should be evicted
             expect(smallCache.get('old')).toBeUndefined()
             expect(smallCache.get('medium')).toBe('y'.repeat(40))
@@ -229,17 +232,20 @@ describe('Cache', () => {
         })
 
         test('updates LRU order on get', () => {
-            const smallCache = new Cache({ capacity: 100, namespace: `lru-test-${Date.now()}` })
-            
+            const smallCache = new Cache({
+                capacity: 100,
+                namespace: `lru-test-${Date.now()}`,
+            })
+
             smallCache.set('first', 'x'.repeat(30))
             smallCache.set('second', 'y'.repeat(30))
-            
+
             // Access first item to make it more recent
             smallCache.get('first')
-            
+
             // Add new item that triggers eviction
             smallCache.set('third', 'z'.repeat(50))
-            
+
             // Second should be evicted, not first (because we accessed first after second)
             expect(smallCache.get('first')).toBe('x'.repeat(30))
             expect(smallCache.get('second')).toBeUndefined()
@@ -266,7 +272,8 @@ describe('Cache', () => {
         })
 
         test('handles special characters in data', () => {
-            const specialData = 'data with !@#$%^&*()_+={}[]|\\:";\'<>?,./\n\t\r'
+            const specialData =
+                'data with !@#$%^&*()_+={}[]|\\:";\'<>?,./\n\t\r'
             cache.set('key', specialData)
             expect(cache.get('key')).toBe(specialData)
         })

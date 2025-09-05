@@ -58,11 +58,17 @@ export namespace LocalStorage {
         [key: string]: any
     }
 
-    export async function getItem<T extends Value = Value>(key: string): Promise<T | undefined> {
+    export async function getItem<T extends Value = Value>(
+        key: string,
+    ): Promise<T | undefined> {
         return new Promise((resolve) => {
             try {
                 const db = getDatabase()
-                const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get(key) as { value: string; type: string } | undefined
+                const row = db
+                    .prepare(
+                        'SELECT value, type FROM localstorage WHERE key = ?',
+                    )
+                    .get(key) as { value: string; type: string } | undefined
 
                 if (!row) {
                     resolve(undefined)
@@ -89,10 +95,14 @@ export namespace LocalStorage {
         })
     }
 
-    export function getItemSync<T extends Value = Value>(key: string): T | undefined {
+    export function getItemSync<T extends Value = Value>(
+        key: string,
+    ): T | undefined {
         try {
             const db = getDatabase()
-            const row = db.prepare('SELECT value, type FROM localstorage WHERE key = ?').get(key) as { value: string; type: string } | undefined
+            const row = db
+                .prepare('SELECT value, type FROM localstorage WHERE key = ?')
+                .get(key) as { value: string; type: string } | undefined
 
             if (!row) {
                 return undefined
@@ -124,7 +134,9 @@ export namespace LocalStorage {
                 const type = typeof value
                 const stringValue = String(value)
 
-                db.prepare('INSERT OR REPLACE INTO localstorage (key, value, type) VALUES (?, ?, ?)').run(key, stringValue, type)
+                db.prepare(
+                    'INSERT OR REPLACE INTO localstorage (key, value, type) VALUES (?, ?, ?)',
+                ).run(key, stringValue, type)
                 resolve()
             } catch (err) {
                 logger.error('LocalStorage.setItem error:', err)
@@ -150,7 +162,13 @@ export namespace LocalStorage {
         return new Promise((resolve, reject) => {
             try {
                 const db = getDatabase()
-                const rows = db.prepare('SELECT key, value, type FROM localstorage').all() as Array<{ key: string; value: string; type: string }>
+                const rows = db
+                    .prepare('SELECT key, value, type FROM localstorage')
+                    .all() as Array<{
+                    key: string
+                    value: string
+                    type: string
+                }>
 
                 const result: Values = {}
                 for (const row of rows) {

@@ -35,10 +35,12 @@ interface MetadataProps {
 interface LabelProps {
     title: string
     icon?: Image.ImageLike | undefined | null
-    text?: string | {
-        value: string
-        color?: Color | null
-    }
+    text?:
+        | string
+        | {
+              value: string
+              color?: Color | null
+          }
 }
 
 interface SeparatorProps {}
@@ -67,8 +69,10 @@ interface DetailType {
 }
 
 const DetailMetadataLabel = (props: LabelProps): any => {
-    const textValue = typeof props.text === 'string' ? props.text : props.text?.value
-    const textColor = typeof props.text === 'object' ? props.text?.color : undefined
+    const textValue =
+        typeof props.text === 'string' ? props.text : props.text?.value
+    const textColor =
+        typeof props.text === 'object' ? props.text?.color : undefined
 
     return (
         <box
@@ -80,9 +84,7 @@ const DetailMetadataLabel = (props: LabelProps): any => {
             <text fg={Theme.textMuted} style={{ minWidth: 15 }}>
                 {props.title}:
             </text>
-            <text fg={textColor || Theme.text}>
-                {textValue || '—'}
-            </text>
+            <text fg={textColor || Theme.text}>{textValue || '—'}</text>
         </box>
     )
 }
@@ -126,7 +128,7 @@ const DetailMetadataTagListItem = (props: TagListItemProps): any => {
             fg={props.color || Theme.text}
             style={{
                 paddingRight: 1,
-                paddingLeft: props.icon ? 1 : 0
+                paddingLeft: props.icon ? 1 : 0,
             }}
         >
             {displayText}
@@ -150,9 +152,7 @@ const DetailMetadataTagList: DetailMetadataTagListType = (props) => {
             <text fg={Theme.textMuted} style={{ minWidth: 15 }}>
                 {props.title}:
             </text>
-            <box style={{ flexDirection: 'row' }}>
-                {props.children}
-            </box>
+            <box style={{ flexDirection: 'row' }}>{props.children}</box>
         </box>
     )
 }
@@ -187,7 +187,13 @@ DetailMetadata.Separator = DetailMetadataSeparator
 DetailMetadata.Link = DetailMetadataLink
 DetailMetadata.TagList = DetailMetadataTagList
 
-function DetailFooter({ hasActions, firstActionTitle }: { hasActions?: boolean; firstActionTitle?: string }): any {
+function DetailFooter({
+    hasActions,
+    firstActionTitle,
+}: {
+    hasActions?: boolean
+    firstActionTitle?: string
+}): any {
     const toast = useStore((state) => state.toast)
 
     if (toast) {
@@ -224,7 +230,7 @@ function DetailFooter({ hasActions, firstActionTitle }: { hasActions?: boolean; 
             {hasActions && (
                 <>
                     <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                        {"   "}^k
+                        {'   '}^k
                     </text>
                     <text fg={Theme.textMuted}> actions</text>
                 </>
@@ -232,7 +238,7 @@ function DetailFooter({ hasActions, firstActionTitle }: { hasActions?: boolean; 
             {hasActions && firstActionTitle && (
                 <>
                     <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-                        {"   "}↵
+                        {'   '}↵
                     </text>
                     <text fg={Theme.textMuted}> {firstActionTitle}</text>
                 </>
@@ -250,7 +256,14 @@ function getFirstActionTitle(actions: ReactNode): string | undefined {
             if (firstTitle) return
 
             if (React.isValidElement(child)) {
-                const actionTypes = [Action, Action.Push, Action.CopyToClipboard, Action.OpenInBrowser, Action.Open, Action.Paste]
+                const actionTypes = [
+                    Action,
+                    Action.Push,
+                    Action.CopyToClipboard,
+                    Action.OpenInBrowser,
+                    Action.Open,
+                    Action.Paste,
+                ]
 
                 if (actionTypes.includes(child.type as any)) {
                     firstTitle = (child.props as any).title
@@ -332,7 +345,10 @@ const Detail: DetailType = (props) => {
     return (
         <box style={{ flexDirection: 'column', height: '100%' }}>
             {content}
-            <DetailFooter hasActions={!!actions} firstActionTitle={firstActionTitle} />
+            <DetailFooter
+                hasActions={!!actions}
+                firstActionTitle={firstActionTitle}
+            />
         </box>
     )
 }

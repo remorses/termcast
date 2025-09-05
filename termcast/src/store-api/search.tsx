@@ -5,7 +5,6 @@
 //      -H 'accept-language: en-GB,en;q=0.9' \
 //      'https://backend.raycast.com/api/v1/store_listings/search?per_page=25&q=notion&include_native=true&page=1&platform=macOS'
 
-
 export async function searchStoreListings({
     query,
     page = 1,
@@ -24,26 +23,29 @@ export async function searchStoreListings({
         page: page.toString(),
         per_page: perPage.toString(),
         include_native: includeNative.toString(),
-        platform: platform
-    });
+        platform: platform,
+    })
 
-    const response = await fetch(`https://backend.raycast.com/api/v1/store_listings/search?${params}`, {
-        method: 'GET',
-        headers: {
-            'accept': 'application/json',
-            'content-type': 'application/json',
-            'user-agent': 'Raycast/1.102.6 (macOS Version 15.6 (Build 24G84))',
-            'accept-language': 'en-GB,en;q=0.9'
-        }
-    });
+    const response = await fetch(
+        `https://backend.raycast.com/api/v1/store_listings/search?${params}`,
+        {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'user-agent':
+                    'Raycast/1.102.6 (macOS Version 15.6 (Build 24G84))',
+                'accept-language': 'en-GB,en;q=0.9',
+            },
+        },
+    )
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    return await response.json() as StoreSearchResponse;
+    return (await response.json()) as StoreSearchResponse
 }
-
 
 interface StoreSearchResponse {
     data: StoreListing[]

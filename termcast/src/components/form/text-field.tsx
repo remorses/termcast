@@ -33,10 +33,13 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
                     return (
                         <box flexDirection='column'>
                             <box flexDirection='row'>
-
                                 <box
                                     border
-                                    title={isFocused ? `${props.title} ‹` : props.title}
+                                    title={
+                                        isFocused
+                                            ? `${props.title} ‹`
+                                            : props.title
+                                    }
                                     padding={1}
                                     backgroundColor={
                                         isFocused

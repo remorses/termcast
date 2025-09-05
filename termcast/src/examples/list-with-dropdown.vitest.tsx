@@ -48,7 +48,7 @@ test('list with dropdown navigation', async () => {
 
     // Press ctrl+p to open dropdown
     await driver.keys.ctrlP()
-    
+
     // Capture snapshot immediately after pressing ctrl+p
     const immediatelyAfterCtrlPSnapshot = await driver.text()
     expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
@@ -187,7 +187,7 @@ test('list with dropdown search and filter', async () => {
 
     // Open dropdown
     await driver.keys.ctrlP()
-    
+
     // Capture snapshot immediately after pressing ctrl+p
     const immediatelyAfterCtrlPSnapshot = await driver.text()
     expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`

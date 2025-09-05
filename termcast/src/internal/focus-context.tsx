@@ -15,9 +15,7 @@ interface InFocusProps extends CommonProps {
 export function InFocus({ children, inFocus }: InFocusProps): any {
     const value = React.useMemo(() => ({ inFocus }), [inFocus])
     return (
-        <FocusContext.Provider value={value}>
-            {children}
-        </FocusContext.Provider>
+        <FocusContext.Provider value={value}>{children}</FocusContext.Provider>
     )
 }
 

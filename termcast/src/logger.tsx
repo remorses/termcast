@@ -16,7 +16,7 @@ function serialize(msg: any): string {
     if (typeof msg === 'string') {
         return msg
     }
-    return Bun.inspect(msg, {depth: 3})
+    return Bun.inspect(msg, { depth: 3 })
 }
 
 export const logger = {
@@ -66,8 +66,19 @@ process.on('uncaughtException', (error: Error) => {
 
 process.on('unhandledRejection', async (reason: any, promise: Promise<any>) => {
     if (reason instanceof Error) {
-        logger.error('Unhandled Rejection at:', promise, 'reason:', reason.message, reason.stack)
+        logger.error(
+            'Unhandled Rejection at:',
+            promise,
+            'reason:',
+            reason.message,
+            reason.stack,
+        )
     } else {
-        logger.error('Unhandled Rejection at:', promise, 'reason:', serialize(reason))
+        logger.error(
+            'Unhandled Rejection at:',
+            promise,
+            'reason:',
+            serialize(reason),
+        )
     }
 })
