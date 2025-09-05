@@ -12,9 +12,15 @@ function getCurrentDatabasePath(): string {
     const extensionPath = useStore.getState().extensionPath
 
     if (extensionPath) {
-        return path.join(extensionPath, 'localstorage.db')
+        // Use .termcast-bundle directory inside extension path
+        return path.join(extensionPath, '.termcast-bundle', 'data.db')
     } else {
-        return path.join(os.homedir(), '.termcast', 'localstorage.db')
+        return path.join(
+            os.homedir(),
+            '.termcast',
+            '.termcast-bundle',
+            'data.db',
+        )
     }
 }
 
@@ -35,10 +41,17 @@ function getDatabase(): Database {
             fs.mkdirSync(dbDir, { recursive: true })
         }
 
-        db = new Database(dbPath)
+        // Open with options to reduce file usage
+        db = new Database(dbPath, {
+            create: true,
+            readwrite: true,
+        })
         currentDbPath = dbPath
 
+        // Use WAL mode and optimize for single file usage
         db.exec('PRAGMA journal_mode = WAL')
+        db.exec('PRAGMA wal_autocheckpoint = 1000')
+        db.exec('PRAGMA synchronous = NORMAL')
 
         db.exec(`
             CREATE TABLE IF NOT EXISTS localstorage (

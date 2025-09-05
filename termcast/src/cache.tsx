@@ -5,17 +5,19 @@ import * as fs from 'fs'
 import { logger } from './logger'
 import { useStore } from './state'
 
-function getCurrentDatabasePath(namespace?: string): string {
+function getCurrentDatabasePath(): string {
     const extensionPath = useStore.getState().extensionPath
 
     if (extensionPath) {
-        const dbName = namespace ? `cache-${namespace}.db` : 'cache.db'
-        return path.join(extensionPath, dbName)
+        // Use same shared database as localstorage
+        return path.join(extensionPath, '.termcast-bundle', 'data.db')
     } else {
-        const dbName = namespace
-            ? `.termcast-cache-${namespace}.db`
-            : '.termcast-cache.db'
-        return path.join(os.homedir(), '.termcast', dbName)
+        return path.join(
+            os.homedir(),
+            '.termcast',
+            '.termcast-bundle',
+            'data.db',
+        )
     }
 }
 
@@ -24,12 +26,18 @@ function getCurrentCacheDir(namespace?: string): string {
 
     if (extensionPath) {
         return namespace
-            ? path.join(extensionPath, 'cache', namespace)
-            : path.join(extensionPath, 'cache')
+            ? path.join(extensionPath, '.termcast-bundle', 'cache', namespace)
+            : path.join(extensionPath, '.termcast-bundle', 'cache')
     } else {
         return namespace
-            ? path.join(os.homedir(), '.termcast', 'cache', namespace)
-            : path.join(os.homedir(), '.termcast', 'cache')
+            ? path.join(
+                  os.homedir(),
+                  '.termcast',
+                  '.termcast-bundle',
+                  'cache',
+                  namespace,
+              )
+            : path.join(os.homedir(), '.termcast', '.termcast-bundle', 'cache')
     }
 }
 
@@ -46,14 +54,18 @@ export class Cache {
     private db: Database
     private capacity: number
     private namespace?: string
+    private tableName: string
     private subscribers: Cache.Subscriber[] = []
     private currentSize: number = 0
 
     constructor(options?: Cache.Options) {
         this.capacity = options?.capacity || Cache.DEFAULT_CAPACITY
         this.namespace = options?.namespace
+        // Replace non-alphanumeric characters with underscores for valid SQL table names
+        const safeNamespace = this.namespace?.replace(/[^a-zA-Z0-9]/g, '_')
+        this.tableName = safeNamespace ? `cache_${safeNamespace}` : 'cache'
 
-        const dbPath = getCurrentDatabasePath(this.namespace)
+        const dbPath = getCurrentDatabasePath()
 
         // Ensure parent directory exists
         const dbDir = path.dirname(dbPath)
@@ -61,14 +73,20 @@ export class Cache {
             fs.mkdirSync(dbDir, { recursive: true })
         }
 
-        this.db = new Database(dbPath)
+        // Open with options to reduce file usage
+        this.db = new Database(dbPath, {
+            create: true,
+            readwrite: true,
+        })
 
-        // Enable WAL mode for better concurrency
+        // Use WAL mode and optimize for single file usage
         this.db.exec('PRAGMA journal_mode = WAL')
+        this.db.exec('PRAGMA wal_autocheckpoint = 1000')
+        this.db.exec('PRAGMA synchronous = NORMAL')
 
         // Use rowid for ordering - it auto-increments and provides natural LRU order
         this.db.exec(`
-            CREATE TABLE IF NOT EXISTS cache (
+            CREATE TABLE IF NOT EXISTS ${this.tableName} (
                 rowid INTEGER PRIMARY KEY AUTOINCREMENT,
                 key TEXT UNIQUE NOT NULL,
                 data TEXT NOT NULL,
@@ -78,12 +96,12 @@ export class Cache {
 
         // Create index on key for fast lookups
         this.db.exec(`
-            CREATE INDEX IF NOT EXISTS idx_cache_key ON cache(key)
+            CREATE INDEX IF NOT EXISTS idx_${this.tableName}_key ON ${this.tableName}(key)
         `)
 
         // Calculate initial size
         const row = this.db
-            .prepare('SELECT SUM(size) as total FROM cache')
+            .prepare(`SELECT SUM(size) as total FROM ${this.tableName}`)
             .get() as { total: number | null } | undefined
         this.currentSize = row?.total || 0
 
@@ -104,7 +122,9 @@ export class Cache {
 
     get(key: string): string | undefined {
         const row = this.db
-            .prepare('SELECT rowid, data, size FROM cache WHERE key = ?')
+            .prepare(
+                `SELECT rowid, data, size FROM ${this.tableName} WHERE key = ?`,
+            )
             .get(key) as
             | { rowid: number; data: string; size: number }
             | undefined
@@ -112,10 +132,12 @@ export class Cache {
         if (row) {
             // Move to end of LRU by deleting and reinserting (gets new rowid)
             const tx = this.db.transaction(() => {
-                this.db.prepare('DELETE FROM cache WHERE key = ?').run(key)
+                this.db
+                    .prepare(`DELETE FROM ${this.tableName} WHERE key = ?`)
+                    .run(key)
                 this.db
                     .prepare(
-                        'INSERT INTO cache (key, data, size) VALUES (?, ?, ?)',
+                        `INSERT INTO ${this.tableName} (key, data, size) VALUES (?, ?, ?)`,
                     )
                     .run(key, row.data, row.size)
             })
@@ -129,14 +151,14 @@ export class Cache {
 
     has(key: string): boolean {
         const row = this.db
-            .prepare('SELECT 1 FROM cache WHERE key = ?')
+            .prepare(`SELECT 1 FROM ${this.tableName} WHERE key = ?`)
             .get(key)
         return !!row
     }
 
     get isEmpty(): boolean {
         const row = this.db
-            .prepare('SELECT COUNT(*) as count FROM cache')
+            .prepare(`SELECT COUNT(*) as count FROM ${this.tableName}`)
             .get() as { count: number }
         return row.count === 0
     }
@@ -146,7 +168,7 @@ export class Cache {
 
         // Get existing size if any
         const existingRow = this.db
-            .prepare('SELECT size FROM cache WHERE key = ?')
+            .prepare(`SELECT size FROM ${this.tableName} WHERE key = ?`)
             .get(key) as { size: number } | undefined
         const oldSize = existingRow?.size || 0
         const newTotalSize = this.currentSize - oldSize + dataSize
@@ -158,7 +180,7 @@ export class Cache {
         // Insert or update the cache entry
         this.db
             .prepare(
-                'INSERT OR REPLACE INTO cache (key, data, size) VALUES (?, ?, ?)',
+                `INSERT OR REPLACE INTO ${this.tableName} (key, data, size) VALUES (?, ?, ?)`,
             )
             .run(key, data, dataSize)
 
@@ -169,12 +191,14 @@ export class Cache {
     remove(key: string): boolean {
         // Check if key exists and get its size
         const row = this.db
-            .prepare('SELECT size FROM cache WHERE key = ?')
+            .prepare(`SELECT size FROM ${this.tableName} WHERE key = ?`)
             .get(key) as { size: number } | undefined
 
         if (row) {
             // Delete the key
-            this.db.prepare('DELETE FROM cache WHERE key = ?').run(key)
+            this.db
+                .prepare(`DELETE FROM ${this.tableName} WHERE key = ?`)
+                .run(key)
 
             this.currentSize -= row.size
             this.notifySubscribers(key, undefined)
@@ -185,7 +209,7 @@ export class Cache {
     }
 
     clear(options?: { notifySubscribers: boolean }): void {
-        this.db.exec('DELETE FROM cache')
+        this.db.exec(`DELETE FROM ${this.tableName}`)
         this.currentSize = 0
 
         if (options?.notifySubscribers !== false) {
@@ -206,7 +230,9 @@ export class Cache {
     private maintainCapacity(bytesToFree: number): void {
         // Order by rowid ASC to get oldest entries first
         const rows = this.db
-            .prepare('SELECT key, size FROM cache ORDER BY rowid ASC')
+            .prepare(
+                `SELECT key, size FROM ${this.tableName} ORDER BY rowid ASC`,
+            )
             .all() as Array<{ key: string; size: number }>
 
         let freedBytes = 0
@@ -223,7 +249,7 @@ export class Cache {
         if (keysToRemove.length > 0) {
             const placeholders = keysToRemove.map(() => '?').join(',')
             const stmt = this.db.prepare(
-                `DELETE FROM cache WHERE key IN (${placeholders})`,
+                `DELETE FROM ${this.tableName} WHERE key IN (${placeholders})`,
             )
             stmt.run(...(keysToRemove as [string, ...string[]]))
             this.currentSize -= freedBytes

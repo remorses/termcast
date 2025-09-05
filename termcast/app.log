@@ -1,9 +1,8 @@
-[2025-09-05T15:07:47.123Z] Store searching for: "s"
-[2025-09-05T15:07:47.204Z] Store searching for: "sp"
-[2025-09-05T15:07:47.260Z] Store searching for: "spi"
-[2025-09-05T15:07:47.293Z] Store searching for: "spic"
-[2025-09-05T15:07:47.318Z] Store searching for: "spice"
-[2025-09-05T15:07:47.344Z] Store searching for: "spiceb"
-[2025-09-05T15:07:47.369Z] Store searching for: "spicebl"
-[2025-09-05T15:07:47.395Z] Store searching for: "spiceblo"
-[2025-09-05T15:07:47.419Z] Store searching for: "spiceblow"
+[2025-09-05T15:12:05.252Z] ERROR: Cache subscriber error: Subscriber error
+Error: Subscriber error
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.test.ts:203:27)
+    at unknown
+    at notifySubscribers (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.tsx:265:17)
+    at set (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.tsx:188:14)
+    at toThrow (unknown)
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.test.ts:211:57)
