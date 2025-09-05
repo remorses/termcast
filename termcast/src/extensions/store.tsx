@@ -94,14 +94,7 @@ function StoreSearch(): any {
                     id={ext.id}
                     title={ext.title}
                     subtitle={ext.description}
-                    accessories={[
-                        {
-                            text: `${ext.commands.length} command${ext.commands.length !== 1 ? 's' : ''}`,
-                        },
-                        {
-                            text: `${ext.download_count.toLocaleString()} downloads`,
-                        },
-                    ]}
+                    accessories={[]}
                     keywords={ext.categories}
                     actions={
                         <ActionPanel>
