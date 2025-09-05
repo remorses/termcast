@@ -163,8 +163,9 @@ const aliasPlugin: BunPlugin = {
                     }
                 }
 
+                logger.error(`matched a file that had no handling for exports plugin ${args.path}`)
                 return {
-                    contents: '',
+                    contents: 'export {}',
                     loader: 'js',
                     pure: true,
                 }
@@ -213,9 +214,9 @@ export async function buildExtensionCommands({
     const result = await Bun.build({
         entrypoints,
         outdir: bundleDir,
-        target: 'bun',
+        target: 'node',
         format: 'cjs',
-        external: [],
+        // external: [],
         plugins: [aliasPlugin],
         naming: '[name].js',
         throw: false,

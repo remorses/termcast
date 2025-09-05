@@ -23,6 +23,7 @@ cli.command('dev', 'Run the extension in the current working directory')
             // Start dev mode with initial render
             await startDevMode({ extensionPath })
 
+            logger.log(`dev mode started`)
             // Only watch if running in a TTY (interactive terminal)
             if (!process.stdout.isTTY) {
                 console.log(
@@ -47,6 +48,7 @@ cli.command('dev', 'Run the extension in the current working directory')
                 'node_modules',
                 '.termcast-bundle',
                 '.git',
+                'app.log',
                 'dist',
                 'build',
             ]
@@ -66,17 +68,18 @@ cli.command('dev', 'Run the extension in the current working directory')
                 }
 
                 if (isBuilding) {
-                    console.log('Build already in progress, skipping...')
+                    logger.log('Build already in progress, skipping...')
                     return
                 }
 
                 isBuilding = true
-                console.log('\nFile changed, rebuilding...')
+                logger.log('File changed, rebuilding...')
+                logger.log(filePath)
                 try {
                     await triggerRebuild({ extensionPath })
-                    console.log('Rebuild complete')
+                    logger.log('Rebuild complete')
                 } catch (error: any) {
-                    console.error('Failed to trigger rebuild:', error.message)
+                    logger.error('Failed to trigger rebuild:', error.message)
                 } finally {
                     isBuilding = false
                 }
@@ -89,7 +92,7 @@ cli.command('dev', 'Run the extension in the current working directory')
                 .on('error', (error) => logger.error('Watcher error:', error))
         } catch (e) {
             logger.error(e)
-            console.log(`failed to start dev`, e)
+            logger.log(`failed to start dev`, e)
         }
     })
 
