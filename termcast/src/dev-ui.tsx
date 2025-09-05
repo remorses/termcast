@@ -40,10 +40,10 @@ function ExtensionCommandsList({
 
             const state = useStore.getState()
             const devRebuildCount = state.devRebuildCount
-            
+
             // Set the current command in state
             useStore.setState({ currentCommandName: command.name })
-            
+
             const module = await import(
                 `${command.bundledPath}?rebuild=${devRebuildCount}`
             )
@@ -146,10 +146,10 @@ export async function startDevMode({ extensionPath }: { extensionPath: string })
 
     // Parse the package.json to get extension metadata
     const { packageJson } = getCommandsWithFiles({ packageJsonPath })
-    
+
     // Build and set initial devElement
     const { commands } = await buildExtensionCommands({ extensionPath: resolvedPath })
-    
+
     // Reset state and set extension information
     useStore.setState({
         ...useStore.getInitialState(),
@@ -177,14 +177,14 @@ export async function startDevMode({ extensionPath }: { extensionPath: string })
 export async function triggerRebuild({ extensionPath }: { extensionPath: string }): Promise<void> {
     try {
         const { commands } = await buildExtensionCommands({ extensionPath })
-        
+
         // Re-parse package.json in case it changed
         const packageJsonPath = path.join(extensionPath, 'package.json')
         const { packageJson } = getCommandsWithFiles({ packageJsonPath })
 
         // Update the devElement with new commands and increment rebuild count
         const state = useStore.getState()
-        
+
         useStore.setState({
             extensionPackageJson: packageJson,
             devElement: (

@@ -40,7 +40,7 @@ function decodeJWT(token: string): any {
 const google = new OAuthService({
   clientId: googleClientId,
   scope: 'openid email profile',
-  authorizeUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+  authorizeUrl: '', // IMPORTANT! authorizeUrl must be ''
   tokenUrl: 'https://oauth2.googleapis.com/token',
   bodyEncoding: 'url-encoded',
   // extraParameters: {
