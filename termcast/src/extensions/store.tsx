@@ -62,38 +62,6 @@ function StoreSearch(): any {
             logger.log(
                 `Store search returned ${response.data?.length || 0} results`,
             )
-
-            // For testing: Add mock Database result when searching for "spiceblow"
-            if (query.toLowerCase() === 'spiceblow') {
-                return [
-                    {
-                        id: 'database-1',
-                        name: 'database-manager',
-                        author: {
-                            name: 'Test Author',
-                            handle: 'testauthor',
-                        },
-                        owner: {
-                            name: 'Test Author',
-                            handle: 'testauthor',
-                        },
-                        title: 'Database Manager',
-                        description: 'Manage your databases with ease',
-                        download_count: 1234,
-                        updated_at: Date.now() / 1000,
-                        categories: ['Developer Tools', 'Productivity'],
-                        commands: [
-                            {
-                                title: 'Connect to Database',
-                                description: 'Connect to a database',
-                                mode: 'view',
-                            },
-                        ],
-                    } as StoreListing,
-                    ...response.data,
-                ]
-            }
-
             return response.data
         },
         placeholderData: (previousData) => previousData, // Keep previous data while fetching
