@@ -32,7 +32,7 @@ export function FormBasicExample(): any {
             >
                 <Form.Description
                     title='Form Component Demo'
-                    text='This demonstrates all available form input types. Use Tab to navigate between fields.'
+                    text='This demonstrates all available form input types. Use arrow keys or Tab to navigate between fields.'
                 />
 
                 <Form.Separator />
@@ -121,7 +121,7 @@ export function FormBasicExample(): any {
 
                 <Form.Description
                     title='Form Navigation'
-                    text='• Tab: Next field | Shift+Tab: Previous field | Space: Toggle checkbox | Enter/Space: Open dropdown | Cmd+Enter: Submit form'
+                    text='• ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space: Open dropdown | ^K/⌘↵: Show actions'
                 />
             </Form>
 
