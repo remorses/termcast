@@ -1,18 +1,6 @@
-[2025-09-05T14:32:21.793Z] preparing to render the home command component
-[2025-09-05T14:32:21.802Z] rendered home command component
-[2025-09-05T14:32:29.519Z] actions dropdown onChange Run Command
-[2025-09-05T14:32:29.615Z] PKCEClient initialized {
-  providerName: "Spiceblow",
-  providerId: "google",
-  redirectMethod: "appURI",
-}
-[2025-09-05T14:32:29.620Z] pushing r
-[2025-09-05T14:32:29.621Z] Getting tokens for google {
-  storageKey: "oauth-google",
-}
-[2025-09-05T14:32:29.624Z] No tokens found for google
-[2025-09-05T14:32:29.625Z] Starting OAuth implicit flow authorization {
-  url: "https://accounts.google.com/o/oauth2/v2/auth?response_type=id_token+token&client_id=561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8989%2Foauth%2Fcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&state=3b5fda79b6e20ec9e8b6c7006af3b2e827cff796b66b062b3d067662a129aa19&nonce=82628449a857ac698231821ed2c4eec684416213e866d003e59ada6686a4fdf9",
-}
-[2025-09-05T14:32:29.634Z] OAuth implicit flow server listening on http://localhost:8989/oauth/callback
-[2025-09-05T14:32:29.758Z] Browser opened for implicit flow authorization
+[2025-09-05T14:33:42.727Z] preparing to render the home command component
+[2025-09-05T14:33:42.736Z] rendered home command component
+[2025-09-05T14:33:44.147Z] actions dropdown onChange Run Command
+[2025-09-05T14:33:44.150Z] pushing Store
+[2025-09-05T14:33:44.224Z] Store searching for: "raycast"
+[2025-09-05T14:33:44.310Z] Store search returned 25 results

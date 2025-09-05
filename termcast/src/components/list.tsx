@@ -833,7 +833,7 @@ export const List: ListType = (props) => {
                             style={{
                                 paddingLeft: 1,
                                 paddingRight: 1,
-                                // marginTop: 1,
+                                marginTop: 1,
                                 marginBottom: 1,
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
@@ -866,7 +866,7 @@ export const List: ListType = (props) => {
                     </box>
 
                     {/* List content - render children which will register themselves */}
-                    <box style={{ marginTop: 0 }}>
+                    <box style={{ marginTop: 1 }}>
                         <>
                             {/* Render children - they will register as descendants */}
                             <ListItemsRenderer>{children}</ListItemsRenderer>
