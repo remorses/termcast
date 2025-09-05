@@ -765,11 +765,15 @@ export const List: ListType = (props) => {
     const handleSearchChange = (newValue: string) => {
         if (!inFocus) return
 
+        // Always call onSearchTextChange if provided
+        if (onSearchTextChange) {
+            onSearchTextChange(newValue)
+        }
+
         if (controlledSearchText === undefined) {
             setInternalSearchText(newValue)
-        } else if (onSearchTextChange) {
+        } else {
             // For controlled search, we need to update filtered indices here too
-            onSearchTextChange(newValue)
 
             // Update filtered indices based on controlled search text
             if (!filtering || !newValue.trim()) {
@@ -812,10 +816,10 @@ export const List: ListType = (props) => {
                             border={false}
                             style={{
                                 paddingBottom: 0,
-                                flexGrow: 1
+                                flexGrow: 1,
                             }}
                         >
-                            <LoadingBar 
+                            <LoadingBar
                                 title={navigationTitle}
                                 isLoading={isLoading}
                             />
@@ -995,7 +999,10 @@ const ListDropdown: ListDropdownType = (props) => {
 
     const { isDropdownOpen, setIsDropdownOpen } = listContext
     // Store both value and title together
-    const [dropdownState, setDropdownState] = useState<{ value: string; title: string }>(() => {
+    const [dropdownState, setDropdownState] = useState<{
+        value: string
+        title: string
+    }>(() => {
         const initialValue = props.value || props.defaultValue || ''
         return { value: initialValue, title: initialValue || 'All' }
     })
@@ -1005,9 +1012,10 @@ const ListDropdown: ListDropdownType = (props) => {
 
     // Update value and find its title
     useLayoutEffect(() => {
-        const valueToUse = props.value !== undefined ? props.value : dropdownState.value
+        const valueToUse =
+            props.value !== undefined ? props.value : dropdownState.value
         if (!valueToUse) return
-        
+
         // Try to find the title for this value
         let title = valueToUse
         for (const item of Object.values(descendantsContext.map.current)) {
@@ -1017,9 +1025,12 @@ const ListDropdown: ListDropdownType = (props) => {
                 break
             }
         }
-        
+
         // Only update if something changed
-        if (dropdownState.value !== valueToUse || dropdownState.title !== title) {
+        if (
+            dropdownState.value !== valueToUse ||
+            dropdownState.title !== title
+        ) {
             setDropdownState({ value: valueToUse, title })
         }
     }, [props.value]) // Run when props.value changes and on mount
@@ -1043,8 +1054,11 @@ const ListDropdown: ListDropdownType = (props) => {
                     onChange={(newValue) => {
                         // Find the title for this value
                         let title = newValue
-                        for (const item of Object.values(descendantsContext.map.current)) {
-                            const itemProps = item.props as DropdownItemDescendant
+                        for (const item of Object.values(
+                            descendantsContext.map.current,
+                        )) {
+                            const itemProps =
+                                item.props as DropdownItemDescendant
                             if (itemProps.value === newValue) {
                                 title = itemProps.title
                                 break
@@ -1072,7 +1086,7 @@ const ListDropdown: ListDropdownType = (props) => {
 
     // Display the title from our state
     const displayValue = dropdownState.title || 'All'
-    
+
     return (
         <DropdownDescendantsProvider value={descendantsContext}>
             <DropdownContext.Provider value={dropdownContextValue}>
