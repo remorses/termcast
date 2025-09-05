@@ -42,7 +42,7 @@ interface ProvidersProps extends CommonProps {
 function LoadingFallback(): any {
     return (
         <box padding={2}>
-            <text>Loading...</text>
+            <text>Loading suspense...</text>
         </box>
     )
 }

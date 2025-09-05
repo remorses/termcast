@@ -232,11 +232,7 @@ const Dropdown: DropdownType = (props) => {
                             {/* Render children - they will register as descendants and render themselves */}
                             {children}
                         </box>
-                        {isLoading && (
-                            <box style={{ paddingLeft: 1 }}>
-                                <text fg={Theme.textMuted}>Loading...</text>
-                            </box>
-                        )}
+
                     </box>
                     <box
                         border={false}
@@ -273,7 +269,7 @@ function ItemOption(props: {
     onMouseMove?: () => void
 }) {
     const [isHovered, setIsHovered] = useState(false)
-    
+
     return (
         <box
             style={{
@@ -362,14 +358,14 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
             context.setSelectedIndex(index)
         }
     }
-    
+
     const handleMouseDown = () => {
         // Trigger selection on click
         if (context.onChange && props.value) {
             context.onChange(props.value)
         }
     }
-    
+
     // Render the item directly
     return (
         <ItemOption
