@@ -1,8 +1,12 @@
-[2025-09-05T15:12:05.252Z] ERROR: Cache subscriber error: Subscriber error
-Error: Subscriber error
-    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.test.ts:203:27)
-    at unknown
-    at notifySubscribers (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.tsx:265:17)
-    at set (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.tsx:188:14)
-    at toThrow (unknown)
-    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/cache.test.ts:211:57)
+[2025-09-05T17:39:09.771Z] Store searching for: "raycast"
+[2025-09-05T17:39:09.808Z] Store searching for: "s"
+[2025-09-05T17:39:09.833Z] Store searching for: "sp"
+[2025-09-05T17:39:09.853Z] Store searching for: "spi"
+[2025-09-05T17:39:09.873Z] Store searching for: "spic"
+[2025-09-05T17:39:09.910Z] Store searching for: "spice"
+[2025-09-05T17:39:09.951Z] Store searching for: "spiceb"
+[2025-09-05T17:39:09.973Z] Store searching for: "spicebl"
+[2025-09-05T17:39:09.996Z] Store searching for: "spiceblo"
+[2025-09-05T17:39:10.028Z] Store searching for: "spiceblow"
+[2025-09-05T17:39:11.049Z] Store search returned 25 results
+[2025-09-05T17:39:11.077Z] Store search returned 5 results

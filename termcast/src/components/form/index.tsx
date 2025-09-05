@@ -5,6 +5,9 @@ import { ActionPanel } from '@termcast/cli/src/components/actions'
 import { logger } from '@termcast/cli/src/logger'
 import { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 import { useDialog } from '@termcast/cli/src/internal/dialog'
+import { Theme } from '@termcast/cli/src/theme'
+import { TextAttributes } from '@opentui/core'
+import { useStore } from '@termcast/cli/src/state'
 import {
     FormValues,
     FormProps,
@@ -47,6 +50,53 @@ const FormSubmitContext = createContext<FormSubmitContextValue | null>(null)
 export const useFormSubmit = () => {
     const context = useContext(FormSubmitContext)
     return context // Can be null if not in a form
+}
+
+// Footer component to show keyboard shortcuts
+function FormFooter(): any {
+    const toast = useStore((state) => state.toast)
+
+    if (toast) {
+        return (
+            <box
+                border={false}
+                style={{
+                    paddingLeft: 1,
+                    paddingRight: 1,
+                    paddingTop: 1,
+                    marginTop: 1,
+                }}
+            >
+                {toast}
+            </box>
+        )
+    }
+
+    return (
+        <box
+            border={false}
+            style={{
+                paddingLeft: 1,
+                paddingRight: 1,
+                paddingTop: 1,
+                marginTop: 1,
+                flexDirection: 'row',
+            }}
+        >
+            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                ↵
+            </text>
+            <text fg={Theme.textMuted}> submit</text>
+            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                {'   '}↑↓
+            </text>
+            <text fg={Theme.textMuted}> navigate</text>
+            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+                {'   '}^k
+            </text>
+            <text fg={Theme.textMuted}> actions</text>
+        </box>
+    )
 }
 
 import type { TextFieldProps, TextFieldRef } from './text-field'
@@ -161,11 +211,16 @@ export const Form: FormType = ((props) => {
                 // Just update the focused field in context
                 setFocusedField(nextFieldName)
             }
-        } else if (
-            (evt.name === 'k' && evt.ctrl && props.actions) ||
-            (evt.name === 'return' && evt.meta && props.actions)
-        ) {
-            // Ctrl+K or Return shows actions
+        } else if (evt.name === 'k' && evt.ctrl && props.actions) {
+            // Ctrl+K shows actions
+            dialog.push(
+                <FormSubmitContext.Provider value={submitContextValue}>
+                    {props.actions}
+                </FormSubmitContext.Provider>,
+                'bottom-right',
+            )
+        } else if (evt.name === 'return' && evt.meta && props.actions) {
+            // Cmd+Return also shows actions (consistent with List)
             dialog.push(
                 <FormSubmitContext.Provider value={submitContextValue}>
                     {props.actions}
@@ -185,7 +240,10 @@ export const Form: FormType = ((props) => {
                 <FocusContext.Provider
                     value={{ focusedField, setFocusedField }}
                 >
-                    <box flexDirection='column'>{props.children}</box>
+                    <box flexDirection='column'>
+                        {props.children}
+                        <FormFooter />
+                    </box>
                 </FocusContext.Provider>
             </FormSubmitContext.Provider>
         </FormProvider>
