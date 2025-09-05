@@ -53,7 +53,7 @@ function StoreSearch(): any {
             return response.data
         },
 
-
+        throwOnError: true,
         placeholderData: (previousData) => previousData, // Keep previous data while fetching
     })
 
@@ -72,6 +72,7 @@ function StoreSearch(): any {
         <List
             navigationTitle="Store - Install Extensions"
             searchBarPlaceholder="Search extensions..."
+            filtering={false}
             onSearchTextChange={setSearchQuery}
             isLoading={isLoading}
         >
@@ -110,7 +111,7 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
     const [isInstalling, setIsInstalling] = useState(false)
     const [isInstalled, setIsInstalled] = useState(false)
     const { pop, push } = useNavigation()
-    
+
     // Check if extension is already installed
     React.useEffect(() => {
         const storeDir = getStoreDirectory()
@@ -190,7 +191,7 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
 
             logger.log(`Extension '${extension.name}' installed to ${extensionDir}`)
             setIsInstalled(true)
-            
+
             // Ask if user wants to configure preferences
             await showToast({
                 style: Toast.Style.Success,
