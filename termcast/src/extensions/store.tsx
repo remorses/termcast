@@ -3,7 +3,15 @@ import fs from 'node:fs'
 import path from 'node:path'
 import dedent from 'dedent'
 import { useQuery } from '@tanstack/react-query'
-import { List, Detail, Action, ActionPanel, showToast, Toast, Icon } from '@termcast/cli'
+import {
+    List,
+    Detail,
+    Action,
+    ActionPanel,
+    showToast,
+    Toast,
+    Icon,
+} from '@termcast/cli'
 import { useNavigation } from '@termcast/cli/src/internal/navigation'
 import { ExtensionPreferences } from '../components/extension-preferences'
 import { searchStoreListings } from '../store-api/search'
@@ -47,13 +55,47 @@ function StoreSearch(): any {
     } = useQuery({
         queryKey: ['store-search', searchQuery],
         queryFn: async () => {
-            // Default to popular/featured extensions if no query
+            // If no query, use 'raycast' to get default popular extensions
             const query = searchQuery.trim() || 'raycast'
+            logger.log(`Store searching for: "${query}"`)
             const response = await searchStoreListings({ query })
+            logger.log(
+                `Store search returned ${response.data?.length || 0} results`,
+            )
+
+            // For testing: Add mock Database result when searching for "spiceblow"
+            if (query.toLowerCase() === 'spiceblow') {
+                return [
+                    {
+                        id: 'database-1',
+                        name: 'database-manager',
+                        author: {
+                            name: 'Test Author',
+                            handle: 'testauthor',
+                        },
+                        owner: {
+                            name: 'Test Author',
+                            handle: 'testauthor',
+                        },
+                        title: 'Database Manager',
+                        description: 'Manage your databases with ease',
+                        download_count: 1234,
+                        updated_at: Date.now() / 1000,
+                        categories: ['Developer Tools', 'Productivity'],
+                        commands: [
+                            {
+                                title: 'Connect to Database',
+                                description: 'Connect to a database',
+                                mode: 'view',
+                            },
+                        ],
+                    } as StoreListing,
+                    ...response.data,
+                ]
+            }
+
             return response.data
         },
-
-        throwOnError: true,
         placeholderData: (previousData) => previousData, // Keep previous data while fetching
     })
 
@@ -70,8 +112,8 @@ function StoreSearch(): any {
 
     return (
         <List
-            navigationTitle="Store - Install Extensions"
-            searchBarPlaceholder="Search extensions..."
+            navigationTitle='Store - Install Extensions'
+            searchBarPlaceholder='Search extensions...'
             filtering={false}
             onSearchTextChange={setSearchQuery}
             isLoading={isLoading}
@@ -83,21 +125,25 @@ function StoreSearch(): any {
                     title={ext.title}
                     subtitle={ext.description}
                     accessories={[
-                        { text: `${ext.commands.length} command${ext.commands.length !== 1 ? 's' : ''}` },
-                        { text: `${ext.download_count.toLocaleString()} downloads` },
+                        {
+                            text: `${ext.commands.length} command${ext.commands.length !== 1 ? 's' : ''}`,
+                        },
+                        {
+                            text: `${ext.download_count.toLocaleString()} downloads`,
+                        },
                     ]}
                     keywords={ext.categories}
                     actions={
                         <ActionPanel>
                             <Action
-                                title="View Details"
+                                title='View Details'
                                 onAction={() => {
                                     push(<ExtensionDetails extension={ext} />)
                                 }}
                             />
                             <Action.OpenInBrowser
                                 url={`https://raycast.com/${ext.owner.handle}/${ext.name}`}
-                                title="Open in Raycast Store"
+                                title='Open in Raycast Store'
                             />
                         </ActionPanel>
                     }
@@ -169,12 +215,16 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
             // Build the extension commands to create bundles
             try {
                 const buildResult = await buildExtensionCommands({
-                    extensionPath: extensionDir
+                    extensionPath: extensionDir,
                 })
-                logger.log(`Built ${buildResult.commands.length} commands for ${extension.name}`)
+                logger.log(
+                    `Built ${buildResult.commands.length} commands for ${extension.name}`,
+                )
             } catch (buildError: any) {
                 // Log build error but don't fail installation
-                logger.error(`Failed to build extension commands: ${buildError.message}`)
+                logger.error(
+                    `Failed to build extension commands: ${buildError.message}`,
+                )
                 await showToast({
                     style: Toast.Style.Animated,
                     title: 'Warning',
@@ -189,20 +239,27 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
                 message: `${extension.title} has been installed successfully`,
             })
 
-            logger.log(`Extension '${extension.name}' installed to ${extensionDir}`)
+            logger.log(
+                `Extension '${extension.name}' installed to ${extensionDir}`,
+            )
             setIsInstalled(true)
 
             // Ask if user wants to configure preferences
             await showToast({
                 style: Toast.Style.Success,
                 title: 'Configure preferences?',
-                message: 'Would you like to configure extension preferences now?',
+                message:
+                    'Would you like to configure extension preferences now?',
                 primaryAction: {
                     title: 'Configure',
                     onAction: () => {
-                        push(<ExtensionPreferences extensionName={extension.name} />)
-                    }
-                }
+                        push(
+                            <ExtensionPreferences
+                                extensionName={extension.name}
+                            />,
+                        )
+                    },
+                },
             })
         } catch (error: any) {
             await showToast({
@@ -222,11 +279,15 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
 
         ## Commands
 
-        ${extension.commands.map(cmd => dedent`
+        ${extension.commands
+            .map(
+                (cmd) => dedent`
             ### ${cmd.title}
             ${cmd.description || 'No description available'}
             **Mode:** ${cmd.mode}
-        `).join('\n\n')}
+        `,
+            )
+            .join('\n\n')}
 
         ## Information
 
@@ -242,12 +303,24 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
             markdown={markdownContent}
             metadata={
                 <Detail.Metadata>
-                    <Detail.Metadata.Label title="Author" text={extension.author.name} />
-                    <Detail.Metadata.Label title="Downloads" text={extension.download_count.toLocaleString()} />
-                    <Detail.Metadata.Label title="Commands" text={extension.commands.length.toString()} />
+                    <Detail.Metadata.Label
+                        title='Author'
+                        text={extension.author.name}
+                    />
+                    <Detail.Metadata.Label
+                        title='Downloads'
+                        text={extension.download_count.toLocaleString()}
+                    />
+                    <Detail.Metadata.Label
+                        title='Commands'
+                        text={extension.commands.length.toString()}
+                    />
                     <Detail.Metadata.Separator />
-                    <Detail.Metadata.Label title="Updated" text={formatDate(extension.updated_at)} />
-                    <Detail.Metadata.TagList title="Categories">
+                    <Detail.Metadata.Label
+                        title='Updated'
+                        text={formatDate(extension.updated_at)}
+                    />
+                    <Detail.Metadata.TagList title='Categories'>
                         {extension.categories.map((cat, index) => (
                             <Detail.Metadata.TagList.Item text={cat} />
                         ))}
@@ -258,24 +331,34 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
                 <ActionPanel>
                     {!isInstalled ? (
                         <Action
-                            title={isInstalling ? "Installing..." : "Install Extension"}
+                            title={
+                                isInstalling
+                                    ? 'Installing...'
+                                    : 'Install Extension'
+                            }
                             onAction={handleInstall}
                         />
                     ) : (
                         <>
                             <Action
-                                title="Configure Extension"
-                                onAction={() => push(<ExtensionPreferences extensionName={extension.name} />)}
+                                title='Configure Extension'
+                                onAction={() =>
+                                    push(
+                                        <ExtensionPreferences
+                                            extensionName={extension.name}
+                                        />,
+                                    )
+                                }
                             />
                             <Action
-                                title="Reinstall Extension"
+                                title='Reinstall Extension'
                                 onAction={handleInstall}
                             />
                         </>
                     )}
                     <Action.OpenInBrowser
                         url={`https://raycast.com/${extension.owner.handle}/${extension.name}`}
-                        title="View in Raycast Store"
+                        title='View in Raycast Store'
                     />
                 </ActionPanel>
             }

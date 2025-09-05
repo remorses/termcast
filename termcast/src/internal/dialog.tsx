@@ -58,14 +58,15 @@ export function Dialog({ children, position = 'center', onClickOutside }: Dialog
           paddingLeft: undefined
         }
       case 'bottom-right':
-        return {
-          alignItems: 'flex-end' as const,
-          justifyContent: 'flex-end' as const,
-          paddingTop: undefined,
-          paddingBottom: 2,
-          paddingRight: 2,
-          paddingLeft: undefined
-        }
+      // TODO show in center for now. easier to read
+        // return {
+        //   alignItems: 'flex-end' as const,
+        //   justifyContent: 'flex-end' as const,
+        //   paddingTop: undefined,
+        //   paddingBottom: 2,
+        //   paddingRight: 2,
+        //   paddingLeft: undefined
+        // }
       case 'center':
       default:
         return {

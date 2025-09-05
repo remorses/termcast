@@ -1,2 +1,20 @@
-[2025-09-03T11:27:13.031Z] Auto-executing single action: Close Window
-[2025-09-03T11:27:13.118Z] Switched focus to window: Ghostty
+[2025-09-05T14:25:14.192Z] preparing to render the home command component
+[2025-09-05T14:25:14.201Z] rendered home command component
+[2025-09-05T14:25:15.723Z] actions dropdown onChange Run Command
+[2025-09-05T14:25:15.729Z] pushing Store
+[2025-09-05T14:25:19.145Z] Store searching for: "d"
+[2025-09-05T14:25:19.225Z] Store searching for: "da"
+[2025-09-05T14:25:19.356Z] Store searching for: "dat"
+[2025-09-05T14:25:19.450Z] Store searching for: "data"
+[2025-09-05T14:25:19.529Z] Store searching for: "datab"
+[2025-09-05T14:25:19.933Z] Store search returned 25 results
+[2025-09-05T14:25:20.236Z] Store search returned 25 results
+[2025-09-05T14:25:20.284Z] Store search returned 25 results
+[2025-09-05T14:25:20.370Z] Store search returned 25 results
+[2025-09-05T14:25:20.459Z] Store search returned 25 results
+[2025-09-05T14:25:20.962Z] Store searching for: "databa"
+[2025-09-05T14:25:21.133Z] Store searching for: "databas"
+[2025-09-05T14:25:21.250Z] Store searching for: "database"
+[2025-09-05T14:25:21.676Z] Store search returned 25 results
+[2025-09-05T14:25:21.845Z] Store search returned 25 results
+[2025-09-05T14:25:21.911Z] Store search returned 25 results
