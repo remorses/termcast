@@ -1,18 +1,18 @@
 /**
  * MenuBarExtra Component - Creates menu bar extensions for macOS
- * 
+ *
  * Raycast Docs: https://developers.raycast.com/api-reference/menu-bar-commands
- * 
+ *
  * MenuBarExtra allows you to create persistent menu bar items in macOS that can
  * display information and provide quick actions without opening the main Raycast window.
- * 
+ *
  * Key features:
  * - Display text/icons in the menu bar
  * - Show dropdown menus with items, sections, and submenus
  * - Handle user interactions via onAction callbacks
  * - Support for keyboard shortcuts
  * - Loading states and tooltips
- * 
+ *
  * Components:
  * - MenuBarExtra: Root component for menu bar extensions
  * - MenuBarExtra.Item: Individual menu items with optional actions
@@ -69,25 +69,24 @@ interface MenuBarExtraType {
   Section: (props: MenuBarExtraSectionProps) => any
 }
 
-const MenuBarExtra: MenuBarExtraType = ({ 
-  isLoading, 
-  title, 
-  tooltip, 
-  icon, 
-  children 
+const MenuBarExtra: MenuBarExtraType = ({
+  isLoading,
+  title,
+  tooltip,
+  icon,
+  children
 }) => {
   logger.log('MenuBarExtra rendered', { isLoading, title, tooltip })
-  
+
   // TODO: Implement actual menu bar integration
   // This component should:
   // 1. Create a real macOS menu bar item
   // 2. Handle menu dropdown display/hide
   // 3. Position the menu correctly below the menu bar icon
   // Currently just renders content in the terminal
-  
+
   return (
     <box>
-      {isLoading && <text>Loading...</text>}
       {title && (
         <box>
           {icon && (typeof icon === 'string' ? <text>{icon}</text> : <Image source={icon} />)}
@@ -100,15 +99,15 @@ const MenuBarExtra: MenuBarExtraType = ({
   )
 }
 
-MenuBarExtra.Item = ({ 
-  title, 
-  subtitle, 
-  icon, 
-  tooltip, 
-  shortcut, 
-  onAction, 
+MenuBarExtra.Item = ({
+  title,
+  subtitle,
+  icon,
+  tooltip,
+  shortcut,
+  onAction,
   disabled,
-  children 
+  children
 }) => {
   // TODO: Implement real click/keyboard handling for menu items
   // OpenTUI doesn't support onClick on box elements yet
@@ -119,7 +118,7 @@ MenuBarExtra.Item = ({
   if (onAction) {
     logger.log('MenuBarExtra.Item would handle action', { title })
   }
-  
+
   return (
     <box>
       <box>

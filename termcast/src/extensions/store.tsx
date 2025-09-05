@@ -50,6 +50,8 @@ function StoreSearch(): any {
 
     const {
         isLoading,
+        isPending,
+        isFetching,
         data: extensions,
         error,
     } = useQuery({
@@ -84,7 +86,7 @@ function StoreSearch(): any {
             searchBarPlaceholder='Search extensions...'
             filtering={false}
             onSearchTextChange={setSearchQuery}
-            isLoading={isLoading}
+            isLoading={isPending || isFetching}
         >
             {extensions?.map((ext) => (
                 <List.Item

@@ -867,21 +867,13 @@ export const List: ListType = (props) => {
 
                     {/* List content - render children which will register themselves */}
                     <box style={{ marginTop: 0 }}>
-                        {isLoading ? (
-                            <box border={false} style={{ padding: 2 }}>
-                                <text fg={Theme.textMuted}>Loading...</text>
-                            </box>
-                        ) : (
-                            <>
-                                {/* Render children - they will register as descendants */}
-                                <ListItemsRenderer>
-                                    {children}
-                                </ListItemsRenderer>
+                        <>
+                            {/* Render children - they will register as descendants */}
+                            <ListItemsRenderer>{children}</ListItemsRenderer>
 
-                                {/* Footer with keyboard shortcuts or toast */}
-                                <ListFooter />
-                            </>
-                        )}
+                            {/* Footer with keyboard shortcuts or toast */}
+                            <ListFooter />
+                        </>
                     </box>
                 </box>
             </ListDescendantsProvider>
