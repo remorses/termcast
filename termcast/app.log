@@ -1,6 +1,2 @@
-[2025-09-05T14:33:42.727Z] preparing to render the home command component
-[2025-09-05T14:33:42.736Z] rendered home command component
-[2025-09-05T14:33:44.147Z] actions dropdown onChange Run Command
-[2025-09-05T14:33:44.150Z] pushing Store
-[2025-09-05T14:33:44.224Z] Store searching for: "raycast"
-[2025-09-05T14:33:44.310Z] Store search returned 25 results
+[2025-09-05T14:42:01.572Z] preparing to render the home command component
+[2025-09-05T14:42:01.588Z] rendered home command component

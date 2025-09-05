@@ -1,6 +1,8 @@
 // @ts-nocheck
 // Set up global references for external packages
 
+process.env.TERMCAST = 'true'
+
 import * as opentuiCore from '@opentui/core'
 import * as opentuiReact from '@opentui/react'
 import * as react from 'react'
