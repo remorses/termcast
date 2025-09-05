@@ -288,13 +288,13 @@ describe('Cache', () => {
     describe('storageDirectory', () => {
         test('returns default directory without namespace', () => {
             const cache = new Cache()
-            expect(cache.storageDirectory).toContain('.termcast')
+            expect(cache.storageDirectory).toContain('.termcast-bundle')
             expect(cache.storageDirectory).toContain('cache')
         })
 
         test('returns namespaced directory with namespace', () => {
             const cache = new Cache({ namespace: 'my-command' })
-            expect(cache.storageDirectory).toContain('.termcast')
+            expect(cache.storageDirectory).toContain('.termcast-bundle')
             expect(cache.storageDirectory).toContain('cache')
             expect(cache.storageDirectory).toContain('my-command')
         })
