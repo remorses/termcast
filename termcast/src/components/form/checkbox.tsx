@@ -13,39 +13,53 @@ export interface CheckboxProps extends FormItemProps<boolean> {
 
 export type CheckboxRef = FormItemRef
 
-export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref) => {
-    const { control } = useFormContext()
-    const { focusedField, setFocusedField } = useFocusContext()
-    const isFocused = focusedField === props.id
+export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>(
+    (props, ref) => {
+        const { control } = useFormContext()
+        const { focusedField, setFocusedField } = useFocusContext()
+        const isFocused = focusedField === props.id
 
-    return (
-        <Controller
-            name={props.id}
-            control={control}
-            defaultValue={props.defaultValue || props.value || false}
-            render={({ field, fieldState, formState }) => {
-                const handleToggle = () => {
-                    const newValue = !field.value
-                    field.onChange(newValue)
-                    if (props.onChange) {
-                        props.onChange(newValue)
+        return (
+            <Controller
+                name={props.id}
+                control={control}
+                defaultValue={props.defaultValue || props.value || false}
+                render={({ field, fieldState, formState }) => {
+                    const handleToggle = () => {
+                        const newValue = !field.value
+                        field.onChange(newValue)
+                        if (props.onChange) {
+                            props.onChange(newValue)
+                        }
                     }
-                }
 
-                // Handle space or enter key to toggle when focused
-                useKeyboard((evt) => {
-                    if (isFocused && (evt.name === 'space' || evt.name === 'return')) {
-                        handleToggle()
-                    }
-                })
+                    // Handle space or enter key to toggle when focused
+                    useKeyboard((evt) => {
+                        if (
+                            isFocused &&
+                            (evt.name === 'space' || evt.name === 'return')
+                        ) {
+                            handleToggle()
+                        }
+                    })
 
-                return (
-                    <box flexDirection="column">
-                            <box 
+                    return (
+                        <box flexDirection='column'>
+                            <box
                                 border
-                                title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
+                                title={
+                                    props.title
+                                        ? isFocused
+                                            ? `${props.title} ‹`
+                                            : props.title
+                                        : undefined
+                                }
                                 padding={1}
-                                backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                                backgroundColor={
+                                    isFocused
+                                        ? Theme.backgroundPanel
+                                        : undefined
+                                }
                                 onMouseDown={() => {
                                     // Always focus the field when clicked
                                     if (!isFocused) {
@@ -55,23 +69,23 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>((props, ref
                                     handleToggle()
                                 }}
                             >
-                                <text fg={field.value ? Theme.accent : Theme.text} selectable={false}>
+                                <text
+                                    fg={field.value ? Theme.accent : Theme.text}
+                                    selectable={false}
+                                >
                                     [{field.value ? '✓' : ' '}] {props.label}
                                 </text>
                             </box>
                             {props.error && (
-                                <text fg={Theme.error}>
-                                    {props.error}
-                                </text>
+                                <text fg={Theme.error}>{props.error}</text>
                             )}
                             {props.info && (
-                                <text fg={Theme.textMuted}>
-                                    {props.info}
-                                </text>
+                                <text fg={Theme.textMuted}>{props.info}</text>
                             )}
                         </box>
-                ) as React.ReactElement
-            }}
-        />
-    )
-})
+                    ) as React.ReactElement
+                }}
+            />
+        )
+    },
+)

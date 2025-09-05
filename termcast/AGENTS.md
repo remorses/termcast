@@ -258,13 +258,11 @@ you should read the .d.ts for the packages you want to use to discover their API
 
 if you are inside the termcast/termcast folder (the termcast package) you will usually find node modules in the parent folder: `../node_modules/@opentui/core`
 
-
 ## react code guidelines
 
 - NEVER set state inside a setTimeout. this has no effect and just makes the code more difficult to debug or understand
 - Try to use as little useEffect or useLayoutEffect as possible. instead put the code directly in the relevant event handlers
 - Keep as little useState as possible. computed state should be a simple expression in render if possible
-
 
 ## important reminders
 

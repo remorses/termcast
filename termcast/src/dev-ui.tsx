@@ -132,7 +132,11 @@ function ExtensionCommandsList({
     )
 }
 
-export async function startDevMode({ extensionPath }: { extensionPath: string }): Promise<void> {
+export async function startDevMode({
+    extensionPath,
+}: {
+    extensionPath: string
+}): Promise<void> {
     const resolvedPath = path.resolve(extensionPath)
 
     if (!fs.existsSync(resolvedPath)) {
@@ -148,7 +152,9 @@ export async function startDevMode({ extensionPath }: { extensionPath: string })
     const { packageJson } = getCommandsWithFiles({ packageJsonPath })
 
     // Build and set initial devElement
-    const { commands } = await buildExtensionCommands({ extensionPath: resolvedPath })
+    const { commands } = await buildExtensionCommands({
+        extensionPath: resolvedPath,
+    })
 
     // Reset state and set extension information
     useStore.setState({
@@ -161,7 +167,7 @@ export async function startDevMode({ extensionPath }: { extensionPath: string })
                 commands={commands}
             />
         ),
-        devRebuildCount: 1
+        devRebuildCount: 1,
     })
 
     function App(): any {
@@ -174,7 +180,11 @@ export async function startDevMode({ extensionPath }: { extensionPath: string })
     await render(<App />)
 }
 
-export async function triggerRebuild({ extensionPath }: { extensionPath: string }): Promise<void> {
+export async function triggerRebuild({
+    extensionPath,
+}: {
+    extensionPath: string
+}): Promise<void> {
     try {
         const { commands } = await buildExtensionCommands({ extensionPath })
 
@@ -193,7 +203,7 @@ export async function triggerRebuild({ extensionPath }: { extensionPath: string 
                     commands={commands}
                 />
             ),
-            devRebuildCount: state.devRebuildCount + 1
+            devRebuildCount: state.devRebuildCount + 1,
         })
     } catch (error: any) {
         await showToast({

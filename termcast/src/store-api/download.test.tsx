@@ -22,9 +22,7 @@ describe('downloadExtension', () => {
         expect(filenames.length).toBeGreaterThan(0)
 
         // Check package.json commands field
-        const packageJson = files.find(
-            (f) => f.filename === 'package.json',
-        )
+        const packageJson = files.find((f) => f.filename === 'package.json')
         const packageData = JSON.parse(packageJson?.buffer.toString()!)
         expect(packageData.commands).toMatchInlineSnapshot(`
           [

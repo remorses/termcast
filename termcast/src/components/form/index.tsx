@@ -170,7 +170,7 @@ export const Form: FormType = ((props) => {
                 <FormSubmitContext.Provider value={submitContextValue}>
                     {props.actions}
                 </FormSubmitContext.Provider>,
-                'bottom-right'
+                'bottom-right',
             )
         }
     })

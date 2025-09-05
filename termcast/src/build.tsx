@@ -163,7 +163,9 @@ const aliasPlugin: BunPlugin = {
                     }
                 }
 
-                logger.error(`matched a file that had no handling for exports plugin ${args.path}`)
+                logger.error(
+                    `matched a file that had no handling for exports plugin ${args.path}`,
+                )
                 return {
                     contents: 'export {}',
                     loader: 'js',

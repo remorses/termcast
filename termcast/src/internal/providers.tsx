@@ -1,4 +1,9 @@
-import React, { Component, Suspense, type ReactNode, type ErrorInfo } from 'react'
+import React, {
+    Component,
+    Suspense,
+    type ReactNode,
+    type ErrorInfo,
+} from 'react'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { DialogProvider } from '@termcast/cli/src/internal/dialog'
@@ -52,7 +57,10 @@ interface ErrorBoundaryState {
     error: Error | null
 }
 
-class ErrorBoundaryClass extends Component<{ children: ReactNode }, ErrorBoundaryState> {
+class ErrorBoundaryClass extends Component<
+    { children: ReactNode },
+    ErrorBoundaryState
+> {
     constructor(props: { children: ReactNode }) {
         super(props)
         this.state = { hasError: false, error: null }
@@ -73,10 +81,11 @@ class ErrorBoundaryClass extends Component<{ children: ReactNode }, ErrorBoundar
     render(): any {
         if (this.state.hasError) {
             return (
-                <box padding={2} flexDirection="column">
+                <box padding={2} flexDirection='column'>
                     <text>An error occurred</text>
                     <text fg={Theme.error}>
-                        {this.state.error?.message || 'An unexpected error occurred'}
+                        {this.state.error?.message ||
+                            'An unexpected error occurred'}
                     </text>
                     <text fg={Theme.error}>
                         {this.state.error?.stack || ''}

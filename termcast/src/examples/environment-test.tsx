@@ -24,26 +24,26 @@ Command Mode: ${environment.commandMode}
     return (
         <List>
             <List.Item
-                title="Show Environment Info"
+                title='Show Environment Info'
                 subtitle={`Current theme: ${environment.appearance}`}
                 actions={
                     <ActionPanel>
-                        <Action title="Show Details" onAction={handleShowEnvironment} />
+                        <Action
+                            title='Show Details'
+                            onAction={handleShowEnvironment}
+                        />
                     </ActionPanel>
                 }
             />
             <List.Item
-                title="Extension Name"
+                title='Extension Name'
                 subtitle={environment.extensionName}
             />
             <List.Item
-                title="Development Mode"
-                subtitle={environment.isDevelopment ? "Yes" : "No"}
+                title='Development Mode'
+                subtitle={environment.isDevelopment ? 'Yes' : 'No'}
             />
-            <List.Item
-                title="Launch Type"
-                subtitle={environment.launchType}
-            />
+            <List.Item title='Launch Type' subtitle={environment.launchType} />
         </List>
     )
 }

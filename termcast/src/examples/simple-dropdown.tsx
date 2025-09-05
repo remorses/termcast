@@ -13,78 +13,78 @@ const App: any = () => {
 
     return (
         <Dropdown
-            tooltip="Select Drink Type"
+            tooltip='Select Drink Type'
             onChange={handleChange}
             value={selectedValue}
-            placeholder="Search drinks..."
+            placeholder='Search drinks...'
             filtering
             storeValue={true}
         >
-            <Dropdown.Section title="Alcoholic Beverages">
+            <Dropdown.Section title='Alcoholic Beverages'>
                 <Dropdown.Item
-                    value="beer"
-                    title="Beer"
-                    icon="🍺"
+                    value='beer'
+                    title='Beer'
+                    icon='🍺'
                     keywords={['lager', 'ale', 'stout']}
-                    label="⌃B"
+                    label='⌃B'
                 />
                 <Dropdown.Item
-                    value="wine"
-                    title="Wine"
-                    icon="🍷"
+                    value='wine'
+                    title='Wine'
+                    icon='🍷'
                     keywords={['red', 'white', 'rose']}
-                    label="⌃W"
+                    label='⌃W'
                 />
                 <Dropdown.Item
-                    value="whiskey"
-                    title="Whiskey"
-                    icon="🥃"
+                    value='whiskey'
+                    title='Whiskey'
+                    icon='🥃'
                     keywords={['scotch', 'bourbon', 'rye']}
-                    label="⌘W"
+                    label='⌘W'
                 />
             </Dropdown.Section>
 
-            <Dropdown.Section title="Non-Alcoholic">
+            <Dropdown.Section title='Non-Alcoholic'>
                 <Dropdown.Item
-                    value="coffee"
-                    title="Coffee"
-                    icon="☕"
+                    value='coffee'
+                    title='Coffee'
+                    icon='☕'
                     keywords={['espresso', 'latte', 'cappuccino']}
-                    label="⌃C"
+                    label='⌃C'
                 />
                 <Dropdown.Item
-                    value="tea"
-                    title="Tea"
-                    icon="🍵"
+                    value='tea'
+                    title='Tea'
+                    icon='🍵'
                     keywords={['green', 'black', 'herbal']}
-                    label="⌃T"
+                    label='⌃T'
                 />
                 <Dropdown.Item
-                    value="juice"
-                    title="Juice"
-                    icon="🧃"
+                    value='juice'
+                    title='Juice'
+                    icon='🧃'
                     keywords={['orange', 'apple', 'grape']}
                 />
                 <Dropdown.Item
-                    value="water"
-                    title="Water"
-                    icon="💧"
+                    value='water'
+                    title='Water'
+                    icon='💧'
                     keywords={['sparkling', 'still', 'mineral']}
                 />
             </Dropdown.Section>
 
-            <Dropdown.Section title="Soft Drinks">
+            <Dropdown.Section title='Soft Drinks'>
                 <Dropdown.Item
-                    value="cola"
-                    title="Cola"
-                    icon="🥤"
+                    value='cola'
+                    title='Cola'
+                    icon='🥤'
                     keywords={['coke', 'pepsi', 'soda']}
-                    label="⌃O"
+                    label='⌃O'
                 />
                 <Dropdown.Item
-                    value="lemonade"
-                    title="Lemonade"
-                    icon="🍋"
+                    value='lemonade'
+                    title='Lemonade'
+                    icon='🍋'
                     keywords={['lemon', 'citrus', 'sweet']}
                 />
             </Dropdown.Section>

@@ -7,14 +7,14 @@ describe('searchStoreListings', () => {
             query: 'database',
             perPage: 5,
         })
-        
+
         // Check we got results
         expect(results.data).toBeDefined()
         expect(results.data.length).toBeGreaterThan(0)
         expect(results.data.length).toBeLessThanOrEqual(5)
-        
+
         // Snapshot the extension names
-        const extensionNames = results.data.map(d => d.name).sort()
+        const extensionNames = results.data.map((d) => d.name).sort()
         expect(extensionNames).toMatchInlineSnapshot(`
           [
             "discogs",
@@ -31,12 +31,12 @@ describe('searchStoreListings', () => {
             query: '',
             perPage: 5,
         })
-        
+
         expect(results.data).toBeDefined()
         expect(results.data.length).toBeGreaterThan(0)
         expect(results.data.length).toBeLessThanOrEqual(5)
-        
-        const extensionNames = results.data.map(d => d.name).sort()
+
+        const extensionNames = results.data.map((d) => d.name).sort()
         expect(extensionNames).toMatchInlineSnapshot(`
           [
             "anonaddy",

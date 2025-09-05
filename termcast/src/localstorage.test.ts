@@ -8,7 +8,7 @@ describe('LocalStorage', () => {
     beforeEach(async () => {
         await LocalStorage.clear()
     })
-    
+
     afterAll(() => {
         // Optional: Clean up test database after all tests
         // const dbPath = path.join(os.homedir(), '.termcast.db')
@@ -34,10 +34,12 @@ describe('LocalStorage', () => {
         test('stores and retrieves boolean values', async () => {
             await LocalStorage.setItem('bool-key-true', true)
             await LocalStorage.setItem('bool-key-false', false)
-            
-            const resultTrue = await LocalStorage.getItem<boolean>('bool-key-true')
-            const resultFalse = await LocalStorage.getItem<boolean>('bool-key-false')
-            
+
+            const resultTrue =
+                await LocalStorage.getItem<boolean>('bool-key-true')
+            const resultFalse =
+                await LocalStorage.getItem<boolean>('bool-key-false')
+
             expect(resultTrue).toBe(true)
             expect(resultFalse).toBe(false)
             expect(typeof resultTrue).toBe('boolean')
@@ -62,7 +64,7 @@ describe('LocalStorage', () => {
             await LocalStorage.setItem('to-remove', 'value')
             let result = await LocalStorage.getItem('to-remove')
             expect(result).toBe('value')
-            
+
             await LocalStorage.removeItem('to-remove')
             result = await LocalStorage.getItem('to-remove')
             expect(result).toBeUndefined()
@@ -80,12 +82,12 @@ describe('LocalStorage', () => {
             await LocalStorage.setItem('key1', 'value1')
             await LocalStorage.setItem('key2', 42)
             await LocalStorage.setItem('key3', true)
-            
+
             const items = await LocalStorage.allItems()
             expect(items).toEqual({
                 key1: 'value1',
                 key2: 42,
-                key3: true
+                key3: true,
             })
         })
 
@@ -100,11 +102,11 @@ describe('LocalStorage', () => {
                 priority: number
                 completed: boolean
             }
-            
+
             await LocalStorage.setItem('todo', 'Write tests')
             await LocalStorage.setItem('priority', 1)
             await LocalStorage.setItem('completed', false)
-            
+
             const items = await LocalStorage.allItems<TestValues>()
             expect(items.todo).toBe('Write tests')
             expect(items.priority).toBe(1)
@@ -117,10 +119,10 @@ describe('LocalStorage', () => {
             await LocalStorage.setItem('key1', 'value1')
             await LocalStorage.setItem('key2', 'value2')
             await LocalStorage.setItem('key3', 'value3')
-            
+
             let items = await LocalStorage.allItems()
             expect(Object.keys(items).length).toBe(3)
-            
+
             await LocalStorage.clear()
             items = await LocalStorage.allItems()
             expect(items).toEqual({})
@@ -136,7 +138,8 @@ describe('LocalStorage', () => {
         })
 
         test('handles special characters in string values', async () => {
-            const specialValue = 'value with !@#$%^&*()_+={}[]|\\:";\'<>?,./\n\t\r'
+            const specialValue =
+                'value with !@#$%^&*()_+={}[]|\\:";\'<>?,./\n\t\r'
             await LocalStorage.setItem('key', specialValue)
             const result = await LocalStorage.getItem('key')
             expect(result).toBe(specialValue)

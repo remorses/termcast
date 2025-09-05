@@ -9,30 +9,34 @@ function DrinkDropdown(props: {
     const { drinkTypes, onDrinkTypeChange } = props
     return (
         <List.Dropdown
-            tooltip="Select Drink Type"
+            tooltip='Select Drink Type'
             storeValue={true}
             filtering={true}
             onChange={(newValue) => {
                 onDrinkTypeChange(newValue)
             }}
         >
-            <List.Dropdown.Section title="Alcoholic Beverages">
-                {drinkTypes.filter(dt => ['beer', 'wine'].includes(dt.id)).map((drinkType) => (
-                    <List.Dropdown.Item
-                        key={drinkType.id}
-                        title={drinkType.name}
-                        value={drinkType.id}
-                    />
-                ))}
+            <List.Dropdown.Section title='Alcoholic Beverages'>
+                {drinkTypes
+                    .filter((dt) => ['beer', 'wine'].includes(dt.id))
+                    .map((drinkType) => (
+                        <List.Dropdown.Item
+                            key={drinkType.id}
+                            title={drinkType.name}
+                            value={drinkType.id}
+                        />
+                    ))}
             </List.Dropdown.Section>
-            <List.Dropdown.Section title="Non-Alcoholic">
-                {drinkTypes.filter(dt => ['soda', 'juice'].includes(dt.id)).map((drinkType) => (
-                    <List.Dropdown.Item
-                        key={drinkType.id}
-                        title={drinkType.name}
-                        value={drinkType.id}
-                    />
-                ))}
+            <List.Dropdown.Section title='Non-Alcoholic'>
+                {drinkTypes
+                    .filter((dt) => ['soda', 'juice'].includes(dt.id))
+                    .map((drinkType) => (
+                        <List.Dropdown.Item
+                            key={drinkType.id}
+                            title={drinkType.name}
+                            value={drinkType.id}
+                        />
+                    ))}
             </List.Dropdown.Section>
         </List.Dropdown>
     )
@@ -60,26 +64,31 @@ function ListWithDropdownExample() {
         { id: '10', name: 'Apple Juice', type: 'juice' },
     ]
 
-    const filteredDrinks = selectedDrinkType === 'all'
-        ? drinks
-        : drinks.filter(d => d.type === selectedDrinkType)
+    const filteredDrinks =
+        selectedDrinkType === 'all'
+            ? drinks
+            : drinks.filter((d) => d.type === selectedDrinkType)
 
     return (
         <List
-            navigationTitle="Search Beers"
+            navigationTitle='Search Beers'
             // searchBarPlaceholder="Search your favorite drink"
             searchBarAccessory={
-                <DrinkDropdown
-                    drinkTypes={drinkTypes}
-                    onDrinkTypeChange={setSelectedDrinkType}
-                /> as ReactElement<DropdownProps>
+                (
+                    <DrinkDropdown
+                        drinkTypes={drinkTypes}
+                        onDrinkTypeChange={setSelectedDrinkType}
+                    />
+                ) as ReactElement<DropdownProps>
             }
         >
-            {filteredDrinks.map(drink => (
+            {filteredDrinks.map((drink) => (
                 <List.Item
                     key={drink.id}
                     title={drink.name}
-                    subtitle={drinkTypes.find(dt => dt.id === drink.type)?.name}
+                    subtitle={
+                        drinkTypes.find((dt) => dt.id === drink.type)?.name
+                    }
                 />
             ))}
         </List>

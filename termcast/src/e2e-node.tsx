@@ -229,7 +229,6 @@ export class NodeTuiDriver {
             return getCurrentText()
         }
 
-
         // await this.waitIdle({ timeout: 200 })
         return getCurrentText()
     }
@@ -259,25 +258,26 @@ export class NodeTuiDriver {
 
     async clickText(
         pattern: string | RegExp,
-        options?: { timeout?: number }
+        options?: { timeout?: number },
     ): Promise<void> {
         const timeout = options?.timeout ?? 5000
         const startTime = Date.now()
-        const regex = typeof pattern === 'string' 
-            ? new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-            : pattern
+        const regex =
+            typeof pattern === 'string'
+                ? new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+                : pattern
 
         while (Date.now() - startTime < timeout) {
             await this.waitIdle({ timeout: 100 })
-            
+
             // Get the current buffer state
             const b = this.term.buffer.active
-            
+
             // Search through each line for the pattern
             for (let y = 0; y < this.rows; y++) {
                 const line = b.getLine(y)?.translateToString(true) ?? ''
                 const match = line.match(regex)
-                
+
                 if (match && match.index !== undefined) {
                     // Found the text, click on the first character
                     await this.click(match.index, y)
@@ -286,7 +286,9 @@ export class NodeTuiDriver {
             }
         }
 
-        throw new Error(`Text matching pattern "${pattern}" not found within ${timeout}ms`)
+        throw new Error(
+            `Text matching pattern "${pattern}" not found within ${timeout}ms`,
+        )
     }
 
     dispose() {

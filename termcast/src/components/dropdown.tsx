@@ -55,7 +55,11 @@ interface DropdownItemDescendant {
     hidden?: boolean
 }
 
-const { DescendantsProvider: DropdownDescendantsProvider, useDescendants: useDropdownDescendants, useDescendant: useDropdownItemDescendant } = createDescendants<DropdownItemDescendant>()
+const {
+    DescendantsProvider: DropdownDescendantsProvider,
+    useDescendants: useDropdownDescendants,
+    useDescendant: useDropdownItemDescendant,
+} = createDescendants<DropdownItemDescendant>()
 
 // Context for passing data to dropdown items
 interface DropdownContextValue {
@@ -90,7 +94,7 @@ const Dropdown: DropdownType = (props) => {
         placeholder = 'Search…',
         storeValue,
         isLoading,
-        filtering=true,
+        filtering = true,
         onSearchTextChange,
         throttle,
     } = props
@@ -212,17 +216,23 @@ const Dropdown: DropdownType = (props) => {
                                     justifyContent: 'space-between',
                                 }}
                             >
-                                <text attributes={TextAttributes.BOLD}>{tooltip}</text>
+                                <text attributes={TextAttributes.BOLD}>
+                                    {tooltip}
+                                </text>
                                 <text fg={Theme.textMuted}>esc</text>
                             </box>
                             <box style={{ paddingTop: 1, paddingBottom: 1 }}>
                                 <input
                                     ref={inputRef}
-                                    onInput={(value) => handleSearchTextChange(value)}
+                                    onInput={(value) =>
+                                        handleSearchTextChange(value)
+                                    }
                                     placeholder={placeholder}
                                     focused={inFocus}
                                     value={searchText}
-                                    focusedBackgroundColor={Theme.backgroundPanel}
+                                    focusedBackgroundColor={
+                                        Theme.backgroundPanel
+                                    }
                                     cursorColor={Theme.primary}
                                     focusedTextColor={Theme.textMuted}
                                 />
@@ -232,7 +242,6 @@ const Dropdown: DropdownType = (props) => {
                             {/* Render children - they will register as descendants and render themselves */}
                             {children}
                         </box>
-
                     </box>
                     <box
                         border={false}
@@ -274,7 +283,11 @@ function ItemOption(props: {
         <box
             style={{
                 flexDirection: 'row',
-                backgroundColor: props.active ? Theme.primary : isHovered ? Theme.backgroundPanel : undefined,
+                backgroundColor: props.active
+                    ? Theme.primary
+                    : isHovered
+                      ? Theme.backgroundPanel
+                      : undefined,
                 paddingLeft: 1,
                 paddingRight: 1,
                 justifyContent: 'space-between',
@@ -289,7 +302,10 @@ function ItemOption(props: {
         >
             <box style={{ flexDirection: 'row' }}>
                 {props.icon && (
-                    <text fg={props.active ? Theme.background : Theme.text} selectable={false}>
+                    <text
+                        fg={props.active ? Theme.background : Theme.text}
+                        selectable={false}
+                    >
                         {String(props.icon)}{' '}
                     </text>
                 )}
@@ -324,7 +340,13 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
     const context = useContext(DropdownContext)
     if (!context) return null
 
-    const { searchText, filtering, currentSection, selectedIndex, currentValue } = context
+    const {
+        searchText,
+        filtering,
+        currentSection,
+        selectedIndex,
+        currentValue,
+    } = context
 
     // Apply filtering logic
     const shouldHide = (() => {
@@ -354,7 +376,11 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
     // Handle mouse events
     const handleMouseMove = () => {
         // Update selected index on hover
-        if (context.setSelectedIndex && context.selectedIndex !== index && index !== -1) {
+        if (
+            context.setSelectedIndex &&
+            context.selectedIndex !== index &&
+            index !== -1
+        ) {
             context.setSelectedIndex(index)
         }
     }
@@ -385,20 +411,20 @@ const DropdownSection: (props: DropdownSectionProps) => any = (props) => {
     if (!parentContext) return null
 
     // Create new context with section title
-    const sectionContextValue = useMemo(() => ({
-        ...parentContext,
-        currentSection: props.title,
-    }), [parentContext, props.title])
+    const sectionContextValue = useMemo(
+        () => ({
+            ...parentContext,
+            currentSection: props.title,
+        }),
+        [parentContext, props.title],
+    )
 
     return (
         <>
             {/* Render section title if provided */}
             {props.title && (
                 <box style={{ paddingTop: 1, paddingLeft: 1 }}>
-                    <text
-                        fg={Theme.accent}
-                        attributes={TextAttributes.BOLD}
-                    >
+                    <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
                         {props.title}
                     </text>
                 </box>

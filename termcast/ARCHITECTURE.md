@@ -7,6 +7,7 @@ This guide explains how to implement new components and extensions using the est
 ### When to Use Dialogs
 
 Use dialogs when you need:
+
 - Action panels (Ctrl+K menus)
 - Modal forms or inputs
 - Confirmation prompts
@@ -21,7 +22,7 @@ import { useDialog } from '@termcast/cli/src/internal/dialog'
 const dialog = useDialog()
 
 // Push a new dialog
-dialog.push(element, position)  // position: 'center' | 'top-right' | 'bottom-right'
+dialog.push(element, position) // position: 'center' | 'top-right' | 'bottom-right'
 
 // Replace all dialogs with a new one
 dialog.replace(element, position)
@@ -46,21 +47,22 @@ dialog.stack
 **ALWAYS check if your component is in focus before handling keyboard events.** This prevents components underneath dialogs from responding to input.
 
 ### How to Check Focus
+
 ```tsx
 import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 import { useKeyboard } from '@opentui/react'
 
 function MyComponent() {
-  const inFocus = useIsInFocus()
+    const inFocus = useIsInFocus()
 
-  useKeyboard((evt) => {
-    if (!inFocus) return  // Ignore input if not in focus
+    useKeyboard((evt) => {
+        if (!inFocus) return // Ignore input if not in focus
 
-    // Handle keyboard events
-    if (evt.name === 'return') {
-      // Do something
-    }
-  })
+        // Handle keyboard events
+        if (evt.name === 'return') {
+            // Do something
+        }
+    })
 }
 ```
 
@@ -69,72 +71,77 @@ function MyComponent() {
 ### When to Add Actions
 
 Add actions to components that need contextual operations:
+
 - List items (open, copy, delete, share)
 - Detail views (edit, export, navigate)
 - Forms (submit, reset, cancel)
 - Any component with user operations
 
 ### Step 1: Define Your Actions
-   ```tsx
-   <ActionPanel>
-     <Action title="Copy" onAction={() => {}} />
-     <Action.CopyToClipboard content="text" />
-     <Action.OpenInBrowser url="https://..." />
-   </ActionPanel>
-   ```
+
+```tsx
+<ActionPanel>
+    <Action title='Copy' onAction={() => {}} />
+    <Action.CopyToClipboard content='text' />
+    <Action.OpenInBrowser url='https://...' />
+</ActionPanel>
+```
 
 ### Step 2: Handle Ctrl+K in Your Component
 
 For custom components that aren't List or Detail, implement the Ctrl+K handler:
-   ```tsx
-   import { useDialog } from '@termcast/cli/src/internal/dialog'
-   import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
-   
-   const dialog = useDialog()
-   const inFocus = useIsInFocus()
-   
-   useKeyboard((evt) => {
-     if (!inFocus) return
-     
-     // Show actions on Ctrl+K
-     if (evt.name === 'k' && evt.ctrl && actions) {
-       dialog.push(actions, 'bottom-right')
-     }
-     
-     // Optional: Also show on Return key
-     if (evt.name === 'return' && actions) {
-       dialog.push(actions, 'bottom-right')
-     }
-   })
-   ```
+
+```tsx
+import { useDialog } from '@termcast/cli/src/internal/dialog'
+import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+
+const dialog = useDialog()
+const inFocus = useIsInFocus()
+
+useKeyboard((evt) => {
+    if (!inFocus) return
+
+    // Show actions on Ctrl+K
+    if (evt.name === 'k' && evt.ctrl && actions) {
+        dialog.push(actions, 'bottom-right')
+    }
+
+    // Optional: Also show on Return key
+    if (evt.name === 'return' && actions) {
+        dialog.push(actions, 'bottom-right')
+    }
+})
+```
 
 ### Step 3: Pass Actions to Components
 
 **For List Items:**
+
 ```tsx
 <List>
-  <List.Item
-    title="Item"
-    actions={
-      <ActionPanel>
-        <Action title="Open" onAction={handleOpen} />
-        <Action.CopyToClipboard content={itemText} />
-      </ActionPanel>
-    }
-  />
+    <List.Item
+        title='Item'
+        actions={
+            <ActionPanel>
+                <Action title='Open' onAction={handleOpen} />
+                <Action.CopyToClipboard content={itemText} />
+            </ActionPanel>
+        }
+    />
 </List>
 ```
 
 **For Detail Views:**
+
 ```tsx
 <Detail
-  markdown="# Content"
-  actions={
-    <ActionPanel>
-      <Action.OpenInBrowser url={url} />
-      <Action.Push target={<AnotherView />} />
-    </ActionPanel>
-  }
+    markdown='# Content'
+    actions={
+        <ActionPanel>
+            <Action.OpenInBrowser url={url} />
+            <Action.Push target={<AnotherView />} />
+        </ActionPanel>
+    }
 />
 ```
 
@@ -143,6 +150,7 @@ For custom components that aren't List or Detail, implement the Ctrl+K handler:
 ### When to Use Navigation
 
 Use navigation for:
+
 - Moving from list to detail view
 - Multi-step forms or wizards
 - Drill-down interfaces
@@ -150,13 +158,14 @@ Use navigation for:
 - Any full-screen view transition
 
 ### How to Navigate Between Views
+
 ```tsx
 import { useNavigation } from '@termcast/cli/src/internal/navigation'
 
 const navigation = useNavigation()
 
 // Push a new component
-navigation.push(component, onPop)  // onPop callback when popped
+navigation.push(component, onPop) // onPop callback when popped
 
 // Pop current component
 navigation.pop()
@@ -170,16 +179,16 @@ navigation.pop()
 4. **Cleanup callbacks** - Use onPop for cleanup when user goes back
 
 ### Example: List to Detail Navigation
+
 ```tsx
 function ListView() {
-  const navigation = useNavigation()
+    const navigation = useNavigation()
 
-  const openDetail = () => {
-    navigation.push(
-      <DetailView itemId={selectedId} />,
-      () => console.log('Detail view closed')
-    )
-  }
+    const openDetail = () => {
+        navigation.push(<DetailView itemId={selectedId} />, () =>
+            console.log('Detail view closed'),
+        )
+    }
 }
 ```
 
@@ -188,53 +197,58 @@ function ListView() {
 ### When to Use Global State
 
 **Use global state ONLY for:**
+
 - Toast notifications that appear anywhere
 - Current extension/command context
 - Dev mode settings
 - Cross-component communication that can't use props
 
 **Use local state for everything else:**
+
 - Form data
 - Search text
 - Selection state
 - Component-specific UI state
 
 ### Global State Structure
+
 ```tsx
 interface AppState {
-  // UI State
-  toast: ReactNode | null
-  dialogStack: DialogStackItem[]
-  navigationStack: NavigationStackItem[]
+    // UI State
+    toast: ReactNode | null
+    dialogStack: DialogStackItem[]
+    navigationStack: NavigationStackItem[]
 
-  // Dev Mode
-  devElement: ReactNode | null
-  devRebuildCount: number
+    // Dev Mode
+    devElement: ReactNode | null
+    devRebuildCount: number
 
-  // Extension State
-  extensionPath: string | null
-  extensionPackageJson: RaycastPackageJson | null
-  currentCommandName: string | null
+    // Extension State
+    extensionPath: string | null
+    extensionPackageJson: RaycastPackageJson | null
+    currentCommandName: string | null
 }
 ```
 
 ### How to Use Global State
 
 **In React Components:**
+
 ```tsx
 const toast = useStore((state) => state.toast)
 const dialogStack = useStore((state) => state.dialogStack)
 ```
 
 **In Event Handlers/Async Functions:**
+
 ```tsx
 // Get current state
 const state = useStore.getState()
 
 // Update state (merges automatically)
 useStore.setState({
-  toast: <Toast message="Success!" />,
-  dialogStack: []
+    toast: <Toast message='Success!' />,
+    dialogStack: [],
 })
 ```
 
@@ -260,23 +274,23 @@ import { showToast, Toast } from '@termcast/cli/src/toast'
 
 // Success
 showToast({
-  title: "Success",
-  message: "File saved",
-  style: Toast.Style.Success
+    title: 'Success',
+    message: 'File saved',
+    style: Toast.Style.Success,
 })
 
 // Error
 showToast({
-  title: "Error",
-  message: error.message,
-  style: Toast.Style.Failure
+    title: 'Error',
+    message: error.message,
+    style: Toast.Style.Failure,
 })
 
 // Loading
 showToast({
-  title: "Loading",
-  message: "Fetching data...",
-  style: Toast.Style.Animated
+    title: 'Loading',
+    message: 'Fetching data...',
+    style: Toast.Style.Animated,
 })
 ```
 
@@ -298,37 +312,38 @@ When building a new component:
 ## Code Examples
 
 ### Complete List with Actions
+
 ```tsx
 function MyList() {
-  const navigation = useNavigation()
-  
-  return (
-    <List>
-      {items.map(item => (
-        <List.Item
-          key={item.id}
-          title={item.name}
-          subtitle={item.description}
-          actions={
-            <ActionPanel>
-              <Action.Push 
-                title="View Details"
-                target={<DetailView item={item} />}
-              />
-              <Action.CopyToClipboard 
-                title="Copy ID"
-                content={item.id}
-              />
-              <Action.OpenInBrowser 
-                title="View Online"
-                url={item.url}
-              />
-            </ActionPanel>
-          }
-        />
-      ))}
-    </List>
-  )
+    const navigation = useNavigation()
+
+    return (
+        <List>
+            {items.map((item) => (
+                <List.Item
+                    key={item.id}
+                    title={item.name}
+                    subtitle={item.description}
+                    actions={
+                        <ActionPanel>
+                            <Action.Push
+                                title='View Details'
+                                target={<DetailView item={item} />}
+                            />
+                            <Action.CopyToClipboard
+                                title='Copy ID'
+                                content={item.id}
+                            />
+                            <Action.OpenInBrowser
+                                title='View Online'
+                                url={item.url}
+                            />
+                        </ActionPanel>
+                    }
+                />
+            ))}
+        </List>
+    )
 }
 ```
 
@@ -336,29 +351,25 @@ function MyList() {
 
 ```tsx
 function CustomView({ data }) {
-  const dialog = useDialog()
-  const inFocus = useIsInFocus()
-  
-  const actions = (
-    <ActionPanel>
-      <Action title="Process" onAction={() => processData(data)} />
-      <Action.CopyToClipboard content={data.text} />
-    </ActionPanel>
-  )
-  
-  useKeyboard((evt) => {
-    if (!inFocus) return
-    
-    if (evt.name === 'k' && evt.ctrl) {
-      dialog.push(actions, 'bottom-right')
-    }
-  })
-  
-  return (
-    <box>
-      {/* Your component UI */}
-    </box>
-  )
+    const dialog = useDialog()
+    const inFocus = useIsInFocus()
+
+    const actions = (
+        <ActionPanel>
+            <Action title='Process' onAction={() => processData(data)} />
+            <Action.CopyToClipboard content={data.text} />
+        </ActionPanel>
+    )
+
+    useKeyboard((evt) => {
+        if (!inFocus) return
+
+        if (evt.name === 'k' && evt.ctrl) {
+            dialog.push(actions, 'bottom-right')
+        }
+    })
+
+    return <box>{/* Your component UI */}</box>
 }
 ```
 
@@ -366,38 +377,35 @@ function CustomView({ data }) {
 
 ```tsx
 function MyForm() {
-  const navigation = useNavigation()
-  const [name, setName] = useState('')
-  
-  return (
-    <Form
-      actions={
-        <ActionPanel>
-          <Action.SubmitForm 
-            onSubmit={(values) => {
-              // Process form
-              showToast({ 
-                title: "Saved", 
-                style: Toast.Style.Success 
-              })
-              navigation.pop()
-            }}
-          />
-          <Action 
-            title="Cancel" 
-            onAction={() => navigation.pop()} 
-          />
-        </ActionPanel>
-      }
-    >
-      <Form.TextField 
-        id="name" 
-        title="Name" 
-        value={name}
-        onChange={setName}
-      />
-    </Form>
-  )
+    const navigation = useNavigation()
+    const [name, setName] = useState('')
+
+    return (
+        <Form
+            actions={
+                <ActionPanel>
+                    <Action.SubmitForm
+                        onSubmit={(values) => {
+                            // Process form
+                            showToast({
+                                title: 'Saved',
+                                style: Toast.Style.Success,
+                            })
+                            navigation.pop()
+                        }}
+                    />
+                    <Action title='Cancel' onAction={() => navigation.pop()} />
+                </ActionPanel>
+            }
+        >
+            <Form.TextField
+                id='name'
+                title='Name'
+                value={name}
+                onChange={setName}
+            />
+        </Form>
+    )
 }
 ```
 
@@ -410,6 +418,7 @@ The ActionPanel automatically executes if there's only one action. You don't nee
 ### ESC Key Handling
 
 Don't override ESC key behavior. The system handles it:
+
 1. First ESC closes dialogs
 2. Second ESC pops navigation (if possible)
 3. Let the default handlers work
@@ -417,8 +426,10 @@ Don't override ESC key behavior. The system handles it:
 ### Return vs Enter
 
 In keyboard events, the Enter key is called `'return'`:
+
 ```tsx
-if (evt.name === 'return') {  // NOT 'enter'
-  // Handle enter key
+if (evt.name === 'return') {
+    // NOT 'enter'
+    // Handle enter key
 }
 ```

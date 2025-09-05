@@ -41,7 +41,7 @@ test('navigation between main and detail views', async () => {
 
     // Navigate to second item
     await driver.keys.down()
-    
+
     const afterDownSnapshot = await driver.text()
     expect(afterDownSnapshot).toMatchInlineSnapshot(`
       "
@@ -161,7 +161,7 @@ test('navigation between main and detail views', async () => {
     // Navigate down to third item (we're back at first item after ESC)
     await driver.keys.down()
     await driver.keys.down()
-    
+
     const thirdItemSnapshot = await driver.text()
     expect(thirdItemSnapshot).toMatchInlineSnapshot(`
       "
@@ -180,7 +180,7 @@ test('navigation between main and detail views', async () => {
 
     // Open action panel for third item
     await driver.keys.enter()
-    
+
     const thirdActionsSnapshot = await driver.text()
     expect(thirdActionsSnapshot).toMatchInlineSnapshot(`
       "
@@ -231,7 +231,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ select   ↑↓ navigate"
     `)
-    
+
     // Navigate to detail
     await driver.keys.enter()
 
@@ -253,9 +253,9 @@ test('navigation between main and detail views', async () => {
        ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    // Use Enter to open actions and go back 
+    // Use Enter to open actions and go back
     await driver.keys.enter()
-    
+
     const thirdDetailActionsSnapshot = await driver.text()
     expect(thirdDetailActionsSnapshot).toMatchInlineSnapshot(`
       "
@@ -306,7 +306,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ select   ↑↓ navigate"
     `)
-    
+
     // Select "Go Back" action
     await driver.keys.enter()
 
@@ -654,7 +654,7 @@ test('search functionality in main and detail views', async () => {
 
     // Open actions for first item
     await driver.keys.enter()
-    
+
     // Navigate to first item detail
     await driver.keys.enter()
 

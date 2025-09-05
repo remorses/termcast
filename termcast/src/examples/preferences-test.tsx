@@ -1,9 +1,9 @@
 import React from 'react'
 import { List, Action, ActionPanel, showToast, Toast } from '@termcast/cli'
-import { 
+import {
     getPreferenceValues,
-    openExtensionPreferences, 
-    openCommandPreferences 
+    openExtensionPreferences,
+    openCommandPreferences,
 } from '@termcast/cli'
 import { renderWithProviders } from '@termcast/cli'
 
@@ -13,9 +13,10 @@ function PreferencesTestExample(): any {
         showToast({
             style: Toast.Style.Success,
             title: 'Current Preferences',
-            message: Object.keys(prefs).length > 0 
-                ? JSON.stringify(prefs, null, 2) 
-                : 'No preferences set'
+            message:
+                Object.keys(prefs).length > 0
+                    ? JSON.stringify(prefs, null, 2)
+                    : 'No preferences set',
         })
     }
 
@@ -26,7 +27,7 @@ function PreferencesTestExample(): any {
             showToast({
                 style: Toast.Style.Failure,
                 title: 'Error',
-                message: String(error)
+                message: String(error),
             })
         }
     }
@@ -38,46 +39,46 @@ function PreferencesTestExample(): any {
             showToast({
                 style: Toast.Style.Failure,
                 title: 'Error',
-                message: String(error)
+                message: String(error),
             })
         }
     }
 
     return (
-        <List navigationTitle="Preferences Test">
+        <List navigationTitle='Preferences Test'>
             <List.Item
-                title="Get Current Preferences"
-                subtitle="Shows current preference values"
+                title='Get Current Preferences'
+                subtitle='Shows current preference values'
                 actions={
                     <ActionPanel>
                         <Action
-                            title="Get Preferences"
+                            title='Get Preferences'
                             onAction={handleGetPreferences}
                         />
                     </ActionPanel>
                 }
             />
-            
+
             <List.Item
-                title="Open Extension Preferences"
-                subtitle="Opens the extension preferences form"
+                title='Open Extension Preferences'
+                subtitle='Opens the extension preferences form'
                 actions={
                     <ActionPanel>
                         <Action
-                            title="Open"
+                            title='Open'
                             onAction={handleOpenExtensionPrefs}
                         />
                     </ActionPanel>
                 }
             />
-            
+
             <List.Item
-                title="Open Command Preferences"
-                subtitle="Opens the command preferences form"
+                title='Open Command Preferences'
+                subtitle='Opens the command preferences form'
                 actions={
                     <ActionPanel>
                         <Action
-                            title="Open"
+                            title='Open'
                             onAction={handleOpenCommandPrefs}
                         />
                     </ActionPanel>

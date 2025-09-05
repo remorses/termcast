@@ -43,7 +43,9 @@ export async function downloadExtension({
         if (!file.dir) {
             const buffer = await file.async('nodebuffer')
             const pathParts = filename.split('/')
-            const filenameWithoutTopLevel = path.posix.join(...pathParts.slice(1))
+            const filenameWithoutTopLevel = path.posix.join(
+                ...pathParts.slice(1),
+            )
             files.push({ buffer, filename: filenameWithoutTopLevel })
         }
     }

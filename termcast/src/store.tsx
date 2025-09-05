@@ -21,13 +21,13 @@ export function resolveCommandPath({
     if (fs.existsSync(bundledPath)) {
         return bundledPath
     }
-    
+
     // Then check for top-level command file
     const topLevelPath = path.join(dir, `${commandName}.js`)
     if (fs.existsSync(topLevelPath)) {
         return topLevelPath
     }
-    
+
     // Return empty string if not found
     return ''
 }
@@ -41,12 +41,12 @@ interface StoredExtension {
 export function getStoreDirectory(): string {
     const homeDir = os.homedir()
     const storeDir = path.join(homeDir, '.termcast', 'store')
-    
+
     // Ensure store directory exists
     if (!fs.existsSync(storeDir)) {
         fs.mkdirSync(storeDir, { recursive: true })
     }
-    
+
     return storeDir
 }
 
@@ -59,67 +59,72 @@ export function installExtension({
 }): void {
     const storeDir = getStoreDirectory()
     const extensionDir = path.join(storeDir, extensionName)
-    
+
     // Remove existing extension directory if it exists
     if (fs.existsSync(extensionDir)) {
         fs.rmSync(extensionDir, { recursive: true, force: true })
     }
-    
+
     // Create extension directory
     fs.mkdirSync(extensionDir, { recursive: true })
-    
+
     // Copy entire extension source directory
     fs.cpSync(extensionSourcePath, extensionDir, { recursive: true })
-    
+
     logger.log(`Extension '${extensionName}' installed to ${extensionDir}`)
 }
 
 export function getStoredExtensions(): StoredExtension[] {
     const storeDir = getStoreDirectory()
     const extensions: StoredExtension[] = []
-    
+
     if (!fs.existsSync(storeDir)) {
         return extensions
     }
-    
+
     const entries = fs.readdirSync(storeDir, { withFileTypes: true })
-    
+
     for (const entry of entries) {
         if (!entry.isDirectory()) continue
-        
+
         const extensionDir = path.join(storeDir, entry.name)
         const packageJsonPath = path.join(extensionDir, 'package.json')
-        
+
         if (!fs.existsSync(packageJsonPath)) {
             logger.log(`Skipping ${entry.name}: no package.json found`)
             continue
         }
-        
+
         try {
             const commandsData = getCommandsWithFiles({ packageJsonPath })
-            
+
             // Map commands to bundled commands using the resolver
-            const bundledCommands: BundledCommand[] = commandsData.commands.map((command) => {
-                const bundledPath = resolveCommandPath({
-                    commandName: command.name,
-                    dir: extensionDir,
-                })
-                
-                return {
-                    ...command,
-                    bundledPath,
-                }
-            })
-            
+            const bundledCommands: BundledCommand[] = commandsData.commands.map(
+                (command) => {
+                    const bundledPath = resolveCommandPath({
+                        commandName: command.name,
+                        dir: extensionDir,
+                    })
+
+                    return {
+                        ...command,
+                        bundledPath,
+                    }
+                },
+            )
+
             extensions.push({
                 name: entry.name,
                 packageJsonPath,
                 commands: bundledCommands,
             })
         } catch (error: any) {
-            logger.error(`Failed to load extension ${entry.name}:`, error.message)
+            logger.error(
+                `Failed to load extension ${entry.name}:`,
+                error.message,
+            )
         }
     }
-    
+
     return extensions
 }

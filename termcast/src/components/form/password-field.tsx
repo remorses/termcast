@@ -12,7 +12,10 @@ export interface PasswordFieldProps extends FormItemProps<string> {
 
 export type PasswordFieldRef = FormItemRef
 
-export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldProps>((props, ref) => {
+export const PasswordField = React.forwardRef<
+    PasswordFieldRef,
+    PasswordFieldProps
+>((props, ref) => {
     const { control } = useFormContext()
     const { focusedField, setFocusedField } = useFocusContext()
     const isFocused = focusedField === props.id
@@ -24,48 +27,62 @@ export const PasswordField = React.forwardRef<PasswordFieldRef, PasswordFieldPro
             defaultValue={props.defaultValue || props.value || ''}
             render={({ field, fieldState, formState }) => {
                 // Always show masked value when not focused
-                const displayValue = isFocused ? field.value : '*'.repeat(field.value.length)
+                const displayValue = isFocused
+                    ? field.value
+                    : '*'.repeat(field.value.length)
 
                 return (
-                    <box flexDirection="column">
-                            <box 
-                                border 
-                                title={props.title ? (isFocused ? `${props.title} ‹` : props.title) : undefined}
-                                padding={1} 
-                                backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                    <box flexDirection='column'>
+                        <box
+                            border
+                            title={
+                                props.title
+                                    ? isFocused
+                                        ? `${props.title} ‹`
+                                        : props.title
+                                    : undefined
+                            }
+                            padding={1}
+                            backgroundColor={
+                                isFocused ? Theme.backgroundPanel : undefined
+                            }
+                            onMouseDown={() => {
+                                setFocusedField(props.id)
+                            }}
+                        >
+                            <input
+                                value={displayValue}
+                                onInput={(value: string) => {
+                                    // Ignore masked input (all asterisks) when not focused
+                                    if (
+                                        isFocused &&
+                                        !(
+                                            /^\*+$/.test(value) &&
+                                            !field.value.startsWith('*')
+                                        )
+                                    ) {
+                                        field.onChange(value)
+                                        if (props.onChange) {
+                                            props.onChange(value)
+                                        }
+                                    }
+                                }}
+                                placeholder={props.placeholder}
+                                focused={isFocused}
                                 onMouseDown={() => {
                                     setFocusedField(props.id)
                                 }}
-                            >
-                                <input
-                                    value={displayValue}
-                                    onInput={(value: string) => {
-                                        // Ignore masked input (all asterisks) when not focused
-                                        if (isFocused && !(/^\*+$/.test(value) && !field.value.startsWith('*'))) {
-                                            field.onChange(value)
-                                            if (props.onChange) {
-                                                props.onChange(value)
-                                            }
-                                        }
-                                    }}
-                                    placeholder={props.placeholder}
-                                    focused={isFocused}
-                                    onMouseDown={() => {
-                                        setFocusedField(props.id)
-                                    }}
-                                />
-                            </box>
-                            {(fieldState.error || props.error) && (
-                                <text fg={Theme.error}>
-                                    {fieldState.error?.message || props.error}
-                                </text>
-                            )}
-                            {props.info && (
-                                <text fg={Theme.textMuted}>
-                                    {props.info}
-                                </text>
-                            )}
+                            />
                         </box>
+                        {(fieldState.error || props.error) && (
+                            <text fg={Theme.error}>
+                                {fieldState.error?.message || props.error}
+                            </text>
+                        )}
+                        {props.info && (
+                            <text fg={Theme.textMuted}>{props.info}</text>
+                        )}
+                    </box>
                 ) as React.ReactElement
             }}
         />
