@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
+import { WithLeftBorder } from './with-left-border'
 
 export enum DatePickerType {
     Date = 'date',
@@ -29,27 +30,6 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>(
         const { control } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
-        const [inputValue, setInputValue] = useState('')
-
-        const formatDate = (date: Date | null) => {
-            if (!date) return ''
-            if (props.type === DatePickerType.DateTime) {
-                return date.toISOString().slice(0, 16).replace('T', ' ')
-            }
-            return date.toISOString().slice(0, 10)
-        }
-
-        const parseDate = (dateString: string): Date | null => {
-            if (!dateString) return null
-            try {
-                // Handle YYYY-MM-DD or YYYY-MM-DD HH:MM
-                const cleanedString = dateString.replace(' ', 'T')
-                const date = new Date(cleanedString)
-                return isNaN(date.getTime()) ? null : date
-            } catch {
-                return null
-            }
-        }
 
         return (
             <Controller
@@ -57,70 +37,95 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>(
                 control={control}
                 defaultValue={props.defaultValue || props.value || null}
                 render={({ field, fieldState, formState }) => {
-                    const handleChange = (value: string) => {
-                        setInputValue(value)
-                        const date = parseDate(value)
-                        field.onChange(date)
-                        if (props.onChange) {
-                            props.onChange(date)
+                    const placeholder = props.type === DatePickerType.DateTime 
+                        ? 'YYYY/MM/DD HH:MM' 
+                        : 'YYYY/MM/DD'
+                    
+                    const formatDateForDisplay = (date: Date | null): string => {
+                        if (!date) return ''
+                        const year = date.getFullYear()
+                        const month = String(date.getMonth() + 1).padStart(2, '0')
+                        const day = String(date.getDate()).padStart(2, '0')
+                        
+                        if (props.type === DatePickerType.DateTime) {
+                            const hours = String(date.getHours()).padStart(2, '0')
+                            const minutes = String(date.getMinutes()).padStart(2, '0')
+                            return `${year}/${month}/${day} ${hours}:${minutes}`
                         }
+                        return `${year}/${month}/${day}`
                     }
-
-                    // When not focused, show formatted date or placeholder
-                    const displayValue = isFocused
-                        ? inputValue
-                        : formatDate(field.value) || ''
+                    
+                    const parseInput = (value: string): Date | null => {
+                        if (!value) return null
+                        
+                        // Try to parse YYYY/MM/DD or YYYY/MM/DD HH:MM
+                        const dateTimeMatch = value.match(/^(\d{4})\/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})$/)
+                        if (dateTimeMatch) {
+                            const [, year, month, day, hours, minutes] = dateTimeMatch
+                            const date = new Date(
+                                parseInt(year, 10),
+                                parseInt(month, 10) - 1,
+                                parseInt(day, 10),
+                                parseInt(hours, 10),
+                                parseInt(minutes, 10)
+                            )
+                            return isNaN(date.getTime()) ? null : date
+                        }
+                        
+                        const dateMatch = value.match(/^(\d{4})\/(\d{2})\/(\d{2})$/)
+                        if (dateMatch) {
+                            const [, year, month, day] = dateMatch
+                            const date = new Date(
+                                parseInt(year, 10),
+                                parseInt(month, 10) - 1,
+                                parseInt(day, 10)
+                            )
+                            return isNaN(date.getTime()) ? null : date
+                        }
+                        
+                        return null
+                    }
 
                     return (
                         <box flexDirection='column'>
-                            <box
-                                border
-                                title={
-                                    props.title
-                                        ? isFocused
-                                            ? `${props.title} ‹`
-                                            : props.title
-                                        : undefined
-                                }
-                                padding={1}
-                                backgroundColor={
-                                    isFocused
-                                        ? Theme.backgroundPanel
-                                        : undefined
-                                }
-                                onMouseDown={() => {
-                                    setFocusedField(props.id)
-                                }}
-                            >
+                            <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
+                                <text
+                                    fg={isFocused ? Theme.accent : Theme.text}
+                                    onMouseDown={() => {
+                                        setFocusedField(props.id)
+                                    }}
+                                >
+                                    {props.title}
+                                </text>
+                            </WithLeftBorder>
+                            <WithLeftBorder>
                                 <input
-                                    value={displayValue}
+                                    value={formatDateForDisplay(field.value)}
                                     onInput={(value: string) => {
-                                        if (isFocused) {
-                                            handleChange(value)
-                                        } else {
-                                            setInputValue(
-                                                formatDate(field.value),
-                                            )
+                                        const parsedDate = parseInput(value)
+                                        field.onChange(parsedDate)
+                                        if (props.onChange && parsedDate) {
+                                            props.onChange(parsedDate)
                                         }
                                     }}
-                                    placeholder={
-                                        props.type === DatePickerType.DateTime
-                                            ? 'YYYY-MM-DD HH:MM'
-                                            : 'YYYY-MM-DD'
-                                    }
+                                    placeholder={placeholder}
                                     focused={isFocused}
                                     onMouseDown={() => {
                                         setFocusedField(props.id)
                                     }}
                                 />
-                            </box>
+                            </WithLeftBorder>
                             {(fieldState.error || props.error) && (
-                                <text fg={Theme.error}>
-                                    {fieldState.error?.message || props.error}
-                                </text>
+                                <WithLeftBorder>
+                                    <text fg={Theme.error}>
+                                        {fieldState.error?.message || props.error}
+                                    </text>
+                                </WithLeftBorder>
                             )}
                             {props.info && (
-                                <text fg={Theme.textMuted}>{props.info}</text>
+                                <WithLeftBorder>
+                                    <text fg={Theme.textMuted}>{props.info}</text>
+                                </WithLeftBorder>
                             )}
                         </box>
                     ) as React.ReactElement
@@ -128,8 +133,9 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>(
             />
         )
     },
-) as unknown as DatePickerComponentType
+)
 
-DatePickerComponent.Type = DatePickerType
-
-export const DatePicker = DatePickerComponent
+// Create the properly typed DatePicker with static properties
+export const DatePicker = Object.assign(DatePickerComponent, {
+    Type: DatePickerType,
+}) as DatePickerComponentType

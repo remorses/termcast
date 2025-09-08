@@ -16,6 +16,7 @@ import { Theme } from '@termcast/cli/src/theme'
 import { Dropdown as BaseDropdown } from '@termcast/cli/src/components/dropdown'
 import { useDialog } from '@termcast/cli/src/internal/dialog'
 import { createDescendants } from '@termcast/cli/src/descendants'
+import { WithLeftBorder } from './with-left-border'
 
 export interface DropdownProps extends FormItemProps<string> {
     placeholder?: string
@@ -205,56 +206,53 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>(
 
                         return (
                             <box flexDirection='column'>
-                                <box
-                                    border
-                                    title={
-                                        props.title
-                                            ? isFocused
-                                                ? `${props.title} ‹`
-                                                : props.title
-                                            : undefined
-                                    }
-                                    padding={1}
-                                    backgroundColor={
-                                        isFocused
-                                            ? Theme.backgroundPanel
-                                            : undefined
-                                    }
-                                    onMouseDown={() => {
-                                        // Focus if not already focused
-                                        if (!isFocused) {
-                                            setFocusedField(props.id)
-                                        }
-                                        // Always try to open if not already open
-                                        if (!isOpen) {
-                                            openDropdown()
-                                        }
-                                    }}
-                                >
-                                    <text
-                                        fg={
-                                            selectedTitle
-                                                ? Theme.text
-                                                : Theme.textMuted
-                                        }
-                                        selectable={false}
+                                <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
+                                    <text 
+                                        fg={isFocused ? Theme.accent : Theme.text}
+                                        onMouseDown={() => {
+                                            // Focus if not already focused
+                                            if (!isFocused) {
+                                                setFocusedField(props.id)
+                                            }
+                                            // Always try to open if not already open
+                                            if (!isOpen) {
+                                                openDropdown()
+                                            }
+                                        }}
                                     >
-                                        {selectedTitle ||
-                                            props.placeholder ||
-                                            'Select...'}
-                                        {isFocused ? ' ▼' : ''}
+                                        {props.title}
                                     </text>
-                                </box>
+                                </WithLeftBorder>
+                                <WithLeftBorder>
+                                    <text
+                                        fg={selectedTitle ? Theme.text : Theme.textMuted}
+                                        selectable={false}
+                                        onMouseDown={() => {
+                                            if (!isFocused) {
+                                                setFocusedField(props.id)
+                                            }
+                                            if (!isOpen) {
+                                                openDropdown()
+                                            }
+                                        }}
+                                    >
+                                        {field.value ? '●' : '○'} {selectedTitle || props.placeholder || 'Select...'}
+                                    </text>
+                                </WithLeftBorder>
                                 {(fieldState.error || props.error) && (
-                                    <text fg={Theme.error}>
-                                        {fieldState.error?.message ||
-                                            props.error}
-                                    </text>
+                                    <WithLeftBorder>
+                                        <text fg={Theme.error}>
+                                            {fieldState.error?.message ||
+                                                props.error}
+                                        </text>
+                                    </WithLeftBorder>
                                 )}
                                 {props.info && (
-                                    <text fg={Theme.textMuted}>
-                                        {props.info}
-                                    </text>
+                                    <WithLeftBorder>
+                                        <text fg={Theme.textMuted}>
+                                            {props.info}
+                                        </text>
+                                    </WithLeftBorder>
                                 )}
                             </box>
                         ) as React.ReactElement

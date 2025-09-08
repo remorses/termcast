@@ -242,6 +242,7 @@ export const Form: FormType = ((props) => {
                 >
                     <box flexDirection='column'>
                         {props.children}
+                        <FormEnd />
                         <FormFooter />
                     </box>
                 </FocusContext.Provider>
@@ -259,6 +260,7 @@ import { Dropdown } from './dropdown'
 import { DatePicker } from './date-picker'
 import { Separator } from './separator'
 import { Description } from './description'
+import { FormEnd } from './form-end'
 
 Form.TextField = TextField
 Form.PasswordField = PasswordField

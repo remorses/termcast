@@ -5,6 +5,7 @@ import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
+import { WithLeftBorder } from './with-left-border'
 
 export interface PasswordFieldProps extends FormItemProps<string> {
     placeholder?: string
@@ -33,23 +34,17 @@ export const PasswordField = React.forwardRef<
 
                 return (
                     <box flexDirection='column'>
-                        <box
-                            border
-                            title={
-                                props.title
-                                    ? isFocused
-                                        ? `${props.title} ‹`
-                                        : props.title
-                                    : undefined
-                            }
-                            padding={1}
-                            backgroundColor={
-                                isFocused ? Theme.backgroundPanel : undefined
-                            }
-                            onMouseDown={() => {
-                                setFocusedField(props.id)
-                            }}
-                        >
+                        <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
+                            <text
+                                fg={isFocused ? Theme.accent : Theme.text}
+                                onMouseDown={() => {
+                                    setFocusedField(props.id)
+                                }}
+                            >
+                                {props.title}
+                            </text>
+                        </WithLeftBorder>
+                        <WithLeftBorder>
                             <input
                                 value={displayValue}
                                 onInput={(value: string) => {
@@ -73,14 +68,18 @@ export const PasswordField = React.forwardRef<
                                     setFocusedField(props.id)
                                 }}
                             />
-                        </box>
+                        </WithLeftBorder>
                         {(fieldState.error || props.error) && (
-                            <text fg={Theme.error}>
-                                {fieldState.error?.message || props.error}
-                            </text>
+                            <WithLeftBorder>
+                                <text fg={Theme.error}>
+                                    {fieldState.error?.message || props.error}
+                                </text>
+                            </WithLeftBorder>
                         )}
                         {props.info && (
-                            <text fg={Theme.textMuted}>{props.info}</text>
+                            <WithLeftBorder>
+                                <text fg={Theme.textMuted}>{props.info}</text>
+                            </WithLeftBorder>
                         )}
                     </box>
                 ) as React.ReactElement

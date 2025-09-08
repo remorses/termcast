@@ -5,6 +5,7 @@ import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
+import { WithLeftBorder } from './with-left-border'
 
 export interface TextAreaProps extends FormItemProps<string> {
     placeholder?: string
@@ -27,48 +28,54 @@ export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
                 render={({ field, fieldState, formState }) => {
                     return (
                         <box flexDirection='column'>
-                            <box
-                                border
-                                title={
-                                    props.title
-                                        ? isFocused
-                                            ? `${props.title} ‹`
-                                            : props.title
-                                        : undefined
-                                }
-                                padding={1}
-                                height={4}
-                                backgroundColor={
-                                    isFocused
-                                        ? Theme.backgroundPanel
-                                        : undefined
-                                }
-                                onMouseDown={() => {
-                                    setFocusedField(props.id)
-                                }}
+                            <WithLeftBorder
+                                withDiamond={true}
+                                diamondFilled={isFocused}
                             >
-                                <input
-                                    value={field.value}
-                                    onInput={(value: string) => {
-                                        field.onChange(value)
-                                        if (props.onChange) {
-                                            props.onChange(value)
-                                        }
-                                    }}
-                                    placeholder={props.placeholder}
-                                    focused={isFocused}
+                                <text
+                                    fg={isFocused ? Theme.accent : Theme.text}
                                     onMouseDown={() => {
                                         setFocusedField(props.id)
                                     }}
-                                />
-                            </box>
-                            {(fieldState.error || props.error) && (
-                                <text fg={Theme.error}>
-                                    {fieldState.error?.message || props.error}
+                                >
+                                    {props.title}
                                 </text>
+                            </WithLeftBorder>
+
+                            <WithLeftBorder>
+                                <box flexGrow={1}>
+                                    <input
+                                        value={field.value}
+                                        onInput={(value: string) => {
+                                            field.onChange(value)
+                                            if (props.onChange) {
+                                                props.onChange(value)
+                                            }
+                                        }}
+                                        minHeight={4}
+                                        placeholder={props.placeholder}
+                                        focused={isFocused}
+                                        onMouseDown={() => {
+                                            setFocusedField(props.id)
+                                        }}
+                                    />
+                                </box>
+                            </WithLeftBorder>
+
+                            {(fieldState.error || props.error) && (
+                                <WithLeftBorder>
+                                    <text fg={Theme.error}>
+                                        {fieldState.error?.message ||
+                                            props.error}
+                                    </text>
+                                </WithLeftBorder>
                             )}
                             {props.info && (
-                                <text fg={Theme.textMuted}>{props.info}</text>
+                                <WithLeftBorder>
+                                    <text fg={Theme.textMuted}>
+                                        {props.info}
+                                    </text>
+                                </WithLeftBorder>
                             )}
                         </box>
                     ) as React.ReactElement
