@@ -13,8 +13,7 @@ export interface TextFieldProps extends FormItemProps<string> {
 
 export type TextFieldRef = FormItemRef
 
-export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
-    (props, ref) => {
+export const TextField = (props: TextFieldProps): any => {
         const {
             control,
             formState: { errors },
@@ -76,5 +75,4 @@ export const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
                 }}
             />
         )
-    },
-)
+    }

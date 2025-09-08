@@ -13,10 +13,7 @@ export interface PasswordFieldProps extends FormItemProps<string> {
 
 export type PasswordFieldRef = FormItemRef
 
-export const PasswordField = React.forwardRef<
-    PasswordFieldRef,
-    PasswordFieldProps
->((props, ref) => {
+export const PasswordField = (props: PasswordFieldProps): any => {
     const { control } = useFormContext()
     const { focusedField, setFocusedField } = useFocusContext()
     const isFocused = focusedField === props.id
@@ -86,4 +83,4 @@ export const PasswordField = React.forwardRef<
             }}
         />
     )
-})
+}

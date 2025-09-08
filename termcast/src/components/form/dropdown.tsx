@@ -94,8 +94,7 @@ const DropdownSection = (props: DropdownSectionProps) => {
     )
 }
 
-const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>(
-    (props, ref) => {
+const DropdownComponent = (props: DropdownProps): any => {
         const { control } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const [isOpen, setIsOpen] = useState(false)
@@ -260,8 +259,7 @@ const DropdownComponent = React.forwardRef<DropdownRef, DropdownProps>(
                 />
             </FormDropdownDescendantsProvider>
         )
-    },
-)
+    }
 
 // Create the properly typed Dropdown with sub-components
 export const Dropdown = Object.assign(DropdownComponent, {

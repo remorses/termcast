@@ -25,8 +25,7 @@ interface DatePickerComponentType {
     Type: typeof DatePickerType
 }
 
-const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>(
-    (props, ref) => {
+const DatePickerComponent = (props: DatePickerProps): any => {
         const { control } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
@@ -132,8 +131,7 @@ const DatePickerComponent = React.forwardRef<DatePickerRef, DatePickerProps>(
                 }}
             />
         )
-    },
-)
+    }
 
 // Create the properly typed DatePicker with static properties
 export const DatePicker = Object.assign(DatePickerComponent, {

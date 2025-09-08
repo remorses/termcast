@@ -14,8 +14,7 @@ export interface CheckboxProps extends FormItemProps<boolean> {
 
 export type CheckboxRef = FormItemRef
 
-export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>(
-    (props, ref) => {
+export const Checkbox = (props: CheckboxProps): any => {
         const { control, setValue, getValues } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
@@ -89,5 +88,4 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>(
                 }}
             />
         )
-    },
-)
+    }
