@@ -27,32 +27,42 @@ test('form basic navigation and input', async () => {
     expect(initialSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ Enter your username
+      │ Required field
+      │
+      ◇ Password
+      │ Enter secure password
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -66,32 +76,42 @@ test('form basic navigation and input', async () => {
     expect(afterUsernameSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ johndoe
+      │ Required field
+      │
+      ◇ Password
+      │ Enter secure password
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -106,32 +126,42 @@ test('form basic navigation and input', async () => {
     expect(afterPasswordSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ johndoe
+      │ Required field
+      │
+      ◇ Password
+      │ securepass123
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -146,32 +176,42 @@ test('form basic navigation and input', async () => {
     expect(afterBioSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      I am a software developer
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ johndoe
+      │ Required field
+      │
+      ◇ Password
+      │ *************
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ I am a software developer
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -186,32 +226,42 @@ test('form basic navigation and input', async () => {
     expect(afterCheckboxSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      I am a software developer
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ johndoe
+      │ Required field
+      │
+      ◇ Password
+      │ *************
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ I am a software developer
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -226,32 +276,42 @@ test('form basic navigation and input', async () => {
     expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◇  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      I am a software developer
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◇ Username
+      │ johndoe
+      │ Required field
+      │
+      ◇ Password
+      │ *************
+      │ Must be at least 8 characters
 
         Country                                                    esc
 
         Select your country
-        🇺🇸bs United States
-        🇨🇦iv Canada
-        🇲🇽ou Mexico
-        🇬🇧le United Kingdom
-        🇫🇷 c France
-        🇩🇪at Germany
+        🇺🇸   United States
+        🇨🇦   Canada
+        🇲🇽   Mexico
+        🇬🇧xi United Kingdom
+        🇫🇷   France
+        🇩🇪ai Germany
 
 
         ↵ select   ↑↓ navigate
 
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◆ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -265,32 +325,42 @@ test('form basic navigation and input', async () => {
     expect(afterCountrySelectSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◇  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      I am a software developer
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ● Subscribe to newsletter
-      Receive weekly updates
-      ◆  Country
-      ● United States
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◇ Username
+      │ johndoe
+      │ Required field
+      │
+      ◇ Password
+      │ *************
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ I am a software developer
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ● Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◆ Country
+      │ ● United States
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -305,32 +375,42 @@ test('form basic navigation and input', async () => {
     expect(afterDateSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◇  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      I am a software developer
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ● Subscribe to newsletter
-      Receive weekly updates
-      ◆  Country
-      ● United States
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◇ Username
+      │ johndoe
+      │ Required field
+      │
+      ◇ Password
+      │ *************
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ I am a software developer
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ● Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◆ Country
+      │ ● United States
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ 1990-05-15
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -349,32 +429,42 @@ test('form basic navigation and input', async () => {
     expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◇  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      I am a software developer
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ● Subscribe to newsletter
-      Receive weekly updates
-      ◆  Country
-      ● United States
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◇ Username
+      │ johndoe
+      │ Required field
+      │
+      ◇ Password
+      │ *************
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ I am a software developer
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ● Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◆ Country
+      │ ● United States
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ 1990-05-15
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -400,32 +490,42 @@ test('form navigation with shift+tab', async () => {
     expect(afterForwardTabSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ testuser
+      │ Required field
+      │
+      ◇ Password
+      │ ********
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -439,32 +539,42 @@ test('form navigation with shift+tab', async () => {
     expect(afterBackwardTabSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ testuser
+      │ Required field
+      │
+      ◇ Password
+      │ password
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -478,32 +588,42 @@ test('form navigation with shift+tab', async () => {
     expect(backToUsernameSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ testuser
+      │ Required field
+      │
+      ◇ Password
+      │ ********
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -518,32 +638,42 @@ test('form navigation with shift+tab', async () => {
     expect(afterEditUsernameSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ testusernewuser
+      │ Required field
+      │
+      ◇ Password
+      │ ********
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │ YYYY/MM/DD
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -573,32 +703,42 @@ test('form dropdown navigation', async () => {
     expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ Enter your username
+      │ Required field
+      │
+      ◇ Password
+      │ Enter secure password
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -612,32 +752,42 @@ test('form dropdown navigation', async () => {
     expect(afterDownSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ Enter your username
+      │ Required field
+      │
+      ◇ Password
+      │ Enter secure password
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -653,32 +803,42 @@ test('form dropdown navigation', async () => {
     expect(europeSelectionSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ Enter your username
+      │ Required field
+      │
+      ◇ Password
+      │ Enter secure password
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 
@@ -692,32 +852,42 @@ test('form dropdown navigation', async () => {
     expect(afterFranceSelectSnapshot).toMatchInlineSnapshot(`
       "
 
-      ┌ Form Component Demo
-      This demonstrates all available form input types. Use arrow keys o
-      ────────────────────────────────────────
-      ◆  Username
-      Required field
-      ◇  Password
-      Must be at least 8 characters
-      ◇  Biography
-      Tell us about yourself...
-
-
-
-      Maximum 500 characters
-      ◇  Email Preferences
-      ○ Subscribe to newsletter
-      Receive weekly updates
-      ◇  Country
-      ○ Select your country
-      Your country of residence
-      ◇  Date of Birth
-      Format: YYYY-MM-DD
-      ────────────────────────────────────────
-
-      Form Navigation
-      • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-
+      ◇ Form Component Demo
+      │ This demonstrates all available form input types. Use arrow keys
+      │
+      ◆ Username
+      │ Enter your username
+      │ Required field
+      │
+      ◇ Password
+      │ Enter secure password
+      │ Must be at least 8 characters
+      │
+      ◇ Biography
+      │ Tell us about yourself...
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ○ Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
+      ◇ Country
+      │ ○ Select your country
+      │
+      │ Your country of residence
+      │
+      ◇ Date of Birth
+      │
+      │ Format: YYYY-MM-DD
+      │
+      ◇ Form Navigation
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
+      │
       └
 
 

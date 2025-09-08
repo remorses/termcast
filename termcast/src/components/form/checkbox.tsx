@@ -16,37 +16,34 @@ export type CheckboxRef = FormItemRef
 
 export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>(
     (props, ref) => {
-        const { control } = useFormContext()
+        const { control, setValue, getValues } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
+        const handleToggle = () => {
+          const newValue = !getValues()?.[props.id]
+            setValue(props.id, newValue)
+            if (props.onChange) {
+                props.onChange(newValue)
+            }
+        }
 
+        useKeyboard((evt) => {
+            if (isFocused && (evt.name === 'space' || evt.name === 'return')) {
+                handleToggle()
+            }
+        })
         return (
             <Controller
                 name={props.id}
                 control={control}
                 defaultValue={props.defaultValue || props.value || false}
                 render={({ field, fieldState, formState }) => {
-                    const handleToggle = () => {
-                        const newValue = !field.value
-                        field.onChange(newValue)
-                        if (props.onChange) {
-                            props.onChange(newValue)
-                        }
-                    }
-
-                    // Handle space or enter key to toggle when focused
-                    useKeyboard((evt) => {
-                        if (
-                            isFocused &&
-                            (evt.name === 'space' || evt.name === 'return')
-                        ) {
-                            handleToggle()
-                        }
-                    })
-
                     return (
                         <box flexDirection='column'>
-                            <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
+                            <WithLeftBorder
+                                withDiamond={true}
+                                diamondFilled={isFocused}
+                            >
                                 <text
                                     fg={isFocused ? Theme.accent : Theme.text}
                                     onMouseDown={() => {
@@ -82,7 +79,9 @@ export const Checkbox = React.forwardRef<CheckboxRef, CheckboxProps>(
                             )}
                             {props.info && (
                                 <WithLeftBorder>
-                                    <text fg={Theme.textMuted}>{props.info}</text>
+                                    <text fg={Theme.textMuted}>
+                                        {props.info}
+                                    </text>
                                 </WithLeftBorder>
                             )}
                         </box>
