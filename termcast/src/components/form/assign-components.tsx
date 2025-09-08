@@ -9,10 +9,10 @@ import { Separator } from './separator'
 import { Description } from './description'
 
 // Assign all form components to Form object
-Form.TextField = TextField
-Form.PasswordField = PasswordField
-Form.TextArea = TextArea
-Form.Checkbox = Checkbox
+Form.TextField = TextField as any
+Form.PasswordField = PasswordField as any
+Form.TextArea = TextArea as any
+Form.Checkbox = Checkbox as any
 Form.Dropdown = Dropdown
 Form.DatePicker = DatePicker
 Form.TagPicker = null // TODO: implement

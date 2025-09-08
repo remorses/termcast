@@ -14,8 +14,7 @@ export interface TextAreaProps extends FormItemProps<string> {
 
 export type TextAreaRef = FormItemRef
 
-export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
-    (props, ref) => {
+export const TextArea = (props: TextAreaProps): any => {
         const { control } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
@@ -82,5 +81,4 @@ export const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
                 }}
             />
         )
-    },
-)
+    }
