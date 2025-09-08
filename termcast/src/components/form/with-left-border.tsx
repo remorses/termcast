@@ -18,7 +18,7 @@ export const WithLeftBorder = ({
     if (withDiamond) {
         return (
             <box flexDirection='row'>
-                <text fg={Theme.text}>{diamondFilled ? '◆' : '◇'}</text>
+                <text key={String(diamondFilled)} fg={Theme.text}>{diamondFilled ? '◆' : '◇'}</text>
                 <box flexGrow={1} paddingLeft={1} >
                     {children}
                 </box>

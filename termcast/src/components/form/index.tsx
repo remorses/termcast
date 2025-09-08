@@ -177,6 +177,7 @@ export const Form: FormType = ((props) => {
         // Only handle keyboard events when form is in focus
         if (!inFocus) return
 
+
         const fieldNames = Object.keys(methods.getValues())
         if (fieldNames.length === 0) return
 
