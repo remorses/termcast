@@ -1,5 +1,6 @@
 import React from 'react'
 import { TextAttributes } from '@opentui/core'
+import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
@@ -7,6 +8,7 @@ import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { DatePickerWidget } from '@termcast/cli/src/internal/date-picker-widget'
+import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
 export enum DatePickerType {
     Date = 'date',
@@ -30,6 +32,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
         const { control, getValues } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
+        const isInFocus = useIsInFocus()
 
         const handleNavigateUp = () => {
             // Find previous field and focus it
@@ -52,6 +55,19 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                 setFocusedField(fieldNames[0])
             }
         }
+
+        // Handle tab navigation only
+        useKeyboard((evt) => {
+            if (!isFocused || !isInFocus) return
+
+            if (evt.name === 'tab') {
+                if ((evt as any).modifiers?.shift) {
+                    handleNavigateUp()
+                } else {
+                    handleNavigateDown()
+                }
+            }
+        })
 
         return (
             <Controller
