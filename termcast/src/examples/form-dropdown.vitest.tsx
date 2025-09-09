@@ -31,7 +31,7 @@ test('form dropdown shows inline options', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ○ Choose a color...
+      │ Choose a color...
       │
       │ ○ Red
       │ ○ Blue
@@ -385,7 +385,7 @@ test('form dropdown with default value', async () => {
       │ Test dropdown with inline options display
       │
       ◇ Favorite Color
-      │ ○ Choose a color...
+      │ Choose a color...
       │
       │ ○ Red
       │ ○ Blue
@@ -418,7 +418,7 @@ test('form dropdown with default value', async () => {
       │ Test dropdown with inline options display
       │
       ◇ Favorite Color
-      │ ○ Choose a color...
+      │ Choose a color...
       │
       │ ○ Red
       │ ○ Blue
@@ -456,7 +456,7 @@ test('form dropdown with default value', async () => {
       │ Test dropdown with inline options display
       │
       ◇ Favorite Color
-      │ ○ Choose a color...
+      │ Choose a color...
       │
       │ ○ Red
       │ ○ Blue
