@@ -306,7 +306,7 @@ const DropdownContent = ({
                         setFocusedField(props.id)
                     }}
                 >
-                    {field.value ? '●' : '○'} {selectedTitle || props.placeholder || 'Select...'}
+                    {selectedTitle || props.placeholder || 'Select...'}
                 </text>
             </WithLeftBorder>
             {visibleItems.map((item, visualIndex) => {

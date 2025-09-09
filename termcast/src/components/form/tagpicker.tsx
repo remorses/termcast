@@ -1,5 +1,6 @@
 import { ForwardRefExoticComponent, FunctionComponent, ReactNode, RefAttributes } from 'react'
-import type { Image } from '@termcast/cli'
+import { Image } from '@termcast/cli/src/components/list'
+
 
 /**
  * Form value types that can be used in form items
@@ -80,7 +81,7 @@ interface FormItemRef {
     focus: () => void
     /**
      * Resets value of the item
-     * 
+     *
      * @remarks
      * If `defaultValue` is defined, calling the `.reset()` function will set `value` to the `defaultValue`.
      */
