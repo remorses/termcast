@@ -13,8 +13,6 @@ import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
-import { Dropdown as BaseDropdown } from '@termcast/cli/src/components/dropdown'
-import { useDialog } from '@termcast/cli/src/internal/dialog'
 import { createDescendants } from '@termcast/cli/src/descendants'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
@@ -100,10 +98,12 @@ const DropdownComponent = (props: DropdownProps): any => {
         const { control } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const [isOpen, setIsOpen] = useState(false)
+        const [selectedOptionIndex, setSelectedOptionIndex] = useState(0)
+        const [currentPage, setCurrentPage] = useState(0)
         const isFocused = focusedField === props.id
-        const dialog = useDialog()
         const descendantsContext = useFormDropdownDescendants()
         const isInFocus = useIsInFocus()
+        const itemsPerPage = 5
         
         // Use form navigation hook - dropdown should handle its own arrows when open
         useFormNavigation(props.id, { handleArrows: !isOpen })
@@ -127,7 +127,8 @@ const DropdownComponent = (props: DropdownProps): any => {
                         const handleSelect = (value: string) => {
                             field.onChange(value)
                             setIsOpen(false)
-                            dialog.clear()
+                            setSelectedOptionIndex(0)
+                            setCurrentPage(0)
 
                             // Find and store the selected item's title
                             const items = Object.values(
@@ -169,51 +170,86 @@ const DropdownComponent = (props: DropdownProps): any => {
                                 )
                                 if (selectedItem) {
                                     setSelectedTitle(selectedItem.title)
+                                    // Find index and set current page
+                                    const index = items.findIndex(item => item.value === field.value)
+                                    if (index !== -1) {
+                                        setSelectedOptionIndex(index % itemsPerPage)
+                                        setCurrentPage(Math.floor(index / itemsPerPage))
+                                    }
                                 }
                             }
-
-                            // Build BaseDropdown children from descendants
-                            const dropdownChildren = items.map((item) => (
-                                <BaseDropdown.Item
-                                    key={item.value}
-                                    value={item.value}
-                                    title={item.title}
-                                    icon={item.icon}
-                                />
-                            ))
-
-                            dialog.push(
-                                <BaseDropdown
-                                    value={field.value}
-                                    onChange={handleSelect}
-                                    placeholder={props.placeholder}
-                                    tooltip={props.title}
-                                    filtering={true}
-                                >
-                                    {dropdownChildren}
-                                </BaseDropdown>,
-                                'center',
-                            )
                         }
 
                         // Handle keyboard navigation when focused
                         useKeyboard((evt) => {
-                            if (!isFocused) return
+                            if (!isFocused || !isInFocus) return
 
-                            if (
-                                (evt.name === 'return' ||
-                                    evt.name === 'space') &&
-                                !isOpen
-                            ) {
-                                openDropdown()
+                            if (isOpen) {
+                                const items = Object.values(
+                                    descendantsContext.map.current,
+                                )
+                                    .filter((item: any) => item.index !== -1)
+                                    .sort((a: any, b: any) => a.index - b.index)
+                                    .map(
+                                        (item: any) => item.props,
+                                    ) as FormDropdownItemDescendant[]
+                                    
+                                const totalPages = Math.ceil(items.length / itemsPerPage)
+                                const startIndex = currentPage * itemsPerPage
+                                const pageItems = items.slice(startIndex, startIndex + itemsPerPage)
+                                
+                                if (evt.name === 'down') {
+                                    if (selectedOptionIndex < pageItems.length - 1) {
+                                        setSelectedOptionIndex(selectedOptionIndex + 1)
+                                    } else if (currentPage < totalPages - 1) {
+                                        setCurrentPage(currentPage + 1)
+                                        setSelectedOptionIndex(0)
+                                    }
+                                } else if (evt.name === 'up') {
+                                    if (selectedOptionIndex > 0) {
+                                        setSelectedOptionIndex(selectedOptionIndex - 1)
+                                    } else if (currentPage > 0) {
+                                        setCurrentPage(currentPage - 1)
+                                        const prevPageStartIndex = (currentPage - 1) * itemsPerPage
+                                        const prevPageItems = items.slice(prevPageStartIndex, prevPageStartIndex + itemsPerPage)
+                                        setSelectedOptionIndex(prevPageItems.length - 1)
+                                    }
+                                } else if (evt.name === 'return' || evt.name === 'space') {
+                                    const selectedItem = pageItems[selectedOptionIndex]
+                                    if (selectedItem) {
+                                        handleSelect(selectedItem.value)
+                                    }
+                                } else if (evt.name === 'escape') {
+                                    setIsOpen(false)
+                                    setSelectedOptionIndex(0)
+                                    setCurrentPage(0)
+                                }
+                            } else {
+                                if (evt.name === 'return' || evt.name === 'space') {
+                                    openDropdown()
+                                }
                             }
                         })
 
+                        // Access items for rendering
+                        const items = isOpen ? Object.values(
+                            descendantsContext.map.current,
+                        )
+                            .filter((item: any) => item.index !== -1)
+                            .sort((a: any, b: any) => a.index - b.index)
+                            .map(
+                                (item: any) => item.props,
+                            ) as FormDropdownItemDescendant[] : []
+                        
+                        const totalPages = Math.ceil(items.length / itemsPerPage)
+                        const startIndex = currentPage * itemsPerPage
+                        const pageItems = items.slice(startIndex, startIndex + itemsPerPage)
+
                         return (
                             <box flexDirection='column'>
-                                <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
+                                <WithLeftBorder withDiamond={true} isFocused={isFocused}>
                                     <text 
-                                        fg={isFocused ? Theme.accent : Theme.text}
+                                        fg={Theme.text}
                                         onMouseDown={() => {
                                             // Focus if not already focused
                                             if (!isFocused) {
@@ -228,7 +264,7 @@ const DropdownComponent = (props: DropdownProps): any => {
                                         {props.title}
                                     </text>
                                 </WithLeftBorder>
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text
                                         fg={selectedTitle ? Theme.text : Theme.textMuted}
                                         selectable={false}
@@ -244,8 +280,35 @@ const DropdownComponent = (props: DropdownProps): any => {
                                         {field.value ? '●' : '○'} {selectedTitle || props.placeholder || 'Select...'}
                                     </text>
                                 </WithLeftBorder>
+                                {isOpen && pageItems.map((item, index) => (
+                                    <box key={item.value}>
+                                        <WithLeftBorder isFocused={isFocused}>
+                                            <text
+                                                fg={
+                                                    isFocused && index === selectedOptionIndex
+                                                        ? Theme.accent
+                                                        : isFocused
+                                                        ? Theme.text
+                                                        : Theme.textMuted
+                                                }
+                                                onMouseDown={() => {
+                                                    handleSelect(item.value)
+                                                }}
+                                            >
+                                                {index === selectedOptionIndex ? '●' : '○'} {item.title}
+                                            </text>
+                                        </WithLeftBorder>
+                                    </box>
+                                ))}
+                                {isOpen && totalPages > 1 && (
+                                    <WithLeftBorder isFocused={isFocused}>
+                                        <text fg={Theme.textMuted}>
+                                            ↑↓ to see more options
+                                        </text>
+                                    </WithLeftBorder>
+                                )}
                                 {(fieldState.error || props.error) && (
-                                    <WithLeftBorder>
+                                    <WithLeftBorder isFocused={isFocused}>
                                         <text fg={Theme.error}>
                                             {fieldState.error?.message ||
                                                 props.error}
@@ -253,7 +316,7 @@ const DropdownComponent = (props: DropdownProps): any => {
                                     </WithLeftBorder>
                                 )}
                                 {props.info && (
-                                    <WithLeftBorder>
+                                    <WithLeftBorder isFocused={isFocused}>
                                         <text fg={Theme.textMuted}>
                                             {props.info}
                                         </text>

@@ -21,7 +21,7 @@ export const TextField = (props: TextFieldProps): any => {
         } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
-        
+
         // Use form navigation hook
         useFormNavigation(props.id)
 
@@ -36,9 +36,9 @@ export const TextField = (props: TextFieldProps): any => {
                 render={({ field, fieldState, formState }) => {
                     return (
                         <box flexDirection='column'>
-                            <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
+                            <WithLeftBorder withDiamond={true} isFocused={isFocused}>
                                 <text
-                                    fg={isFocused ? Theme.accent : Theme.text}
+                                    fg={Theme.text}
                                     onMouseDown={() => {
                                         setFocusedField(props.id)
                                     }}
@@ -46,7 +46,7 @@ export const TextField = (props: TextFieldProps): any => {
                                     {props.title}
                                 </text>
                             </WithLeftBorder>
-                            <WithLeftBorder>
+                            <WithLeftBorder isFocused={isFocused}>
                                 <input
                                     value={field.value}
                                     onInput={(value: string) => {
@@ -63,14 +63,14 @@ export const TextField = (props: TextFieldProps): any => {
                                 />
                             </WithLeftBorder>
                             {(fieldState.error || props.error) && (
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text fg={Theme.error}>
                                         {fieldState.error?.message || props.error}
                                     </text>
                                 </WithLeftBorder>
                             )}
                             {props.info && (
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text fg={Theme.textMuted}>{props.info}</text>
                                 </WithLeftBorder>
                             )}

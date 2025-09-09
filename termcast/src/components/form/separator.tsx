@@ -6,7 +6,7 @@ export const Separator = (): any => {
     return null
     return (
         <>
-            <WithLeftBorder withDiamond>
+            <WithLeftBorder withDiamond isFocused={false}>
                 <text fg={Theme.border}>{''.repeat(40)}</text>
             </WithLeftBorder>
             |

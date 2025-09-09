@@ -33,10 +33,10 @@ export const TextArea = (props: TextAreaProps): any => {
                         <box flexDirection='column'>
                             <WithLeftBorder
                                 withDiamond={true}
-                                diamondFilled={isFocused}
+                                isFocused={isFocused}
                             >
                                 <text
-                                    fg={isFocused ? Theme.accent : Theme.text}
+                                    fg={Theme.text}
                                     onMouseDown={() => {
                                         setFocusedField(props.id)
                                     }}
@@ -45,7 +45,7 @@ export const TextArea = (props: TextAreaProps): any => {
                                 </text>
                             </WithLeftBorder>
 
-                            <WithLeftBorder>
+                            <WithLeftBorder isFocused={isFocused}>
                                 <box flexGrow={1}>
                                     <input
                                         value={field.value}
@@ -66,7 +66,7 @@ export const TextArea = (props: TextAreaProps): any => {
                             </WithLeftBorder>
 
                             {(fieldState.error || props.error) && (
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text fg={Theme.error}>
                                         {fieldState.error?.message ||
                                             props.error}
@@ -74,7 +74,7 @@ export const TextArea = (props: TextAreaProps): any => {
                                 </WithLeftBorder>
                             )}
                             {props.info && (
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text fg={Theme.textMuted}>
                                         {props.info}
                                     </text>
