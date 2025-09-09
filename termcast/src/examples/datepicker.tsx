@@ -42,12 +42,13 @@ function clampDay(y: number, m: number, day: number) {
 }
 function generateSixWeekGrid(
     viewDate: Date,
-    weekStartsOnSunday = true,
+    weekStartsOnMonday = true,
 ): Date[][] {
     // Strategy: 7x6 grid, include prev/next month days to fill 42 cells
     const first = startOfMonth(viewDate)
     const firstWeekday = first.getDay() // 0=Sun..6=Sat
-    const offset = weekStartsOnSunday ? firstWeekday : (firstWeekday + 6) % 7 // support Mon if needed later
+    // For Monday start: Mon=0, Tue=1, ..., Sun=6
+    const offset = weekStartsOnMonday ? (firstWeekday + 6) % 7 : firstWeekday
     const grid: Date[][] = []
     const start = addDays(first, -offset)
     for (let w = 0; w < 6; w++) {
@@ -67,7 +68,7 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
     const [searchQuery, setSearchQuery] = useState('') // for type-to-search
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-    // Recompute 7x6 grid for the visible month
+    // Recompute 7x6 grid for the visible month (Monday start)
     const weeks = useMemo(() => generateSixWeekGrid(visible, true), [visible])
 
     // Keep visible month synced when selected day moves across months
@@ -124,7 +125,7 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
         // Search by month name or number
         const lowerQuery = query.toLowerCase()
         let monthIndex = -1
-
+        
         // Try to match month name
         for (let i = 0; i < MONTHS.length; i++) {
             if (MONTHS[i].toLowerCase().startsWith(lowerQuery)) {
@@ -132,7 +133,7 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                 break
             }
         }
-
+        
         // Try to match month number
         if (monthIndex === -1) {
             const num = parseInt(query)
@@ -140,7 +141,7 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                 monthIndex = num - 1
             }
         }
-
+        
         if (monthIndex !== -1) {
             const y = visible.getFullYear()
             const day = clampDay(y, monthIndex, selected.getDate())
@@ -167,12 +168,12 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
         if (key.name.length === 1 && /[0-9a-zA-Z]/.test(key.name)) {
             const newQuery = searchQuery + key.name
             setSearchQuery(newQuery)
-
+            
             // Clear previous timeout
             if (searchTimeoutRef.current) {
                 clearTimeout(searchTimeoutRef.current)
             }
-
+            
             // Perform search based on current focus
             if (focus === 'year') {
                 searchYear(newQuery)
@@ -181,7 +182,7 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
             } else if (focus === 'grid') {
                 searchDay(newQuery)
             }
-
+            
             // Reset search query after 1 second
             searchTimeoutRef.current = setTimeout(() => {
                 setSearchQuery('')
@@ -214,9 +215,22 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                 break
             case 'up':
                 if (focus === 'grid') {
-                    const next = addDays(selected, -7)
-                    setSelected(next)
-                    ensureVisibleFor(next)
+                    // Check if we're in the first row of the month
+                    const firstDayOfMonth = new Date(selected.getFullYear(), selected.getMonth(), 1)
+                    const daysDiff = selected.getDate() - 1
+                    if (daysDiff < 7) {
+                        // Move focus to month
+                        setFocus('month')
+                    } else {
+                        const next = addDays(selected, -7)
+                        setSelected(next)
+                        ensureVisibleFor(next)
+                    }
+                } else if (focus === 'month') {
+                    // Move focus to year
+                    setFocus('year')
+                } else if (focus === 'year') {
+                    // Stay on year
                 }
                 break
             case 'down':
@@ -224,6 +238,12 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                     const next = addDays(selected, +7)
                     setSelected(next)
                     ensureVisibleFor(next)
+                } else if (focus === 'year') {
+                    // Move focus to month
+                    setFocus('month')
+                } else if (focus === 'month') {
+                    // Move focus to grid
+                    setFocus('grid')
                 }
                 break
             case 'tab':
@@ -246,18 +266,21 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
 
     const y = visible.getFullYear()
     const m = visible.getMonth()
-    const headerWidth = 20 // Match form.md width
+    const headerWidth = 21 // Match form.md width (7 cols * 3 width)
     const cellStyle = {
         width: 3,
         height: 1,
         alignItems: 'center' as const,
         justifyContent: 'center' as const,
     }
-
+    
     // Only show days from current month
-    const filteredWeeks = weeks.map(row =>
+    const filteredWeeks = weeks.map(row => 
         row.map(d => d.getMonth() === m ? d : null)
     )
+
+    // Week starts Monday: Mo Tu We Th Fr Sa Su
+    const weekdayHeaders = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 
     return (
         <box
@@ -272,16 +295,21 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                 style={{
                     width: headerWidth,
                     height: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
                     backgroundColor: enableColors && focus === 'year' ? '#1e40af' : undefined,
                     marginBottom: 0,
                 }}
                 onMouseDown={() => setFocus('year')}
             >
-                <text fg={focus === 'year' ? '#FFFFFF' : '#666666'}>
-                    ← {String(y)} →
-                </text>
+                <box style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: headerWidth,
+                }}>
+                    <text fg={focus === 'year' ? '#FFFFFF' : '#666666'}>←</text>
+                    <text fg={focus === 'year' ? '#FFFFFF' : '#666666'}>{String(y)}</text>
+                    <text fg={focus === 'year' ? '#FFFFFF' : '#666666'}>→</text>
+                </box>
             </box>
 
             {/* Month (line 2) */}
@@ -289,16 +317,21 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                 style={{
                     width: headerWidth,
                     height: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
                     backgroundColor: enableColors && focus === 'month' ? '#1e40af' : undefined,
                     marginBottom: 1,
                 }}
                 onMouseDown={() => setFocus('month')}
             >
-                <text fg={focus === 'month' ? '#FFFFFF' : '#666666'}>
-                    ← {MONTHS[m]} →
-                </text>
+                <box style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: headerWidth,
+                }}>
+                    <text fg={focus === 'month' ? '#FFFFFF' : '#666666'}>←</text>
+                    <text fg={focus === 'month' ? '#FFFFFF' : '#666666'}>{MONTHS[m]}</text>
+                    <text fg={focus === 'month' ? '#FFFFFF' : '#666666'}>→</text>
+                </box>
             </box>
 
             {/* Weekday header */}
@@ -310,9 +343,9 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                     marginBottom: 0,
                 }}
             >
-                {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((wd) => (
+                {weekdayHeaders.map((wd, idx) => (
                     <box key={wd} style={cellStyle}>
-                        <text fg='#666666'>{wd}</text>
+                        <text fg={enableColors && (idx === 5 || idx === 6) ? '#dc2626' : '#4b5563'}>{wd}</text>
                     </box>
                 ))}
             </box>
@@ -322,7 +355,7 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                 {filteredWeeks.map((row, i) => {
                     // Skip empty rows
                     if (row.every(d => d === null)) return null
-
+                    
                     return (
                         <box key={i} style={{ flexDirection: 'row' }}>
                             {row.map((d, j) => {
@@ -333,7 +366,7 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                                         </box>
                                     )
                                 }
-
+                                
                                 const isSel = sameDay(d, selected)
                                 const isToday = sameDay(d, today)
                                 return (
@@ -358,7 +391,9 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                                                     ? '#FFFFFF'
                                                     : isToday && enableColors
                                                       ? '#3b82f6'
-                                                      : '#333333'
+                                                      : enableColors && (j === 5 || j === 6)
+                                                        ? '#dc2626'
+                                                        : '#111827'
                                             }
                                         >
                                             {String(d.getDate()).padStart(2, ' ')}
@@ -374,4 +409,4 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
     )
 }
 
-render(<DatePicker  enableColors />) // per @opentui/react Quick Start
+render(<DatePicker enableColors={true} />) // per @opentui/react Quick Start
