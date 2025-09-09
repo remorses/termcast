@@ -7,6 +7,8 @@ import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
 import { WithLeftBorder } from './with-left-border'
+import { useFormNavigation } from './use-form-navigation'
+import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
 export interface CheckboxProps extends FormItemProps<boolean> {
     label: string
@@ -18,6 +20,10 @@ export const Checkbox = (props: CheckboxProps): any => {
         const { control, setValue, getValues } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
+        const isInFocus = useIsInFocus()
+        
+        // Use form navigation hook
+        useFormNavigation(props.id)
         const handleToggle = () => {
           const newValue = !getValues()?.[props.id]
             setValue(props.id, newValue)
@@ -27,7 +33,7 @@ export const Checkbox = (props: CheckboxProps): any => {
         }
 
         useKeyboard((evt) => {
-            if (isFocused && (evt.name === 'space' || evt.name === 'return')) {
+            if (isFocused && isInFocus && (evt.name === 'space' || evt.name === 'return')) {
                 handleToggle()
             }
         })

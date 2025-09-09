@@ -6,6 +6,7 @@ import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
 import { WithLeftBorder } from './with-left-border'
+import { useFormNavigation } from './use-form-navigation'
 
 export interface TextAreaProps extends FormItemProps<string> {
     placeholder?: string
@@ -18,6 +19,9 @@ export const TextArea = (props: TextAreaProps): any => {
         const { control } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
+
+        // TODO in textarea arrows should probably go to lines instead of other forms
+        useFormNavigation(props.id, )
 
         return (
             <Controller

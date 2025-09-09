@@ -27,9 +27,31 @@ interface DatePickerComponentType {
 }
 
 const DatePickerComponent = (props: DatePickerProps): any => {
-        const { control } = useFormContext()
+        const { control, getValues } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
+
+        const handleNavigateUp = () => {
+            // Find previous field and focus it
+            const fieldNames = Object.keys(getValues())
+            const currentIndex = fieldNames.indexOf(props.id)
+            if (currentIndex > 0) {
+                setFocusedField(fieldNames[currentIndex - 1])
+            } else {
+                setFocusedField(fieldNames[fieldNames.length - 1])
+            }
+        }
+
+        const handleNavigateDown = () => {
+            // Find next field and focus it
+            const fieldNames = Object.keys(getValues())
+            const currentIndex = fieldNames.indexOf(props.id)
+            if (currentIndex < fieldNames.length - 1) {
+                setFocusedField(fieldNames[currentIndex + 1])
+            } else {
+                setFocusedField(fieldNames[0])
+            }
+        }
 
         return (
             <Controller
@@ -60,6 +82,8 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                                         }
                                     }}
                                     focused={isFocused}
+                                    onFirstRowUpKey={handleNavigateUp}
+                                    onLastRowDownKey={handleNavigateDown}
                                 />
                             </WithLeftBorder>
                             {(fieldState.error || props.error) && (
