@@ -13,13 +13,13 @@ export const Description = (props: DescriptionProps): any => {
     return (
         <>
             {props.title && (
-                <WithLeftBorder withDiamond>
+                <WithLeftBorder withDiamond isFocused={false}>
                     <text fg={Theme.text} attributes={TextAttributes.BOLD}>
                         {props.title}
                     </text>
                 </WithLeftBorder>
             )}
-            <WithLeftBorder>
+            <WithLeftBorder isFocused={false}>
                 <text fg={Theme.textMuted}>{props.text}</text>
             </WithLeftBorder>
         </>

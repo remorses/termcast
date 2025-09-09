@@ -61,9 +61,9 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                 render={({ field, fieldState, formState }) => {
                     return (
                         <box flexDirection='column'>
-                            <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
+                            <WithLeftBorder withDiamond={true} isFocused={isFocused}>
                                 <text
-                                    fg={isFocused ? Theme.accent : Theme.text}
+                                    fg={Theme.text}
                                     onMouseDown={() => {
                                         setFocusedField(props.id)
                                     }}
@@ -71,7 +71,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                                     {props.title}
                                 </text>
                             </WithLeftBorder>
-                            <WithLeftBorder>
+                            <WithLeftBorder isFocused={isFocused}>
                                 <DatePickerWidget
                                     enableColors={isFocused}
                                     initialValue={field.value || undefined}
@@ -87,14 +87,14 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                                 />
                             </WithLeftBorder>
                             {(fieldState.error || props.error) && (
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text fg={Theme.error}>
                                         {fieldState.error?.message || props.error}
                                     </text>
                                 </WithLeftBorder>
                             )}
                             {props.info && (
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text fg={Theme.textMuted}>{props.info}</text>
                                 </WithLeftBorder>
                             )}

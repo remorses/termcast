@@ -47,10 +47,10 @@ export const Checkbox = (props: CheckboxProps): any => {
                         <box flexDirection='column'>
                             <WithLeftBorder
                                 withDiamond={true}
-                                diamondFilled={isFocused}
+                                isFocused={isFocused}
                             >
                                 <text
-                                    fg={isFocused ? Theme.accent : Theme.text}
+                                    fg={Theme.text}
                                     onMouseDown={() => {
                                         // Always focus the field when clicked
                                         if (!isFocused) {
@@ -63,9 +63,9 @@ export const Checkbox = (props: CheckboxProps): any => {
                                     {props.title}
                                 </text>
                             </WithLeftBorder>
-                            <WithLeftBorder>
+                            <WithLeftBorder isFocused={isFocused}>
                                 <text
-                                    fg={Theme.text}
+                                    fg={isFocused ? Theme.accent : Theme.text}
                                     selectable={false}
                                     onMouseDown={() => {
                                         if (!isFocused) {
@@ -78,12 +78,12 @@ export const Checkbox = (props: CheckboxProps): any => {
                                 </text>
                             </WithLeftBorder>
                             {props.error && (
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text fg={Theme.error}>{props.error}</text>
                                 </WithLeftBorder>
                             )}
                             {props.info && (
-                                <WithLeftBorder>
+                                <WithLeftBorder isFocused={isFocused}>
                                     <text fg={Theme.textMuted}>
                                         {props.info}
                                     </text>

@@ -35,9 +35,9 @@ export const PasswordField = (props: PasswordFieldProps): any => {
 
                 return (
                     <box flexDirection='column'>
-                        <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
+                        <WithLeftBorder withDiamond={true} isFocused={isFocused}>
                             <text
-                                fg={isFocused ? Theme.accent : Theme.text}
+                                fg={Theme.text}
                                 onMouseDown={() => {
                                     setFocusedField(props.id)
                                 }}
@@ -45,7 +45,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
                                 {props.title}
                             </text>
                         </WithLeftBorder>
-                        <WithLeftBorder>
+                        <WithLeftBorder isFocused={isFocused}>
                             <input
                                 value={displayValue}
                                 onInput={(value: string) => {
@@ -71,14 +71,14 @@ export const PasswordField = (props: PasswordFieldProps): any => {
                             />
                         </WithLeftBorder>
                         {(fieldState.error || props.error) && (
-                            <WithLeftBorder>
+                            <WithLeftBorder isFocused={isFocused}>
                                 <text fg={Theme.error}>
                                     {fieldState.error?.message || props.error}
                                 </text>
                             </WithLeftBorder>
                         )}
                         {props.info && (
-                            <WithLeftBorder>
+                            <WithLeftBorder isFocused={isFocused}>
                                 <text fg={Theme.textMuted}>{props.info}</text>
                             </WithLeftBorder>
                         )}
