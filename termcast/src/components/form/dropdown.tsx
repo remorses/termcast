@@ -171,7 +171,7 @@ const DropdownContent = ({
                 }
             }
         }
-    }, [items, field.value, props.hasMultipleSelection])
+    }, [items]) // Only run when items change, not field.value
 
     // Update selected values when field value changes
     useEffect(() => {

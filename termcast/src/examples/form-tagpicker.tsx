@@ -22,7 +22,7 @@ function FormTagPickerExample() {
         >
             <Form.Description
                 title='TagPicker Component Demo'
-                text='Test tag picker with single selection (multi-selection coming soon)'
+                text='Test tag picker with multiple selection support'
             />
 
             <Form.TagPicker

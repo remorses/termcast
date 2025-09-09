@@ -168,10 +168,10 @@ test('form dropdown shows inline options', async () => {
       ◆ Favorite Color
       │ Orange
       │
+      │ ○ Yellow
       │ ○ Purple
       │ ● Orange
       │ ○ Black
-      │ ○ White
       │ ↑↓ to see more options
       │
       │ Select your favorite color from the list
