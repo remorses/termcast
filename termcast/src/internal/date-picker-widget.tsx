@@ -65,11 +65,15 @@ export function DatePickerWidget({
     initialValue,
     onChange,
     focused = false,
+    onFirstRowUpKey,
+    onLastRowDownKey,
 }: {
     enableColors?: boolean
     initialValue?: Date
     onChange?: (date: Date) => void
     focused?: boolean
+    onFirstRowUpKey?: () => void
+    onLastRowDownKey?: () => void
 }) {
     const today = useMemo(() => new Date(), [])
     const [focus, setFocus] = useState<Focus>('grid') // can be "year" | "month" | "grid"
@@ -248,14 +252,31 @@ export function DatePickerWidget({
                     // Move focus to year
                     setFocus('year')
                 } else if (focus === 'year') {
-                    // Stay on year
+                    // At top of widget, trigger callback
+                    if (onFirstRowUpKey) {
+                        onFirstRowUpKey()
+                    }
                 }
                 break
             case 'down':
                 if (focus === 'grid') {
-                    const next = addDays(selected, +7)
-                    setSelected(next)
-                    ensureVisibleFor(next)
+                    // Check if we're in the last row of days
+                    const daysInCurrentMonth = daysInMonth(
+                        selected.getFullYear(),
+                        selected.getMonth(),
+                    )
+                    const remainingDays =
+                        daysInCurrentMonth - selected.getDate()
+                    if (remainingDays < 7) {
+                        // At bottom of grid, trigger callback
+                        if (onLastRowDownKey) {
+                            onLastRowDownKey()
+                        }
+                    } else {
+                        const next = addDays(selected, +7)
+                        setSelected(next)
+                        ensureVisibleFor(next)
+                    }
                 } else if (focus === 'year') {
                     // Move focus to month
                     setFocus('month')
@@ -266,23 +287,37 @@ export function DatePickerWidget({
                 break
             case 'tab':
                 if (key.shift) {
-                    // Shift+Tab: Move focus up (grid -> month -> year)
-                    setFocus((f) =>
-                        f === 'grid'
-                            ? 'month'
-                            : f === 'month'
-                              ? 'year'
-                              : 'year',
-                    )
+                    if (focus === 'year') {
+                        // At top of widget, trigger callback
+                        if (onFirstRowUpKey) {
+                            onFirstRowUpKey()
+                        }
+                    } else {
+                        // Shift+Tab: Move focus up (grid -> month -> year)
+                        setFocus((f) =>
+                            f === 'grid'
+                                ? 'month'
+                                : f === 'month'
+                                  ? 'year'
+                                  : 'year',
+                        )
+                    }
                 } else {
-                    // Tab: Move focus down (year -> month -> grid)
-                    setFocus((f) =>
-                        f === 'year'
-                            ? 'month'
-                            : f === 'month'
-                              ? 'grid'
-                              : 'grid',
-                    )
+                    if (focus === 'grid') {
+                        // At bottom of widget, trigger callback
+                        if (onLastRowDownKey) {
+                            onLastRowDownKey()
+                        }
+                    } else {
+                        // Tab: Move focus down (year -> month -> grid)
+                        setFocus((f) =>
+                            f === 'year'
+                                ? 'month'
+                                : f === 'month'
+                                  ? 'grid'
+                                  : 'grid',
+                        )
+                    }
                 }
                 break
             case 'return': // Enter key
@@ -408,7 +443,7 @@ export function DatePickerWidget({
             </box>
 
             {/* Days grid: 7 columns x 6 rows, same fixed-box strategy */}
-            <box style={{ flexDirection: 'column' }}>
+            <box style={{ flexDirection: 'column', minHeight: 6 }}>
                 {filteredWeeks.map((row, i) => {
                     // Skip empty rows
                     if (row.every((d) => d === null)) return null
@@ -474,4 +509,3 @@ export function DatePickerWidget({
         </box>
     )
 }
-

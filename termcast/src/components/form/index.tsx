@@ -172,47 +172,12 @@ export const Form: FormType = ((props) => {
     const inFocus = useIsInFocus()
     const dialog = useDialog()
 
-    // Handle Tab/Shift+Tab and arrow key navigation
+    // Handle action key navigation only
     useKeyboard((evt) => {
         // Only handle keyboard events when form is in focus
         if (!inFocus) return
 
-
-        const fieldNames = Object.keys(methods.getValues())
-        if (fieldNames.length === 0) return
-
-        const currentIndex = focusedField
-            ? fieldNames.indexOf(focusedField)
-            : -1
-        let nextIndex: number | null = null
-
-        if (evt.name === 'tab') {
-            if (evt.shift) {
-                // Shift+Tab: go to previous field
-                nextIndex =
-                    currentIndex > 0 ? currentIndex - 1 : fieldNames.length - 1
-            } else {
-                // Tab: go to next field
-                nextIndex =
-                    currentIndex < fieldNames.length - 1 ? currentIndex + 1 : 0
-            }
-        } else if (evt.name === 'up') {
-            // Arrow up: go to previous field
-            nextIndex =
-                currentIndex > 0 ? currentIndex - 1 : fieldNames.length - 1
-        } else if (evt.name === 'down') {
-            // Arrow down: go to next field
-            nextIndex =
-                currentIndex < fieldNames.length - 1 ? currentIndex + 1 : 0
-        }
-
-        if (nextIndex !== null) {
-            const nextFieldName = fieldNames[nextIndex]
-            if (nextFieldName) {
-                // Just update the focused field in context
-                setFocusedField(nextFieldName)
-            }
-        } else if (evt.name === 'k' && evt.ctrl && props.actions) {
+        if (evt.name === 'k' && evt.ctrl && props.actions) {
             // Ctrl+K shows actions
             dialog.push(
                 <FormSubmitContext.Provider value={submitContextValue}>

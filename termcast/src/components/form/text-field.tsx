@@ -6,6 +6,7 @@ import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
 import { WithLeftBorder } from './with-left-border'
+import { useFormNavigation } from './use-form-navigation'
 
 export interface TextFieldProps extends FormItemProps<string> {
     placeholder?: string
@@ -20,6 +21,9 @@ export const TextField = (props: TextFieldProps): any => {
         } = useFormContext()
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
+        
+        // Use form navigation hook
+        useFormNavigation(props.id)
 
         return (
             <Controller

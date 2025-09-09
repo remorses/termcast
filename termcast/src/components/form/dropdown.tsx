@@ -17,6 +17,8 @@ import { Dropdown as BaseDropdown } from '@termcast/cli/src/components/dropdown'
 import { useDialog } from '@termcast/cli/src/internal/dialog'
 import { createDescendants } from '@termcast/cli/src/descendants'
 import { WithLeftBorder } from './with-left-border'
+import { useFormNavigation } from './use-form-navigation'
+import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
 export interface DropdownProps extends FormItemProps<string> {
     placeholder?: string
@@ -101,6 +103,10 @@ const DropdownComponent = (props: DropdownProps): any => {
         const isFocused = focusedField === props.id
         const dialog = useDialog()
         const descendantsContext = useFormDropdownDescendants()
+        const isInFocus = useIsInFocus()
+        
+        // Use form navigation hook - dropdown should handle its own arrows when open
+        useFormNavigation(props.id, { handleArrows: !isOpen })
 
         return (
             <FormDropdownDescendantsProvider value={descendantsContext}>
