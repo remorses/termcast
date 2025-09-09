@@ -117,6 +117,15 @@ export function FormBasicExample(): any {
                     info='Format: YYYY-MM-DD'
                 />
 
+                <Form.FilePicker
+                    id='documents'
+                    title='Upload Documents'
+                    info='Select one or more documents to attach'
+                    allowMultipleSelection={true}
+                    canChooseFiles={true}
+                    canChooseDirectories={false}
+                />
+
                 <Form.Separator />
 
                 <Form.Description
