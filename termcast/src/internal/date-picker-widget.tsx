@@ -1,5 +1,6 @@
 import { useKeyboard } from '@opentui/react'
 import { useMemo, useState, useRef } from 'react'
+import Theme from '../theme'
 
 // ----- Helpers -----
 type Focus = 'year' | 'month' | 'grid'
@@ -252,9 +253,12 @@ export function DatePickerWidget({
                     // Move focus to year
                     setFocus('year')
                 } else if (focus === 'year') {
-                    // At top of widget, trigger callback
+                    // At top of widget, trigger callback or cycle to bottom
                     if (onFirstRowUpKey) {
                         onFirstRowUpKey()
+                    } else {
+                        // Cycle to grid if no callback
+                        setFocus('grid')
                     }
                 }
                 break
@@ -268,9 +272,12 @@ export function DatePickerWidget({
                     const remainingDays =
                         daysInCurrentMonth - selected.getDate()
                     if (remainingDays < 7) {
-                        // At bottom of grid, trigger callback
+                        // At bottom of grid, trigger callback or cycle to top
                         if (onLastRowDownKey) {
                             onLastRowDownKey()
+                        } else {
+                            // Cycle to year if no callback
+                            setFocus('year')
                         }
                     } else {
                         const next = addDays(selected, +7)
@@ -288,9 +295,12 @@ export function DatePickerWidget({
             case 'tab':
                 if (key.shift) {
                     if (focus === 'year') {
-                        // At top of widget, trigger callback
+                        // At top of widget, trigger callback or cycle to bottom
                         if (onFirstRowUpKey) {
                             onFirstRowUpKey()
+                        } else {
+                            // Cycle to grid if no callback
+                            setFocus('grid')
                         }
                     } else {
                         // Shift+Tab: Move focus up (grid -> month -> year)
@@ -304,9 +314,12 @@ export function DatePickerWidget({
                     }
                 } else {
                     if (focus === 'grid') {
-                        // At bottom of widget, trigger callback
+                        // At bottom of widget, trigger callback or cycle to top
                         if (onLastRowDownKey) {
                             onLastRowDownKey()
+                        } else {
+                            // Cycle to year if no callback
+                            setFocus('year')
                         }
                     } else {
                         // Tab: Move focus down (year -> month -> grid)
@@ -363,7 +376,7 @@ export function DatePickerWidget({
                     height: 1,
                     backgroundColor:
                         enableColors && focus === 'year'
-                            ? '#1e40af'
+                            ? Theme.primary
                             : undefined,
                     marginBottom: 0,
                 }}
@@ -377,11 +390,11 @@ export function DatePickerWidget({
                         width: headerWidth,
                     }}
                 >
-                    <text fg={focus === 'year' ? '#FFFFFF' : '#666666'}>←</text>
-                    <text fg={focus === 'year' ? '#FFFFFF' : '#666666'}>
+                    <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>←</text>
+                    <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>
                         {String(y)}
                     </text>
-                    <text fg={focus === 'year' ? '#FFFFFF' : '#666666'}>→</text>
+                    <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>→</text>
                 </box>
             </box>
 
@@ -392,7 +405,7 @@ export function DatePickerWidget({
                     height: 1,
                     backgroundColor:
                         enableColors && focus === 'month'
-                            ? '#1e40af'
+                            ? Theme.primary
                             : undefined,
                     marginBottom: 1,
                 }}
@@ -406,13 +419,13 @@ export function DatePickerWidget({
                         width: headerWidth,
                     }}
                 >
-                    <text fg={focus === 'month' ? '#FFFFFF' : '#666666'}>
+                    <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>
                         ←
                     </text>
-                    <text fg={focus === 'month' ? '#FFFFFF' : '#666666'}>
+                    <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>
                         {MONTHS[m]}
                     </text>
-                    <text fg={focus === 'month' ? '#FFFFFF' : '#666666'}>
+                    <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>
                         →
                     </text>
                 </box>
@@ -432,8 +445,8 @@ export function DatePickerWidget({
                         <text
                             fg={
                                 enableColors && (idx === 5 || idx === 6)
-                                    ? '#dc2626'
-                                    : '#4b5563'
+                                    ? Theme.error
+                                    : Theme.textMuted
                             }
                         >
                             {wd}
@@ -473,8 +486,10 @@ export function DatePickerWidget({
                                                 enableColors &&
                                                 isSel &&
                                                 focus === 'grid'
-                                                    ? '#2563eb'
-                                                    : undefined,
+                                                    ? Theme.primary
+                                                    : enableColors && isToday
+                                                      ? Theme.backgroundPanel
+                                                      : undefined,
                                         }}
                                         onMouseDown={() => {
                                             setSelected(d)
@@ -485,13 +500,13 @@ export function DatePickerWidget({
                                         <text
                                             fg={
                                                 isSel && focus === 'grid'
-                                                    ? '#FFFFFF'
+                                                    ? Theme.text
                                                     : enableColors && isToday
-                                                      ? '#3b82f6'
+                                                      ? Theme.accent
                                                       : enableColors &&
                                                           (j === 5 || j === 6)
-                                                        ? '#dc2626'
-                                                        : '#111827'
+                                                        ? Theme.error
+                                                        : Theme.text
                                             }
                                         >
                                             {String(d.getDate()).padStart(
