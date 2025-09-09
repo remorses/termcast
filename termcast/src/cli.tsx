@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { execSync } from 'node:child_process'
 import { cac } from 'cac'
 import chokidar from 'chokidar'
 import { buildExtensionCommands } from './build'
@@ -129,6 +130,140 @@ cli.command('build', 'Build and install the extension to user store')
             console.log(`\nExtension installed to store as '${extensionName}'`)
         } catch (error: any) {
             console.error('Build failed:', error.message)
+            process.exit(1)
+        }
+    })
+
+cli.command('pr <prNumber>', 'Download extension from a GitHub PR')
+    .action(async (prNumber: string) => {
+        try {
+            // Parse PR number from URL if provided
+            let parsedPrNumber = prNumber
+            const urlMatch = prNumber.match(/github\.com\/raycast\/extensions\/pull\/(\d+)/)
+            if (urlMatch) {
+                parsedPrNumber = urlMatch[1]
+            }
+            
+            console.log(`Fetching PR #${parsedPrNumber} from GitHub...`)
+            
+            // Fetch PR data from GitHub API
+            const prResponse = await fetch(
+                `https://api.github.com/repos/raycast/extensions/pulls/${parsedPrNumber}`
+            )
+            
+            if (!prResponse.ok) {
+                console.error(`Failed to fetch PR #${parsedPrNumber}: ${prResponse.statusText}`)
+                process.exit(1)
+            }
+            
+            const prData = await prResponse.json()
+            const prAuthor = prData.head.user.login
+            const branch = prData.head.ref
+            const forkUrl = prData.head.repo.clone_url
+            
+            console.log(`PR Author: ${prAuthor}`)
+            console.log(`Branch: ${branch}`)
+            
+            // Extract extension name from branch name (usually format: "ext/extension-name")
+            let extensionName = ''
+            if (branch.startsWith('ext/')) {
+                extensionName = branch.substring(4) // Remove "ext/" prefix
+            } else {
+                // Fallback to last part of branch name
+                const branchParts = branch.split('/')
+                extensionName = branchParts[branchParts.length - 1]
+            }
+            
+            console.log(`Extension name: ${extensionName}`)
+            
+            // Sanitize branch name for directory name (remove special characters)
+            const sanitizedBranch = branch.replace(/[\/\\:*?"<>|]/g, '-')
+            
+            // Create directory for PR
+            const homeDir = process.env.HOME || process.env.USERPROFILE || ''
+            const prsDir = path.join(homeDir, '.termcast', 'prs')
+            const prDir = path.join(prsDir, `${prAuthor}-${sanitizedBranch}-${parsedPrNumber}`)
+            
+            // Create directories if they don't exist
+            if (!fs.existsSync(prsDir)) {
+                fs.mkdirSync(prsDir, { recursive: true })
+            }
+            
+            // Clean up existing directory if it exists
+            if (fs.existsSync(prDir)) {
+                console.log(`Removing existing directory: ${prDir}`)
+                fs.rmSync(prDir, { recursive: true, force: true })
+            }
+            
+            // Clone the extension using sparse-checkout
+            console.log(`\nCloning extension from ${forkUrl}...`)
+            
+            // Step 1: Clone with sparse-checkout
+            const dirName = path.basename(prDir)
+            const cloneCmd = `git clone -n --depth=1 --filter=tree:0 -b "${branch}" "${forkUrl}" "${dirName}"`
+            console.log(`Running: ${cloneCmd}`)
+            try {
+                execSync(cloneCmd, {
+                    cwd: prsDir,
+                    stdio: 'inherit',
+                })
+            } catch (error) {
+                console.error(`Failed to clone repository`)
+                process.exit(1)
+            }
+            
+            // Step 2: Set up sparse-checkout
+            const sparseCmd = `git sparse-checkout set --no-cone "extensions/${extensionName}"`
+            console.log(`Running: ${sparseCmd}`)
+            try {
+                execSync(sparseCmd, {
+                    cwd: prDir,
+                    stdio: 'inherit',
+                })
+            } catch (error) {
+                console.error(`Failed to set sparse-checkout`)
+                process.exit(1)
+            }
+            
+            // Step 3: Checkout the files
+            const checkoutCmd = 'git checkout'
+            console.log(`Running: ${checkoutCmd}`)
+            try {
+                execSync(checkoutCmd, {
+                    cwd: prDir,
+                    stdio: 'inherit',
+                })
+            } catch (error) {
+                console.error(`Failed to checkout files`)
+                process.exit(1)
+            }
+            
+            // Navigate to the extension directory
+            const extensionPath = path.join(prDir, 'extensions', extensionName)
+            
+            if (!fs.existsSync(extensionPath)) {
+                console.error(`Extension directory not found: ${extensionPath}`)
+                console.log('Available extensions:')
+                const extensionsDir = path.join(prDir, 'extensions')
+                if (fs.existsSync(extensionsDir)) {
+                    const dirs = fs.readdirSync(extensionsDir)
+                    dirs.forEach(dir => console.log(`  - ${dir}`))
+                }
+                process.exit(1)
+            }
+            
+            // Install dependencies
+            console.log(`\nInstalling dependencies...`)
+            execSync('npm install', {
+                cwd: extensionPath,
+                stdio: 'inherit',
+            })
+            
+            console.log(`\n✅ Extension downloaded successfully!`)
+            console.log(`📁 Path: ${extensionPath}`)
+            
+        } catch (error) {
+            console.error('Error downloading PR:', error)
             process.exit(1)
         }
     })
