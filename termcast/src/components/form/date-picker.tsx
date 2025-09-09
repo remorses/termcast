@@ -61,7 +61,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
             if (!isFocused || !isInFocus) return
 
             if (evt.name === 'tab') {
-                if ((evt as any).modifiers?.shift) {
+                if (evt.shift) {
                     handleNavigateUp()
                 } else {
                     handleNavigateDown()
