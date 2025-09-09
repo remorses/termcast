@@ -114,6 +114,7 @@ import type {
     DatePickerRef,
     DatePickerType as DatePickerEnum,
 } from './date-picker'
+import type { TagPickerType } from './tagpicker'
 import type { DescriptionProps } from './description'
 
 interface DropdownType {
@@ -143,7 +144,7 @@ interface FormType {
     >
     Dropdown: DropdownType
     DatePicker: DatePickerComponentType
-    TagPicker: null // TODO: implement
+    TagPicker: TagPickerType
     FilePicker: null // TODO: implement
     Separator: () => any
     Description: (props: DescriptionProps) => any
@@ -224,6 +225,7 @@ import { TextArea } from './text-area'
 import { Checkbox } from './checkbox'
 import { Dropdown } from './dropdown'
 import { DatePicker } from './date-picker'
+import { TagPicker } from './tagpicker'
 import { Separator } from './separator'
 import { Description } from './description'
 import { FormEnd } from './form-end'
@@ -234,7 +236,7 @@ Form.TextArea = TextArea as any
 Form.Checkbox = Checkbox as any
 Form.Dropdown = Dropdown
 Form.DatePicker = DatePicker
-Form.TagPicker = null // TODO: implement
+Form.TagPicker = TagPicker
 Form.FilePicker = null // TODO: implement
 Form.Separator = Separator
 Form.Description = Description
