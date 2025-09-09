@@ -116,6 +116,7 @@ import type {
 } from './date-picker'
 import type { TagPickerType } from './tagpicker'
 import type { DescriptionProps } from './description'
+import type { FilePickerProps, FilePickerRef } from './file-picker'
 
 interface DropdownType {
     (props: DropdownProps): any
@@ -145,7 +146,7 @@ interface FormType {
     Dropdown: DropdownType
     DatePicker: DatePickerComponentType
     TagPicker: TagPickerType
-    FilePicker: null // TODO: implement
+    FilePicker: (props: FilePickerProps) => any
     Separator: () => any
     Description: (props: DescriptionProps) => any
 }
@@ -229,6 +230,7 @@ import { TagPicker } from './tagpicker'
 import { Separator } from './separator'
 import { Description } from './description'
 import { FormEnd } from './form-end'
+import { FilePicker } from './file-picker'
 
 Form.TextField = TextField as any
 Form.PasswordField = PasswordField as any
@@ -237,6 +239,6 @@ Form.Checkbox = Checkbox as any
 Form.Dropdown = Dropdown
 Form.DatePicker = DatePicker
 Form.TagPicker = TagPicker
-Form.FilePicker = null // TODO: implement
+Form.FilePicker = FilePicker
 Form.Separator = Separator
 Form.Description = Description
