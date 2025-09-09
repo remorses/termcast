@@ -209,6 +209,8 @@ never update inline snapshots manually, instead always use `bun test -u` to upda
 
 some tests in src/examples end with .vitest.tsx. to run these you will need to use `bun e2e -u`
 
+for example `bun e2e src/examples/form-dropdown.vitest.tsx`
+
 these tests are for ensuring the examples work correctly
 
 ## fixing bugs in termcast
