@@ -168,6 +168,8 @@ IMPORTANT: When using the descendants pattern from src/descendants.tsx, the `map
 - useEffect or useLayoutEffect to handle effects
 - Event handlers (useKeyboard, onChange, etc)
 
+.map.current CANNOT be called inside render or useMemo!
+
 Example of WRONG usage (accessing map.current during render):
 
 ```tsx
