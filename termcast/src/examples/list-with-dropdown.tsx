@@ -10,8 +10,8 @@ function DrinkDropdown(props: {
     return (
         <List.Dropdown
             tooltip='Select Drink Type'
-            storeValue={true}
-            filtering={true}
+            storeValue
+            filtering
             onChange={(newValue) => {
                 onDrinkTypeChange(newValue)
             }}

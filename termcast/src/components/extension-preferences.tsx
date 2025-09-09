@@ -139,7 +139,7 @@ export function ExtensionPreferences({
     }
 
     if (isLoading) {
-        return <Form isLoading={true} />
+        return <Form isLoading />
     }
 
     if (preferences.length === 0) {
@@ -200,7 +200,7 @@ export function ExtensionPreferences({
                                 placeholder={pref.placeholder}
                                 defaultValue={defaultValue}
                                 info={pref.description}
-                                storeValue={true}
+                                storeValue
                             />
                         )
 
@@ -213,7 +213,7 @@ export function ExtensionPreferences({
                                 placeholder={pref.placeholder}
                                 defaultValue={defaultValue}
                                 info={pref.description}
-                                storeValue={true}
+                                storeValue
                             />
                         )
 
@@ -225,7 +225,7 @@ export function ExtensionPreferences({
                                 label={pref.title}
                                 defaultValue={defaultValue}
                                 info={pref.description}
-                                storeValue={true}
+                                storeValue
                             />
                         )
 
@@ -236,7 +236,7 @@ export function ExtensionPreferences({
                                 title={pref.title}
                                 defaultValue={defaultValue}
                                 info={pref.description}
-                                storeValue={true}
+                                storeValue
                             >
                                 {pref.data?.map((item) => (
                                     <Form.Dropdown.Item
@@ -268,7 +268,7 @@ export function ExtensionPreferences({
                                     pref.description ||
                                     `Select a ${pref.type.replace('appPicker', 'application')}`
                                 }
-                                storeValue={true}
+                                storeValue
                             />
                         )
 

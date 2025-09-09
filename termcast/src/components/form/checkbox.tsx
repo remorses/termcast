@@ -21,7 +21,7 @@ export const Checkbox = (props: CheckboxProps): any => {
         const { focusedField, setFocusedField } = useFocusContext()
         const isFocused = focusedField === props.id
         const isInFocus = useIsInFocus()
-        
+
         // Use form navigation hook
         useFormNavigation(props.id)
         const handleToggle = () => {
@@ -46,7 +46,7 @@ export const Checkbox = (props: CheckboxProps): any => {
                     return (
                         <box flexDirection='column'>
                             <WithLeftBorder
-                                withDiamond={true}
+                                withDiamond
                                 isFocused={isFocused}
                             >
                                 <text

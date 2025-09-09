@@ -18,7 +18,7 @@ const App: any = () => {
             value={selectedValue}
             placeholder='Search drinks...'
             filtering
-            storeValue={true}
+            storeValue
         >
             <Dropdown.Section title='Alcoholic Beverages'>
                 <Dropdown.Item

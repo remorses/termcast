@@ -104,7 +104,7 @@ const DropdownComponent = (props: DropdownProps): any => {
         const descendantsContext = useFormDropdownDescendants()
         const isInFocus = useIsInFocus()
         const itemsPerPage = 5
-        
+
         // Use form navigation hook - dropdown should handle its own arrows when open
         useFormNavigation(props.id, { handleArrows: !isOpen })
 
@@ -193,11 +193,11 @@ const DropdownComponent = (props: DropdownProps): any => {
                                     .map(
                                         (item: any) => item.props,
                                     ) as FormDropdownItemDescendant[]
-                                    
+
                                 const totalPages = Math.ceil(items.length / itemsPerPage)
                                 const startIndex = currentPage * itemsPerPage
                                 const pageItems = items.slice(startIndex, startIndex + itemsPerPage)
-                                
+
                                 if (evt.name === 'down') {
                                     if (selectedOptionIndex < pageItems.length - 1) {
                                         setSelectedOptionIndex(selectedOptionIndex + 1)
@@ -240,15 +240,15 @@ const DropdownComponent = (props: DropdownProps): any => {
                             .map(
                                 (item: any) => item.props,
                             ) as FormDropdownItemDescendant[] : []
-                        
+
                         const totalPages = Math.ceil(items.length / itemsPerPage)
                         const startIndex = currentPage * itemsPerPage
                         const pageItems = items.slice(startIndex, startIndex + itemsPerPage)
 
                         return (
                             <box flexDirection='column'>
-                                <WithLeftBorder withDiamond={true} isFocused={isFocused}>
-                                    <text 
+                                <WithLeftBorder withDiamond isFocused={isFocused}>
+                                    <text
                                         fg={Theme.text}
                                         onMouseDown={() => {
                                             // Focus if not already focused

@@ -18,7 +18,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
     const { control } = useFormContext()
     const { focusedField, setFocusedField } = useFocusContext()
     const isFocused = focusedField === props.id
-    
+
     // Use form navigation hook
     useFormNavigation(props.id)
 
@@ -35,7 +35,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
 
                 return (
                     <box flexDirection='column'>
-                        <WithLeftBorder withDiamond={true} isFocused={isFocused}>
+                        <WithLeftBorder withDiamond isFocused={isFocused}>
                             <text
                                 fg={Theme.text}
                                 onMouseDown={() => {

@@ -655,7 +655,7 @@ const ActionPanel: ActionPanelType = (props) => {
                 <Dropdown
                     tooltip={title}
                     placeholder='Search actions...'
-                    filtering={true}
+                    filtering
                     onChange={(value) => {
                         logger.log(`actions dropdown onChange`, value)
                         // Find and execute the selected action
