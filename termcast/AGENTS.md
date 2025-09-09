@@ -262,6 +262,10 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 - Try to use as little useEffect or useLayoutEffect as possible. instead put the code directly in the relevant event handlers
 - Keep as little useState as possible. computed state should be a simple expression in render if possible
 
+## form components styling
+
+- NEVER make text bold on focus in components. This causes layout shifts when focusing/unfocusing fields. Always maintain consistent text weight regardless of focus state. Instead change background or color or add an unicode character before or after focused text for selection like List does.
+
 ## important reminders
 
 - never update snapshots yourself. if you want to test something you must read the snapshots yourself after running the tests
