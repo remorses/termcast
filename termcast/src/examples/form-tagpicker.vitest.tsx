@@ -28,7 +28,7 @@ test('form tagpicker shows inline options', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Choose your favorite sport...
@@ -64,7 +64,7 @@ test('form tagpicker shows inline options', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball
@@ -100,7 +100,7 @@ test('form tagpicker shows inline options', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball
@@ -139,7 +139,7 @@ test('form tagpicker shows inline options', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball
@@ -175,15 +175,15 @@ test('form tagpicker shows inline options', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball, Swimming
       │
-      │ ● Basketball
-      │ ○ Football
-      │ ○ Tennis
       │ ○ Baseball
+      │ ○ Golf
+      │ ● Swimming
+      │ ○ Cycling
       │ ↑↓ to see more options
       │
       │ Select your favorite sport from the list
@@ -220,7 +220,7 @@ test('form tagpicker keyboard navigation', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball
@@ -259,7 +259,7 @@ test('form tagpicker keyboard navigation', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball
@@ -295,7 +295,7 @@ test('form tagpicker keyboard navigation', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball
@@ -331,7 +331,7 @@ test('form tagpicker keyboard navigation', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball
@@ -367,7 +367,7 @@ test('form tagpicker keyboard navigation', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◆ Favorite Sport
       │ Basketball
@@ -412,7 +412,7 @@ test('form tagpicker with default value', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◇ Favorite Sport
       │ Choose your favorite sport...
@@ -448,7 +448,7 @@ test('form tagpicker with default value', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◇ Favorite Sport
       │ Choose your favorite sport...
@@ -489,7 +489,7 @@ test('form tagpicker with default value', async () => {
       "
 
       ▪︎ TagPicker Component Demo
-      │ Test tag picker with single selection (multi-selection coming so
+      │ Test tag picker with multiple selection support
       │
       ◇ Favorite Sport
       │ Choose your favorite sport...
