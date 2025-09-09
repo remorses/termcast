@@ -98,8 +98,6 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                                         }
                                     }}
                                     focused={isFocused}
-                                    onFirstRowUpKey={handleNavigateUp}
-                                    onLastRowDownKey={handleNavigateDown}
                                 />
                             </WithLeftBorder>
                             {(fieldState.error || props.error) && (
