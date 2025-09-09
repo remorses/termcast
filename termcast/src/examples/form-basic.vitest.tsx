@@ -57,16 +57,24 @@ test('form basic navigation and input', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Type in username field
@@ -106,16 +114,24 @@ test('form basic navigation and input', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Tab to password field
@@ -129,11 +145,11 @@ test('form basic navigation and input', async () => {
       ◇ Form Component Demo
       │ This demonstrates all available form input types. Use arrow keys
       │
-      ◆ Username
+      ◇ Username
       │ johndoe
       │ Required field
       │
-      ◇ Password
+      ◆ Password
       │ securepass123
       │ Must be at least 8 characters
       │
@@ -156,16 +172,24 @@ test('form basic navigation and input', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Tab to biography field
@@ -179,7 +203,7 @@ test('form basic navigation and input', async () => {
       ◇ Form Component Demo
       │ This demonstrates all available form input types. Use arrow keys
       │
-      ◆ Username
+      ◇ Username
       │ johndoe
       │ Required field
       │
@@ -187,7 +211,7 @@ test('form basic navigation and input', async () => {
       │ *************
       │ Must be at least 8 characters
       │
-      ◇ Biography
+      ◆ Biography
       │ I am a software developer
       │
       │
@@ -206,16 +230,24 @@ test('form basic navigation and input', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Tab to newsletter checkbox and toggle it
@@ -229,7 +261,7 @@ test('form basic navigation and input', async () => {
       ◇ Form Component Demo
       │ This demonstrates all available form input types. Use arrow keys
       │
-      ◆ Username
+      ◇ Username
       │ johndoe
       │ Required field
       │
@@ -245,8 +277,8 @@ test('form basic navigation and input', async () => {
       │
       │ Maximum 500 characters
       │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
+      ◆ Email Preferences
+      │ ● Subscribe to newsletter
       │
       │ Receive weekly updates
       │
@@ -256,16 +288,24 @@ test('form basic navigation and input', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Tab to country dropdown and open it
@@ -286,36 +326,44 @@ test('form basic navigation and input', async () => {
       ◇ Password
       │ *************
       │ Must be at least 8 characters
-
-        Country                                                    esc
-
-        Select your country
-        🇺🇸   United States
-        🇨🇦   Canada
-        🇲🇽   Mexico
-        🇬🇧xi United Kingdom
-        🇫🇷   France
-        🇩🇪ai Germany
-
-
-        ↵ select   ↑↓ navigate
-
+      │
+      ◇ Biography
+      │ I am a software developer
+      │
+      │
+      │
+      │
+      │ Maximum 500 characters
+      │
+      ◇ Email Preferences
+      │ ● Subscribe to newsletter
+      │
+      │ Receive weekly updates
+      │
       ◆ Country
       │ ○ Select your country
       │
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Select United States
@@ -355,16 +403,24 @@ test('form basic navigation and input', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Tab to date picker
@@ -399,22 +455,30 @@ test('form basic navigation and input', async () => {
       │
       │ Receive weekly updates
       │
-      ◆ Country
+      ◇ Country
       │ ● United States
       │
       │ Your country of residence
       │
-      ◇ Date of Birth
-      │ 1990-05-15
+      ◆ Date of Birth
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Submit form with Cmd+Enter
@@ -453,22 +517,30 @@ test('form basic navigation and input', async () => {
       │
       │ Receive weekly updates
       │
-      ◆ Country
+      ◇ Country
       │ ● United States
       │
       │ Your country of residence
       │
-      ◇ Date of Birth
-      │ 1990-05-15
+      ◆ Date of Birth
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 }, 15000)
 
@@ -493,7 +565,7 @@ test('form navigation with shift+tab', async () => {
       ◇ Form Component Demo
       │ This demonstrates all available form input types. Use arrow keys
       │
-      ◆ Username
+      ◇ Username
       │ testuser
       │ Required field
       │
@@ -501,7 +573,7 @@ test('form navigation with shift+tab', async () => {
       │ ********
       │ Must be at least 8 characters
       │
-      ◇ Biography
+      ◆ Biography
       │ Tell us about yourself...
       │
       │
@@ -520,16 +592,24 @@ test('form navigation with shift+tab', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Navigate backwards with Shift+Tab
@@ -542,11 +622,11 @@ test('form navigation with shift+tab', async () => {
       ◇ Form Component Demo
       │ This demonstrates all available form input types. Use arrow keys
       │
-      ◆ Username
+      ◇ Username
       │ testuser
       │ Required field
       │
-      ◇ Password
+      ◆ Password
       │ password
       │ Must be at least 8 characters
       │
@@ -569,16 +649,24 @@ test('form navigation with shift+tab', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Go back to username field
@@ -618,16 +706,24 @@ test('form navigation with shift+tab', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Clear and type new username
@@ -668,16 +764,24 @@ test('form navigation with shift+tab', async () => {
       │ Your country of residence
       │
       ◇ Date of Birth
-      │ YYYY/MM/DD
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 }, 10000)
 
@@ -706,7 +810,7 @@ test('form dropdown navigation', async () => {
       ◇ Form Component Demo
       │ This demonstrates all available form input types. Use arrow keys
       │
-      ◆ Username
+      ◇ Username
       │ Enter your username
       │ Required field
       │
@@ -732,17 +836,25 @@ test('form dropdown navigation', async () => {
       │
       │ Your country of residence
       │
-      ◇ Date of Birth
+      ◆ Date of Birth
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
       │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Navigate down in dropdown
@@ -755,7 +867,7 @@ test('form dropdown navigation', async () => {
       ◇ Form Component Demo
       │ This demonstrates all available form input types. Use arrow keys
       │
-      ◆ Username
+      ◇ Username
       │ Enter your username
       │ Required field
       │
@@ -781,17 +893,25 @@ test('form dropdown navigation', async () => {
       │
       │ Your country of residence
       │
-      ◇ Date of Birth
+      ◆ Date of Birth
+      │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
       │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Navigate to Europe section
@@ -834,15 +954,23 @@ test('form dropdown navigation', async () => {
       │
       ◇ Date of Birth
       │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 
     // Select France
@@ -883,14 +1011,22 @@ test('form dropdown navigation', async () => {
       │
       ◇ Date of Birth
       │
+      │  ←       2025        →
+      │  ←     September     →
+      │
+      │  Mo Tu We Th Fr Sa Su
+      │   1  2  3  4  5  6  7
+      │   8  9 10 11 12 13 14
+      │  15 16 17 18 19 20 21
+      │  22 23 24 25 26 27 28
+      │  29 30
+      │
+      │
+      │
       │ Format: YYYY-MM-DD
       │
       ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space:
-      │
-      └
-
-
-       ↵ submit   ↑↓ navigate   ^k actions"
+      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
+      │"
     `)
 }, 10000)

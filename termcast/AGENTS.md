@@ -270,3 +270,56 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 
 - never update snapshots yourself. if you want to test something you must read the snapshots yourself after running the tests
 - NEVER run examples files with commands like `bun src/examlpes/something.tsx`! This is very important. this will hang the command and give you no information and break the current claude code terminal! instead use vitest tests
+
+
+## Hooks
+
+hooks, functions starting with use, CANNOT be called inside callbacks or other functions. only in the component scope level!
+
+this code is invalid:
+
+```tsx
+<Controller
+  name={props.id}
+  control={control}
+  defaultValue={props.defaultValue || props.value || ''}
+  render={({ field, fieldState, formState }) => {
+    // Store selected title for display
+    // ❌ INVALID: React hooks like useState cannot be called inside render props or callbacks
+    // Instead, move hooks to the top-level of your component, not inside the render prop
+    // The below is incorrect usage and will cause React errors
+    const [selectedTitle, setSelectedTitle] = React.useState<string>('')
+    const [dropdownItems, setDropdownItems] = React.useState<FormDropdownItemDescendant[]>([])
+
+    // ...rest of render logic
+    return (
+      /* JSX goes here */
+    )
+  }}
+/>
+```
+
+To resolve this issue you can create a different component to pass in render:
+
+```tsx
+function MyRenderComponent({ field, fieldState, formState }) {
+  const [selectedTitle, setSelectedTitle] = React.useState<string>('')
+  const [dropdownItems, setDropdownItems] = React.useState<FormDropdownItemDescendant[]>([])
+
+  // ...rest of render logic
+  return (
+    /* JSX goes here */
+  )
+}
+
+// ...
+
+<Controller
+  name={props.id}
+  control={control}
+  defaultValue={props.defaultValue || props.value || ''}
+  render={(args) => <MyRenderComponent {...args} />}
+ />
+```
+
+Or lift hooks in component scope

@@ -5,21 +5,25 @@ import { Theme } from '@termcast/cli/src/theme'
 interface WithLeftBorderProps {
     children: React.ReactNode
     withDiamond?: boolean
+    customCharacter?: { focused: string; unfocused: string }
     isFocused: boolean
     paddingBottom?: number
+    key?: any
 }
 
 export const WithLeftBorder = ({
     children,
     withDiamond,
+    customCharacter,
     isFocused,
     paddingBottom = 1,
 }: WithLeftBorderProps): any => {
-    if (withDiamond) {
+    if (withDiamond || customCharacter) {
+        const chars = customCharacter || { focused: '◆', unfocused: '◇' }
         return (
             <box flexDirection='row'>
                 <text key={String(isFocused)} fg={isFocused ? Theme.accent : Theme.text}>
-                    {isFocused ? '◆' : '◇'}
+                    {isFocused ? chars.focused : chars.unfocused}
                 </text>
                 <box flexGrow={1} paddingLeft={1} >
                     {children}
@@ -28,9 +32,9 @@ export const WithLeftBorder = ({
         )
     }
     return (
-        <box 
-            paddingLeft={0} 
-            border={['left']} 
+        <box
+            paddingLeft={0}
+            border={['left']}
             borderColor={isFocused ? Theme.accent : undefined}
             flexDirection='row'
         >
