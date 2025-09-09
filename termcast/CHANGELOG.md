@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0
+
+### Minor Changes
+
+- improvements
+
 ## 0.0.3
 
 ### Patch Changes
