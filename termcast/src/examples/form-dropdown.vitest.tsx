@@ -478,3 +478,81 @@ test('form dropdown with default value', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 }, 10000)
+
+test('selecting second-to-last visible item should not scroll', async () => {
+    await driver.text({
+        waitFor: (text) => {
+            // wait for form to show up
+            return /Dropdown Component Demo/i.test(text)
+        },
+    })
+
+    // Navigate down twice to get to Green (second-to-last visible item)
+    await driver.keys.down()
+    await driver.keys.down()
+
+    const beforeSelectSnapshot = await driver.text()
+    expect(beforeSelectSnapshot).toMatchInlineSnapshot(`
+      "
+
+      ▪︎ Dropdown Component Demo
+      │ Test dropdown with inline options display
+      │
+      ◆ Favorite Color
+      │ Choose a color...
+      │
+      │ ○ Red
+      │ ○ Blue
+      │ ○ Green
+      │ ○ Yellow
+      │ ↑↓ to see more options
+      │
+      │ Select your favorite color from the list
+      │
+      ◇ Country
+      │ United States
+      │
+      │ ● United States
+      │ ○ Canada
+      │ ○ Mexico
+      └
+
+
+       ↵ submit   ↑↓ navigate   ^k actions"
+    `)
+
+    // Press Enter to select Green
+    await driver.keys.enter()
+
+    const afterSelectSnapshot = await driver.text()
+    expect(afterSelectSnapshot).toMatchInlineSnapshot(`
+      "
+
+      ▪︎ Dropdown Component Demo
+      │ Test dropdown with inline options display
+      │
+      ◆ Favorite Color
+      │ Green
+      │
+      │ ○ Red
+      │ ○ Blue
+      │ ● Green
+      │ ○ Yellow
+      │ ↑↓ to see more options
+      │
+      │ Select your favorite color from the list
+      │
+      ◇ Country
+      │ United States
+      │
+      │ ● United States
+      │ ○ Canada
+      │ ○ Mexico
+      └
+
+
+       ↵ submit   ↑↓ navigate   ^k actions"
+    `)
+    
+    // The window should NOT have scrolled - should still show Red, Blue, Green, Yellow
+}, 10000)

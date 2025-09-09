@@ -1,18 +1,23 @@
 import { useKeyboard } from '@opentui/react'
 import { useFormContext } from 'react-hook-form'
-import { useFocusContext,  } from './index'
+import { useFocusContext } from './index'
 import { useIsInFocus } from '../../internal/focus-context'
 
-export function useFormNavigation(id: string, options?: {
-    handleArrows?: boolean
-    handleTabs?: boolean
-}) {
+export function useFormNavigation(
+    id: string,
+    options?: {
+        handleArrows?: boolean
+        handleTabs?: boolean
+    },
+) {
     const { getValues } = useFormContext()
     const { focusedField, setFocusedField } = useFocusContext()
     const isInFocus = useIsInFocus()
     const isFocused = focusedField === id
 
-    const { handleArrows = true, handleTabs = true } = options || {}
+    let { handleArrows = true, handleTabs = true } = options || {}
+
+    handleArrows = false
 
     const navigateToPrevious = () => {
         const fieldNames = Object.keys(getValues())
