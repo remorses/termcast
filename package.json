@@ -26,6 +26,7 @@
 
   "trustedDependencies": [
     "@tailwindcss/oxide",
+    "@xmorse/rfd",
     "esbuild",
     "node-pty",
     "node-pty-prebuilt-multiarch",

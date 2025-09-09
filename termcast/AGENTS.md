@@ -63,7 +63,7 @@ Here is the process to follow to implement each API:
 - to implement compound components like `List.Item` first define the type of List, using a interface, then use : to implement it and add compound components later using . and omitting the props types given they are already typed by the interface, here is an example
 - DO NOT use console.log. only use logger.log instead
 - <input> uses onInput not onChange. it is passed a simple string value and not an event object
-- to render examples components use renderExample not render
+- to render examples components use renderWithProviders not render
 - ALWAYS bind all class methods to `this` in the constructor. This ensures methods work correctly when called in any context (callbacks, event handlers, etc). Example:
 
     ```typescript
