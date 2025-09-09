@@ -178,12 +178,12 @@ test('form tagpicker shows inline options', async () => {
       │ Test tag picker with single selection (multi-selection coming so
       │
       ◆ Favorite Sport
-      │ Swimming
+      │ Basketball, Swimming
       │
-      │ ○ Golf
-      │ ● Swimming
-      │ ○ Cycling
-      │ ○ Running
+      │ ● Basketball
+      │ ○ Football
+      │ ○ Tennis
+      │ ○ Baseball
       │ ↑↓ to see more options
       │
       │ Select your favorite sport from the list
@@ -462,9 +462,9 @@ test('form tagpicker with default value', async () => {
       │ Select your favorite sport from the list
       │
       ◆ Country
-      │ Germany
+      │ Select a country
       │
-      │ ● Germany
+      │ ○ Germany
       │ ○ India
       │ ○ Netherlands
       │ ○ Norway
@@ -503,9 +503,9 @@ test('form tagpicker with default value', async () => {
       │ Select your favorite sport from the list
       │
       ◆ Country
-      │ Germany
+      │ Select a country
       │
-      │ ● Germany
+      │ ○ Germany
       │ ○ India
       │ ○ Netherlands
       │ ○ Norway

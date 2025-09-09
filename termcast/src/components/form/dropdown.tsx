@@ -19,9 +19,10 @@ import { createDescendants } from '@termcast/cli/src/descendants'
 import { WithLeftBorder } from './with-left-border'
 import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
-export interface DropdownProps extends FormItemProps<string> {
+export interface DropdownProps extends FormItemProps<string | string[]> {
     placeholder?: string
     children?: React.ReactNode
+    hasMultipleSelection?: boolean
 }
 
 export interface DropdownItemProps {
@@ -120,7 +121,7 @@ const DropdownContent = ({
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0)
     const [windowStartIndex, setWindowStartIndex] = useState(0)
     const itemsPerPage = 4
-    const [selectedTitle, setSelectedTitle] = useState<string>('')
+    const [selectedValues, setSelectedValues] = useState<Set<string>>(new Set())
     const [dropdownItems, setDropdownItems] = useState<FormDropdownItemDescendant[]>([])
 
     const handleNavigateUp = () => {
@@ -149,50 +150,60 @@ const DropdownContent = ({
     useLayoutEffect(() => {
         setDropdownItems(items)
 
-        // Set initial selected title if field has value
+        // Initialize selected values based on field value
         if (field.value && items.length > 0) {
-            const selectedItem = items.find(
-                (item) => item.value === field.value,
-            )
-            if (selectedItem) {
-                setSelectedTitle(selectedItem.title)
-                // Find index and set window position
+            if (props.hasMultipleSelection && Array.isArray(field.value)) {
+                setSelectedValues(new Set(field.value))
+                // Set index to first selected item
+                const firstSelectedIndex = items.findIndex(item => field.value.includes(item.value))
+                if (firstSelectedIndex !== -1) {
+                    setSelectedOptionIndex(firstSelectedIndex)
+                    const windowStart = Math.max(0, Math.min(firstSelectedIndex - 1, items.length - itemsPerPage))
+                    setWindowStartIndex(windowStart)
+                }
+            } else if (!props.hasMultipleSelection && typeof field.value === 'string') {
+                setSelectedValues(new Set([field.value]))
                 const index = items.findIndex(item => item.value === field.value)
                 if (index !== -1) {
                     setSelectedOptionIndex(index)
-                    // Set window to show the selected item
                     const windowStart = Math.max(0, Math.min(index - 1, items.length - itemsPerPage))
                     setWindowStartIndex(windowStart)
                 }
             }
         }
-    }, [items, field.value])
+    }, [items, field.value, props.hasMultipleSelection])
 
-    // Update selected title when field value changes
+    // Update selected values when field value changes
     useEffect(() => {
         if (field.value && dropdownItems.length > 0) {
-            const selectedItem = dropdownItems.find(
-                (item) => item.value === field.value,
-            )
-            if (selectedItem) {
-                setSelectedTitle(selectedItem.title)
+            if (props.hasMultipleSelection && Array.isArray(field.value)) {
+                setSelectedValues(new Set(field.value))
+            } else if (!props.hasMultipleSelection && typeof field.value === 'string') {
+                setSelectedValues(new Set([field.value]))
             }
+        } else {
+            setSelectedValues(new Set())
         }
-    }, [field.value, dropdownItems])
+    }, [field.value, dropdownItems, props.hasMultipleSelection])
 
     const handleSelect = (value: string) => {
-        field.onChange(value)
-
-        // Find and store the selected item's title
-        const selectedItem = dropdownItems.find(
-            (item) => item.value === value,
-        )
-        if (selectedItem) {
-            setSelectedTitle(selectedItem.title)
-        }
-
-        if (props.onChange) {
-            props.onChange(value)
+        if (props.hasMultipleSelection) {
+            const newSelectedValues = new Set(selectedValues)
+            if (newSelectedValues.has(value)) {
+                newSelectedValues.delete(value)
+            } else {
+                newSelectedValues.add(value)
+            }
+            const arrayValue = Array.from(newSelectedValues)
+            field.onChange(arrayValue)
+            if (props.onChange) {
+                props.onChange(arrayValue)
+            }
+        } else {
+            field.onChange(value)
+            if (props.onChange) {
+                props.onChange(value)
+            }
         }
     }
 
@@ -209,23 +220,24 @@ const DropdownContent = ({
 
         setDropdownItems(items)
 
-        // Update selected title if field has a value
+        // Update selected values and window position
         if (field.value) {
-            const selectedItem = items.find(
-                (item) => item.value === field.value,
-            )
-            if (selectedItem) {
-                setSelectedTitle(selectedItem.title)
-                // Find index and set window position
+            if (props.hasMultipleSelection && Array.isArray(field.value)) {
+                setSelectedValues(new Set(field.value))
+                // Set index to first selected item
+                const firstSelectedIndex = items.findIndex(item => field.value.includes(item.value))
+                if (firstSelectedIndex !== -1) {
+                    setSelectedOptionIndex(firstSelectedIndex)
+                    const windowStart = Math.max(0, Math.min(firstSelectedIndex - 1, items.length - itemsPerPage))
+                    setWindowStartIndex(windowStart)
+                }
+            } else if (!props.hasMultipleSelection && typeof field.value === 'string') {
+                setSelectedValues(new Set([field.value]))
                 const index = items.findIndex(item => item.value === field.value)
                 if (index !== -1) {
                     setSelectedOptionIndex(index)
-                    // Set window to show the selected item
                     const windowStart = Math.max(0, Math.min(index - 1, items.length - itemsPerPage))
                     setWindowStartIndex(windowStart)
-                } else {
-                    setSelectedOptionIndex(0)
-                    setWindowStartIndex(0)
                 }
             }
         } else {
@@ -244,9 +256,10 @@ const DropdownContent = ({
                     const newIndex = selectedOptionIndex + 1
                     setSelectedOptionIndex(newIndex)
 
-                    // Slide window if needed
-                    if (newIndex >= windowStartIndex + itemsPerPage - 1 && newIndex < dropdownItems.length - 1) {
-                        setWindowStartIndex(Math.min(windowStartIndex + 1, dropdownItems.length - itemsPerPage))
+                    // Slide window if needed when reaching second-to-last visible item
+                    const visibleEndIndex = windowStartIndex + itemsPerPage - 1
+                    if (newIndex >= visibleEndIndex && windowStartIndex + itemsPerPage < dropdownItems.length) {
+                        setWindowStartIndex(windowStartIndex + 1)
                     }
                 } else {
                     // At last item, navigate to next field
@@ -257,9 +270,9 @@ const DropdownContent = ({
                     const newIndex = selectedOptionIndex - 1
                     setSelectedOptionIndex(newIndex)
 
-                    // Slide window if needed
-                    if (newIndex <= windowStartIndex && newIndex > 0) {
-                        setWindowStartIndex(Math.max(windowStartIndex - 1, 0))
+                    // Slide window if needed when reaching first visible item
+                    if (newIndex < windowStartIndex + 1 && windowStartIndex > 0) {
+                        setWindowStartIndex(windowStartIndex - 1)
                     }
                 } else {
                     // At first item, navigate to previous field
@@ -300,13 +313,18 @@ const DropdownContent = ({
             </WithLeftBorder>
             <WithLeftBorder isFocused={isFocused}>
                 <text
-                    fg={selectedTitle ? Theme.text : Theme.textMuted}
+                    fg={selectedValues.size > 0 ? Theme.text : Theme.textMuted}
                     selectable={false}
                     onMouseDown={() => {
                         setFocusedField(props.id)
                     }}
                 >
-                    {props.placeholder || 'Select...'}
+                    {selectedValues.size > 0 
+                        ? Array.from(selectedValues).map(val => 
+                            dropdownItems.find(item => item.value === val)?.title || val
+                          ).join(', ')
+                        : (props.placeholder || 'Select...')
+                    }
                 </text>
             </WithLeftBorder>
             {visibleItems.map((item, visualIndex) => {
@@ -325,7 +343,7 @@ const DropdownContent = ({
                                 handleSelect(item.value)
                             }}
                         >
-                            {field.value === item.value ? '●' : '○'} {item.title}
+                            {selectedValues.has(item.value) ? '●' : '○'} {item.title}
                         </text>
                     </WithLeftBorder>
                 )
@@ -364,7 +382,7 @@ const DropdownInner = (props: DropdownProps & { control: any; getValues: any; is
         <Controller
             name={props.id}
             control={control}
-            defaultValue={props.defaultValue || props.value || ''}
+            defaultValue={props.defaultValue || props.value || (props.hasMultipleSelection ? [] : '')}
             render={({ field, fieldState }) => {
                 return (
                     <DropdownContent

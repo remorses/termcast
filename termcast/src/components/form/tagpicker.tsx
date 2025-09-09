@@ -163,32 +163,34 @@ const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref)
         reset: () => dropdownRef.current?.reset()
     }))
 
-    // For now, we'll use the first value in the array as the dropdown value
-    // When isMultipleSelection is added later, we'll handle multiple values
-    const dropdownValue = props.value?.[0] || props.defaultValue?.[0] || ''
+    // TagPicker will use hasMultipleSelection by default
+    const dropdownValue = props.value || props.defaultValue || []
     
-    const handleDropdownChange = (value: string) => {
-        // For now, we'll just pass an array with one value
-        // Later when isMultipleSelection is added, we'll handle multiple values
-        props.onChange?.([value])
+    const handleDropdownChange = (value: string | string[]) => {
+        // TagPicker always expects array values
+        if (Array.isArray(value)) {
+            props.onChange?.(value)
+        } else {
+            props.onChange?.([value])
+        }
     }
     
-    // Convert FormEvent<string[]> callbacks to FormEvent<string> for dropdown
-    const handleFocus = props.onFocus ? (event: FormEvent<string>) => {
+    // Convert FormEvent callbacks between string[] and string | string[]
+    const handleFocus = props.onFocus ? (event: FormEvent<string | string[]>) => {
         props.onFocus!({
             target: {
                 id: event.target.id,
-                value: event.target.value ? [event.target.value] : []
+                value: Array.isArray(event.target.value) ? event.target.value : event.target.value ? [event.target.value] : []
             },
             type: event.type
         })
     } : undefined
     
-    const handleBlur = props.onBlur ? (event: FormEvent<string>) => {
+    const handleBlur = props.onBlur ? (event: FormEvent<string | string[]>) => {
         props.onBlur!({
             target: {
                 id: event.target.id,
-                value: event.target.value ? [event.target.value] : []
+                value: Array.isArray(event.target.value) ? event.target.value : event.target.value ? [event.target.value] : []
             },
             type: event.type
         })
@@ -222,7 +224,8 @@ const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref)
         onFocus: handleFocus,
         onBlur: handleBlur,
         placeholder: props.placeholder,
-        children: transformedChildren
+        children: transformedChildren,
+        hasMultipleSelection: true // TagPicker always uses multiple selection
     }
     
     return <Dropdown {...dropdownProps} />
