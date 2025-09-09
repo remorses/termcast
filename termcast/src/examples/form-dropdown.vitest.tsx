@@ -42,7 +42,7 @@ test('form dropdown shows inline options', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -64,7 +64,7 @@ test('form dropdown shows inline options', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Red
+      │ Red
       │
       │ ● Red
       │ ○ Blue
@@ -75,7 +75,7 @@ test('form dropdown shows inline options', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -97,7 +97,7 @@ test('form dropdown shows inline options', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Red
+      │ Red
       │
       │ ● Red
       │ ○ Blue
@@ -108,7 +108,7 @@ test('form dropdown shows inline options', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -133,7 +133,7 @@ test('form dropdown shows inline options', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Red
+      │ Red
       │
       │ ○ Yellow
       │ ○ Purple
@@ -144,7 +144,7 @@ test('form dropdown shows inline options', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -166,7 +166,7 @@ test('form dropdown shows inline options', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Orange
+      │ Orange
       │
       │ ○ Purple
       │ ● Orange
@@ -177,7 +177,7 @@ test('form dropdown shows inline options', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -208,7 +208,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Red
+      │ Red
       │
       │ ● Red
       │ ○ Blue
@@ -219,7 +219,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -244,7 +244,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Red
+      │ Red
       │
       │ ○ Green
       │ ○ Yellow
@@ -255,7 +255,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -277,7 +277,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Red
+      │ Red
       │
       │ ○ Yellow
       │ ○ Purple
@@ -288,7 +288,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -310,7 +310,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Red
+      │ Red
       │
       │ ○ Yellow
       │ ○ Purple
@@ -321,7 +321,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -343,7 +343,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Test dropdown with inline options display
       │
       ◆ Favorite Color
-      │ ● Red
+      │ Red
       │
       │ ○ Yellow
       │ ○ Purple
@@ -354,7 +354,7 @@ test('form dropdown keyboard navigation', async () => {
       │ Select your favorite color from the list
       │
       ◇ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -396,7 +396,7 @@ test('form dropdown with default value', async () => {
       │ Select your favorite color from the list
       │
       ◆ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -429,7 +429,7 @@ test('form dropdown with default value', async () => {
       │ Select your favorite color from the list
       │
       ◆ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada
@@ -467,7 +467,7 @@ test('form dropdown with default value', async () => {
       │ Select your favorite color from the list
       │
       ◆ Country
-      │ ● United States
+      │ United States
       │
       │ ● United States
       │ ○ Canada

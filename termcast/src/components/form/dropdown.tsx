@@ -122,9 +122,9 @@ const DropdownContent = ({
     const itemsPerPage = 4
     const [selectedTitle, setSelectedTitle] = useState<string>('')
     const [dropdownItems, setDropdownItems] = useState<FormDropdownItemDescendant[]>([])
-    
+
     const handleNavigateUp = () => {
-        // Find previous field and focus it  
+        // Find previous field and focus it
         const fieldNames = Object.keys(getValues())
         const currentIndex = fieldNames.indexOf(props.id)
         if (currentIndex > 0) {
@@ -144,11 +144,11 @@ const DropdownContent = ({
             setFocusedField(fieldNames[0])
         }
     }
-    
+
     // Initialize dropdown items from items prop
     useLayoutEffect(() => {
         setDropdownItems(items)
-        
+
         // Set initial selected title if field has value
         if (field.value && items.length > 0) {
             const selectedItem = items.find(
@@ -182,7 +182,7 @@ const DropdownContent = ({
 
     const handleSelect = (value: string) => {
         field.onChange(value)
-        
+
         // Find and store the selected item's title
         const selectedItem = dropdownItems.find(
             (item) => item.value === value,
@@ -243,7 +243,7 @@ const DropdownContent = ({
                 if (selectedOptionIndex < dropdownItems.length - 1) {
                     const newIndex = selectedOptionIndex + 1
                     setSelectedOptionIndex(newIndex)
-                    
+
                     // Slide window if needed
                     if (newIndex >= windowStartIndex + itemsPerPage - 1 && newIndex < dropdownItems.length - 1) {
                         setWindowStartIndex(Math.min(windowStartIndex + 1, dropdownItems.length - itemsPerPage))
@@ -256,7 +256,7 @@ const DropdownContent = ({
                 if (selectedOptionIndex > 0) {
                     const newIndex = selectedOptionIndex - 1
                     setSelectedOptionIndex(newIndex)
-                    
+
                     // Slide window if needed
                     if (newIndex <= windowStartIndex && newIndex > 0) {
                         setWindowStartIndex(Math.max(windowStartIndex - 1, 0))
@@ -272,7 +272,7 @@ const DropdownContent = ({
                 }
             }
         }
-        
+
         // Handle tab navigation
         if (evt.name === 'tab') {
             if ((evt as any).modifiers?.shift) {
@@ -306,7 +306,7 @@ const DropdownContent = ({
                         setFocusedField(props.id)
                     }}
                 >
-                    {selectedTitle || props.placeholder || 'Select...'}
+                    {props.placeholder || 'Select...'}
                 </text>
             </WithLeftBorder>
             {visibleItems.map((item, visualIndex) => {
@@ -359,7 +359,7 @@ const DropdownContent = ({
 // Inner component that has access to descendants
 const DropdownInner = (props: DropdownProps & { control: any; getValues: any; isFocused: boolean; setFocusedField: (field: string) => void; items: FormDropdownItemDescendant[] }): any => {
     const { control, getValues, isFocused, setFocusedField, items } = props
-    
+
     return (
         <Controller
             name={props.id}
@@ -411,7 +411,7 @@ const DropdownComponent = (props: DropdownProps): any => {
                 {props.children}
             </FormDropdownContext.Provider>
 
-            <DropdownInner 
+            <DropdownInner
                 {...props}
                 control={control}
                 getValues={getValues}

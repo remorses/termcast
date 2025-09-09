@@ -1,6 +1,7 @@
+import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import { ForwardRefExoticComponent, FunctionComponent, ReactNode, RefAttributes } from 'react'
 import { Image } from '@termcast/cli/src/components/list'
-
+import { Dropdown, DropdownProps, DropdownItemProps } from './dropdown'
 
 /**
  * Form value types that can be used in form items
@@ -133,10 +134,102 @@ interface TagPickerMembers {
     /**
      * A tag picker item in a {@link Form.TagPicker}.
      */
-    Item: FunctionComponent<TagPickerItemProps>
+    Item: (props: TagPickerItemProps) => any
 }
 
 /**
  * Type definition for Form.TagPicker component
  */
 export type TagPickerType = ForwardRefExoticComponent<TagPickerProps & RefAttributes<TagPickerRef>> & TagPickerMembers
+
+// Implementation
+
+const TagPickerItem: FunctionComponent<TagPickerItemProps> = (props): any => {
+    // Convert TagPickerItem props to DropdownItem props
+    return (
+        <Dropdown.Item
+            value={props.value}
+            title={props.title || props.value}
+            icon={props.icon as string | undefined}
+        />
+    )
+}
+
+const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref) => {
+    const dropdownRef = useRef<any>(null)
+    
+    useImperativeHandle(ref, () => ({
+        focus: () => dropdownRef.current?.focus(),
+        reset: () => dropdownRef.current?.reset()
+    }))
+
+    // For now, we'll use the first value in the array as the dropdown value
+    // When isMultipleSelection is added later, we'll handle multiple values
+    const dropdownValue = props.value?.[0] || props.defaultValue?.[0] || ''
+    
+    const handleDropdownChange = (value: string) => {
+        // For now, we'll just pass an array with one value
+        // Later when isMultipleSelection is added, we'll handle multiple values
+        props.onChange?.([value])
+    }
+    
+    // Convert FormEvent<string[]> callbacks to FormEvent<string> for dropdown
+    const handleFocus = props.onFocus ? (event: FormEvent<string>) => {
+        props.onFocus!({
+            target: {
+                id: event.target.id,
+                value: event.target.value ? [event.target.value] : []
+            },
+            type: event.type
+        })
+    } : undefined
+    
+    const handleBlur = props.onBlur ? (event: FormEvent<string>) => {
+        props.onBlur!({
+            target: {
+                id: event.target.id,
+                value: event.target.value ? [event.target.value] : []
+            },
+            type: event.type
+        })
+    } : undefined
+    
+    // Transform TagPicker.Item children to Dropdown.Item children
+    const transformedChildren = React.Children.map(props.children, (child) => {
+        if (React.isValidElement(child) && child.type === TagPickerItem) {
+            const childProps = child.props as TagPickerItemProps
+            return (
+                <Dropdown.Item
+                    value={childProps.value}
+                    title={childProps.title || childProps.value}
+                    icon={childProps.icon as string | undefined}
+                />
+            )
+        }
+        return child
+    })
+    
+    // Create dropdown props
+    const dropdownProps: DropdownProps = {
+        id: props.id,
+        title: props.title,
+        info: props.info,
+        error: props.error,
+        storeValue: props.storeValue,
+        value: dropdownValue,
+        defaultValue: dropdownValue,
+        onChange: handleDropdownChange,
+        onFocus: handleFocus,
+        onBlur: handleBlur,
+        placeholder: props.placeholder,
+        children: transformedChildren
+    }
+    
+    return <Dropdown {...dropdownProps} />
+})
+
+TagPickerComponent.displayName = 'TagPicker'
+
+export const TagPicker = Object.assign(TagPickerComponent, {
+    Item: TagPickerItem
+}) as TagPickerType
