@@ -6,6 +6,7 @@ import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
 import { WithLeftBorder } from './with-left-border'
+import { DatePickerWidget } from '@termcast/cli/src/internal/date-picker-widget'
 
 export enum DatePickerType {
     Date = 'date',
@@ -36,55 +37,6 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                 control={control}
                 defaultValue={props.defaultValue || props.value || null}
                 render={({ field, fieldState, formState }) => {
-                    const placeholder = props.type === DatePickerType.DateTime 
-                        ? 'YYYY/MM/DD HH:MM' 
-                        : 'YYYY/MM/DD'
-                    
-                    const formatDateForDisplay = (date: Date | null): string => {
-                        if (!date) return ''
-                        const year = date.getFullYear()
-                        const month = String(date.getMonth() + 1).padStart(2, '0')
-                        const day = String(date.getDate()).padStart(2, '0')
-                        
-                        if (props.type === DatePickerType.DateTime) {
-                            const hours = String(date.getHours()).padStart(2, '0')
-                            const minutes = String(date.getMinutes()).padStart(2, '0')
-                            return `${year}/${month}/${day} ${hours}:${minutes}`
-                        }
-                        return `${year}/${month}/${day}`
-                    }
-                    
-                    const parseInput = (value: string): Date | null => {
-                        if (!value) return null
-                        
-                        // Try to parse YYYY/MM/DD or YYYY/MM/DD HH:MM
-                        const dateTimeMatch = value.match(/^(\d{4})\/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})$/)
-                        if (dateTimeMatch) {
-                            const [, year, month, day, hours, minutes] = dateTimeMatch
-                            const date = new Date(
-                                parseInt(year, 10),
-                                parseInt(month, 10) - 1,
-                                parseInt(day, 10),
-                                parseInt(hours, 10),
-                                parseInt(minutes, 10)
-                            )
-                            return isNaN(date.getTime()) ? null : date
-                        }
-                        
-                        const dateMatch = value.match(/^(\d{4})\/(\d{2})\/(\d{2})$/)
-                        if (dateMatch) {
-                            const [, year, month, day] = dateMatch
-                            const date = new Date(
-                                parseInt(year, 10),
-                                parseInt(month, 10) - 1,
-                                parseInt(day, 10)
-                            )
-                            return isNaN(date.getTime()) ? null : date
-                        }
-                        
-                        return null
-                    }
-
                     return (
                         <box flexDirection='column'>
                             <WithLeftBorder withDiamond={true} diamondFilled={isFocused}>
@@ -98,20 +50,16 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                                 </text>
                             </WithLeftBorder>
                             <WithLeftBorder>
-                                <input
-                                    value={formatDateForDisplay(field.value)}
-                                    onInput={(value: string) => {
-                                        const parsedDate = parseInput(value)
-                                        field.onChange(parsedDate)
-                                        if (props.onChange && parsedDate) {
-                                            props.onChange(parsedDate)
+                                <DatePickerWidget
+                                    enableColors={isFocused}
+                                    initialValue={field.value || undefined}
+                                    onChange={(date) => {
+                                        field.onChange(date)
+                                        if (props.onChange) {
+                                            props.onChange(date)
                                         }
                                     }}
-                                    placeholder={placeholder}
                                     focused={isFocused}
-                                    onMouseDown={() => {
-                                        setFocusedField(props.id)
-                                    }}
                                 />
                             </WithLeftBorder>
                             {(fieldState.error || props.error) && (
