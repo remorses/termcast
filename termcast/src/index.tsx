@@ -213,7 +213,6 @@ export { Providers } from '@termcast/cli/src/internal/providers'
 
 // Helper function for rendering examples
 export {
-    renderWithProviders as renderExample,
     renderWithProviders,
 } from '@termcast/cli/src/utils'
 
