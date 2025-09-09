@@ -4,6 +4,7 @@
         "rootDir": "src",
         "outDir": "dist",
         "jsx": "react-jsx",
+        "customConditions": ["bun"],
         "jsxImportSource": "@opentui/react"
     },
     "include": ["src"]
