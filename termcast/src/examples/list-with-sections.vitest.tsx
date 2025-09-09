@@ -28,7 +28,9 @@ test('list with sections navigation', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -50,7 +52,9 @@ test('list with sections navigation', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
        Apple Red and sweet                              Fresh [Popular]
@@ -72,7 +76,9 @@ test('list with sections navigation', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
        Apple Red and sweet                              Fresh [Popular]
@@ -106,6 +112,12 @@ test('list with sections navigation', async () => {
       - Low in calories
 
 
+
+
+
+
+
+
        esc go back"
     `)
 
@@ -117,7 +129,9 @@ test('list with sections navigation', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -152,7 +166,9 @@ test('list with sections search functionality', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        ban
+
       ›Banana Yellow and nutritious                                Ripe
 
 
@@ -174,7 +190,9 @@ test('list with sections search functionality', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        let
+
       ›Lettuce Green and fresh
 
 
@@ -191,7 +209,9 @@ test('list with sections search functionality', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -218,7 +238,9 @@ test('list with sections search functionality', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        bread
+
       ›Bread Freshly baked                                  Today [New]
 
 
@@ -265,7 +287,9 @@ test('list click functionality', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
        Apple Red and sweet                              Fresh [Popular]
@@ -288,7 +312,9 @@ test('list click functionality', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -311,7 +337,9 @@ test('list click functionality', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
        Apple Red and sweet                              Fresh [Popular]
@@ -343,50 +371,24 @@ test('list actions panel with ctrl+k', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
        Banana Yellow and nutritious                                Ripe
 
        Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+
+                                                                   esc
+
+        Search actions...
+        View Details
+        Add to Cart
 
 
-       ↵ select   ↑↓ navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                  esc
-
-       Search actions...
-       View Details
-       Add to Cart
-
-
-       ↵ select   ↑↓ navigate"
+        ↵ select   ↑↓ navigate"
     `)
 
     // Navigate down to second action
@@ -397,50 +399,24 @@ test('list actions panel with ctrl+k', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
        Banana Yellow and nutritious                                Ripe
 
        Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+
+                                                                   esc
+
+        Search actions...
+        View Details
+        Add to Cart
 
 
-       ↵ select   ↑↓ navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                  esc
-
-       Search actions...
-       View Details
-       Add to Cart
-
-
-       ↵ select   ↑↓ navigate"
+        ↵ select   ↑↓ navigate"
     `)
 
     // Trigger the second action (Add to Cart)
@@ -451,7 +427,9 @@ test('list actions panel with ctrl+k', async () => {
       "
 
        Simple List Example ────────────────────────────────────────────
+
        Search items...
+
 
        Fruits
       ›Apple Red and sweet                              Fresh [Popular]
@@ -463,6 +441,8 @@ test('list actions panel with ctrl+k', async () => {
        Bread Freshly baked                                  Today [New]
 
 
-        ✓ Added to Cart - Apple has been added to your cart"
+       ┌─────────────────────────────────────────────────────┐
+       │ ✓ Added to Cart - Apple has been added to your cart │
+       └─────────────────────────────────────────────────────┘"
     `)
 }, 10000)

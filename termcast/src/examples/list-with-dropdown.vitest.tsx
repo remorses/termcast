@@ -29,7 +29,9 @@ test('list with dropdown navigation', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-       Search your favorite drink                                 All ▾
+
+       Search...                                                  All ▾
+
 
       ›Augustiner Helles Beer
        Camden Hells Beer
@@ -70,6 +72,8 @@ test('list with dropdown navigation', async () => {
 
       ↵ select   ↑↓ navigate
 
+
+
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
@@ -98,6 +102,8 @@ test('list with dropdown navigation', async () => {
 
       ↵ select   ↑↓ navigate
 
+
+
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
@@ -123,6 +129,8 @@ test('list with dropdown navigation', async () => {
 
 
       ↵ select   ↑↓ navigate
+
+
 
       ↵ select   ↑↓ navigate   ^k actions"
     `)
@@ -150,6 +158,8 @@ test('list with dropdown navigation', async () => {
 
       ↵ select   ↑↓ navigate
 
+
+
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
@@ -167,7 +177,9 @@ test('list with dropdown navigation', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-       Search your favorite drink                                Soda ▾
+
+       Search...                                                 Soda ▾
+
 
       ›Coca Cola Soda
        Sprite Soda
@@ -209,6 +221,8 @@ test('list with dropdown search and filter', async () => {
 
       ↵ select   ↑↓ navigate
 
+
+
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
@@ -238,6 +252,8 @@ test('list with dropdown search and filter', async () => {
 
       ↵ select   ↑↓ navigate
 
+      Sierra Nevada IPA Beer
+      Chateau Margaux Wine
       Pinot Noir Wine
       Coca Cola Soda
       Sprite Soda
@@ -262,7 +278,9 @@ test('list with dropdown search and filter', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-       Search your favorite drink                                Wine ▾
+
+       Search...                                                 Wine ▾
+
 
       ›Chateau Margaux Wine
        Pinot Noir Wine
@@ -284,7 +302,9 @@ test('list with dropdown search and filter', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
+
        pinot                                                     Wine ▾
+
 
       ›Pinot Noir Wine
 

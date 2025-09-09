@@ -13,7 +13,7 @@ export const Description = (props: DescriptionProps): any => {
     return (
         <>
             {props.title && (
-                <WithLeftBorder withDiamond isFocused={false}>
+              <WithLeftBorder customCharacter={{ focused: '⁉', unfocused: '▪︎' }} isFocused={false}>
                     <text fg={Theme.text} attributes={TextAttributes.BOLD}>
                         {props.title}
                     </text>
