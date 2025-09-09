@@ -60,11 +60,21 @@ function generateSixWeekGrid(
 }
 
 // ----- Component -----
-function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
+function DatePicker({
+    enableColors = true,
+    initialValue,
+    onChange,
+}: {
+    enableColors?: boolean
+    initialValue?: Date
+    onChange?: (date: Date) => void
+}) {
     const today = useMemo(() => new Date(), [])
     const [focus, setFocus] = useState<Focus>('grid') // can be "year" | "month" | "grid"
-    const [selected, setSelected] = useState<Date>(new Date()) // focused day
-    const [visible, setVisible] = useState<Date>(startOfMonth(new Date())) // month being shown
+    const [selected, setSelected] = useState<Date>(initialValue || new Date()) // focused day
+    const [visible, setVisible] = useState<Date>(
+        startOfMonth(initialValue || new Date()),
+    ) // month being shown
     const [searchQuery, setSearchQuery] = useState('') // for type-to-search
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -271,6 +281,11 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
                     )
                 }
                 break
+            case 'return': // Enter key
+                if (focus === 'grid' && onChange) {
+                    onChange(selected)
+                }
+                break
             default:
                 break
         }
@@ -458,6 +473,10 @@ function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
 
 render(
     <box style={{ paddingTop: 6 }}>
-        <DatePicker enableColors={true} />
+        <DatePicker
+            enableColors={true}
+            initialValue={new Date(2028, 7, 15)} // August 15, 2028
+            onChange={(date) => console.log('Selected date:', date)}
+        />
     </box>,
 )
