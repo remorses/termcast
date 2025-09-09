@@ -1,5 +1,5 @@
 import { render, useKeyboard } from '@opentui/react' // renderer & hooks per docs
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useRef } from 'react'
 
 // ----- Helpers -----
 type Focus = 'year' | 'month' | 'grid'
@@ -59,11 +59,13 @@ function generateSixWeekGrid(
 }
 
 // ----- Component -----
-function DatePicker() {
+function DatePicker({ enableColors = true }: { enableColors?: boolean }) {
     const today = useMemo(() => new Date(), [])
     const [focus, setFocus] = useState<Focus>('grid') // can be "year" | "month" | "grid"
     const [selected, setSelected] = useState<Date>(new Date()) // focused day
     const [visible, setVisible] = useState<Date>(startOfMonth(new Date())) // month being shown
+    const [searchQuery, setSearchQuery] = useState('') // for type-to-search
+    const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
     // Recompute 7x6 grid for the visible month
     const weeks = useMemo(() => generateSixWeekGrid(visible, true), [visible])
@@ -96,8 +98,97 @@ function DatePicker() {
         setSelected(newSel)
     }
 
-    // Arrow-key only interactions
+    // Generate years list for search
+    const years = useMemo(() => {
+        const yearList: number[] = []
+        for (let y = 1800; y <= 2200; y++) {
+            yearList.push(y)
+        }
+        return yearList
+    }, [])
+
+    // Search functionality
+    function searchYear(query: string) {
+        const matches = years.filter(y => y.toString().startsWith(query))
+        if (matches.length > 0) {
+            const newY = matches[0]
+            const m = visible.getMonth()
+            const day = clampDay(newY, m, selected.getDate())
+            const newSel = new Date(newY, m, day)
+            setVisible(new Date(newY, m, 1))
+            setSelected(newSel)
+        }
+    }
+
+    function searchMonth(query: string) {
+        // Search by month name or number
+        const lowerQuery = query.toLowerCase()
+        let monthIndex = -1
+
+        // Try to match month name
+        for (let i = 0; i < MONTHS.length; i++) {
+            if (MONTHS[i].toLowerCase().startsWith(lowerQuery)) {
+                monthIndex = i
+                break
+            }
+        }
+
+        // Try to match month number
+        if (monthIndex === -1) {
+            const num = parseInt(query)
+            if (!isNaN(num) && num >= 1 && num <= 12) {
+                monthIndex = num - 1
+            }
+        }
+
+        if (monthIndex !== -1) {
+            const y = visible.getFullYear()
+            const day = clampDay(y, monthIndex, selected.getDate())
+            const newSel = new Date(y, monthIndex, day)
+            setVisible(new Date(y, monthIndex, 1))
+            setSelected(newSel)
+        }
+    }
+
+    function searchDay(query: string) {
+        const day = parseInt(query)
+        if (!isNaN(day) && day >= 1 && day <= 31) {
+            const y = visible.getFullYear()
+            const m = visible.getMonth()
+            const clampedDay = clampDay(y, m, day)
+            const newSel = new Date(y, m, clampedDay)
+            setSelected(newSel)
+        }
+    }
+
+    // Keyboard interactions
     useKeyboard((key) => {
+        // Handle type-to-search
+        if (key.name.length === 1 && /[0-9a-zA-Z]/.test(key.name)) {
+            const newQuery = searchQuery + key.name
+            setSearchQuery(newQuery)
+
+            // Clear previous timeout
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current)
+            }
+
+            // Perform search based on current focus
+            if (focus === 'year') {
+                searchYear(newQuery)
+            } else if (focus === 'month') {
+                searchMonth(newQuery)
+            } else if (focus === 'grid') {
+                searchDay(newQuery)
+            }
+
+            // Reset search query after 1 second
+            searchTimeoutRef.current = setTimeout(() => {
+                setSearchQuery('')
+            }, 1000)
+            return
+        }
+
         switch (key.name) {
             case 'left':
                 if (focus === 'grid') {
@@ -122,10 +213,6 @@ function DatePicker() {
                 }
                 break
             case 'up':
-                // Move focus: grid -> month -> year
-                setFocus((f) =>
-                    f === 'grid' ? 'month' : f === 'month' ? 'year' : 'year',
-                )
                 if (focus === 'grid') {
                     const next = addDays(selected, -7)
                     setSelected(next)
@@ -133,31 +220,44 @@ function DatePicker() {
                 }
                 break
             case 'down':
-                // Move focus: year -> month -> grid
-                setFocus((f) =>
-                    f === 'year' ? 'month' : f === 'month' ? 'grid' : 'grid',
-                )
                 if (focus === 'grid') {
                     const next = addDays(selected, +7)
                     setSelected(next)
                     ensureVisibleFor(next)
                 }
                 break
+            case 'tab':
+                if (key.shift) {
+                    // Shift+Tab: Move focus up (grid -> month -> year)
+                    setFocus((f) =>
+                        f === 'grid' ? 'month' : f === 'month' ? 'year' : 'year',
+                    )
+                } else {
+                    // Tab: Move focus down (year -> month -> grid)
+                    setFocus((f) =>
+                        f === 'year' ? 'month' : f === 'month' ? 'grid' : 'grid',
+                    )
+                }
+                break
             default:
-                // ignore all other keys (only arrows supported)
                 break
         }
     })
 
     const y = visible.getFullYear()
     const m = visible.getMonth()
-    const headerWidth = 7 * 4 // 7 columns * 4-char cells (strategy: fixed-width day boxes)
+    const headerWidth = 20 // Match form.md width
     const cellStyle = {
-        width: 4,
+        width: 3,
         height: 1,
         alignItems: 'center' as const,
         justifyContent: 'center' as const,
     }
+
+    // Only show days from current month
+    const filteredWeeks = weeks.map(row =>
+        row.map(d => d.getMonth() === m ? d : null)
+    )
 
     return (
         <box
@@ -174,13 +274,13 @@ function DatePicker() {
                     height: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: focus === 'year' ? '#444444' : undefined,
+                    backgroundColor: enableColors && focus === 'year' ? '#1e40af' : undefined,
                     marginBottom: 0,
                 }}
                 onMouseDown={() => setFocus('year')}
             >
-                <text fg={focus === 'year' ? '#FFFFFF' : '#DDDDDD'}>
-                    {String(y)}
+                <text fg={focus === 'year' ? '#FFFFFF' : '#666666'}>
+                    ← {String(y)} →
                 </text>
             </box>
 
@@ -191,13 +291,13 @@ function DatePicker() {
                     height: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: focus === 'month' ? '#444444' : undefined,
+                    backgroundColor: enableColors && focus === 'month' ? '#1e40af' : undefined,
                     marginBottom: 1,
                 }}
                 onMouseDown={() => setFocus('month')}
             >
-                <text fg={focus === 'month' ? '#FFFFFF' : '#DDDDDD'}>
-                    {MONTHS[m]}
+                <text fg={focus === 'month' ? '#FFFFFF' : '#666666'}>
+                    ← {MONTHS[m]} →
                 </text>
             </box>
 
@@ -212,56 +312,66 @@ function DatePicker() {
             >
                 {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((wd) => (
                     <box key={wd} style={cellStyle}>
-                        <text fg='#888888'>{wd}</text>
+                        <text fg='#666666'>{wd}</text>
                     </box>
                 ))}
             </box>
 
             {/* Days grid: 7 columns x 6 rows, same fixed-box strategy */}
             <box style={{ flexDirection: 'column' }}>
-                {weeks.map((row, i) => (
-                    <box key={i} style={{ flexDirection: 'row' }}>
-                        {row.map((d, j) => {
-                            const inMonth = d.getMonth() === m
-                            const isSel = sameDay(d, selected)
-                            const isToday = sameDay(d, today)
-                            return (
-                                <box
-                                    key={`${i}-${j}`}
-                                    style={{
-                                        ...cellStyle,
-                                        backgroundColor:
-                                            isSel && focus === 'grid'
-                                                ? '#555555'
-                                                : undefined, // focus background on day number
-                                    }}
-                                    onMouseDown={() => {
-                                        setSelected(d)
-                                        setFocus('grid')
-                                        ensureVisibleFor(d)
-                                    }}
-                                >
-                                    <text
-                                        fg={
-                                            isSel && focus === 'grid'
-                                                ? '#FFFFFF'
-                                                : inMonth
-                                                  ? isToday
-                                                      ? '#00FF88'
-                                                      : '#DDDDDD'
-                                                  : '#777777'
-                                        }
+                {filteredWeeks.map((row, i) => {
+                    // Skip empty rows
+                    if (row.every(d => d === null)) return null
+
+                    return (
+                        <box key={i} style={{ flexDirection: 'row' }}>
+                            {row.map((d, j) => {
+                                if (d === null) {
+                                    return (
+                                        <box key={`${i}-${j}`} style={cellStyle}>
+                                            <text> </text>
+                                        </box>
+                                    )
+                                }
+
+                                const isSel = sameDay(d, selected)
+                                const isToday = sameDay(d, today)
+                                return (
+                                    <box
+                                        key={`${i}-${j}`}
+                                        style={{
+                                            ...cellStyle,
+                                            backgroundColor:
+                                                enableColors && isSel && focus === 'grid'
+                                                    ? '#2563eb'
+                                                    : undefined,
+                                        }}
+                                        onMouseDown={() => {
+                                            setSelected(d)
+                                            setFocus('grid')
+                                            ensureVisibleFor(d)
+                                        }}
                                     >
-                                        {String(d.getDate()).padStart(2, ' ')}
-                                    </text>
-                                </box>
-                            )
-                        })}
-                    </box>
-                ))}
+                                        <text
+                                            fg={
+                                                isSel && focus === 'grid'
+                                                    ? '#FFFFFF'
+                                                    : isToday && enableColors
+                                                      ? '#3b82f6'
+                                                      : '#333333'
+                                            }
+                                        >
+                                            {String(d.getDate()).padStart(2, ' ')}
+                                        </text>
+                                    </box>
+                                )
+                            })}
+                        </box>
+                    )
+                })}
             </box>
         </box>
     )
 }
 
-render(<DatePicker />) // per @opentui/react Quick Start
+render(<DatePicker  enableColors />) // per @opentui/react Quick Start
