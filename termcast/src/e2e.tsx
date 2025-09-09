@@ -1,4 +1,4 @@
-import { spawn, type IPty } from 'bun-pty'
+import { spawn,  type IPty } from 'bun-pty'
 import { Terminal } from '@xterm/headless'
 import { SerializeAddon } from '@xterm/addon-serialize'
 

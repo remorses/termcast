@@ -205,8 +205,6 @@ inline snapshots with .toMatchInlineSnapshots or other snapshots are the preferr
 
 never update inline snapshots manually, instead always use `bun test -u` to update snapshots. No need to reset snapshots before updating them with -u
 
-never use -- to pass flags to pnpm. just add at bottom of the command.
-
 some tests in src/examples end with .vitest.tsx. to run these you will need to use `bun e2e -u`
 
 these tests are for ensuring the examples work correctly
@@ -232,7 +230,7 @@ then create a file ending with .vitest.tsx with same basename as the example.
 
 then add empty .toMatchInlineSnapshot() calls for every expected output
 
-run pnpm tsc to make sure it typechecks. if some keys you are trying to press are missing add them in the e2e-node.tsx file as methods.
+run bun tsc to make sure it typechecks. if some keys you are trying to press are missing add them in the e2e-node.tsx file as methods.
 
 then run `bun test -u` to update the snapshots
 
