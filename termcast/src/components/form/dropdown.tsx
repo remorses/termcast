@@ -409,16 +409,33 @@ const DropdownComponent = (props: DropdownProps): any => {
     // Parse children to get dropdown items
     const parsedItems = useMemo(() => {
         const items: FormDropdownItemDescendant[] = []
-        Children.forEach(props.children, (child) => {
-            if (React.isValidElement(child) && child.type === DropdownItem) {
-                const childProps = child.props as DropdownItemProps
-                items.push({
-                    value: childProps.value,
-                    title: childProps.title,
-                    icon: childProps.icon,
-                })
-            }
-        })
+        
+        // Recursive function to traverse all children, including sections
+        const traverseChildren = (children: React.ReactNode) => {
+            Children.forEach(children, (child) => {
+                if (React.isValidElement(child)) {
+                    if (child.type === DropdownItem) {
+                        // Direct DropdownItem
+                        const childProps = child.props as DropdownItemProps
+                        items.push({
+                            value: childProps.value,
+                            title: childProps.title,
+                            icon: childProps.icon,
+                        })
+                    } else if (child.type === DropdownSection) {
+                        // DropdownSection - traverse its children
+                        const sectionProps = child.props as DropdownSectionProps
+                        traverseChildren(sectionProps.children)
+                    } else if (child.type === DropdownComponent) {
+                        // Nested Dropdown component - traverse its children
+                        const dropdownProps = child.props as DropdownProps
+                        traverseChildren(dropdownProps.children)
+                    }
+                }
+            })
+        }
+        
+        traverseChildren(props.children)
         return items
     }, [props.children])
 
