@@ -6,7 +6,7 @@ import dedent from 'dedent'
 const App: any = () => {
     const { push } = useNavigation()
     return (
-        <List searchBarPlaceholder='Search items...' filtering={true}>
+        <List searchBarPlaceholder='Search items...' filtering>
             <List.Item
                 title='First Item'
                 subtitle='This is the first item'
@@ -21,9 +21,9 @@ const App: any = () => {
                                     <Detail
                                         markdown={dedent`
                                     # First Item
-                                    
+
                                     This is the first item in the searchable list.
-                                    
+
                                     Keywords: first, one, primary
                                 `}
                                     />,
@@ -59,9 +59,9 @@ const App: any = () => {
                                     <Detail
                                         markdown={dedent`
                                     # Apple
-                                    
+
                                     A delicious red fruit.
-                                    
+
                                     ## Health Benefits
                                     - High in fiber
                                     - Rich in antioxidants

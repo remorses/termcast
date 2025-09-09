@@ -36,7 +36,7 @@ export const TextField = (props: TextFieldProps): any => {
                 render={({ field, fieldState, formState }) => {
                     return (
                         <box flexDirection='column'>
-                            <WithLeftBorder withDiamond={true} isFocused={isFocused}>
+                            <WithLeftBorder withDiamond isFocused={isFocused}>
                                 <text
                                     fg={Theme.text}
                                     onMouseDown={() => {

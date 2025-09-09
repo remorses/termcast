@@ -84,7 +84,7 @@ function AlertComponent({
 
     return (
         <box
-            border={true}
+            border
             borderColor={Theme.border}
             backgroundColor={Theme.backgroundPanel}
             paddingTop={2}

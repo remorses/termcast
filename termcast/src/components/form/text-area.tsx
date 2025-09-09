@@ -32,7 +32,7 @@ export const TextArea = (props: TextAreaProps): any => {
                     return (
                         <box flexDirection='column'>
                             <WithLeftBorder
-                                withDiamond={true}
+                                withDiamond
                                 isFocused={isFocused}
                             >
                                 <text
