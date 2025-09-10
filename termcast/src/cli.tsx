@@ -5,10 +5,10 @@ import { cac } from 'cac'
 import chokidar from 'chokidar'
 import { buildExtensionCommands } from './build'
 import { logger } from './logger'
-import { installExtension } from './store'
+import { installExtension } from './utils'
 import './globals'
-import { startDevMode, triggerRebuild } from './dev-ui'
-import { runHomeCommand } from './home-command'
+import { startDevMode, triggerRebuild } from './extensions/dev'
+import { runHomeCommand } from './extensions/home'
 
 const cli = cac('termcast')
 
