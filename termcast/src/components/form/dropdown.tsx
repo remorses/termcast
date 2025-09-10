@@ -148,6 +148,7 @@ const DropdownItem = (props: DropdownItemProps) => {
     <WithLeftBorder
       key={props.value}
       isFocused={context.isFocused}
+      paddingLeft={0}
       paddingBottom={0}
     >
       <text
@@ -162,6 +163,7 @@ const DropdownItem = (props: DropdownItemProps) => {
           context.handleSelect(descendant.descendantId)
         }}
       >
+        {context.isFocused && isFocused ? '› ' : '  '}
         {isSelected ? '●' : '○'} {props.title}
       </text>
     </WithLeftBorder>
@@ -202,9 +204,13 @@ const DropdownSection = (props: DropdownSectionProps) => {
 
   return (
     <SectionContext.Provider value={sectionContextValue}>
-      <box flexDirection='column' paddingBottom={isVisible ? 1 : 0}>
+      <box flexDirection='column'>
         {props.title && isVisible && (
-          <WithLeftBorder isFocused={parentContext.isFocused} paddingBottom={0}>
+          <WithLeftBorder
+            paddingTop={0}
+            paddingBottom={0}
+            isFocused={parentContext.isFocused}
+          >
             <text fg={Theme.textMuted}>{props.title}</text>
           </WithLeftBorder>
         )}
