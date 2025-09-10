@@ -36,9 +36,20 @@ src/components/            # Raycast API components
 ├── form/                 # Form components (TextField, Dropdown, etc.)
 ├── actions.tsx           # Action system (Ctrl+K menus)
 ├── detail.tsx            # Detail view with markdown
-└── toast.tsx             # Toast notifications
+└── alert.tsx             # Alert dialogs
 
-src/internal/             # Internal framework utilities  
+src/apis/                 # Raycast APIs (non-component)
+├── ai.tsx               # AI API for language models
+├── cache.tsx            # Persistent cache storage
+├── clipboard.tsx        # Clipboard operations
+├── environment.tsx      # Environment info (theme, paths, etc.)
+├── localstorage.tsx     # Key-value storage
+├── oauth.tsx            # OAuth authentication flows
+├── preferences.tsx      # Extension preferences management
+├── toast.tsx            # Toast notifications
+└── window.tsx           # Window management
+
+src/internal/             # Internal framework utilities
 ├── navigation.tsx        # Stack-based navigation (push/pop views)
 ├── dialog.tsx            # Overlay system (action panels, dropdowns)
 ├── focus-context.tsx     # Focus management for keyboard events
@@ -55,6 +66,14 @@ src/examples/            # Usage examples (also serve as tests)
 ```
 
 ### Key Concepts
+
+**Raycast Components & APIs**
+- **Components** (`src/components/`) - React components for UI (List, Form, Detail, etc.)
+- **APIs** (`src/apis/`) - Non-component Raycast APIs for functionality:
+  - Storage APIs: `cache`, `localstorage`, `preferences`
+  - System APIs: `clipboard`, `environment`, `window`
+  - Integration APIs: `oauth`, `ai`
+  - Notification: `toast`
 
 **Descendants Pattern** (`src/descendants.tsx`)
 - Manages parent-child relationships (List.Item, Form.TextField)
@@ -98,7 +117,7 @@ curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/r
 # Unit tests
 bun test
 
-# E2E tests  
+# E2E tests
 bun e2e                                    # Run all
 bun e2e src/examples/list.vitest.tsx -u   # Update snapshots
 
