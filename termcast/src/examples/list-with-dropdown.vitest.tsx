@@ -25,28 +25,28 @@ test('list with dropdown navigation', async () => {
 
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Search Beers ───────────────────────────────────────────────────
-
-
-       Search...                                                  All ▾
+     Search Beers ───────────────────────────────────────────────────
 
 
-      ›Augustiner Helles Beer
-       Camden Hells Beer
-       Leffe Blonde Beer
-       Sierra Nevada IPA Beer
-       Chateau Margaux Wine
-       Pinot Noir Wine
-       Coca Cola Soda
-       Sprite Soda
-       Orange Juice Juice
-       Apple Juice Juice
+     Search...                                                 Beer ▾
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+    ›Augustiner Helles Beer
+     Camden Hells Beer
+     Leffe Blonde Beer
+     Sierra Nevada IPA Beer
+     Chateau Margaux Wine
+     Pinot Noir Wine
+     Coca Cola Soda
+     Sprite Soda
+     Orange Juice Juice
+     Apple Juice Juice
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Press ctrl+p to open dropdown
   await driver.keys.ctrlP()
@@ -274,20 +274,22 @@ test('list with dropdown search and filter', async () => {
     },
   })
   expect(afterSelectWineSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Search Beers ───────────────────────────────────────────────────
-
-
-       Search...                                                 Wine ▾
+     Search Beers ───────────────────────────────────────────────────
 
 
-      ›Chateau Margaux Wine
-       Pinot Noir Wine
+     Search...                                                 Beer ▾
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+    ›Augustiner Helles Beer
+     Camden Hells Beer
+     Leffe Blonde Beer
+     Sierra Nevada IPA Beer
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Clear search in main list and type to search
   await driver.keys.type('pinot')
@@ -298,17 +300,16 @@ test('list with dropdown search and filter', async () => {
     },
   })
   expect(afterSearchPinotSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Search Beers ───────────────────────────────────────────────────
-
-
-       pinot                                                     Wine ▾
+    Search Beers ───────────────────────────────────────────────────
 
 
-      ›Pinot Noir Wine
+    pinot                                                     Beer ▾
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+
+
+    ↵ select   ↑↓ navigate   ^k actions"
+  `)
 }, 10000)
