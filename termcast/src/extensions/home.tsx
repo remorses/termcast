@@ -11,7 +11,7 @@ import { getStoredExtensions } from '../utils'
 import Store from './store'
 import { ExtensionPreferences } from '../components/extension-preferences'
 import { LocalStorage } from '@termcast/cli/src/apis/localstorage'
-import './globals'
+import '../globals'
 
 interface ExtensionCommand {
   extensionName: string

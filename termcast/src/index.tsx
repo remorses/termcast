@@ -1,6 +1,6 @@
 // Import globals to set up global references
 import { LaunchType } from '@termcast/cli/src/apis/environment'
-import './globals'
+import '../globals'
 
 // termcastApi will be set by the runtime when needed
 
