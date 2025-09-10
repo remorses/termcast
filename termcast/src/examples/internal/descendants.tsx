@@ -144,7 +144,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-const Item = ({ title }: { title: string; key?: string }) => {
+const Item = ({ title }: { title: string; key?: any }) => {
   const descendant = useDescendant({ title })
   const { focusedIndex, offset, itemsPerPage, selectedIds } =
     useContext(FocusContext)
