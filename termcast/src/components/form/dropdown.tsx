@@ -166,7 +166,19 @@ const DropdownSection = (props: DropdownSectionProps) => {
 
   return (
     <FormDropdownContext.Provider value={sectionContextValue}>
-      {props.children}
+      <box flexDirection='column' paddingBottom={1}>
+        {props.title && (
+          <WithLeftBorder 
+            isFocused={parentContext.isFocused}
+            paddingBottom={0}
+          >
+            <text fg={Theme.textMuted} dimColor>
+              {props.title}
+            </text>
+          </WithLeftBorder>
+        )}
+        {props.children}
+      </box>
     </FormDropdownContext.Provider>
   )
 }
