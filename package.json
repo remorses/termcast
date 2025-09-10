@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "test": "NODE_ENV=test vitest",
+    "format": "prettier --write .",
     "watch": "bun run --filter '*' watch",
     "build": "bun run --filter '*' build",
     "release": "bun run build && changeset"
@@ -22,8 +23,6 @@
   "workspaces": [
     "./*"
   ],
-
-
   "trustedDependencies": [
     "@tailwindcss/oxide",
     "@xmorse/rfd",

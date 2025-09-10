@@ -5,26 +5,26 @@ import { NodeTuiDriver } from '@termcast/cli/src/e2e-node'
 let driver: NodeTuiDriver
 
 beforeEach(() => {
-    driver = new NodeTuiDriver('bun', ['src/examples/list-with-dropdown.tsx'], {
-        cols: 70,
-        rows: 50,
-    })
+  driver = new NodeTuiDriver('bun', ['src/examples/list-with-dropdown.tsx'], {
+    cols: 70,
+    rows: 50,
+  })
 })
 
 afterEach(() => {
-    driver?.dispose()
+  driver?.dispose()
 })
 
 test('list with dropdown navigation', async () => {
-    await driver.text({
-        waitFor: (text) => {
-            // wait for list to show up
-            return /search beers/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      // wait for list to show up
+      return /search beers/i.test(text)
+    },
+  })
 
-    const initialSnapshot = await driver.text()
-    expect(initialSnapshot).toMatchInlineSnapshot(`
+  const initialSnapshot = await driver.text()
+  expect(initialSnapshot).toMatchInlineSnapshot(`
       "
 
        Search Beers ───────────────────────────────────────────────────
@@ -48,12 +48,12 @@ test('list with dropdown navigation', async () => {
        ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    // Press ctrl+p to open dropdown
-    await driver.keys.ctrlP()
+  // Press ctrl+p to open dropdown
+  await driver.keys.ctrlP()
 
-    // Capture snapshot immediately after pressing ctrl+p
-    const immediatelyAfterCtrlPSnapshot = await driver.text()
-    expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
+  // Capture snapshot immediately after pressing ctrl+p
+  const immediatelyAfterCtrlPSnapshot = await driver.text()
+  expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
       "
 
 
@@ -77,13 +77,13 @@ test('list with dropdown navigation', async () => {
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    const afterCtrlPSnapshot = await driver.text({
-        waitFor: (text) => {
-            // wait for dropdown to show up
-            return /select drink type/i.test(text)
-        },
-    })
-    expect(afterCtrlPSnapshot).toMatchInlineSnapshot(`
+  const afterCtrlPSnapshot = await driver.text({
+    waitFor: (text) => {
+      // wait for dropdown to show up
+      return /select drink type/i.test(text)
+    },
+  })
+  expect(afterCtrlPSnapshot).toMatchInlineSnapshot(`
       "
 
 
@@ -107,11 +107,11 @@ test('list with dropdown navigation', async () => {
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    // Navigate down in dropdown
-    await driver.keys.down()
+  // Navigate down in dropdown
+  await driver.keys.down()
 
-    const afterDownSnapshot = await driver.text()
-    expect(afterDownSnapshot).toMatchInlineSnapshot(`
+  const afterDownSnapshot = await driver.text()
+  expect(afterDownSnapshot).toMatchInlineSnapshot(`
       "
 
 
@@ -135,11 +135,11 @@ test('list with dropdown navigation', async () => {
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    // Navigate down again
-    await driver.keys.down()
+  // Navigate down again
+  await driver.keys.down()
 
-    const afterSecondDownSnapshot = await driver.text()
-    expect(afterSecondDownSnapshot).toMatchInlineSnapshot(`
+  const afterSecondDownSnapshot = await driver.text()
+  expect(afterSecondDownSnapshot).toMatchInlineSnapshot(`
       "
 
 
@@ -163,16 +163,16 @@ test('list with dropdown navigation', async () => {
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    // Select the current item
-    await driver.keys.enter()
+  // Select the current item
+  await driver.keys.enter()
 
-    const afterSelectSnapshot = await driver.text({
-        waitFor: (text) => {
-            // wait for dropdown to close and list to update
-            return !text.includes('Select Drink Type')
-        },
-    })
-    expect(afterSelectSnapshot).toMatchInlineSnapshot(`
+  const afterSelectSnapshot = await driver.text({
+    waitFor: (text) => {
+      // wait for dropdown to close and list to update
+      return !text.includes('Select Drink Type')
+    },
+  })
+  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
       "
 
        Search Beers ───────────────────────────────────────────────────
@@ -190,19 +190,19 @@ test('list with dropdown navigation', async () => {
 }, 10000)
 
 test('list with dropdown search and filter', async () => {
-    await driver.text({
-        waitFor: (text) => {
-            // wait for list to show up
-            return /search beers/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      // wait for list to show up
+      return /search beers/i.test(text)
+    },
+  })
 
-    // Open dropdown
-    await driver.keys.ctrlP()
+  // Open dropdown
+  await driver.keys.ctrlP()
 
-    // Capture snapshot immediately after pressing ctrl+p
-    const immediatelyAfterCtrlPSnapshot = await driver.text()
-    expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
+  // Capture snapshot immediately after pressing ctrl+p
+  const immediatelyAfterCtrlPSnapshot = await driver.text()
+  expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
       "
 
 
@@ -226,21 +226,21 @@ test('list with dropdown search and filter', async () => {
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    await driver.text({
-        waitFor: (text) => {
-            return /select drink type/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      return /select drink type/i.test(text)
+    },
+  })
 
-    // Type to search in dropdown
-    await driver.keys.type('wine')
+  // Type to search in dropdown
+  await driver.keys.type('wine')
 
-    const afterSearchWineSnapshot = await driver.text({
-        waitFor: (text) => {
-            return /wine/i.test(text)
-        },
-    })
-    expect(afterSearchWineSnapshot).toMatchInlineSnapshot(`
+  const afterSearchWineSnapshot = await driver.text({
+    waitFor: (text) => {
+      return /wine/i.test(text)
+    },
+  })
+  expect(afterSearchWineSnapshot).toMatchInlineSnapshot(`
       "
 
 
@@ -264,16 +264,16 @@ test('list with dropdown search and filter', async () => {
       ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    // Select Wine
-    await driver.keys.enter()
+  // Select Wine
+  await driver.keys.enter()
 
-    const afterSelectWineSnapshot = await driver.text({
-        waitFor: (text) => {
-            // wait for dropdown to close
-            return !text.includes('Select Drink Type')
-        },
-    })
-    expect(afterSelectWineSnapshot).toMatchInlineSnapshot(`
+  const afterSelectWineSnapshot = await driver.text({
+    waitFor: (text) => {
+      // wait for dropdown to close
+      return !text.includes('Select Drink Type')
+    },
+  })
+  expect(afterSelectWineSnapshot).toMatchInlineSnapshot(`
       "
 
        Search Beers ───────────────────────────────────────────────────
@@ -289,15 +289,15 @@ test('list with dropdown search and filter', async () => {
        ↵ select   ↑↓ navigate   ^k actions"
     `)
 
-    // Clear search in main list and type to search
-    await driver.keys.type('pinot')
+  // Clear search in main list and type to search
+  await driver.keys.type('pinot')
 
-    const afterSearchPinotSnapshot = await driver.text({
-        waitFor: (text) => {
-            return /pinot/i.test(text)
-        },
-    })
-    expect(afterSearchPinotSnapshot).toMatchInlineSnapshot(`
+  const afterSearchPinotSnapshot = await driver.text({
+    waitFor: (text) => {
+      return /pinot/i.test(text)
+    },
+  })
+  expect(afterSearchPinotSnapshot).toMatchInlineSnapshot(`
       "
 
        Search Beers ───────────────────────────────────────────────────

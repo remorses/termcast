@@ -1,59 +1,59 @@
 {
-    "name": "@termcast/cli",
-    "version": "0.1.0",
-    "description": "Raycast for the terminal",
-    "bin": {
-        "termcast": "src/cli.tsx"
+  "name": "@termcast/cli",
+  "version": "0.1.0",
+  "description": "Raycast for the terminal",
+  "bin": {
+    "termcast": "src/cli.tsx"
+  },
+  "repository": "https://github.com/remorses/termcast",
+  "scripts": {
+    "build": "tsc && bun run binary",
+    "binary": "bun build ./src/cli.tsx --compile --outfile bin",
+    "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
+    "play": "bun src/cli.tsx",
+    "test": "bun test && bun e2e",
+    "e2e": "vitest"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.tsx"
     },
-    "repository": "https://github.com/remorses/termcast",
-    "scripts": {
-        "build": "tsc && bun run binary",
-        "binary": "bun build ./src/cli.tsx --compile --outfile bin",
-        "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
-        "play": "bun src/cli.tsx",
-        "test": "bun test && bun e2e",
-        "e2e": "vitest"
-    },
-    "exports": {
-        ".": {
-            "default": "./src/index.tsx"
-        },
-        "./src/*": "./src/*.tsx"
-    },
-    "files": [
-        "dist",
-        "src",
-        "esm"
-    ],
-    "keywords": [],
-    "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
-    "license": "",
-    "dependencies": {
-        "@opentui/core": "0.1.18",
-        "@opentui/react": "0.1.18",
-        "@raycast/api": "^1.102.5",
-        "@raycast/utils": "^2.2.1",
-        "@tanstack/react-query": "^5.85.5",
-        "@tanstack/react-query-persist-client": "^5.85.5",
-        "@xmorse/rfd": "^2.2.4",
-        "cac": "^6.7.14",
-        "change-case": "^5.4.4",
-        "chokidar": "^4.0.3",
-        "dedent": "^1.6.0",
-        "google-auth-library": "^10.3.0",
-        "jszip": "^3.10.1",
-        "node-pty": "^1.1.0-beta34",
-        "node-window-manager": "^2.2.4",
-        "react": "^19.1.1",
-        "react-hook-form": "^7.62.0",
-        "zustand": "^5.0.8"
-    },
-    "devDependencies": {
-        "@types/bun": "^1.2.21",
-        "@types/node": "^24.3.0",
-        "@xterm/addon-serialize": "^0.13.0",
-        "@xterm/headless": "^5.5.0",
-        "bun-pty": "^0.3.2",
-        "vitest": "^3.2.4"
-    }
+    "./src/*": "./src/*.tsx"
+  },
+  "files": [
+    "dist",
+    "src",
+    "esm"
+  ],
+  "keywords": [],
+  "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
+  "license": "",
+  "dependencies": {
+    "@opentui/core": "0.1.18",
+    "@opentui/react": "0.1.18",
+    "@raycast/api": "^1.102.5",
+    "@raycast/utils": "^2.2.1",
+    "@tanstack/react-query": "^5.85.5",
+    "@tanstack/react-query-persist-client": "^5.85.5",
+    "@xmorse/rfd": "^2.2.4",
+    "cac": "^6.7.14",
+    "change-case": "^5.4.4",
+    "chokidar": "^4.0.3",
+    "dedent": "^1.6.0",
+    "google-auth-library": "^10.3.0",
+    "jszip": "^3.10.1",
+    "node-pty": "^1.1.0-beta34",
+    "node-window-manager": "^2.2.4",
+    "react": "^19.1.1",
+    "react-hook-form": "^7.62.0",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.21",
+    "@types/node": "^24.3.0",
+    "@xterm/addon-serialize": "^0.13.0",
+    "@xterm/headless": "^5.5.0",
+    "bun-pty": "^0.3.2",
+    "vitest": "^3.2.4"
+  }
 }
