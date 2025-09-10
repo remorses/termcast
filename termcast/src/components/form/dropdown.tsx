@@ -191,7 +191,7 @@ const DropdownContent = ({
   const [offset, setOffset] = useState(0)
 
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
-  const [activeItemCount, setActiveItemCount] = useState(0)
+  const [itemsCount, setItemsCount] = useState(0)
 
   const handleNavigateUp = () => {
     // Find previous field and focus it
@@ -227,14 +227,21 @@ const DropdownContent = ({
     const value = getValueForDescendantId(descendantId)
     if (!value) return
 
+    const item = descendantsContext.map.current[descendantId]
+    const title = item?.props?.title || value
+
     if (props.hasMultipleSelection) {
       const currentValues = Array.isArray(field.value) ? [...field.value] : []
       const index = currentValues.indexOf(value)
 
       if (index >= 0) {
         currentValues.splice(index, 1)
+        // Remove from selected titles
+        setSelectedTitles((prev) => prev.filter((t) => t !== title))
       } else {
         currentValues.push(value)
+        // Add to selected titles
+        setSelectedTitles((prev) => [...prev, title])
       }
 
       field.onChange(currentValues)
@@ -243,6 +250,7 @@ const DropdownContent = ({
       }
     } else {
       field.onChange(value)
+      setSelectedTitles([title])
       if (props.onChange) {
         props.onChange(value)
       }
@@ -317,37 +325,46 @@ const DropdownContent = ({
     }
   })
 
-  // Update selected titles and item count when descendants or field value change
+  // Update active item count when descendants change
   useLayoutEffect(() => {
-    const titles: string[] = []
     let itemCount = 0
-
     const entries = Object.entries(descendantsContext.map.current)
 
     entries.forEach(([id, item]) => {
       if (item.index !== -1) {
         itemCount++
       }
-
-      if (field.value && item.props) {
-        if (props.hasMultipleSelection && Array.isArray(field.value)) {
-          if (field.value.includes(item.props.value)) {
-            titles.push(item.props.title)
-          }
-        } else if (
-          !props.hasMultipleSelection &&
-          typeof field.value === 'string'
-        ) {
-          if (item.props.value === field.value) {
-            titles.push(item.props.title)
-          }
-        }
-      }
     })
 
-    setSelectedTitles(titles)
-    setActiveItemCount(itemCount)
-  }, [field.value, props.hasMultipleSelection])
+    setItemsCount(itemCount)
+  })
+
+  // Initialize selected titles from field value only once when descendants are loaded
+  useLayoutEffect(() => {
+    if (field.value && Object.keys(descendantsContext.map.current).length > 0) {
+      const titles: string[] = []
+      const entries = Object.entries(descendantsContext.map.current)
+
+      entries.forEach(([id, item]) => {
+        if (item.props) {
+          if (props.hasMultipleSelection && Array.isArray(field.value)) {
+            if (field.value.includes(item.props.value)) {
+              titles.push(item.props.title)
+            }
+          } else if (
+            !props.hasMultipleSelection &&
+            typeof field.value === 'string'
+          ) {
+            if (item.props.value === field.value) {
+              titles.push(item.props.title)
+            }
+          }
+        }
+      })
+
+      setSelectedTitles(titles)
+    }
+  }, []) // Only run once on mount
 
   // Create context value
   const contextValue: FormDropdownContextValue = {
@@ -388,7 +405,7 @@ const DropdownContent = ({
             </text>
           </WithLeftBorder>
           {props.children}
-          {activeItemCount > itemsPerPage && (
+          {itemsCount > itemsPerPage && (
             <WithLeftBorder isFocused={isFocused}>
               <text fg={Theme.textMuted}>↑↓ to see more options</text>
             </WithLeftBorder>
