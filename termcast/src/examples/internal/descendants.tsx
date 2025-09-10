@@ -76,7 +76,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
 
         return nextIndex
       })
-    } else if (evt.name === 'space') {
+    } else if (evt.name === 'return') {
       // Toggle selection of current focused item
       setSelectedIndexes((prev) => {
         const newSet = new Set(prev)
@@ -87,7 +87,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
         }
         return newSet
       })
-    } else if (evt.name === 'return') {
+    } else if (evt.ctrl && evt.name === 'return') {
       // Log selected titles
       const items = Object.values(descendantsContext.map.current)
         .filter((item) => item.index !== -1)
@@ -118,12 +118,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-const Item = ({
-  title,
-}: {
-  title: string
-  key?: string
-}) => {
+const Item = ({ title }: { title: string; key?: string }) => {
   const itemIndex = useDescendant({ title })
   const { focusedIndex, offset, itemsPerPage, selectedIndexes } =
     useContext(FocusContext)
@@ -145,6 +140,7 @@ const Item = ({
 }
 
 const Example = () => {
+  const [searchQuery, setSearchQuery] = useState('')
   const allItems = [
     'First Item',
     'Second Item',
@@ -160,12 +156,26 @@ const Example = () => {
     'Twelfth Item',
   ]
 
+  // Filter items based on search query
+  const filteredItems = allItems.filter((title) =>
+    title.toLowerCase().includes(searchQuery.toLowerCase()),
+  )
+
   return (
-    <Menu>
-      {allItems.map((title) => (
-        <Item key={title} title={title} />
-      ))}
-    </Menu>
+    <box flexDirection='column'>
+      <input
+        value={searchQuery}
+        onInput={setSearchQuery}
+        focused
+        placeholder='Search items...'
+        marginBottom={1}
+      />
+      <Menu>
+        {filteredItems.map((title) => (
+          <Item key={title} title={title} />
+        ))}
+      </Menu>
+    </box>
   )
 }
 
