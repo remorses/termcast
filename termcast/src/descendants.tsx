@@ -42,10 +42,9 @@ export function createDescendants<T = any>() {
     }
 
     const getIndexForId = (id: string, props?: T) => {
-      const hidden = props ? (props as any).hidden : false
       if (!map.current[id])
         map.current[id] = {
-          index: hidden ? -1 : indexCounter.current++,
+          index: indexCounter.current++,
         }
       map.current[id].props = props
       return map.current[id].index
