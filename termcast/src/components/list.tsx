@@ -253,11 +253,36 @@ interface ListContextValue {
   openDropdown: () => void
   selectedIndex: number
   setSelectedIndex?: (index: number) => void
-  filteredIndices: number[]
   searchText: string
+  isFiltering: boolean
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
+
+// Helper function to determine if an item should be visible based on search
+function shouldItemBeVisible(
+  searchQuery: string,
+  props: {
+    title: string
+    subtitle?: string
+    keywords?: string[]
+  },
+): boolean {
+  // If no search query, show all items
+  if (!searchQuery.trim()) return true
+
+  const needle = searchQuery.toLowerCase().trim()
+  const searchableText = [
+    props.title,
+    props.subtitle,
+    ...(props.keywords || []),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
+  
+  return searchableText.includes(needle)
+}
 
 // Create descendants for List items
 interface ListItemDescendant {
@@ -266,7 +291,7 @@ interface ListItemDescendant {
   subtitle?: string
   keywords?: string[]
   actions?: ReactNode
-  hidden?: boolean
+  visible?: boolean
 }
 
 const {
@@ -280,7 +305,7 @@ interface DropdownItemDescendant {
   value: string
   title: string
   section?: string
-  hidden?: boolean
+  visible?: boolean
 }
 
 const {
@@ -295,9 +320,9 @@ interface DropdownContextValue {
   selectedIndex?: number
   setSelectedIndex?: (index: number) => void
   currentValue?: string
-  filteredIndices?: number[]
   searchText?: string
   onChange?: (value: string) => void
+  isFiltering?: boolean
 }
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
@@ -313,55 +338,42 @@ interface ListDropdownDialogProps extends DropdownProps {
 function ListDropdownDialog(props: ListDropdownDialogProps): any {
   const [searchText, setSearchTextRaw] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [filteredIndices, setFilteredIndices] = useState<number[]>([])
   const inputRef = useRef<any>(null)
   const descendantsContext = useDropdownDescendants()
 
-  // Wrapper function that updates search text and filtered indices together
+  // Wrapper function that updates search text
   const setSearchText = (value: string) => {
     setSearchTextRaw(value)
-
-    // Update filtered indices based on search
-    if (!props.filtering || !value.trim()) {
-      // Show all items when not filtering
-      const allIndices = Object.values(descendantsContext.map.current)
-        .filter((item) => item.index !== -1)
-        .map((item) => item.index)
-      setFilteredIndices(allIndices)
-      return
-    }
-
-    const needle = value.toLowerCase().trim()
-    const filtered = Object.values(descendantsContext.map.current)
-      .filter((item) => {
-        if (item.index === -1) return false
-        const itemProps = item.props as DropdownItemDescendant
-        const searchableText = [itemProps.title, itemProps.section]
-          .filter(Boolean)
-          .join(' ')
-          .toLowerCase()
-        return searchableText.includes(needle)
-      })
-      .map((item) => item.index)
-
-    setFilteredIndices(filtered)
     setSelectedIndex(0) // Reset selection when search changes
   }
 
-  // TODO if a List.Item is added during a search, it will not be displayed. I am fine with this
-  useLayoutEffect(() => {
-    const allIndices = Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1)
-      .map((item) => item.index)
-    setFilteredIndices(allIndices)
-  }, []) // Add empty dependency array to run only once on mount
-
   const move = (direction: -1 | 1) => {
-    if (filteredIndices.length === 0) return
-    let next = selectedIndex + direction
-    if (next < 0) next = filteredIndices.length - 1
-    if (next >= filteredIndices.length) next = 0
-    setSelectedIndex(next)
+    // Get all visible items
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      .sort((a, b) => a.index - b.index)
+    
+    if (items.length === 0) return
+
+    // Find currently selected item's position in visible items
+    let currentVisibleIndex = items.findIndex(item => item.index === selectedIndex)
+    if (currentVisibleIndex === -1) {
+      // If current selection is not visible, select first visible item
+      if (items[0]) {
+        setSelectedIndex(items[0].index)
+      }
+      return
+    }
+
+    // Calculate next visible index
+    let nextVisibleIndex = currentVisibleIndex + direction
+    if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
+    if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
+    
+    const nextItem = items[nextVisibleIndex]
+    if (nextItem) {
+      setSelectedIndex(nextItem.index)
+    }
   }
 
   const inFocus = useIsInFocus()
@@ -375,18 +387,13 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
     if (evt.name === 'up') move(-1)
     if (evt.name === 'down') move(1)
     if (evt.name === 'return') {
-      if (
-        filteredIndices.length > 0 &&
-        selectedIndex < filteredIndices.length
-      ) {
-        const currentIndex = filteredIndices[selectedIndex]
-        const items = Object.values(descendantsContext.map.current).filter(
-          (item) => item.index === currentIndex,
-        )
-        const currentItem = items[0]
-        if (currentItem?.props) {
-          props.onChange?.((currentItem.props as DropdownItemDescendant).value)
-        }
+      const items = Object.values(descendantsContext.map.current)
+        .filter((item) => item.index !== -1)
+        .sort((a, b) => a.index - b.index)
+      
+      const currentItem = items.find(item => item.index === selectedIndex)
+      if (currentItem?.props) {
+        props.onChange?.((currentItem.props as DropdownItemDescendant).value)
       }
     }
   })
@@ -428,8 +435,8 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 selectedIndex,
                 setSelectedIndex,
                 currentValue: props.value,
-                filteredIndices,
                 searchText,
+                isFiltering: props.filtering !== false,
                 onChange: (value: string) => {
                   props.onChange?.(value)
                 },
@@ -596,7 +603,6 @@ export const List: ListType = (props) => {
   const [internalSearchText, setInternalSearchTextRaw] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [filteredIndices, setFilteredIndices] = useState<number[]>([])
   const inputRef = useRef<any>(null)
   const descendantsContext = useListDescendants()
 
@@ -605,52 +611,23 @@ export const List: ListType = (props) => {
       ? controlledSearchText
       : internalSearchText
 
+  // Determine if filtering is enabled
+  // List filters automatically when:
+  // - filtering is not specified (defaults to true) OR filtering is explicitly true
+  // - AND onSearchTextChange is not provided
+  // When onSearchTextChange is provided, it implicitly sets filtering to false unless explicitly overridden
+  const isFiltering = onSearchTextChange ? filtering === true : filtering !== false
+
   const openDropdown = () => {
     setIsDropdownOpen(true)
   }
 
-  // Wrapper function that updates search text and filtered indices together
+  // Wrapper function that updates search text
   const setInternalSearchText = (value: string) => {
     setInternalSearchTextRaw(value)
-
-    // Update filtered indices based on search
-    if (!filtering || !value.trim()) {
-      // Show all items when not filtering
-      const allIndices = Object.values(descendantsContext.map.current)
-        .filter((item) => item.index !== -1)
-        .map((item) => item.index)
-      setFilteredIndices(allIndices)
-      return
-    }
-
-    const needle = value.toLowerCase().trim()
-    const filtered = Object.values(descendantsContext.map.current)
-      .filter((item) => {
-        if (item.index === -1) return false
-        const props = item.props as ListItemDescendant
-        const searchableText = [
-          props.title,
-          props.subtitle,
-          ...(props.keywords || []),
-        ]
-          .filter(Boolean)
-          .join(' ')
-          .toLowerCase()
-        return searchableText.includes(needle)
-      })
-      .map((item) => item.index)
-
-    setFilteredIndices(filtered)
     setSelectedIndex(0) // Reset selection when search changes
   }
 
-  // Initialize filtered indices when descendants change
-  useLayoutEffect(() => {
-    const allIndices = Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1)
-      .map((item) => item.index)
-    setFilteredIndices(allIndices)
-  }, [])
 
   const listContextValue = useMemo<ListContextValue>(
     () => ({
@@ -659,10 +636,10 @@ export const List: ListType = (props) => {
       openDropdown,
       selectedIndex,
       setSelectedIndex,
-      filteredIndices,
       searchText,
+      isFiltering,
     }),
-    [isDropdownOpen, selectedIndex, filteredIndices, searchText],
+    [isDropdownOpen, selectedIndex, searchText, isFiltering],
   )
 
   // Reset selected index when items change or selectedItemId changes
@@ -682,12 +659,32 @@ export const List: ListType = (props) => {
   }, [children, selectedItemId])
 
   const move = (direction: -1 | 1) => {
-    if (filteredIndices.length === 0) return
+    // Get all visible items
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      .sort((a, b) => a.index - b.index)
+    
+    if (items.length === 0) return
 
-    let next = selectedIndex + direction
-    if (next < 0) next = filteredIndices.length - 1
-    if (next >= filteredIndices.length) next = 0
-    setSelectedIndex(next)
+    // Find currently selected item's position in visible items
+    let currentVisibleIndex = items.findIndex(item => item.index === selectedIndex)
+    if (currentVisibleIndex === -1) {
+      // If current selection is not visible, select first visible item
+      if (items[0]) {
+        setSelectedIndex(items[0].index)
+      }
+      return
+    }
+
+    // Calculate next visible index
+    let nextVisibleIndex = currentVisibleIndex + direction
+    if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
+    if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
+    
+    const nextItem = items[nextVisibleIndex]
+    if (nextItem) {
+      setSelectedIndex(nextItem.index)
+    }
   }
 
   // Handle keyboard navigation
@@ -705,25 +702,18 @@ export const List: ListType = (props) => {
 
     // Handle Ctrl+K to show actions
     if (evt.name === 'k' && evt.ctrl) {
-      if (
-        filteredIndices.length > 0 &&
-        selectedIndex < filteredIndices.length
-      ) {
-        const currentIndex = filteredIndices[selectedIndex]
-        const items = Object.values(descendantsContext.map.current).filter(
-          (item) => item.index === currentIndex,
-        )
-        const currentItem = items[0]
-
-        // Show current item's actions if available
-        if (currentItem?.props?.actions) {
-          dialog.push(currentItem.props.actions, 'bottom-right')
-        }
-        // Otherwise show List's own actions
-        else if (props.actions) {
-          dialog.push(props.actions, 'bottom-right')
-        }
-      } else if (props.actions) {
+      const items = Object.values(descendantsContext.map.current)
+        .filter((item) => item.index !== -1)
+        .sort((a, b) => a.index - b.index)
+      
+      const currentItem = items.find(item => item.index === selectedIndex)
+      
+      // Show current item's actions if available
+      if (currentItem?.props?.actions) {
+        dialog.push(currentItem.props.actions, 'bottom-right')
+      }
+      // Otherwise show List's own actions
+      else if (props.actions) {
         dialog.push(props.actions, 'bottom-right')
       }
       return
@@ -732,20 +722,15 @@ export const List: ListType = (props) => {
     if (evt.name === 'up') move(-1)
     if (evt.name === 'down') move(1)
     if (evt.name === 'return') {
-      if (
-        filteredIndices.length > 0 &&
-        selectedIndex < filteredIndices.length
-      ) {
-        const currentIndex = filteredIndices[selectedIndex]
-        const items = Object.values(descendantsContext.map.current).filter(
-          (item) => item.index === currentIndex,
-        )
-        const currentItem = items[0]
-        if (!currentItem?.props) return
+      const items = Object.values(descendantsContext.map.current)
+        .filter((item) => item.index !== -1)
+        .sort((a, b) => a.index - b.index)
+      
+      const currentItem = items.find(item => item.index === selectedIndex)
+      if (!currentItem?.props) return
 
-        if (currentItem?.props?.actions) {
-          dialog.push(currentItem.props.actions, 'bottom-right')
-        }
+      if (currentItem.props.actions) {
+        dialog.push(currentItem.props.actions, 'bottom-right')
       }
     }
   })
@@ -760,36 +745,6 @@ export const List: ListType = (props) => {
 
     if (controlledSearchText === undefined) {
       setInternalSearchText(newValue)
-    } else {
-      // For controlled search, we need to update filtered indices here too
-
-      // Update filtered indices based on controlled search text
-      if (!filtering || !newValue.trim()) {
-        const allIndices = Object.values(descendantsContext.map.current)
-          .filter((item) => item.index !== -1)
-          .map((item) => item.index)
-        setFilteredIndices(allIndices)
-      } else {
-        const needle = newValue.toLowerCase().trim()
-        const filtered = Object.values(descendantsContext.map.current)
-          .filter((item) => {
-            if (item.index === -1) return false
-            const props = item.props as ListItemDescendant
-            const searchableText = [
-              props.title,
-              props.subtitle,
-              ...(props.keywords || []),
-            ]
-              .filter(Boolean)
-              .join(' ')
-              .toLowerCase()
-            return searchableText.includes(needle)
-          })
-          .map((item) => item.index)
-
-        setFilteredIndices(filtered)
-        setSelectedIndex(0)
-      }
     }
   }
 
@@ -901,6 +856,16 @@ const ListItem: ListItemType = (props) => {
       : props.subtitle.value || ''
     : undefined
 
+  // Check if this item is visible based on search
+  const isFiltering = listContext?.isFiltering ?? false
+  const searchText = listContext?.searchText ?? ''
+  
+  const isVisible = !isFiltering || shouldItemBeVisible(searchText, {
+    title: titleText,
+    subtitle: subtitleText,
+    keywords: [...(props.keywords || []), sectionTitle].filter(Boolean) as string[],
+  })
+
   // Register as descendant with all searchable data
   const { index } = useListItemDescendant({
     id: props.id,
@@ -910,31 +875,25 @@ const ListItem: ListItemType = (props) => {
       Boolean,
     ) as string[],
     actions: props.actions,
-    hidden: false,
+    visible: isVisible,
   })
 
-  // Check if this item is visible based on filtered indices
-  const isVisible = listContext?.filteredIndices?.includes(index) ?? true
+  // Don't render if not visible
   if (!isVisible) return null
 
   // Get selected index from parent List context
   const selectedIndex = listContext?.selectedIndex ?? 0
-  const filteredIndices = listContext?.filteredIndices ?? []
-  const isActive = filteredIndices[selectedIndex] === index
+  const isActive = index === selectedIndex
 
   // Handle mouse click on item
   const handleMouseDown = () => {
     if (listContext && index !== -1) {
-      // Find position in filtered indices
-      const filteredPosition = listContext.filteredIndices.indexOf(index)
-      if (filteredPosition !== -1) {
-        // If clicking on already selected item, show actions (like pressing Enter)
-        if (isActive && props.actions) {
-          dialog.push(props.actions, 'bottom-right')
-        } else if (listContext.setSelectedIndex) {
-          // Otherwise just select the item
-          listContext.setSelectedIndex(filteredPosition)
-        }
+      // If clicking on already selected item, show actions (like pressing Enter)
+      if (isActive && props.actions) {
+        dialog.push(props.actions, 'bottom-right')
+      } else if (listContext.setSelectedIndex) {
+        // Otherwise just select the item
+        listContext.setSelectedIndex(index)
       }
     }
   }
@@ -1127,36 +1086,39 @@ ListDropdown.Item = (props) => {
     currentSection,
     selectedIndex,
     currentValue,
-    filteredIndices,
     setSelectedIndex,
     onChange,
+    searchText,
+    isFiltering,
   } = dropdownContext
+
+  // Check if this item is visible based on search
+  const isVisible = !isFiltering || !searchText || shouldItemBeVisible(searchText, {
+    title: props.title,
+    keywords: currentSection ? [currentSection] : []
+  })
 
   // Register as descendant
   const { index } = useDropdownItemDescendant({
     value: props.value,
     title: props.title,
     section: currentSection,
-    hidden: false,
+    visible: isVisible,
   })
 
-  // Check if this item is visible based on filtered indices
-  const isVisible = filteredIndices?.includes(index) ?? true
+  // Don't render if not visible
   if (!isVisible) return null
 
   // If we're in the dialog, render the item
-  if (selectedIndex !== undefined && filteredIndices) {
-    const isActive = filteredIndices[selectedIndex] === index
+  if (selectedIndex !== undefined) {
+    const isActive = selectedIndex === index
     const isCurrent = props.value === currentValue
 
     const handleMouseMove = () => {
       setIsHovered(true)
       // Update selected index on hover
-      if (setSelectedIndex) {
-        const position = filteredIndices.indexOf(index)
-        if (position !== -1 && position !== selectedIndex) {
-          setSelectedIndex(position)
-        }
+      if (setSelectedIndex && index !== selectedIndex) {
+        setSelectedIndex(index)
       }
     }
 
