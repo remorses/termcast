@@ -20,7 +20,10 @@ import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
-import { createDescendants } from '@termcast/cli/src/descendants'
+import {
+  createDescendants,
+  DescendantContextType,
+} from '@termcast/cli/src/descendants'
 import { WithLeftBorder } from './with-left-border'
 import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
@@ -59,6 +62,7 @@ interface FormDropdownItemDescendant {
   value: string
   title: string
   icon?: string
+  section?: string // Track which section this item belongs to
 }
 
 const {
@@ -67,9 +71,8 @@ const {
   useDescendant: useFormDropdownDescendant,
 } = createDescendants<FormDropdownItemDescendant>()
 
-// Context for dropdown state and section information
+// Context for dropdown state
 interface FormDropdownContextValue {
-  currentSection?: string
   focusedIndex: number
   offset: number
   itemsPerPage: number
@@ -77,7 +80,17 @@ interface FormDropdownContextValue {
   handleSelect: (descendantId: string) => void
   field: DropdownFieldType
   props: DropdownProps
+  descendantsContext: DescendantContextType<FormDropdownItemDescendant>
 }
+
+// Separate context for section information
+interface SectionContextValue {
+  currentSection?: string
+}
+
+const SectionContext = createContext<SectionContextValue>({
+  currentSection: undefined,
+})
 
 const itemsPerPage = 4
 const FormDropdownContext = createContext<FormDropdownContextValue>({
@@ -86,18 +99,21 @@ const FormDropdownContext = createContext<FormDropdownContextValue>({
   itemsPerPage,
   isFocused: false,
   handleSelect: () => {},
+  descendantsContext: {} as any,
   field: {} as DropdownFieldType,
   props: {} as DropdownProps,
 })
 
 const DropdownItem = (props: DropdownItemProps) => {
   const context = useContext(FormDropdownContext)
+  const sectionContext = useContext(SectionContext)
 
   // Register as descendant
   const descendant = useFormDropdownDescendant({
     value: props.value,
     title: props.title,
     icon: props.icon,
+    section: sectionContext.currentSection,
   })
 
   // Hide items that are outside the visible range
@@ -154,32 +170,47 @@ const DropdownItem = (props: DropdownItemProps) => {
 
 const DropdownSection = (props: DropdownSectionProps) => {
   const parentContext = useContext(FormDropdownContext)
+  const [isVisible, setIsVisible] = useState(false)
 
-  // Create new context with section title
+  // Update visibility when offset changes
+  useLayoutEffect(() => {
+    if (!props.title) {
+      setIsVisible(true)
+      return
+    }
+
+    const items = Object.values(parentContext.descendantsContext.map.current)
+    logger.log('DropdownSection: items', items)
+    const hasVisibleItems = items.some((item) => {
+      return (
+        item.props?.section === props.title &&
+        item.index >= parentContext.offset &&
+        item.index < parentContext.offset + parentContext.itemsPerPage
+      )
+    })
+
+    setIsVisible(hasVisibleItems)
+  }, [parentContext.offset, props.title, parentContext.itemsPerPage])
+
+  // Create section context value
   const sectionContextValue = useMemo(
     () => ({
-      ...parentContext,
       currentSection: props.title,
     }),
-    [parentContext, props.title],
+    [props.title],
   )
 
   return (
-    <FormDropdownContext.Provider value={sectionContextValue}>
-      <box flexDirection='column' paddingBottom={1}>
-        {props.title && (
-          <WithLeftBorder 
-            isFocused={parentContext.isFocused}
-            paddingBottom={0}
-          >
-            <text fg={Theme.textMuted} dimColor>
-              {props.title}
-            </text>
+    <SectionContext.Provider value={sectionContextValue}>
+      <box flexDirection='column' paddingBottom={isVisible ? 1 : 0}>
+        {props.title && isVisible && (
+          <WithLeftBorder isFocused={parentContext.isFocused} paddingBottom={0}>
+            <text fg={Theme.textMuted}>{props.title}</text>
           </WithLeftBorder>
         )}
         {props.children}
       </box>
-    </FormDropdownContext.Provider>
+    </SectionContext.Provider>
   )
 }
 
@@ -381,6 +412,7 @@ const DropdownContent = ({
   // Create context value
   const contextValue: FormDropdownContextValue = {
     focusedIndex,
+    descendantsContext,
     offset,
     itemsPerPage,
     isFocused,

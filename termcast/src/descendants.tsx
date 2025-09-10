@@ -4,7 +4,7 @@ import * as React from 'react'
 
 type DescendantMap<T> = { [id: string]: { index: number; props?: T } }
 
-interface DescendantContextType<T> {
+export interface DescendantContextType<T> {
   getIndexForId: (id: string, props?: T) => number
   // IMPORTANT! map is not reactive, it cannot be used in render, only in useEffect or useLayoutEffect or other event handlers like useKeyboard
   map: React.RefObject<DescendantMap<T>>

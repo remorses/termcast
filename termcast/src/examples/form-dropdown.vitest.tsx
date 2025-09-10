@@ -33,16 +33,10 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ TypeScript, Rust
     │
-    │ Frontend
     │ ● TypeScript
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -84,16 +78,10 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ Frontend
     │ ○ TypeScript
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -135,16 +123,10 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ Frontend
     │ ○ TypeScript
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -189,16 +171,10 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ Frontend
     │ ○ React
     │ ○ Vue
     │ ○ Svelte
-
-    │ Backend
     │ ○ Node.js
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -240,16 +216,10 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ Rust, Node.js
     │
-    │ Frontend
     │ ○ React
     │ ○ Vue
     │ ○ Svelte
-
-    │ Backend
     │ ● Node.js
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -300,16 +270,10 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ Frontend
     │ ○ TypeScript
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -354,16 +318,10 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ Frontend
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
     │ ○ Svelte
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -405,16 +363,10 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ Frontend
     │ ○ React
     │ ○ Vue
     │ ○ Svelte
-
-    │ Backend
     │ ○ Node.js
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -456,16 +408,10 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ Frontend
     │ ○ React
     │ ○ Vue
     │ ○ Svelte
-
-    │ Backend
     │ ○ Node.js
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -507,16 +453,10 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ Frontend
     │ ○ React
     │ ○ Vue
     │ ○ Svelte
-
-    │ Backend
     │ ○ Node.js
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -567,16 +507,10 @@ test('form dropdown with default value', async () => {
     ◇ Programming Languages
     │ TypeScript, Rust
     │
-    │ Frontend
     │ ● TypeScript
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -618,16 +552,10 @@ test('form dropdown with default value', async () => {
     ◇ Programming Languages
     │ TypeScript, Rust
     │
-    │ Frontend
     │ ● TypeScript
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -674,16 +602,10 @@ test('form dropdown with default value', async () => {
     ◇ Programming Languages
     │ TypeScript, Rust
     │
-    │ Frontend
     │ ● TypeScript
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -735,16 +657,10 @@ test('selecting second-to-last visible item should not scroll', async () => {
     ◆ Programming Languages
     │ TypeScript, Rust
     │
-    │ Frontend
     │ ● TypeScript
     │ ○ JavaScript
     │ ○ React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -786,16 +702,10 @@ test('selecting second-to-last visible item should not scroll', async () => {
     ◆ Programming Languages
     │ TypeScript, Rust, React
     │
-    │ Frontend
     │ ● TypeScript
     │ ○ JavaScript
     │ ● React
     │ ○ Vue
-
-    │ Backend
-
-    │ Mobile
-
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
