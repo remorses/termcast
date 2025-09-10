@@ -163,17 +163,17 @@ test('list with sections search functionality', async () => {
     },
   })
   expect(afterSearchBanSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+    Simple List Example ────────────────────────────────────────────
 
-       ban
+    ban
 
-      ›Banana Yellow and nutritious                                Ripe
+    Banana Yellow and nutritious                                Ripe
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+    ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Clear search and type "let" to search for Lettuce
   await driver.keys.backspace()
@@ -187,17 +187,17 @@ test('list with sections search functionality', async () => {
     },
   })
   expect(afterSearchLetSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+    Simple List Example ────────────────────────────────────────────
 
-       let
+    let
 
-      ›Lettuce Green and fresh
+    Lettuce Green and fresh
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+    ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Clear search to show all items again
   await driver.keys.backspace()
@@ -235,40 +235,45 @@ test('list with sections search functionality', async () => {
     },
   })
   expect(afterSearchBreadSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+    Simple List Example ────────────────────────────────────────────
 
-       bread
+    bread
 
-      ›Bread Freshly baked                                  Today [New]
+    Bread Freshly baked                                  Today [New]
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+    ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Select the bread item
   await driver.keys.enter()
 
   const afterSelectBreadSnapshot = await driver.text()
   expect(afterSelectBreadSnapshot).toMatchInlineSnapshot(`
-      "
+    "
+
+    Simple List Example ────────────────────────────────────────────
+
+    bread
+
+    Bread Freshly baked                                  Today [New]
+
+
+    ↵ select   ↑↓ navigate   ^k actions
 
 
 
-      # Bread
+                                                                esc
 
-      Freshly baked bread from our bakery.
-
-      ## Product Details
-      - Baked fresh daily
-      - Made with organic flour
-      - No preservatives
-      - Perfect for sandwiches or toast
+     Search actions...
+     View Details
+     Add to Cart
 
 
-       esc go back"
-    `)
+     ↵ select   ↑↓ navigate"
+  `)
 }, 10000)
 
 test('list click functionality', async () => {
