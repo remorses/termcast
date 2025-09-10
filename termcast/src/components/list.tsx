@@ -989,6 +989,20 @@ const ListDropdown: ListDropdownType = (props) => {
   useLayoutEffect(() => {
     const valueToUse =
       props.value !== undefined ? props.value : dropdownState.value
+    
+    // If no value is set and we have descendants, use the first item
+    if (!valueToUse && !props.value && !props.defaultValue) {
+      const items = Object.values(descendantsContext.map.current)
+        .filter((item) => item.index !== -1)
+        .sort((a, b) => a.index - b.index)
+      
+      if (items.length > 0) {
+        const firstItem = items[0].props as DropdownItemDescendant
+        setDropdownState({ value: firstItem.value, title: firstItem.title })
+        return
+      }
+    }
+    
     if (!valueToUse) return
 
     // Try to find the title for this value
