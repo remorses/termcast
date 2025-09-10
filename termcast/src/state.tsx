@@ -10,7 +10,7 @@ export interface DialogStackItem {
 }
 
 export interface NavigationStackItem {
-  component: ReactNode
+  element: ReactNode
   onPop?: () => void
 }
 

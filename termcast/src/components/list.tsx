@@ -1313,7 +1313,9 @@ export interface GridItemProps extends ActionsInterface, CommonProps {
         tooltip?: string | null
       }
   keywords?: string[]
-  getDetailMarkdown?: () => { markdown: string, metadata?: ReactElement<MetadataProps> } | Promise<{ markdown: string, metadata?: ReactElement<MetadataProps> }>
+  getDetailMarkdown?: () =>
+    | { markdown: string; metadata?: ReactElement<MetadataProps> }
+    | Promise<{ markdown: string; metadata?: ReactElement<MetadataProps> }>
 }
 
 export interface GridProps
@@ -1323,7 +1325,7 @@ export interface GridProps
     PaginationInterface,
     CommonProps {
   actions?: ReactNode
-  aspectRatio?: '1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' 
+  aspectRatio?: '1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16'
   children?: ReactNode
   columns?: number
   fit?: 'contain' | 'fill'
@@ -1379,11 +1381,12 @@ export const Grid: GridType = (props) => {
 // Grid.Item maps to List.Item but with content instead of icon
 Grid.Item = (props: GridItemProps) => {
   const { content, getDetailMarkdown, ...itemProps } = props
-  
+
   // Extract image value and tooltip
   const imageValue = typeof content === 'string' ? content : content?.value
-  const imageTooltip = typeof content === 'object' ? content?.tooltip : undefined
-  
+  const imageTooltip =
+    typeof content === 'object' ? content?.tooltip : undefined
+
   // Convert Grid.Item props to List.Item props
   const listItemProps: ItemProps = {
     ...itemProps,
@@ -1392,20 +1395,14 @@ Grid.Item = (props: GridItemProps) => {
     // Use content as icon for now (in a real implementation, this would be rendered differently)
     icon: imageValue,
   }
-  
+
   return <List.Item {...listItemProps} />
 }
 
 // Grid.Section maps to List.Section with grid-specific props
 Grid.Section = (props: GridSectionProps) => {
-  const {
-    columns,
-    aspectRatio,
-    fit,
-    inset,
-    ...sectionProps
-  } = props
-  
+  const { columns, aspectRatio, fit, inset, ...sectionProps } = props
+
   // Pass through to List.Section
   return <List.Section {...sectionProps} />
 }

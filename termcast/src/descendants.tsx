@@ -66,19 +66,19 @@ export function createDescendants<T = any>() {
   /**
    * Return index of the current item within its parent's list
    */
-   function useDescendant(props?: T) {
-     const context = React.useContext(DescendantContext)
-     const [descendantId] = React.useState<string>(() => randomId())
-     const [index, setIndex] = React.useState<number>(-1)
+  function useDescendant(props?: T) {
+    const context = React.useContext(DescendantContext)
+    const [descendantId] = React.useState<string>(() => randomId())
+    const [index, setIndex] = React.useState<number>(-1)
 
-     React.useLayoutEffect(() => {
-       // Do this inside of useLayoutEffect, it's only
-       // called for the "real render" in React strict mode
-       setIndex(context?.getIndexForId(descendantId, props) ?? -1)
-     })
+    React.useLayoutEffect(() => {
+      // Do this inside of useLayoutEffect, it's only
+      // called for the "real render" in React strict mode
+      setIndex(context?.getIndexForId(descendantId, props) ?? -1)
+    })
 
-     return { descendantId, index }
-   }
+    return { descendantId, index }
+  }
 
   return { DescendantsProvider, useDescendants, useDescendant }
 }

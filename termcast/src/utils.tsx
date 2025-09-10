@@ -1,6 +1,10 @@
 import React, { type ReactNode } from 'react'
 import { render } from '@opentui/react'
 import { Providers } from '@termcast/cli/src/internal/providers'
+import path from 'node:path'
+import fs from 'node:fs'
+import { getStoreDirectory } from './store'
+import { parsePackageJson, type RaycastPackageJson } from './package-json'
 
 export function renderWithProviders(element: ReactNode): void {
   render(<Providers>{element}</Providers>)
@@ -104,4 +108,77 @@ export async function open(
 export function captureException(exception: unknown): void {
   // TODO: Implement error reporting to Developer Hub
   console.error('[captureException] Exception captured:', exception)
+}
+
+export function getExtensionPath(extensionName: string): string {
+  const storeDir = getStoreDirectory()
+  return path.join(storeDir, extensionName)
+}
+
+export function getExtensionPackageJsonPath(extensionName: string): string {
+  return path.join(getExtensionPath(extensionName), 'package.json')
+}
+
+export function getExtensionPackageJson(
+  extensionName: string,
+): RaycastPackageJson | null {
+  const packageJsonPath = getExtensionPackageJsonPath(extensionName)
+
+  if (!fs.existsSync(packageJsonPath)) {
+    return null
+  }
+
+  try {
+    return parsePackageJson({ packageJsonPath })
+  } catch (error) {
+    console.error(`Failed to parse package.json for ${extensionName}:`, error)
+    return null
+  }
+}
+
+export interface ExtensionPreferencesInfo {
+  hasPreferences: boolean
+  hasRequiredPreferences: boolean
+}
+
+export function checkExtensionPreferences(
+  extensionName: string,
+): ExtensionPreferencesInfo {
+  const packageJson = getExtensionPackageJson(extensionName)
+
+  if (!packageJson) {
+    return { hasPreferences: false, hasRequiredPreferences: false }
+  }
+
+  // Check for extension-wide preferences
+  const hasExtensionPreferences =
+    packageJson.preferences && packageJson.preferences.length > 0
+
+  // Check if any command has preferences
+  const commandsWithPreferences = (packageJson.commands || []).filter(
+    (cmd) => cmd.preferences && cmd.preferences.length > 0,
+  )
+
+  const hasPreferences =
+    hasExtensionPreferences || commandsWithPreferences.length > 0
+
+  // Check for required extension-wide preferences
+  const requiredExtensionPrefs = (packageJson.preferences || []).filter(
+    (pref) => pref.required,
+  )
+
+  // Check if any command has required preferences
+  const commandsWithRequiredPrefs = (packageJson.commands || []).filter(
+    (cmd) => {
+      const requiredPrefs = (cmd.preferences || []).filter(
+        (pref) => pref.required,
+      )
+      return requiredPrefs.length > 0
+    },
+  )
+
+  const hasRequiredPreferences =
+    requiredExtensionPrefs.length > 0 || commandsWithRequiredPrefs.length > 0
+
+  return { hasPreferences, hasRequiredPreferences }
 }

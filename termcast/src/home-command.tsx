@@ -40,10 +40,13 @@ const builtinExtensions: ExtensionCommand[] = [
 
 function ExtensionsList({
   allCommands,
+  initialSearchQuery = '',
 }: {
   allCommands: ExtensionCommand[]
+  initialSearchQuery?: string
 }): any {
   const { push } = useNavigation()
+  const [searchText, setSearchText] = React.useState(initialSearchQuery)
 
   const handleCommandSelect = async (item: ExtensionCommand) => {
     try {
@@ -186,6 +189,9 @@ function ExtensionsList({
     <List
       navigationTitle='Installed Extensions'
       searchBarPlaceholder='Search commands...'
+      filtering={true}
+      onSearchTextChange={setSearchText}
+      searchText={searchText}
     >
       {Object.entries(groupedByExtension).map(
         ([extensionName, { title, commands }]) => (
@@ -273,6 +279,23 @@ function ExtensionsList({
 }
 
 export async function runHomeCommand(): Promise<void> {
+  logger.log(`preparing to render the home command component`)
+
+  await render(
+    <Providers>
+      <Home />
+    </Providers>,
+  )
+  logger.log(`rendered home command component`)
+}
+
+export default function Home({
+  initialSearchQuery = '',
+  key,
+}: {
+  initialSearchQuery?: string
+  key?: React.Key
+}): any {
   const storedExtensions = getStoredExtensions()
 
   const allCommands: ExtensionCommand[] = []
@@ -297,15 +320,10 @@ export async function runHomeCommand(): Promise<void> {
     }
   }
 
-  function App(): any {
-    return (
-      <Providers>
-        <ExtensionsList allCommands={allCommands} />
-      </Providers>
-    )
-  }
-  logger.log(`preparing to render the home command component`)
-
-  await render(<App />)
-  logger.log(`rendered home command component`)
+  return (
+    <ExtensionsList
+      allCommands={allCommands}
+      initialSearchQuery={initialSearchQuery}
+    />
+  )
 }

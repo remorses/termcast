@@ -39,11 +39,11 @@ describe('searchStoreListings', () => {
     const extensionNames = results.data.map((d) => d.name).sort()
     expect(extensionNames).toMatchInlineSnapshot(`
           [
-            "anonaddy",
-            "linkding",
-            "rehooks",
-            "wave",
-            "wppb",
+            "baidu-ocr",
+            "flypy",
+            "markdown-image-to-html",
+            "mobius-materials",
+            "render",
           ]
         `)
   }, 10000)
