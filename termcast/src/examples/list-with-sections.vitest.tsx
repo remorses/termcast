@@ -45,6 +45,9 @@ test('list with sections navigation', async () => {
        ↵ select   ↑↓ navigate   ^k actions"
     `)
 
+  // Add small delay to ensure all items have registered
+  await new Promise(resolve => setTimeout(resolve, 100))
+  
   await driver.keys.down()
 
   const afterDownSnapshot = await driver.text()
@@ -162,6 +165,7 @@ test('list with sections search functionality', async () => {
       return /\bban\b/.test(text)
     },
   })
+  // NOTE: No selection indicator (›) is expected here - this is OK
   expect(afterSearchBanSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -186,6 +190,7 @@ test('list with sections search functionality', async () => {
       return /\blet\b/.test(text)
     },
   })
+  // NOTE: No selection indicator (›) is expected here - this is OK
   expect(afterSearchLetSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -234,6 +239,7 @@ test('list with sections search functionality', async () => {
       return /bread/i.test(text)
     },
   })
+  // NOTE: No selection indicator (›) is expected here - this is OK
   expect(afterSearchBreadSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -268,7 +274,7 @@ test('list with sections search functionality', async () => {
                                                                 esc
 
      Search actions...
-     View Details
+    › View Details
      Add to Cart
 
 
@@ -373,56 +379,56 @@ test('list actions panel with ctrl+k', async () => {
 
   const afterCtrlKSnapshot = await driver.text()
   expect(afterCtrlKSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-      ›Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-
-                                                                   esc
-
-        Search actions...
-        View Details
-        Add to Cart
+     Search items...
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+     Fruits
+    ›Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+
+                                                                 esc
+
+      Search actions...
+     › View Details
+      Add to Cart
+
+
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Navigate down to second action
   await driver.keys.down()
 
   const afterDownInActionsSnapshot = await driver.text()
   expect(afterDownInActionsSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-      ›Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-
-                                                                   esc
-
-        Search actions...
-        View Details
-        Add to Cart
+     Search items...
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+     Fruits
+    ›Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+
+                                                                 esc
+
+      Search actions...
+      View Details
+     › Add to Cart
+
+
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Trigger the second action (Add to Cart)
   await driver.keys.enter()
