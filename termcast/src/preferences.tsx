@@ -99,7 +99,7 @@ export async function openExtensionPreferences(): Promise<void> {
   )
 
   useStore.setState({
-    navigationStack: [...navigationStack, { component: preferencesComponent }],
+    navigationStack: [...navigationStack, { element: preferencesComponent }],
     dialogStack: [],
   })
 
@@ -132,7 +132,7 @@ export async function openCommandPreferences(): Promise<void> {
   )
 
   useStore.setState({
-    navigationStack: [...navigationStack, { component: preferencesComponent }],
+    navigationStack: [...navigationStack, { element: preferencesComponent }],
     dialogStack: [],
   })
 
