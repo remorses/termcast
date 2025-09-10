@@ -26,8 +26,11 @@ const FocusContext = createContext<{
   selectedIndexes: new Set(),
 })
 
+// IMPORTANT! Notice that we only use descendantsContext.map.current only inside hooks or event handlers. it MUST not be used in render scope
+// instead each item renders its own content, descendantsContext must be used only for event handlers like useKeyboard or onMouseDown, or when user updates a search query to filter the filteredIndexes state
+// to do conditional rendering instead add additional state, here we used offset to track the current page offset of displayed items, selectedIndexes, focusedIndex. Other examples could be searchQuery
 const Menu = () => {
-  const context = useDescendants()
+  const descendantsContext = useDescendants()
   const [focusedIndex, setFocusedIndex] = useState(0)
   const [offset, setOffset] = useState(0)
   const [selectedIndexes, setSelectedIndexes] = useState<Set<number>>(new Set())
@@ -36,7 +39,7 @@ const Menu = () => {
   useKeyboard((evt) => {
     if (!inFocus) return
 
-    const items = Object.values(context.map.current).filter(
+    const items = Object.values(descendantsContext.map.current).filter(
       (item) => item.index !== -1,
     )
     const itemCount = items.length
@@ -86,7 +89,7 @@ const Menu = () => {
       })
     } else if (evt.name === 'return') {
       // Log selected titles
-      const items = Object.values(context.map.current)
+      const items = Object.values(descendantsContext.map.current)
         .filter((item) => item.index !== -1)
         .sort((a, b) => a.index - b.index)
 
@@ -123,10 +126,10 @@ const Menu = () => {
         selectedIndexes,
       }}
     >
-      <DescendantsProvider value={context}>
+      <DescendantsProvider value={descendantsContext}>
         <box>
           {allItems.map((title, index) => (
-            <Item key={title} title={title} itemIndex={index} />
+            <Item key={title} title={title} />
           ))}
         </box>
       </DescendantsProvider>
@@ -136,14 +139,11 @@ const Menu = () => {
 
 const Item = ({
   title,
-  itemIndex,
-  key,
 }: {
   title: string
-  itemIndex: number
   key?: string
 }) => {
-  const index = useDescendant({ title })
+  const itemIndex = useDescendant({ title })
   const { focusedIndex, offset, itemsPerPage, selectedIndexes } =
     useContext(FocusContext)
 
