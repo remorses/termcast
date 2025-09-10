@@ -9,6 +9,7 @@ import { logger } from '@termcast/cli/src/logger'
 const { DescendantsProvider, useDescendants, useDescendant } =
   createDescendants<{
     title?: string
+    filtered?: boolean
   }>()
 
 const itemsPerPage = 6
@@ -38,7 +39,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
 
   useKeyboard((evt) => {
     const items = Object.values(descendantsContext.map.current).filter(
-      (item) => item.index !== -1,
+      (item) => item.index !== -1 && item.props?.filtered === true,
     )
     const itemCount = items.length
 
@@ -46,61 +47,63 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
 
     if (evt.name === 'down') {
       setFocusedIndex((prev) => {
-          const nextIndex = (prev + 1) % itemCount
+        const nextIndex = (prev + 1) % itemCount
 
-          // Update offset only when the focused item is at the last position and there are more items
-          const visibleEnd = offset + itemsPerPage - 1
-          if (prev === visibleEnd && nextIndex < itemCount && nextIndex > prev) {
-            // Scroll down by one when at the last visible item
-            setOffset(offset + 1)
-          } else if (nextIndex < prev) {
-            // Wrapped to beginning
-            setOffset(0)
-          }
+        // Update offset only when the focused item is at the last position and there are more items
+        const visibleEnd = offset + itemsPerPage - 1
+        if (prev === visibleEnd && nextIndex < itemCount && nextIndex > prev) {
+          // Scroll down by one when at the last visible item
+          setOffset(offset + 1)
+        } else if (nextIndex < prev) {
+          // Wrapped to beginning
+          setOffset(0)
+        }
 
-          return nextIndex
+        return nextIndex
       })
     } else if (evt.name === 'up') {
       setFocusedIndex((prev) => {
-          const nextIndex = (prev - 1 + itemCount) % itemCount
+        const nextIndex = (prev - 1 + itemCount) % itemCount
 
-          // Update offset if we're going above the visible range
-          if (nextIndex < offset) {
-            setOffset(Math.max(0, nextIndex))
-          } else if (nextIndex >= offset + itemsPerPage) {
-            // Wrapped to end
-            setOffset(Math.max(0, itemCount - itemsPerPage))
-          }
+        // Update offset if we're going above the visible range
+        if (nextIndex < offset) {
+          setOffset(Math.max(0, nextIndex))
+        } else if (nextIndex >= offset + itemsPerPage) {
+          // Wrapped to end
+          setOffset(Math.max(0, itemCount - itemsPerPage))
+        }
 
-          return nextIndex
+        return nextIndex
       })
     } else if (evt.name === 'return') {
-        // Toggle selection of current focused item
-        const entries = Object.entries(descendantsContext.map.current)
-        const sortedEntries = entries
-          .filter(([_, item]) => item.index !== -1)
-          .sort((a, b) => a[1].index - b[1].index)
+      // Toggle selection of current focused item
+      const entries = Object.entries(descendantsContext.map.current)
+      const sortedEntries = entries
+        .filter(
+          ([_, item]) => item.index !== -1 && item.props?.filtered === true,
+        )
+        .sort((a, b) => a[1].index - b[1].index)
 
-        const focusedId = sortedEntries[focusedIndex]?.[0]
+      const focusedId = sortedEntries[focusedIndex]?.[0]
 
-        if (focusedId) {
-          setSelectedIds((prev) => {
-            const newSet = new Set(prev)
-            if (newSet.has(focusedId)) {
-              newSet.delete(focusedId)
-            } else {
-              newSet.add(focusedId)
-            }
+      if (focusedId) {
+        setSelectedIds((prev) => {
+          const newSet = new Set(prev)
+          if (newSet.has(focusedId)) {
+            newSet.delete(focusedId)
+          } else {
+            newSet.add(focusedId)
+          }
 
-            // Update selected titles state
-            const titles = Array.from(newSet)
-              .map((id) => descendantsContext.map.current[id]?.props?.title)
-              .filter(Boolean) as string[]
+          // Update selected titles state
+          const titles = Array.from(newSet)
+            .map((id) => descendantsContext.map.current[id]?.props?.title)
+            .filter(Boolean) as string[]
 
-            setSelectedTitles(titles)
+          setSelectedTitles(titles)
 
-            return newSet
-          })
+          return newSet
+        })
       }
     } else if (evt.ctrl && evt.name === 'return') {
       // Log selected titles
@@ -124,7 +127,12 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
             <text marginBottom={1}>Filter Menu</text>
             <input
               value={searchQuery}
-              onInput={setSearchQuery}
+              onInput={(value) => {
+                setSearchQuery(value)
+                // Reset focus to first item when search changes
+                setFocusedIndex(0)
+                setOffset(0)
+              }}
               focused
               placeholder='Type to filter items...'
               marginBottom={1}
@@ -153,12 +161,17 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
 }
 
 const Item = ({ title }: { title: string; key?: any }) => {
-  const descendant = useDescendant({ title })
   const { focusedIndex, offset, itemsPerPage, selectedIds, searchQuery } =
     useContext(MenuContext)
 
+  // Determine if item matches filter
+  const isFiltered = title.toLowerCase().includes(searchQuery.toLowerCase())
+
+  // Register with descendants with the filtered state
+  const descendant = useDescendant({ title, filtered: isFiltered })
+
   // Filter items based on search query from context
-  if (!title.toLowerCase().includes(searchQuery.toLowerCase())) {
+  if (!isFiltered) {
     return null
   }
 
