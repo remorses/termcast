@@ -223,52 +223,6 @@ const DropdownContent = ({
     }
   }
 
-  const refreshDropdownItems = () => {
-    // Access map.current ONLY in event handler
-    const items = Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1)
-      .sort((a, b) => a.index - b.index)
-      .map((item) => item.props as FormDropdownItemDescendant)
-
-    setDropdownItems(items)
-
-    // Update selected values and window position
-    if (field.value) {
-      if (props.hasMultipleSelection && Array.isArray(field.value)) {
-        setSelectedValues(new Set(field.value))
-        // Set index to first selected item
-        const firstSelectedIndex = items.findIndex((item) =>
-          field.value.includes(item.value),
-        )
-        if (firstSelectedIndex !== -1) {
-          setSelectedOptionIndex(firstSelectedIndex)
-          const windowStart = Math.max(
-            0,
-            Math.min(firstSelectedIndex - 1, items.length - itemsPerPage),
-          )
-          setWindowStartIndex(windowStart)
-        }
-      } else if (
-        !props.hasMultipleSelection &&
-        typeof field.value === 'string'
-      ) {
-        setSelectedValues(new Set([field.value]))
-        const index = items.findIndex((item) => item.value === field.value)
-        if (index !== -1) {
-          setSelectedOptionIndex(index)
-          const windowStart = Math.max(
-            0,
-            Math.min(index - 1, items.length - itemsPerPage),
-          )
-          setWindowStartIndex(windowStart)
-        }
-      }
-    } else {
-      setSelectedOptionIndex(0)
-      setWindowStartIndex(0)
-    }
-  }
-
   // Handle keyboard navigation when focused
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
@@ -405,43 +359,6 @@ const DropdownContent = ({
   )
 }
 
-// Inner component that has access to descendants
-const DropdownInner = (
-  props: DropdownProps & {
-    control: any
-    getValues: any
-    isFocused: boolean
-    setFocusedField: (field: string) => void
-    items: FormDropdownItemDescendant[]
-  },
-): any => {
-  const { control, getValues, isFocused, setFocusedField, items } = props
-
-  return (
-    <Controller
-      name={props.id}
-      control={control}
-      defaultValue={
-        props.defaultValue ||
-        props.value ||
-        (props.hasMultipleSelection ? [] : '')
-      }
-      render={({ field, fieldState }) => {
-        return (
-          <DropdownContent
-            field={field}
-            fieldState={fieldState}
-            props={props}
-            isFocused={isFocused}
-            setFocusedField={setFocusedField}
-            getValues={getValues}
-            items={items}
-          />
-        ) as React.ReactElement
-      }}
-    />
-  )
-}
 
 const DropdownComponent = (props: DropdownProps): any => {
   const { control, getValues } = useFormContext()
@@ -489,13 +406,27 @@ const DropdownComponent = (props: DropdownProps): any => {
         {props.children}
       </FormDropdownContext.Provider>
 
-      <DropdownInner
-        {...props}
+      <Controller
+        name={props.id}
         control={control}
-        getValues={getValues}
-        isFocused={isFocused}
-        setFocusedField={setFocusedField}
-        items={parsedItems}
+        defaultValue={
+          props.defaultValue ||
+          props.value ||
+          (props.hasMultipleSelection ? [] : '')
+        }
+        render={({ field, fieldState }) => {
+          return (
+            <DropdownContent
+              field={field}
+              fieldState={fieldState}
+              props={props}
+              isFocused={isFocused}
+              setFocusedField={setFocusedField}
+              getValues={getValues}
+              items={parsedItems}
+            />
+          ) as React.ReactElement
+        }}
       />
     </FormDropdownDescendantsProvider>
   )
