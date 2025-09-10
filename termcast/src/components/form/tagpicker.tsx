@@ -157,7 +157,7 @@ const TagPickerItem: FunctionComponent<TagPickerItemProps> = (props): any => {
 
 const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref) => {
     const dropdownRef = useRef<any>(null)
-    
+
     useImperativeHandle(ref, () => ({
         focus: () => dropdownRef.current?.focus(),
         reset: () => dropdownRef.current?.reset()
@@ -165,7 +165,7 @@ const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref)
 
     // TagPicker will use hasMultipleSelection by default
     const dropdownValue = props.value || props.defaultValue || []
-    
+
     const handleDropdownChange = (value: string | string[]) => {
         // TagPicker always expects array values
         if (Array.isArray(value)) {
@@ -174,7 +174,7 @@ const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref)
             props.onChange?.([value])
         }
     }
-    
+
     // Convert FormEvent callbacks between string[] and string | string[]
     const handleFocus = props.onFocus ? (event: FormEvent<string | string[]>) => {
         props.onFocus!({
@@ -185,7 +185,7 @@ const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref)
             type: event.type
         })
     } : undefined
-    
+
     const handleBlur = props.onBlur ? (event: FormEvent<string | string[]>) => {
         props.onBlur!({
             target: {
@@ -195,22 +195,8 @@ const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref)
             type: event.type
         })
     } : undefined
-    
-    // Transform TagPicker.Item children to Dropdown.Item children
-    const transformedChildren = React.Children.map(props.children, (child) => {
-        if (React.isValidElement(child) && child.type === TagPickerItem) {
-            const childProps = child.props as TagPickerItemProps
-            return (
-                <Dropdown.Item
-                    value={childProps.value}
-                    title={childProps.title || childProps.value}
-                    icon={childProps.icon as string | undefined}
-                />
-            )
-        }
-        return child
-    })
-    
+
+
     // Create dropdown props
     const dropdownProps: DropdownProps = {
         id: props.id,
@@ -224,10 +210,10 @@ const TagPickerComponent = forwardRef<TagPickerRef, TagPickerProps>((props, ref)
         onFocus: handleFocus,
         onBlur: handleBlur,
         placeholder: props.placeholder,
-        children: transformedChildren,
+        children: props.children,
         hasMultipleSelection: true // TagPicker always uses multiple selection
     }
-    
+
     return <Dropdown {...dropdownProps} />
 })
 
