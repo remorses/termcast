@@ -163,6 +163,48 @@ useKeyboard((evt) => {
 
 ## descendants pattern and map.current
 
+### Why the descendants pattern is useful
+
+The descendants pattern is essential for building compound components (like `List` with `List.Item`, `Form` with `Form.TextField`, etc.) because it solves a fundamental React challenge: **parent components need to know about and coordinate their children dynamically**.
+
+In traditional React, parent components cannot easily:
+1. Track which children are rendered and in what order
+2. Implement keyboard navigation across children
+3. Manage selection state across dynamic children
+4. Handle filtering/searching while maintaining correct indexes
+
+The descendants pattern solves this by:
+- **Automatic indexing**: Each child component registers itself and gets a unique index automatically
+- **Dynamic tracking**: Children can be added, removed, or reordered, and the parent stays in sync
+- **Decoupled state management**: Parent manages navigation/selection state without tightly coupling to children
+- **Composition friendly**: Works with any level of nesting and conditional rendering
+
+This is why Raycast components like List, Form, and Grid use this pattern - it enables rich keyboard navigation and selection across dynamically rendered items without requiring explicit index props or brittle parent-child contracts.
+
+### useDescendant return values
+
+The `useDescendant` hook returns `{ index, descendantId }`:
+- `index`: The current position of the item in the rendered list (changes when items are filtered/reordered)
+- `descendantId`: A stable unique ID for the item (remains constant for the component's lifetime)
+
+**IMPORTANT**: Always use `descendantId` (not `index`) for tracking item-specific state like:
+- Selection state (which items are selected)
+- Expanded/collapsed state
+- Item-specific data
+
+Using `index` for state tracking is incorrect because when items are conditionally rendered or filtered, a single index can be associated with different items at different times. The `descendantId` provides a stable identity that persists across re-renders and filtering.
+
+Example from the descendants example:
+```tsx
+// CORRECT: Using descendantId for selection tracking
+const isSelected = selectedIds.has(descendant.descendantId)
+
+// WRONG: Using index for selection tracking
+// const isSelected = selectedIndexes.has(descendant.index)
+```
+
+### Important implementation notes
+
 IMPORTANT: When using the descendants pattern from src/descendants.tsx, the `map.current` from `useDescendants()` is NOT reactive and CANNOT be used during render. It can only be accessed inside:
 
 - useEffect or useLayoutEffect to handle effects
