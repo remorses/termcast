@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+### Minor Changes
+
+- Many improvements
+
 ## 0.1.0
 
 ### Minor Changes
