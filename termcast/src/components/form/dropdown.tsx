@@ -359,7 +359,6 @@ const DropdownContent = ({
   )
 }
 
-
 const DropdownComponent = (props: DropdownProps): any => {
   const { control, getValues } = useFormContext()
   const { focusedField, setFocusedField } = useFocusContext()
