@@ -280,7 +280,7 @@ function shouldItemBeVisible(
     .filter(Boolean)
     .join(' ')
     .toLowerCase()
-  
+
   return searchableText.includes(needle)
 }
 
@@ -352,11 +352,13 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
       .sort((a, b) => a.index - b.index)
-    
+
     if (items.length === 0) return
 
     // Find currently selected item's position in visible items
-    let currentVisibleIndex = items.findIndex(item => item.index === selectedIndex)
+    let currentVisibleIndex = items.findIndex(
+      (item) => item.index === selectedIndex,
+    )
     if (currentVisibleIndex === -1) {
       // If current selection is not visible, select first visible item
       if (items[0]) {
@@ -369,7 +371,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
     let nextVisibleIndex = currentVisibleIndex + direction
     if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
     if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
-    
+
     const nextItem = items[nextVisibleIndex]
     if (nextItem) {
       setSelectedIndex(nextItem.index)
@@ -390,8 +392,8 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
       const items = Object.values(descendantsContext.map.current)
         .filter((item) => item.index !== -1)
         .sort((a, b) => a.index - b.index)
-      
-      const currentItem = items.find(item => item.index === selectedIndex)
+
+      const currentItem = items.find((item) => item.index === selectedIndex)
       if (currentItem?.props) {
         props.onChange?.((currentItem.props as DropdownItemDescendant).value)
       }
@@ -436,7 +438,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 setSelectedIndex,
                 currentValue: props.value,
                 searchText,
-                isFiltering: props.filtering !== false,
+                isFiltering: true, // Dropdown always has filtering enabled
                 onChange: (value: string) => {
                   props.onChange?.(value)
                 },
@@ -614,9 +616,16 @@ export const List: ListType = (props) => {
   // Determine if filtering is enabled
   // List filters automatically when:
   // - filtering is not specified (defaults to true) OR filtering is explicitly true
-  // - AND onSearchTextChange is not provided
-  // When onSearchTextChange is provided, it implicitly sets filtering to false unless explicitly overridden
-  const isFiltering = onSearchTextChange ? filtering === true : filtering !== false
+  // List does NOT filter automatically when:
+  // - When filtering={false}
+  // - When onSearchTextChange is provided (implicitly sets filtering to false)
+  // - Unless you explicitly set filtering={true} alongside onSearchTextChange
+  const isFilteringEnabled = (() => {
+    if (filtering === false) return false
+    if (filtering === true) return true
+    // filtering is undefined/not specified
+    return !onSearchTextChange // defaults to true unless onSearchTextChange is provided
+  })()
 
   const openDropdown = () => {
     setIsDropdownOpen(true)
@@ -625,9 +634,8 @@ export const List: ListType = (props) => {
   // Wrapper function that updates search text
   const setInternalSearchText = (value: string) => {
     setInternalSearchTextRaw(value)
-    setSelectedIndex(0) // Reset selection when search changes
+    // Don't reset selectedIndex here - let useEffect handle it after items update
   }
-
 
   const listContextValue = useMemo<ListContextValue>(
     () => ({
@@ -637,9 +645,9 @@ export const List: ListType = (props) => {
       selectedIndex,
       setSelectedIndex,
       searchText,
-      isFiltering,
+      isFiltering: isFilteringEnabled,
     }),
-    [isDropdownOpen, selectedIndex, searchText, isFiltering],
+    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled],
   )
 
   // Reset selected index when items change or selectedItemId changes
@@ -663,11 +671,13 @@ export const List: ListType = (props) => {
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
       .sort((a, b) => a.index - b.index)
-    
+
     if (items.length === 0) return
 
     // Find currently selected item's position in visible items
-    let currentVisibleIndex = items.findIndex(item => item.index === selectedIndex)
+    let currentVisibleIndex = items.findIndex(
+      (item) => item.index === selectedIndex,
+    )
     if (currentVisibleIndex === -1) {
       // If current selection is not visible, select first visible item
       if (items[0]) {
@@ -680,7 +690,7 @@ export const List: ListType = (props) => {
     let nextVisibleIndex = currentVisibleIndex + direction
     if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
     if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
-    
+
     const nextItem = items[nextVisibleIndex]
     if (nextItem) {
       setSelectedIndex(nextItem.index)
@@ -705,9 +715,9 @@ export const List: ListType = (props) => {
       const items = Object.values(descendantsContext.map.current)
         .filter((item) => item.index !== -1)
         .sort((a, b) => a.index - b.index)
-      
-      const currentItem = items.find(item => item.index === selectedIndex)
-      
+
+      const currentItem = items.find((item) => item.index === selectedIndex)
+
       // Show current item's actions if available
       if (currentItem?.props?.actions) {
         dialog.push(currentItem.props.actions, 'bottom-right')
@@ -725,8 +735,8 @@ export const List: ListType = (props) => {
       const items = Object.values(descendantsContext.map.current)
         .filter((item) => item.index !== -1)
         .sort((a, b) => a.index - b.index)
-      
-      const currentItem = items.find(item => item.index === selectedIndex)
+
+      const currentItem = items.find((item) => item.index === selectedIndex)
       if (!currentItem?.props) return
 
       if (currentItem.props.actions) {
@@ -859,12 +869,16 @@ const ListItem: ListItemType = (props) => {
   // Check if this item is visible based on search
   const isFiltering = listContext?.isFiltering ?? false
   const searchText = listContext?.searchText ?? ''
-  
-  const isVisible = !isFiltering || shouldItemBeVisible(searchText, {
-    title: titleText,
-    subtitle: subtitleText,
-    keywords: [...(props.keywords || []), sectionTitle].filter(Boolean) as string[],
-  })
+
+  const isVisible =
+    !isFiltering ||
+    shouldItemBeVisible(searchText, {
+      title: titleText,
+      subtitle: subtitleText,
+      keywords: [...(props.keywords || []), sectionTitle].filter(
+        Boolean,
+      ) as string[],
+    })
 
   // Register as descendant with all searchable data
   const { index } = useListItemDescendant({
@@ -948,20 +962,20 @@ const ListDropdown: ListDropdownType = (props) => {
   useLayoutEffect(() => {
     const valueToUse =
       props.value !== undefined ? props.value : dropdownState.value
-    
+
     // If no value is set and we have descendants, use the first item
     if (!valueToUse && !props.value && !props.defaultValue) {
       const items = Object.values(descendantsContext.map.current)
         .filter((item) => item.index !== -1)
         .sort((a, b) => a.index - b.index)
-      
+
       if (items.length > 0) {
         const firstItem = items[0].props as DropdownItemDescendant
         setDropdownState({ value: firstItem.value, title: firstItem.title })
         return
       }
     }
-    
+
     if (!valueToUse) return
 
     // Try to find the title for this value
@@ -1093,10 +1107,13 @@ ListDropdown.Item = (props) => {
   } = dropdownContext
 
   // Check if this item is visible based on search
-  const isVisible = !isFiltering || !searchText || shouldItemBeVisible(searchText, {
-    title: props.title,
-    keywords: currentSection ? [currentSection] : []
-  })
+  const isVisible =
+    !isFiltering ||
+    !searchText ||
+    shouldItemBeVisible(searchText, {
+      title: props.title,
+      keywords: currentSection ? [currentSection] : [],
+    })
 
   // Register as descendant
   const { index } = useDropdownItemDescendant({
