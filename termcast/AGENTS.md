@@ -373,3 +373,7 @@ function MyRenderComponent({ field, fieldState, formState }) {
 ```
 
 Or lift hooks in component scope
+
+## NEVER use setTimeout
+
+setTimeout must never be used to schedule React updates after some time. This strategy is stupid and never makes sense.
