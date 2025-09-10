@@ -9,13 +9,37 @@ const { DescendantsProvider, useDescendants, useDescendant } =
     title?: string
   }>()
 
-const FocusContext = createContext<{ focusedIndex: number }>({
+const itemsPerPage = 4
+
+const FocusContext = createContext<{
+  focusedIndex: number
+  offset: number
+  itemsPerPage: number
+}>({
   focusedIndex: 0,
+  offset: 0,
+  itemsPerPage,
 })
+
+const allItems = [
+  'First Item',
+  'Second Item',
+  'Third Item',
+  'Fourth Item',
+  'Fifth Item',
+  'Sixth Item',
+  'Seventh Item',
+  'Eighth Item',
+  'Ninth Item',
+  'Tenth Item',
+  'Eleventh Item',
+  'Twelfth Item',
+]
 
 const Menu = () => {
   const context = useDescendants()
   const [focusedIndex, setFocusedIndex] = useState(0)
+  const [offset, setOffset] = useState(0)
   const inFocus = useIsInFocus()
 
   useKeyboard((evt) => {
@@ -29,29 +53,71 @@ const Menu = () => {
     if (itemCount === 0) return
 
     if (evt.name === 'down') {
-      setFocusedIndex((prev) => (prev + 1) % itemCount)
+      setFocusedIndex((prev) => {
+        const nextIndex = (prev + 1) % itemCount
+
+        // Update offset only when the focused item is at the last position and there are more items
+        const visibleEnd = offset + itemsPerPage - 1
+        if (prev === visibleEnd && nextIndex < itemCount && nextIndex > prev) {
+          // Scroll down by one when at the last visible item
+          setOffset(offset + 1)
+        } else if (nextIndex < prev) {
+          // Wrapped to beginning
+          setOffset(0)
+        }
+
+        return nextIndex
+      })
     } else if (evt.name === 'up') {
-      setFocusedIndex((prev) => (prev - 1 + itemCount) % itemCount)
+      setFocusedIndex((prev) => {
+        const nextIndex = (prev - 1 + itemCount) % itemCount
+
+        // Update offset if we're going above the visible range
+        if (nextIndex < offset) {
+          setOffset(Math.max(0, nextIndex))
+        } else if (nextIndex >= offset + itemsPerPage) {
+          // Wrapped to end
+          setOffset(Math.max(0, itemCount - itemsPerPage))
+        }
+
+        return nextIndex
+      })
     }
   })
 
   return (
-    <FocusContext.Provider value={{ focusedIndex }}>
+    <FocusContext.Provider
+      value={{ focusedIndex, offset, itemsPerPage: itemsPerPage }}
+    >
       <DescendantsProvider value={context}>
         <box>
-          <Item title='First Item' />
-          <Item title='Second Item' />
-          <Item title='Third Item' />
+          {allItems.map((title, index) => (
+            <Item key={title} title={title} itemIndex={index} />
+          ))}
         </box>
       </DescendantsProvider>
     </FocusContext.Provider>
   )
 }
 
-const Item = ({ title }: { title: string }) => {
+const Item = ({
+  title,
+  itemIndex,
+  key,
+}: {
+  title: string
+  itemIndex: number
+  key?: string
+}) => {
   const index = useDescendant({ title })
-  const { focusedIndex } = useContext(FocusContext)
-  const isFocused = index === focusedIndex
+  const { focusedIndex, offset, itemsPerPage } = useContext(FocusContext)
+
+  // Hide items that are outside the visible range
+  if (itemIndex < offset || itemIndex >= offset + itemsPerPage) {
+    return null
+  }
+
+  const isFocused = itemIndex === focusedIndex
 
   return <text fg={isFocused ? 'blue' : 'white'}>{title}</text>
 }
