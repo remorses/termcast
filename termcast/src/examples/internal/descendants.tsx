@@ -29,7 +29,7 @@ const FocusContext = createContext<{
 // IMPORTANT! Notice that we only use descendantsContext.map.current only inside hooks or event handlers. it MUST not be used in render scope
 // instead each item renders its own content, descendantsContext must be used only for event handlers like useKeyboard or onMouseDown, or when user updates a search query to filter the filteredIndexes state
 // to do conditional rendering instead add additional state, here we used offset to track the current page offset of displayed items, selectedIndexes, focusedIndex. Other examples could be searchQuery
-const Menu = () => {
+const Menu = ({ children }: { children: React.ReactNode }) => {
   const descendantsContext = useDescendants()
   const [focusedIndex, setFocusedIndex] = useState(0)
   const [offset, setOffset] = useState(0)
@@ -102,21 +102,6 @@ const Menu = () => {
     }
   })
 
-  const allItems = [
-    'First Item',
-    'Second Item',
-    'Third Item',
-    'Fourth Item',
-    'Fifth Item',
-    'Sixth Item',
-    'Seventh Item',
-    'Eighth Item',
-    'Ninth Item',
-    'Tenth Item',
-    'Eleventh Item',
-    'Twelfth Item',
-  ]
-
   return (
     <FocusContext.Provider
       value={{
@@ -127,11 +112,7 @@ const Menu = () => {
       }}
     >
       <DescendantsProvider value={descendantsContext}>
-        <box>
-          {allItems.map((title, index) => (
-            <Item key={title} title={title} />
-          ))}
-        </box>
+        <box>{children}</box>
       </DescendantsProvider>
     </FocusContext.Provider>
   )
@@ -163,4 +144,29 @@ const Item = ({
   )
 }
 
-renderWithProviders(<Menu />)
+const Example = () => {
+  const allItems = [
+    'First Item',
+    'Second Item',
+    'Third Item',
+    'Fourth Item',
+    'Fifth Item',
+    'Sixth Item',
+    'Seventh Item',
+    'Eighth Item',
+    'Ninth Item',
+    'Tenth Item',
+    'Eleventh Item',
+    'Twelfth Item',
+  ]
+
+  return (
+    <Menu>
+      {allItems.map((title) => (
+        <Item key={title} title={title} />
+      ))}
+    </Menu>
+  )
+}
+
+renderWithProviders(<Example />)
