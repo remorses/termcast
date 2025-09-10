@@ -34,6 +34,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
   const [focusedIndex, setFocusedIndex] = useState(0)
   const [offset, setOffset] = useState(0)
   const [selectedIndexes, setSelectedIndexes] = useState<Set<number>>(new Set())
+  const [selectedTitles, setSelectedTitles] = useState<string[]>([])
   const inFocus = useIsInFocus()
 
   useKeyboard((evt) => {
@@ -85,6 +86,19 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
         } else {
           newSet.add(focusedIndex)
         }
+
+        // Update selected titles state
+        const items = Object.values(descendantsContext.map.current)
+          .filter((item) => item.index !== -1)
+          .sort((a, b) => a.index - b.index)
+
+        const titles = Array.from(newSet)
+          .sort((a, b) => a - b)
+          .map((index) => items[index]?.props?.title)
+          .filter(Boolean) as string[]
+
+        setSelectedTitles(titles)
+
         return newSet
       })
     } else if (evt.ctrl && evt.name === 'return') {
@@ -112,24 +126,41 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <DescendantsProvider value={descendantsContext}>
-        <box>{children}</box>
+        <box flexDirection='column'>
+          <box>{children}</box>
+          {selectedTitles.length > 0 && (
+            <box
+              flexDirection='column'
+              marginTop={1}
+              borderStyle='single'
+              padding={1}
+            >
+              <text>Selected items ({selectedTitles.length}):</text>
+              {selectedTitles.map((title, index) => (
+                <text key={index} fg='green'>
+                  • {title}
+                </text>
+              ))}
+            </box>
+          )}
+        </box>
       </DescendantsProvider>
     </FocusContext.Provider>
   )
 }
 
 const Item = ({ title }: { title: string; key?: string }) => {
-  const itemIndex = useDescendant({ title })
+  const { index } = useDescendant({ title })
   const { focusedIndex, offset, itemsPerPage, selectedIndexes } =
     useContext(FocusContext)
 
   // Hide items that are outside the visible range
-  if (itemIndex < offset || itemIndex >= offset + itemsPerPage) {
+  if (index < offset || index >= offset + itemsPerPage) {
     return null
   }
 
-  const isFocused = itemIndex === focusedIndex
-  const isSelected = selectedIndexes.has(itemIndex)
+  const isFocused = index === focusedIndex
+  const isSelected = selectedIndexes.has(index)
 
   return (
     <text fg={isFocused ? 'blue' : 'white'}>
