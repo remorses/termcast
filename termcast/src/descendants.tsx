@@ -5,7 +5,7 @@ import * as React from 'react'
 type DescendantMap<T> = { [id: string]: { index: number; props?: T } }
 
 interface DescendantContextType<T> {
-  get: (id: string, props?: T) => number
+  getIndexForId: (id: string, props?: T) => number
   // IMPORTANT! map is not reactive, it cannot be used in render, only in useEffect or useLayoutEffect or other event handlers like useKeyboard
   map: React.RefObject<DescendantMap<T>>
   reset: () => void
@@ -41,7 +41,7 @@ export function createDescendants<T = any>() {
       map.current = {}
     }
 
-    const get = (id: string, props?: T) => {
+    const getIndexForId = (id: string, props?: T) => {
       const hidden = props ? (props as any).hidden : false
       if (!map.current[id])
         map.current[id] = {
@@ -51,22 +51,22 @@ export function createDescendants<T = any>() {
       return map.current[id].index
     }
 
-    React.useEffect(() => {
-      return () => {
-        reset()
-      }
-    }, [])
+    // React.useEffect(() => {
+    //   return () => {
+    //     reset()
+    //   }
+    // }, [])
 
     // Do NOT memoize context value, so that we bypass React.memo on any children
     // We NEED them to re-render, in case stable children were re-ordered
     // (this creates a new object every render, so children reading the context MUST re-render)
-    return { get, map, reset }
+    return { getIndexForId, map, reset }
   }
 
   /**
    * Return index of the current item within its parent's list
    */
-  function useDescendant(props?: T): number {
+  function useDescendant(props?: T) {
     const context = React.useContext(DescendantContext)
     const descendantId = React.useRef<string>(randomId())
     const [index, setIndex] = React.useState<number>(-1)
@@ -74,10 +74,10 @@ export function createDescendants<T = any>() {
     React.useLayoutEffect(() => {
       // Do this inside of useLayoutEffect, it's only
       // called for the "real render" in React strict mode
-      setIndex(context?.get(descendantId.current, props) ?? -1)
+      setIndex(context?.getIndexForId(descendantId.current, props) ?? -1)
     })
 
-    return index
+    return { descendantId, index }
   }
 
   return { DescendantsProvider, useDescendants, useDescendant }
@@ -90,7 +90,6 @@ const { DescendantsProvider, useDescendants, useDescendant } =
   }>()
 
 const FilteredIndexesContext = React.createContext<number[]>([])
-
 
 const MenuExample = () => {
   const context = useDescendants()
