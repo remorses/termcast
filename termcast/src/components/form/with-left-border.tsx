@@ -8,6 +8,8 @@ interface WithLeftBorderProps {
   customCharacter?: { focused: string; unfocused: string }
   isFocused: boolean
   paddingBottom?: number
+  paddingLeft?: number
+  paddingTop?: number
   key?: any
 }
 
@@ -17,6 +19,8 @@ export const WithLeftBorder = ({
   customCharacter,
   isFocused,
   paddingBottom = 1,
+  paddingLeft = 2,
+  paddingTop = 0,
 }: WithLeftBorderProps): any => {
   if (withDiamond || customCharacter) {
     const chars = customCharacter || { focused: '◆', unfocused: '◇' }
@@ -28,7 +32,7 @@ export const WithLeftBorder = ({
         >
           {isFocused ? chars.focused : chars.unfocused}
         </text>
-        <box flexGrow={1} paddingLeft={1}>
+        <box flexGrow={1} paddingLeft={paddingLeft}>
           {children}
         </box>
       </box>
@@ -36,13 +40,12 @@ export const WithLeftBorder = ({
   }
   return (
     <box
-      paddingLeft={0}
+      paddingLeft={paddingLeft}
       border={['left']}
       borderColor={isFocused ? Theme.accent : undefined}
       flexDirection='row'
     >
-      <text fg={Theme.text}>{''}</text>
-      <box paddingTop={0} paddingBottom={paddingBottom} flexGrow={1}>
+      <box paddingTop={paddingTop} paddingBottom={paddingBottom} flexGrow={1}>
         {children}
       </box>
     </box>

@@ -33,10 +33,12 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ TypeScript, Rust
     │
-    │ ● TypeScript
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
+    │ Frontend
+    │ › ● TypeScript
+    │   ○ JavaScript
+    │   ○ React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -44,10 +46,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -55,10 +57,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -78,10 +80,12 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ ○ TypeScript
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
+    │ Frontend
+    │ › ○ TypeScript
+    │   ○ JavaScript
+    │   ○ React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -89,10 +93,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -100,10 +104,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -123,10 +127,12 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ ○ TypeScript
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
+    │ Frontend
+    │   ○ TypeScript
+    │ › ○ JavaScript
+    │   ○ React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -134,10 +140,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -145,10 +151,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -171,10 +177,14 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ ○ React
-    │ ○ Vue
-    │ ○ Svelte
-    │ ○ Node.js
+    │ Frontend
+    │   ○ React
+    │   ○ Vue
+    │   ○ Svelte
+
+    │ Backend
+    │ › ○ Node.js
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -182,10 +192,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -193,10 +203,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -216,10 +226,14 @@ test('form dropdown shows inline options', async () => {
     ◆ Programming Languages
     │ Rust, Node.js
     │
-    │ ○ React
-    │ ○ Vue
-    │ ○ Svelte
-    │ ● Node.js
+    │ Frontend
+    │   ○ React
+    │   ○ Vue
+    │   ○ Svelte
+
+    │ Backend
+    │ › ● Node.js
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -227,10 +241,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -238,10 +252,10 @@ test('form dropdown shows inline options', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -270,10 +284,12 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ ○ TypeScript
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
+    │ Frontend
+    │ › ○ TypeScript
+    │   ○ JavaScript
+    │   ○ React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -281,10 +297,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -292,10 +308,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -318,10 +334,12 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
-    │ ○ Svelte
+    │ Frontend
+    │   ○ JavaScript
+    │   ○ React
+    │   ○ Vue
+    │ › ○ Svelte
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -329,10 +347,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -340,10 +358,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -363,10 +381,14 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ ○ React
-    │ ○ Vue
-    │ ○ Svelte
-    │ ○ Node.js
+    │ Frontend
+    │   ○ React
+    │   ○ Vue
+    │   ○ Svelte
+
+    │ Backend
+    │ › ○ Node.js
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -374,10 +396,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -385,10 +407,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -408,10 +430,14 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ ○ React
-    │ ○ Vue
-    │ ○ Svelte
-    │ ○ Node.js
+    │ Frontend
+    │   ○ React
+    │   ○ Vue
+    │ › ○ Svelte
+
+    │ Backend
+    │   ○ Node.js
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -419,10 +445,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -430,10 +456,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -453,10 +479,14 @@ test('form dropdown keyboard navigation', async () => {
     ◆ Programming Languages
     │ Rust
     │
-    │ ○ React
-    │ ○ Vue
-    │ ○ Svelte
-    │ ○ Node.js
+    │ Frontend
+    │   ○ React
+    │   ○ Vue
+    │ › ○ Svelte
+
+    │ Backend
+    │   ○ Node.js
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -464,10 +494,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -475,10 +505,10 @@ test('form dropdown keyboard navigation', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -507,10 +537,12 @@ test('form dropdown with default value', async () => {
     ◇ Programming Languages
     │ TypeScript, Rust
     │
-    │ ● TypeScript
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
+    │ Frontend
+    │   ● TypeScript
+    │   ○ JavaScript
+    │   ○ React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -518,10 +550,10 @@ test('form dropdown with default value', async () => {
     ◆ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │ › ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -529,10 +561,10 @@ test('form dropdown with default value', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -552,10 +584,12 @@ test('form dropdown with default value', async () => {
     ◇ Programming Languages
     │ TypeScript, Rust
     │
-    │ ● TypeScript
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
+    │ Frontend
+    │   ● TypeScript
+    │   ○ JavaScript
+    │   ○ React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -563,10 +597,10 @@ test('form dropdown with default value', async () => {
     ◆ Editor Theme
     │ Monokai
     │
-    │ ● Monokai
-    │ ○ Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │ › ● Monokai
+    │   ○ Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -574,10 +608,10 @@ test('form dropdown with default value', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -602,10 +636,12 @@ test('form dropdown with default value', async () => {
     ◇ Programming Languages
     │ TypeScript, Rust
     │
-    │ ● TypeScript
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
+    │ Frontend
+    │   ● TypeScript
+    │   ○ JavaScript
+    │   ○ React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -613,10 +649,10 @@ test('form dropdown with default value', async () => {
     ◆ Editor Theme
     │ Monokai
     │
-    │ ● Monokai
-    │ ○ Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │ › ● Monokai
+    │   ○ Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -624,10 +660,10 @@ test('form dropdown with default value', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -657,10 +693,12 @@ test('selecting second-to-last visible item should not scroll', async () => {
     ◆ Programming Languages
     │ TypeScript, Rust
     │
-    │ ● TypeScript
-    │ ○ JavaScript
-    │ ○ React
-    │ ○ Vue
+    │ Frontend
+    │   ● TypeScript
+    │   ○ JavaScript
+    │ › ○ React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -668,10 +706,10 @@ test('selecting second-to-last visible item should not scroll', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -679,10 +717,10 @@ test('selecting second-to-last visible item should not scroll', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
@@ -702,10 +740,12 @@ test('selecting second-to-last visible item should not scroll', async () => {
     ◆ Programming Languages
     │ TypeScript, Rust, React
     │
-    │ ● TypeScript
-    │ ○ JavaScript
-    │ ● React
-    │ ○ Vue
+    │ Frontend
+    │   ● TypeScript
+    │   ○ JavaScript
+    │ › ● React
+    │   ○ Vue
+
     │ ↑↓ to see more options
     │
     │ Choose your preferred programming languages
@@ -713,10 +753,10 @@ test('selecting second-to-last visible item should not scroll', async () => {
     ◇ Editor Theme
     │ Dracula
     │
-    │ ○ Monokai
-    │ ● Dracula
-    │ ○ One Dark
-    │ ○ Nord
+    │   ○ Monokai
+    │   ● Dracula
+    │   ○ One Dark
+    │   ○ Nord
     │ ↑↓ to see more options
     │
     │ Select your preferred editor color theme
@@ -724,10 +764,10 @@ test('selecting second-to-last visible item should not scroll', async () => {
     ◇ Task Priority
     │ Select priority level
     │
-    │ ○ Critical
-    │ ○ High
-    │ ○ Medium
-    │ ○ Low
+    │   ○ Critical
+    │   ○ High
+    │   ○ Medium
+    │   ○ Low
     └
 
 
