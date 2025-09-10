@@ -3,8 +3,8 @@ import { List, environment, Toast, showToast } from '@termcast/cli'
 import { renderWithProviders } from '@termcast/cli'
 
 function EnvironmentExample(): any {
-    const handleShowEnvironment = async () => {
-        const envInfo = `
+  const handleShowEnvironment = async () => {
+    const envInfo = `
 Raycast Version: ${environment.raycastVersion}
 Extension: ${environment.extensionName}
 Command: ${environment.commandName}
@@ -18,39 +18,33 @@ Assets Path: ${environment.assetsPath}
 Command Mode: ${environment.commandMode}
         `.trim()
 
-        await showToast(Toast.Style.Success, 'Environment Info', envInfo)
-    }
+    await showToast(Toast.Style.Success, 'Environment Info', envInfo)
+  }
 
-    return (
-        <List>
-            <List.Item
-                title='Show Environment Info'
-                subtitle={`Current theme: ${environment.appearance}`}
-                actions={
-                    <ActionPanel>
-                        <Action
-                            title='Show Details'
-                            onAction={handleShowEnvironment}
-                        />
-                    </ActionPanel>
-                }
-            />
-            <List.Item
-                title='Extension Name'
-                subtitle={environment.extensionName}
-            />
-            <List.Item
-                title='Development Mode'
-                subtitle={environment.isDevelopment ? 'Yes' : 'No'}
-            />
-            <List.Item title='Launch Type' subtitle={environment.launchType} />
-        </List>
-    )
+  return (
+    <List>
+      <List.Item
+        title='Show Environment Info'
+        subtitle={`Current theme: ${environment.appearance}`}
+        actions={
+          <ActionPanel>
+            <Action title='Show Details' onAction={handleShowEnvironment} />
+          </ActionPanel>
+        }
+      />
+      <List.Item title='Extension Name' subtitle={environment.extensionName} />
+      <List.Item
+        title='Development Mode'
+        subtitle={environment.isDevelopment ? 'Yes' : 'No'}
+      />
+      <List.Item title='Launch Type' subtitle={environment.launchType} />
+    </List>
+  )
 }
 
 // Import ActionPanel and Action to use them
 import { ActionPanel, Action } from '@termcast/cli'
 
 if (require.main === module) {
-    renderWithProviders(<EnvironmentExample />)
+  renderWithProviders(<EnvironmentExample />)
 }

@@ -1,48 +1,48 @@
 {
-    "name": "simple-extension",
-    "title": "Simple Test Extension",
-    "description": "A simple Raycast extension for testing",
-    "icon": "command-icon.png",
-    "author": "test",
-    "categories": [
-        "Productivity"
-    ],
-    "license": "MIT",
-    "commands": [
-        {
-            "name": "list-items",
-            "title": "List Items",
-            "subtitle": "Shows a list of items",
-            "description": "Displays a simple list with some items",
-            "mode": "view"
-        },
-        {
-            "name": "search-items",
-            "title": "Search Items",
-            "subtitle": "Search through items",
-            "description": "Search and filter through a list of items",
-            "mode": "view"
-        },
-        {
-            "name": "oauth",
-            "title": "Google Oauth",
-            "subtitle": "auth",
-            "description": "",
-            "mode": "view"
-        },
-        {
-            "name": "use-promise-demo",
-            "title": "usePromise Demo",
-            "subtitle": "Demonstrates usePromise hook",
-            "description": "Shows how to use the usePromise hook from @raycast/utils",
-            "mode": "view"
-        },
-        {
-            "name": "show-state",
-            "title": "Show State",
-            "subtitle": "Display current state as JSON",
-            "description": "Shows the current application state in JSON format",
-            "mode": "view"
-        }
-    ]
+  "name": "simple-extension",
+  "title": "Simple Test Extension",
+  "description": "A simple Raycast extension for testing",
+  "icon": "command-icon.png",
+  "author": "test",
+  "categories": [
+    "Productivity"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "list-items",
+      "title": "List Items",
+      "subtitle": "Shows a list of items",
+      "description": "Displays a simple list with some items",
+      "mode": "view"
+    },
+    {
+      "name": "search-items",
+      "title": "Search Items",
+      "subtitle": "Search through items",
+      "description": "Search and filter through a list of items",
+      "mode": "view"
+    },
+    {
+      "name": "oauth",
+      "title": "Google Oauth",
+      "subtitle": "auth",
+      "description": "",
+      "mode": "view"
+    },
+    {
+      "name": "use-promise-demo",
+      "title": "usePromise Demo",
+      "subtitle": "Demonstrates usePromise hook",
+      "description": "Shows how to use the usePromise hook from @raycast/utils",
+      "mode": "view"
+    },
+    {
+      "name": "show-state",
+      "title": "Show State",
+      "subtitle": "Display current state as JSON",
+      "description": "Shows the current application state in JSON format",
+      "mode": "view"
+    }
+  ]
 }

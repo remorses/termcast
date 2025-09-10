@@ -9,80 +9,74 @@ import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 
 export interface TextAreaProps extends FormItemProps<string> {
-    placeholder?: string
-    enableMarkdown?: boolean
+  placeholder?: string
+  enableMarkdown?: boolean
 }
 
 export type TextAreaRef = FormItemRef
 
 export const TextArea = (props: TextAreaProps): any => {
-        const { control } = useFormContext()
-        const { focusedField, setFocusedField } = useFocusContext()
-        const isFocused = focusedField === props.id
+  const { control } = useFormContext()
+  const { focusedField, setFocusedField } = useFocusContext()
+  const isFocused = focusedField === props.id
 
-        // TODO in textarea arrows should probably go to lines instead of other forms
-        useFormNavigation(props.id, )
+  // TODO in textarea arrows should probably go to lines instead of other forms
+  useFormNavigation(props.id)
 
+  return (
+    <Controller
+      name={props.id}
+      control={control}
+      defaultValue={props.defaultValue || props.value || ''}
+      render={({ field, fieldState, formState }) => {
         return (
-            <Controller
-                name={props.id}
-                control={control}
-                defaultValue={props.defaultValue || props.value || ''}
-                render={({ field, fieldState, formState }) => {
-                    return (
-                        <box flexDirection='column'>
-                            <WithLeftBorder
-                                withDiamond
-                                isFocused={isFocused}
-                            >
-                                <text
-                                    fg={Theme.text}
-                                    onMouseDown={() => {
-                                        setFocusedField(props.id)
-                                    }}
-                                >
-                                    {props.title}
-                                </text>
-                            </WithLeftBorder>
-
-                            <WithLeftBorder isFocused={isFocused}>
-                                <box flexGrow={1}>
-                                    <input
-                                        value={field.value}
-                                        onInput={(value: string) => {
-                                            field.onChange(value)
-                                            if (props.onChange) {
-                                                props.onChange(value)
-                                            }
-                                        }}
-                                        minHeight={4}
-                                        placeholder={props.placeholder}
-                                        focused={isFocused}
-                                        onMouseDown={() => {
-                                            setFocusedField(props.id)
-                                        }}
-                                    />
-                                </box>
-                            </WithLeftBorder>
-
-                            {(fieldState.error || props.error) && (
-                                <WithLeftBorder isFocused={isFocused}>
-                                    <text fg={Theme.error}>
-                                        {fieldState.error?.message ||
-                                            props.error}
-                                    </text>
-                                </WithLeftBorder>
-                            )}
-                            {props.info && (
-                                <WithLeftBorder isFocused={isFocused}>
-                                    <text fg={Theme.textMuted}>
-                                        {props.info}
-                                    </text>
-                                </WithLeftBorder>
-                            )}
-                        </box>
-                    ) as React.ReactElement
+          <box flexDirection='column'>
+            <WithLeftBorder withDiamond isFocused={isFocused}>
+              <text
+                fg={Theme.text}
+                onMouseDown={() => {
+                  setFocusedField(props.id)
                 }}
-            />
-        )
-    }
+              >
+                {props.title}
+              </text>
+            </WithLeftBorder>
+
+            <WithLeftBorder isFocused={isFocused}>
+              <box flexGrow={1}>
+                <input
+                  value={field.value}
+                  onInput={(value: string) => {
+                    field.onChange(value)
+                    if (props.onChange) {
+                      props.onChange(value)
+                    }
+                  }}
+                  minHeight={4}
+                  placeholder={props.placeholder}
+                  focused={isFocused}
+                  onMouseDown={() => {
+                    setFocusedField(props.id)
+                  }}
+                />
+              </box>
+            </WithLeftBorder>
+
+            {(fieldState.error || props.error) && (
+              <WithLeftBorder isFocused={isFocused}>
+                <text fg={Theme.error}>
+                  {fieldState.error?.message || props.error}
+                </text>
+              </WithLeftBorder>
+            )}
+            {props.info && (
+              <WithLeftBorder isFocused={isFocused}>
+                <text fg={Theme.textMuted}>{props.info}</text>
+              </WithLeftBorder>
+            )}
+          </box>
+        ) as React.ReactElement
+      }}
+    />
+  )
+}

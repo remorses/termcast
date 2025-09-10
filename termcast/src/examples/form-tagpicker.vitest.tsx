@@ -5,26 +5,26 @@ import { NodeTuiDriver } from '@termcast/cli/src/e2e-node'
 let driver: NodeTuiDriver
 
 beforeEach(() => {
-    driver = new NodeTuiDriver('bun', ['src/examples/form-tagpicker.tsx'], {
-        cols: 70,
-        rows: 50,
-    })
+  driver = new NodeTuiDriver('bun', ['src/examples/form-tagpicker.tsx'], {
+    cols: 70,
+    rows: 50,
+  })
 })
 
 afterEach(() => {
-    driver?.dispose()
+  driver?.dispose()
 })
 
 test('form tagpicker shows inline options', async () => {
-    await driver.text({
-        waitFor: (text) => {
-            // wait for form to show up
-            return /TagPicker Component Demo/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      // wait for form to show up
+      return /TagPicker Component Demo/i.test(text)
+    },
+  })
 
-    const initialSnapshot = await driver.text()
-    expect(initialSnapshot).toMatchInlineSnapshot(`
+  const initialSnapshot = await driver.text()
+  expect(initialSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -56,11 +56,11 @@ test('form tagpicker shows inline options', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Open the first tagpicker
-    await driver.keys.space()
+  // Open the first tagpicker
+  await driver.keys.space()
 
-    const tagpickerOpenSnapshot = await driver.text()
-    expect(tagpickerOpenSnapshot).toMatchInlineSnapshot(`
+  const tagpickerOpenSnapshot = await driver.text()
+  expect(tagpickerOpenSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -92,11 +92,11 @@ test('form tagpicker shows inline options', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Navigate down
-    await driver.keys.down()
+  // Navigate down
+  await driver.keys.down()
 
-    const afterDownSnapshot = await driver.text()
-    expect(afterDownSnapshot).toMatchInlineSnapshot(`
+  const afterDownSnapshot = await driver.text()
+  expect(afterDownSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -128,14 +128,14 @@ test('form tagpicker shows inline options', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Navigate down to see pagination
-    await driver.keys.down()
-    await driver.keys.down()
-    await driver.keys.down()
-    await driver.keys.down()
+  // Navigate down to see pagination
+  await driver.keys.down()
+  await driver.keys.down()
+  await driver.keys.down()
+  await driver.keys.down()
 
-    const afterMultipleDownSnapshot = await driver.text()
-    expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
+  const afterMultipleDownSnapshot = await driver.text()
+  expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -167,11 +167,11 @@ test('form tagpicker shows inline options', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Select an item
-    await driver.keys.enter()
+  // Select an item
+  await driver.keys.enter()
 
-    const afterSelectSnapshot = await driver.text()
-    expect(afterSelectSnapshot).toMatchInlineSnapshot(`
+  const afterSelectSnapshot = await driver.text()
+  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -205,18 +205,18 @@ test('form tagpicker shows inline options', async () => {
 }, 10000)
 
 test('form tagpicker keyboard navigation', async () => {
-    await driver.text({
-        waitFor: (text) => {
-            // wait for form to show up
-            return /TagPicker Component Demo/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      // wait for form to show up
+      return /TagPicker Component Demo/i.test(text)
+    },
+  })
 
-    // Open tagpicker
-    await driver.keys.space()
+  // Open tagpicker
+  await driver.keys.space()
 
-    const openSnapshot = await driver.text()
-    expect(openSnapshot).toMatchInlineSnapshot(`
+  const openSnapshot = await driver.text()
+  expect(openSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -248,14 +248,14 @@ test('form tagpicker keyboard navigation', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Navigate to last visible item
-    await driver.keys.down()
-    await driver.keys.down()
-    await driver.keys.down()
-    await driver.keys.down()
+  // Navigate to last visible item
+  await driver.keys.down()
+  await driver.keys.down()
+  await driver.keys.down()
+  await driver.keys.down()
 
-    const lastVisibleSnapshot = await driver.text()
-    expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
+  const lastVisibleSnapshot = await driver.text()
+  expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -287,11 +287,11 @@ test('form tagpicker keyboard navigation', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Navigate to next page
-    await driver.keys.down()
+  // Navigate to next page
+  await driver.keys.down()
 
-    const nextPageSnapshot = await driver.text()
-    expect(nextPageSnapshot).toMatchInlineSnapshot(`
+  const nextPageSnapshot = await driver.text()
+  expect(nextPageSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -323,11 +323,11 @@ test('form tagpicker keyboard navigation', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Go back up
-    await driver.keys.up()
+  // Go back up
+  await driver.keys.up()
 
-    const backToPreviousPageSnapshot = await driver.text()
-    expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
+  const backToPreviousPageSnapshot = await driver.text()
+  expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -359,11 +359,11 @@ test('form tagpicker keyboard navigation', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Close with escape
-    await driver.keys.escape()
+  // Close with escape
+  await driver.keys.escape()
 
-    const closedSnapshot = await driver.text()
-    expect(closedSnapshot).toMatchInlineSnapshot(`
+  const closedSnapshot = await driver.text()
+  expect(closedSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -397,18 +397,18 @@ test('form tagpicker keyboard navigation', async () => {
 }, 10000)
 
 test('form tagpicker with default value', async () => {
-    await driver.text({
-        waitFor: (text) => {
-            // wait for form to show up
-            return /TagPicker Component Demo/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      // wait for form to show up
+      return /TagPicker Component Demo/i.test(text)
+    },
+  })
 
-    // Navigate to second tagpicker
-    await driver.keys.tab()
+  // Navigate to second tagpicker
+  await driver.keys.tab()
 
-    const secondTagpickerFocusedSnapshot = await driver.text()
-    expect(secondTagpickerFocusedSnapshot).toMatchInlineSnapshot(`
+  const secondTagpickerFocusedSnapshot = await driver.text()
+  expect(secondTagpickerFocusedSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -440,11 +440,11 @@ test('form tagpicker with default value', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Open tagpicker
-    await driver.keys.space()
+  // Open tagpicker
+  await driver.keys.space()
 
-    const secondTagpickerOpenSnapshot = await driver.text()
-    expect(secondTagpickerOpenSnapshot).toMatchInlineSnapshot(`
+  const secondTagpickerOpenSnapshot = await driver.text()
+  expect(secondTagpickerOpenSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo
@@ -476,16 +476,16 @@ test('form tagpicker with default value', async () => {
        ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    // Submit form
-    await driver.keys.escape()
-    await driver.keys.cmdEnter()
+  // Submit form
+  await driver.keys.escape()
+  await driver.keys.cmdEnter()
 
-    const afterSubmitSnapshot = await driver.text({
-        waitFor: (text) => {
-            return /Submitted Data/i.test(text)
-        },
-    })
-    expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
+  const afterSubmitSnapshot = await driver.text({
+    waitFor: (text) => {
+      return /Submitted Data/i.test(text)
+    },
+  })
+  expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
       "
 
       ▪︎ TagPicker Component Demo

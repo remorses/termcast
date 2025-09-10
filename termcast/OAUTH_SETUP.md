@@ -15,8 +15,8 @@ The iOS OAuth client (ID: `561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.go
 5. Give it a name (e.g., "Termcast CLI")
 6. Click **Create**
 7. You'll receive:
-    - Client ID (e.g., `123456-abc.apps.googleusercontent.com`)
-    - Client Secret (e.g., `GOCSPX-...`)
+   - Client ID (e.g., `123456-abc.apps.googleusercontent.com`)
+   - Client Secret (e.g., `GOCSPX-...`)
 
 Then update your environment variables:
 
@@ -40,8 +40,8 @@ bun src/examples/oauth-google.tsx
 5. Give it a name (e.g., "Termcast Desktop")
 6. Click **Create**
 7. You'll receive:
-    - Client ID
-    - Client Secret
+   - Client ID
+   - Client Secret
 
 Desktop clients also support the standard OAuth flow with localhost redirect.
 
@@ -88,18 +88,18 @@ Once you have the right credentials:
 ```typescript
 // For TV/Device client (device flow):
 const googleOAuth = OAuthService.google({
-    clientId: process.env.GOOGLE_DEVICE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_DEVICE_CLIENT_SECRET,
-    scope: 'https://www.googleapis.com/auth/userinfo.email',
+  clientId: process.env.GOOGLE_DEVICE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_DEVICE_CLIENT_SECRET,
+  scope: 'https://www.googleapis.com/auth/userinfo.email',
 })
 
 // For iOS client (standard flow):
 const googleOAuth = new OAuthService({
-    clientId:
-        '561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.googleusercontent.com',
-    clientSecret: undefined,
-    useDeviceFlow: false,
-    // ... rest of config
+  clientId:
+    '561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.googleusercontent.com',
+  clientSecret: undefined,
+  useDeviceFlow: false,
+  // ... rest of config
 })
 ```
 

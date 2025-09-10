@@ -28,6 +28,4 @@ for f in \
 done
 ```
 
-
-
 This project uses bun as package manager

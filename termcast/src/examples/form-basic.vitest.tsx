@@ -5,26 +5,26 @@ import { NodeTuiDriver } from '@termcast/cli/src/e2e-node'
 let driver: NodeTuiDriver
 
 beforeEach(() => {
-    driver = new NodeTuiDriver('bun', ['src/examples/form-basic.tsx'], {
-        cols: 70,
-        rows: 50,
-    })
+  driver = new NodeTuiDriver('bun', ['src/examples/form-basic.tsx'], {
+    cols: 70,
+    rows: 50,
+  })
 })
 
 afterEach(() => {
-    driver?.dispose()
+  driver?.dispose()
 })
 
 test('form basic navigation and input', async () => {
-    await driver.text({
-        waitFor: (text) => {
-            // wait for form to show up
-            return /Form Component Demo/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      // wait for form to show up
+      return /Form Component Demo/i.test(text)
+    },
+  })
 
-    const initialSnapshot = await driver.text()
-    expect(initialSnapshot).toMatchInlineSnapshot(`
+  const initialSnapshot = await driver.text()
+  expect(initialSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -77,11 +77,11 @@ test('form basic navigation and input', async () => {
       │"
     `)
 
-    // Type in username field
-    await driver.keys.type('johndoe')
+  // Type in username field
+  await driver.keys.type('johndoe')
 
-    const afterUsernameSnapshot = await driver.text()
-    expect(afterUsernameSnapshot).toMatchInlineSnapshot(`
+  const afterUsernameSnapshot = await driver.text()
+  expect(afterUsernameSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -134,12 +134,12 @@ test('form basic navigation and input', async () => {
       │"
     `)
 
-    // Tab to password field
-    await driver.keys.tab()
-    await driver.keys.type('securepass123')
+  // Tab to password field
+  await driver.keys.tab()
+  await driver.keys.type('securepass123')
 
-    const afterPasswordSnapshot = await driver.text()
-    expect(afterPasswordSnapshot).toMatchInlineSnapshot(`
+  const afterPasswordSnapshot = await driver.text()
+  expect(afterPasswordSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -192,12 +192,12 @@ test('form basic navigation and input', async () => {
       │"
     `)
 
-    // Tab to biography field
-    await driver.keys.tab()
-    await driver.keys.type('I am a software developer')
+  // Tab to biography field
+  await driver.keys.tab()
+  await driver.keys.type('I am a software developer')
 
-    const afterBioSnapshot = await driver.text()
-    expect(afterBioSnapshot).toMatchInlineSnapshot(`
+  const afterBioSnapshot = await driver.text()
+  expect(afterBioSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -250,12 +250,12 @@ test('form basic navigation and input', async () => {
       │"
     `)
 
-    // Tab to newsletter checkbox and toggle it
-    await driver.keys.tab()
-    await driver.keys.space()
+  // Tab to newsletter checkbox and toggle it
+  await driver.keys.tab()
+  await driver.keys.space()
 
-    const afterCheckboxSnapshot = await driver.text()
-    expect(afterCheckboxSnapshot).toMatchInlineSnapshot(`
+  const afterCheckboxSnapshot = await driver.text()
+  expect(afterCheckboxSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -308,12 +308,12 @@ test('form basic navigation and input', async () => {
       │"
     `)
 
-    // Tab to country dropdown and open it
-    await driver.keys.tab()
-    await driver.keys.space()
+  // Tab to country dropdown and open it
+  await driver.keys.tab()
+  await driver.keys.space()
 
-    const dropdownOpenSnapshot = await driver.text()
-    expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
+  const dropdownOpenSnapshot = await driver.text()
+  expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -366,11 +366,11 @@ test('form basic navigation and input', async () => {
       │"
     `)
 
-    // Select United States
-    await driver.keys.enter()
+  // Select United States
+  await driver.keys.enter()
 
-    const afterCountrySelectSnapshot = await driver.text()
-    expect(afterCountrySelectSnapshot).toMatchInlineSnapshot(`
+  const afterCountrySelectSnapshot = await driver.text()
+  expect(afterCountrySelectSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -423,12 +423,12 @@ test('form basic navigation and input', async () => {
       │"
     `)
 
-    // Tab to date picker
-    await driver.keys.tab()
-    await driver.keys.type('1990-05-15')
+  // Tab to date picker
+  await driver.keys.tab()
+  await driver.keys.type('1990-05-15')
 
-    const afterDateSnapshot = await driver.text()
-    expect(afterDateSnapshot).toMatchInlineSnapshot(`
+  const afterDateSnapshot = await driver.text()
+  expect(afterDateSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -481,16 +481,16 @@ test('form basic navigation and input', async () => {
       │"
     `)
 
-    // Submit form with Cmd+Enter
-    await driver.keys.cmdEnter()
+  // Submit form with Cmd+Enter
+  await driver.keys.cmdEnter()
 
-    const afterSubmitSnapshot = await driver.text({
-        waitFor: (text) => {
-            // wait for submitted data to show
-            return /Submitted Data:/i.test(text)
-        },
-    })
-    expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
+  const afterSubmitSnapshot = await driver.text({
+    waitFor: (text) => {
+      // wait for submitted data to show
+      return /Submitted Data:/i.test(text)
+    },
+  })
+  expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -545,21 +545,21 @@ test('form basic navigation and input', async () => {
 }, 15000)
 
 test('form navigation with shift+tab', async () => {
-    await driver.text({
-        waitFor: (text) => {
-            // wait for form to show up
-            return /Form Component Demo/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      // wait for form to show up
+      return /Form Component Demo/i.test(text)
+    },
+  })
 
-    // Fill some fields first
-    await driver.keys.type('testuser')
-    await driver.keys.tab()
-    await driver.keys.type('password')
-    await driver.keys.tab()
+  // Fill some fields first
+  await driver.keys.type('testuser')
+  await driver.keys.tab()
+  await driver.keys.type('password')
+  await driver.keys.tab()
 
-    const afterForwardTabSnapshot = await driver.text()
-    expect(afterForwardTabSnapshot).toMatchInlineSnapshot(`
+  const afterForwardTabSnapshot = await driver.text()
+  expect(afterForwardTabSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -612,11 +612,11 @@ test('form navigation with shift+tab', async () => {
       │"
     `)
 
-    // Navigate backwards with Shift+Tab
-    await driver.keys.shiftTab()
+  // Navigate backwards with Shift+Tab
+  await driver.keys.shiftTab()
 
-    const afterBackwardTabSnapshot = await driver.text()
-    expect(afterBackwardTabSnapshot).toMatchInlineSnapshot(`
+  const afterBackwardTabSnapshot = await driver.text()
+  expect(afterBackwardTabSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -669,11 +669,11 @@ test('form navigation with shift+tab', async () => {
       │"
     `)
 
-    // Go back to username field
-    await driver.keys.shiftTab()
+  // Go back to username field
+  await driver.keys.shiftTab()
 
-    const backToUsernameSnapshot = await driver.text()
-    expect(backToUsernameSnapshot).toMatchInlineSnapshot(`
+  const backToUsernameSnapshot = await driver.text()
+  expect(backToUsernameSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -726,12 +726,12 @@ test('form navigation with shift+tab', async () => {
       │"
     `)
 
-    // Clear and type new username
-    await driver.keys.ctrlA()
-    await driver.keys.type('newuser')
+  // Clear and type new username
+  await driver.keys.ctrlA()
+  await driver.keys.type('newuser')
 
-    const afterEditUsernameSnapshot = await driver.text()
-    expect(afterEditUsernameSnapshot).toMatchInlineSnapshot(`
+  const afterEditUsernameSnapshot = await driver.text()
+  expect(afterEditUsernameSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -786,25 +786,25 @@ test('form navigation with shift+tab', async () => {
 }, 10000)
 
 test('form dropdown navigation', async () => {
-    await driver.text({
-        waitFor: (text) => {
-            // wait for form to show up
-            return /Form Component Demo/i.test(text)
-        },
-    })
+  await driver.text({
+    waitFor: (text) => {
+      // wait for form to show up
+      return /Form Component Demo/i.test(text)
+    },
+  })
 
-    // Navigate to dropdown
-    await driver.keys.tab() // username
-    await driver.keys.tab() // password
-    await driver.keys.tab() // bio
-    await driver.keys.tab() // checkbox
-    await driver.keys.tab() // dropdown
+  // Navigate to dropdown
+  await driver.keys.tab() // username
+  await driver.keys.tab() // password
+  await driver.keys.tab() // bio
+  await driver.keys.tab() // checkbox
+  await driver.keys.tab() // dropdown
 
-    // Open dropdown
-    await driver.keys.space()
+  // Open dropdown
+  await driver.keys.space()
 
-    const dropdownOpenSnapshot = await driver.text()
-    expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
+  const dropdownOpenSnapshot = await driver.text()
+  expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -857,11 +857,11 @@ test('form dropdown navigation', async () => {
       │"
     `)
 
-    // Navigate down in dropdown
-    await driver.keys.down()
+  // Navigate down in dropdown
+  await driver.keys.down()
 
-    const afterDownSnapshot = await driver.text()
-    expect(afterDownSnapshot).toMatchInlineSnapshot(`
+  const afterDownSnapshot = await driver.text()
+  expect(afterDownSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -914,13 +914,13 @@ test('form dropdown navigation', async () => {
       │"
     `)
 
-    // Navigate to Europe section
-    await driver.keys.down()
-    await driver.keys.down()
-    await driver.keys.down()
+  // Navigate to Europe section
+  await driver.keys.down()
+  await driver.keys.down()
+  await driver.keys.down()
 
-    const europeSelectionSnapshot = await driver.text()
-    expect(europeSelectionSnapshot).toMatchInlineSnapshot(`
+  const europeSelectionSnapshot = await driver.text()
+  expect(europeSelectionSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo
@@ -973,11 +973,11 @@ test('form dropdown navigation', async () => {
       │"
     `)
 
-    // Select France
-    await driver.keys.enter()
+  // Select France
+  await driver.keys.enter()
 
-    const afterFranceSelectSnapshot = await driver.text()
-    expect(afterFranceSelectSnapshot).toMatchInlineSnapshot(`
+  const afterFranceSelectSnapshot = await driver.text()
+  expect(afterFranceSelectSnapshot).toMatchInlineSnapshot(`
       "
 
       ◇ Form Component Demo

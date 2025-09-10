@@ -26,156 +26,156 @@ import { Image, ImageLike } from '@termcast/cli/src/components/image'
 import { logger } from '@termcast/cli/src/logger'
 
 export interface MenuBarExtraProps {
-    isLoading?: boolean
-    title?: string
-    tooltip?: string
-    icon?: ImageLike
-    children?: ReactNode
+  isLoading?: boolean
+  title?: string
+  tooltip?: string
+  icon?: ImageLike
+  children?: ReactNode
 }
 
 export interface MenuBarExtraItemProps {
-    title: string
-    subtitle?: string
-    icon?: ImageLike
-    tooltip?: string
-    shortcut?: { modifiers: string[]; key: string }
-    onAction?: (event?: MenuBarExtraActionEvent) => void
-    disabled?: boolean
-    children?: ReactNode
+  title: string
+  subtitle?: string
+  icon?: ImageLike
+  tooltip?: string
+  shortcut?: { modifiers: string[]; key: string }
+  onAction?: (event?: MenuBarExtraActionEvent) => void
+  disabled?: boolean
+  children?: ReactNode
 }
 
 export interface MenuBarExtraSeparatorProps {}
 
 export interface MenuBarExtraSubmenuProps {
-    title: string
-    icon?: ImageLike
-    children?: ReactNode
+  title: string
+  icon?: ImageLike
+  children?: ReactNode
 }
 
 export interface MenuBarExtraSectionProps {
-    title?: string
-    children?: ReactNode
+  title?: string
+  children?: ReactNode
 }
 
 export interface MenuBarExtraActionEvent {
-    type: 'left-click' | 'right-click'
+  type: 'left-click' | 'right-click'
 }
 
 interface MenuBarExtraType {
-    (props: MenuBarExtraProps): any
-    Item: (props: MenuBarExtraItemProps) => any
-    Separator: (props: MenuBarExtraSeparatorProps) => any
-    Submenu: (props: MenuBarExtraSubmenuProps) => any
-    Section: (props: MenuBarExtraSectionProps) => any
+  (props: MenuBarExtraProps): any
+  Item: (props: MenuBarExtraItemProps) => any
+  Separator: (props: MenuBarExtraSeparatorProps) => any
+  Submenu: (props: MenuBarExtraSubmenuProps) => any
+  Section: (props: MenuBarExtraSectionProps) => any
 }
 
 const MenuBarExtra: MenuBarExtraType = ({
-    isLoading,
-    title,
-    tooltip,
-    icon,
-    children,
+  isLoading,
+  title,
+  tooltip,
+  icon,
+  children,
 }) => {
-    logger.log('MenuBarExtra rendered', { isLoading, title, tooltip })
+  logger.log('MenuBarExtra rendered', { isLoading, title, tooltip })
 
-    // TODO: Implement actual menu bar integration
-    // This component should:
-    // 1. Create a real macOS menu bar item
-    // 2. Handle menu dropdown display/hide
-    // 3. Position the menu correctly below the menu bar icon
-    // Currently just renders content in the terminal
+  // TODO: Implement actual menu bar integration
+  // This component should:
+  // 1. Create a real macOS menu bar item
+  // 2. Handle menu dropdown display/hide
+  // 3. Position the menu correctly below the menu bar icon
+  // Currently just renders content in the terminal
 
-    return (
+  return (
+    <box>
+      {title && (
         <box>
-            {title && (
-                <box>
-                    {icon &&
-                        (typeof icon === 'string' ? (
-                            <text>{icon}</text>
-                        ) : (
-                            <Image source={icon} />
-                        ))}
-                    <text>{title}</text>
-                </box>
-            )}
-            {tooltip && <text>{tooltip}</text>}
-            {children}
+          {icon &&
+            (typeof icon === 'string' ? (
+              <text>{icon}</text>
+            ) : (
+              <Image source={icon} />
+            ))}
+          <text>{title}</text>
         </box>
-    )
+      )}
+      {tooltip && <text>{tooltip}</text>}
+      {children}
+    </box>
+  )
 }
 
 MenuBarExtra.Item = ({
-    title,
-    subtitle,
-    icon,
-    tooltip,
-    shortcut,
-    onAction,
-    disabled,
-    children,
+  title,
+  subtitle,
+  icon,
+  tooltip,
+  shortcut,
+  onAction,
+  disabled,
+  children,
 }) => {
-    // TODO: Implement real click/keyboard handling for menu items
-    // OpenTUI doesn't support onClick on box elements yet
-    // This should handle:
-    // 1. Mouse clicks on the menu item
-    // 2. Keyboard navigation and selection (Enter key)
-    // 3. Keyboard shortcuts defined in shortcut prop
-    if (onAction) {
-        logger.log('MenuBarExtra.Item would handle action', { title })
-    }
+  // TODO: Implement real click/keyboard handling for menu items
+  // OpenTUI doesn't support onClick on box elements yet
+  // This should handle:
+  // 1. Mouse clicks on the menu item
+  // 2. Keyboard navigation and selection (Enter key)
+  // 3. Keyboard shortcuts defined in shortcut prop
+  if (onAction) {
+    logger.log('MenuBarExtra.Item would handle action', { title })
+  }
 
-    return (
-        <box>
-            <box>
-                {icon &&
-                    (typeof icon === 'string' ? (
-                        <text>{icon}</text>
-                    ) : (
-                        <Image source={icon} />
-                    ))}
-                <text>{disabled ? `[${title}]` : title}</text>
-                {subtitle && <text> {subtitle}</text>}
-            </box>
-            {shortcut && (
-                <text>
-                    {shortcut.modifiers.join('')}
-                    {shortcut.key}
-                </text>
-            )}
-            {children}
-        </box>
-    )
+  return (
+    <box>
+      <box>
+        {icon &&
+          (typeof icon === 'string' ? (
+            <text>{icon}</text>
+          ) : (
+            <Image source={icon} />
+          ))}
+        <text>{disabled ? `[${title}]` : title}</text>
+        {subtitle && <text> {subtitle}</text>}
+      </box>
+      {shortcut && (
+        <text>
+          {shortcut.modifiers.join('')}
+          {shortcut.key}
+        </text>
+      )}
+      {children}
+    </box>
+  )
 }
 
 MenuBarExtra.Separator = () => {
-    return <text>─────────────────</text>
+  return <text>─────────────────</text>
 }
 
 MenuBarExtra.Submenu = ({ title, icon, children }) => {
-    return (
-        <box>
-            <box>
-                {icon &&
-                    (typeof icon === 'string' ? (
-                        <text>{icon}</text>
-                    ) : (
-                        <Image source={icon} />
-                    ))}
-                <text>{title} ▶</text>
-            </box>
-            {children && <box>{children}</box>}
-        </box>
-    )
+  return (
+    <box>
+      <box>
+        {icon &&
+          (typeof icon === 'string' ? (
+            <text>{icon}</text>
+          ) : (
+            <Image source={icon} />
+          ))}
+        <text>{title} ▶</text>
+      </box>
+      {children && <box>{children}</box>}
+    </box>
+  )
 }
 
 MenuBarExtra.Section = ({ title, children }) => {
-    return (
-        <box>
-            {title && <text>{title}</text>}
-            {children}
-            <MenuBarExtra.Separator />
-        </box>
-    )
+  return (
+    <box>
+      {title && <text>{title}</text>}
+      {children}
+      <MenuBarExtra.Separator />
+    </box>
+  )
 }
 
 export { MenuBarExtra }

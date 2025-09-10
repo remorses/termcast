@@ -3,13 +3,13 @@ import path from 'node:path'
 import { buildExtensionCommands } from './build'
 
 describe('buildExtensionCommands', () => {
-    test('builds a simple extension with multiple commands', async () => {
-        const fixtureDir = path.join(process.cwd(), 'fixtures/simple-extension')
-        const result = await buildExtensionCommands({
-            extensionPath: fixtureDir,
-        })
+  test('builds a simple extension with multiple commands', async () => {
+    const fixtureDir = path.join(process.cwd(), 'fixtures/simple-extension')
+    const result = await buildExtensionCommands({
+      extensionPath: fixtureDir,
+    })
 
-        expect(result).toMatchInlineSnapshot(`
+    expect(result).toMatchInlineSnapshot(`
           {
             "bundleDir": "/Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle",
             "commands": [
@@ -66,5 +66,5 @@ describe('buildExtensionCommands', () => {
             ],
           }
         `)
-    })
+  })
 })

@@ -45,9 +45,9 @@ Here is the process to follow to implement each API:
 - try typechecking with `bun run tsc`. fix any errors that is not related to the missing implementation (like missing returns)
 - then think, is the signature the same as Raycast?
 - start implementing the component or function, before doing this
-    - decide on what @opentui/react components to use
-    - do so by reading opentui .d.ts files and see available components
-    - read .d.ts to understand available styling options and attributes
+  - decide on what @opentui/react components to use
+  - do so by reading opentui .d.ts files and see available components
+  - read .d.ts to understand available styling options and attributes
 - typecheck
 - if the added feature is a component or adds support for a new prop for a component, add an example usage component in the src/examples directory. create a descriptive name for it in the file. use simple-{component-name} for basic implementations examples
 - if the implemented feature is function or other API, add an action in the file examples/miscellaneus.tsx, add a list item for the new feature, for example "show a error toast" if we are implementing toasts
@@ -66,35 +66,35 @@ Here is the process to follow to implement each API:
 - to render examples components use renderWithProviders not render
 - ALWAYS bind all class methods to `this` in the constructor. This ensures methods work correctly when called in any context (callbacks, event handlers, etc). Example:
 
-    ```typescript
-    constructor(options: Options) {
-      // Initialize properties
-      this.prop = options.prop
+  ```typescript
+  constructor(options: Options) {
+    // Initialize properties
+    this.prop = options.prop
 
-      // Bind all methods to this instance
-      this.method1 = this.method1.bind(this)
-      this.method2 = this.method2.bind(this)
-      this.privateMethod = this.privateMethod.bind(this)
-    }
-    ```
+    // Bind all methods to this instance
+    this.method1 = this.method1.bind(this)
+    this.method2 = this.method2.bind(this)
+    this.privateMethod = this.privateMethod.bind(this)
+  }
+  ```
 
 ```typescript
 interface ListType {
-    (props: ListProps): any
-    Item: (props: ListItemProps) => any
-    Section: (props: ListSectionProps) => any
+  (props: ListProps): any
+  Item: (props: ListItemProps) => any
+  Section: (props: ListSectionProps) => any
 }
 
 const List: ListType = (props) => {
-    // implementation
+  // implementation
 }
 
 List.Item = (props) => {
-    // implementation
+  // implementation
 }
 
 List.Section = (props) => {
-    // implementation
+  // implementation
 }
 ```
 
@@ -155,9 +155,9 @@ import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
 const inFocus = useIsInFocus()
 useKeyboard((evt) => {
-    if (!inFocus) return
-    // ...
-    // notice that enter is called return in evt.name
+  if (!inFocus) return
+  // ...
+  // notice that enter is called return in evt.name
 })
 ```
 
@@ -186,12 +186,12 @@ import { useDescendants } from '@termcast/cli/src/descendants'
 const { map } = useDescendants()
 
 useKeyboard((evt) => {
-    // Access map.current during useEffect or event handlers, NOT during render
-    const items = Object.values(map.current)
-        .filter((item) => item.index !== -1)
-        .sort((a, b) => a.index - b.index)
-        .map((item) => item.props)
-    // Handle your logic with items, e.g. navigating with up/down
+  // Access map.current during useEffect or event handlers, NOT during render
+  const items = Object.values(map.current)
+    .filter((item) => item.index !== -1)
+    .sort((a, b) => a.index - b.index)
+    .map((item) => item.props)
+  // Handle your logic with items, e.g. navigating with up/down
 })
 ```
 
@@ -274,7 +274,6 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 
 - never update snapshots yourself. if you want to test something you must read the snapshots yourself after running the tests
 - NEVER run examples files with commands like `bun src/examlpes/something.tsx`! This is very important. this will hang the command and give you no information and break the current claude code terminal! instead use vitest tests
-
 
 ## Hooks
 
