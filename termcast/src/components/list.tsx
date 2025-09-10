@@ -1283,3 +1283,142 @@ List.EmptyView = (props) => {
 }
 
 export default List
+
+// Grid Component Implementation
+export interface GridInset {
+  bottom?: number
+  left?: number
+  right?: number
+  top?: number
+}
+
+export interface GridItemProps extends ActionsInterface, CommonProps {
+  id?: string
+  content:
+    | Image.ImageLike
+    | {
+        value: Image.ImageLike
+        tooltip?: string | null
+      }
+  title:
+    | string
+    | {
+        value: string
+        tooltip?: string | null
+      }
+  subtitle?:
+    | string
+    | {
+        value?: string | null
+        tooltip?: string | null
+      }
+  keywords?: string[]
+  getDetailMarkdown?: () => { markdown: string, metadata?: ReactElement<MetadataProps> } | Promise<{ markdown: string, metadata?: ReactElement<MetadataProps> }>
+}
+
+export interface GridProps
+  extends ActionsInterface,
+    NavigationChildInterface,
+    SearchBarInterface,
+    PaginationInterface,
+    CommonProps {
+  actions?: ReactNode
+  aspectRatio?: '1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' 
+  children?: ReactNode
+  columns?: number
+  fit?: 'contain' | 'fill'
+  inset?: GridInset
+  navigationTitle?: string
+  onSelectionChange?: (id: string | null) => void
+  searchBarAccessory?: ReactElement<DropdownProps> | null
+  searchText?: string
+  enableFiltering?: boolean
+  searchBarPlaceholder?: string
+  selectedItemId?: string
+}
+
+export interface GridSectionProps extends CommonProps {
+  children?: ReactNode
+  id?: string
+  title?: string
+  subtitle?: string
+  aspectRatio?: '1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16'
+  columns?: number
+  fit?: 'contain' | 'fill'
+  inset?: GridInset
+}
+
+interface GridType {
+  (props: GridProps): any
+  Item: (props: GridItemProps) => any
+  Section: (props: GridSectionProps) => any
+  Dropdown: ListDropdownType
+  EmptyView: (props: EmptyViewProps) => any
+  Inset: {
+    Small: GridInset
+    Medium: GridInset
+    Large: GridInset
+  }
+}
+
+// Grid uses List internally with a different visual representation
+export const Grid: GridType = (props) => {
+  // Grid is essentially List with grid layout
+  // We'll reuse the List component but with grid-specific styling
+  const {
+    columns = 5,
+    aspectRatio = '1',
+    fit = 'contain',
+    inset,
+    ...listProps
+  } = props
+
+  return <List {...listProps} />
+}
+
+// Grid.Item maps to List.Item but with content instead of icon
+Grid.Item = (props: GridItemProps) => {
+  const { content, getDetailMarkdown, ...itemProps } = props
+  
+  // Extract image value and tooltip
+  const imageValue = typeof content === 'string' ? content : content?.value
+  const imageTooltip = typeof content === 'object' ? content?.tooltip : undefined
+  
+  // Convert Grid.Item props to List.Item props
+  const listItemProps: ItemProps = {
+    ...itemProps,
+    // Grid items don't have accessories in Raycast
+    accessories: undefined,
+    // Use content as icon for now (in a real implementation, this would be rendered differently)
+    icon: imageValue,
+  }
+  
+  return <List.Item {...listItemProps} />
+}
+
+// Grid.Section maps to List.Section with grid-specific props
+Grid.Section = (props: GridSectionProps) => {
+  const {
+    columns,
+    aspectRatio,
+    fit,
+    inset,
+    ...sectionProps
+  } = props
+  
+  // Pass through to List.Section
+  return <List.Section {...sectionProps} />
+}
+
+// Reuse List's Dropdown
+Grid.Dropdown = List.Dropdown
+
+// Reuse List's EmptyView
+Grid.EmptyView = List.EmptyView
+
+// Grid Inset presets
+Grid.Inset = {
+  Small: { top: 0, right: 0, bottom: 0, left: 0 },
+  Medium: { top: 8, right: 8, bottom: 8, left: 8 },
+  Large: { top: 16, right: 16, bottom: 16, left: 16 },
+}
