@@ -306,7 +306,6 @@ const DropdownContext = createContext<DropdownContextValue | undefined>(
 
 // Dropdown dialog component
 interface ListDropdownDialogProps extends DropdownProps {
-  items: { value: string; title: string; icon?: any; section?: string }[] // Legacy, not used
   onCancel: () => void
   children?: ReactNode
 }
