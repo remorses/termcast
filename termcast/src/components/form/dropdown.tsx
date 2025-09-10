@@ -10,7 +10,12 @@ import React, {
 } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
-import { useFormContext, Controller } from 'react-hook-form'
+import {
+  useFormContext,
+  Controller,
+  ControllerRenderProps,
+  ControllerFieldState,
+} from 'react-hook-form'
 import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from '@termcast/cli/src/logger'
@@ -38,6 +43,11 @@ export interface DropdownSectionProps {
 
 export type DropdownRef = FormItemRef
 
+type DropdownFieldType = ControllerRenderProps<
+  { __dropdown: string | string[] },
+  '__dropdown'
+>
+
 interface DropdownType {
   (props: DropdownProps): any
   Item: (props: DropdownItemProps) => any
@@ -54,27 +64,92 @@ interface FormDropdownItemDescendant {
 const {
   DescendantsProvider: FormDropdownDescendantsProvider,
   useDescendants: useFormDropdownDescendants,
-  useDescendant: useFormDropdownItemDescendant,
+  useDescendant: useFormDropdownDescendant,
 } = createDescendants<FormDropdownItemDescendant>()
 
-// Context for section information
+// Context for dropdown state and section information
 interface FormDropdownContextValue {
   currentSection?: string
+  focusedIndex: number
+  offset: number
+  itemsPerPage: number
+  isFocused: boolean
+  handleSelect: (descendantId: string) => void
+  field: DropdownFieldType
+  props: DropdownProps
 }
 
-const FormDropdownContext = createContext<FormDropdownContextValue>({})
+const itemsPerPage = 4
+const FormDropdownContext = createContext<FormDropdownContextValue>({
+  focusedIndex: 0,
+  offset: 0,
+  itemsPerPage,
+  isFocused: false,
+  handleSelect: () => {},
+  field: {} as DropdownFieldType,
+  props: {} as DropdownProps,
+})
 
 const DropdownItem = (props: DropdownItemProps) => {
   const context = useContext(FormDropdownContext)
 
   // Register as descendant
-  useFormDropdownItemDescendant({
+  const descendant = useFormDropdownDescendant({
     value: props.value,
     title: props.title,
     icon: props.icon,
   })
 
-  return null
+  // Hide items that are outside the visible range
+  if (
+    descendant.index < context.offset ||
+    descendant.index >= context.offset + context.itemsPerPage
+  ) {
+    return null
+  }
+
+  const isFocused = descendant.index === context.focusedIndex
+
+  // Check if this item is selected based on field value
+  const isSelected = (() => {
+    if (!context.field.value) return false
+
+    if (
+      context.props.hasMultipleSelection &&
+      Array.isArray(context.field.value)
+    ) {
+      return context.field.value.includes(props.value)
+    } else if (
+      !context.props.hasMultipleSelection &&
+      typeof context.field.value === 'string'
+    ) {
+      return context.field.value === props.value
+    }
+    return false
+  })()
+
+  return (
+    <WithLeftBorder
+      key={props.value}
+      isFocused={context.isFocused}
+      paddingBottom={0}
+    >
+      <text
+        fg={
+          context.isFocused && isFocused
+            ? Theme.accent
+            : context.isFocused
+              ? Theme.text
+              : Theme.textMuted
+        }
+        onMouseDown={() => {
+          context.handleSelect(descendant.descendantId)
+        }}
+      >
+        {isSelected ? '●' : '○'} {props.title}
+      </text>
+    </WithLeftBorder>
+  )
 }
 
 const DropdownSection = (props: DropdownSectionProps) => {
@@ -97,34 +172,26 @@ const DropdownSection = (props: DropdownSectionProps) => {
 }
 
 // Separate component for the dropdown content
-interface DropdownContentProps {
-  field: any
-  fieldState: any
-  props: DropdownProps
-  isFocused: boolean
-  setFocusedField: (field: string) => void
-  getValues: () => any
-  items: FormDropdownItemDescendant[]
+interface DropdownContentProps extends DropdownProps {
+  field: DropdownFieldType
+  fieldState: ControllerFieldState
 }
 
 const DropdownContent = ({
   field,
   fieldState,
-  props,
-  isFocused,
-  setFocusedField,
-  getValues,
-  items,
+  ...props
 }: DropdownContentProps) => {
   const descendantsContext = useFormDropdownDescendants()
   const isInFocus = useIsInFocus()
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState(0)
-  const [windowStartIndex, setWindowStartIndex] = useState(0)
-  const itemsPerPage = 4
-  const [selectedValues, setSelectedValues] = useState<Set<string>>(new Set())
-  const [dropdownItems, setDropdownItems] = useState<
-    FormDropdownItemDescendant[]
-  >([])
+  const { getValues } = useFormContext()
+  const { focusedField, setFocusedField } = useFocusContext()
+  const isFocused = focusedField === props.id
+  const [focusedIndex, setFocusedIndex] = useState(0)
+  const [offset, setOffset] = useState(0)
+
+  const [selectedTitles, setSelectedTitles] = useState<string[]>([])
+  const [activeItemCount, setActiveItemCount] = useState(0)
 
   const handleNavigateUp = () => {
     // Find previous field and focus it
@@ -148,72 +215,31 @@ const DropdownContent = ({
     }
   }
 
-  // Initialize dropdown items from items prop
-  useLayoutEffect(() => {
-    setDropdownItems(items)
+  // Helper to get value for a descendantId
+  const getValueForDescendantId = (
+    descendantId: string,
+  ): string | undefined => {
+    const item = descendantsContext.map.current[descendantId]
+    return item?.props?.value
+  }
 
-    // Initialize selected values based on field value
-    if (field.value && items.length > 0) {
-      if (props.hasMultipleSelection && Array.isArray(field.value)) {
-        setSelectedValues(new Set(field.value))
-        // Set index to first selected item
-        const firstSelectedIndex = items.findIndex((item) =>
-          field.value.includes(item.value),
-        )
-        if (firstSelectedIndex !== -1) {
-          setSelectedOptionIndex(firstSelectedIndex)
-          const windowStart = Math.max(
-            0,
-            Math.min(firstSelectedIndex - 1, items.length - itemsPerPage),
-          )
-          setWindowStartIndex(windowStart)
-        }
-      } else if (
-        !props.hasMultipleSelection &&
-        typeof field.value === 'string'
-      ) {
-        setSelectedValues(new Set([field.value]))
-        const index = items.findIndex((item) => item.value === field.value)
-        if (index !== -1) {
-          setSelectedOptionIndex(index)
-          const windowStart = Math.max(
-            0,
-            Math.min(index - 1, items.length - itemsPerPage),
-          )
-          setWindowStartIndex(windowStart)
-        }
-      }
-    }
-  }, [items]) // Only run when items change, not field.value
+  const handleSelect = (descendantId: string) => {
+    const value = getValueForDescendantId(descendantId)
+    if (!value) return
 
-  // Update selected values when field value changes
-  useEffect(() => {
-    if (field.value && dropdownItems.length > 0) {
-      if (props.hasMultipleSelection && Array.isArray(field.value)) {
-        setSelectedValues(new Set(field.value))
-      } else if (
-        !props.hasMultipleSelection &&
-        typeof field.value === 'string'
-      ) {
-        setSelectedValues(new Set([field.value]))
-      }
-    } else {
-      setSelectedValues(new Set())
-    }
-  }, [field.value, dropdownItems, props.hasMultipleSelection])
-
-  const handleSelect = (value: string) => {
     if (props.hasMultipleSelection) {
-      const newSelectedValues = new Set(selectedValues)
-      if (newSelectedValues.has(value)) {
-        newSelectedValues.delete(value)
+      const currentValues = Array.isArray(field.value) ? [...field.value] : []
+      const index = currentValues.indexOf(value)
+
+      if (index >= 0) {
+        currentValues.splice(index, 1)
       } else {
-        newSelectedValues.add(value)
+        currentValues.push(value)
       }
-      const arrayValue = Array.from(newSelectedValues)
-      field.onChange(arrayValue)
+
+      field.onChange(currentValues)
       if (props.onChange) {
-        props.onChange(arrayValue)
+        props.onChange(currentValues)
       }
     } else {
       field.onChange(value)
@@ -227,48 +253,63 @@ const DropdownContent = ({
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
 
-    if (dropdownItems.length > 0) {
+    const items = Object.values(descendantsContext.map.current).filter(
+      (item) => item.index !== -1,
+    )
+    const itemCount = items.length
+
+    if (itemCount > 0) {
       if (evt.name === 'down') {
-        if (selectedOptionIndex < dropdownItems.length - 1) {
-          const newIndex = selectedOptionIndex + 1
-          setSelectedOptionIndex(newIndex)
+        setFocusedIndex((prev) => {
+          const nextIndex = (prev + 1) % itemCount
 
-          // Slide window if needed when reaching second-to-last visible item
-          const visibleEndIndex = windowStartIndex + itemsPerPage - 1
+          // Update offset only when the focused item is at the last position and there are more items
+          const visibleEnd = offset + itemsPerPage - 1
           if (
-            newIndex >= visibleEndIndex &&
-            windowStartIndex + itemsPerPage < dropdownItems.length
+            prev === visibleEnd &&
+            nextIndex < itemCount &&
+            nextIndex > prev
           ) {
-            setWindowStartIndex(windowStartIndex + 1)
+            // Scroll down by one when at the last visible item
+            setOffset(offset + 1)
+          } else if (nextIndex < prev) {
+            // Wrapped to beginning
+            setOffset(0)
           }
-        } else {
-          // At last item, navigate to next field
-          handleNavigateDown()
-        }
-      } else if (evt.name === 'up') {
-        if (selectedOptionIndex > 0) {
-          const newIndex = selectedOptionIndex - 1
-          setSelectedOptionIndex(newIndex)
 
-          // Slide window if needed when reaching first visible item
-          if (newIndex < windowStartIndex + 1 && windowStartIndex > 0) {
-            setWindowStartIndex(windowStartIndex - 1)
+          return nextIndex
+        })
+      } else if (evt.name === 'up') {
+        setFocusedIndex((prev) => {
+          const nextIndex = (prev - 1 + itemCount) % itemCount
+
+          // Update offset if we're going above the visible range
+          if (nextIndex < offset) {
+            setOffset(Math.max(0, nextIndex))
+          } else if (nextIndex >= offset + itemsPerPage) {
+            // Wrapped to end
+            setOffset(Math.max(0, itemCount - itemsPerPage))
           }
-        } else {
-          // At first item, navigate to previous field
-          handleNavigateUp()
-        }
+
+          return nextIndex
+        })
       } else if (evt.name === 'return' || evt.name === 'space') {
-        const selectedItem = dropdownItems[selectedOptionIndex]
-        if (selectedItem) {
-          handleSelect(selectedItem.value)
+        // Toggle selection of current focused item
+        const entries = Object.entries(descendantsContext.map.current)
+        const sortedEntries = entries
+          .filter(([_, item]) => item.index !== -1)
+          .sort((a, b) => a[1].index - b[1].index)
+
+        const focusedId = sortedEntries[focusedIndex]?.[0]
+        if (focusedId) {
+          handleSelect(focusedId)
         }
       }
     }
 
     // Handle tab navigation
     if (evt.name === 'tab') {
-      if ((evt as any).modifiers?.shift) {
+      if (evt.shift) {
         handleNavigateUp()
       } else {
         handleNavigateDown()
@@ -276,158 +317,124 @@ const DropdownContent = ({
     }
   })
 
-  // Get visible items
-  const visibleItems = dropdownItems.slice(
-    windowStartIndex,
-    windowStartIndex + itemsPerPage,
-  )
+  // Update selected titles and item count when descendants or field value change
+  useLayoutEffect(() => {
+    const titles: string[] = []
+    let itemCount = 0
+
+    const entries = Object.entries(descendantsContext.map.current)
+
+    entries.forEach(([id, item]) => {
+      if (item.index !== -1) {
+        itemCount++
+      }
+
+      if (field.value && item.props) {
+        if (props.hasMultipleSelection && Array.isArray(field.value)) {
+          if (field.value.includes(item.props.value)) {
+            titles.push(item.props.title)
+          }
+        } else if (
+          !props.hasMultipleSelection &&
+          typeof field.value === 'string'
+        ) {
+          if (item.props.value === field.value) {
+            titles.push(item.props.title)
+          }
+        }
+      }
+    })
+
+    setSelectedTitles(titles)
+    setActiveItemCount(itemCount)
+  }, [field.value, props.hasMultipleSelection])
+
+  // Create context value
+  const contextValue: FormDropdownContextValue = {
+    focusedIndex,
+    offset,
+    itemsPerPage,
+    isFocused,
+    handleSelect,
+    field,
+    props,
+  }
 
   return (
-    <box flexDirection='column'>
-      <WithLeftBorder withDiamond isFocused={isFocused}>
-        <text
-          fg={Theme.text}
-          onMouseDown={() => {
-            setFocusedField(props.id)
-          }}
-        >
-          {props.title}
-        </text>
-      </WithLeftBorder>
-      <WithLeftBorder isFocused={isFocused}>
-        <text
-          fg={selectedValues.size > 0 ? Theme.text : Theme.textMuted}
-          selectable={false}
-          onMouseDown={() => {
-            setFocusedField(props.id)
-          }}
-        >
-          {selectedValues.size > 0
-            ? Array.from(selectedValues)
-                .map(
-                  (val) =>
-                    dropdownItems.find((item) => item.value === val)?.title ||
-                    val,
-                )
-                .join(', ')
-            : props.placeholder || 'Select...'}
-        </text>
-      </WithLeftBorder>
-      {visibleItems.map((item, visualIndex) => {
-        const actualIndex = windowStartIndex + visualIndex
-        return (
-          <WithLeftBorder
-            key={item.value}
-            isFocused={isFocused}
-            paddingBottom={0}
-          >
+    <FormDropdownDescendantsProvider value={descendantsContext}>
+      <FormDropdownContext.Provider value={contextValue}>
+        <box flexDirection='column'>
+          <WithLeftBorder withDiamond isFocused={isFocused}>
             <text
-              fg={
-                isFocused && actualIndex === selectedOptionIndex
-                  ? Theme.accent
-                  : isFocused
-                    ? Theme.text
-                    : Theme.textMuted
-              }
+              fg={Theme.text}
               onMouseDown={() => {
-                handleSelect(item.value)
+                setFocusedField(props.id)
               }}
             >
-              {selectedValues.has(item.value) ? '●' : '○'} {item.title}
+              {props.title}
             </text>
           </WithLeftBorder>
-        )
-      })}
-      {dropdownItems.length > itemsPerPage && (
-        <WithLeftBorder isFocused={isFocused}>
-          <text fg={Theme.textMuted}>↑↓ to see more options</text>
-        </WithLeftBorder>
-      )}
-      {(fieldState.error || props.error) && (
-        <WithLeftBorder isFocused={isFocused}>
-          <text fg={Theme.error}>
-            {fieldState.error?.message || props.error}
-          </text>
-        </WithLeftBorder>
-      )}
-      {props.info && (
-        <WithLeftBorder isFocused={isFocused}>
-          <text fg={Theme.textMuted}>{props.info}</text>
-        </WithLeftBorder>
-      )}
-    </box>
+          <WithLeftBorder isFocused={isFocused}>
+            <text
+              fg={selectedTitles.length > 0 ? Theme.text : Theme.textMuted}
+              selectable={false}
+              onMouseDown={() => {
+                setFocusedField(props.id)
+              }}
+            >
+              {selectedTitles.length > 0
+                ? selectedTitles.join(', ')
+                : props.placeholder || 'Select...'}
+            </text>
+          </WithLeftBorder>
+          {props.children}
+          {activeItemCount > itemsPerPage && (
+            <WithLeftBorder isFocused={isFocused}>
+              <text fg={Theme.textMuted}>↑↓ to see more options</text>
+            </WithLeftBorder>
+          )}
+          {(fieldState.error || props.error) && (
+            <WithLeftBorder isFocused={isFocused}>
+              <text fg={Theme.error}>
+                {fieldState.error?.message || props.error}
+              </text>
+            </WithLeftBorder>
+          )}
+          {props.info && (
+            <WithLeftBorder isFocused={isFocused}>
+              <text fg={Theme.textMuted}>{props.info}</text>
+            </WithLeftBorder>
+          )}
+        </box>
+      </FormDropdownContext.Provider>
+    </FormDropdownDescendantsProvider>
   )
 }
 
 const DropdownComponent = (props: DropdownProps): any => {
-  const { control, getValues } = useFormContext()
-  const { focusedField, setFocusedField } = useFocusContext()
+  const { control } = useFormContext()
+  const { focusedField } = useFocusContext()
   const isFocused = focusedField === props.id
-  const descendantsContext = useFormDropdownDescendants()
-
-  // Parse children to get dropdown items
-  const parsedItems = useMemo(() => {
-    const items: FormDropdownItemDescendant[] = []
-
-    // Recursive function to traverse all children, including sections
-    const traverseChildren = (children: React.ReactNode) => {
-      Children.forEach(children, (child) => {
-        if (React.isValidElement(child)) {
-          if (child.type === DropdownItem) {
-            // Direct DropdownItem
-            const childProps = child.props as DropdownItemProps
-            items.push({
-              value: childProps.value,
-              title: childProps.title,
-              icon: childProps.icon,
-            })
-          } else if (child.type === DropdownSection) {
-            // DropdownSection - traverse its children
-            const sectionProps = child.props as DropdownSectionProps
-            traverseChildren(sectionProps.children)
-          } else if (child.type === DropdownComponent) {
-            // Nested Dropdown component - traverse its children
-            const dropdownProps = child.props as DropdownProps
-            traverseChildren(dropdownProps.children)
-          }
-        }
-      })
-    }
-
-    traverseChildren(props.children)
-    return items
-  }, [props.children])
 
   return (
-    <FormDropdownDescendantsProvider value={descendantsContext}>
-      <FormDropdownContext.Provider value={{}}>
-        {/* Render children to collect items (they return null but register) */}
-        {props.children}
-      </FormDropdownContext.Provider>
-
-      <Controller
-        name={props.id}
-        control={control}
-        defaultValue={
-          props.defaultValue ||
-          props.value ||
-          (props.hasMultipleSelection ? [] : '')
-        }
-        render={({ field, fieldState }) => {
-          return (
-            <DropdownContent
-              field={field}
-              fieldState={fieldState}
-              props={props}
-              isFocused={isFocused}
-              setFocusedField={setFocusedField}
-              getValues={getValues}
-              items={parsedItems}
-            />
-          ) as React.ReactElement
-        }}
-      />
-    </FormDropdownDescendantsProvider>
+    <Controller
+      name={props.id}
+      control={control}
+      defaultValue={
+        props.defaultValue ||
+        props.value ||
+        (props.hasMultipleSelection ? [] : '')
+      }
+      render={({ field, fieldState }) => {
+        return (
+          <DropdownContent
+            field={field as any}
+            fieldState={fieldState}
+            {...props}
+          />
+        ) as React.ReactElement
+      }}
+    />
   )
 }
 

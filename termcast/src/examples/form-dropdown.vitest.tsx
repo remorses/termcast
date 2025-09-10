@@ -25,99 +25,99 @@ test('form dropdown shows inline options', async () => {
 
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Choose a color...
-      │
-      │ ○ Red
-      │ ○ Blue
-      │ ○ Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Choose a color...
+    │
+    │ ○ Red
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Open the first dropdown
   await driver.keys.space()
 
   const dropdownOpenSnapshot = await driver.text()
   expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Red
-      │
-      │ ● Red
-      │ ○ Blue
-      │ ○ Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Red
+    │
+    │ ● Red
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Navigate down
   await driver.keys.down()
 
   const afterDownSnapshot = await driver.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Red
-      │
-      │ ● Red
-      │ ○ Blue
-      │ ○ Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Red
+    │
+    │ ● Red
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Navigate down to see pagination
   await driver.keys.down()
@@ -127,66 +127,66 @@ test('form dropdown shows inline options', async () => {
 
   const afterMultipleDownSnapshot = await driver.text()
   expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Red
-      │
-      │ ○ Yellow
-      │ ○ Purple
-      │ ○ Orange
-      │ ○ Black
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Red
+    │
+    │ ○ Green
+    │ ○ Yellow
+    │ ○ Purple
+    │ ○ Orange
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Select an item
   await driver.keys.enter()
 
   const afterSelectSnapshot = await driver.text()
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Orange
-      │
-      │ ○ Yellow
-      │ ○ Purple
-      │ ● Orange
-      │ ○ Black
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Orange
+    │
+    │ ○ Green
+    │ ○ Yellow
+    │ ○ Purple
+    │ ● Orange
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 }, 10000)
 
 test('form dropdown keyboard navigation', async () => {
@@ -202,33 +202,33 @@ test('form dropdown keyboard navigation', async () => {
 
   const openSnapshot = await driver.text()
   expect(openSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Red
-      │
-      │ ● Red
-      │ ○ Blue
-      │ ○ Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Red
+    │
+    │ ● Red
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Navigate to last visible item
   await driver.keys.down()
@@ -238,132 +238,132 @@ test('form dropdown keyboard navigation', async () => {
 
   const lastVisibleSnapshot = await driver.text()
   expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Red
-      │
-      │ ○ Green
-      │ ○ Yellow
-      │ ○ Purple
-      │ ○ Orange
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Red
+    │
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ○ Purple
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Navigate to next page
   await driver.keys.down()
 
   const nextPageSnapshot = await driver.text()
   expect(nextPageSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Red
-      │
-      │ ○ Yellow
-      │ ○ Purple
-      │ ○ Orange
-      │ ○ Black
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Red
+    │
+    │ ○ Green
+    │ ○ Yellow
+    │ ○ Purple
+    │ ○ Orange
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Go back up
   await driver.keys.up()
 
   const backToPreviousPageSnapshot = await driver.text()
   expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Red
-      │
-      │ ○ Yellow
-      │ ○ Purple
-      │ ○ Orange
-      │ ○ Black
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Red
+    │
+    │ ○ Green
+    │ ○ Yellow
+    │ ○ Purple
+    │ ○ Orange
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Close with escape
   await driver.keys.escape()
 
   const closedSnapshot = await driver.text()
   expect(closedSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Red
-      │
-      │ ○ Yellow
-      │ ○ Purple
-      │ ○ Orange
-      │ ○ Black
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Red
+    │
+    │ ○ Green
+    │ ○ Yellow
+    │ ○ Purple
+    │ ○ Orange
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 }, 10000)
 
 test('form dropdown with default value', async () => {
@@ -379,66 +379,66 @@ test('form dropdown with default value', async () => {
 
   const secondDropdownFocusedSnapshot = await driver.text()
   expect(secondDropdownFocusedSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◇ Favorite Color
-      │ Choose a color...
-      │
-      │ ○ Red
-      │ ○ Blue
-      │ ○ Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◆ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◇ Favorite Color
+    │ Choose a color...
+    │
+    │ ○ Red
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◆ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Open dropdown
   await driver.keys.space()
 
   const secondDropdownOpenSnapshot = await driver.text()
   expect(secondDropdownOpenSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◇ Favorite Color
-      │ Choose a color...
-      │
-      │ ○ Red
-      │ ○ Blue
-      │ ○ Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◆ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◇ Favorite Color
+    │ Choose a color...
+    │
+    │ ○ Red
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◆ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Submit form
   await driver.keys.escape()
@@ -450,33 +450,33 @@ test('form dropdown with default value', async () => {
     },
   })
   expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◇ Favorite Color
-      │ Choose a color...
-      │
-      │ ○ Red
-      │ ○ Blue
-      │ ○ Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◆ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◇ Favorite Color
+    │ Choose a color...
+    │
+    │ ○ Red
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◆ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 }, 10000)
 
 test('selecting second-to-last visible item should not scroll', async () => {
@@ -493,66 +493,66 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
   const beforeSelectSnapshot = await driver.text()
   expect(beforeSelectSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Choose a color...
-      │
-      │ ○ Red
-      │ ○ Blue
-      │ ○ Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Choose a color...
+    │
+    │ ○ Red
+    │ ○ Blue
+    │ ○ Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // Press Enter to select Green
   await driver.keys.enter()
 
   const afterSelectSnapshot = await driver.text()
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ▪︎ Dropdown Component Demo
-      │ Test dropdown with inline options display
-      │
-      ◆ Favorite Color
-      │ Green
-      │
-      │ ○ Red
-      │ ○ Blue
-      │ ● Green
-      │ ○ Yellow
-      │ ↑↓ to see more options
-      │
-      │ Select your favorite color from the list
-      │
-      ◇ Country
-      │ United States
-      │
-      │ ● United States
-      │ ○ Canada
-      │ ○ Mexico
-      └
+    ▪︎ Dropdown Component Demo
+    │ Test dropdown with inline options display
+    │
+    ◆ Favorite Color
+    │ Green
+    │
+    │ ○ Red
+    │ ○ Blue
+    │ ● Green
+    │ ○ Yellow
+    │ ↑↓ to see more options
+    │
+    │ Select your favorite color from the list
+    │
+    ◇ Country
+    │ United States
+    │
+    │ ● United States
+    │ ○ Canada
+    │ ○ Mexico
+    └
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
-    `)
+     ↵ submit   ↑↓ navigate   ^k actions"
+  `)
 
   // The window should NOT have scrolled - should still show Red, Blue, Green, Yellow
 }, 10000)
