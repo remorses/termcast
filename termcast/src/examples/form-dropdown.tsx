@@ -19,34 +19,74 @@ function FormDropdownExample() {
     >
       <Form.Description
         title='Dropdown Component Demo'
-        text='Test dropdown with inline options display'
+        text='Test dropdown with sections, multiple selection, and more features'
       />
 
       <Form.Dropdown
-        id='color'
-        title='Favorite Color'
-        placeholder='Choose a color...'
-        info='Select your favorite color from the list'
+        id='languages'
+        title='Programming Languages'
+        placeholder='Select languages...'
+        info='Choose your preferred programming languages'
+        hasMultipleSelection={true}
+        defaultValue={['typescript', 'rust']}
       >
-        <Form.Dropdown.Item value='red' title='Red' icon='🔴' />
-        <Form.Dropdown.Item value='blue' title='Blue' icon='🔵' />
-        <Form.Dropdown.Item value='green' title='Green' icon='🟢' />
-        <Form.Dropdown.Item value='yellow' title='Yellow' icon='🟡' />
-        <Form.Dropdown.Item value='purple' title='Purple' icon='🟣' />
-        <Form.Dropdown.Item value='orange' title='Orange' icon='🟠' />
-        <Form.Dropdown.Item value='black' title='Black' icon='⚫' />
-        <Form.Dropdown.Item value='white' title='White' icon='⚪' />
+        <Form.Dropdown.Section title='Frontend'>
+          <Form.Dropdown.Item value='typescript' title='TypeScript' icon='📘' />
+          <Form.Dropdown.Item value='javascript' title='JavaScript' icon='📒' />
+          <Form.Dropdown.Item value='react' title='React' icon='⚛️' />
+          <Form.Dropdown.Item value='vue' title='Vue' icon='💚' />
+          <Form.Dropdown.Item value='svelte' title='Svelte' icon='🔥' />
+        </Form.Dropdown.Section>
+
+        <Form.Dropdown.Section title='Backend'>
+          <Form.Dropdown.Item value='node' title='Node.js' icon='🟢' />
+          <Form.Dropdown.Item value='python' title='Python' icon='🐍' />
+          <Form.Dropdown.Item value='go' title='Go' icon='🐹' />
+          <Form.Dropdown.Item value='rust' title='Rust' icon='🦀' />
+          <Form.Dropdown.Item value='java' title='Java' icon='☕' />
+        </Form.Dropdown.Section>
+
+        <Form.Dropdown.Section title='Mobile'>
+          <Form.Dropdown.Item value='swift' title='Swift' icon='🦉' />
+          <Form.Dropdown.Item value='kotlin' title='Kotlin' icon='🟣' />
+          <Form.Dropdown.Item value='flutter' title='Flutter' icon='💙' />
+          <Form.Dropdown.Item
+            value='react-native'
+            title='React Native'
+            icon='📱'
+          />
+        </Form.Dropdown.Section>
       </Form.Dropdown>
 
       <Form.Dropdown
-        id='country'
-        title='Country'
-        placeholder='Select your country'
-        defaultValue='us'
+        id='theme'
+        title='Editor Theme'
+        placeholder='Choose a theme...'
+        info='Select your preferred editor color theme'
+        defaultValue='dracula'
       >
-        <Form.Dropdown.Item value='us' title='United States' icon='🇺🇸' />
-        <Form.Dropdown.Item value='ca' title='Canada' icon='🇨🇦' />
-        <Form.Dropdown.Item value='mx' title='Mexico' icon='🇲🇽' />
+        <Form.Dropdown.Item value='monokai' title='Monokai' icon='🌑' />
+        <Form.Dropdown.Item value='dracula' title='Dracula' icon='🧛' />
+        <Form.Dropdown.Item value='one-dark' title='One Dark' icon='🌚' />
+        <Form.Dropdown.Item value='nord' title='Nord' icon='❄️' />
+        <Form.Dropdown.Item value='github' title='GitHub Light' icon='☀️' />
+        <Form.Dropdown.Item
+          value='solarized-light'
+          title='Solarized Light'
+          icon='🌞'
+        />
+        <Form.Dropdown.Item value='one-light' title='One Light' icon='💡' />
+      </Form.Dropdown>
+
+      <Form.Dropdown
+        id='priority'
+        title='Task Priority'
+        placeholder='Select priority level'
+      >
+        <Form.Dropdown.Item value='critical' title='Critical' icon='🔴' />
+        <Form.Dropdown.Item value='high' title='High' icon='🟠' />
+        <Form.Dropdown.Item value='medium' title='Medium' icon='🟡' />
+        <Form.Dropdown.Item value='low' title='Low' icon='🟢' />
       </Form.Dropdown>
 
       {submitted && (
