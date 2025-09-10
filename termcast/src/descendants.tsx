@@ -51,6 +51,12 @@ export function createDescendants<T = any>() {
       return map.current[id].index
     }
 
+    React.useEffect(() => {
+      return () => {
+        reset()
+      }
+    }, [])
+
     // Do NOT memoize context value, so that we bypass React.memo on any children
     // We NEED them to re-render, in case stable children were re-ordered
     // (this creates a new object every render, so children reading the context MUST re-render)
@@ -84,7 +90,9 @@ const { DescendantsProvider, useDescendants, useDescendant } =
   }>()
 
 const FilteredIndexesContext = React.createContext<number[]>([])
-const Menu = () => {
+
+
+const MenuExample = () => {
   const context = useDescendants()
   const [search, setSearchRaw] = React.useState('')
   const [filteredIndexes, setFilteredIndexes] = React.useState<number[]>([])

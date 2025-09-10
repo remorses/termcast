@@ -197,7 +197,7 @@ useKeyboard((evt) => {
 
 You CANNOT use .map.current to render items of a list for example. Instead move the rendering in the items themselves! To handle filtering render null in the item component and pass the search query via context
 
-read file @src/examples/internal/descendants.tsx for a real usage example
+read file @src/examples/internal/descendants.tsx for a real usage example with selection, navigation, pagination, submit support.
 
 ## testing
 
