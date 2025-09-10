@@ -6,10 +6,10 @@ import { List, useStore } from '@termcast/cli'
 import { Action, ActionPanel } from '@termcast/cli'
 import { useNavigation } from '@termcast/cli/src/internal/navigation'
 import { Providers } from '@termcast/cli/src/internal/providers'
-import { showToast, Toast } from '@termcast/cli/src/toast'
+import { showToast, Toast } from '@termcast/cli/src/apis/toast'
 import { Icon } from '@termcast/cli'
-import { getCommandsWithFiles, CommandWithFile } from './package-json'
-import { buildExtensionCommands } from './build'
+import { getCommandsWithFiles, CommandWithFile } from '../package-json'
+import { buildExtensionCommands } from '../build'
 
 interface BundledCommand extends CommandWithFile {
   bundledPath: string

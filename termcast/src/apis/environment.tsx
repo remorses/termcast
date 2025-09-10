@@ -19,7 +19,7 @@ import os from 'node:os'
 import path from 'node:path'
 import fs from 'node:fs'
 import { execSync } from 'node:child_process'
-import { useStore } from './state'
+import { useStore } from '../state'
 
 export interface Environment {
   appearance: 'dark' | 'light'

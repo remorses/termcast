@@ -21,7 +21,7 @@ import { getStoreDirectory } from '../utils'
 import { buildExtensionCommands } from '../build'
 import { logger } from '../logger'
 import { parsePackageJson } from '../package-json'
-import Home from '../home-command'
+import Home from './home'
 import {
   checkExtensionPreferences,
   type ExtensionPreferencesInfo,

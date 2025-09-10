@@ -38,7 +38,7 @@ import crypto from 'node:crypto'
 import http from 'node:http'
 import { ImageLike } from '@termcast/cli/src/components/image'
 import { logger } from '@termcast/cli/src/logger'
-import { LocalStorage } from '@termcast/cli/src/localstorage'
+import { LocalStorage } from '@termcast/cli/src/apis/localstorage'
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
 

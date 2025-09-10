@@ -9,7 +9,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { DialogProvider } from '@termcast/cli/src/internal/dialog'
 import { NavigationProvider } from '@termcast/cli/src/internal/navigation'
 import { CommonProps } from '@termcast/cli/src/utils'
-import { Cache } from '@termcast/cli/src/cache'
+import { Cache } from '@termcast/cli/src/apis/cache'
 import { logger } from '@termcast/cli/src/logger'
 import { Theme } from '@termcast/cli/src/theme'
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useKeyboard } from '@opentui/react'
 import { Theme } from '@termcast/cli/src/theme'
 import { TextAttributes } from '@opentui/core'
-import { LocalStorage } from '@termcast/cli/src/localstorage'
+import { LocalStorage } from '@termcast/cli/src/apis/localstorage'
 import { useStore } from '@termcast/cli/src/state'
 import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
