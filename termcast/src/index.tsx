@@ -1,5 +1,5 @@
 // Import globals to set up global references
-import { LaunchType } from '@termcast/cli/src/environment'
+import { LaunchType } from '@termcast/cli/src/apis/environment'
 import './globals'
 
 // termcastApi will be set by the runtime when needed
@@ -123,10 +123,10 @@ export type {
 } from '@termcast/cli/src/components/menubar-extra'
 
 // AI
-export { AI } from '@termcast/cli/src/ai'
+export { AI } from '@termcast/cli/src/apis/ai'
 
 // OAuth
-export { OAuth } from '@termcast/cli/src/oauth'
+export { OAuth } from '@termcast/cli/src/apis/oauth'
 
 // Colors
 export { Color } from '@termcast/cli/src/colors'
@@ -148,7 +148,7 @@ export {
 } from '@termcast/cli/src/internal/dialog'
 
 // Toast
-export { Toast, showToast } from '@termcast/cli/src/toast'
+export { Toast, showToast } from '@termcast/cli/src/apis/toast'
 
 // Clipboard
 export {
@@ -156,11 +156,11 @@ export {
   copyTextToClipboard,
   clearClipboard,
   pasteText,
-} from '@termcast/cli/src/clipboard'
+} from '@termcast/cli/src/apis/clipboard'
 
 // Storage
-export { Cache } from '@termcast/cli/src/cache'
-export { LocalStorage } from '@termcast/cli/src/localstorage'
+export { Cache } from '@termcast/cli/src/apis/cache'
+export { LocalStorage } from '@termcast/cli/src/apis/localstorage'
 
 // Utilities
 export {
@@ -186,8 +186,8 @@ export {
   environment,
   getSelectedFinderItems,
   getSelectedText,
-} from '@termcast/cli/src/environment'
-export type { Environment, LaunchProps } from '@termcast/cli/src/environment'
+} from '@termcast/cli/src/apis/environment'
+export type { Environment, LaunchProps } from '@termcast/cli/src/apis/environment'
 
 export { LaunchType }
 
@@ -196,8 +196,8 @@ export {
   getPreferenceValues,
   openExtensionPreferences,
   openCommandPreferences,
-} from '@termcast/cli/src/preferences'
-export type { PreferenceValues } from '@termcast/cli/src/preferences'
+} from '@termcast/cli/src/apis/preferences'
+export type { PreferenceValues } from '@termcast/cli/src/apis/preferences'
 
 // Common Types
 export type { CommonProps } from '@termcast/cli/src/utils'
@@ -219,4 +219,4 @@ export { Providers } from '@termcast/cli/src/internal/providers'
 export { renderWithProviders } from '@termcast/cli/src/utils'
 
 // Window Management
-export { closeMainWindow, PopToRootType } from '@termcast/cli/src/window'
+export { closeMainWindow, PopToRootType } from '@termcast/cli/src/apis/window'

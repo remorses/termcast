@@ -2,8 +2,8 @@ import { Database } from 'bun:sqlite'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
-import { logger } from './logger'
-import { useStore } from './state'
+import { logger } from '../logger'
+import { useStore } from '../state'
 
 let db: Database | null = null
 let currentDbPath: string | null = null
