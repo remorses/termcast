@@ -18,12 +18,12 @@ const FocusContext = createContext<{
   focusedIndex: number
   offset: number
   itemsPerPage: number
-  selectedIndexes: Set<number>
+  selectedIds: Set<string>
 }>({
   focusedIndex: 0,
   offset: 0,
   itemsPerPage,
-  selectedIndexes: new Set(),
+  selectedIds: new Set(),
 })
 
 // IMPORTANT! Notice that we only use descendantsContext.map.current only inside hooks or event handlers. it MUST not be used in render scope
@@ -33,7 +33,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
   const descendantsContext = useDescendants()
   const [focusedIndex, setFocusedIndex] = useState(0)
   const [offset, setOffset] = useState(0)
-  const [selectedIndexes, setSelectedIndexes] = useState<Set<number>>(new Set())
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
   const inFocus = useIsInFocus()
 
@@ -79,39 +79,34 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
       })
     } else if (evt.name === 'return') {
       // Toggle selection of current focused item
-      setSelectedIndexes((prev) => {
-        const newSet = new Set(prev)
-        if (newSet.has(focusedIndex)) {
-          newSet.delete(focusedIndex)
-        } else {
-          newSet.add(focusedIndex)
-        }
+      const entries = Object.entries(descendantsContext.map.current)
+      const sortedEntries = entries
+        .filter(([_, item]) => item.index !== -1)
+        .sort((a, b) => a[1].index - b[1].index)
 
-        // Update selected titles state
-        const items = Object.values(descendantsContext.map.current)
-          .filter((item) => item.index !== -1)
-          .sort((a, b) => a.index - b.index)
+      const focusedId = sortedEntries[focusedIndex]?.[0]
 
-        const titles = Array.from(newSet)
-          .sort((a, b) => a - b)
-          .map((index) => items[index]?.props?.title)
-          .filter(Boolean) as string[]
+      if (focusedId) {
+        setSelectedIds((prev) => {
+          const newSet = new Set(prev)
+          if (newSet.has(focusedId)) {
+            newSet.delete(focusedId)
+          } else {
+            newSet.add(focusedId)
+          }
 
-        setSelectedTitles(titles)
+          // Update selected titles state
+          const titles = Array.from(newSet)
+            .map((id) => descendantsContext.map.current[id]?.props?.title)
+            .filter(Boolean) as string[]
 
-        return newSet
-      })
+          setSelectedTitles(titles)
+
+          return newSet
+        })
+      }
     } else if (evt.ctrl && evt.name === 'return') {
       // Log selected titles
-      const items = Object.values(descendantsContext.map.current)
-        .filter((item) => item.index !== -1)
-        .sort((a, b) => a.index - b.index)
-
-      const selectedTitles = Array.from(selectedIndexes)
-        .sort((a, b) => a - b)
-        .map((index) => items[index]?.props?.title)
-        .filter(Boolean)
-
       logger.log('Selected items:', selectedTitles)
     }
   })
@@ -122,7 +117,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
         focusedIndex,
         offset,
         itemsPerPage: itemsPerPage,
-        selectedIndexes,
+        selectedIds,
       }}
     >
       <DescendantsProvider value={descendantsContext}>
@@ -150,17 +145,17 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
 }
 
 const Item = ({ title }: { title: string; key?: string }) => {
-  const { index } = useDescendant({ title })
-  const { focusedIndex, offset, itemsPerPage, selectedIndexes } =
+  const descendant = useDescendant({ title })
+  const { focusedIndex, offset, itemsPerPage, selectedIds } =
     useContext(FocusContext)
 
   // Hide items that are outside the visible range
-  if (index < offset || index >= offset + itemsPerPage) {
+  if (descendant.index < offset || descendant.index >= offset + itemsPerPage) {
     return null
   }
 
-  const isFocused = index === focusedIndex
-  const isSelected = selectedIndexes.has(index)
+  const isFocused = descendant.index === focusedIndex
+  const isSelected = selectedIds.has(descendant.descendantId)
 
   return (
     <text fg={isFocused ? 'blue' : 'white'}>

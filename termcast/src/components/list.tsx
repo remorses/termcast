@@ -902,7 +902,7 @@ const ListItem: ListItemType = (props) => {
     : undefined
 
   // Register as descendant with all searchable data
-  const index = useListItemDescendant({
+  const { index } = useListItemDescendant({
     id: props.id,
     title: titleText,
     subtitle: subtitleText,
@@ -1021,7 +1021,6 @@ const ListDropdown: ListDropdownType = (props) => {
       dialog.push(
         <ListDropdownDialog
           {...props}
-          items={[]} // Not used anymore
           value={dropdownState.value}
           onChange={(newValue) => {
             // Find the title for this value
@@ -1120,7 +1119,7 @@ ListDropdown.Item = (props) => {
   } = dropdownContext
 
   // Register as descendant
-  const index = useDropdownItemDescendant({
+  const { index } = useDropdownItemDescendant({
     value: props.value,
     title: props.title,
     section: currentSection,

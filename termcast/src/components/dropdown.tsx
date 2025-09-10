@@ -349,7 +349,7 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
   })()
 
   // Register as descendant
-  const index = useDropdownItemDescendant({
+  const { index } = useDropdownItemDescendant({
     value: props.value,
     title: props.title,
     hidden: shouldHide,
