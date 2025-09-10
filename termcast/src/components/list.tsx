@@ -1155,7 +1155,7 @@ ListDropdown.Item = (props) => {
             : isHovered
               ? Theme.backgroundPanel
               : undefined,
-          paddingLeft: 1,
+          paddingLeft: isActive ? 0 : 1,
           paddingRight: 1,
           justifyContent: 'space-between',
         }}
@@ -1165,6 +1165,11 @@ ListDropdown.Item = (props) => {
         onMouseDown={handleMouseDown}
       >
         <box style={{ flexDirection: 'row' }}>
+          {isActive && (
+            <text fg={Theme.background} selectable={false}>
+              ›{''}
+            </text>
+          )}
           <text
             fg={
               isActive
