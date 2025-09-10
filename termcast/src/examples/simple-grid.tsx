@@ -13,23 +13,38 @@ const GridExample = () => {
     { id: '5', title: 'Cat', content: '🐱', keywords: ['animal', 'pet'] },
     { id: '6', title: 'Rabbit', content: '🐰', keywords: ['animal', 'pet'] },
     { id: '7', title: 'House', content: '🏠', keywords: ['building', 'home'] },
-    { id: '8', title: 'Car', content: '🚗', keywords: ['vehicle', 'transport'] },
+    {
+      id: '8',
+      title: 'Car',
+      content: '🚗',
+      keywords: ['vehicle', 'transport'],
+    },
     { id: '9', title: 'Rocket', content: '🚀', keywords: ['vehicle', 'space'] },
-    { id: '10', title: 'Star', content: '⭐', keywords: ['space', 'celestial'] },
-    { id: '11', title: 'Moon', content: '🌙', keywords: ['space', 'celestial'] },
+    {
+      id: '10',
+      title: 'Star',
+      content: '⭐',
+      keywords: ['space', 'celestial'],
+    },
+    {
+      id: '11',
+      title: 'Moon',
+      content: '🌙',
+      keywords: ['space', 'celestial'],
+    },
     { id: '12', title: 'Sun', content: '☀️', keywords: ['space', 'celestial'] },
   ]
 
   return (
     <Grid
-      navigationTitle="Simple Grid Example"
-      searchBarPlaceholder="Search items..."
+      navigationTitle='Simple Grid Example'
+      searchBarPlaceholder='Search items...'
       searchText={searchText}
       onSearchTextChange={setSearchText}
       columns={5}
-      aspectRatio="1"
+      aspectRatio='1'
     >
-      <Grid.Section title="Fruits" columns={3}>
+      <Grid.Section title='Fruits' columns={3}>
         {items.slice(0, 3).map((item) => (
           <Grid.Item
             key={item.id}
@@ -41,13 +56,13 @@ const GridExample = () => {
               <ActionPanel>
                 <ActionPanel.Section>
                   <Action
-                    title="Show Details"
+                    title='Show Details'
                     onAction={() => {
                       console.log(`Selected: ${item.title}`)
                     }}
                   />
                   <Action
-                    title="Copy Emoji"
+                    title='Copy Emoji'
                     shortcut={{ key: 'c', modifiers: ['cmd'] }}
                     onAction={() => {
                       console.log(`Copy: ${item.content}`)
@@ -60,7 +75,7 @@ const GridExample = () => {
         ))}
       </Grid.Section>
 
-      <Grid.Section title="Animals" columns={4}>
+      <Grid.Section title='Animals' columns={4}>
         {items.slice(3, 6).map((item) => (
           <Grid.Item
             key={item.id}
@@ -72,13 +87,13 @@ const GridExample = () => {
               <ActionPanel>
                 <ActionPanel.Section>
                   <Action
-                    title="Show Details"
+                    title='Show Details'
                     onAction={() => {
                       console.log(`Selected: ${item.title}`)
                     }}
                   />
                   <Action
-                    title="Copy Emoji"
+                    title='Copy Emoji'
                     shortcut={{ key: 'c', modifiers: ['cmd'] }}
                     onAction={() => {
                       console.log(`Copy: ${item.content}`)
@@ -91,7 +106,7 @@ const GridExample = () => {
         ))}
       </Grid.Section>
 
-      <Grid.Section title="Others">
+      <Grid.Section title='Others'>
         {items.slice(6).map((item) => (
           <Grid.Item
             key={item.id}
@@ -103,13 +118,13 @@ const GridExample = () => {
               <ActionPanel>
                 <ActionPanel.Section>
                   <Action
-                    title="Show Details"
+                    title='Show Details'
                     onAction={() => {
                       console.log(`Selected: ${item.title}`)
                     }}
                   />
                   <Action
-                    title="Copy Emoji"
+                    title='Copy Emoji'
                     shortcut={{ key: 'c', modifiers: ['cmd'] }}
                     onAction={() => {
                       console.log(`Copy: ${item.content}`)
@@ -123,9 +138,9 @@ const GridExample = () => {
       </Grid.Section>
 
       <Grid.EmptyView
-        icon="📭"
-        title="No Items Found"
-        description="Try adjusting your search query"
+        icon='📭'
+        title='No Items Found'
+        description='Try adjusting your search query'
       />
     </Grid>
   )

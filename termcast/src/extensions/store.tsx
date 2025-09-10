@@ -20,6 +20,12 @@ import { downloadExtension } from '../store-api/download'
 import { getStoreDirectory } from '../store'
 import { buildExtensionCommands } from '../build'
 import { logger } from '../logger'
+import { parsePackageJson } from '../package-json'
+import Home from '../home-command'
+import {
+  checkExtensionPreferences,
+  type ExtensionPreferencesInfo,
+} from '../utils'
 
 interface StoreListing {
   id: string
@@ -117,13 +123,24 @@ function StoreSearch(): any {
 function ExtensionDetails({ extension }: { extension: StoreListing }): any {
   const [isInstalling, setIsInstalling] = useState(false)
   const [isInstalled, setIsInstalled] = useState(false)
+  const [extensionInfo, setExtensionInfo] = useState<ExtensionPreferencesInfo>({
+    hasPreferences: false,
+    hasRequiredPreferences: false,
+  })
   const { pop, push } = useNavigation()
 
-  // Check if extension is already installed
+  // Check if extension is already installed and get preferences info
   React.useEffect(() => {
     const storeDir = getStoreDirectory()
     const extensionDir = path.join(storeDir, extension.name)
-    setIsInstalled(fs.existsSync(extensionDir))
+    const installed = fs.existsSync(extensionDir)
+    setIsInstalled(installed)
+
+    // Check preferences info if installed
+    if (installed) {
+      const prefsInfo = checkExtensionPreferences(extension.name)
+      setExtensionInfo(prefsInfo)
+    }
   }, [extension.name])
 
   const formatDate = (timestamp: number) => {
@@ -202,6 +219,10 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
 
       logger.log(`Extension '${extension.name}' installed to ${extensionDir}`)
       setIsInstalled(true)
+
+      // Update extension info after installation
+      const prefsInfo = checkExtensionPreferences(extension.name)
+      setExtensionInfo(prefsInfo)
 
       // Ask if user wants to configure preferences
       await showToast({
@@ -287,12 +308,38 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
             />
           ) : (
             <>
+              {extensionInfo.hasRequiredPreferences && (
+                <Action
+                  title='Configure Extension'
+                  onAction={() =>
+                    push(
+                      <ExtensionPreferences extensionName={extension.name} />,
+                    )
+                  }
+                />
+              )}
               <Action
-                title='Configure Extension'
-                onAction={() =>
-                  push(<ExtensionPreferences extensionName={extension.name} />)
-                }
+                title='Use Extension'
+                onAction={() => {
+                  push(
+                    <Home
+                      key={extension.name}
+                      initialSearchQuery={extension.name}
+                    />,
+                  )
+                }}
               />
+              {extensionInfo.hasPreferences &&
+                !extensionInfo.hasRequiredPreferences && (
+                  <Action
+                    title='Configure Extension'
+                    onAction={() =>
+                      push(
+                        <ExtensionPreferences extensionName={extension.name} />,
+                      )
+                    }
+                  />
+                )}
               <Action title='Reinstall Extension' onAction={handleInstall} />
             </>
           )}

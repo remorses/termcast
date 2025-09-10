@@ -5,7 +5,7 @@ import './globals'
 // termcastApi will be set by the runtime when needed
 
 // Core UI Components - Lists
-export { List } from '@termcast/cli/src/components/list'
+export { List, Grid } from '@termcast/cli/src/components/list'
 export { List as default } from '@termcast/cli/src/components/list'
 export type {
   ListProps,
@@ -18,6 +18,10 @@ export type {
   DropdownSectionProps as ListDropdownSectionProps,
   ItemAccessory,
   Color as ListColor,
+  GridProps,
+  GridItemProps,
+  GridSectionProps,
+  GridInset,
 } from '@termcast/cli/src/components/list'
 
 // Core UI Components - Dropdowns
