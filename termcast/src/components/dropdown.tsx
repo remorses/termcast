@@ -282,7 +282,7 @@ function ItemOption(props: {
           : isHovered
             ? Theme.backgroundPanel
             : undefined,
-        paddingLeft: 1,
+        paddingLeft: props.active ? 0 : 1,
         paddingRight: 1,
         justifyContent: 'space-between',
       }}
@@ -295,6 +295,11 @@ function ItemOption(props: {
       onMouseDown={props.onMouseDown}
     >
       <box style={{ flexDirection: 'row' }}>
+        {props.active && (
+          <text fg={Theme.background} selectable={false}>
+            ›{''}
+          </text>
+        )}
         {props.icon && (
           <text
             fg={props.active ? Theme.background : Theme.text}
