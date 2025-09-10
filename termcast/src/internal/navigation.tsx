@@ -13,7 +13,7 @@ import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 import { logger } from '../logger'
 
 interface Navigation {
-  push: (component: ReactNode, onPop?: () => void) => void
+  push: (element: ReactNode, onPop?: () => void) => void
   pop: () => void
 }
 
@@ -37,24 +37,24 @@ export function NavigationProvider(props: NavigationProviderProps): any {
   useLayoutEffect(() => {
     if (stack.length === 0) {
       useStore.setState({
-        navigationStack: [{ component: props.children }],
+        navigationStack: [{ element: props.children }],
       })
     }
   }, [])
 
-  const push = useCallback((component: any, onPop?: () => void) => {
-    if (!component) {
-      throw new Error(`cannot push falsy value ${component}`)
+  const push = useCallback((element: any, onPop?: () => void) => {
+    if (!element) {
+      throw new Error(`cannot push falsy value ${element}`)
     }
 
     logger.log(
       'pushing',
-      (component as any)?.type?.name || (component as any)?.type,
+      (element as any)?.type?.name || (element as any)?.type,
     )
 
     const currentStack = useStore.getState().navigationStack
     useStore.setState({
-      navigationStack: [...currentStack, { component, onPop }],
+      navigationStack: [...currentStack, { element, onPop }],
       dialogStack: [],
     })
   }, [])
@@ -83,7 +83,7 @@ export function NavigationProvider(props: NavigationProviderProps): any {
   const value = React.useMemo(
     () => ({
       navigation,
-      stack: stack.length > 0 ? stack : [{ component: props.children }],
+      stack: stack.length > 0 ? stack : [{ element: props.children }],
     }),
     [navigation, stack, props.children],
   )
@@ -98,18 +98,20 @@ export function NavigationProvider(props: NavigationProviderProps): any {
         'popping navigation',
         stack.length - 1,
         'stack:',
-        stack.map((item) => (item.component as any).type.name),
+        stack.map((item) => (item.element as any).type.name),
       )
       pop()
     }
   })
 
   const currentItem =
-    stack.length > 0 ? stack[stack.length - 1] : { component: props.children }
+    stack.length > 0 ? stack[stack.length - 1] : { element: props.children }
 
   return (
     <NavigationContext.Provider value={value}>
-      {currentItem?.component}
+      {React.cloneElement(currentItem?.element as React.ReactElement, {
+        key: stack.length,
+      })}
     </NavigationContext.Provider>
   )
 }
