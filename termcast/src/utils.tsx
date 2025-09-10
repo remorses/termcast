@@ -11,7 +11,7 @@ export function renderWithProviders(element: ReactNode): void {
 }
 
 export type CommonProps = {
-  key?: string
+  key?: any
 }
 
 export interface Application {
