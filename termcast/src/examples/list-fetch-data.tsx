@@ -30,11 +30,36 @@ async function fetchSvgs(): Promise<SvgItem[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
-        { id: 1, title: 'Home Icon', category: 'Icons', route: '/icons/home.svg' },
-        { id: 2, title: 'User Icon', category: 'Icons', route: '/icons/user.svg' },
-        { id: 3, title: 'Settings Icon', category: 'Icons', route: '/icons/settings.svg' },
-        { id: 4, title: 'Welcome Banner', category: 'Illustrations', route: '/illustrations/welcome.svg' },
-        { id: 5, title: 'Hero Image', category: 'Illustrations', route: '/illustrations/hero.svg' },
+        {
+          id: 1,
+          title: 'Home Icon',
+          category: 'Icons',
+          route: '/icons/home.svg',
+        },
+        {
+          id: 2,
+          title: 'User Icon',
+          category: 'Icons',
+          route: '/icons/user.svg',
+        },
+        {
+          id: 3,
+          title: 'Settings Icon',
+          category: 'Icons',
+          route: '/icons/settings.svg',
+        },
+        {
+          id: 4,
+          title: 'Welcome Banner',
+          category: 'Illustrations',
+          route: '/illustrations/welcome.svg',
+        },
+        {
+          id: 5,
+          title: 'Hero Image',
+          category: 'Illustrations',
+          route: '/illustrations/hero.svg',
+        },
       ])
     }, 100)
   })
@@ -68,11 +93,19 @@ const AllList = () => {
   }, [])
 
   return (
-    <List navigationTitle="SVG Library" isLoading={isLoading}>
+    <List navigationTitle='SVG Library' isLoading={isLoading}>
       {categories.map((category, index) => {
-        const categoryItems = svgs.filter((svg) => svg.category === category.category || svg.category?.includes(category.category))
+        const categoryItems = svgs.filter(
+          (svg) =>
+            svg.category === category.category ||
+            svg.category?.includes(category.category),
+        )
         return (
-          <List.Section title={category.category} subtitle={category.total.toString()} key={String(index)}>
+          <List.Section
+            title={category.category}
+            subtitle={category.total.toString()}
+            key={String(index)}
+          >
             {categoryItems.map((svg) => (
               <List.Item
                 key={String(svg.id)}

@@ -1,4 +1,3 @@
-
 export enum PopToRootType {
   Default = 'default',
   Immediate = 'immediate',
@@ -9,7 +8,6 @@ interface CloseMainWindowOptions {
   clearRootSearch?: boolean
   popToRootType?: PopToRootType
 }
-
 
 // TODO does not do anything
 export async function closeMainWindow({
