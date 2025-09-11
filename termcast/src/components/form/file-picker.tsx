@@ -7,7 +7,6 @@ import { useFocusContext } from './index'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
-import { FileDialog } from '@xmorse/rfd'
 import { homedir } from 'os'
 
 export interface FilePickerProps extends FormItemProps<string[]> {
@@ -147,10 +146,12 @@ export const FilePicker = (props: FilePickerProps): any => {
     }
   }
 
-  const handleSelectFiles = (
+  const handleSelectFiles = async (
     onChange: (value: string[]) => void,
     currentValue: string[],
   ) => {
+    // Import FileDialog dynamically so that it's only loaded when needed
+    const { FileDialog } = await import('@xmorse/rfd')
     const dialog = new FileDialog()
       .setTitle(props.title || 'Select Files')
       .setDirectory(homedir())
