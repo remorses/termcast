@@ -44,13 +44,15 @@ test('Store extension - searching for spiceblow shows Database', async () => {
 
   // Store the snapshot after searching for spiceblow
   expect(afterSearchOutput).toMatchInlineSnapshot(`
-      "
+    "
 
-       Store - Install Extensions ───────────────────────────────────────────────
-       spiceblow
-      ›Database Manager Manage your databases with ease 1 command 1,234 downloads
+     Store - Install Extensions ───────────────────────────────────────────────
+
+     spiceblow
+
+    ›Spiceblow - Sql Database Management Search, update, insert and delete rows in
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 }, 30000)

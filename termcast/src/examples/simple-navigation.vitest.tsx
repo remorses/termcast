@@ -67,28 +67,28 @@ test('navigation between main and detail views', async () => {
 
   const actionsOpenSnapshot = await driver.text()
   expect(actionsOpenSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-       First Item Navigate to first detail
-      ›Second Item Navigate to second detail
-       Third Item Navigate to third detail
+     Main view
 
 
-                                                                   esc
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     Third Item Navigate to third detail
 
-        Search actions...
-        Open Details
-        Copy Title
+
+                                                                 esc
+
+      Search actions...
+     ›Open Details
+      Copy Title
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Press Enter again to select "Open Details" action
   await driver.keys.enter()
@@ -167,28 +167,28 @@ test('navigation between main and detail views', async () => {
 
   const thirdActionsSnapshot = await driver.text()
   expect(thirdActionsSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-       First Item Navigate to first detail
-       Second Item Navigate to second detail
-      ›Third Item Navigate to third detail
+     Main view
 
 
-                                                                   esc
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     Third Item Navigate to third detail
 
-        Search actions...
-        Open Details
-        Copy Title
+
+                                                                 esc
+
+      Search actions...
+     ›Open Details
+      Copy Title
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Navigate to detail
   await driver.keys.enter()
@@ -218,28 +218,28 @@ test('navigation between main and detail views', async () => {
 
   const thirdDetailActionsSnapshot = await driver.text()
   expect(thirdDetailActionsSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Detail: Third Item ─────────────────────────────────────────────
+     Detail: Third Item ─────────────────────────────────────────────
 
-       Detail view - Press ESC to go back
-
-
-       Details
-      ›This is the detail view for Third Item Press Enter to go back or ES
+     Detail view - Press ESC to go back
 
 
-       ↵ select   ↑↓ navigate   ^k actions
-
-                                                                   esc
-
-        Search actions...
-        Go Back
-        Copy Title
+     Details
+    ›This is the detail view for Third Item Press Enter to go back or ES
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+     ↵ select   ↑↓ navigate   ^k actions
+
+                                                                 esc
+
+      Search actions...
+     ›Go Back
+      Copy Title
+
+
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Select "Go Back" action
   await driver.keys.enter()
@@ -280,56 +280,56 @@ test('navigation with actions panel', async () => {
 
   const actionsOpenSnapshot = await driver.text()
   expect(actionsOpenSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-      ›First Item Navigate to first detail
-       Second Item Navigate to second detail
-       Third Item Navigate to third detail
+     Main view
 
 
-                                                                   esc
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     Third Item Navigate to third detail
 
-        Search actions...
-        Open Details
-        Copy Title
+
+                                                                 esc
+
+      Search actions...
+     ›Open Details
+      Copy Title
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Navigate down in actions panel
   await driver.keys.down()
 
   const secondActionSnapshot = await driver.text()
   expect(secondActionSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-      ›First Item Navigate to first detail
-       Second Item Navigate to second detail
-       Third Item Navigate to third detail
+     Main view
 
 
-                                                                   esc
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     Third Item Navigate to third detail
 
-        Search actions...
-        Open Details
-        Copy Title
+
+                                                                 esc
+
+      Search actions...
+      Open Details
+     ›Copy Title
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Select the Copy Title action
   await driver.keys.enter()
@@ -364,56 +364,56 @@ test('navigation with actions panel', async () => {
     },
   })
   expect(secondDetailSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-       First Item Navigate to first detail
-      ›Second Item Navigate to second detail
-       Third Item Navigate to third detail
+     Main view
 
 
-                                                                   esc
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     Third Item Navigate to third detail
 
-        Search actions...
-        Open Details
-        Copy Title
+
+                                                                 esc
+
+      Search actions...
+     ›Open Details
+      Copy Title
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Open actions panel in detail view
   await driver.keys.ctrlK()
 
   const detailActionsSnapshot = await driver.text()
   expect(detailActionsSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-       First Item Navigate to first detail
-      ›Second Item Navigate to second detail
-       Third Item Navigate to third detail
+     Main view
 
 
-                                                                   esc
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     Third Item Navigate to third detail
 
-        Search actions...
-        Open Details
-        Copy Title
+
+                                                                 esc
+
+      Search actions...
+     ›Open Details
+      Copy Title
 
 
-        ↵ select   ↑↓ navigate"
-    `)
+      ↵ select   ↑↓ navigate"
+  `)
 
   // Select Go Back action
   await driver.keys.enter()
@@ -456,17 +456,17 @@ test('search functionality in main and detail views', async () => {
     },
   })
   expect(searchMainSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+    Navigation Example ─────────────────────────────────────────────
 
-       second
+    second
 
-      ›Second Item Navigate to second detail
+    Second Item Navigate to second detail
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+    ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Clear search
   await driver.keys.backspace()

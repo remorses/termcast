@@ -144,7 +144,7 @@ test('grid navigation and display', async () => {
                                                                  esc
 
       Search actions...
-      Show Details
+     ›Show Details
       Copy Emoji                                                  ⌃C
 
 
@@ -211,14 +211,14 @@ test('grid search functionality', async () => {
   expect(searchCatSnapshot).toMatchInlineSnapshot(`
     "
 
-     Simple Grid Example ────────────────────────────────────────────
+    Simple Grid Example ────────────────────────────────────────────
 
-     cat
+    cat
 
-    ›Cat
+    Cat
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+    ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Clear search and search for "space"
@@ -235,17 +235,17 @@ test('grid search functionality', async () => {
   expect(searchSpaceSnapshot).toMatchInlineSnapshot(`
     "
 
-     Simple Grid Example ────────────────────────────────────────────
+    Simple Grid Example ────────────────────────────────────────────
 
-     space
+    space
 
-    ›Rocket
-     Star
-     Moon
-     Sun
+    Rocket
+    Star
+    Moon
+    Sun
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+    ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Clear search completely
@@ -336,7 +336,7 @@ test('grid item selection and actions', async () => {
                                                                  esc
 
       Search actions...
-      Show Details
+     ›Show Details
       Copy Emoji                                                  ⌃C
 
 
@@ -371,7 +371,7 @@ test('grid item selection and actions', async () => {
 
       Search actions...
       Show Details
-      Copy Emoji                                                  ⌃C
+     ›Copy Emoji                                                  ⌃C
 
 
       ↵ select   ↑↓ navigate

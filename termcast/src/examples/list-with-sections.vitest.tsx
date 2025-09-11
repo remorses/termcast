@@ -274,7 +274,7 @@ test('list with sections search functionality', async () => {
                                                                 esc
 
      Search actions...
-    › View Details
+    ›View Details
      Add to Cart
 
 
@@ -395,7 +395,7 @@ test('list actions panel with ctrl+k', async () => {
                                                                  esc
 
       Search actions...
-     › View Details
+     ›View Details
       Add to Cart
 
 
@@ -424,7 +424,7 @@ test('list actions panel with ctrl+k', async () => {
 
       Search actions...
       View Details
-     › Add to Cart
+     ›Add to Cart
 
 
       ↵ select   ↑↓ navigate"

@@ -65,7 +65,7 @@ test('dropdown opens and shows items', async () => {
       Filter by category                                                 esc
 
       Select category...
-      Apple
+     ›Apple
       Banana
       Orange
       Grape
@@ -89,7 +89,7 @@ test('dropdown opens and shows items', async () => {
 
       Select category...
       Apple
-      Banana
+     ›Banana
       Orange
       Grape
 
@@ -142,7 +142,7 @@ test('clicking dropdown opens it', async () => {
       Filter by category                                                 esc
 
       Select category...
-      Apple
+     ›Apple
       Banana
       Orange
       Grape
