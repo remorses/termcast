@@ -23,10 +23,11 @@ test('form tagpicker shows inline options', async () => {
     },
   })
 
-  // Add small delay to ensure all items have registered
-  await new Promise(resolve => setTimeout(resolve, 100))
+  // Small delay to ensure form components are fully rendered
+  await driver.waitIdle()
 
   const initialSnapshot = await driver.text()
+
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 

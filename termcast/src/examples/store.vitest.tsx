@@ -30,18 +30,14 @@ test('Store extension - searching for spiceblow shows Database', async () => {
   // Type "spiceblow" in the search bar
   await driver.keys.type('spiceblow')
 
-  // Sleep for 1 second to ensure the API request is triggered
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  // Wait for search results to load
-  await driver.waitIdle({ timeout: 5000 })
-
   // Get the output after search, waiting for Database to appear
+  // This will automatically wait for the API request to complete and results to show
   const afterSearchOutput = await driver.text({
     waitFor: (text) => {
-      return text.includes('Database') || text.includes('Sql Database Management')
+      return text.includes('spiceblow') && 
+             (text.includes('Database') || text.includes('Sql Database Management'))
     },
-    timeout: 10000,
+    timeout: 15000,
   })
 
   // Verify "Database" appears in the results

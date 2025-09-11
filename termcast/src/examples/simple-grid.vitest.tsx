@@ -16,17 +16,17 @@ afterEach(() => {
 })
 
 test('grid navigation and display', async () => {
-  await driver.text({
+  const initialSnapshot = await driver.text({
     waitFor: (text) => {
-      // wait for grid to show up
-      return /Simple Grid Example/i.test(text)
+      // wait for grid to show up with all sections and items
+      return /Simple Grid Example/i.test(text) && 
+             text.includes('Fruits') && 
+             text.includes('Animals') &&
+             text.includes('Others') &&
+             text.includes('Apple')
     },
   })
 
-  // Add small delay to ensure all items have registered
-  await new Promise(resolve => setTimeout(resolve, 200))
-
-  const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
