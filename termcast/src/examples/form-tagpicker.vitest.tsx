@@ -60,11 +60,11 @@ test('form tagpicker shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Open the first tagpicker
+  // Select Basketball by pressing space
   await driver.keys.space()
 
-  const tagpickerOpenSnapshot = await driver.text()
-  expect(tagpickerOpenSnapshot).toMatchInlineSnapshot(`
+  const afterSelectBasketballSnapshot = await driver.text()
+  expect(afterSelectBasketballSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  TagPicker Component Demo
@@ -216,11 +216,11 @@ test('form tagpicker keyboard navigation', async () => {
     },
   })
 
-  // Open tagpicker
+  // Select Basketball by pressing space
   await driver.keys.space()
 
-  const openSnapshot = await driver.text()
-  expect(openSnapshot).toMatchInlineSnapshot(`
+  const afterSelectSnapshot = await driver.text()
+  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  TagPicker Component Demo
@@ -363,11 +363,11 @@ test('form tagpicker keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Close with escape
+  // Escape doesn't close anything since tagpicker is always inline
   await driver.keys.escape()
 
-  const closedSnapshot = await driver.text()
-  expect(closedSnapshot).toMatchInlineSnapshot(`
+  const afterEscapeSnapshot = await driver.text()
+  expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  TagPicker Component Demo
@@ -444,11 +444,11 @@ test('form tagpicker with default value', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Open tagpicker
+  // Deselect Germany by pressing space (it was selected by default)
   await driver.keys.space()
 
-  const secondTagpickerOpenSnapshot = await driver.text()
-  expect(secondTagpickerOpenSnapshot).toMatchInlineSnapshot(`
+  const afterDeselectGermanySnapshot = await driver.text()
+  expect(afterDeselectGermanySnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  TagPicker Component Demo

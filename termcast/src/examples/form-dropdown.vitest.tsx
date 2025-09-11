@@ -66,10 +66,11 @@ test('form dropdown shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
+  // Toggle TypeScript selection by pressing space
   await driver.keys.space()
 
-  const dropdownOpenSnapshot = await driver.text()
-  expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
+  const afterToggleTypeScriptSnapshot = await driver.text()
+  expect(afterToggleTypeScriptSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  Dropdown Component Demo
@@ -263,11 +264,11 @@ test('form dropdown keyboard navigation', async () => {
     },
   })
 
-  // Open dropdown
+  // Toggle TypeScript selection by pressing space
   await driver.keys.space()
 
-  const openSnapshot = await driver.text()
-  expect(openSnapshot).toMatchInlineSnapshot(`
+  const afterToggleSnapshot = await driver.text()
+  expect(afterToggleSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  Dropdown Component Demo
@@ -452,11 +453,11 @@ test('form dropdown keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Close with escape
+  // Escape doesn't close anything since dropdown is always inline
   await driver.keys.escape()
 
-  const closedSnapshot = await driver.text()
-  expect(closedSnapshot).toMatchInlineSnapshot(`
+  const afterEscapeSnapshot = await driver.text()
+  expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  Dropdown Component Demo
@@ -554,11 +555,11 @@ test('form dropdown with default value', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Open dropdown
+  // Toggle Monokai selection by pressing space
   await driver.keys.space()
 
-  const secondDropdownOpenSnapshot = await driver.text()
-  expect(secondDropdownOpenSnapshot).toMatchInlineSnapshot(`
+  const afterToggleMonokaiSnapshot = await driver.text()
+  expect(afterToggleMonokaiSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  Dropdown Component Demo
