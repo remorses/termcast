@@ -19,7 +19,7 @@
     },
     "termcast": {
       "name": "@termcast/cli",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "bin": {
         "termcast": "src/cli.tsx",
       },
