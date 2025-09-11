@@ -10,6 +10,10 @@ NEVER use mocks in vitest tests
 
 prefer object args instead of positional args. as a way to implement named arguments, put the typescript definition inline
 
+## see files in the repo
+
+use `git ls-files | tree --fromfile` to see files in the repo. this command will ignore files ignored by git
+
 ## Goal
 
 This project ports @raycast/api components and apis to use @opentui/react and other Bun APIs
