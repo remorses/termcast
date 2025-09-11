@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.1
+
+### Patch Changes
+
+- fix import
+
+## 0.3.0
+
+### Minor Changes
+
+-
+
 ## 0.2.0
 
 ### Minor Changes
