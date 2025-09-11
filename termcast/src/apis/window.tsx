@@ -1,5 +1,3 @@
-import { logger } from '@termcast/cli/src/logger'
-import { windowManager } from 'node-window-manager'
 
 export enum PopToRootType {
   Default = 'default',
@@ -12,7 +10,6 @@ interface CloseMainWindowOptions {
   popToRootType?: PopToRootType
 }
 
-const overlayWindows = ['Raycast']
 
 // TODO does not do anything
 export async function closeMainWindow({
