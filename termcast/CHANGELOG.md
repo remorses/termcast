@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.4
+
+### Patch Changes
+
+- fix addons?
+
 ## 0.3.3
 
 ### Patch Changes
