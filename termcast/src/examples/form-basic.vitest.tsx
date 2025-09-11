@@ -25,114 +25,114 @@ test('form basic navigation and input', async () => {
 
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◆ Username
-      │ Enter your username
-      │ Required field
-      │
-      ◇ Password
-      │ Enter secure password
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◆  Username
+    │  Enter your username
+    │  Required field
+    │
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Type in username field
   await driver.keys.type('johndoe')
 
   const afterUsernameSnapshot = await driver.text()
   expect(afterUsernameSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◆ Username
-      │ johndoe
-      │ Required field
-      │
-      ◇ Password
-      │ Enter secure password
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◆  Username
+    │  johndoe
+    │  Required field
+    │
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Tab to password field
   await driver.keys.tab()
@@ -140,57 +140,57 @@ test('form basic navigation and input', async () => {
 
   const afterPasswordSnapshot = await driver.text()
   expect(afterPasswordSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ johndoe
-      │ Required field
-      │
-      ◆ Password
-      │ securepass123
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  johndoe
+    │  Required field
+    │
+    ◆  Password
+    │  securepass123
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Tab to biography field
   await driver.keys.tab()
@@ -198,57 +198,57 @@ test('form basic navigation and input', async () => {
 
   const afterBioSnapshot = await driver.text()
   expect(afterBioSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ johndoe
-      │ Required field
-      │
-      ◇ Password
-      │ *************
-      │ Must be at least 8 characters
-      │
-      ◆ Biography
-      │ I am a software developer
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  johndoe
+    │  Required field
+    │
+    ◇  Password
+    │  *************
+    │  Must be at least 8 characters
+    │
+    ◆  Biography
+    │  I am a software developer
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Tab to newsletter checkbox and toggle it
   await driver.keys.tab()
@@ -256,57 +256,57 @@ test('form basic navigation and input', async () => {
 
   const afterCheckboxSnapshot = await driver.text()
   expect(afterCheckboxSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ johndoe
-      │ Required field
-      │
-      ◇ Password
-      │ *************
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ I am a software developer
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◆ Email Preferences
-      │ ● Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  johndoe
+    │  Required field
+    │
+    ◇  Password
+    │  *************
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  I am a software developer
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◆  Email Preferences
+    │  ● Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Tab to country dropdown and open it
   await driver.keys.tab()
@@ -314,114 +314,114 @@ test('form basic navigation and input', async () => {
 
   const dropdownOpenSnapshot = await driver.text()
   expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ johndoe
-      │ Required field
-      │
-      ◇ Password
-      │ *************
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ I am a software developer
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ● Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◆ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  johndoe
+    │  Required field
+    │
+    ◇  Password
+    │  *************
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  I am a software developer
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ● Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◆  Country
+    │  United States
+    │
+    │  Americas
+    │› ● United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Select United States
   await driver.keys.enter()
 
   const afterCountrySelectSnapshot = await driver.text()
   expect(afterCountrySelectSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ johndoe
-      │ Required field
-      │
-      ◇ Password
-      │ *************
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ I am a software developer
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ● Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◆ Country
-      │ ● United States
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  johndoe
+    │  Required field
+    │
+    ◇  Password
+    │  *************
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  I am a software developer
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ● Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◆  Country
+    │  United States
+    │
+    │  Americas
+    │› ● United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Tab to date picker
   await driver.keys.tab()
@@ -429,57 +429,57 @@ test('form basic navigation and input', async () => {
 
   const afterDateSnapshot = await driver.text()
   expect(afterDateSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ johndoe
-      │ Required field
-      │
-      ◇ Password
-      │ *************
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ I am a software developer
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ● Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ● United States
-      │
-      │ Your country of residence
-      │
-      ◆ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  johndoe
+    │  Required field
+    │
+    ◇  Password
+    │  *************
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  I am a software developer
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ● Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  United States
+    │
+    │  Americas
+    │  ● United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Submit form with Cmd+Enter
   await driver.keys.cmdEnter()
@@ -491,57 +491,57 @@ test('form basic navigation and input', async () => {
     },
   })
   expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ johndoe
-      │ Required field
-      │
-      ◇ Password
-      │ *************
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ I am a software developer
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ● Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ● United States
-      │
-      │ Your country of residence
-      │
-      ◆ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  johndoe
+    │  Required field
+    │
+    ◇  Password
+    │  *************
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  I am a software developer
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ● Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  United States
+    │
+    │  Americas
+    │  ● United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 }, 15000)
 
 test('form navigation with shift+tab', async () => {
@@ -560,171 +560,171 @@ test('form navigation with shift+tab', async () => {
 
   const afterForwardTabSnapshot = await driver.text()
   expect(afterForwardTabSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ testuser
-      │ Required field
-      │
-      ◇ Password
-      │ ********
-      │ Must be at least 8 characters
-      │
-      ◆ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  testuser
+    │  Required field
+    │
+    ◇  Password
+    │  ********
+    │  Must be at least 8 characters
+    │
+    ◆  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Navigate backwards with Shift+Tab
   await driver.keys.shiftTab()
 
   const afterBackwardTabSnapshot = await driver.text()
   expect(afterBackwardTabSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ testuser
-      │ Required field
-      │
-      ◆ Password
-      │ password
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  testuser
+    │  Required field
+    │
+    ◆  Password
+    │  password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Go back to username field
   await driver.keys.shiftTab()
 
   const backToUsernameSnapshot = await driver.text()
   expect(backToUsernameSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◆ Username
-      │ testuser
-      │ Required field
-      │
-      ◇ Password
-      │ ********
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◆  Username
+    │  testuser
+    │  Required field
+    │
+    ◇  Password
+    │  ********
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Clear and type new username
   await driver.keys.ctrlA()
@@ -732,57 +732,57 @@ test('form navigation with shift+tab', async () => {
 
   const afterEditUsernameSnapshot = await driver.text()
   expect(afterEditUsernameSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◆ Username
-      │ testusernewuser
-      │ Required field
-      │
-      ◇ Password
-      │ ********
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◆  Username
+    │  testusernewuser
+    │  Required field
+    │
+    ◇  Password
+    │  ********
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 }, 10000)
 
 test('form dropdown navigation', async () => {
@@ -805,114 +805,114 @@ test('form dropdown navigation', async () => {
 
   const dropdownOpenSnapshot = await driver.text()
   expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ Enter your username
-      │ Required field
-      │
-      ◇ Password
-      │ Enter secure password
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◆ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  Enter your username
+    │  Required field
+    │
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Navigate down in dropdown
   await driver.keys.down()
 
   const afterDownSnapshot = await driver.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◇ Username
-      │ Enter your username
-      │ Required field
-      │
-      ◇ Password
-      │ Enter secure password
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◆ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  Enter your username
+    │  Required field
+    │
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Navigate to Europe section
   await driver.keys.down()
@@ -921,112 +921,112 @@ test('form dropdown navigation', async () => {
 
   const europeSelectionSnapshot = await driver.text()
   expect(europeSelectionSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◆ Username
-      │ Enter your username
-      │ Required field
-      │
-      ◇ Password
-      │ Enter secure password
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  Enter your username
+    │  Required field
+    │
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 
   // Select France
   await driver.keys.enter()
 
   const afterFranceSelectSnapshot = await driver.text()
   expect(afterFranceSelectSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-      ◇ Form Component Demo
-      │ This demonstrates all available form input types. Use arrow keys
-      │
-      ◆ Username
-      │ Enter your username
-      │ Required field
-      │
-      ◇ Password
-      │ Enter secure password
-      │ Must be at least 8 characters
-      │
-      ◇ Biography
-      │ Tell us about yourself...
-      │
-      │
-      │
-      │
-      │ Maximum 500 characters
-      │
-      ◇ Email Preferences
-      │ ○ Subscribe to newsletter
-      │
-      │ Receive weekly updates
-      │
-      ◇ Country
-      │ ○ Select your country
-      │
-      │ Your country of residence
-      │
-      ◇ Date of Birth
-      │
-      │  ←       2025        →
-      │  ←     September     →
-      │
-      │  Mo Tu We Th Fr Sa Su
-      │   1  2  3  4  5  6  7
-      │   8  9 10 11 12 13 14
-      │  15 16 17 18 19 20 21
-      │  22 23 24 25 26 27 28
-      │  29 30
-      │
-      │
-      │
-      │ Format: YYYY-MM-DD
-      │
-      ◇ Form Navigation
-      │ • ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space
-      │"
-    `)
+    ▪︎  Form Component Demo
+    │  This demonstrates all available form input types. Use arrow key
+    │
+    ◇  Username
+    │  Enter your username
+    │  Required field
+    │
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     September     →
+    │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30"
+  `)
 }, 10000)

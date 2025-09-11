@@ -62,7 +62,7 @@ test('list with dropdown navigation', async () => {
      Search...
 
      Alcoholic Beverages
-    › Beer
+    ›Beer
      Wine
 
      Non-Alcoholic
@@ -92,7 +92,7 @@ test('list with dropdown navigation', async () => {
      Search...
 
      Alcoholic Beverages
-    › Beer
+    ›Beer
      Wine
 
      Non-Alcoholic
@@ -121,7 +121,7 @@ test('list with dropdown navigation', async () => {
 
      Alcoholic Beverages
      Beer
-    › Wine
+    ›Wine
 
      Non-Alcoholic
      Soda
@@ -152,7 +152,7 @@ test('list with dropdown navigation', async () => {
      Wine
 
      Non-Alcoholic
-    › Soda
+    ›Soda
      Juice
 
 
@@ -205,22 +205,22 @@ test('list with dropdown search and filter', async () => {
   expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
     "
 
-
-     Select Drink Type                                          esc
-
-     Search...
-
-     Alcoholic Beverages
-    › Beer
-     Wine
-
-     Non-Alcoholic
-     Soda
-     Juice
+     Search Beers ───────────────────────────────────────────────────
 
 
-     ↵ select   ↑↓ navigate
+     Search...                                                 Beer ▾
 
+
+    ›Augustiner Helles Beer
+     Camden Hells Beer
+     Leffe Blonde Beer
+     Sierra Nevada IPA Beer
+     Chateau Margaux Wine
+     Pinot Noir Wine
+     Coca Cola Soda
+     Sprite Soda
+     Orange Juice Juice
+     Apple Juice Juice
 
 
      ↵ select   ↑↓ navigate   ^k actions"

@@ -77,10 +77,10 @@ test('form dropdown shows inline options', async () => {
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
-    │  Rust
+    │  TypeScript, Rust
     │
     │  Frontend
-    │› ○ TypeScript
+    │› ● TypeScript
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue

@@ -4,6 +4,9 @@ import * as pty from 'node-pty'
 import { Terminal } from '@xterm/headless'
 import { SerializeAddon } from '@xterm/addon-serialize'
 
+
+
+
 export class NodeTuiDriver {
   private pty?: pty.IPty
   private term: Terminal
@@ -178,6 +181,10 @@ export class NodeTuiDriver {
     waitFor?: (text: string) => boolean
     timeout?: number
   }): Promise<string> {
+
+
+    await sleep(10)
+
     const timeout = options?.timeout ?? 5000
     const waitFor = options?.waitFor
     const startTime = Date.now()
@@ -293,4 +300,8 @@ export class NodeTuiDriver {
     this.pty?.kill()
     this.term.dispose()
   }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
