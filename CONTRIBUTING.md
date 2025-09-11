@@ -68,6 +68,7 @@ src/examples/            # Usage examples (also serve as tests)
 ### Key Concepts
 
 **Raycast Components & APIs**
+
 - **Components** (`src/components/`) - React components for UI (List, Form, Detail, etc.)
 - **APIs** (`src/apis/`) - Non-component Raycast APIs for functionality:
   - Storage APIs: `cache`, `localstorage`, `preferences`
@@ -76,19 +77,23 @@ src/examples/            # Usage examples (also serve as tests)
   - Notification: `toast`
 
 **Descendants Pattern** (`src/descendants.tsx`)
+
 - Manages parent-child relationships (List.Item, Form.TextField)
 - Enables keyboard navigation across dynamic children
 - Access `map.current` only in event handlers, never during render
 
 **Focus Management** (`src/internal/focus-context.tsx`)
+
 - Essential for keyboard handling in terminal environment
 - Always check `useIsInFocus()` before handling keyboard events
 
 **Navigation** (`src/internal/navigation.tsx`)
+
 - Stack-based navigation similar to Raycast
 - Use `push()` to show new views, `pop()` to go back
 
 **Extensions**
+
 - **Store** (`src/extensions/store.tsx`) - Browse and install from Raycast store
 - **Home** (`src/extensions/home.tsx`) - Default screen showing installed extensions
 - **Dev** (`src/extensions/dev.tsx`) - Development mode for local extensions
@@ -98,11 +103,13 @@ src/examples/            # Usage examples (also serve as tests)
 ### Creating Components
 
 1. Read Raycast API docs:
+
 ```bash
 curl -s https://developers.raycast.com/api-reference/user-interface/list.md
 ```
 
 2. Read OpenTUI docs (required):
+
 ```bash
 curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/react/README.md
 ```
