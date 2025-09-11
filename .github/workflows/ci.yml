@@ -27,5 +27,5 @@ jobs:
       # scripts
       - run: bun run binary
         working-directory: termcast
-      - run: bun test && bun e2e
+      - run: bun run test
         working-directory: termcast
