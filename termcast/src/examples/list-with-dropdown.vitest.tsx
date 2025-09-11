@@ -19,10 +19,12 @@ test('list with dropdown navigation', async () => {
   const initialSnapshot = await driver.text({
     waitFor: (text) => {
       // wait for list to show up with all items loaded
-      return /search beers/i.test(text) &&
-             text.includes('Beer ▾') &&
-             text.includes('Augustiner Helles') &&
-             text.includes('Apple Juice')
+      return (
+        /search beers/i.test(text) &&
+        text.includes('Beer ▾') &&
+        text.includes('Augustiner Helles') &&
+        text.includes('Apple Juice')
+      )
     },
   })
 
@@ -195,10 +197,12 @@ test('list with dropdown search and filter', async () => {
   await driver.text({
     waitFor: (text) => {
       // wait for list to show up with all items loaded
-      return /search beers/i.test(text) &&
-             text.includes('Beer ▾') &&
-             text.includes('Augustiner Helles') &&
-             text.includes('Apple Juice')
+      return (
+        /search beers/i.test(text) &&
+        text.includes('Beer ▾') &&
+        text.includes('Augustiner Helles') &&
+        text.includes('Apple Juice')
+      )
     },
   })
 

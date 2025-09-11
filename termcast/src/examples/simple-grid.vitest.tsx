@@ -19,11 +19,13 @@ test('grid navigation and display', async () => {
   const initialSnapshot = await driver.text({
     waitFor: (text) => {
       // wait for grid to show up with all sections and items
-      return /Simple Grid Example/i.test(text) && 
-             text.includes('Fruits') && 
-             text.includes('Animals') &&
-             text.includes('Others') &&
-             text.includes('Apple')
+      return (
+        /Simple Grid Example/i.test(text) &&
+        text.includes('Fruits') &&
+        text.includes('Animals') &&
+        text.includes('Others') &&
+        text.includes('Apple')
+      )
     },
   })
 

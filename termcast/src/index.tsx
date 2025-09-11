@@ -187,7 +187,10 @@ export {
   getSelectedFinderItems,
   getSelectedText,
 } from '@termcast/cli/src/apis/environment'
-export type { Environment, LaunchProps } from '@termcast/cli/src/apis/environment'
+export type {
+  Environment,
+  LaunchProps,
+} from '@termcast/cli/src/apis/environment'
 
 export { LaunchType }
 

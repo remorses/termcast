@@ -13,7 +13,7 @@ describe('buildExtensionCommands', () => {
     const resultString = JSON.stringify(result, null, 2)
     const normalizedString = resultString.replaceAll(
       process.cwd(),
-      '/BASE_PATH'
+      '/BASE_PATH',
     )
 
     expect(normalizedString).toMatchInlineSnapshot(`

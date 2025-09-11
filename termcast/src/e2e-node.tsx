@@ -4,9 +4,6 @@ import * as pty from 'node-pty'
 import { Terminal } from '@xterm/headless'
 import { SerializeAddon } from '@xterm/addon-serialize'
 
-
-
-
 export class NodeTuiDriver {
   private pty?: pty.IPty
   private term: Terminal
@@ -181,12 +178,11 @@ export class NodeTuiDriver {
     waitFor?: (text: string) => boolean
     timeout?: number
   }): Promise<string> {
-
-
     await sleep(10)
 
     const timeout = options?.timeout ?? 5000
-    const waitFor = options?.waitFor ?? ((text: string) => text.trim().length > 0)
+    const waitFor =
+      options?.waitFor ?? ((text: string) => text.trim().length > 0)
     const startTime = Date.now()
 
     // Helper function to get the current text

@@ -5,10 +5,14 @@ import { NodeTuiDriver } from '@termcast/cli/src/e2e-node'
 let driver: NodeTuiDriver
 
 beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/list-dropdown-default.tsx'], {
-    cols: 80,
-    rows: 30,
-  })
+  driver = new NodeTuiDriver(
+    'bun',
+    ['src/examples/list-dropdown-default.tsx'],
+    {
+      cols: 80,
+      rows: 30,
+    },
+  )
 })
 
 afterEach(() => {

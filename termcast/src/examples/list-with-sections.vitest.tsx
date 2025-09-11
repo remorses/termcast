@@ -46,8 +46,8 @@ test('list with sections navigation', async () => {
     `)
 
   // Add small delay to ensure all items have registered
-  await new Promise(resolve => setTimeout(resolve, 100))
-  
+  await new Promise((resolve) => setTimeout(resolve, 100))
+
   await driver.keys.down()
 
   const afterDownSnapshot = await driver.text()

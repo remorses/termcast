@@ -10,7 +10,6 @@ import { Separator } from './separator'
 import { Description } from './description'
 import { FilePicker } from './file-picker'
 
-
 Form.TextField = TextField as any
 Form.PasswordField = PasswordField as any
 Form.TextArea = TextArea as any
