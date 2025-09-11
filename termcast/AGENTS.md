@@ -18,7 +18,7 @@ use `git ls-files | tree --fromfile` to see files in the repo. this command will
 
 This project ports @raycast/api components and apis to use @opentui/react and other Bun APIs
 
-We are basically implementing the package @raycast/api from scratch
+We are basically implementing the package @raycast/api from scratch. DO NOT implement functions exported by @raycast/utils
 
 This should be done one piece at a time, one hook and component at a time
 
