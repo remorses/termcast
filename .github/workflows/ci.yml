@@ -3,6 +3,10 @@ name: CI
 on:
   push:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ci:
     timeout-minutes: 20
@@ -22,4 +26,6 @@ jobs:
         run: bun install
       # scripts
       - run: bun run binary
+        working-directory: termcast
+      - run: bun test && bun e2e
         working-directory: termcast
