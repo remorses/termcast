@@ -311,12 +311,12 @@ test('form basic navigation and input', async () => {
     │   29 30"
   `)
 
-  // Tab to country dropdown and open it
+  // Tab to country dropdown and select United States
   await driver.keys.tab()
   await driver.keys.space()
 
-  const dropdownOpenSnapshot = await driver.text()
-  expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
+  const afterSelectUSSnapshot = await driver.text()
+  expect(afterSelectUSSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  Form Component Demo
@@ -803,11 +803,11 @@ test('form dropdown navigation', async () => {
   await driver.keys.tab() // checkbox
   await driver.keys.tab() // dropdown
 
-  // Open dropdown
+  // Navigate to dropdown area (already showing inline options)
   await driver.keys.space()
 
-  const dropdownOpenSnapshot = await driver.text()
-  expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
+  const dropdownFocusedSnapshot = await driver.text()
+  expect(dropdownFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
     ▪︎  Form Component Demo
