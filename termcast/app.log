@@ -1,0 +1,6 @@
+[2025-09-11T14:40:31.492Z] WARN: useActionPanel is deprecated and has no alternative
+[2025-09-11T14:40:31.493Z] WARN: useActionPanel is deprecated and has no alternative
+[2025-09-11T14:40:31.493Z] WARN: ActionPanel.update() is deprecated and has no effect {
+  actionPanel: "Test Panel",
+}
+[2025-09-11T14:40:31.493Z] WARN: useUnstableAI is deprecated. Use useAI from @raycast/utils instead

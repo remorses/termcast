@@ -137,6 +137,16 @@ export {
   NavigationContainer,
 } from '@termcast/cli/src/internal/navigation'
 
+// Hooks
+export {
+  useActionPanel,
+  useId,
+  useUnstableAI,
+} from '@termcast/cli/src/hooks/index'
+export type {
+  ActionPanelState,
+} from '@termcast/cli/src/hooks/index'
+
 // Focus Context
 export { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
