@@ -36,8 +36,13 @@ test('Store extension - searching for spiceblow shows Database', async () => {
   // Wait for search results to load
   await driver.waitIdle({ timeout: 5000 })
 
-  // Get the output after search
-  const afterSearchOutput = await driver.text()
+  // Get the output after search, waiting for Database to appear
+  const afterSearchOutput = await driver.text({
+    waitFor: (text) => {
+      return text.includes('Database') || text.includes('Sql Database Management')
+    },
+    timeout: 10000,
+  })
 
   // Verify "Database" appears in the results
   expect(afterSearchOutput).toContain('Database')

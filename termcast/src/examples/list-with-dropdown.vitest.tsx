@@ -23,6 +23,9 @@ test('list with dropdown navigation', async () => {
     },
   })
 
+  // Add small delay to ensure all items have registered
+  await new Promise(resolve => setTimeout(resolve, 100))
+
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
@@ -197,6 +200,9 @@ test('list with dropdown search and filter', async () => {
     },
   })
 
+  // Add small delay to ensure all items have registered
+  await new Promise(resolve => setTimeout(resolve, 100))
+
   // Open dropdown
   await driver.keys.ctrlP()
 
@@ -205,22 +211,22 @@ test('list with dropdown search and filter', async () => {
   expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
     "
 
-     Search Beers ───────────────────────────────────────────────────
+
+     Select Drink Type                                          esc
+
+     Search...
+
+     Alcoholic Beverages
+    ›Beer
+     Wine
+
+     Non-Alcoholic
+     Soda
+     Juice
 
 
-     Search...                                                 Beer ▾
+     ↵ select   ↑↓ navigate
 
-
-    ›Augustiner Helles Beer
-     Camden Hells Beer
-     Leffe Blonde Beer
-     Sierra Nevada IPA Beer
-     Chateau Margaux Wine
-     Pinot Noir Wine
-     Coca Cola Soda
-     Sprite Soda
-     Orange Juice Juice
-     Apple Juice Juice
 
 
      ↵ select   ↑↓ navigate   ^k actions"

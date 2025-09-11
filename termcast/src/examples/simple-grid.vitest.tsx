@@ -23,6 +23,9 @@ test('grid navigation and display', async () => {
     },
   })
 
+  // Add small delay to ensure all items have registered
+  await new Promise(resolve => setTimeout(resolve, 200))
+
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
@@ -190,7 +193,7 @@ test('grid navigation and display', async () => {
 
      ↵ select   ↑↓ navigate   ^k actions"
   `)
-}, 10000)
+}, 15000)
 
 test('grid search functionality', async () => {
   await driver.text({

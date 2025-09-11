@@ -186,7 +186,7 @@ export class NodeTuiDriver {
     await sleep(10)
 
     const timeout = options?.timeout ?? 5000
-    const waitFor = options?.waitFor
+    const waitFor = options?.waitFor ?? ((text: string) => text.trim().length > 0)
     const startTime = Date.now()
 
     // Helper function to get the current text

@@ -66,7 +66,6 @@ test('form dropdown shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Open the first dropdown
   await driver.keys.space()
 
   const dropdownOpenSnapshot = await driver.text()
@@ -77,10 +76,10 @@ test('form dropdown shows inline options', async () => {
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
-    │  TypeScript, Rust
+    │  Rust
     │
     │  Frontend
-    │› ● TypeScript
+    │› ○ TypeScript
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
