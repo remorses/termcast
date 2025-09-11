@@ -325,3 +325,64 @@ export async function showToast(
   await toast.show()
   return toast
 }
+
+/**
+ * Creates and shows a failure toast for error scenarios.
+ *
+ * This is a convenience function that automatically creates a toast with failure styling
+ * and extracts error messages from various error types.
+ *
+ * @param error - The error to display. Can be an Error object, string, or any object with a message property
+ * @param options - Optional configuration
+ * @param options.title - Custom title for the toast (defaults to error name or "Something went wrong")
+ * @param options.primaryAction - Optional action button to display on the toast
+ * @returns A Promise that resolves to the created Toast instance
+ *
+ * @example
+ * ```typescript
+ * try {
+ *   await riskyOperation()
+ * } catch (error) {
+ *   await showFailureToast(error, {
+ *     title: "Operation Failed",
+ *     primaryAction: {
+ *       title: "Retry",
+ *       onAction: () => retryOperation()
+ *     }
+ *   })
+ * }
+ * ```
+ */
+export async function showFailureToast(
+  error: unknown,
+  options?: {
+    title?: string
+    primaryAction?: Toast.ActionOptions
+  },
+): Promise<Toast> {
+  let errorMessage: string
+  let errorTitle: string
+
+  if (error instanceof Error) {
+    errorMessage = error.message
+    errorTitle = options?.title || error.name || 'Something went wrong'
+  } else if (typeof error === 'string') {
+    errorMessage = error
+    errorTitle = options?.title || 'Something went wrong'
+  } else if (error && typeof error === 'object' && 'message' in error) {
+    errorMessage = String(error.message)
+    errorTitle = options?.title || 'Something went wrong'
+  } else {
+    errorMessage = String(error)
+    errorTitle = options?.title || 'Something went wrong'
+  }
+
+  const toastOptions: Toast.Options = {
+    title: errorTitle,
+    message: errorMessage,
+    style: Toast.Style.Failure,
+    primaryAction: options?.primaryAction,
+  }
+
+  return showToast(toastOptions)
+}

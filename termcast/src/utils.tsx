@@ -4,7 +4,12 @@ import { Providers } from '@termcast/cli/src/internal/providers'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
-import { parsePackageJson, type RaycastPackageJson, getCommandsWithFiles, type CommandWithFile } from './package-json'
+import {
+  parsePackageJson,
+  type RaycastPackageJson,
+  getCommandsWithFiles,
+  type CommandWithFile,
+} from './package-json'
 import { logger } from './logger'
 
 export function renderWithProviders(element: ReactNode): void {
@@ -305,4 +310,348 @@ export function getStoredExtensions(): StoredExtension[] {
   }
 
   return extensions
+}
+
+export type ParseExecOutputHandler<T = any> = (args: { stdout: string }) => T
+
+export interface ExecuteOptions<T> {
+  humanReadableOutput?: boolean
+  language?: 'AppleScript' | 'JavaScript'
+  signal?: AbortSignal
+  timeout?: number
+  parseOutput?: ParseExecOutputHandler<T>
+}
+
+/**
+ * Executes an AppleScript or JavaScript for Automation script on macOS.
+ *
+ * This function provides a way to interact with macOS system features and applications
+ * through AppleScript or JavaScript for Automation (JXA). Only available on macOS.
+ *
+ * @param script - The AppleScript or JavaScript code to execute
+ * @param arguments_ - Optional array of arguments to pass to the script
+ * @param options - Execution options
+ * @param options.humanReadableOutput - Whether to format output for human readability (default: true)
+ * @param options.language - Script language: "AppleScript" (default) or "JavaScript"
+ * @param options.signal - AbortSignal to cancel execution
+ * @param options.timeout - Maximum execution time in milliseconds (default: 10000)
+ * @param options.parseOutput - Custom function to parse the script output
+ * @returns A Promise that resolves to the script output (string by default, or custom type if parseOutput is provided)
+ * @throws Error if not running on macOS or if script execution fails
+ *
+ * @example
+ * ```typescript
+ * // Simple AppleScript
+ * const result = await runAppleScript('return "Hello World"')
+ *
+ * // AppleScript with arguments
+ * const greeting = await runAppleScript(
+ *   'return "Hello " & item 1 of argv',
+ *   ['John']
+ * )
+ *
+ * // JavaScript for Automation
+ * const apps = await runAppleScript(
+ *   'Application("System Events").processes.name()',
+ *   undefined,
+ *   { language: 'JavaScript' }
+ * )
+ *
+ * // Custom output parsing
+ * interface SystemInfo {
+ *   name: string
+ *   version: string
+ * }
+ * const info = await runAppleScript<SystemInfo>(
+ *   'return "{\\"name\\": \\"macOS\\", \\"version\\": \\"14.0\\"}"',
+ *   undefined,
+ *   { parseOutput: ({ stdout }) => JSON.parse(stdout) }
+ * )
+ * ```
+ */
+export async function runAppleScript<T = string>(
+  script: string,
+  arguments_?: string[],
+  options?: ExecuteOptions<T>,
+): Promise<T> {
+  if (process.platform !== 'darwin') {
+    throw new Error('runAppleScript is only supported on macOS')
+  }
+
+  const { exec } = await import('node:child_process')
+  const { promisify } = await import('node:util')
+  const execAsync = promisify(exec)
+
+  const language = options?.language || 'AppleScript'
+  const timeout = options?.timeout || 10000
+  const parseOutput = options?.parseOutput
+
+  let command: string
+  let fullScript = script
+
+  if (arguments_ && arguments_.length > 0) {
+    if (language === 'AppleScript') {
+      const args = arguments_
+        .map((arg) => `"${arg.replace(/"/g, '\\"')}"`)
+        .join(', ')
+      // Check if the script already has an "on run" handler
+      if (script.includes('on run')) {
+        fullScript = script
+      } else {
+        fullScript = `on run argv\n${script}\nend run`
+      }
+      // Execute with arguments passed separately
+      command = `osascript ${options?.humanReadableOutput === false ? '' : '-ss'} -e '${fullScript.replace(/'/g, "'\"'\"'")}' ${args}`
+    } else {
+      // JavaScript for Automation
+      const args = arguments_.map((arg) => `'${arg.replace(/'/g, "\\'")}'`)
+      fullScript = `const argv = [${args.join(', ')}];\n${script}`
+      const wrappedScript = `(function() { ${fullScript.replace(/'/g, "'\"'\"'")} })()`
+      command = `osascript -l JavaScript -e '${wrappedScript}'`
+    }
+  } else {
+    const escapedScript = fullScript.replace(/'/g, "'\"'\"'")
+
+    if (language === 'JavaScript') {
+      // For JavaScript, wrap in a function to allow return statements
+      const wrappedScript = `(function() { ${escapedScript} })()`
+      command = `osascript -l JavaScript -e '${wrappedScript}'`
+    } else {
+      command = `osascript ${options?.humanReadableOutput === false ? '' : '-ss'} -e '${escapedScript}'`
+    }
+  }
+
+  try {
+    const { stdout, stderr } = await execAsync(command, {
+      timeout,
+      signal: options?.signal,
+    })
+
+    if (stderr) {
+      throw new Error(stderr)
+    }
+
+    let result = stdout.trim()
+
+    // Remove surrounding quotes if present (AppleScript returns quoted strings)
+    if (
+      result.startsWith('"') &&
+      result.endsWith('"') &&
+      options?.humanReadableOutput !== false
+    ) {
+      result = result.slice(1, -1)
+    }
+
+    if (parseOutput) {
+      return parseOutput({ stdout: result })
+    }
+
+    return result as T
+  } catch (error: any) {
+    if (error.code === 'ETIMEDOUT') {
+      throw new Error(`AppleScript execution timed out after ${timeout}ms`)
+    }
+    throw error
+  }
+}
+
+export enum LaunchType {
+  UserInitiated = 'userInitiated',
+  Background = 'background',
+}
+
+export enum DeeplinkType {
+  Extension = 'extension',
+  ScriptCommand = 'script-command',
+}
+
+export interface LaunchProps {
+  name?: string
+  path?: string
+  callback?: () => void
+  fallbackText?: string
+  preferredItemHeight?: string
+  resizeToContent?: boolean
+  subtitle?: string
+  onSearchTextChange?: (text: string) => void
+  arguments?: any
+  context?: any
+  type?: string
+}
+
+interface ExtensionDeeplinkOptions {
+  type?: DeeplinkType.Extension
+  command: string
+  launchType?: LaunchType
+  arguments?: LaunchProps['arguments']
+  fallbackText?: string
+  ownerOrAuthorName?: string
+  extensionName?: string
+}
+
+interface ScriptCommandDeeplinkOptions {
+  type: DeeplinkType.ScriptCommand
+  command: string
+  arguments?: string[]
+}
+
+/**
+ * Creates a Raycast deeplink URL for extensions or script commands.
+ *
+ * Deeplinks allow you to launch Raycast commands from external applications or share
+ * direct links to specific functionality. Supports both installed extensions and
+ * script commands.
+ *
+ * @param options - Configuration for the deeplink
+ * @param options.type - Type of deeplink: DeeplinkType.Extension (default) or DeeplinkType.ScriptCommand
+ * @param options.command - The command name to execute
+ * @param options.launchType - How to launch the command: LaunchType.UserInitiated or LaunchType.Background (extension only)
+ * @param options.arguments - Arguments to pass to the command (extension: any object, script: string array)
+ * @param options.fallbackText - Text to show if the command is not available (extension only)
+ * @param options.ownerOrAuthorName - The owner or author name for published extensions (extension only)
+ * @param options.extensionName - The extension name (extension only)
+ * @returns A Raycast deeplink URL string
+ *
+ * @example
+ * ```typescript
+ * // Extension deeplink
+ * const extensionUrl = createDeeplink({
+ *   command: 'search-notes',
+ *   extensionName: 'notion',
+ *   ownerOrAuthorName: 'raycast',
+ *   arguments: { query: 'meeting notes' },
+ *   fallbackText: 'Search Notion'
+ * })
+ * // Returns: "raycast://extensions/raycast/notion/search-notes?fallbackText=Search+Notion&arguments=%257B%2522query%2522%253A%2522meeting%2520notes%2522%257D"
+ *
+ * // Script command deeplink
+ * const scriptUrl = createDeeplink({
+ *   type: DeeplinkType.ScriptCommand,
+ *   command: 'toggle-system-appearance',
+ *   arguments: ['dark']
+ * })
+ * // Returns: "raycast://script-commands/toggle-system-appearance?name=toggle-system-appearance&arguments=dark"
+ *
+ * // Background launch
+ * const backgroundUrl = createDeeplink({
+ *   command: 'sync-data',
+ *   launchType: LaunchType.Background,
+ *   extensionName: 'my-extension'
+ * })
+ * ```
+ */
+export function createDeeplink(
+  options: ExtensionDeeplinkOptions | ScriptCommandDeeplinkOptions,
+): string {
+  const baseUrl = 'raycast://'
+
+  if (options.type === DeeplinkType.ScriptCommand) {
+    const params = new URLSearchParams()
+    params.set('name', options.command)
+
+    if (options.arguments && options.arguments.length > 0) {
+      params.set('arguments', options.arguments.join('\t'))
+    }
+
+    return `${baseUrl}script-commands/${options.command}?${params.toString()}`
+  }
+
+  // Extension deeplink
+  const extensionOptions = options as ExtensionDeeplinkOptions
+  const params = new URLSearchParams()
+
+  if (extensionOptions.fallbackText) {
+    params.set('fallbackText', extensionOptions.fallbackText)
+  }
+
+  if (extensionOptions.launchType) {
+    params.set('launchType', extensionOptions.launchType)
+  }
+
+  if (extensionOptions.arguments) {
+    params.set(
+      'arguments',
+      encodeURIComponent(JSON.stringify(extensionOptions.arguments)),
+    )
+  }
+
+  let path = 'extensions'
+
+  if (extensionOptions.ownerOrAuthorName && extensionOptions.extensionName) {
+    path = `${path}/${extensionOptions.ownerOrAuthorName}/${extensionOptions.extensionName}`
+  } else if (extensionOptions.extensionName) {
+    path = `${path}/${extensionOptions.extensionName}`
+  }
+
+  const queryString = params.toString()
+  const url = `${baseUrl}${path}/${extensionOptions.command}${queryString ? '?' + queryString : ''}`
+
+  return url
+}
+
+/**
+ * Executes a SQL query on a local SQLite database and returns the results.
+ *
+ * This function provides read-only access to SQLite databases, useful for querying
+ * application data, browser history, or other local SQLite-based storage.
+ *
+ * @param databasePath - Absolute path to the SQLite database file
+ * @param query - SQL query to execute (SELECT statements recommended)
+ * @returns A Promise that resolves to an array of result objects
+ * @throws Error if the database file doesn't exist or query execution fails
+ * @template T - Type of the expected result objects (default: unknown)
+ *
+ * @example
+ * ```typescript
+ * // Query browser bookmarks
+ * interface Bookmark {
+ *   title: string
+ *   url: string
+ *   date_added: number
+ * }
+ * const bookmarks = await executeSQL<Bookmark>(
+ *   '/Users/john/Library/Safari/Bookmarks.db',
+ *   'SELECT title, url, date_added FROM bookmarks ORDER BY date_added DESC LIMIT 10'
+ * )
+ *
+ * // Query application data
+ * const appData = await executeSQL(
+ *   '/path/to/app.db',
+ *   'SELECT * FROM settings WHERE key = "theme"'
+ * )
+ *
+ * // Aggregate query
+ * interface Stats {
+ *   total: number
+ *   average: number
+ * }
+ * const stats = await executeSQL<Stats>(
+ *   '/path/to/data.db',
+ *   'SELECT COUNT(*) as total, AVG(score) as average FROM results'
+ * )
+ * ```
+ */
+export async function executeSQL<T = unknown>(
+  databasePath: string,
+  query: string,
+): Promise<T[]> {
+  const { Database } = await import('bun:sqlite')
+
+  if (!fs.existsSync(databasePath)) {
+    throw new Error(`Database file not found: ${databasePath}`)
+  }
+
+  const db = new Database(databasePath, {
+    readonly: true,
+  })
+
+  try {
+    const stmt = db.prepare(query)
+    const results = stmt.all() as T[]
+    return results
+  } catch (error: any) {
+    throw new Error(`SQL execution failed: ${error.message}`)
+  } finally {
+    db.close()
+  }
 }
