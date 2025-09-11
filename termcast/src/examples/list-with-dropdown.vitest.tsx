@@ -16,17 +16,16 @@ afterEach(() => {
 })
 
 test('list with dropdown navigation', async () => {
-  await driver.text({
+  const initialSnapshot = await driver.text({
     waitFor: (text) => {
-      // wait for list to show up
-      return /search beers/i.test(text)
+      // wait for list to show up with all items loaded
+      return /search beers/i.test(text) &&
+             text.includes('Beer ▾') &&
+             text.includes('Augustiner Helles') &&
+             text.includes('Apple Juice')
     },
   })
 
-  // Add small delay to ensure all items have registered
-  await new Promise(resolve => setTimeout(resolve, 100))
-
-  const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -195,13 +194,13 @@ test('list with dropdown navigation', async () => {
 test('list with dropdown search and filter', async () => {
   await driver.text({
     waitFor: (text) => {
-      // wait for list to show up
-      return /search beers/i.test(text)
+      // wait for list to show up with all items loaded
+      return /search beers/i.test(text) &&
+             text.includes('Beer ▾') &&
+             text.includes('Augustiner Helles') &&
+             text.includes('Apple Juice')
     },
   })
-
-  // Add small delay to ensure all items have registered
-  await new Promise(resolve => setTimeout(resolve, 100))
 
   // Open dropdown
   await driver.keys.ctrlP()

@@ -23,6 +23,9 @@ test('form basic navigation and input', async () => {
     },
   })
 
+  // Small delay to ensure all form components are rendered
+  await driver.waitIdle()
+
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "

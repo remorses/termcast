@@ -16,17 +16,17 @@ afterEach(() => {
 })
 
 test('navigation between main and detail views', async () => {
-  await driver.text({
+  const initialSnapshot = await driver.text({
     waitFor: (text) => {
-      // wait for main view to show up
-      return /Navigation Example/i.test(text)
+      // wait for main view to show up with all items loaded
+      return /Navigation Example/i.test(text) &&
+             text.includes('Main view') &&
+             text.includes('First Item') &&
+             text.includes('Second Item') &&
+             text.includes('Third Item')
     },
   })
 
-  // Add small delay to ensure all items have registered
-  await new Promise(resolve => setTimeout(resolve, 100))
-
-  const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
