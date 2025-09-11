@@ -1,0 +1,4 @@
+[2025-09-11T10:52:55.858Z] ERROR: Uncaught Exception: Cannot require module @xmorse/rfd-darwin-arm64 Error: Cannot require module @xmorse/rfd-darwin-arm64
+    at <anonymous> (/$bunfs/root/termcast-macos-arm64:41191:50)
+    at /$bunfs/root/termcast-macos-arm64:41191:106
+    at asyncModuleEvaluation (native:2)
