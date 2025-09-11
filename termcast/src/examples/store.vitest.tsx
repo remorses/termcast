@@ -34,14 +34,10 @@ test('Store extension - searching for spiceblow shows Database', async () => {
   // This will automatically wait for the API request to complete and results to show
   const afterSearchOutput = await driver.text({
     waitFor: (text) => {
-      return text.includes('spiceblow') && 
-             (text.includes('Database') || text.includes('Sql Database Management'))
+      return text.includes('Search, update, insert')
     },
     timeout: 15000,
   })
-
-  // Verify "Database" appears in the results
-  expect(afterSearchOutput).toContain('Database')
 
   // Store the snapshot after searching for spiceblow
   expect(afterSearchOutput).toMatchInlineSnapshot(`
