@@ -23,6 +23,9 @@ test('dropdown defaults to first item when no value is provided', async () => {
     },
   })
 
+  // Add small delay to ensure all items have registered
+  await new Promise(resolve => setTimeout(resolve, 100))
+
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "

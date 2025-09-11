@@ -23,44 +23,47 @@ test('navigation between main and detail views', async () => {
     },
   })
 
+  // Add small delay to ensure all items have registered
+  await new Promise(resolve => setTimeout(resolve, 100))
+
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-      ›First Item Navigate to first detail
-       Second Item Navigate to second detail
-       Third Item Navigate to third detail
+     Main view
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     Third Item Navigate to third detail
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Navigate to second item
   await driver.keys.down()
 
   const afterDownSnapshot = await driver.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-       First Item Navigate to first detail
-      ›Second Item Navigate to second detail
-       Third Item Navigate to third detail
+     Main view
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Items
+     First Item Navigate to first detail
+    ›Second Item Navigate to second detail
+     Third Item Navigate to third detail
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Press Enter to open actions panel
   await driver.keys.enter()
@@ -100,19 +103,19 @@ test('navigation between main and detail views', async () => {
     },
   })
   expect(detailViewSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Detail: Second Item ────────────────────────────────────────────
+     Detail: Second Item ────────────────────────────────────────────
 
-       Detail view - Press ESC to go back
-
-
-       Details
-      ›This is the detail view for Second Item Press Enter to go back or E
+     Detail view - Press ESC to go back
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Details
+    ›This is the detail view for Second Item Press Enter to go back or E
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Press ESC to go back to main view
   await driver.keys.escape()
@@ -336,23 +339,23 @@ test('navigation with actions panel', async () => {
 
   const afterCopySnapshot = await driver.text()
   expect(afterCopySnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-       Main view
-
-
-       Items
-      ›First Item Navigate to first detail
-       Second Item Navigate to second detail
-       Third Item Navigate to third detail
+     Main view
 
 
-       ┌────────────────────────────────────┐
-       │ ✓ Copied to Clipboard - First Item │
-       └────────────────────────────────────┘"
-    `)
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     Third Item Navigate to third detail
+
+
+     ┌────────────────────────────────────┐
+     │ ✓ Copied to Clipboard - First Item │
+     └────────────────────────────────────┘"
+  `)
 
   // Navigate to second item and open its detail
   await driver.keys.down()
@@ -424,19 +427,19 @@ test('navigation with actions panel', async () => {
     },
   })
   expect(backViaActionSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Detail: Second Item ────────────────────────────────────────────
+     Detail: Second Item ────────────────────────────────────────────
 
-       Detail view - Press ESC to go back
-
-
-       Details
-      ›This is the detail view for Second Item Press Enter to go back or E
+     Detail view - Press ESC to go back
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Details
+    ›This is the detail view for Second Item Press Enter to go back or E
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 }, 15000)
 
 test('search functionality in main and detail views', async () => {
