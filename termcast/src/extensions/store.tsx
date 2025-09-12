@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import fs from 'node:fs'
 import path from 'node:path'
-import dedent from 'dedent'
+import dedent from 'string-dedent'
 import { useQuery } from '@tanstack/react-query'
 import {
   List,
@@ -105,7 +105,9 @@ function StoreSearch(): any {
               <Action
                 title='View Details'
                 onAction={() => {
-                  push(<ExtensionDetails extension={ext} />)
+                  const Component = () => <ExtensionDetails extension={ext} />
+                  Component.displayName = `store-extension-${ext.name}`
+                  push(<Component />)
                 }}
               />
               <Action.OpenInBrowser
@@ -194,6 +196,7 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
       try {
         const buildResult = await buildExtensionCommands({
           extensionPath: extensionDir,
+          format: 'cjs',
         })
         logger.log(
           `Built ${buildResult.commands.length} commands for ${extension.name}`,
@@ -232,7 +235,9 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
         primaryAction: {
           title: 'Configure',
           onAction: () => {
-            push(<ExtensionPreferences extensionName={extension.name} />)
+            const Component = () => <ExtensionPreferences extensionName={extension.name} />
+            Component.displayName = `store-preferences-${extension.name}`
+            push(<Component />)
           },
         },
       })
@@ -311,33 +316,33 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
               {extensionInfo.hasRequiredPreferences && (
                 <Action
                   title='Configure Extension'
-                  onAction={() =>
-                    push(
-                      <ExtensionPreferences extensionName={extension.name} />,
-                    )
-                  }
+                  onAction={() => {
+                    const Component = () => <ExtensionPreferences extensionName={extension.name} />
+                    Component.displayName = `store-preferences-${extension.name}`
+                    push(<Component />)
+                  }}
                 />
               )}
               <Action
                 title='Use Extension'
                 onAction={() => {
-                  push(
-                    <Home
-                      key={extension.name}
-                      initialSearchQuery={extension.name}
-                    />,
-                  )
+                  const Component = () => <Home
+                    key={extension.name}
+                    initialSearchQuery={extension.name}
+                  />
+                  Component.displayName = `store-home-${extension.name}`
+                  push(<Component />)
                 }}
               />
               {extensionInfo.hasPreferences &&
                 !extensionInfo.hasRequiredPreferences && (
-                  <Action
-                    title='Configure Extension'
-                    onAction={() =>
-                      push(
-                        <ExtensionPreferences extensionName={extension.name} />,
-                      )
-                    }
+                    <Action
+                      title='Configure Extension'
+                      onAction={() => {
+                        const Component = () => <ExtensionPreferences extensionName={extension.name} />
+                        Component.displayName = `store-preferences-${extension.name}`
+                        push(<Component />)
+                      }}
                   />
                 )}
               <Action title='Reinstall Extension' onAction={handleInstall} />
@@ -352,7 +357,10 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
     />
   )
 }
+ExtensionDetails.displayName = 'ExtensionDetails'
 
+StoreSearch.displayName = 'StoreSearch'
 export default function Store(): any {
   return <StoreSearch />
 }
+Store.displayName = 'Store'

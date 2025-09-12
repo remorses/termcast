@@ -158,7 +158,7 @@ export {
 } from '@termcast/cli/src/internal/dialog'
 
 // Toast
-export { Toast, showToast } from '@termcast/cli/src/apis/toast'
+export { Toast, showToast, showFailureToast } from '@termcast/cli/src/apis/toast'
 
 // Clipboard
 export {
@@ -233,3 +233,6 @@ export { renderWithProviders } from '@termcast/cli/src/utils'
 
 // Window Management
 export { closeMainWindow, PopToRootType } from '@termcast/cli/src/apis/window'
+
+// HUD
+export { showHUD } from '@termcast/cli/src/apis/hud'

@@ -187,8 +187,10 @@ export interface BuildResult {
 
 export async function buildExtensionCommands({
   extensionPath,
+  format = 'cjs',
 }: {
   extensionPath: string
+  format?: 'cjs' | 'esm'
 }): Promise<BuildResult> {
   const resolvedPath = path.resolve(extensionPath)
   const bundleDir = path.join(resolvedPath, '.termcast-bundle')
@@ -217,7 +219,7 @@ export async function buildExtensionCommands({
     entrypoints,
     outdir: bundleDir,
     target: 'node',
-    format: 'cjs',
+    format,
     // external: [],
     plugins: [aliasPlugin],
     naming: '[name].js',

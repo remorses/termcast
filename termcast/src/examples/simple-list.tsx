@@ -1,7 +1,7 @@
 import { renderWithProviders, Detail, Action, ActionPanel } from '@termcast/cli'
 import List from '@termcast/cli'
 import { useNavigation } from '@termcast/cli/src/internal/navigation'
-import dedent from 'dedent'
+import dedent from 'string-dedent'
 
 function ListExample() {
   const { push } = useNavigation()

@@ -121,12 +121,12 @@ export class Toast {
   }
 }
 
-interface ToastComponentProps {
+export interface ToastComponentProps {
   toast: Toast
   onHide: () => void
 }
 
-function ToastComponent({ toast, onHide }: ToastComponentProps): any {
+export function ToastComponent({ toast, onHide }: ToastComponentProps): any {
   const [, forceUpdate] = useState(0)
   const dimensions = useTerminalDimensions()
   const inFocus = useIsInFocus()
@@ -283,7 +283,7 @@ function ToastComponent({ toast, onHide }: ToastComponentProps): any {
 
 let currentToastInstance: Toast | null = null
 
-function showToastInternal(toast: Toast): void {
+export function showToastInternal(toast: Toast): void {
   currentToastInstance = toast
   useStore.setState({
     toast: (

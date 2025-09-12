@@ -151,6 +151,7 @@ export async function startDevMode({
   // Build and set initial devElement
   const { commands } = await buildExtensionCommands({
     extensionPath: resolvedPath,
+    format: 'esm',
   })
 
   // Reset state and set extension information
@@ -180,7 +181,10 @@ export async function triggerRebuild({
   extensionPath: string
 }): Promise<void> {
   try {
-    const { commands } = await buildExtensionCommands({ extensionPath })
+    const { commands } = await buildExtensionCommands({ 
+      extensionPath,
+      format: 'esm',
+    })
 
     // Re-parse package.json in case it changed
     const packageJsonPath = path.join(extensionPath, 'package.json')
