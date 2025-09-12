@@ -110,44 +110,39 @@ class ErrorBoundaryClass extends Component<
 
     const logs = this.getRecentLogs()
     
-    // Get navigation stack information
+    // Get navigation stack information for body
     const navigationStack = useStore.getState().navigationStack
-    const navigationComponents = navigationStack.map((item) => {
+    const navigationInfo = navigationStack.map((item, index) => {
       const element = item.element as any
       const componentName = element?.type?.displayName || 
                            element?.type?.name || 
                            element?.type || 
                            'Unknown'
-      return componentName
-    })
-    
-    // Create navigation path for title (max 4 components)
-    const navigationPath = navigationComponents
-      .slice(-4)  // Take last 4 components
-      .map(name => `\`${name}\``)
-      .join(' > ')
-    
-    // Create full navigation info for body
-    const navigationInfo = navigationComponents
-      .map((name, index) => `${index + 1}. ${name}`)
-      .join('\n')
+      return `${index + 1}. ${componentName}`
+    }).join('\n')
 
     // Get current extension/command info
     const extensionPackageJson = useStore.getState().extensionPackageJson
     const currentCommandName = useStore.getState().currentCommandName
     const extensionPath = useStore.getState().extensionPath
     
-    let contextInfo = ''
     const extensionName = extensionPackageJson?.name || (extensionPath ? path.basename(extensionPath) : null)
+    
+    let contextInfo = ''
+    let titlePrefix = ''
     
     if (extensionName) {
       contextInfo = `Extension: ${extensionName}`
+      titlePrefix = `\`${extensionName}\``
       if (currentCommandName) {
         contextInfo += ` | Command: ${currentCommandName}`
+        titlePrefix += ` > \`${currentCommandName}\``
       }
     }
 
-    const title = encodeURIComponent(`${navigationPath}: ${error.message}`)
+    const title = encodeURIComponent(
+      titlePrefix ? `${titlePrefix}: ${error.message}` : error.message
+    )
     
     const body = encodeURIComponent(dedent`
       ## Error Details
