@@ -19,7 +19,7 @@
     },
     "termcast": {
       "name": "@termcast/cli",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "bin": {
         "termcast": "src/cli.tsx",
       },
@@ -28,7 +28,6 @@
         "@opentui/react": "0.1.18",
         "@tanstack/react-query": "^5.85.5",
         "@tanstack/react-query-persist-client": "^5.85.5",
-        "@xmorse/rfd": "^2.2.6",
         "cac": "^6.7.14",
         "change-case": "^5.4.4",
         "chokidar": "^4.0.3",
@@ -92,7 +91,6 @@
     "@tailwindcss/oxide",
     "esbuild",
     "node-pty",
-    "@xmorse/rfd",
   ],
   "packages": {
     "@actions/cache": ["@actions/cache@3.3.0", "", { "dependencies": { "@actions/core": "^1.11.1", "@actions/exec": "^1.0.1", "@actions/glob": "^0.1.0", "@actions/http-client": "^2.1.1", "@actions/io": "^1.0.1", "@azure/abort-controller": "^1.1.0", "@azure/ms-rest-js": "^2.6.0", "@azure/storage-blob": "^12.13.0", "semver": "^6.3.1" } }, "sha512-+eCsMTIZUEm+QA9GqjollOhCdvRrZ1JV8d9Rp34zVNizBkYITO8dhKczP5Xps1dFzc5n59p7vYVtZrGt18bb5Q=="],
@@ -686,8 +684,6 @@
     "@webgpu/types": ["@webgpu/types@0.1.64", "", {}, "sha512-84kRIAGV46LJTlJZWxShiOrNL30A+9KokD7RB3dRCIqODFjodS5tCD5yyiZ8kIReGVZSDfA3XkkwyyOIF6K62A=="],
 
     "@xmorse/deployment-utils": ["@xmorse/deployment-utils@0.6.3", "", { "dependencies": { "@actions/cache": "^3.2.1", "@iarna/toml": "^2.2.5", "@mjackson/node-fetch-server": "^0.7.0", "@types/folder-hash": "^4.0.2", "async-sema": "^3.1.1", "express": "^4.21.2", "find-up": "^7.0.0", "folder-hash": "^4.0.4", "fs-extra": "^10.1.0", "morgan": "^1.10.1", "on-headers": "^1.1.0", "picocolors": "^1.0.0", "pkg-types": "^2.2.0", "tempfile": "^4.0.0", "vite": "^6.3.5" } }, "sha512-zHfZPNUSeH12/7LauHg6dkepeGAyHOqUw0iQNj22DXJctE/+0qkEDNEjhF8QwcoPET/kTk83TFYq5tc69WvbyA=="],
-
-    "@xmorse/rfd": ["@xmorse/rfd@2.2.6", "", {}, "sha512-nw6WohnVUzAvYV55NKAGZ4zVlOC4N+H70lkbkKqyHG/ExU21wcWuXmSyw0hFn9GgMMjgKHVaKpeeY8/KBiNhYw=="],
 
     "@xterm/addon-serialize": ["@xterm/addon-serialize@0.13.0", "", { "peerDependencies": { "@xterm/xterm": "^5.0.0" } }, "sha512-kGs8o6LWAmN1l2NpMp01/YkpxbmO4UrfWybeGu79Khw5K9+Krp7XhXbBTOTc3GJRRhd6EmILjpR8k5+odY39YQ=="],
 

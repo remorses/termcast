@@ -7,8 +7,6 @@ import { useFocusContext } from './index'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
 
-import { homedir } from 'os'
-
 export interface FilePickerProps extends FormItemProps<string[]> {
   /**
    * Indicates whether the user can select multiple items or only one.
@@ -31,6 +29,10 @@ export interface FilePickerProps extends FormItemProps<string[]> {
    * @defaultValue `false`
    */
   showHiddenFiles?: boolean
+  /**
+   * Placeholder text for the input field
+   */
+  placeholder?: string
 }
 
 export type FilePickerRef = FormItemRef
@@ -42,7 +44,6 @@ const FilePickerField = ({
   props,
   isFocused,
   setFocusedField,
-  handleSelectFiles,
 }: {
   field: any
   fieldState: any
@@ -50,29 +51,29 @@ const FilePickerField = ({
   props: FilePickerProps
   isFocused: boolean
   setFocusedField: (id: string) => void
-  handleSelectFiles: (
-    onChange: (value: string[]) => void,
-    currentValue: string[],
-  ) => void
 }): any => {
   const isInFocus = useIsInFocus()
+  const [inputValue, setInputValue] = React.useState('')
 
-  // Handle Enter key to open file picker
+  // Handle Enter key to add file path
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
 
-    if (evt.name === 'return') {
-      handleSelectFiles(field.onChange, field.value)
+    if (evt.name === 'return' && inputValue.trim()) {
+      const currentFiles = field.value || []
+      const newFiles =
+        props.allowMultipleSelection !== false
+          ? [...currentFiles, inputValue.trim()]
+          : [inputValue.trim()]
+      field.onChange(newFiles)
+      if (props.onChange) {
+        props.onChange(newFiles)
+      }
+      setInputValue('')
     }
   })
 
   const selectedFiles = field.value || []
-  const displayText =
-    selectedFiles.length === 0
-      ? 'No files selected'
-      : selectedFiles.length === 1
-        ? selectedFiles[0].split('/').pop() || selectedFiles[0]
-        : `${selectedFiles.length} files selected`
 
   return (
     <box flexDirection='column'>
@@ -83,22 +84,27 @@ const FilePickerField = ({
             setFocusedField(props.id)
           }}
         >
-          {props.title || 'Select Files'}
+          {props.title || 'File Path'}
         </text>
       </WithLeftBorder>
       <WithLeftBorder isFocused={isFocused}>
-        <box flexDirection='row'>
-          <text
-            fg={selectedFiles.length > 0 ? Theme.text : Theme.textMuted}
-            onMouseDown={() => {
-              setFocusedField(props.id)
-              handleSelectFiles(field.onChange, field.value)
-            }}
-          >
-            {displayText}
-          </text>
-          {isFocused && (
-            <text fg={Theme.primary}> (Press Enter to select)</text>
+        <box flexDirection='column'>
+          <input
+            value={inputValue}
+            placeholder={props.placeholder || 'Enter file path...'}
+            focused={isFocused}
+            onMouseDown={() => setFocusedField(props.id)}
+            onInput={(value: string) => setInputValue(value)}
+          />
+          {selectedFiles.length > 0 && (
+            <box flexDirection='column' marginTop={1}>
+              <text fg={Theme.textMuted}>Selected files:</text>
+              {selectedFiles.map((file: string, index: number) => (
+                <text key={index} fg={Theme.text}>
+                  • {file}
+                </text>
+              ))}
+            </box>
           )}
         </box>
       </WithLeftBorder>
@@ -146,45 +152,6 @@ export const FilePicker = (props: FilePickerProps): any => {
     }
   }
 
-  const handleSelectFiles = async (
-    onChange: (value: string[]) => void,
-    currentValue: string[],
-  ) => {
-    // Import FileDialog dynamically so that it's only loaded when needed
-    const { FileDialog } = await import('@xmorse/rfd')
-    const dialog = new FileDialog()
-      .setTitle(props.title || 'Select Files')
-      .setDirectory(homedir())
-
-    let result: string | string[] | null = null
-
-    // Apply defaults: allowMultipleSelection defaults to true, canChooseFiles defaults to true
-    const allowMultiple = props.allowMultipleSelection !== false
-    const canChooseFiles = props.canChooseFiles !== false
-    const canChooseDirectories = props.canChooseDirectories === true
-
-    // Handle directory vs file selection
-    if (canChooseDirectories && !canChooseFiles) {
-      // Only directories
-      result = allowMultiple ? dialog.pickFolders() : dialog.pickFolder()
-    } else if (!canChooseDirectories && canChooseFiles) {
-      // Only files (default)
-      result = allowMultiple ? dialog.pickFiles() : dialog.pickFile()
-    } else if (canChooseDirectories && canChooseFiles) {
-      // TODO: rfd doesn't support mixed file/directory selection
-      // Default to file selection when both are true
-      result = allowMultiple ? dialog.pickFiles() : dialog.pickFile()
-    }
-
-    if (result) {
-      const newValue = Array.isArray(result) ? result : [result]
-      onChange(newValue)
-      if (props.onChange) {
-        props.onChange(newValue)
-      }
-    }
-  }
-
   // Handle keyboard navigation
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
@@ -210,7 +177,6 @@ export const FilePicker = (props: FilePickerProps): any => {
             props={props}
             isFocused={isFocused}
             setFocusedField={setFocusedField}
-            handleSelectFiles={handleSelectFiles}
           />
         ) as React.ReactElement
       }}
