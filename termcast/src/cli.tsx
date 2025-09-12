@@ -105,7 +105,10 @@ cli
 
     console.log('Building extension...')
     try {
-      const buildResult = await buildExtensionCommands({ extensionPath })
+      const buildResult = await buildExtensionCommands({ 
+        extensionPath,
+        format: 'esm',
+      })
       console.log(`Successfully built ${buildResult.commands.length} commands`)
 
       for (const cmd of buildResult.commands) {

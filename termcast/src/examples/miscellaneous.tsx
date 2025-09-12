@@ -23,9 +23,9 @@ import {
   PopToRootType,
 } from '@termcast/cli'
 import { confirmAlert, Alert } from '@termcast/cli'
-import { showToast, Toast } from '@termcast/cli'
+import { showToast, Toast, showHUD } from '@termcast/cli'
 import { Detail } from '@termcast/cli'
-import dedent from 'dedent'
+import dedent from 'string-dedent'
 
 function DetailExample(): any {
   return (
@@ -243,6 +243,21 @@ function MiscellaneousExample(): any {
               <Action
                 title='Show Toast'
                 onAction={handleShowToastWithActions}
+              />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
+          title='Show HUD'
+          subtitle='Display a compact HUD message'
+          actions={
+            <ActionPanel>
+              <Action
+                title='Show HUD'
+                onAction={async () => {
+                  await showHUD('Operation completed successfully!')
+                }}
               />
             </ActionPanel>
           }
