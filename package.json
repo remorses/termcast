@@ -2,7 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "release": "cd termcast && bun run release"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
