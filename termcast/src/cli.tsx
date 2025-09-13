@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { execSync } from 'node:child_process'
+import { execSync, spawn } from 'node:child_process'
 import { cac } from 'cac'
 import chokidar from 'chokidar'
 import { buildExtensionCommands } from './build'
@@ -9,8 +9,52 @@ import { installExtension } from './utils'
 import './globals'
 import { startDevMode, triggerRebuild } from './extensions/dev'
 import { runHomeCommand } from './extensions/home'
+import { showToast, Toast } from './apis/toast'
+import packageJson from '../package.json'
 
 const cli = cac('termcast')
+
+// Auto-update check
+async function checkForUpdates() {
+  try {
+    const currentVersion = packageJson.version
+
+    // Fetch latest release info from GitHub
+    const response = await fetch(
+      'https://api.github.com/repos/remorses/termcast/releases/latest',
+    )
+    if (!response.ok) {
+      return
+    }
+
+    const latestRelease = await response.json()
+    const latestVersion =
+      latestRelease.tag_name?.replace('@termcast/cli@', '') ||
+      latestRelease.tag_name?.replace('v', '')
+
+    // Compare versions
+    if (latestVersion && latestVersion !== currentVersion) {
+      // Run the install script in background
+      spawn('bash', ['-c', 'curl -sf https://termcast.app/install | bash'], {
+        detached: true,
+        stdio: 'ignore',
+      }).unref()
+
+      // Show toast notification
+      await showToast({
+        title: 'Update available',
+        message: `Restart to use the new version ${latestVersion}`,
+        style: Toast.Style.Success,
+      })
+    }
+  } catch (error) {
+    // Silently fail - don't interrupt the user's workflow
+    logger.log('Failed to check for updates:', error)
+  }
+}
+
+// Check for updates when CLI starts
+checkForUpdates()
 
 cli
   .command('dev', 'Run the extension in the current working directory')
@@ -105,7 +149,7 @@ cli
 
     console.log('Building extension...')
     try {
-      const buildResult = await buildExtensionCommands({ 
+      const buildResult = await buildExtensionCommands({
         extensionPath,
         format: 'esm',
       })
