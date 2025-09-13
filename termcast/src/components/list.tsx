@@ -23,6 +23,7 @@ import { useStore } from '@termcast/cli/src/state'
 import { useDialog } from '@termcast/cli/src/internal/dialog'
 import { createDescendants } from '@termcast/cli/src/descendants'
 import { LoadingBar } from '@termcast/cli/src/components/loading-bar'
+import { useNavigationPending } from '@termcast/cli/src/internal/navigation'
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -607,6 +608,7 @@ export const List: ListType = (props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const inputRef = useRef<any>(null)
   const descendantsContext = useListDescendants()
+  const navigationPending = useNavigationPending()
 
   const searchText =
     controlledSearchText !== undefined
@@ -772,7 +774,7 @@ export const List: ListType = (props) => {
                 flexGrow: 1,
               }}
             >
-              <LoadingBar title={navigationTitle} isLoading={isLoading} />
+              <LoadingBar title={navigationTitle} isLoading={isLoading || navigationPending} />
             </box>
           )}
 

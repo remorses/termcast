@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   startTransition,
+  useTransition,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
 import { CommonProps } from '@termcast/cli/src/utils'
@@ -21,6 +22,7 @@ interface Navigation {
 interface NavigationContextType {
   navigation: Navigation
   stack: NavigationStackItem[]
+  isPending: boolean
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(
@@ -33,6 +35,7 @@ interface NavigationProviderProps extends CommonProps {
 
 export function NavigationProvider(props: NavigationProviderProps): any {
   const stack = useStore((state) => state.navigationStack)
+  const [isPending, startNavigationTransition] = useTransition()
 
   // Initialize stack with children if empty
   useLayoutEffect(() => {
@@ -54,7 +57,7 @@ export function NavigationProvider(props: NavigationProviderProps): any {
     )
 
     const currentStack = useStore.getState().navigationStack
-    startTransition(() => {
+    startNavigationTransition(() => {
       useStore.setState({
         navigationStack: [...currentStack, { element, onPop }],
         dialogStack: [],
@@ -72,7 +75,7 @@ export function NavigationProvider(props: NavigationProviderProps): any {
       poppedItem.onPop()
     }
 
-    startTransition(() => {
+    startNavigationTransition(() => {
       useStore.setState({ navigationStack: newStack })
     })
   }, [])
@@ -89,8 +92,9 @@ export function NavigationProvider(props: NavigationProviderProps): any {
     () => ({
       navigation,
       stack: stack.length > 0 ? stack : [{ element: props.children }],
+      isPending,
     }),
-    [navigation, stack, props.children],
+    [navigation, stack, props.children, isPending],
   )
 
   const inFocus = useIsInFocus()
@@ -127,6 +131,11 @@ export function useNavigation(): Navigation {
     throw new Error('useNavigation must be used within a NavigationProvider')
   }
   return context.navigation
+}
+
+export function useNavigationPending(): boolean {
+  const context = useContext(NavigationContext)
+  return context?.isPending || false
 }
 
 interface NavigationContainerProps extends CommonProps {
