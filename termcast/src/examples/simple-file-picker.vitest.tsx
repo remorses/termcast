@@ -62,15 +62,15 @@ test('file picker with autocomplete', async () => {
 
     ◇  Your Name
     │  John Doe
-    ◇  Select Files
-    │  Enter file path...
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
+    ◆  Select Files
     │  src
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁a src                                                      │
-    ◇  Select─Single─File────────────────────────────────────────────┘
+    ◇  Select─Folder─────────────────────────────────────────────────┘
+    │  Enter file path...
+    │  Choose a folder for output
+    │
+    ◇  Select Single File
     │  Enter file path...
     │  Choose exactly one file
     │
@@ -89,15 +89,15 @@ test('file picker with autocomplete', async () => {
 
     ◇  Your Name
     │  John Doe
-    ◇  Select Files
-    │  Enter file path...
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
+    ◆  Select Files
     │  src
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁a src                                                      │
-    ◇  Select─Single─File────────────────────────────────────────────┘
+    ◇  Select─Folder─────────────────────────────────────────────────┘
+    │  Enter file path...
+    │  Choose a folder for output
+    │
+    ◇  Select Single File
     │  Enter file path...
     │  Choose exactly one file
     │
@@ -116,23 +116,22 @@ test('file picker with autocomplete', async () => {
 
     ◇  Your Name
     │  John Doe
-    ◇  Select Files
-    │  Enter file path...
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
+    ◆  Select Files
     │  src/
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁a apis                                                     │
-    ◇  SelectoSingletFile                                            │
+    ◇  SelectoFolderts                                               │
     │  Enterefilelpath...                                            │
-    │  Choosexexactlysone file                                       │
+    │  Choosexaefolder for output                                    │
     │  │    hooks                                                    │
-    └  │ 📁  internal                                                 │
-       │ 📁  store-api                                                │
-       │    utils                                                    │
-     ↵ submitcti↑↓-navigatex──^k─actions─────────────────────────────┘
-         📄  build.test.tsx"
+    ◇  SelectnSingle File                                            │
+    │  Entersfile-path...                                            │
+    │  Choosetexactly one file                                       │
+    │  └─  ─action-utils.tsx─────────────────────────────────────────┘
+    └    📄  build.test.tsx
+
+
+     ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Clear and test absolute path
@@ -149,23 +148,22 @@ test('file picker with autocomplete', async () => {
 
     ◇  Your Name
     │  John Doe
-    ◇  Select Files
-    │  Enter file path...
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
+    ◆  Select Files
     │  /tmp/
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁  bunx-501-@alignui                                        │
-    ◇  SelectuSingle-Fileeya                                         │
+    ◇  SelectuFolder-@h1deya                                         │
     │  Enterbfile5path...elcontextprotocol                           │
-    │  Chooseuexactly@onecfile                                       │
+    │  Chooseuaxfolderrforaoutput                                    │
     │  │    bunx-501-npkill@latest                                   │
-    └  │ 📁  com.apple.launchd.D0VRoDoOHk                             │
-       │ 📁  com.apple.launchd.i00Yz9AggD                             │
-       │    node-compile-cache                                       │
-     ↵ submitode↑↓inavigate───^k─actions─────────────────────────────┘
-         📁  powerlog"
+    ◇  SelectoSingleeFilenchd.D0VRoDoOHk                             │
+    │  Entercfileppath...nchd.i00Yz9AggD                             │
+    │  Chooseoexactlyionecfile                                       │
+    │  └─  ─node-jiti────────────────────────────────────────────────┘
+    └    📁  powerlog
+
+
+     ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Test ~ home directory expansion
@@ -183,23 +181,22 @@ test('file picker with autocomplete', async () => {
 
     ◇  Your Name
     │  John Doe
-    ◇  Select Files
-    │  Enter file path...
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
+    ◆  Select Files
     │  ~//
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁a Applications                                             │
-    ◇  SelectwSingle File                                            │
+    ◇  SelectwFolder                                                 │
     │  Entercfileepath...                                            │
-    │  Chooseoexactly_one_filee                                      │
+    │  Chooseoapfoldercforcoutput                                    │
     │  │    conductor                                                │
-    └  │ 📁  Desktop                                                  │
-       │ 📁  Documents                                                │
-       │    Downloads                                                │
-     ↵ submityad↑↓pnavigate───^k─actions─────────────────────────────┘
-         📁  example-pnpm-pubcket"
+    ◇  SelecteSingle File                                            │
+    │  EnterDfileepath...                                            │
+    │  Chooseoexactly one file                                       │
+    │  └─  ─dyad-apps────────────────────────────────────────────────┘
+    └    📁  example-pnpm-pubcket
+
+
+     ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 15000)
 
@@ -223,18 +220,18 @@ test('file picker keyboard navigation', async () => {
   expect(withDotSnapshot).toMatchInlineSnapshot(`
     "
 
-    ◆  Your Name
-    │  John Doe.
+    ◇  Your Name
+    │  John Doe
     ◇  Select Files
     │  Enter file path...
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
-    │  Choose a folder for output
-    │
-    ◇  Select Single File
-    │  Enter file path...
+    ◆  Select Folder
+    │  .
+    │  ┌─────────────────────────────────────────────────────────────┐
+    │  │ 📁  .termcast-bundle                                         │
+    ◇  SelectgSinglerFile                                            │
+    │  Enter─file─path...────────────────────────────────────────────┘
     │  Choose exactly one file
     │
     └
@@ -250,14 +247,14 @@ test('file picker keyboard navigation', async () => {
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
-    ◆  Your Name
-    │  John Doe.
+    ◇  Your Name
+    │  John Doe
     ◇  Select Files
     │  Enter file path...
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
+    ◆  Select Folder
+    │  .
     │  Choose a folder for output
     │
     ◇  Select Single File
@@ -284,14 +281,14 @@ test('file picker keyboard navigation', async () => {
   expect(afterNavigationSnapshot).toMatchInlineSnapshot(`
     "
 
-    ◆  Your Name
-    │  John Doe.s
+    ◇  Your Name
+    │  John Doe
     ◇  Select Files
     │  Enter file path...
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
+    ◆  Select Folder
+    │  .s
     │  Choose a folder for output
     │
     ◇  Select Single File
