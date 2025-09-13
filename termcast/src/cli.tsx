@@ -57,13 +57,10 @@ async function checkForUpdates() {
 checkForUpdates()
 
 cli
-  .command('dev', 'Run the extension in the current working directory')
-  .option('--path <path>', 'Path to the extension directory', {
-    default: process.cwd(),
-  })
-  .action(async (options) => {
+  .command('dev [path]', 'Run the extension in the current working directory')
+  .action(async (extensionPath, options) => {
     try {
-      const extensionPath = path.resolve(options.path)
+      extensionPath = path.resolve(extensionPath || process.cwd())
       let isBuilding = false
 
       // Start dev mode with initial render
@@ -140,12 +137,9 @@ cli
   })
 
 cli
-  .command('build', 'Build and install the extension to user store')
-  .option('--path <path>', 'Path to the extension directory', {
-    default: process.cwd(),
-  })
-  .action(async (options) => {
-    const extensionPath = path.resolve(options.path)
+  .command('build [path]', 'Build and install the extension to user store')
+  .action(async (extensionPath, options) => {
+    extensionPath = path.resolve(extensionPath || process.cwd())
 
     console.log('Building extension...')
     try {
