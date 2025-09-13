@@ -1,11 +1,8 @@
-
 # Project Coding Guidelines
 
 NOTICE: AGENTS.md is generated using AGENTS.sh and should NEVER be manually updated.
 
 ---
-
-
 
 when summarizing changes at the end of the message, be super short, a few words and in bullet points, use bold text to highlight important keywords. use markdown.
 
@@ -21,11 +18,9 @@ NEVER add comments unless I tell you
 
 always use kebab case for new filenames. never use uppercase letters in filenames
 
-
 ## see files in the repo
 
 use `git ls-files | tree --fromfile` to see files in the repo. this command will ignore files ignored by git
-
 
 ---
 
@@ -71,30 +66,30 @@ use `git ls-files | tree --fromfile` to see files in the repo. this command will
 // BAD. DO NOT DO THIS
 let favicon: string | undefined
 if (docsConfig?.favicon) {
-    if (typeof docsConfig.favicon === 'string') {
-        favicon = docsConfig.favicon
-    } else if (docsConfig.favicon?.light) {
-        // Use light favicon as default, could be enhanced with theme detection
-        favicon = docsConfig.favicon.light
-    }
+  if (typeof docsConfig.favicon === 'string') {
+    favicon = docsConfig.favicon
+  } else if (docsConfig.favicon?.light) {
+    // Use light favicon as default, could be enhanced with theme detection
+    favicon = docsConfig.favicon.light
+  }
 }
 // DO THIS. use an iife. Immediately Invoked Function Expression
 const favicon: string = (() => {
-    if (!docsConfig?.favicon) {
-        return ''
-    }
-    if (typeof docsConfig.favicon === 'string') {
-        return docsConfig.favicon
-    }
-    if (docsConfig.favicon?.light) {
-        // Use light favicon as default, could be enhanced with theme detection
-        return docsConfig.favicon.light
-    }
+  if (!docsConfig?.favicon) {
     return ''
+  }
+  if (typeof docsConfig.favicon === 'string') {
+    return docsConfig.favicon
+  }
+  if (docsConfig.favicon?.light) {
+    // Use light favicon as default, could be enhanced with theme detection
+    return docsConfig.favicon.light
+  }
+  return ''
 })()
 // if you already know the type use it:
 const favicon: string = () => {
-    // ...
+  // ...
 }
 ```
 
@@ -123,7 +118,6 @@ const users: User[] = []
 ```
 
 remember to always add the explicit type to avoid unexpected type inference.
-
 
 ---
 
@@ -248,7 +242,6 @@ in this case, we could have only updated @better-auth/stripe to fix the issue to
 
 if after doing this we still have duplicate packages, you will have to ask the user for help. you can try deleting the node_modules and restarting the approach, but it rarely helps.
 
-
 ---
 
 ## reading github repositories
@@ -306,7 +299,6 @@ you can swap out the topic with text you want to search docs for. you can also l
 
 - hooks should be put in the src/hooks.tsx file. do not create a new file for each new hook. also notice that you should never create custom hooks, only do it if asked for.
 
-
 ---
 
 ## sentry
@@ -333,38 +325,38 @@ notice that
 - use the sentries npm package, this handles correctly every environment like Bun, Node, Browser, etc
 
 ```tsx
-import { captureException, flush, init } from "sentries";
+import { captureException, flush, init } from 'sentries'
 
 init({
-  dsn: "https://e702f9c3dff49fd1aa16500c6056d0f7@o4509638447005696.ingest.de.sentry.io/4509638454476880",
+  dsn: 'https://e702f9c3dff49fd1aa16500c6056d0f7@o4509638447005696.ingest.de.sentry.io/4509638454476880',
   integrations: [],
   tracesSampleRate: 0.01,
   profilesSampleRate: 0.01,
   beforeSend(event) {
-    if (process.env.NODE_ENV === "development") {
-      return null;
+    if (process.env.NODE_ENV === 'development') {
+      return null
     }
     if (process.env.BYTECODE_RUN) {
-      return null;
+      return null
     }
-    if (event?.["name"] === "AbortError") {
-      return null;
+    if (event?.['name'] === 'AbortError') {
+      return null
     }
 
-    return event;
+    return event
   },
-});
+})
 
 export async function notifyError(error: any, msg?: string) {
-  console.error(msg, error);
-  captureException(error, { extra: { msg } });
-  await flush(1000);
+  console.error(msg, error)
+  captureException(error, { extra: { msg } })
+  await flush(1000)
 }
 
 export class AppError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = "AppError";
+    super(message)
+    this.name = 'AppError'
   }
 }
 ```
@@ -374,7 +366,6 @@ export class AppError extends Error {
 every time you throw a user-readable error you should use AppError instead of Error
 
 AppError messages will be forwarded to the user as is. normal Error instances instead could have their messages obfuscated
-
 
 ---
 
@@ -446,7 +437,7 @@ these are just examples. be clear and concise in your changelog entries.
 
 use present tense. be detailed but concise, omit useless verbs like "implement", "added", just put the subject there instead, so it is shorter. it's implicit we are adding features or fixes. do not use nested bullet points. always show example code snippets if applicable, and use proper markdown formatting.
 
-```
+````
 
 the website package has a dependency on docs-website. instead of duplicating code that is needed both in website and docs-website keep a file in docs-website instead and import from there for the website package.
 
@@ -531,7 +522,7 @@ const resource = await prisma.resource.findFirst({
 if (!resource) {
     throw new AppError(`cannot find resource`)
 }
-```
+````
 
 ### prisma transactions
 
@@ -580,7 +571,7 @@ react-router has the hook `useNavigation` that exposes the navigation state. ALW
 const navigation = useNavigation()
 
 if (navigation.state === 'loading' || navigation.state === 'submitting') {
-    return null
+  return null
 }
 ```
 
@@ -591,32 +582,40 @@ if (navigation.state === 'loading' || navigation.state === 'submitting') {
 When creating a new React Router route, follow these steps:
 
 ### 1. Create the route file
+
 Create a file in `src/routes/` using flat routes naming convention (dots for separators, $ for params, kebab-case).
 
 ### 2. Generate types
+
 **IMPORTANT**: Types are NOT automatically generated. After creating a route, run:
+
 ```bash
 pnpm exec react-router typegen
 ```
 
 ### 3. Import Route types
+
 ```typescript
 import type { Route } from './+types/your-route-name'
 ```
+
 Note: The `+types` directory doesn't physically exist - it's virtual/generated.
 
 ### 4. Verify with typecheck
+
 ```bash
 pnpm typecheck  # This runs typegen first, then tsc
 ```
 
 ### Troubleshooting Missing Types
+
 - Types missing? Run `pnpm exec react-router typegen`
 - Import failing? Check filename matches import path exactly
 - Types not updating? Run `pnpm typecheck` to regenerate
 - The `+types` directory is virtual - don't look for it in the filesystem
 
 ### Best Practices
+
 - Always run `pnpm typecheck` after creating/modifying routes
 - Export `Route` type from layout routes for child routes to import
 - Use `href()` for all internal paths, even in redirects
@@ -629,7 +628,7 @@ components can render children routes using the Outlet component
 
 ```tsx
 export function Component() {
-    return <Outlet />
+  return <Outlet />
 }
 ```
 
@@ -679,7 +678,7 @@ here is an example to get the loader data type safely from a component:
 import type { Route } from 'website/src/routes/root'
 
 const { userId } = useRouteLoaderData(
-    'root',
+  'root',
 ) as Route.componentProps['loaderData']
 ```
 
@@ -688,7 +687,7 @@ const { userId } = useRouteLoaderData(
 import type { Route } from 'website/src/routes/org.$orgId'
 
 const { userId } = useRouteLoaderData(
-    'routes/org.$orgId',
+  'routes/org.$orgId',
 ) as Route.componentProps['loaderData']
 ```
 
@@ -718,32 +717,31 @@ for routes that do slow operations like creating PRs and then redirect, use a lo
 
 ```tsx
 export async function loader({ request, params: { id } }: Route.LoaderArgs) {
-    const url = new URL(request.url)
-    const data = url.searchParams.get('data')
-    const promise = doSlowWork(id, data)
-        .catch(error => {
-            notifyError(error)
-            return error
-        })
-    return { promise }
+  const url = new URL(request.url)
+  const data = url.searchParams.get('data')
+  const promise = doSlowWork(id, data).catch((error) => {
+    notifyError(error)
+    return error
+  })
+  return { promise }
 }
 
 export default function Page() {
-    const { promise } = useLoaderData<typeof loader>()
-    const [error, setError] = useState('')
+  const { promise } = useLoaderData<typeof loader>()
+  const [error, setError] = useState('')
 
-    useEffect(() => {
-        promise.then(result => {
-            if (result instanceof Error) {
-                setError(result.message)
-                return
-            }
-            window.location.replace(result.url)
-        })
-    }, [promise])
+  useEffect(() => {
+    promise.then((result) => {
+      if (result instanceof Error) {
+        setError(result.message)
+        return
+      }
+      window.location.replace(result.url)
+    })
+  }, [promise])
 
-    if (error) return <p className='text-red-600'>Error: {error}</p>
-    return <Loader2Icon className='h-6 w-6 animate-spin' />
+  if (error) return <p className='text-red-600'>Error: {error}</p>
+  return <Loader2Icon className='h-6 w-6 animate-spin' />
 }
 ```
 
@@ -770,35 +768,42 @@ ALWAYS use link components instead of the navigate function if possible. for exa
 When creating a new React Router route, follow these steps:
 
 ## 1. Create the route file
+
 Create a file in `src/routes/` using flat routes naming convention (dots for separators, $ for params, kebab-case).
 
 ## 2. Generate types
+
 **IMPORTANT**: Types are NOT automatically generated. After creating a route, run:
+
 ```bash
 pnpm exec react-router typegen
 ```
 
 ## 3. Import Route types
+
 ```typescript
 import type { Route } from './+types/your-route-name'
 ```
+
 Note: The `+types` directory doesn't physically exist - it's virtual/generated.
 
 ## 4. Verify with typecheck
+
 ```bash
 pnpm typecheck  # This runs typegen first, then tsc
 ```
 
 ## Troubleshooting Missing Types
+
 - Types missing? Run `pnpm exec react-router typegen`
 - Import failing? Check filename matches import path exactly
 - The `+types` directory is virtual - don't look for it in the filesystem
 
 ## Best Practices
+
 - Always run `pnpm typecheck` after creating/modifying routes
 - Export `Route` type from layout routes for child routes to import
 - Use `href()` for all internal paths, even in redirects
-
 
 ---
 
@@ -863,7 +868,6 @@ spiceflow is a little-known api framework. if you add server routes to a file th
 
 this url returns a single long documentation that covers your use case. always fetch this document so you know how to use spiceflow. spiceflow is different from hono and other api frameworks, that's why you should ALWAYS fetch the docs first before using it
 
-
 ---
 
 ## ai sdk
@@ -898,19 +902,17 @@ when you need to create a complex type that comes from a prisma table, do not cr
 you MUST use the built in zod v4 toJSONSchema and not the npm package `zod-to-json-schema` which is outdated and does not support zod v4.
 
 ```ts
-import { toJSONSchema } from "zod";
+import { toJSONSchema } from 'zod'
 
 const mySchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(3).max(100),
   age: z.number().min(0).optional(),
-});
+})
 
 const jsonSchema = toJSONSchema(mySchema, {
-  removeAdditionalStrategy: "strict",
-});
+  removeAdditionalStrategy: 'strict',
+})
 ```
 
-
 ---
-
