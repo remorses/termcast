@@ -170,7 +170,7 @@ cli
   })
 
 cli
-  .command('pr <prNumber>', 'Download extension from a GitHub PR')
+  .command('pr <prNumber>', 'Download extension from a GitHub PR in Raycast extensions repo. To test it with Termcast')
   .action(async (prNumber: string) => {
     try {
       // Parse PR number from URL if provided
