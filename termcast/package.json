@@ -2,9 +2,6 @@
   "name": "@termcast/cli",
   "version": "0.3.5",
   "description": "Raycast for the terminal",
-  "bin": {
-    "termcast": "src/cli.tsx"
-  },
   "repository": "https://github.com/remorses/termcast",
   "scripts": {
     "build": "tsc && bun run binary",

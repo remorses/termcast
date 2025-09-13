@@ -19,6 +19,10 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { exec } from 'child_process'
 import dedent from 'string-dedent'
+import { initializeErrorHandlers } from '@termcast/cli/src/internal/error-handler'
+
+// Initialize error handlers at module load time
+initializeErrorHandlers()
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,7 +75,7 @@ class ErrorBoundaryClass extends Component<
   constructor(props: { children: ReactNode }) {
     super(props)
     this.state = { hasError: false, error: null }
-    
+
     this.openGitHubIssue = this.openGitHubIssue.bind(this)
     this.getRecentLogs = this.getRecentLogs.bind(this)
   }
@@ -93,7 +97,7 @@ class ErrorBoundaryClass extends Component<
     try {
       if (fs.existsSync(LOG_FILE)) {
         const content = fs.readFileSync(LOG_FILE, 'utf-8')
-        const lines = content.split('\n').filter(line => line.trim())
+        const lines = content.split('\n').filter((line) => line.trim())
         // Get last 200 lines
         const recentLines = lines.slice(-200)
         return recentLines.join('\n')
@@ -109,28 +113,33 @@ class ErrorBoundaryClass extends Component<
     if (!error) return
 
     const logs = this.getRecentLogs()
-    
+
     // Get navigation stack information for body
     const navigationStack = useStore.getState().navigationStack
-    const navigationInfo = navigationStack.map((item, index) => {
-      const element = item.element as any
-      const componentName = element?.type?.displayName || 
-                           element?.type?.name || 
-                           element?.type || 
-                           'Unknown'
-      return `${index + 1}. ${componentName}`
-    }).join('\n')
+    const navigationInfo = navigationStack
+      .map((item, index) => {
+        const element = item.element as any
+        const componentName =
+          element?.type?.displayName ||
+          element?.type?.name ||
+          element?.type ||
+          'Unknown'
+        return `${index + 1}. ${componentName}`
+      })
+      .join('\n')
 
     // Get current extension/command info
     const extensionPackageJson = useStore.getState().extensionPackageJson
     const currentCommandName = useStore.getState().currentCommandName
     const extensionPath = useStore.getState().extensionPath
-    
-    const extensionName = extensionPackageJson?.name || (extensionPath ? path.basename(extensionPath) : null)
-    
+
+    const extensionName =
+      extensionPackageJson?.name ||
+      (extensionPath ? path.basename(extensionPath) : null)
+
     let contextInfo = ''
     let titlePrefix = ''
-    
+
     if (extensionName) {
       contextInfo = `Extension: ${extensionName}`
       titlePrefix = `\`${extensionName}\``
@@ -141,9 +150,9 @@ class ErrorBoundaryClass extends Component<
     }
 
     const title = encodeURIComponent(
-      titlePrefix ? `${titlePrefix}: ${error.message}` : error.message
+      titlePrefix ? `${titlePrefix}: ${error.message}` : error.message,
     )
-    
+
     const body = encodeURIComponent(dedent`
       ## Error Details
 
@@ -181,11 +190,15 @@ class ErrorBoundaryClass extends Component<
     `)
 
     const url = `https://github.com/sst/opencode/issues/new?title=${title}&body=${body}`
-    
+
     // Open in browser
-    const openCmd = process.platform === 'darwin' ? 'open' : 
-                    process.platform === 'win32' ? 'start' : 'xdg-open'
-    
+    const openCmd =
+      process.platform === 'darwin'
+        ? 'open'
+        : process.platform === 'win32'
+          ? 'start'
+          : 'xdg-open'
+
     exec(`${openCmd} "${url}"`, (err) => {
       if (err) {
         logger.error('Failed to open browser:', err)
@@ -195,25 +208,31 @@ class ErrorBoundaryClass extends Component<
 
   render(): any {
     if (this.state.hasError) {
-      return <ErrorDisplay 
-        error={this.state.error}
-        onOpenIssue={this.openGitHubIssue}
-        getRecentLogs={this.getRecentLogs}
-      />
+      return (
+        <ErrorDisplay
+          error={this.state.error}
+          onOpenIssue={this.openGitHubIssue}
+          getRecentLogs={this.getRecentLogs}
+        />
+      )
     }
 
     return this.props.children
   }
 }
 
-function ErrorDisplay({ error, onOpenIssue, getRecentLogs }: {
+function ErrorDisplay({
+  error,
+  onOpenIssue,
+  getRecentLogs,
+}: {
   error: Error | null
   onOpenIssue: () => void
   getRecentLogs: () => string
 }): any {
   const [isHovered, setIsHovered] = React.useState(false)
   const [showLogs, setShowLogs] = React.useState(false)
-  
+
   useKeyboard((evt) => {
     if (evt.name === 'return') {
       onOpenIssue()
@@ -222,16 +241,18 @@ function ErrorDisplay({ error, onOpenIssue, getRecentLogs }: {
 
   return (
     <box padding={2} flexDirection='column' gap={1}>
-      <text fg={Theme.error} attributes={TextAttributes.BOLD}>⚠️  An error occurred</text>
-      
+      <text fg={Theme.error} attributes={TextAttributes.BOLD}>
+        ⚠️ An error occurred
+      </text>
+
       <text fg={Theme.error}>
         {error?.message || 'An unexpected error occurred'}
       </text>
 
-      <box 
+      <box
         paddingLeft={1}
         paddingRight={1}
-        borderStyle='rounded' 
+        borderStyle='rounded'
         border={true}
         borderColor={isHovered ? Theme.highlight : Theme.border}
         backgroundColor={isHovered ? Theme.backgroundPanel : undefined}
@@ -244,8 +265,12 @@ function ErrorDisplay({ error, onOpenIssue, getRecentLogs }: {
       </box>
 
       <box flexDirection='column' marginTop={1}>
-        <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>Stack Trace:</text>
-        <text fg={Theme.error}>{error?.stack || 'No stack trace available'}</text>
+        <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
+          Stack Trace:
+        </text>
+        <text fg={Theme.error}>
+          {error?.stack || 'No stack trace available'}
+        </text>
       </box>
 
       <box marginTop={1} onMouseDown={() => setShowLogs(!showLogs)}>
@@ -256,10 +281,12 @@ function ErrorDisplay({ error, onOpenIssue, getRecentLogs }: {
 
       {showLogs && (
         <box flexDirection='column' marginTop={1}>
-          <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>Recent Logs:</text>
-          <box 
-            padding={1} 
-            borderStyle='single' 
+          <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
+            Recent Logs:
+          </text>
+          <box
+            padding={1}
+            borderStyle='single'
             border={true}
             borderColor={Theme.border}
             maxHeight={20}
