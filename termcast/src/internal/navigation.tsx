@@ -5,6 +5,7 @@ import React, {
   type ReactNode,
   useEffect,
   useLayoutEffect,
+  startTransition,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
 import { CommonProps } from '@termcast/cli/src/utils'
@@ -53,9 +54,11 @@ export function NavigationProvider(props: NavigationProviderProps): any {
     )
 
     const currentStack = useStore.getState().navigationStack
-    useStore.setState({
-      navigationStack: [...currentStack, { element, onPop }],
-      dialogStack: [],
+    startTransition(() => {
+      useStore.setState({
+        navigationStack: [...currentStack, { element, onPop }],
+        dialogStack: [],
+      })
     })
   }, [])
 
@@ -69,7 +72,9 @@ export function NavigationProvider(props: NavigationProviderProps): any {
       poppedItem.onPop()
     }
 
-    useStore.setState({ navigationStack: newStack })
+    startTransition(() => {
+      useStore.setState({ navigationStack: newStack })
+    })
   }, [])
 
   const navigation = React.useMemo(

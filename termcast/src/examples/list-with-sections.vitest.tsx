@@ -25,25 +25,27 @@ test('list with sections navigation', async () => {
 
   const initialSnapshot = await driver.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-      ›Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Empty section should be hidden
+
+     Fruits
+    ›Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+     Carrot Orange and crunchy                              [Healthy]
+     Lettuce Green and fresh
+     Bread Freshly baked                                  Today [New]
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Add small delay to ensure all items have registered
   await new Promise((resolve) => setTimeout(resolve, 100))
@@ -52,102 +54,110 @@ test('list with sections navigation', async () => {
 
   const afterDownSnapshot = await driver.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-       Apple Red and sweet                              Fresh [Popular]
-      ›Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Empty section should be hidden
+
+     Fruits
+     Apple Red and sweet                              Fresh [Popular]
+    ›Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+     Carrot Orange and crunchy                              [Healthy]
+     Lettuce Green and fresh
+     Bread Freshly baked                                  Today [New]
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   await driver.keys.down()
 
   const secondDownSnapshot = await driver.text()
   expect(secondDownSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-       Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-      ›Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Empty section should be hidden
+
+     Fruits
+     Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+    ›Carrot Orange and crunchy                              [Healthy]
+     Lettuce Green and fresh
+     Bread Freshly baked                                  Today [New]
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   await driver.keys.enter()
 
   const afterEnterSnapshot = await driver.text()
   expect(afterEnterSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
 
 
-      # Carrot
+    # Carrot
 
-      A crunchy orange vegetable rich in vitamins.
+    A crunchy orange vegetable rich in vitamins.
 
-      ## Health Benefits
-      - Excellent source of beta carotene
-      - Improves eye health
-      - Boosts immune system
-      - Low in calories
-
-
-
-
+    ## Health Benefits
+    - Excellent source of beta carotene
+    - Improves eye health
+    - Boosts immune system
+    - Low in calories
 
 
 
 
-       esc go back"
-    `)
+
+
+
+
+
+
+     esc go back"
+  `)
 
   // Go back to list with Escape
   await driver.keys.escape()
 
   const afterEscapeSnapshot = await driver.text()
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-      ›Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Empty section should be hidden
+
+     Fruits
+    ›Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+     Carrot Orange and crunchy                              [Healthy]
+     Lettuce Green and fresh
+     Bread Freshly baked                                  Today [New]
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 })
 
 test('list with sections search functionality', async () => {
@@ -211,25 +221,27 @@ test('list with sections search functionality', async () => {
 
   const afterClearSearchSnapshot = await driver.text()
   expect(afterClearSearchSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-      ›Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Empty section should be hidden
+
+     Fruits
+    ›Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+     Carrot Orange and crunchy                              [Healthy]
+     Lettuce Green and fresh
+     Bread Freshly baked                                  Today [New]
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Search for "bread"
   await driver.keys.type('bread')
@@ -295,75 +307,81 @@ test('list click functionality', async () => {
 
   const afterClickLettuceSnapshot = await driver.text()
   expect(afterClickLettuceSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-       Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-      ›Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Empty section should be hidden
+
+     Fruits
+     Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+     Carrot Orange and crunchy                              [Healthy]
+    ›Lettuce Green and fresh
+     Bread Freshly baked                                  Today [New]
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Click on "Apple" item
   await driver.clickText('Apple')
 
   const afterClickAppleSnapshot = await driver.text()
   expect(afterClickAppleSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-      ›Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Empty section should be hidden
+
+     Fruits
+    ›Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+     Carrot Orange and crunchy                              [Healthy]
+     Lettuce Green and fresh
+     Bread Freshly baked                                  Today [New]
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
   // Click on the last item "Bread"
   await driver.clickText('Bread')
 
   const afterClickBreadSnapshot = await driver.text()
   expect(afterClickBreadSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-       Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-      ›Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+     Empty section should be hidden
+
+     Fruits
+     Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+     Carrot Orange and crunchy                              [Healthy]
+     Lettuce Green and fresh
+    ›Bread Freshly baked                                  Today [New]
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 }, 10000)
 
 test('list actions panel with ctrl+k', async () => {
@@ -386,11 +404,11 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
 
+     Empty section should be hidden
+
      Fruits
     ›Apple Red and sweet                              Fresh [Popular]
      Banana Yellow and nutritious                                Ripe
-
-     Vegetables
 
                                                                  esc
 
@@ -414,11 +432,11 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
 
+     Empty section should be hidden
+
      Fruits
     ›Apple Red and sweet                              Fresh [Popular]
      Banana Yellow and nutritious                                Ripe
-
-     Vegetables
 
                                                                  esc
 
@@ -435,25 +453,27 @@ test('list actions panel with ctrl+k', async () => {
 
   const afterSelectSecondActionSnapshot = await driver.text()
   expect(afterSelectSecondActionSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
-       Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-       Search items...
-
-
-       Fruits
-      ›Apple Red and sweet                              Fresh [Popular]
-       Banana Yellow and nutritious                                Ripe
-
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Bread Freshly baked                                  Today [New]
+     Search items...
 
 
-       ┌─────────────────────────────────────────────────────┐
-       │ ✓ Added to Cart - Apple has been added to your cart │
-       └─────────────────────────────────────────────────────┘"
-    `)
+     Empty section should be hidden
+
+     Fruits
+    ›Apple Red and sweet                              Fresh [Popular]
+     Banana Yellow and nutritious                                Ripe
+
+     Vegetables
+     Carrot Orange and crunchy                              [Healthy]
+     Lettuce Green and fresh
+     Bread Freshly baked                                  Today [New]
+
+
+     ┌─────────────────────────────────────────────────────┐
+     │ ✓ Added to Cart - Apple has been added to your cart │
+     └─────────────────────────────────────────────────────┘"
+  `)
 }, 10000)
