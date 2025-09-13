@@ -96,9 +96,7 @@ const FilePickerField = ({
   const handleSelectFile = (path: string) => {
     const currentFiles = field.value || []
     const newFiles =
-      props.allowMultipleSelection !== false
-        ? [...currentFiles, path]
-        : [path]
+      props.allowMultipleSelection !== false ? [...currentFiles, path] : [path]
     field.onChange(newFiles)
     if (props.onChange) {
       props.onChange(newFiles)

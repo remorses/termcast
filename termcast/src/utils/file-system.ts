@@ -32,15 +32,18 @@ export async function searchFiles(
 
     // List files and directories
     const entries = await fs.readdir(basePath, { withFileTypes: true })
-    
+
     const items: FileSystemItem[] = []
-    
+
     for (const entry of entries) {
       // Skip hidden files unless prefix starts with .
       if (entry.name.startsWith('.') && !prefix.startsWith('.')) continue
-      
+
       // Case-insensitive prefix matching
-      if (prefix === '' || entry.name.toLowerCase().startsWith(prefix.toLowerCase())) {
+      if (
+        prefix === '' ||
+        entry.name.toLowerCase().startsWith(prefix.toLowerCase())
+      ) {
         items.push({
           name: entry.name,
           path: path.join(basePath, entry.name),
