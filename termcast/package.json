@@ -1,6 +1,6 @@
 {
   "name": "@termcast/cli",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Raycast for the terminal",
   "repository": "https://github.com/remorses/termcast",
   "scripts": {

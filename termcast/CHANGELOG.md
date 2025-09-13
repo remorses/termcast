@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+- auto update, log unhandled errors
+
+## 0.3.6
+
+### Patch Changes
+
 - Auto-update support: CLI checks for updates on startup and runs the install script
   - Shows toast notification when a new version is available
   - Updates installed in background using existing install script
