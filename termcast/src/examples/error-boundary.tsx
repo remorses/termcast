@@ -17,11 +17,11 @@ ThrowErrorComponent.displayName = 'ThrowErrorComponent'
 
 function AnotherComponent(): any {
   const [shouldError, setShouldError] = useState(false)
-  
+
   if (shouldError) {
     throw new Error('Error thrown after user action in AnotherComponent!')
   }
-  
+
   return (
     <Detail
       navigationTitle='Another Component'
@@ -45,7 +45,7 @@ AnotherComponent.displayName = 'AnotherComponent'
 
 function DeepComponent({ level }: { level: number }): any {
   const { push } = useNavigation()
-  
+
   return (
     <Detail
       navigationTitle={`Deep Component Level ${level}`}
@@ -80,7 +80,7 @@ DeepComponent.displayName = 'DeepComponent'
 export default function ErrorBoundaryExample(): any {
   const { push } = useNavigation()
   const [searchText, setSearchText] = useState('')
-  
+
   return (
     <List
       navigationTitle='Error Boundary Test'
@@ -102,7 +102,7 @@ export default function ErrorBoundaryExample(): any {
             </ActionPanel>
           }
         />
-        
+
         <List.Item
           title='Navigate Then Throw Error'
           subtitle='Push a component that throws error on render'
@@ -119,7 +119,7 @@ export default function ErrorBoundaryExample(): any {
             </ActionPanel>
           }
         />
-        
+
         <List.Item
           title='Navigate to Component with Error Action'
           subtitle='Push a component that can throw error on action'
@@ -136,7 +136,7 @@ export default function ErrorBoundaryExample(): any {
             </ActionPanel>
           }
         />
-        
+
         <List.Item
           title='Deep Navigation Then Error'
           subtitle='Navigate through multiple levels then throw error'
@@ -153,7 +153,7 @@ export default function ErrorBoundaryExample(): any {
             </ActionPanel>
           }
         />
-        
+
         <List.Item
           title='Show Toast Then Error'
           subtitle='Show a toast message then throw error'
@@ -175,7 +175,7 @@ export default function ErrorBoundaryExample(): any {
             </ActionPanel>
           }
         />
-        
+
         <List.Item
           title='Async Error'
           subtitle='Throw error in async operation'
@@ -184,7 +184,7 @@ export default function ErrorBoundaryExample(): any {
               <Action
                 title='Trigger Async Error'
                 onAction={async () => {
-                  await new Promise(resolve => setTimeout(resolve, 1000))
+                  await new Promise((resolve) => setTimeout(resolve, 1000))
                   throw new Error('Async operation failed!')
                 }}
               />
@@ -192,7 +192,7 @@ export default function ErrorBoundaryExample(): any {
           }
         />
       </List.Section>
-      
+
       <List.Section title='Test Search'>
         <List.Item
           title={`Search Text: "${searchText}"`}

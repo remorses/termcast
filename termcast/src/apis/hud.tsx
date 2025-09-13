@@ -27,7 +27,10 @@ function HUDComponent({ title, onHide }: HUDComponentProps): any {
   }, [onHide])
 
   // Center the HUD message
-  const padding = Math.max(0, Math.floor((dimensions.width - title.length - 4) / 2))
+  const padding = Math.max(
+    0,
+    Math.floor((dimensions.width - title.length - 4) / 2),
+  )
 
   return (
     <box
@@ -73,11 +76,11 @@ export async function showHUD(
       />
     ),
   })
-  
+
   // TODO: Handle closeMainWindow behavior with clearRootSearch and popToRootType options
   // This would need to be implemented based on the actual window management system
-  
+
   logger.log('showHUD:', title, options)
-  
+
   return Promise.resolve()
 }

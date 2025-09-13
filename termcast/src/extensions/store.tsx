@@ -235,7 +235,9 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
         primaryAction: {
           title: 'Configure',
           onAction: () => {
-            const Component = () => <ExtensionPreferences extensionName={extension.name} />
+            const Component = () => (
+              <ExtensionPreferences extensionName={extension.name} />
+            )
             Component.displayName = `store-preferences-${extension.name}`
             push(<Component />)
           },
@@ -317,7 +319,9 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
                 <Action
                   title='Configure Extension'
                   onAction={() => {
-                    const Component = () => <ExtensionPreferences extensionName={extension.name} />
+                    const Component = () => (
+                      <ExtensionPreferences extensionName={extension.name} />
+                    )
                     Component.displayName = `store-preferences-${extension.name}`
                     push(<Component />)
                   }}
@@ -326,23 +330,27 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
               <Action
                 title='Use Extension'
                 onAction={() => {
-                  const Component = () => <Home
-                    key={extension.name}
-                    initialSearchQuery={extension.name}
-                  />
+                  const Component = () => (
+                    <Home
+                      key={extension.name}
+                      initialSearchQuery={extension.name}
+                    />
+                  )
                   Component.displayName = `store-home-${extension.name}`
                   push(<Component />)
                 }}
               />
               {extensionInfo.hasPreferences &&
                 !extensionInfo.hasRequiredPreferences && (
-                    <Action
-                      title='Configure Extension'
-                      onAction={() => {
-                        const Component = () => <ExtensionPreferences extensionName={extension.name} />
-                        Component.displayName = `store-preferences-${extension.name}`
-                        push(<Component />)
-                      }}
+                  <Action
+                    title='Configure Extension'
+                    onAction={() => {
+                      const Component = () => (
+                        <ExtensionPreferences extensionName={extension.name} />
+                      )
+                      Component.displayName = `store-preferences-${extension.name}`
+                      push(<Component />)
+                    }}
                   />
                 )}
               <Action title='Reinstall Extension' onAction={handleInstall} />

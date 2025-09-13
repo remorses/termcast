@@ -181,7 +181,7 @@ export async function triggerRebuild({
   extensionPath: string
 }): Promise<void> {
   try {
-    const { commands } = await buildExtensionCommands({ 
+    const { commands } = await buildExtensionCommands({
       extensionPath,
       format: 'esm',
     })

@@ -21,7 +21,7 @@ function SimpleHUD(): any {
           </ActionPanel>
         }
       />
-      
+
       <List.Item
         title='Delete Item'
         subtitle='Deletes item and shows HUD'
@@ -37,7 +37,7 @@ function SimpleHUD(): any {
           </ActionPanel>
         }
       />
-      
+
       <List.Item
         title='Save Settings'
         subtitle='Saves settings and shows HUD'

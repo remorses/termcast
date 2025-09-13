@@ -774,7 +774,10 @@ export const List: ListType = (props) => {
                 flexGrow: 1,
               }}
             >
-              <LoadingBar title={navigationTitle} isLoading={isLoading || navigationPending} />
+              <LoadingBar
+                title={navigationTitle}
+                isLoading={isLoading || navigationPending}
+              />
             </box>
           )}
 
