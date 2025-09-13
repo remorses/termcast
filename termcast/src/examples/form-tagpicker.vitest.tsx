@@ -31,7 +31,7 @@ test('form tagpicker shows inline options', async () => {
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -67,7 +67,7 @@ test('form tagpicker shows inline options', async () => {
   expect(afterSelectBasketballSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -103,7 +103,7 @@ test('form tagpicker shows inline options', async () => {
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -142,7 +142,7 @@ test('form tagpicker shows inline options', async () => {
   expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -178,7 +178,7 @@ test('form tagpicker shows inline options', async () => {
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -223,7 +223,7 @@ test('form tagpicker keyboard navigation', async () => {
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -262,7 +262,7 @@ test('form tagpicker keyboard navigation', async () => {
   expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -298,7 +298,7 @@ test('form tagpicker keyboard navigation', async () => {
   expect(nextPageSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -334,7 +334,7 @@ test('form tagpicker keyboard navigation', async () => {
   expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -370,7 +370,7 @@ test('form tagpicker keyboard navigation', async () => {
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -415,7 +415,7 @@ test('form tagpicker with default value', async () => {
   expect(secondTagpickerFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◇  Favorite Sport
@@ -451,7 +451,7 @@ test('form tagpicker with default value', async () => {
   expect(afterDeselectGermanySnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◇  Favorite Sport
@@ -492,7 +492,7 @@ test('form tagpicker with default value', async () => {
   expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  TagPicker Component Demo
+       TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◇  Favorite Sport

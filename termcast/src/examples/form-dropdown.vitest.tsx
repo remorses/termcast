@@ -27,7 +27,7 @@ test('form dropdown shows inline options', async () => {
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -73,7 +73,7 @@ test('form dropdown shows inline options', async () => {
   expect(afterToggleTypeScriptSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -119,7 +119,7 @@ test('form dropdown shows inline options', async () => {
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -168,7 +168,7 @@ test('form dropdown shows inline options', async () => {
   expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -215,7 +215,7 @@ test('form dropdown shows inline options', async () => {
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -271,7 +271,7 @@ test('form dropdown keyboard navigation', async () => {
   expect(afterToggleSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -320,7 +320,7 @@ test('form dropdown keyboard navigation', async () => {
   expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -366,7 +366,7 @@ test('form dropdown keyboard navigation', async () => {
   expect(nextPageSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -413,7 +413,7 @@ test('form dropdown keyboard navigation', async () => {
   expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -460,7 +460,7 @@ test('form dropdown keyboard navigation', async () => {
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -516,7 +516,7 @@ test('form dropdown with default value', async () => {
   expect(secondDropdownFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◇  Programming Languages
@@ -562,7 +562,7 @@ test('form dropdown with default value', async () => {
   expect(afterToggleMonokaiSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◇  Programming Languages
@@ -613,7 +613,7 @@ test('form dropdown with default value', async () => {
   expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◇  Programming Languages
@@ -669,7 +669,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
   expect(beforeSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages
@@ -715,7 +715,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Dropdown Component Demo
+       Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more featu
     │
     ◆  Programming Languages

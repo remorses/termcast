@@ -30,7 +30,7 @@ test('form basic navigation and input', async () => {
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◆  Username
@@ -87,7 +87,7 @@ test('form basic navigation and input', async () => {
   expect(afterUsernameSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◆  Username
@@ -145,7 +145,7 @@ test('form basic navigation and input', async () => {
   expect(afterPasswordSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -203,7 +203,7 @@ test('form basic navigation and input', async () => {
   expect(afterBioSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -261,7 +261,7 @@ test('form basic navigation and input', async () => {
   expect(afterCheckboxSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -319,7 +319,7 @@ test('form basic navigation and input', async () => {
   expect(afterSelectUSSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -376,7 +376,7 @@ test('form basic navigation and input', async () => {
   expect(afterCountrySelectSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -434,7 +434,7 @@ test('form basic navigation and input', async () => {
   expect(afterDateSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -496,7 +496,7 @@ test('form basic navigation and input', async () => {
   expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -565,7 +565,7 @@ test('form navigation with shift+tab', async () => {
   expect(afterForwardTabSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -622,7 +622,7 @@ test('form navigation with shift+tab', async () => {
   expect(afterBackwardTabSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -679,7 +679,7 @@ test('form navigation with shift+tab', async () => {
   expect(backToUsernameSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◆  Username
@@ -737,7 +737,7 @@ test('form navigation with shift+tab', async () => {
   expect(afterEditUsernameSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◆  Username
@@ -810,7 +810,7 @@ test('form dropdown navigation', async () => {
   expect(dropdownFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -867,7 +867,7 @@ test('form dropdown navigation', async () => {
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -926,7 +926,7 @@ test('form dropdown navigation', async () => {
   expect(europeSelectionSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
@@ -983,7 +983,7 @@ test('form dropdown navigation', async () => {
   expect(afterFranceSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-    ▪︎  Form Component Demo
+       Form Component Demo
     │  This demonstrates all available form input types. Use arrow key
     │
     ◇  Username
