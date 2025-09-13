@@ -20,6 +20,9 @@ function SimpleListExample() {
         console.log('Selected:', id)
       }}
     >
+      <List.Section title='Empty section should be hidden'>
+        {/* This section is intentionally left empty to demonstrate hiding */}
+      </List.Section>
       <List.Section title='Fruits'>
         <List.Item
           id='apple'
@@ -36,9 +39,9 @@ function SimpleListExample() {
                     <Detail
                       markdown={dedent`
                                         # Apple
-                                        
+
                                         A delicious red fruit that's sweet and crunchy.
-                                        
+
                                         ## Nutrition Facts
                                         - High in fiber
                                         - Rich in antioxidants
@@ -76,9 +79,9 @@ function SimpleListExample() {
                     <Detail
                       markdown={dedent`
                                         # Banana
-                                        
+
                                         A yellow tropical fruit that's nutritious and energy-rich.
-                                        
+
                                         ## Benefits
                                         - High in potassium
                                         - Natural energy booster
@@ -108,9 +111,9 @@ function SimpleListExample() {
                     <Detail
                       markdown={dedent`
                                         # Carrot
-                                        
+
                                         A crunchy orange vegetable rich in vitamins.
-                                        
+
                                         ## Health Benefits
                                         - Excellent source of beta carotene
                                         - Improves eye health
@@ -138,9 +141,9 @@ function SimpleListExample() {
                     <Detail
                       markdown={dedent`
                                         # Lettuce
-                                        
+
                                         Fresh green leafy vegetable perfect for salads.
-                                        
+
                                         ## Nutritional Value
                                         - High in water content
                                         - Low in calories
@@ -170,9 +173,9 @@ function SimpleListExample() {
                   <Detail
                     markdown={dedent`
                                     # Bread
-                                    
+
                                     Freshly baked bread from our bakery.
-                                    
+
                                     ## Product Details
                                     - Baked fresh daily
                                     - Made with organic flour
