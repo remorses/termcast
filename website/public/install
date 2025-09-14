@@ -164,9 +164,18 @@ substep "${Dim}Source: $termcast_uri${Color_Off}"
 
 echo -e "\n  ${Bold_Cyan}◆${Color_Off} ${Bold_White}Downloading binary...${Color_Off}"
 
+# Use temporary file for download to ensure atomic operation
+temp_exe=$(mktemp "${exe}.download.XXXXXX")
+
+# Cleanup function to remove temp file on interrupt or error
+cleanup_temp() {
+    [[ -f "$temp_exe" ]] && rm -f "$temp_exe"
+}
+trap cleanup_temp EXIT
+
 # Simple animated spinner during download
 (
-    curl --fail --location --silent --output "$exe" "$termcast_uri" &
+    curl --fail --location --silent --output "$temp_exe" "$termcast_uri" &
     curl_pid=$!
     
     # Spinner animation
@@ -182,13 +191,25 @@ echo -e "\n  ${Bold_Cyan}◆${Color_Off} ${Bold_White}Downloading binary...${Col
     result=$?
     echo -ne "\r                          \r"  # Clear spinner line
     exit $result
-) || error "Failed to download termcast from \"$termcast_uri\""
+) || {
+    cleanup_temp
+    error "Failed to download termcast from \"$termcast_uri\""
+}
 
 success "Download complete!"
 
 substep "Setting executable permissions"
-chmod +x "$exe" ||
+chmod +x "$temp_exe" ||
     error 'Failed to set permissions on termcast executable'
+
+substep "Moving binary to final location"
+mv -f "$temp_exe" "$exe" || {
+    cleanup_temp
+    error 'Failed to move termcast to installation directory'
+}
+
+# Clear trap since we successfully moved the file
+trap - EXIT
 
 tildify() {
     if [[ $1 = $HOME/* ]]; then

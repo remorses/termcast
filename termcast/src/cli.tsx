@@ -35,17 +35,23 @@ async function checkForUpdates() {
     // Compare versions
     if (latestVersion && latestVersion !== currentVersion) {
       // Run the install script in background
-      spawn('bash', ['-c', 'curl -sf https://termcast.app/install | bash'], {
+      const updateProcess = spawn('bash', ['-c', 'curl -sf https://termcast.app/install | bash'], {
         detached: true,
         stdio: 'ignore',
-      }).unref()
-
-      // Show toast notification
-      await showToast({
-        title: 'Update available',
-        message: `Restart to use the new version ${latestVersion}`,
-        style: Toast.Style.Success,
       })
+
+      updateProcess.on('exit', async (code) => {
+        if (code === 0) {
+          // Show toast notification only on successful completion
+          await showToast({
+            title: 'Update available',
+            message: `Restart to use the new version ${latestVersion}`,
+            style: Toast.Style.Success,
+          })
+        }
+      })
+
+      // updateProcess.unref()
     }
   } catch (error) {
     // Silently fail - don't interrupt the user's workflow
