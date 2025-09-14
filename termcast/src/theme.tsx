@@ -22,6 +22,7 @@ export const Theme = {
   highlight: '#0080FF',
   selected: '#0080FF',
   yellow: '#FFFF00', // Yellow for icons
+  link: '#0080FF', // Blue for links
 
   // Transparent
   transparent: undefined, // Use undefined for no background color

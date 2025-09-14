@@ -26,7 +26,7 @@ test('file picker with autocomplete', async () => {
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
-    ◆  Your Name
+    ◇  Your Name
     │  John Doe
     ◇  Select Files
     │  Enter file path...
