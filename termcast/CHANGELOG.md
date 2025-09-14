@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.7
+
+### Patch Changes
+
+- fix \_jsx
+
 ## 0.3.6
 
 ### Patch Changes
