@@ -141,34 +141,34 @@ test('list with detail view display and navigation', async () => {
   expect(actionsSnapshot).toMatchInlineSnapshot(`
     "
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+    Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
+    Search Pokemon...
 
-    ›bulbasaur #001                      │ # bulbasaur
+    bulbasaur #001                      │ # charmander
 
-                                                                          esc   n.
+                                                                         esc   n.
 
-       Search actions...
-      ›Toggle Detail
-       View on Pokemon.com
+      Search actions...
+     ›Toggle Detail
+      View on Pokemon.com
 
 
-       ↵ select   ↑↓ navigate
+      ↵ select   ↑↓ navigate
 
-                                         │ ## Abilities
-                                         │ - Chlorophyll
-                                         │ - Overgrow
-                                         │ ───────────────────────────────────────
-                                         │
-                                         │ Types:
-                                         │
-                                         │ Grass:
-                                         │ ─────────────────
-                                         │
-                                         │ Poison:
-                                         │ ─────────────────
-                                         │"
+                                        │ ## Abilities
+                                        │ - Blaze
+                                        │ - Solar Power
+                                        │ ───────────────────────────────────────
+                                        │
+                                        │ Types:
+                                        │
+                                        │ Fire:
+                                        │ ─────────────────
+                                        │
+                                        │ Characteristics:
+                                        │ Height:        0.6m
+                                        │"
   `)
 
   // Select "Toggle Detail" action
@@ -187,9 +187,9 @@ test('list with detail view display and navigation', async () => {
 
      Search Pokemon...
 
-    ›bulbasaur #001                                              Grass / Poison
+     bulbasaur #001                                              Grass / Poison
      ivysaur #002                                                Grass / Poison
-     charmander #004                                                       Fire
+    ›charmander #004                                                       Fire
      charmeleon #005                                                       Fire
      squirtle #007                                                        Water
      wartortle #008                                                       Water
@@ -215,29 +215,29 @@ test('list with detail view display and navigation', async () => {
 
      Search Pokemon...
 
-    ›bulbasaur #001                       │ # bulbasaur
+     bulbasaur #001                       │ # charmander
      ivysaur #002                         │
-     charmander #004                      │ ![Illustration](https://assets.poke
+    ›charmander #004                      │ ![Illustration](https://assets.poke
      charmeleon #005                      │
      squirtle #007                        │ ## Types
-     wartortle #008                       │ Grass / Poison
+     wartortle #008                       │ Fire
                                           │
                                           │ ## Characteristics
-     ↵ select   ↑↓ navigate   ^k actions  │ - Height: 0.7m
-                                          │ - Weight: 6.9kg
+     ↵ select   ↑↓ navigate   ^k actions  │ - Height: 0.6m
+                                          │ - Weight: 8.5kg
                                           │
                                           │ ## Abilities
-                                          │ - Chlorophyll
-                                          │ - Overgrow
+                                          │ - Blaze
+                                          │ - Solar Power
                                           │ ───────────────────────────────────
                                           │
                                           │ Types:
                                           │
-                                          │ Grass:
+                                          │ Fire:
                                           │ ─────────────────
                                           │
-                                          │ Poison:
-                                          │ ─────────────────
+                                          │ Characteristics:
+                                          │ Height:        0.6m
                                           │"
   `)
 }, 15000)

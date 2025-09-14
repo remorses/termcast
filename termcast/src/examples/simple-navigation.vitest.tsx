@@ -79,8 +79,8 @@ test('navigation between main and detail views', async () => {
 
 
      Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
+     First Item Navigate to first detail
+    ›Second Item Navigate to second detail
      Third Item Navigate to third detail
 
 
@@ -179,9 +179,9 @@ test('navigation between main and detail views', async () => {
 
 
      Items
-    ›First Item Navigate to first detail
+     First Item Navigate to first detail
      Second Item Navigate to second detail
-     Third Item Navigate to third detail
+    ›Third Item Navigate to third detail
 
 
                                                                  esc
@@ -376,8 +376,8 @@ test('navigation with actions panel', async () => {
 
 
      Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
+     First Item Navigate to first detail
+    ›Second Item Navigate to second detail
      Third Item Navigate to third detail
 
 
@@ -404,8 +404,8 @@ test('navigation with actions panel', async () => {
 
 
      Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
+     First Item Navigate to first detail
+    ›Second Item Navigate to second detail
      Third Item Navigate to third detail
 
 

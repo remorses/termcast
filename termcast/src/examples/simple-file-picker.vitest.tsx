@@ -26,7 +26,7 @@ test('file picker with autocomplete', async () => {
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
-    ◇  Your Name
+    ◆  Your Name
     │  John Doe
     ◇  Select Files
     │  Enter file path...
@@ -225,16 +225,16 @@ test('file picker keyboard navigation', async () => {
 
     ◇  Your Name
     │  John Doe
-    ◆  Select Files
+    ◇  Select Files
+    │  Enter file path...
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
     │  .
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁  .termcast-bundle                                         │
-    ◇  SelectgFolderre                                               │
+    ◇  SelectgSinglerFile                                            │
     │  Enter─file─path...────────────────────────────────────────────┘
-    │  Choose a folder for output
-    │
-    ◇  Select Single File
-    │  Enter file path...
     │  Choose exactly one file
     │
     └
@@ -252,12 +252,12 @@ test('file picker keyboard navigation', async () => {
 
     ◇  Your Name
     │  John Doe
-    ◆  Select Files
-    │  .
+    ◇  Select Files
+    │  Enter file path...
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
+    ◆  Select Folder
+    │  .
     │  Choose a folder for output
     │
     ◇  Select Single File
@@ -286,12 +286,12 @@ test('file picker keyboard navigation', async () => {
 
     ◇  Your Name
     │  John Doe
-    ◆  Select Files
-    │  .s
+    ◇  Select Files
+    │  Enter file path...
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
+    ◆  Select Folder
+    │  .s
     │  Choose a folder for output
     │
     ◇  Select Single File
