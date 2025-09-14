@@ -314,6 +314,7 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 ## react code guidelines
 
 - NEVER set state inside a setTimeout. this has no effect and just makes the code more difficult to debug or understand
+- NEVER pass children to useEffect depependencies! it makes no sense!
 - Try to use as little useEffect or useLayoutEffect as possible. instead put the code directly in the relevant event handlers
 - Keep as little useState as possible. computed state should be a simple expression in render if possible
 

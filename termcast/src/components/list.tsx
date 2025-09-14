@@ -163,7 +163,7 @@ export interface ItemProps extends ActionsInterface, CommonProps {
 export interface DetailProps extends CommonProps {
   isLoading?: boolean
   markdown?: string
-  metadata?: ReactElement<MetadataProps>
+  metadata?: ReactElement<MetadataProps> | null
 }
 
 export interface MetadataProps extends CommonProps {
@@ -232,7 +232,20 @@ interface ListItemType {
 
 interface ListItemDetailType {
   (props: DetailProps): any
-  Metadata: (props: MetadataProps) => any
+  Metadata: ListItemDetailMetadataType
+}
+
+interface ListItemDetailMetadataType {
+  (props: MetadataProps): any
+  Label: (props: { title: string; text?: string; icon?: Image.ImageLike }) => any
+  Separator: () => any
+  Link: (props: { title: string; target: string; text: string }) => any
+  TagList: ListItemDetailMetadataTagListType
+}
+
+interface ListItemDetailMetadataTagListType {
+  (props: { title: string; children: ReactNode }): any
+  Item: (props: { text?: string; color?: Color; icon?: Image.ImageLike; onAction?: () => void }) => any
 }
 
 interface ListDropdownType {
@@ -293,6 +306,7 @@ interface ListItemDescendant {
   keywords?: string[]
   actions?: ReactNode
   visible?: boolean
+  detail?: ReactNode
 }
 
 const {
@@ -606,6 +620,7 @@ export const List: ListType = (props) => {
   const [internalSearchText, setInternalSearchTextRaw] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
   const inputRef = useRef<any>(null)
   const descendantsContext = useListDescendants()
   const navigationPending = useNavigationPending()
@@ -651,6 +666,27 @@ export const List: ListType = (props) => {
     }),
     [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled],
   )
+
+  // Update the current detail when selection changes
+  useEffect(() => {
+    if (!isShowingDetail) {
+      setCurrentDetail(null)
+      return
+    }
+
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1)
+      .sort((a, b) => a.index - b.index)
+
+    const currentItem = items.find((item) => item.index === selectedIndex)
+    if (currentItem?.props) {
+      // Get the detail from the item's props
+      const itemDetail = (currentItem.props as any).detail
+      setCurrentDetail(itemDetail || null)
+    } else {
+      setCurrentDetail(null)
+    }
+  }, [selectedIndex, isShowingDetail, ])
 
   // Reset selected index when items change or selectedItemId changes
   useEffect(() => {
@@ -818,15 +854,35 @@ export const List: ListType = (props) => {
             </box>
           </box>
 
-          {/* List content - render children which will register themselves */}
-          <box style={{ marginTop: 1 }}>
-            <>
-              {/* Render children - they will register as descendants */}
-              <ListItemsRenderer>{children}</ListItemsRenderer>
+          {/* Main content area with optional detail view */}
+          <box style={{ flexDirection: 'row', flexGrow: 1 }}>
+            {/* List content - render children which will register themselves */}
+            <box style={{ marginTop: 1, width: isShowingDetail ? '50%' : '100%', flexGrow: isShowingDetail ? 0 : 1 }}>
+              <>
+                {/* Render children - they will register as descendants */}
+                <ListItemsRenderer>{children}</ListItemsRenderer>
 
-              {/* Footer with keyboard shortcuts or toast */}
-              <ListFooter />
-            </>
+                {/* Footer with keyboard shortcuts or toast */}
+                <ListFooter />
+              </>
+            </box>
+
+            {/* Detail panel on the right */}
+            {isShowingDetail && currentDetail && (
+              <box
+                style={{
+                  marginTop: 1,
+                  width: '50%',
+                  paddingLeft: 1,
+                  paddingRight: 1,
+                }}
+                border={['left']}
+                borderStyle='single'
+                borderColor={Theme.border}
+              >
+                {currentDetail}
+              </box>
+            )}
           </box>
         </box>
       </ListDescendantsProvider>
@@ -895,6 +951,7 @@ const ListItem: ListItemType = (props) => {
     ) as string[],
     actions: props.actions,
     visible: isVisible,
+    detail: props.detail,
   })
 
   // Don't render if not visible
@@ -917,12 +974,15 @@ const ListItem: ListItemType = (props) => {
     }
   }
 
+  // Don't show accessories if we're showing detail
+  const showAccessories = !props.detail && props.accessories
+
   // Render the item row directly
   return (
     <ListItemRow
       title={titleText}
       subtitle={subtitleText}
-      accessories={props.accessories}
+      accessories={showAccessories ? props.accessories : undefined}
       active={isActive}
       isShowingDetail={props.detail !== undefined}
       onMouseDown={handleMouseDown}
@@ -932,12 +992,95 @@ const ListItem: ListItemType = (props) => {
 }
 
 const ListItemDetail: ListItemDetailType = (props) => {
-  return null
+  const { isLoading, markdown, metadata } = props
+
+  return (
+    <box style={{ flexDirection: 'column', flexGrow: 1 }}>
+      {isLoading && (
+        <box style={{ paddingBottom: 1 }}>
+          <text fg={Theme.textMuted}>Loading...</text>
+        </box>
+      )}
+
+      {markdown && (
+        <box style={{ flexGrow: 1, flexShrink: 1, overflow: 'scroll' }}>
+          <text>{markdown}</text>
+        </box>
+      )}
+
+      {metadata && (
+        <box
+          style={{ paddingTop: 1 }}
+          border={['top']}
+          borderStyle='single'
+          borderColor={Theme.border}
+        >
+          {metadata}
+        </box>
+      )}
+    </box>
+  )
 }
 
-ListItemDetail.Metadata = (props) => {
-  return null
+const ListItemDetailMetadata = (props: MetadataProps) => {
+  return (
+    <box style={{ flexDirection: 'column' }}>
+      {props.children}
+    </box>
+  )
 }
+
+const ListItemDetailMetadataLabel = (props: { title: string; text?: string; icon?: Image.ImageLike }) => {
+  return (
+    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
+      <text fg={Theme.textMuted} style={{ minWidth: 15 }}>{props.title}:</text>
+      {props.text && <text fg={Theme.text}>{props.text}</text>}
+    </box>
+  )
+}
+
+const ListItemDetailMetadataSeparator = () => {
+  return (
+    <box style={{ paddingBottom: 0.5 }}>
+      <text fg={Theme.border}>─────────────────</text>
+    </box>
+  )
+}
+
+const ListItemDetailMetadataLink = (props: { title: string; target: string; text: string }) => {
+  return (
+    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
+      <text fg={Theme.textMuted} style={{ minWidth: 15 }}>{props.title}:</text>
+      <text fg={Theme.link}>{props.text}</text>
+    </box>
+  )
+}
+
+const ListItemDetailMetadataTagList = (props: { title: string; children: ReactNode }) => {
+  return (
+    <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
+      <text fg={Theme.textMuted}>{props.title}:</text>
+      <box style={{ flexDirection: 'row', paddingLeft: 1 }}>
+        {props.children}
+      </box>
+    </box>
+  )
+}
+
+const ListItemDetailMetadataTagListItem = (props: { text?: string; color?: Color; icon?: Image.ImageLike; onAction?: () => void }) => {
+  return (
+    <box style={{ paddingRight: 1 }}>
+      <text fg={props.color || Theme.accent}>[{props.text}]</text>
+    </box>
+  )
+}
+
+ListItemDetail.Metadata = ListItemDetailMetadata as any
+ListItemDetailMetadata.Label = ListItemDetailMetadataLabel as any
+ListItemDetailMetadata.Separator = ListItemDetailMetadataSeparator as any
+ListItemDetailMetadata.Link = ListItemDetailMetadataLink as any
+ListItemDetailMetadata.TagList = ListItemDetailMetadataTagList as any
+ListItemDetailMetadataTagList.Item = ListItemDetailMetadataTagListItem as any
 
 ListItem.Detail = ListItemDetail
 
