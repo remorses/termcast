@@ -146,6 +146,7 @@ cli
       const buildResult = await buildExtensionCommands({
         extensionPath,
         format: 'esm',
+        target: 'bun',
       })
       console.log(`Successfully built ${buildResult.commands.length} commands`)
 

@@ -197,6 +197,7 @@ function ExtensionDetails({ extension }: { extension: StoreListing }): any {
         const buildResult = await buildExtensionCommands({
           extensionPath: extensionDir,
           format: 'cjs',
+          target: 'node',
         })
         logger.log(
           `Built ${buildResult.commands.length} commands for ${extension.name}`,

@@ -210,7 +210,10 @@ function ExtensionsList({
                 accessories={
                   item.command.mode ? [{ text: item.command.mode }] : []
                 }
-                keywords={item.command.keywords}
+                keywords={[
+                  ...(item.command.keywords || []),
+                  item.extensionName,
+                ]}
                 actions={
                   <ActionPanel>
                     <Action

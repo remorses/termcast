@@ -1,5 +1,7 @@
 // @ts-nocheck
 // Set up global references for external packages
+//
+import { logger } from './logger'
 
 process.env.TERMCAST = 'true'
 
@@ -21,5 +23,12 @@ declare global {
 globalThis.opentuiCore = opentuiCore
 globalThis.opentuiReact = opentuiReact
 globalThis.react = react
+
+globalThis._jsx = react.createElement
+globalThis._jsxs = reactJsxRuntime.jsxs
+globalThis._Fragment = reactJsxRuntime.Fragment
+
 globalThis.reactJsxRuntime = reactJsxRuntime
 globalThis.termcastApi = termcastApi
+
+globalThis.logger = logger

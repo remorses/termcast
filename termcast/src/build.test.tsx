@@ -7,6 +7,7 @@ describe('buildExtensionCommands', () => {
     const fixtureDir = path.join(process.cwd(), 'fixtures/simple-extension')
     const result = await buildExtensionCommands({
       extensionPath: fixtureDir,
+      target: 'node',
     })
 
     // Replace the user-specific base path with a constant placeholder
