@@ -153,9 +153,7 @@ class ErrorBoundaryClass extends Component<
       titlePrefix ? `${titlePrefix}: ${error.message}` : error.message,
     )
 
-    // GitHub URL limit is around 2048-8192 characters
-    // We'll use a conservative limit of 2000 to be safe
-    const MAX_URL_LENGTH = 2000
+    const MAX_URL_LENGTH = 4096
     const baseUrl = 'https://github.com/remorses/termcast/issues/new?title='
     const titlePart = `${baseUrl}${title}&body=`
 
