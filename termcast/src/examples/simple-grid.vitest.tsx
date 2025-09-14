@@ -135,31 +135,31 @@ test('grid navigation and display', async () => {
   expect(actionsSnapshot).toMatchInlineSnapshot(`
     "
 
-     Simple Grid Example ────────────────────────────────────────────
+    Simple Grid Example ────────────────────────────────────────────
 
-     Search items...
-
-
-     Fruits
-    ›Apple
-     Banana
-     Cherry
+    Search items...
 
 
-                                                                 esc
-
-      Search actions...
-     ›Show Details
-      Copy Emoji                                                  ⌃C
-
-
-      ↵ select   ↑↓ navigate
-
-     Moon
-     Sun
+    Fruits
+    Apple
+    Banana
+    Cherry
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+                                                                esc
+
+     Search actions...
+    ›Show Details
+     Copy Emoji                                                  ⌃C
+
+
+     ↵ select   ↑↓ navigate
+
+    Moon
+    Sun
+
+
+    ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Close actions with escape
@@ -175,12 +175,12 @@ test('grid navigation and display', async () => {
 
 
      Fruits
-    ›Apple
+     Apple
      Banana
      Cherry
 
      Animals
-     Dog
+    ›Dog
      Cat
      Rabbit
 

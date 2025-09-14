@@ -269,6 +269,8 @@ interface ListContextValue {
   setSelectedIndex?: (index: number) => void
   searchText: string
   isFiltering: boolean
+  setCurrentDetail?: (detail: ReactNode) => void
+  isShowingDetail?: boolean
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -651,7 +653,8 @@ export const List: ListType = (props) => {
   // Wrapper function that updates search text
   const setInternalSearchText = (value: string) => {
     setInternalSearchTextRaw(value)
-    // Don't reset selectedIndex here - let useEffect handle it after items update
+    // Reset to 0 when search changes - this is expected UX behavior
+    setSelectedIndex(0)
   }
 
   const listContextValue = useMemo<ListContextValue>(
@@ -663,46 +666,33 @@ export const List: ListType = (props) => {
       setSelectedIndex,
       searchText,
       isFiltering: isFilteringEnabled,
+      setCurrentDetail,
+      isShowingDetail,
     }),
-    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled],
+    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail],
   )
 
-  // Update the current detail when selection changes
+  // Clear detail when detail view is hidden
   useEffect(() => {
     if (!isShowingDetail) {
       setCurrentDetail(null)
-      return
     }
+  }, [isShowingDetail])
 
-    const items = Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1)
-      .sort((a, b) => a.index - b.index)
-
-    const currentItem = items.find((item) => item.index === selectedIndex)
-    if (currentItem?.props) {
-      // Get the detail from the item's props
-      const itemDetail = (currentItem.props as any).detail
-      setCurrentDetail(itemDetail || null)
-    } else {
-      setCurrentDetail(null)
-    }
-  }, [selectedIndex, isShowingDetail, ])
-
-  // Reset selected index when items change or selectedItemId changes
+  // Handle selectedItemId prop changes
   useEffect(() => {
-    const items = Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1)
-      .sort((a, b) => a.index - b.index)
+    // Only update selection if selectedItemId is explicitly provided
+    if (selectedItemId !== undefined) {
+      const items = Object.values(descendantsContext.map.current)
+        .filter((item) => item.index !== -1)
+        .sort((a, b) => a.index - b.index)
 
-    if (selectedItemId) {
       const index = items.findIndex((item) => item.props?.id === selectedItemId)
       if (index !== -1) {
         setSelectedIndex(index)
-        return
       }
     }
-    setSelectedIndex(0)
-  }, [children, selectedItemId])
+  }, [selectedItemId])
 
   const move = (direction: -1 | 1) => {
     // Get all visible items
@@ -954,12 +944,19 @@ const ListItem: ListItemType = (props) => {
     detail: props.detail,
   })
 
-  // Don't render if not visible
-  if (!isVisible) return null
-
   // Get selected index from parent List context
   const selectedIndex = listContext?.selectedIndex ?? 0
   const isActive = index === selectedIndex
+  
+  // Update detail when this item becomes active or detail prop changes
+  useEffect(() => {
+    if (isActive && listContext?.isShowingDetail && listContext?.setCurrentDetail) {
+      listContext.setCurrentDetail(props.detail || null)
+    }
+  }, [isActive, props.detail, listContext?.isShowingDetail, listContext?.setCurrentDetail])
+
+  // Don't render if not visible
+  if (!isVisible) return null
 
   // Handle mouse click on item
   const handleMouseDown = () => {
