@@ -153,17 +153,32 @@ class ErrorBoundaryClass extends Component<
       titlePrefix ? `${titlePrefix}: ${error.message}` : error.message,
     )
 
-    const body = encodeURIComponent(dedent`
+    // GitHub URL limit is around 2048-8192 characters
+    // We'll use a conservative limit of 2000 to be safe
+    const MAX_URL_LENGTH = 2000
+    const baseUrl = 'https://github.com/remorses/termcast/issues/new?title='
+    const titlePart = `${baseUrl}${title}&body=`
+
+    // Calculate how much space we have for the body
+    const availableBodyLength = MAX_URL_LENGTH - titlePart.length
+
+    // Always create a minimal body
+    const minimalBody = dedent`
       ## Error Details
 
       **Message:** ${error.message}
       **Context:** ${contextInfo || 'No extension loaded'}
-
-      ## Navigation Stack
-
-      \`\`\`\`
-      ${navigationInfo}
-      \`\`\`\`
+      **Navigation:** \`${navigationStack
+        .map((item) => {
+          const element = item.element as any
+          return (
+            element?.type?.displayName ||
+            element?.type?.name ||
+            element?.type ||
+            'Unknown'
+          )
+        })
+        .join(' > ')}\`
 
       ## Stack Trace
 
@@ -171,25 +186,21 @@ class ErrorBoundaryClass extends Component<
       ${error.stack || 'No stack trace available'}
       \`\`\`\`
 
-      ## Recent Logs (last 200 lines)
-
-      <details>
-      <summary>Click to expand logs</summary>
-
-      \`\`\`\`
-      ${logs}
-      \`\`\`\`
-
-      </details>
-
       ## Environment
 
       - Platform: ${process.platform}
       - Node Version: ${process.version}
       - Date: ${new Date().toISOString()}
-    `)
+    `
 
-    const url = `https://github.com/sst/opencode/issues/new?title=${title}&body=${body}`
+    let body = encodeURIComponent(minimalBody)
+
+    // If still too long, just truncate it
+    if (body.length > availableBodyLength) {
+      body = body.substring(0, availableBodyLength)
+    }
+
+    const url = `${titlePart}${body}`
 
     // Open in browser
     const openCmd =
@@ -232,10 +243,70 @@ function ErrorDisplay({
 }): any {
   const [isHovered, setIsHovered] = React.useState(false)
   const [showLogs, setShowLogs] = React.useState(false)
+  const [focusedIndex, setFocusedIndex] = React.useState(0) // 0 = issue button, 1+ = stack trace lines
 
-  useKeyboard((evt) => {
-    if (evt.name === 'return') {
-      onOpenIssue()
+  // Parse stack trace to get file paths with line numbers
+  const stackLines = React.useMemo(() => {
+    if (!error?.stack) return []
+
+    const lines = error.stack.split('\n')
+    const parsedLines: Array<{ text: string; file?: string; line?: number }> =
+      []
+
+    for (const line of lines) {
+      // Match file paths with line:column format
+      // Common patterns: "at file:///path/to/file.ts:123:45" or "at /path/to/file.ts:123:45"
+      const match = line.match(
+        /at\s+(?:.*?\s+\()?(?:file:\/\/)?([^:\s]+(?:\.tsx?|\.jsx?)):(\d+)(?::\d+)?/,
+      )
+
+      if (match) {
+        parsedLines.push({
+          text: line,
+          file: match[1],
+          line: parseInt(match[2], 10),
+        })
+      } else {
+        parsedLines.push({ text: line })
+      }
+    }
+
+    return parsedLines
+  }, [error?.stack])
+
+  // Count of focusable stack lines (those with file paths)
+  const focusableStackLines = stackLines.filter((line) => line.file).length
+
+  useKeyboard(async (evt) => {
+    if (evt.name === 'down') {
+      setFocusedIndex((prev) => {
+        const maxIndex = focusableStackLines // 0 for button + focusable stack lines
+        return Math.min(prev + 1, maxIndex)
+      })
+    } else if (evt.name === 'up') {
+      setFocusedIndex((prev) => Math.max(prev - 1, 0))
+    } else if (evt.name === 'return') {
+      if (focusedIndex === 0) {
+        // Issue button is focused
+        onOpenIssue()
+      } else {
+        // Stack trace line is focused - copy file path to clipboard
+        let currentFocusableIndex = 0
+        for (const line of stackLines) {
+          if (line.file) {
+            currentFocusableIndex++
+            if (currentFocusableIndex === focusedIndex) {
+              const filePathWithLine = `${line.file}:${line.line}`
+              const { Clipboard } = await import(
+                '@termcast/cli/src/apis/clipboard'
+              )
+              await Clipboard.copy(filePathWithLine)
+              logger.log(`📋 Copied to clipboard: ${filePathWithLine}`)
+              break
+            }
+          }
+        }
+      }
     }
   })
 
@@ -254,23 +325,59 @@ function ErrorDisplay({
         paddingRight={1}
         borderStyle='rounded'
         border={true}
-        borderColor={isHovered ? Theme.highlight : Theme.border}
-        backgroundColor={isHovered ? Theme.backgroundPanel : undefined}
+        borderColor={
+          focusedIndex === 0
+            ? Theme.highlight
+            : isHovered
+              ? Theme.highlight
+              : Theme.border
+        }
+        backgroundColor={
+          focusedIndex === 0
+            ? Theme.backgroundPanel
+            : isHovered
+              ? Theme.backgroundPanel
+              : undefined
+        }
         onMouseMove={() => setIsHovered(true)}
         onMouseOut={() => setIsHovered(false)}
         onMouseDown={onOpenIssue}
         marginTop={1}
       >
-        <text>📝 Press Enter or click to report on GitHub</text>
+        <text>
+          {focusedIndex === 0 ? '▶ ' : '  '}📝 Press Enter or click to report
+          on GitHub
+        </text>
       </box>
 
       <box flexDirection='column' marginTop={1}>
         <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
           Stack Trace:
         </text>
-        <text fg={Theme.error}>
-          {error?.stack || 'No stack trace available'}
-        </text>
+        {stackLines.map((line, index) => {
+          let currentFocusableIndex = 0
+          let isFocused = false
+
+          // Determine if this line is focused
+          if (line.file) {
+            currentFocusableIndex = stackLines
+              .slice(0, index + 1)
+              .filter((l) => l.file).length
+            isFocused = focusedIndex === currentFocusableIndex
+          }
+
+          return (
+            <box
+              key={index}
+              backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+            >
+              <text fg={isFocused ? Theme.highlight : Theme.error}>
+                {isFocused ? '▶ ' : '  '}
+                {line.text}
+              </text>
+            </box>
+          )
+        })}
       </box>
 
       <box marginTop={1} onMouseDown={() => setShowLogs(!showLogs)}>

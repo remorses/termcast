@@ -152,6 +152,7 @@ export async function startDevMode({
   const { commands } = await buildExtensionCommands({
     extensionPath: resolvedPath,
     format: 'esm',
+    target: 'bun',
   })
 
   // Reset state and set extension information
@@ -184,6 +185,7 @@ export async function triggerRebuild({
     const { commands } = await buildExtensionCommands({
       extensionPath,
       format: 'esm',
+      target: 'bun',
     })
 
     // Re-parse package.json in case it changed
