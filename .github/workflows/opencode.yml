@@ -4,6 +4,7 @@ on:
   issue_comment:
     types: [created]
 
+
 jobs:
   opencode:
     if: contains(github.event.comment.body, '/opencode')
@@ -30,7 +31,7 @@ jobs:
             "${{ secrets.ANTHROPIC_ACCESS_TOKEN }}" \
             | install -D /dev/stdin ~/.local/share/opencode/auth.json
       - name: Run opencode
-        uses: sst/opencode/github@dev
+        uses: aemr3/opencode/github@dev
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         with:
