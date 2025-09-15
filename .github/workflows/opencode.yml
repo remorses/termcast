@@ -6,9 +6,7 @@ on:
 
 jobs:
   opencode:
-    if: |
-      contains(github.event.comment.body, '/oc') ||
-      contains(github.event.comment.body, '/opencode')
+    if: contains(github.event.comment.body, '/opencode')
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -25,8 +23,14 @@ jobs:
           bun-version: latest
       - name: Install dependencies
         run: bun install
+      - name: Write auth.json
+        run: |
+          printf '{"anthropic":{"type":"oauth","refresh":"%s","access":"%s"}}' \
+            "${{ secrets.ANTHROPIC_REFRESH_TOKEN }}" \
+            "${{ secrets.ANTHROPIC_ACCESS_TOKEN }}" \
+            | install -D /dev/stdin ~/.local/share/opencode/auth.json
       - name: Run opencode
-        uses: sst/opencode/github@latest
+        uses: sst/opencode/github@dev
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         with:
