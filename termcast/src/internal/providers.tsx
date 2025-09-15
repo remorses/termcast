@@ -112,8 +112,6 @@ class ErrorBoundaryClass extends Component<
     const error = this.state.error
     if (!error) return
 
-    const logs = this.getRecentLogs()
-
     // Get navigation stack information for body
     const navigationStack = useStore.getState().navigationStack
     const navigationInfo = navigationStack
@@ -241,56 +239,69 @@ function ErrorDisplay({
 }): any {
   const [isHovered, setIsHovered] = React.useState(false)
   const [showLogs, setShowLogs] = React.useState(false)
-  const [focusedIndex, setFocusedIndex] = React.useState(0) // 0 = issue button, 1+ = stack trace lines
+  const [showFullStack, setShowFullStack] = React.useState(false)
+  const [focusedIndex, setFocusedIndex] = React.useState(0) // 0 = issue button, 1 = logs toggle, 2+ = stack trace lines
 
   // Parse stack trace to get file paths with line numbers
   const stackLines = React.useMemo(() => {
     if (!error?.stack) return []
 
     const lines = error.stack.split('\n')
-    const parsedLines: Array<{ text: string; file?: string; line?: number }> =
+    const parsedLines: Array<{ text: string; file?: string; line?: number; isInternal?: boolean }> =
       []
 
     for (const line of lines) {
       // Match file paths with line:column format
-      // Common patterns: "at file:///path/to/file.ts:123:45" or "at /path/to/file.ts:123:45"
       const match = line.match(
         /at\s+(?:.*?\s+\()?(?:file:\/\/)?([^:\s]+(?:\.tsx?|\.jsx?)):(\d+)(?::\d+)?/,
       )
+
+      const isInternal = line.includes('node_modules') || 
+                         line.includes('internal/') ||
+                         line.includes('node:')
 
       if (match) {
         parsedLines.push({
           text: line,
           file: match[1],
           line: parseInt(match[2], 10),
+          isInternal,
         })
       } else {
-        parsedLines.push({ text: line })
+        parsedLines.push({ text: line, isInternal })
       }
     }
 
     return parsedLines
   }, [error?.stack])
 
-  // Count of focusable stack lines (those with file paths)
-  const focusableStackLines = stackLines.filter((line) => line.file).length
+  // Filter stack lines based on showFullStack
+  const visibleStackLines = React.useMemo(() => {
+    if (showFullStack) return stackLines
+    // Show first line (error message) and non-internal lines
+    return stackLines.filter((_, index) => index === 0 || !stackLines[index]?.isInternal)
+  }, [stackLines, showFullStack])
+
+  // Count of focusable items
+  const focusableStackLines = visibleStackLines.filter((line) => line.file).length
+  const maxFocusIndex = 1 + focusableStackLines // issue button + logs toggle + stack lines
 
   useKeyboard(async (evt) => {
     if (evt.name === 'down') {
-      setFocusedIndex((prev) => {
-        const maxIndex = focusableStackLines // 0 for button + focusable stack lines
-        return Math.min(prev + 1, maxIndex)
-      })
+      setFocusedIndex((prev) => Math.min(prev + 1, maxFocusIndex))
     } else if (evt.name === 'up') {
       setFocusedIndex((prev) => Math.max(prev - 1, 0))
-    } else if (evt.name === 'return') {
+    } else if (evt.name === 'return' || evt.name === 'space') {
       if (focusedIndex === 0) {
         // Issue button is focused
         onOpenIssue()
+      } else if (focusedIndex === 1) {
+        // Logs toggle is focused
+        setShowLogs((prev) => !prev)
       } else {
         // Stack trace line is focused - copy file path to clipboard
-        let currentFocusableIndex = 0
-        for (const line of stackLines) {
+        let currentFocusableIndex = 1 // Start after logs toggle
+        for (const line of visibleStackLines) {
           if (line.file) {
             currentFocusableIndex++
             if (currentFocusableIndex === focusedIndex) {
@@ -305,89 +316,177 @@ function ErrorDisplay({
           }
         }
       }
+    } else if (evt.name === 'f') {
+      // Toggle full stack trace with 'f' key
+      setShowFullStack((prev) => !prev)
     }
   })
 
+  // Get context info
+  const extensionPackageJson = useStore.getState().extensionPackageJson
+  const currentCommandName = useStore.getState().currentCommandName
+  const extensionPath = useStore.getState().extensionPath
+  const extensionName = extensionPackageJson?.name || 
+                        (extensionPath ? path.basename(extensionPath) : null)
+
   return (
-    <box padding={2} flexDirection='column' gap={1}>
-      <text fg={Theme.error} attributes={TextAttributes.BOLD}>
-        ⚠️ An error occurred
-      </text>
-
-      <text fg={Theme.error}>
-        {error?.message || 'An unexpected error occurred'}
-      </text>
-
+    <box flexDirection='column' padding={1}>
+      {/* Error Header */}
       <box
-        paddingLeft={1}
-        paddingRight={1}
+        flexDirection='column'
+        gap={1}
+        padding={1}
         borderStyle='rounded'
         border={true}
-        borderColor={
-          focusedIndex === 0
-            ? Theme.highlight
-            : isHovered
+        borderColor={Theme.error}
+        backgroundColor={Theme.backgroundPanel}
+      >
+        <box flexDirection='column' gap={1}>
+          <box gap={1}>
+            <text fg={Theme.error} attributes={TextAttributes.BOLD}>
+              ❌ Error
+            </text>
+            {extensionName && (
+              <text fg={Theme.textMuted}>
+                in {extensionName}
+                {currentCommandName && ` > ${currentCommandName}`}
+              </text>
+            )}
+          </box>
+          
+          <box paddingLeft={2}>
+            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+              {error?.message || 'An unexpected error occurred'}
+            </text>
+          </box>
+        </box>
+      </box>
+
+      {/* Action Buttons */}
+      <box flexDirection='column' gap={1} marginTop={1}>
+        <box
+          paddingLeft={1}
+          paddingRight={1}
+          borderStyle={focusedIndex === 0 ? 'double' : 'rounded'}
+          border={true}
+          borderColor={
+            focusedIndex === 0
+              ? Theme.highlight
+              : isHovered
+                ? Theme.textMuted
+                : Theme.border
+          }
+          backgroundColor={
+            focusedIndex === 0 ? Theme.backgroundPanel : undefined
+          }
+          onMouseMove={() => setIsHovered(true)}
+          onMouseOut={() => setIsHovered(false)}
+          onMouseDown={onOpenIssue}
+        >
+          <text fg={focusedIndex === 0 ? Theme.highlight : Theme.text}>
+            {focusedIndex === 0 ? '▶ ' : '  '}
+            🐛 Report Issue on GitHub {focusedIndex === 0 ? '(Enter)' : ''}
+          </text>
+        </box>
+
+        {/* Logs Toggle */}
+        <box
+          paddingLeft={1}
+          paddingRight={1}
+          borderStyle={focusedIndex === 1 ? 'double' : 'single'}
+          border={true}
+          borderColor={
+            focusedIndex === 1
               ? Theme.highlight
               : Theme.border
-        }
-        backgroundColor={
-          focusedIndex === 0
-            ? Theme.backgroundPanel
-            : isHovered
-              ? Theme.backgroundPanel
-              : undefined
-        }
-        onMouseMove={() => setIsHovered(true)}
-        onMouseOut={() => setIsHovered(false)}
-        onMouseDown={onOpenIssue}
-        marginTop={1}
-      >
-        <text>
-          {focusedIndex === 0 ? '▶ ' : '  '}📝 Press Enter or click to report
-          on GitHub
-        </text>
-      </box>
-
-      <box flexDirection='column' marginTop={1}>
-        <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
-          Stack Trace:
-        </text>
-        {stackLines.map((line, index) => {
-          let currentFocusableIndex = 0
-          let isFocused = false
-
-          // Determine if this line is focused
-          if (line.file) {
-            currentFocusableIndex = stackLines
-              .slice(0, index + 1)
-              .filter((l) => l.file).length
-            isFocused = focusedIndex === currentFocusableIndex
           }
-
-          return (
-            <box
-              key={index}
-              backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
-            >
-              <text fg={isFocused ? Theme.highlight : Theme.error}>
-                {isFocused ? '▶ ' : '  '}
-                {line.text}
-              </text>
-            </box>
-          )
-        })}
+          backgroundColor={
+            focusedIndex === 1 ? Theme.backgroundPanel : undefined
+          }
+          onMouseDown={() => setShowLogs(!showLogs)}
+        >
+          <text fg={focusedIndex === 1 ? Theme.highlight : Theme.textMuted}>
+            {focusedIndex === 1 ? '▶ ' : '  '}
+            {showLogs ? '📂' : '📁'} {showLogs ? 'Hide' : 'Show'} Debug Logs
+            {focusedIndex === 1 ? ' (Enter)' : ''}
+          </text>
+        </box>
       </box>
 
-      <box marginTop={1} onMouseDown={() => setShowLogs(!showLogs)}>
-        <text fg={Theme.textMuted} attributes={TextAttributes.UNDERLINE}>
-          {showLogs ? '▼' : '▶'} Toggle logs (last 200 lines)
-        </text>
+      {/* Stack Trace Section */}
+      <box flexDirection='column' marginTop={1}>
+        <box gap={1} marginBottom={1}>
+          <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
+            Stack Trace
+          </text>
+          <text fg={Theme.textMuted}>
+            ({showFullStack ? 'Full' : 'Filtered'} - Press 'f' to toggle)
+          </text>
+        </box>
+        
+        <box
+          flexDirection='column'
+          padding={1}
+          borderStyle='single'
+          border={true}
+          borderColor={Theme.border}
+          maxHeight={15}
+        >
+          {visibleStackLines.length === 0 ? (
+            <text fg={Theme.textMuted}>No stack trace available</text>
+          ) : (
+            visibleStackLines.map((line, index) => {
+              let currentFocusableIndex = 1 // Start after logs toggle
+              let isFocused = false
+
+              // Determine if this line is focused
+              if (line.file) {
+                currentFocusableIndex = 1 + visibleStackLines
+                  .slice(0, index + 1)
+                  .filter((l) => l.file).length
+                isFocused = focusedIndex === currentFocusableIndex
+              }
+
+              // Format the line for better readability
+              let displayText = line.text
+              if (line.file) {
+                // Simplify file paths for better readability
+                const fileName = path.basename(line.file)
+                displayText = displayText.replace(line.file, fileName)
+              }
+
+              return (
+                <box
+                  key={index}
+                  backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
+                  paddingLeft={isFocused ? 0 : 2}
+                >
+                  <text 
+                    fg={
+                      isFocused 
+                        ? Theme.highlight 
+                        : line.isInternal 
+                          ? Theme.textMuted 
+                          : Theme.text
+                    }
+                    attributes={line.file && !line.isInternal ? TextAttributes.UNDERLINE : undefined}
+                  >
+                    {isFocused ? '▶ ' : ''}
+                    {displayText}
+                    {isFocused && line.file ? ' (Enter to copy)' : ''}
+                  </text>
+                </box>
+              )
+            })
+          )}
+        </box>
       </box>
 
+      {/* Debug Logs Section */}
       {showLogs && (
         <box flexDirection='column' marginTop={1}>
-          <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
-            Recent Logs:
+          <text fg={Theme.textMuted} attributes={TextAttributes.BOLD} marginBottom={1}>
+            Recent Logs (last 200 lines):
           </text>
           <box
             padding={1}
@@ -395,11 +494,19 @@ function ErrorDisplay({
             border={true}
             borderColor={Theme.border}
             maxHeight={20}
+            backgroundColor={Theme.backgroundPanel}
           >
             <text fg={Theme.textMuted}>{getRecentLogs()}</text>
           </box>
         </box>
       )}
+
+      {/* Help Text */}
+      <box marginTop={1} paddingTop={1}>
+        <text fg={Theme.textMuted}>
+          💡 Use ↑↓ to navigate • Enter to select • 'f' to toggle full stack
+        </text>
+      </box>
     </box>
   )
 }

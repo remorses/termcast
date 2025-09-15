@@ -19,10 +19,7 @@
     },
     "termcast": {
       "name": "@termcast/cli",
-      "version": "0.3.5",
-      "bin": {
-        "termcast": "src/cli.tsx",
-      },
+      "version": "0.3.8",
       "dependencies": {
         "@opentui/core": "0.1.23",
         "@opentui/react": "0.1.23",
