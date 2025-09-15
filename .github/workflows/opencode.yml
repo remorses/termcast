@@ -1,13 +1,17 @@
 name: opencode
 
 on:
+  issues:
+    types: [opened]
   issue_comment:
     types: [created]
 
 
 jobs:
   opencode:
-    if: contains(github.event.comment.body, '/opencode')
+    if: |
+      (github.event_name == 'issues' && contains(github.event.issue.body, '/opencode')) ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/opencode'))
     runs-on: ubuntu-latest
     permissions:
       id-token: write
