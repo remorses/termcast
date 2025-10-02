@@ -1,5 +1,5 @@
-import { showFailureToast } from '@termcast/cli/src/apis/toast'
-import { logger } from '@termcast/cli/src/logger'
+import { showFailureToast } from 'termcast/src/apis/toast'
+import { logger } from 'termcast/src/logger'
 
 let initialized = false
 

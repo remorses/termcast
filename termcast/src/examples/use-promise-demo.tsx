@@ -1,7 +1,7 @@
 import React from 'react'
-import { List, ActionPanel, Action, showToast, Toast } from '@termcast/cli'
+import { List, ActionPanel, Action, showToast, Toast } from 'termcast'
 import { useCachedPromise } from '@raycast/utils'
-import { renderWithProviders } from '@termcast/cli'
+import { renderWithProviders } from 'termcast'
 
 interface User {
   id: number

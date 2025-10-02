@@ -18,14 +18,14 @@ import {
 } from 'react-hook-form'
 import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { logger } from '@termcast/cli/src/logger'
-import { Theme } from '@termcast/cli/src/theme'
+import { logger } from 'termcast/src/logger'
+import { Theme } from 'termcast/src/theme'
 import {
   createDescendants,
   DescendantContextType,
-} from '@termcast/cli/src/descendants'
+} from 'termcast/src/descendants'
 import { WithLeftBorder } from './with-left-border'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
 export interface DropdownProps extends FormItemProps<string | string[]> {
   placeholder?: string

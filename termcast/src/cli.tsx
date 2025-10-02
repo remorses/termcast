@@ -29,7 +29,7 @@ async function checkForUpdates() {
 
     const latestRelease = await response.json()
     const latestVersion =
-      latestRelease.tag_name?.replace('@termcast/cli@', '') ||
+      latestRelease.tag_name?.replace('termcast@', '') ||
       latestRelease.tag_name?.replace('v', '')
 
     // Compare versions

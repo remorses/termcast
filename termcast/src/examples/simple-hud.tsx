@@ -1,7 +1,7 @@
 import React from 'react'
-import { List, Action, ActionPanel } from '@termcast/cli'
-import { showHUD } from '@termcast/cli'
-import { renderWithProviders } from '@termcast/cli'
+import { List, Action, ActionPanel } from 'termcast'
+import { showHUD } from 'termcast'
+import { renderWithProviders } from 'termcast'
 
 function SimpleHUD(): any {
   return (

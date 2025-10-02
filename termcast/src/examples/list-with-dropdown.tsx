@@ -1,6 +1,6 @@
 import React, { useState, ReactElement } from 'react'
-import { List, renderWithProviders } from '@termcast/cli'
-import type { DropdownProps } from '@termcast/cli/src/components/list'
+import { List, renderWithProviders } from 'termcast'
+import type { DropdownProps } from 'termcast/src/components/list'
 
 function DrinkDropdown(props: {
   drinkTypes: { id: string; name: string }[]

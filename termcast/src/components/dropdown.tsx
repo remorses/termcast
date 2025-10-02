@@ -9,11 +9,11 @@ import React, {
 } from 'react'
 import { useKeyboard } from '@opentui/react'
 import { TextAttributes } from '@opentui/core'
-import { Theme } from '@termcast/cli/src/theme'
-import { logger } from '@termcast/cli/src/logger'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
-import { CommonProps } from '@termcast/cli/src/utils'
-import { createDescendants } from '@termcast/cli/src/descendants'
+import { Theme } from 'termcast/src/theme'
+import { logger } from 'termcast/src/logger'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { CommonProps } from 'termcast/src/utils'
+import { createDescendants } from 'termcast/src/descendants'
 
 // SearchBarInterface provides the common search bar props
 interface SearchBarInterface {

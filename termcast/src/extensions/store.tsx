@@ -11,8 +11,8 @@ import {
   showToast,
   Toast,
   Icon,
-} from '@termcast/cli'
-import { useNavigation } from '@termcast/cli/src/internal/navigation'
+} from 'termcast'
+import { useNavigation } from 'termcast/src/internal/navigation'
 import { ExtensionPreferences } from '../components/extension-preferences'
 import { searchStoreListings } from '../store-api/search'
 import { fetchExtension } from '../store-api/extension'

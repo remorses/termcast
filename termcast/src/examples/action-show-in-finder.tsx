@@ -1,6 +1,6 @@
 import React from 'react'
-import { List, Action, ActionPanel } from '@termcast/cli'
-import { renderWithProviders } from '@termcast/cli'
+import { List, Action, ActionPanel } from 'termcast'
+import { renderWithProviders } from 'termcast'
 import { homedir } from 'os'
 import path from 'node:path'
 

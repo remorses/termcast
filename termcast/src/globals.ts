@@ -9,7 +9,7 @@ import * as opentuiCore from '@opentui/core'
 import * as opentuiReact from '@opentui/react'
 import * as react from 'react'
 import * as reactJsxRuntime from 'react/jsx-runtime'
-import * as termcastApi from '@termcast/cli'
+import * as termcastApi from 'termcast'
 
 declare global {
   var opentuiCore: typeof opentuiCore

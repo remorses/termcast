@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
-import { List, Action, ActionPanel } from '@termcast/cli'
-import { renderWithProviders } from '@termcast/cli/src/utils'
-import type { DropdownProps } from '@termcast/cli/src/components/list'
+import { List, Action, ActionPanel } from 'termcast'
+import { renderWithProviders } from 'termcast/src/utils'
+import type { DropdownProps } from 'termcast/src/components/list'
 
 function FruitDropdown(props: {
   value?: string

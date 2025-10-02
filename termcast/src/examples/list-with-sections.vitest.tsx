@@ -1,6 +1,6 @@
 // node-pty does not work in bun, so we use vitest to run this test
 import { test, expect, afterEach, afterAll, beforeEach } from 'vitest'
-import { NodeTuiDriver } from '@termcast/cli/src/e2e-node'
+import { NodeTuiDriver } from 'termcast/src/e2e-node'
 
 let driver: NodeTuiDriver
 

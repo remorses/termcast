@@ -1,10 +1,10 @@
 // This example shows how to filter descendants by passing search query via context
 // Items conditionally render null when they don't match the search
 import { useKeyboard } from '@opentui/react'
-import { createDescendants } from '@termcast/cli/src/descendants'
+import { createDescendants } from 'termcast/src/descendants'
 import { createContext, useContext, useState } from 'react'
 import { renderWithProviders } from '../../utils'
-import { logger } from '@termcast/cli/src/logger'
+import { logger } from 'termcast/src/logger'
 
 const { DescendantsProvider, useDescendants, useDescendant } =
   createDescendants<{

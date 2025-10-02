@@ -7,8 +7,8 @@ import {
   showToast,
   Toast,
   renderWithProviders,
-} from '@termcast/cli'
-import { useNavigation } from '@termcast/cli/src/internal/navigation'
+} from 'termcast'
+import { useNavigation } from 'termcast/src/internal/navigation'
 
 function ThrowErrorComponent(): any {
   throw new Error('This is a test error from ThrowErrorComponent!')
@@ -26,7 +26,7 @@ function AnotherComponent(): any {
     <Detail
       navigationTitle='Another Component'
       markdown='# Another Component
-      
+
 This component can throw an error when you trigger it.
 
 Use the action below to throw an error.'
@@ -50,7 +50,7 @@ function DeepComponent({ level }: { level: number }): any {
     <Detail
       navigationTitle={`Deep Component Level ${level}`}
       markdown={`# Deep Component Level ${level}
-      
+
 This is nested component at level ${level}.
 
 You can navigate deeper or throw an error at this level.`}

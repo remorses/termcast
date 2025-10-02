@@ -3,7 +3,7 @@ import path from 'node:path'
 import type { BunPlugin } from 'bun'
 import { logger } from './logger'
 import { getCommandsWithFiles, CommandWithFile } from './package-json'
-import * as termcastApi from '@termcast/cli'
+import * as termcastApi from 'termcast'
 import * as opentuiReact from '@opentui/react'
 import * as opentuiCore from '@opentui/core'
 import * as react from 'react'
@@ -16,7 +16,7 @@ const aliasPlugin: BunPlugin = {
     // Import packages once at setup time
     const packages = [
       {
-        path: '@termcast/cli',
+        path: 'termcast',
         module: termcastApi,
         globalName: 'termcastApi',
       },
@@ -37,11 +37,11 @@ const aliasPlugin: BunPlugin = {
       },
     ]
 
-    // Alias @raycast/api to @termcast/cli using namespace
+    // Alias @raycast/api to termcast using namespace
     build.onResolve({ filter: /@raycast\/api/ }, () => {
-      logger.log('Resolving @raycast/api to @termcast/cli')
+      logger.log('Resolving @raycast/api to termcast')
       return {
-        path: '@termcast/cli',
+        path: 'termcast',
         namespace: GLOBALS_NAMESPACE,
       }
     })
@@ -49,7 +49,7 @@ const aliasPlugin: BunPlugin = {
     // Resolve external packages to globals namespace
     build.onResolve({ filter: /^@termcast\/cli/ }, (args) => {
       return {
-        path: '@termcast/cli',
+        path: 'termcast',
         namespace: GLOBALS_NAMESPACE,
       }
     })

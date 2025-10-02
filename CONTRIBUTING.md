@@ -25,7 +25,7 @@ bun e2e src/examples/simple-list.vitest.tsx -u  # -u to update snapshots
 ```
 src/
 ├── cli.tsx                # Main CLI entry point (termcast command)
-├── index.tsx              # Public API exports (@termcast/cli)
+├── index.tsx              # Public API exports (termcast)
 ├── state.tsx              # Global state management (Zustand)
 ├── descendants.tsx        # Component hierarchy management pattern
 ├── utils.tsx              # Utilities + extension store management
@@ -134,7 +134,7 @@ bun run tsc
 
 ### Code Style
 
-- Always use `@termcast/cli` imports (not relative paths)
+- Always use `termcast` imports (not relative paths)
 - Use `.tsx` extension for all files
 - No `console.log` - use `logger.log` instead
 - Prefer object arguments for functions with 2+ parameters

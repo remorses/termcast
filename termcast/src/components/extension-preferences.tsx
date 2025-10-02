@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import fs from 'node:fs'
 import path from 'node:path'
-import { Form, showToast, Toast, ActionPanel, Action } from '@termcast/cli'
-import { LocalStorage } from '@termcast/cli/src/apis/localstorage'
-import { useNavigation } from '@termcast/cli/src/internal/navigation'
-import { logger } from '@termcast/cli/src/logger'
-import { getStoreDirectory } from '@termcast/cli/src/utils'
-import type { RaycastPackageJson } from '@termcast/cli/src/package-json'
+import { Form, showToast, Toast, ActionPanel, Action } from 'termcast'
+import { LocalStorage } from 'termcast/src/apis/localstorage'
+import { useNavigation } from 'termcast/src/internal/navigation'
+import { logger } from 'termcast/src/logger'
+import { getStoreDirectory } from 'termcast/src/utils'
+import type { RaycastPackageJson } from 'termcast/src/package-json'
 
 interface ExtensionPreferencesProps {
   extensionName: string

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
-import { Theme } from '@termcast/cli/src/theme'
+import { Theme } from 'termcast/src/theme'
 import { TextAttributes } from '@opentui/core'
-import { logger } from '@termcast/cli/src/logger'
-import { useStore } from '@termcast/cli/src/state'
+import { logger } from 'termcast/src/logger'
+import { useStore } from 'termcast/src/state'
 import { useTerminalDimensions } from '@opentui/react'
-import { Toast } from '@termcast/cli/src/apis/toast'
-import { PopToRootType } from '@termcast/cli/src/apis/window'
+import { Toast } from 'termcast/src/apis/toast'
+import { PopToRootType } from 'termcast/src/apis/window'
 
 // Re-export PopToRootType from window module
-export { PopToRootType } from '@termcast/cli/src/apis/window'
+export { PopToRootType } from 'termcast/src/apis/window'
 
 interface HUDComponentProps {
   title: string

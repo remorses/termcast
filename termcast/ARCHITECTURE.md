@@ -17,7 +17,7 @@ Use dialogs when you need:
 ### How to Implement Dialogs
 
 ```tsx
-import { useDialog } from '@termcast/cli/src/internal/dialog'
+import { useDialog } from 'termcast/src/internal/dialog'
 
 const dialog = useDialog()
 
@@ -49,7 +49,7 @@ dialog.stack
 ### How to Check Focus
 
 ```tsx
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useKeyboard } from '@opentui/react'
 
 function MyComponent() {
@@ -92,8 +92,8 @@ Add actions to components that need contextual operations:
 For custom components that aren't List or Detail, implement the Ctrl+K handler:
 
 ```tsx
-import { useDialog } from '@termcast/cli/src/internal/dialog'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { useDialog } from 'termcast/src/internal/dialog'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
 const dialog = useDialog()
 const inFocus = useIsInFocus()
@@ -160,7 +160,7 @@ Use navigation for:
 ### How to Navigate Between Views
 
 ```tsx
-import { useNavigation } from '@termcast/cli/src/internal/navigation'
+import { useNavigation } from 'termcast/src/internal/navigation'
 
 const navigation = useNavigation()
 
@@ -270,7 +270,7 @@ useStore.setState({
 ### Showing User Feedback
 
 ```tsx
-import { showToast, Toast } from '@termcast/cli/src/toast'
+import { showToast, Toast } from 'termcast/src/toast'
 
 // Success
 showToast({

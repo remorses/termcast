@@ -1,4 +1,4 @@
-import { Grid, Action, ActionPanel } from '@termcast/cli'
+import { Grid, Action, ActionPanel } from 'termcast'
 import { useState } from 'react'
 import { renderWithProviders } from '../utils'
 

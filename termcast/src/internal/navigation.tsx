@@ -9,9 +9,9 @@ import React, {
   useTransition,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { CommonProps } from '@termcast/cli/src/utils'
-import { useStore, type NavigationStackItem } from '@termcast/cli/src/state'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { CommonProps } from 'termcast/src/utils'
+import { useStore, type NavigationStackItem } from 'termcast/src/state'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { logger } from '../logger'
 
 interface Navigation {

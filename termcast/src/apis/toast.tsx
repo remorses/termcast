@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Theme } from '@termcast/cli/src/theme'
+import { Theme } from 'termcast/src/theme'
 import { TextAttributes } from '@opentui/core'
-import { logger } from '@termcast/cli/src/logger'
-import { useStore } from '@termcast/cli/src/state'
+import { logger } from 'termcast/src/logger'
+import { useStore } from 'termcast/src/state'
 import { useKeyboard, useTerminalDimensions } from '@opentui/react'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
 export namespace Toast {
   export interface Options {

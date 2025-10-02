@@ -1,13 +1,13 @@
 import React, { useState, createContext, useContext, useEffect } from 'react'
 import { useKeyboard } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { ActionPanel } from '@termcast/cli/src/components/actions'
-import { logger } from '@termcast/cli/src/logger'
-import { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
-import { useDialog } from '@termcast/cli/src/internal/dialog'
-import { Theme } from '@termcast/cli/src/theme'
+import { ActionPanel } from 'termcast/src/components/actions'
+import { logger } from 'termcast/src/logger'
+import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
+import { useDialog } from 'termcast/src/internal/dialog'
+import { Theme } from 'termcast/src/theme'
 import { TextAttributes } from '@opentui/core'
-import { useStore } from '@termcast/cli/src/state'
+import { useStore } from 'termcast/src/state'
 import {
   FormValues,
   FormProps,

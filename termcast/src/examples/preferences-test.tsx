@@ -1,11 +1,11 @@
 import React from 'react'
-import { List, Action, ActionPanel, showToast, Toast } from '@termcast/cli'
+import { List, Action, ActionPanel, showToast, Toast } from 'termcast'
 import {
   getPreferenceValues,
   openExtensionPreferences,
   openCommandPreferences,
-} from '@termcast/cli'
-import { renderWithProviders } from '@termcast/cli'
+} from 'termcast'
+import { renderWithProviders } from 'termcast'
 
 function PreferencesTestExample(): any {
   const handleGetPreferences = () => {

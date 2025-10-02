@@ -87,7 +87,7 @@ header
 # No unzip required since binaries are not compressed
 
 if [[ $# -gt 1 ]]; then
-    error 'Too many arguments, only 1 is allowed. The first can be a specific tag of termcast to install. (e.g. "@termcast/cli@0.1.0")'
+    error 'Too many arguments, only 1 is allowed. The first can be a specific tag of termcast to install. (e.g. "termcast@0.1.0")'
 fi
 
 step "Detecting system architecture"
@@ -177,7 +177,7 @@ trap cleanup_temp EXIT
 (
     curl --fail --location --silent --output "$temp_exe" "$termcast_uri" &
     curl_pid=$!
-    
+
     # Spinner animation
     spin='⣾⣽⣻⢿⡿⣟⣯⣷'
     i=0
@@ -186,7 +186,7 @@ trap cleanup_temp EXIT
         echo -ne "\r  ${Cyan}${spin:$i:1}${Color_Off} Downloading..."
         sleep 0.1
     done
-    
+
     wait $curl_pid
     result=$?
     echo -ne "\r                          \r"  # Clear spinner line

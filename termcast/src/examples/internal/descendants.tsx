@@ -1,11 +1,11 @@
 // read src/descendants.tsx to understand the core hooks that make this example possible
 //
 import { useKeyboard } from '@opentui/react'
-import { createDescendants } from '@termcast/cli/src/descendants'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { createDescendants } from 'termcast/src/descendants'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { createContext, useContext, useState } from 'react'
 import { renderWithProviders } from '../../utils'
-import { logger } from '@termcast/cli/src/logger'
+import { logger } from 'termcast/src/logger'
 
 const { DescendantsProvider, useDescendants, useDescendant } =
   createDescendants<{

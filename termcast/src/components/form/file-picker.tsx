@@ -1,11 +1,11 @@
 import React from 'react'
-import { Theme } from '@termcast/cli/src/theme'
+import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { FormItemProps, FormItemRef } from './types'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext } from './index'
 import { useKeyboard } from '@opentui/react'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { FileAutocomplete } from './file-autocomplete'
 
 export interface FilePickerProps extends FormItemProps<string[]> {

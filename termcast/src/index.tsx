@@ -1,12 +1,12 @@
 // Import globals to set up global references
-import { LaunchType } from '@termcast/cli/src/apis/environment'
+import { LaunchType } from 'termcast/src/apis/environment'
 import './globals'
 
 // termcastApi will be set by the runtime when needed
 
 // Core UI Components - Lists
-export { List, Grid } from '@termcast/cli/src/components/list'
-export { List as default } from '@termcast/cli/src/components/list'
+export { List, Grid } from 'termcast/src/components/list'
+export { List as default } from 'termcast/src/components/list'
 export type {
   ListProps,
   ItemProps as ListItemProps,
@@ -22,68 +22,68 @@ export type {
   GridItemProps,
   GridSectionProps,
   GridInset,
-} from '@termcast/cli/src/components/list'
+} from 'termcast/src/components/list'
 
 // Core UI Components - Dropdowns
-export { Dropdown } from '@termcast/cli/src/components/dropdown'
+export { Dropdown } from 'termcast/src/components/dropdown'
 export type {
   DropdownProps,
   DropdownItemProps,
   DropdownSectionProps,
-} from '@termcast/cli/src/components/dropdown'
+} from 'termcast/src/components/dropdown'
 
 // Core UI Components - Actions
 export {
   Action,
   ActionPanel,
   ActionStyle,
-} from '@termcast/cli/src/components/actions'
+} from 'termcast/src/components/actions'
 export type {
   ActionProps,
   ActionPanelProps,
   ActionPanelSectionProps,
-} from '@termcast/cli/src/components/actions'
+} from 'termcast/src/components/actions'
 
 // Core UI Components - Detail
-export { Detail } from '@termcast/cli/src/components/detail'
+export { Detail } from 'termcast/src/components/detail'
 export type {
   DetailProps,
   DetailPropsWithLoading,
-} from '@termcast/cli/src/components/detail'
+} from 'termcast/src/components/detail'
 
 // Form Components
 export {
   Form,
   useFormContext,
   useFormSubmit,
-} from '@termcast/cli/src/components/form/index'
-export { TextField } from '@termcast/cli/src/components/form/text-field'
+} from 'termcast/src/components/form/index'
+export { TextField } from 'termcast/src/components/form/text-field'
 export type {
   TextFieldProps,
   TextFieldRef,
-} from '@termcast/cli/src/components/form/text-field'
-export { TextArea } from '@termcast/cli/src/components/form/text-area'
+} from 'termcast/src/components/form/text-field'
+export { TextArea } from 'termcast/src/components/form/text-area'
 export type {
   TextAreaProps,
   TextAreaRef,
-} from '@termcast/cli/src/components/form/text-area'
-export { PasswordField } from '@termcast/cli/src/components/form/password-field'
+} from 'termcast/src/components/form/text-area'
+export { PasswordField } from 'termcast/src/components/form/password-field'
 export type {
   PasswordFieldProps,
   PasswordFieldRef,
-} from '@termcast/cli/src/components/form/password-field'
-export { Checkbox } from '@termcast/cli/src/components/form/checkbox'
+} from 'termcast/src/components/form/password-field'
+export { Checkbox } from 'termcast/src/components/form/checkbox'
 export type {
   CheckboxProps,
   CheckboxRef,
-} from '@termcast/cli/src/components/form/checkbox'
-export { Dropdown as FormDropdown } from '@termcast/cli/src/components/form/dropdown'
+} from 'termcast/src/components/form/checkbox'
+export { Dropdown as FormDropdown } from 'termcast/src/components/form/dropdown'
 export type {
   DropdownProps as FormDropdownProps,
   DropdownItemProps as FormDropdownItemProps,
   DropdownSectionProps as FormDropdownSectionProps,
   DropdownRef as FormDropdownRef,
-} from '@termcast/cli/src/components/form/dropdown'
+} from 'termcast/src/components/form/dropdown'
 export type {
   FormProps,
   FormValues,
@@ -92,27 +92,27 @@ export type {
   FormItemRef,
   FormEvent,
   FormEventType,
-} from '@termcast/cli/src/components/form/types'
+} from 'termcast/src/components/form/types'
 
 // Icons and Images
 export {
   Icon,
   getIconEmoji,
   IconComponent,
-} from '@termcast/cli/src/components/icon'
-export { Image, ImageMask } from '@termcast/cli/src/components/image'
+} from 'termcast/src/components/icon'
+export { Image, ImageMask } from 'termcast/src/components/image'
 export type {
   ImageProps,
   ImageSource,
   FileIcon,
   ImageLike,
-} from '@termcast/cli/src/components/image'
+} from 'termcast/src/components/image'
 
 // Alerts
-export { Alert, confirmAlert } from '@termcast/cli/src/components/alert'
+export { Alert, confirmAlert } from 'termcast/src/components/alert'
 
 // MenuBar
-export { MenuBarExtra } from '@termcast/cli/src/components/menubar-extra'
+export { MenuBarExtra } from 'termcast/src/components/menubar-extra'
 export type {
   MenuBarExtraProps,
   MenuBarExtraItemProps,
@@ -120,47 +120,47 @@ export type {
   MenuBarExtraSubmenuProps,
   MenuBarExtraSectionProps,
   MenuBarExtraActionEvent,
-} from '@termcast/cli/src/components/menubar-extra'
+} from 'termcast/src/components/menubar-extra'
 
 // AI
-export { AI } from '@termcast/cli/src/apis/ai'
+export { AI } from 'termcast/src/apis/ai'
 
 // OAuth
-export { OAuth } from '@termcast/cli/src/apis/oauth'
+export { OAuth } from 'termcast/src/apis/oauth'
 
 // Colors
-export { Color } from '@termcast/cli/src/colors'
+export { Color } from 'termcast/src/colors'
 
 // Navigation
 export {
   useNavigation,
   NavigationContainer,
-} from '@termcast/cli/src/internal/navigation'
+} from 'termcast/src/internal/navigation'
 
 // Hooks
 export {
   useActionPanel,
   useId,
   useUnstableAI,
-} from '@termcast/cli/src/hooks/index'
-export type { ActionPanelState } from '@termcast/cli/src/hooks/index'
+} from 'termcast/src/hooks/index'
+export type { ActionPanelState } from 'termcast/src/hooks/index'
 
 // Focus Context
-export { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+export { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 
 // Dialog
 export {
   Dialog,
   DialogProvider,
   useDialog,
-} from '@termcast/cli/src/internal/dialog'
+} from 'termcast/src/internal/dialog'
 
 // Toast
 export {
   Toast,
   showToast,
   showFailureToast,
-} from '@termcast/cli/src/apis/toast'
+} from 'termcast/src/apis/toast'
 
 // Clipboard
 export {
@@ -168,11 +168,11 @@ export {
   copyTextToClipboard,
   clearClipboard,
   pasteText,
-} from '@termcast/cli/src/apis/clipboard'
+} from 'termcast/src/apis/clipboard'
 
 // Storage
-export { Cache } from '@termcast/cli/src/apis/cache'
-export { LocalStorage } from '@termcast/cli/src/apis/localstorage'
+export { Cache } from 'termcast/src/apis/cache'
+export { LocalStorage } from 'termcast/src/apis/localstorage'
 
 // Utilities
 export {
@@ -182,7 +182,7 @@ export {
   pasteContent,
   showInFinder,
   moveToTrash,
-} from '@termcast/cli/src/action-utils'
+} from 'termcast/src/action-utils'
 
 export {
   getApplications,
@@ -191,18 +191,18 @@ export {
   trash,
   open,
   captureException,
-} from '@termcast/cli/src/utils'
+} from 'termcast/src/utils'
 
 // Environment
 export {
   environment,
   getSelectedFinderItems,
   getSelectedText,
-} from '@termcast/cli/src/apis/environment'
+} from 'termcast/src/apis/environment'
 export type {
   Environment,
   LaunchProps,
-} from '@termcast/cli/src/apis/environment'
+} from 'termcast/src/apis/environment'
 
 export { LaunchType }
 
@@ -211,30 +211,30 @@ export {
   getPreferenceValues,
   openExtensionPreferences,
   openCommandPreferences,
-} from '@termcast/cli/src/apis/preferences'
-export type { PreferenceValues } from '@termcast/cli/src/apis/preferences'
+} from 'termcast/src/apis/preferences'
+export type { PreferenceValues } from 'termcast/src/apis/preferences'
 
 // Common Types
-export type { CommonProps } from '@termcast/cli/src/utils'
+export type { CommonProps } from 'termcast/src/utils'
 
 // Theme
-export { Theme } from '@termcast/cli/src/theme'
+export { Theme } from 'termcast/src/theme'
 
 // Logger
-export { logger } from '@termcast/cli/src/logger'
+export { logger } from 'termcast/src/logger'
 
 // State Management (internal use)
-export { useStore } from '@termcast/cli/src/state'
-export type { DialogPosition } from '@termcast/cli/src/state'
+export { useStore } from 'termcast/src/state'
+export type { DialogPosition } from 'termcast/src/state'
 
 // Providers (for app setup)
-export { Providers } from '@termcast/cli/src/internal/providers'
+export { Providers } from 'termcast/src/internal/providers'
 
 // Helper function for rendering examples
-export { renderWithProviders } from '@termcast/cli/src/utils'
+export { renderWithProviders } from 'termcast/src/utils'
 
 // Window Management
-export { closeMainWindow, PopToRootType } from '@termcast/cli/src/apis/window'
+export { closeMainWindow, PopToRootType } from 'termcast/src/apis/window'
 
 // HUD
-export { showHUD } from '@termcast/cli/src/apis/hud'
+export { showHUD } from 'termcast/src/apis/hud'

@@ -1,7 +1,7 @@
 import React from 'react'
-import { List, ActionPanel, Action, showToast, Toast } from '@termcast/cli'
+import { List, ActionPanel, Action, showToast, Toast } from 'termcast'
 import { useQuery } from '@tanstack/react-query'
-import { renderWithProviders } from '@termcast/cli'
+import { renderWithProviders } from 'termcast'
 
 interface User {
   id: number

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { List } from '@termcast/cli'
-import { Action, ActionPanel } from '@termcast/cli'
+import { List } from 'termcast'
+import { Action, ActionPanel } from 'termcast'
 
-import { Clipboard } from '@termcast/cli'
-import { logger } from '@termcast/cli'
-import { Form } from '@termcast/cli'
-import { useNavigation } from '@termcast/cli/src/internal/navigation'
-import { environment } from '@termcast/cli'
+import { Clipboard } from 'termcast'
+import { logger } from 'termcast'
+import { Form } from 'termcast'
+import { useNavigation } from 'termcast/src/internal/navigation'
+import { environment } from 'termcast'
 import {
   renderWithProviders,
   getApplications,
@@ -21,10 +21,10 @@ import {
   openCommandPreferences,
   closeMainWindow,
   PopToRootType,
-} from '@termcast/cli'
-import { confirmAlert, Alert } from '@termcast/cli'
-import { showToast, Toast, showHUD } from '@termcast/cli'
-import { Detail } from '@termcast/cli'
+} from 'termcast'
+import { confirmAlert, Alert } from 'termcast'
+import { showToast, Toast, showHUD } from 'termcast'
+import { Detail } from 'termcast'
 import dedent from 'string-dedent'
 
 function DetailExample(): any {
@@ -32,9 +32,9 @@ function DetailExample(): any {
     <Detail
       markdown={dedent`
         # Simple Detail View
-        
+
         This is a basic **Detail** component showing markdown content.
-        
+
         - Item 1
         - Item 2
         - Item 3

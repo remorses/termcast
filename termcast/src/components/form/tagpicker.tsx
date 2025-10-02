@@ -5,7 +5,7 @@ import {
   ReactNode,
   RefAttributes,
 } from 'react'
-import { Image } from '@termcast/cli/src/components/list'
+import { Image } from 'termcast/src/components/list'
 import { Dropdown, DropdownProps, DropdownItemProps } from './dropdown'
 
 /**

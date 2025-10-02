@@ -6,20 +6,20 @@ import React, {
 } from 'react'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { DialogProvider } from '@termcast/cli/src/internal/dialog'
-import { NavigationProvider } from '@termcast/cli/src/internal/navigation'
-import { CommonProps } from '@termcast/cli/src/utils'
-import { Cache } from '@termcast/cli/src/apis/cache'
-import { logger } from '@termcast/cli/src/logger'
-import { Theme } from '@termcast/cli/src/theme'
+import { DialogProvider } from 'termcast/src/internal/dialog'
+import { NavigationProvider } from 'termcast/src/internal/navigation'
+import { CommonProps } from 'termcast/src/utils'
+import { Cache } from 'termcast/src/apis/cache'
+import { logger } from 'termcast/src/logger'
+import { Theme } from 'termcast/src/theme'
 import { useKeyboard } from '@opentui/react'
 import { TextAttributes } from '@opentui/core'
-import { useStore } from '@termcast/cli/src/state'
+import { useStore } from 'termcast/src/state'
 import * as fs from 'fs'
 import * as path from 'path'
 import { exec } from 'child_process'
 import dedent from 'string-dedent'
-import { initializeErrorHandlers } from '@termcast/cli/src/internal/error-handler'
+import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
 
 // Initialize error handlers at module load time
 initializeErrorHandlers()
@@ -296,7 +296,7 @@ function ErrorDisplay({
             if (currentFocusableIndex === focusedIndex) {
               const filePathWithLine = `${line.file}:${line.line}`
               const { Clipboard } = await import(
-                '@termcast/cli/src/apis/clipboard'
+                'termcast/src/apis/clipboard'
               )
               await Clipboard.copy(filePathWithLine)
               logger.log(`📋 Copied to clipboard: ${filePathWithLine}`)

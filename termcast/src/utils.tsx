@@ -1,6 +1,6 @@
 import React, { type ReactNode } from 'react'
 import { render } from '@opentui/react'
-import { Providers } from '@termcast/cli/src/internal/providers'
+import { Providers } from 'termcast/src/internal/providers'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'

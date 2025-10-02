@@ -18,7 +18,7 @@
       "version": "0.0.0",
     },
     "termcast": {
-      "name": "@termcast/cli",
+      "name": "termcast",
       "version": "0.3.5",
       "bin": {
         "termcast": "src/cli.tsx",
@@ -619,7 +619,7 @@
 
     "@tanstack/react-query-persist-client": ["@tanstack/react-query-persist-client@5.87.4", "", { "dependencies": { "@tanstack/query-persist-client-core": "5.87.4" }, "peerDependencies": { "@tanstack/react-query": "^5.87.4", "react": "^18 || ^19" } }, "sha512-RFnkAfYJcQ8nEQUWx0rhcPVPdRmvHAYG+mJwcykiJKVHaFeCuiHaEoW3KseGTBZcliV//UjI07bplAaT2ElR8g=="],
 
-    "@termcast/cli": ["@termcast/cli@workspace:termcast"],
+    "termcast": ["termcast@workspace:termcast"],
 
     "@tokenizer/token": ["@tokenizer/token@0.3.0", "", {}, "sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A=="],
 

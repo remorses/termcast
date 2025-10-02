@@ -1,5 +1,5 @@
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from '@termcast/cli/src/e2e-node'
+import { NodeTuiDriver } from 'termcast/src/e2e-node'
 
 let driver: NodeTuiDriver
 
