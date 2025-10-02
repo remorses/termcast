@@ -48,10 +48,6 @@ test('Store extension - searching for spiceblow shows Database', async () => {
      spiceblow
 
     ›Spiceblow - Sql Database Management Search, update, insert and delete rows in
-     Spike Resolve incidents, check who is on-call, and add overrides from Raycast
-     Image Modification Apply filters and transformations to various image formats
-     Next Run Spin up a Next.js project from Raycast
-     Donut Show an animation of a donut
 
 
      ↵ select   ↑↓ navigate   ^k actions"
