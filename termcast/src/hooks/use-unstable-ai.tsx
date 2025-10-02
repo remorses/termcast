@@ -1,4 +1,4 @@
-import { logger } from '@termcast/cli/src/logger'
+import { logger } from 'termcast/src/logger'
 
 /**
  * @deprecated Use `useAI` from `@raycast/utils`

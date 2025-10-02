@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { renderWithProviders } from '@termcast/cli'
+import { renderWithProviders } from 'termcast'
 import { useKeyboard } from '@opentui/react'
 import { fg, bold } from '@opentui/core'
 

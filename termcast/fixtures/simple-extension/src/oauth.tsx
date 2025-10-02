@@ -12,11 +12,11 @@ import {
   showToast,
   Toast,
   OAuth,
-} from '@termcast/cli'
+} from 'termcast'
 import { OAuthService } from '@raycast/utils'
 import { useState, useEffect } from 'react'
-import { renderWithProviders } from '@termcast/cli/src/utils'
-import { logger } from '@termcast/cli/src/logger'
+import { renderWithProviders } from 'termcast/src/utils'
+import { logger } from 'termcast/src/logger'
 
 // Your iOS OAuth client ID (no secret needed!)
 const googleClientId =

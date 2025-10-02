@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme } from '@termcast/cli/src/theme'
+import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 
 export const Separator = (): any => {

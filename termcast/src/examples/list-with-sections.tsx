@@ -5,9 +5,9 @@ import {
   ActionPanel,
   showToast,
   Toast,
-} from '@termcast/cli'
-import List from '@termcast/cli'
-import { useNavigation } from '@termcast/cli/src/internal/navigation'
+} from 'termcast'
+import List from 'termcast'
+import { useNavigation } from 'termcast/src/internal/navigation'
 import dedent from 'string-dedent'
 
 function SimpleListExample() {

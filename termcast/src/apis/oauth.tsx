@@ -36,9 +36,9 @@
 
 import crypto from 'node:crypto'
 import http from 'node:http'
-import { ImageLike } from '@termcast/cli/src/components/image'
-import { logger } from '@termcast/cli/src/logger'
-import { LocalStorage } from '@termcast/cli/src/apis/localstorage'
+import { ImageLike } from 'termcast/src/components/image'
+import { logger } from 'termcast/src/logger'
+import { LocalStorage } from 'termcast/src/apis/localstorage'
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
 
@@ -421,9 +421,9 @@ export namespace OAuth {
                 <head>
                   <title>OAuth Authorization</title>
                   <style>
-                    body { 
-                      font-family: system-ui; 
-                      padding: 40px; 
+                    body {
+                      font-family: system-ui;
+                      padding: 40px;
                       text-align: center;
                       background: #f5f5f5;
                     }
@@ -446,7 +446,7 @@ export namespace OAuth {
                     // Extract tokens from URL fragment
                     const hash = window.location.hash.substring(1);
                     const params = new URLSearchParams(hash);
-                    
+
                     const data = {
                       access_token: params.get('access_token'),
                       id_token: params.get('id_token'),
@@ -457,7 +457,7 @@ export namespace OAuth {
                       error: params.get('error'),
                       error_description: params.get('error_description')
                     };
-                    
+
                     // Send tokens back to our server
                     fetch('/oauth/implicit-callback', {
                       method: 'POST',
@@ -467,7 +467,7 @@ export namespace OAuth {
                       if (response.ok) {
                         document.getElementById('status').className = 'success';
                         document.getElementById('status').innerHTML = '&#10003; Authorization Successful';
-                        document.getElementById('message').innerHTML = 
+                        document.getElementById('message').innerHTML =
                           '<p>You can close this window and return to the terminal.</p>' +
                           '<div class="token-info">' +
                           (data.id_token ? '<p><strong>ID Token received:</strong> Yes</p>' : '') +

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { Theme } from '@termcast/cli/src/theme'
+import { Theme } from 'termcast/src/theme'
 import { TextAttributes } from '@opentui/core'
-import { LocalStorage } from '@termcast/cli/src/apis/localstorage'
-import { useStore } from '@termcast/cli/src/state'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { LocalStorage } from 'termcast/src/apis/localstorage'
+import { useStore } from 'termcast/src/state'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
 export namespace Alert {
   export interface Options {

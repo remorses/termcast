@@ -1,5 +1,5 @@
-import { Form, Action, ActionPanel } from '@termcast/cli'
-import { showToast, Toast } from '@termcast/cli'
+import { Form, Action, ActionPanel } from 'termcast'
+import { showToast, Toast } from 'termcast'
 import { useState } from 'react'
 import { renderWithProviders } from '../utils'
 

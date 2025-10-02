@@ -14,16 +14,16 @@ import React, {
 } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
-import { logger } from '@termcast/cli/src/logger'
-import { Theme } from '@termcast/cli/src/theme'
-import { Action, ActionPanel } from '@termcast/cli/src/components/actions'
-import { InFocus, useIsInFocus } from '@termcast/cli/src/internal/focus-context'
-import { CommonProps } from '@termcast/cli/src/utils'
-import { useStore } from '@termcast/cli/src/state'
-import { useDialog } from '@termcast/cli/src/internal/dialog'
-import { createDescendants } from '@termcast/cli/src/descendants'
-import { LoadingBar } from '@termcast/cli/src/components/loading-bar'
-import { useNavigationPending } from '@termcast/cli/src/internal/navigation'
+import { logger } from 'termcast/src/logger'
+import { Theme } from 'termcast/src/theme'
+import { Action, ActionPanel } from 'termcast/src/components/actions'
+import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
+import { CommonProps } from 'termcast/src/utils'
+import { useStore } from 'termcast/src/state'
+import { useDialog } from 'termcast/src/internal/dialog'
+import { createDescendants } from 'termcast/src/descendants'
+import { LoadingBar } from 'termcast/src/components/loading-bar'
+import { useNavigationPending } from 'termcast/src/internal/navigation'
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -947,7 +947,7 @@ const ListItem: ListItemType = (props) => {
   // Get selected index from parent List context
   const selectedIndex = listContext?.selectedIndex ?? 0
   const isActive = index === selectedIndex
-  
+
   // Update detail when this item becomes active or detail prop changes
   useEffect(() => {
     if (isActive && listContext?.isShowingDetail && listContext?.setCurrentDetail) {

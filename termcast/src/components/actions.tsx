@@ -7,7 +7,7 @@ import React, {
   useLayoutEffect,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { Theme } from '@termcast/cli/src/theme'
+import { Theme } from 'termcast/src/theme'
 import {
   copyToClipboard,
   openInBrowser,
@@ -15,14 +15,14 @@ import {
   pasteContent,
   showInFinder,
   moveToTrash,
-} from '@termcast/cli/src/action-utils'
-import { useDialog } from '@termcast/cli/src/internal/dialog'
-import { Dropdown } from '@termcast/cli/src/components/dropdown'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
-import { CommonProps } from '@termcast/cli/src/utils'
-import { showToast, Toast } from '@termcast/cli/src/apis/toast'
-import { createDescendants } from '@termcast/cli/src/descendants'
-import { useFormSubmit } from '@termcast/cli'
+} from 'termcast/src/action-utils'
+import { useDialog } from 'termcast/src/internal/dialog'
+import { Dropdown } from 'termcast/src/components/dropdown'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { CommonProps } from 'termcast/src/utils'
+import { showToast, Toast } from 'termcast/src/apis/toast'
+import { createDescendants } from 'termcast/src/descendants'
+import { useFormSubmit } from 'termcast'
 import { logger } from '../logger'
 
 export enum ActionStyle {

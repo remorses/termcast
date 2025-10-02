@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { renderWithProviders } from '@termcast/cli/src/utils'
-import { Form, ActionPanel, Action } from '@termcast/cli'
+import { renderWithProviders } from 'termcast/src/utils'
+import { Form, ActionPanel, Action } from 'termcast'
 
 function FormDropdownExample() {
   const [submitted, setSubmitted] = useState<any>(null)

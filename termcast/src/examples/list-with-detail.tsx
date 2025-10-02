@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Action, ActionPanel, List } from '@termcast/cli'
+import { Action, ActionPanel, List } from 'termcast'
 import { renderWithProviders } from '../utils'
 
 interface Pokemon {

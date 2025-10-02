@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { logger } from '@termcast/cli/src/logger'
+import { logger } from 'termcast/src/logger'
 
 export interface ActionPanelState {
   /**

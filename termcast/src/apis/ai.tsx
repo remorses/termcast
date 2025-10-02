@@ -24,7 +24,7 @@
  */
 
 import { EventEmitter } from 'node:events'
-import { logger } from '@termcast/cli/src/logger'
+import { logger } from 'termcast/src/logger'
 
 export namespace AI {
   export type Creativity =

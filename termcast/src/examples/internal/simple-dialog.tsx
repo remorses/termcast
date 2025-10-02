@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { renderWithProviders } from '@termcast/cli'
+import { renderWithProviders } from 'termcast'
 import {
   useDialog,
   type DialogPosition,
-} from '@termcast/cli/src/internal/dialog'
-import { Theme } from '@termcast/cli'
-import { List } from '@termcast/cli'
-import { ActionPanel, Action } from '@termcast/cli'
-import { Dropdown } from '@termcast/cli'
-import { logger } from '@termcast/cli'
+} from 'termcast/src/internal/dialog'
+import { Theme } from 'termcast'
+import { List } from 'termcast'
+import { ActionPanel, Action } from 'termcast'
+import { Dropdown } from 'termcast'
+import { logger } from 'termcast'
 
 function DialogContent({ position }: { position: DialogPosition }): any {
   const [selectedDrink, setSelectedDrink] = useState<string>('coffee')

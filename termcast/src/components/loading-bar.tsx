@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { BoxRenderable } from '@opentui/core'
 import {} from '@opentui/react'
-import { Theme } from '@termcast/cli/src/theme'
-import { logger } from '@termcast/cli/src/logger'
+import { Theme } from 'termcast/src/theme'
+import { logger } from 'termcast/src/logger'
 
 interface LoadingBarProps {
   title: string

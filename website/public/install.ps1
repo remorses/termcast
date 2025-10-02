@@ -89,12 +89,12 @@ function Install-Termcast {
     [string]$Version
   );
 
-  # if a semver is given, we need to adjust it to this format: @termcast/cli@0.0.0
+  # if a semver is given, we need to adjust it to this format: termcast@0.0.0
   if ($Version -match "^\d+\.\d+\.\d+$") {
-    $Version = "@termcast/cli@$Version"
+    $Version = "termcast@$Version"
   }
   elseif ($Version -match "^v\d+\.\d+\.\d+$") {
-    $Version = "@termcast/cli@$($Version.Substring(1))"
+    $Version = "termcast@$($Version.Substring(1))"
   }
 
   $Arch = "x64"
@@ -129,7 +129,7 @@ function Install-Termcast {
 
   $DisplayVersion = $(
     if ($Version -eq "latest") { "Termcast" }
-    elseif ($Version -match "^@termcast/cli@\d+\.\d+\.\d+$") { "Termcast $($Version.Substring(14))" }
+    elseif ($Version -match "^termcast@\d+\.\d+\.\d+$") { "Termcast $($Version.Substring(14))" }
     else { "Termcast tag='${Version}'" }
   )
 

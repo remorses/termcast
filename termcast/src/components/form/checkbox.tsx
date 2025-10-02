@@ -4,11 +4,11 @@ import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { logger } from '@termcast/cli/src/logger'
-import { Theme } from '@termcast/cli/src/theme'
+import { logger } from 'termcast/src/logger'
+import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
 export interface CheckboxProps extends FormItemProps<boolean> {
   label: string

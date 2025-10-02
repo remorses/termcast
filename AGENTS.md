@@ -8,11 +8,11 @@ NOTICE: AGENTS.md is generated using AGENTS.sh and should NEVER be manually upda
 # termcast specific rules
 
 
-## Porting @raycast/api components and hooks to @termcast/cli
+## Porting @raycast/api components and hooks to termcast
 
-ALWAYS use @termcast/cli to import things, instead of relative imports. This is possible thanks to exports in package.json. for example:
+ALWAYS use termcast to import things, instead of relative imports. This is possible thanks to exports in package.json. for example:
 
-import {List} from '@termcast/cli'
+import {List} from 'termcast'
 
 ALWAYS use .tsx extension for every new file.
 
@@ -165,7 +165,7 @@ These will hang. These are made for real people
 when you handle key presses with
 
 ```tsx
-import { useIsInFocus } from '@termcast/cli/src/internal/focus-context'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
 const inFocus = useIsInFocus()
 useKeyboard((evt) => {
@@ -242,7 +242,7 @@ Example of CORRECT usage (accessing map.current inside an event handler, such as
 
 ```tsx
 import { useKeyboard } from '@opentui/react'
-import { useDescendants } from '@termcast/cli/src/descendants'
+import { useDescendants } from 'termcast/src/descendants'
 
 const { map } = useDescendants()
 
@@ -1325,4 +1325,3 @@ const jsonSchema = toJSONSchema(mySchema, {
 
 
 ---
-

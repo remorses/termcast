@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { List, showToast, Toast } from '@termcast/cli'
-import { renderWithProviders } from '@termcast/cli/src/utils'
+import { List, showToast, Toast } from 'termcast'
+import { renderWithProviders } from 'termcast/src/utils'
 
 interface Category {
   category: string
