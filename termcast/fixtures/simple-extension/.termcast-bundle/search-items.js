@@ -1,8 +1,8 @@
-import { createRequire } from "node:module";
 var __create = Object.create;
 var __getProtoOf = Object.getPrototypeOf;
 var __defProp = Object.defineProperty;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __toESM = (mod, isNodeMode, target) => {
   target = mod != null ? __create(__getProtoOf(mod)) : {};
@@ -15,6 +15,20 @@ var __toESM = (mod, isNodeMode, target) => {
       });
   return to;
 };
+var __moduleCache = /* @__PURE__ */ new WeakMap;
+var __toCommonJS = (from) => {
+  var entry = __moduleCache.get(from), desc;
+  if (entry)
+    return entry;
+  entry = __defProp({}, "__esModule", { value: true });
+  if (from && typeof from === "object" || typeof from === "function")
+    __getOwnPropNames(from).map((key) => !__hasOwnProp.call(entry, key) && __defProp(entry, key, {
+      get: () => from[key],
+      enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+    }));
+  __moduleCache.set(from, entry);
+  return entry;
+};
 var __commonJS = (cb, mod) => () => (mod || cb((mod = { exports: {} }).exports, mod), mod.exports);
 var __export = (target, all) => {
   for (var name in all)
@@ -26,7 +40,105 @@ var __export = (target, all) => {
     });
 };
 var __esm = (fn, res) => () => (fn && (res = fn(fn = 0)), res);
-var __require = /* @__PURE__ */ createRequire(import.meta.url);
+
+// globals:react
+var exports_react = {};
+__export(exports_react, {
+  version: () => version,
+  useTransition: () => useTransition,
+  useSyncExternalStore: () => useSyncExternalStore,
+  useState: () => useState,
+  useRef: () => useRef,
+  useReducer: () => useReducer,
+  useOptimistic: () => useOptimistic,
+  useMemo: () => useMemo,
+  useLayoutEffect: () => useLayoutEffect,
+  useInsertionEffect: () => useInsertionEffect,
+  useImperativeHandle: () => useImperativeHandle,
+  useId: () => useId2,
+  useEffect: () => useEffect,
+  useDeferredValue: () => useDeferredValue,
+  useDebugValue: () => useDebugValue,
+  useContext: () => useContext,
+  useCallback: () => useCallback,
+  useActionState: () => useActionState,
+  use: () => use,
+  unstable_useCacheRefresh: () => unstable_useCacheRefresh,
+  startTransition: () => startTransition,
+  memo: () => memo,
+  lazy: () => lazy,
+  isValidElement: () => isValidElement,
+  forwardRef: () => forwardRef,
+  default: () => react_default,
+  createRef: () => createRef,
+  createElement: () => createElement,
+  createContext: () => createContext,
+  cloneElement: () => cloneElement,
+  captureOwnerStack: () => captureOwnerStack,
+  cache: () => cache,
+  act: () => act,
+  __COMPILER_RUNTIME: () => __COMPILER_RUNTIME,
+  __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE: () => __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,
+  Suspense: () => Suspense,
+  StrictMode: () => StrictMode,
+  PureComponent: () => PureComponent,
+  Profiler: () => Profiler,
+  Fragment: () => Fragment,
+  Component: () => Component,
+  Children: () => Children
+});
+var Children, Component, Fragment, Profiler, PureComponent, StrictMode, Suspense, __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, __COMPILER_RUNTIME, act, cache, captureOwnerStack, cloneElement, createContext, createElement, createRef, react_default, forwardRef, isValidElement, lazy, memo, startTransition, unstable_useCacheRefresh, use, useActionState, useCallback, useContext, useDebugValue, useDeferredValue, useEffect, useId2, useImperativeHandle, useInsertionEffect, useLayoutEffect, useMemo, useOptimistic, useReducer, useRef, useState, useSyncExternalStore, useTransition, version;
+var init_react = __esm(() => {
+  Children = globalThis.react.Children;
+  Component = globalThis.react.Component;
+  Fragment = globalThis.react.Fragment;
+  Profiler = globalThis.react.Profiler;
+  PureComponent = globalThis.react.PureComponent;
+  StrictMode = globalThis.react.StrictMode;
+  Suspense = globalThis.react.Suspense;
+  __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = globalThis.react.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+  __COMPILER_RUNTIME = globalThis.react.__COMPILER_RUNTIME;
+  act = globalThis.react.act;
+  cache = globalThis.react.cache;
+  captureOwnerStack = globalThis.react.captureOwnerStack;
+  cloneElement = globalThis.react.cloneElement;
+  createContext = globalThis.react.createContext;
+  createElement = globalThis.react.createElement;
+  createRef = globalThis.react.createRef;
+  react_default = globalThis.react;
+  forwardRef = globalThis.react.forwardRef;
+  isValidElement = globalThis.react.isValidElement;
+  lazy = globalThis.react.lazy;
+  memo = globalThis.react.memo;
+  startTransition = globalThis.react.startTransition;
+  unstable_useCacheRefresh = globalThis.react.unstable_useCacheRefresh;
+  use = globalThis.react.use;
+  useActionState = globalThis.react.useActionState;
+  useCallback = globalThis.react.useCallback;
+  useContext = globalThis.react.useContext;
+  useDebugValue = globalThis.react.useDebugValue;
+  useDeferredValue = globalThis.react.useDeferredValue;
+  useEffect = globalThis.react.useEffect;
+  useId2 = globalThis.react.useId;
+  useImperativeHandle = globalThis.react.useImperativeHandle;
+  useInsertionEffect = globalThis.react.useInsertionEffect;
+  useLayoutEffect = globalThis.react.useLayoutEffect;
+  useMemo = globalThis.react.useMemo;
+  useOptimistic = globalThis.react.useOptimistic;
+  useReducer = globalThis.react.useReducer;
+  useRef = globalThis.react.useRef;
+  useState = globalThis.react.useState;
+  useSyncExternalStore = globalThis.react.useSyncExternalStore;
+  useTransition = globalThis.react.useTransition;
+  version = globalThis.react.version;
+});
+
+// fixtures/simple-extension/src/search-items.tsx
+var exports_search_items = {};
+__export(exports_search_items, {
+  default: () => SearchItems
+});
+module.exports = __toCommonJS(exports_search_items);
 
 // globals:@termcast/cli
 var AI = globalThis.termcastApi.AI;
@@ -103,51 +215,17 @@ var useNavigation = globalThis.termcastApi.useNavigation;
 var useStore = globalThis.termcastApi.useStore;
 var useUnstableAI = globalThis.termcastApi.useUnstableAI;
 
-// globals:react
-var Children = globalThis.react.Children;
-var Component = globalThis.react.Component;
-var Fragment = globalThis.react.Fragment;
-var Profiler = globalThis.react.Profiler;
-var PureComponent = globalThis.react.PureComponent;
-var StrictMode = globalThis.react.StrictMode;
-var Suspense = globalThis.react.Suspense;
-var __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = globalThis.react.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
-var __COMPILER_RUNTIME = globalThis.react.__COMPILER_RUNTIME;
-var act = globalThis.react.act;
-var cache = globalThis.react.cache;
-var captureOwnerStack = globalThis.react.captureOwnerStack;
-var cloneElement = globalThis.react.cloneElement;
-var createContext = globalThis.react.createContext;
-var createElement = globalThis.react.createElement;
-var createRef = globalThis.react.createRef;
-var react_default = globalThis.react;
-var forwardRef = globalThis.react.forwardRef;
-var isValidElement = globalThis.react.isValidElement;
-var lazy = globalThis.react.lazy;
-var memo = globalThis.react.memo;
-var startTransition = globalThis.react.startTransition;
-var unstable_useCacheRefresh = globalThis.react.unstable_useCacheRefresh;
-var use = globalThis.react.use;
-var useActionState = globalThis.react.useActionState;
-var useCallback = globalThis.react.useCallback;
-var useContext = globalThis.react.useContext;
-var useDebugValue = globalThis.react.useDebugValue;
-var useDeferredValue = globalThis.react.useDeferredValue;
-var useEffect = globalThis.react.useEffect;
-var useId2 = globalThis.react.useId;
-var useImperativeHandle = globalThis.react.useImperativeHandle;
-var useInsertionEffect = globalThis.react.useInsertionEffect;
-var useLayoutEffect = globalThis.react.useLayoutEffect;
-var useMemo = globalThis.react.useMemo;
-var useOptimistic = globalThis.react.useOptimistic;
-var useReducer = globalThis.react.useReducer;
-var useRef = globalThis.react.useRef;
-var useState = globalThis.react.useState;
-var useSyncExternalStore = globalThis.react.useSyncExternalStore;
-var useTransition = globalThis.react.useTransition;
-var version = globalThis.react.version;
+// fixtures/simple-extension/src/search-items.tsx
+init_react();
 
 // globals:react/jsx-runtime
+var exports_jsx_runtime = {};
+__export(exports_jsx_runtime, {
+  jsxs: () => jsxs,
+  jsxDEV: () => jsxDEV,
+  jsx: () => jsx,
+  Fragment: () => Fragment2
+});
 var Fragment2 = globalThis.reactJsxRuntime.Fragment;
 var jsx = globalThis.reactJsxRuntime.jsx;
 var jsxs = globalThis.reactJsxRuntime.jsxs;
@@ -244,6 +322,3 @@ function SearchItems() {
     ]
   }, undefined, true, undefined, this);
 }
-export {
-  SearchItems as default
-};

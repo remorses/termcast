@@ -1,0 +1,3 @@
+[2025-10-02T15:07:32.971Z] actions dropdown onChange Open Details
+[2025-10-02T15:07:32.971Z] pushing DetailView
+[2025-10-02T15:07:33.369Z] popping navigation 1 stack: [ "MainView", "DetailView" ]
