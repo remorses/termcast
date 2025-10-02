@@ -458,38 +458,36 @@ use `git ls-files | tree --fromfile` to see files in the repo. this command will
 
 ```ts
 // BAD. DO NOT DO THIS
-let favicon: string | undefined
+let favicon: string | undefined;
 if (docsConfig?.favicon) {
-    if (typeof docsConfig.favicon === 'string') {
-        favicon = docsConfig.favicon
-    } else if (docsConfig.favicon?.light) {
-        // Use light favicon as default, could be enhanced with theme detection
-        favicon = docsConfig.favicon.light
-    }
+  if (typeof docsConfig.favicon === "string") {
+    favicon = docsConfig.favicon;
+  } else if (docsConfig.favicon?.light) {
+    // Use light favicon as default, could be enhanced with theme detection
+    favicon = docsConfig.favicon.light;
+  }
 }
 // DO THIS. use an iife. Immediately Invoked Function Expression
 const favicon: string = (() => {
-    if (!docsConfig?.favicon) {
-        return ''
-    }
-    if (typeof docsConfig.favicon === 'string') {
-        return docsConfig.favicon
-    }
-    if (docsConfig.favicon?.light) {
-        // Use light favicon as default, could be enhanced with theme detection
-        return docsConfig.favicon.light
-    }
-    return ''
-})()
+  if (!docsConfig?.favicon) {
+    return "";
+  }
+  if (typeof docsConfig.favicon === "string") {
+    return docsConfig.favicon;
+  }
+  if (docsConfig.favicon?.light) {
+    // Use light favicon as default, could be enhanced with theme detection
+    return docsConfig.favicon.light;
+  }
+  return "";
+})();
 // if you already know the type use it:
 const favicon: string = () => {
-    // ...
-}
+  // ...
+};
 ```
 
 - when a package has to import files from another packages in the workspace never add a new tsconfig path, instead add that package as a workspace dependency using `pnpm i "package@workspace:*"`
-
-## typescript
 
 NEVER use require. always esm imports
 
@@ -503,155 +501,50 @@ always specify the type when creating arrays, especially for empty arrays. if yo
 
 ```ts
 // BAD: Type will be never[]
-const items = []
+const items = [];
 
 // GOOD: Specify the expected type
-const items: string[] = []
-const numbers: number[] = []
-const users: User[] = []
+const items: string[] = [];
+const numbers: number[] = [];
+const users: User[] = [];
 ```
 
 remember to always add the explicit type to avoid unexpected type inference.
 
+- when using nodejs APIs like fs always import the module and not the named exports. I prefer hacing nodejs APIs accessed on the module namspace like fs, os, path, etc.
 
----
-
-# package manager: pnpm with workspace
-
-this project uses pnpm workspaces to manage dependencies. important scripts are in the root package.json or various packages' package.json
-
-try to run commands inside the package folder that you are working on. for example you should never run `pnpm test` from the root
-
-if you need to install packages always use pnpm
-
-instead of adding packages directly in package.json use `pnpm install package` inside the right workspace folder. NEVER manually add a package by updating package.json
-
-## updating a package
-
-when i ask you to update a package always run `pnpm update -r packagename`. to update to latest also add --latest
-
-Do not do `pnpm add packagename` to update a package. only to add a missing one. otherwise other packages versions will get out of sync.
-
-## fixing duplicate pnpm dependencies
-
-sometimes typescript will fail if there are 2 duplicate packages in the workspace node_modules. this can happen in pnpm if a package is used in 2 different places (even if inside a node_module package, transitive dependency) with a different set of versions for a peer dependency
-
-for example if better-auth depends on zod peer dep and zod is in different versions in 2 dependency subtrees
-
-to identify if a pnpm package is duplicated, search for the string " packagename@" inside `pnpm-lock.yaml`, notice the space in the search string. then if the result returns multiple instances with a different set of peer deps inside the round brackets, it means that this package is being duplicated. here is an example of a package getting duplicated:
-
-```
-
-  better-auth@1.3.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@3.25.76):
-    dependencies:
-      '@better-auth/utils': 0.2.6
-      '@better-fetch/fetch': 1.1.18
-      '@noble/ciphers': 0.6.0
-      '@noble/hashes': 1.8.0
-      '@simplewebauthn/browser': 13.1.2
-      '@simplewebauthn/server': 13.1.2
-      better-call: 1.0.13
-      defu: 6.1.4
-      jose: 5.10.0
-      kysely: 0.28.5
-      nanostores: 0.11.4
-      zod: 3.25.76
-    optionalDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
-
-  better-auth@1.3.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.0.17):
-    dependencies:
-      '@better-auth/utils': 0.2.6
-      '@better-fetch/fetch': 1.1.18
-      '@noble/ciphers': 0.6.0
-      '@noble/hashes': 1.8.0
-      '@simplewebauthn/browser': 13.1.2
-      '@simplewebauthn/server': 13.1.2
-      better-call: 1.0.13
-      defu: 6.1.4
-      jose: 5.10.0
-      kysely: 0.28.5
-      nanostores: 0.11.4
-      zod: 4.0.17
-    optionalDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
-
-```
-
-as you can see, better-auth is listed twice with different sets of peer deps. in this case it's because of zod being in version 3 and 4 in two subtrees of our workspace dependencies.
-
-as a first step, try running `pnpm dedupe better-auth` with your package name and see if there is still the problem.
-
-below i will describe how to generally deduplicate a package. i will use zod as an example. it works with any dependency found in the previous step.
-
-to deduplicate the package, we have to make sure we only have 1 version of zod installed in your workspace. DO NOT use overrides for this. instead, fix the problem by manually updating the dependencies that are forcing the older version of zod in the dependency tree.
-
-to do so, we first have to run the command `pnpm -r why zod@3.25.76` to see the reason the older zod version is installed. in this case, the result is something like this:
-
-```
-
-website /Users/morse/Documents/GitHub/holocron/website (PRIVATE)
-
-dependencies:
-@better-auth/stripe 1.2.10
-├─┬ better-auth 1.3.6
-│ └── zod 3.25.76 peer
-└── zod 3.25.76
-db link:../db
-└─┬ docs-website link:../docs-website
-  ├─┬ fumadocs-docgen 2.0.1
-  │ └── zod 3.25.76
-  ├─┬ fumadocs-openapi link:../fumadocs/packages/openapi
-  │ └─┬ @modelcontextprotocol/sdk 1.17.3
-  │   ├── zod 3.25.76
-  │   └─┬ zod-to-json-schema 3.24.6
-  │     └── zod 3.25.76 peer
-  └─┬ searchapi link:../searchapi
-    └─┬ agents 0.0.109
-      ├─┬ @modelcontextprotocol/sdk 1.17.3
-      │ ├── zod 3.25.76
-      │ └─┬ zod-to-json-schema 3.24.6
-      │   └── zod 3.25.76 peer
-      └─┬ ai 4.3.19
-        ├─┬ @ai-sdk/provider-utils 2.2.8
-        │ └── zod 3.25.76 peer
-        └─┬ @ai-sdk/react 1.2.12
-          ├─┬ @ai-sdk/provider-utils 2.2.8
-          │ └── zod 3.25.76 peer
-          └─┬ @ai-sdk/ui-utils 1.2.11
-            └─┬ @ai-sdk/provider-utils 2.2.8
-              └── zod 3.25.76 peer
-```
-
-here we can see zod 3 is installed because of @modelcontextprotocol/sdk, @better-auth/stripe and agents packages. to fix the problem, we can run
-
-```
-pnpm update -r --latest  @modelcontextprotocol/sdk @better-auth/stripe agents
-```
-
-this way, if these packages include the newer version of the dependency, zod will be deduplicated automatically.
-
-in this case, we could have only updated @better-auth/stripe to fix the issue too, that's because @better-auth/stripe is the one that has better-auth as a peer dep. but finding what is the exact problematic package is difficult, so it is easier to just update all packages you notice that we depend on directly in our workspace package.json files.
-
-if after doing this we still have duplicate packages, you will have to ask the user for help. you can try deleting the node_modules and restarting the approach, but it rarely helps.
+DO `import fs from 'fs'; fs.writeFileSync(...)`
+DO NOT `import { writeFileSync } from 'fs';`
 
 
 ---
 
-# reading github repositories
+# github
+
+you can use the `gh` cli to do operations on github for the current repository. For example: open issues, open PRs, check actions status, read workflow logs, etc.
+
+## get current github repo
+
+`git config --get remote.origin.url`
+
+## checking status of latest github actions workflow run
+
+```bash
+gh run list # lists latest actions runs
+gh run watch <id> --exit-status # if workflow is in progress, wait for the run to complete. the actions run is finished when this command exits. Set a tiemout of at least 10 minutes when running this command
+gh run view <id> --log-failed | tail -n 300 # read the logs for failed steps in the actions run
+gh run view <id> --log | tail -n 300 # read all logs for a github actions run
+```
+
+## reading github repositories
 
 you can use gitchamber.com to read repo files. run `curl https://gitchamber.com` to see how the API works. always use curl to fetch the responses of gitchamber.com
 
-### vercel ai sdk documentation
+for example when working with the vercel ai sdk, you can fetch the latest docs using:
 
-when working with the vercel ai sdk, you can fetch the latest docs using:
 https://gitchamber.com/repos/repos/vercel/ai/main/files
 
 use gitchamber to read the .md files using curl
-
-you can swap out the topic with text you want to search docs for. you can also limit the total results returned with the param token to limit the tokens that will be added to the context window
 
 
 ---
@@ -699,75 +592,6 @@ you can swap out the topic with text you want to search docs for. you can also l
 
 ---
 
-# sentry
-
-this project uses sentry to notify about unexpected errors.
-
-the website folder will have a src/lib/errors.ts file with an exported function `notifyError(error: Error, contextMessage: string)`.
-
-you should ALWAYS use notifyError in these cases:
-
-- create a new spiceflow api app, put notifyError in the onError callback with context message including the api route path
-- suppressing an error for operations that can fail. instead of doing console.error(error) you should instead call notifyError
-- wrapping a promise with cloudflare `waitUntil`. add a .catch and a notifyError so errors are tracked
-
-this function will add the error in sentry so that the developer is able to track users' errors
-
-## errors.ts file
-
-if a package is missing the errors.ts file, here is the template for adding one.
-
-notice that
-
-- dsn should be replaced by the user with the right one. ask to do so
-- use the sentries npm package, this handles correctly every environment like Bun, Node, Browser, etc
-
-```tsx
-import { captureException, flush, init } from "sentries";
-
-init({
-  dsn: "https://e702f9c3dff49fd1aa16500c6056d0f7@o4509638447005696.ingest.de.sentry.io/4509638454476880",
-  integrations: [],
-  tracesSampleRate: 0.01,
-  profilesSampleRate: 0.01,
-  beforeSend(event) {
-    if (process.env.NODE_ENV === "development") {
-      return null;
-    }
-    if (process.env.BYTECODE_RUN) {
-      return null;
-    }
-    if (event?.["name"] === "AbortError") {
-      return null;
-    }
-
-    return event;
-  },
-});
-
-export async function notifyError(error: any, msg?: string) {
-  console.error(msg, error);
-  captureException(error, { extra: { msg } });
-  await flush(1000);
-}
-
-export class AppError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "AppError";
-  }
-}
-```
-
-## app error
-
-every time you throw a user-readable error you should use AppError instead of Error
-
-AppError messages will be forwarded to the user as is. normal Error instances instead could have their messages obfuscated
-
-
----
-
 # testing
 
 do not write new test files unless asked. do not write tests if there is not already a test or describe block for that function or module.
@@ -780,6 +604,10 @@ to understand how the code you are writing works, you should add inline snapshot
 
 > always call `pnpm vitest` or `pnpm test` with `--run` or they will hang forever waiting for changes!
 > ALWAYS read back the test if you use the `-u` option to make sure the inline snapshots are as you expect.
+
+- NEVER writes the snapshots content yourself in `toMatchInlineSnapshot`. instead leave it empty and call `pnpm test -u` to fill in snapshots content.
+
+- when updating implementation and `toMatchInlineSnapshot` should change, DO NOT remove the inline snapshots yourself, just run `pnpm test -u` instead! This will replace contents of the snapshots without wasting time doing it yourself.
 
 - for very long snapshots you should use `toMatchFileSnapshot(filename)` instead of `toMatchInlineSnapshot()`. put the snapshot files in a snapshots/ directory and use the appropriate extension for the file based on the content
 
@@ -799,11 +627,16 @@ sometimes tests work directly on database data, using prisma. to run these tests
 
 never write tests yourself that call prisma or interact with database or emails. for these, ask the user to write them for you.
 
+
 ---
 
 # changelog
 
 after you make a change that is noteworthy, add an entry in the CHANGELOG.md file in the root of the package. there are 2 kinds of packages, public and private packages. private packages have a private: true field in package.json, public packages do not and instead have a version field in package.json. public packages are the ones that are published to npm.
+
+If the current package has a version field and it is not private then include the version in the changelog too like in the examples, otherwise use the current date and time.
+
+If you use the version you MUST use a bumped version compared to the current package.json version, and you should update the package.json version field to that version. But do not publish. I will handle that myself.
 
 to write a changelog.md file for a public package, use the following format, add a heading with the new version and a bullet list of your changes, like this:
 
@@ -839,6 +672,7 @@ use present tense. be detailed but concise, omit useless verbs like "implement",
 ```
 
 the website package has a dependency on docs-website. instead of duplicating code that is needed both in website and docs-website keep a file in docs-website instead and import from there for the website package.
+
 
 ---
 
@@ -950,357 +784,6 @@ if (!user.subscription) {
 
 ---
 
-# react router v7
-
-the website uses react-router v7.
-
-NEVER start the dev server yourself with `pnpm dev`, instead ask me to do so.
-
-react-router framework is the successor of remix. it is basically the same framework and it uses loaders and actions as core features.
-
-react-router follows all the conventions of remix but all imports must be updated to point to `react-router` instead of `@remix-run/react` or `@remix-run/node`.
-
-## react-router navigation state
-
-react-router has the hook `useNavigation` that exposes the navigation state. ALWAYS use this hook to track loading state for navigation
-
-```ts
-const navigation = useNavigation()
-
-if (navigation.state === 'loading' || navigation.state === 'submitting') {
-    return null
-}
-```
-
-> when making changes to the website code only use the `pnpm typecheck` script to validate changes, NEVER run `pnpm build` unless asked. It is too slow.
-
-## Creating New Routes and Handling Types
-
-When creating a new React Router route, follow these steps:
-
-### 1. Create the route file
-Create a file in `src/routes/` using flat routes naming convention (dots for separators, $ for params, kebab-case).
-
-### 2. Generate types
-**IMPORTANT**: Types are NOT automatically generated. After creating a route, run:
-```bash
-pnpm exec react-router typegen
-```
-
-### 3. Import Route types
-```typescript
-import type { Route } from './+types/your-route-name'
-```
-Note: The `+types` directory doesn't physically exist - it's virtual/generated.
-
-### 4. Verify with typecheck
-```bash
-pnpm typecheck  # This runs typegen first, then tsc
-```
-
-### Troubleshooting Missing Types
-- Types missing? Run `pnpm exec react-router typegen`
-- Import failing? Check filename matches import path exactly
-- Types not updating? Run `pnpm typecheck` to regenerate
-- The `+types` directory is virtual - don't look for it in the filesystem
-
-### Best Practices
-- Always run `pnpm typecheck` after creating/modifying routes
-- Export `Route` type from layout routes for child routes to import
-- Use `href()` for all internal paths, even in redirects
-
-## react-router layout routes
-
-react-router layout routes are simply routes that share a prefix with some children routes. these routes will run their loaders and components also when the children paths are fetched.
-
-components can render children routes using the Outlet component
-
-```tsx
-export function Component() {
-    return <Outlet />
-}
-```
-
-the loader data from parent layouts will NOT be present in the children routes `Route.componentProps['loaderData']` type. instead you have to use the `useRouteLoaderData('/prefix-path')` instead. always add the type to these calls getting the `Route` type from the parent layout
-
-> layout routes should ALWAYS export their own Route namespace types so that child route can use it to type `useRouteLoaderData`!
-
-## cookies
-
-never use react-router or remix `createCookieSessionStorage`. instead just use the npm cookie package to serialize and parse cookies. keep it simple.
-
-if you want to store json data in cookies, remember to use encodeURIComponent to encode the data before storing it in the cookie, and decodeURIComponent to decode it when reading it back. this is because cookies can only store string values.
-
-## website, react-routes
-
-website routes use the flat routes filesystem routes, inside src/routes. these files encode the routing logic in the filename, using $id for params and dot . for slashes.
-
-if 2 routes share the same prefix, then the loader of both routes is run on a request and the route with the shorter route name is called a layout. a layout can also use <Outlet /> to render the child route inside it. for example, /org/x/site will run loaders in `org.$orgid` and `org.$orgid.site`. if you want instead to create a route that is not a layout route, where the loader does not run for routes that share the prefix, append \_index to the filename, for example `org.$orgid._index` in the example before.
-
-if you need to add new prisma queries or data fetching in loaders, put it in layouts if possible. this way the data is fetched less often. you can do this if the data does not depend on the children routes' specific parameters.
-
-## route file exports
-
-you can export the functions `loader` and `action` to handle loading data and submitting user data.
-
-the default export (not always required for API routes) is the jsx component that renders the page visually.
-
-notice that the `json` util was removed from `react-router`. instead there is a function `data` which is very similar and accepts a second argument to add headers and status like `json` does, but it supports more data types than json, like generators, async generators, dates, map, sets, etc.
-
-## Route type safety
-
-react-router exports a `Route` namespace with types like `Route.LoaderArgs`, `Route.ActionArgs` and `Route.ComponentProps`
-
-these types can be used for the main route exports, they must be imported from `./+types/{route-basename}`
-
-for example, if the current file is `src/routes/home.tsx` you can import `import { Route } from './+types/home'`.
-
-when using loader data in components, it is preferable to use useRouteLoaderData instead of just useLoaderData, so that if the route data is not accessible an error is thrown instead of silently failing with the wrong data.
-
-you can use the Route types even to type other components that rely on `useRouteLoaderData`. but to do this you cannot import from `+types`, only route files can do that. instead you should export the Route type from the route file and let the component file import from the route.
-
-here is an example to get the loader data type safely from a component:
-
-> useRouteLoaderData return type is `Route.componentProps['loaderData']`
-
-```ts
-import type { Route } from 'website/src/routes/root'
-
-const { userId } = useRouteLoaderData(
-    'root',
-) as Route.componentProps['loaderData']
-```
-
-```ts
-// this path should export Route first. make sure of that
-import type { Route } from 'website/src/routes/org.$orgId'
-
-const { userId } = useRouteLoaderData(
-    'routes/org.$orgId',
-) as Route.componentProps['loaderData']
-```
-
-you can do the same thing with action data, using `Route.componentProps['actionData']`
-
-## links type safety
-
-ALWAYS use the react-router href function to create links, it works as follow
-
-```ts
-import { href } from 'react-router'
-
-const path = href('/org/:orgId', { orgId })
-```
-
-if you need to have an absolute url you can do `new URL(href('/some/path'), env.PUBLIC_URL)`
-
-the only case where you should not use href is for urls outside of the current app or routes like `routes/$.tsx`, basically routes that match all paths.
-
-> if you cannot use `href` simply because the route you would like to link to does not exist, you should do the following: list all the files in the src/routes folder first, to see if it already exists but not with the name you would expect. if still you can't find one, create a simple placeholder react-router route with a simple page component and a simple loader that does what you would expect. do not write too much code. you can improve on it in later messages.
-
-## showing spinner while loader does work and then redirect
-
-for routes that do slow operations like creating PRs and then redirect, use a loader that returns a promise. the component uses window.location.replace when the promise resolves.
-
-> IMPORTANT: react router does not preserve errors thrown in promises returned from loaders. NEVER throw errors inside promises returned from loaders. instead, add a .catch to make sure errors are never thrown and returned as values instead. then use instanceof check in client
-
-```tsx
-export async function loader({ request, params: { id } }: Route.LoaderArgs) {
-    const url = new URL(request.url)
-    const data = url.searchParams.get('data')
-    const promise = doSlowWork(id, data)
-        .catch(error => {
-            notifyError(error)
-            return error
-        })
-    return { promise }
-}
-
-export default function Page() {
-    const { promise } = useLoaderData<typeof loader>()
-    const [error, setError] = useState('')
-
-    useEffect(() => {
-        promise.then(result => {
-            if (result instanceof Error) {
-                setError(result.message)
-                return
-            }
-            window.location.replace(result.url)
-        })
-    }, [promise])
-
-    if (error) return <p className='text-red-600'>Error: {error}</p>
-    return <Loader2Icon className='h-6 w-6 animate-spin' />
-}
-```
-
-## do not redirect to missing routes that do not exist
-
-never redirect or link to a route that does not exist. instead create a simple placeholder route with a simple loader and component. then redirect there using type-safe path with `href`
-
-if instead it's not clear where to redirect because a user resource is missing, check if an onboarding route exists for that resource or a generic onboarding route. redirect there instead
-
-also keep in mind it's preferable to throw redirects in loaders instead of returning responses, so loader keeps type safety.
-
-## client side navigation is preferred
-
-always try to use react-router `useNavigate` or `Link` instead of doing window.location.href update.
-
-so that internal navigation is done client side and is faster. notice that navigate only accepts a relative path and not a full url, so if you have a full url you should do new URL(url).pathname. only use navigate if you know the url is relative to the app.
-
-## Link or a components are preferred over `navigate`
-
-ALWAYS use link components instead of the navigate function if possible. for example, in a dropdown component you should wrap the dropdown item in a link instead of adding an onClick handler.
-
-# Creating New React Router Routes and Handling Types
-
-When creating a new React Router route, follow these steps:
-
-## 1. Create the route file
-Create a file in `src/routes/` using flat routes naming convention (dots for separators, $ for params, kebab-case).
-
-## 2. Generate types
-**IMPORTANT**: Types are NOT automatically generated. After creating a route, run:
-```bash
-pnpm exec react-router typegen
-```
-
-## 3. Import Route types
-```typescript
-import type { Route } from './+types/your-route-name'
-```
-Note: The `+types` directory doesn't physically exist - it's virtual/generated.
-
-## 4. Verify with typecheck
-```bash
-pnpm typecheck  # This runs typegen first, then tsc
-```
-
-## Troubleshooting Missing Types
-- Types missing? Run `pnpm exec react-router typegen`
-- Import failing? Check filename matches import path exactly
-- The `+types` directory is virtual - don't look for it in the filesystem
-
-## Best Practices
-- Always run `pnpm typecheck` after creating/modifying routes
-- Export `Route` type from layout routes for child routes to import
-- Use `href()` for all internal paths, even in redirects
-
-
----
-
-# styling
-
-- always use tailwind for styling. prefer using simple styles using flex and gap. margins should be avoided, instead use flexbox gaps, grid gaps, or separate spacing divs.
-
-- use shadcn theme colors instead of tailwind default colors. this way there is no need to add `dark:` variants most of the time.
-
-- `flex flex-col gap-3` is preferred over `space-y-3`. same for the x direction.
-
-- try to keep styles as simple as possible, for breakpoints too.
-
-- to join many classes together use the `cn('class-1', 'class-2')` utility instead of `${}` or other methods. this utility is usually used in shadcn-compatible projects and mine is exported from `website/src/lib/cn` usually. prefer doing `cn(bool && 'class')` instead of `cn(bool ? 'class' : '')`
-
-- prefer `size-4` over `w-4 h-4`
-
-## components
-
-this project uses shadcn components placed in the website/src/components/ui folder. never add a new shadcn component yourself by writing code. instead use the shadcn cli installed locally.
-
-try to reuse these available components when you can, for example for buttons, tooltips, scroll areas, etc.
-
----
-
-# tailwind v4
-
-this project uses tailwind v4. this new tailwind version does not use tailwind.config.js. instead it does all configuration in css files.
-
-read https://tailwindcss.com/docs/upgrade-guide to understand the updates landed in tailwind v4 if you do not have tailwind v4 in your training context. ignore the parts that talk about running the upgrade cli. this project already uses tailwind v4 so no need to upgrade anything.
-
----
-
-# lucide icons
-
-use lucide-react to import icons. always add the Icon import name, for example `ImageIcon` instead of just `Image`.
-
----
-
-# spiceflow
-
-before writing or updating spiceflow related code always execute this command to get Spiceflow full documentation: `curl -s https://gitchamber.com/repos/remorses/spiceflow/main/files/README.md`
-
-spiceflow is an API library similar to hono, it allows you to write api servers using whatwg requests and responses
-
-use zod to create schemas and types that need to be used for tool inputs or spiceflow API routes.
-
-## calling the server from the clientE
-
-you can obtain a type safe client for the API using `createSpiceflowClient` from `spiceflow/client`
-
-for simple routes that only have one interaction in the page, for example a form page, you should use react-router forms and actions to interact with the server.
-
-but when you do interactions from a component that can be rendered from multiple routes, or simply is not implemented inside a route page, you should use spiceflow client instead.
-
-> ALWAYS use the fetch tool to get the latest docs if you need to implement a new route in a spiceflow API app server or need to add a new rpc call with a spiceflow api client!
-
-spiceflow has support for client-side type-safe rpc. use this client when you need to interact with the server from the client, for example for a settings save deep inside a component. here is example usage of it
-
-> SUPER IMPORTANT! if you add a new route to a spiceflow app, use the spiceflow app state like `userId` to add authorization to the route. if there is no state then you can use functions like `getSession({request})` or similar.
-> make sure the current userId has access to the fetched or updated rows. this can be done by checking that the parent row or current row has a relation with the current userId. for example `prisma.site.findFirst({where: {users: {some: {userId }}}})`
-
-> IMPORTANT! spiceflow api client cannot be called server side to call a route! In that case instead you MUST call the server functions used in the route directly, otherwise the server would do fetch requests that would fail!
-
-always use `const {data, error} = await apiClient...` when calling spiceflow rpc. if data is already declared, give it a different name with `const {data: data2, error} = await apiClient...`. this pattern of destructuring is preferred for all apis that return data and error object fields.
-
-## getting spiceflow docs
-
-spiceflow is a little-known api framework. if you add server routes to a file that includes spiceflow in the name or you are using the apiClient rpc, you always need to fetch the spiceflow docs first, using the @fetch tool on https://getspiceflow.com/
-
-this url returns a single long documentation that covers your use case. always fetch this document so you know how to use spiceflow. spiceflow is different from hono and other api frameworks, that's why you should ALWAYS fetch the docs first before using it
-
-## using spiceflow client in published public workspace packages
-
-usually you can just import the App type from the server workspace to create the client with createSpiceflowClient
-
-if you want to use the spiceflow client in a published package instead we will use the pattern of generating .d.ts and copying these in the workspace package, this way the package does not need to depend on unpublished private server package.
-
-example:
-
-```json
-{
-  "scripts": {
-    "gen-client": "export DIR=../plugin-mcp/src/generated/ && cd ../website && tsc --incremental && cd ../plugin-mcp && rm -rf $DIR && mkdir -p $DIR && cp ../website/dist/src/lib/api-client.* $DIR"
-  }
-}
-```
-
-notice that if you add a route in the spiceflow server you will need to run `pnpm --filter website gen-client` to update the apiClient inside cli.
-
-
----
-
-# ai sdk
-
-i use the vercel ai sdk to interact with LLMs, also known as the npm package `ai`. never use the openai sdk or provider-specific sdks, always use the vercel ai sdk, npm package `ai`. streamText is preferred over generateText, unless the model used is very small and fast and the current code doesn't care about streaming tokens or showing a preview to the user. `streamObject` is also preferred over generateObject.
-
-ALWAYS fetch the latest docs for the ai sdk using this url with curl:
-https://gitchamber.com/repos/vercel/ai/main/files
-
-use gitchamber to read the .md files using curl
-
-you can swap out the topic with text you want to search docs for. you can also limit the total results returned with the param token to limit the tokens that will be added to the context window
-
----
-
-# playwright
-
-you can control the browser using the playwright mcp tools. these tools let you control the browser to get information or accomplish actions
-
-if i ask you to test something in the browser, know that the website dev server is already running at http://localhost:7664 for website and :7777 for docs-website (but docs-website needs to use the website domain specifically, for example name-hash.localhost:7777)
-
----
-
 # zod
 
 when you need to create a complex type that comes from a prisma table, do not create a new schema that tries to recreate the prisma table structure. instead just use `z.any() as ZodType<PrismaTable>)` to get type safety but leave any in the schema. this gets most of the benefits of zod without having to define a new zod schema that can easily go out of sync.
@@ -1325,3 +808,4 @@ const jsonSchema = toJSONSchema(mySchema, {
 
 
 ---
+
