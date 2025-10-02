@@ -1,12 +1,12 @@
 {
-  "name": "@termcast/cli",
-  "version": "0.3.8",
+  "name": "termcast",
+  "version": "0.3.9",
   "description": "Raycast for the terminal",
   "repository": "https://github.com/remorses/termcast",
   "scripts": {
     "build": "tsc && bun run binary",
     "release": "cd .. && bun changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
-    "binary": "bun build ./src/cli.tsx --compile --outfile bin",
+    "binary": "bun build ./src/cli.tsx --env-file=\"\" --compile --outfile bin",
     "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
     "play": "bun src/cli.tsx",
     "test": "bun test && bun e2e",
