@@ -70,14 +70,14 @@ test('form basic navigation and input', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Type in username field
@@ -127,14 +127,14 @@ test('form basic navigation and input', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Tab to password field
@@ -185,14 +185,14 @@ test('form basic navigation and input', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Tab to biography field
@@ -243,14 +243,14 @@ test('form basic navigation and input', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Tab to newsletter checkbox and toggle it
@@ -301,14 +301,14 @@ test('form basic navigation and input', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Tab to country dropdown and select United States
@@ -359,14 +359,14 @@ test('form basic navigation and input', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Select United States
@@ -416,14 +416,14 @@ test('form basic navigation and input', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Tab to date picker
@@ -474,14 +474,14 @@ test('form basic navigation and input', async () => {
     ◆  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Submit form with Cmd+Enter
@@ -536,14 +536,14 @@ test('form basic navigation and input', async () => {
     ◆  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 }, 15000)
 
@@ -605,14 +605,14 @@ test('form navigation with shift+tab', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Navigate backwards with Shift+Tab
@@ -662,14 +662,14 @@ test('form navigation with shift+tab', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Go back to username field
@@ -719,14 +719,14 @@ test('form navigation with shift+tab', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Clear and type new username
@@ -777,14 +777,14 @@ test('form navigation with shift+tab', async () => {
     ◇  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 }, 10000)
 
@@ -850,14 +850,14 @@ test('form dropdown navigation', async () => {
     ◆  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Navigate down in dropdown
@@ -907,14 +907,14 @@ test('form dropdown navigation', async () => {
     ◆  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Navigate to Europe section
@@ -966,14 +966,14 @@ test('form dropdown navigation', async () => {
     ◆  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 
   // Select France
@@ -1023,13 +1023,13 @@ test('form dropdown navigation', async () => {
     ◆  Date of Birth
     │
     │   ←       2025        →
-    │   ←     September     →
+    │   ←      October      →
     │
     │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30"
+    │          1  2  3  4  5
+    │    6  7  8  9 10 11 12
+    │   13 14 15 16 17 18 19
+    │   20 21 22 23 24 25 26
+    │   27 28 29 30 31"
   `)
 }, 10000)
