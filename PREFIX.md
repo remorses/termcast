@@ -2,11 +2,9 @@
 
 NOTICE: AGENTS.md is generated using AGENTS.sh and should NEVER be manually updated.
 
-
 ---
 
 # termcast specific rules
-
 
 ## Porting @raycast/api components and hooks to termcast
 
@@ -392,5 +390,13 @@ Or lift hooks in component scope
 ## NEVER use setTimeout
 
 setTimeout must never be used to schedule React updates after some time. This strategy is stupid and never makes sense.
+
+## researching opentui patterns
+
+you can read more examples of opentui react code using gitchamber by listing and reading files from the correct endpoint: https://gitchamber.com/repos/sst/opentui/main/files?glob=packages/react/examples/**
+
+or for example to see how to use the `<code>` opentui element: https://gitchamber.com/repos/sst/opentui/main/search/<code?glob=\*\*
+
+do something like this for every new element you want to use and not know about, for exampel `<scrollbox>`, to see examples
 
 ---
