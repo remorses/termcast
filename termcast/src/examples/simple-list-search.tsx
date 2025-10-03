@@ -39,6 +39,47 @@ const App: any = () => {
         keywords={['second', 'two', 'secondary']}
         id='item2'
       />
+      {Array.from({ length: 100 }).map((_, i) => (
+        <List.Item
+          key={`random${i + 1}`}
+          title={`Random Item #${i + 1}`}
+          subtitle={`This is randomly generated item ${i + 1}`}
+          keywords={[
+            `random`,
+            `${(i + 1) * 7}`,
+            `foo${(i % 5) + 1}`,
+            `bar${Math.floor(Math.random() * 50)}`,
+          ]}
+          id={`random-item-${i + 1}`}
+          actions={
+            i % 3 === 0 ? (
+              <ActionPanel>
+                <Action
+                  title='Show Details'
+                  onAction={() =>
+                    push(
+                      <Detail
+                        markdown={dedent`
+                                              # Random Item #${i + 1}
+
+                                              This is a dynamically generated random item.
+
+                                              - **Index:** ${i + 1}
+                                              - **Random Keyword:** bar${Math.floor(Math.random() * 99)}
+                                              - **UUID:** random-item-${i + 1}
+
+                                              ---
+                                              _Fun fact: Number ${((i + 1) * 13) % 97} is "randomized"!_
+                                          `}
+                      />,
+                    )
+                  }
+                />
+              </ActionPanel>
+            ) : undefined
+          }
+        />
+      ))}
       <List.Item
         title='Third Item'
         subtitle='This is the third item'
