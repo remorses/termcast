@@ -174,6 +174,22 @@ export class NodeTuiDriver {
     },
   }
 
+  scrollUp(ticks: number = 1) {
+    const promises: Promise<void>[] = []
+    for (let i = 0; i < ticks; i++) {
+      promises.push(this.write('\x1b[<64;40;12M'))
+    }
+    return Promise.all(promises)
+  }
+
+  scrollDown(ticks: number = 1) {
+    const promises: Promise<void>[] = []
+    for (let i = 0; i < ticks; i++) {
+      promises.push(this.write('\x1b[<65;40;12M'))
+    }
+    return Promise.all(promises)
+  }
+
   async text(options?: {
     waitFor?: (text: string) => boolean
     timeout?: number
