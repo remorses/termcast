@@ -406,7 +406,7 @@ function ErrorDisplay({
 
 const ErrorBoundary = ErrorBoundaryClass as any
 
-export function Providers(props: ProvidersProps): any {
+export function TermcastProvider(props: ProvidersProps): any {
   return (
     <ErrorBoundary>
       <Suspense fallback={<LoadingFallback />}>

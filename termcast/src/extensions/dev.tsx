@@ -5,7 +5,7 @@ import { render } from '@opentui/react'
 import { List, useStore } from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
-import { Providers } from 'termcast/src/internal/providers'
+import { TermcastProvider } from 'termcast/src/internal/providers'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
 import { getCommandsWithFiles, CommandWithFile } from '../package-json'
@@ -170,7 +170,7 @@ export async function startDevMode({
     const devElement = useStore((state) => state.devElement)
     const devRebuildCount = useStore((state) => state.devRebuildCount)
 
-    return <Providers key={String(devRebuildCount)}>{devElement}</Providers>
+    return <TermcastProvider key={String(devRebuildCount)}>{devElement}</TermcastProvider>
   }
 
   await render(<App />)

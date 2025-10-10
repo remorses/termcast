@@ -4,7 +4,7 @@ import { render } from '@opentui/react'
 import { List, logger, useStore } from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
-import { Providers } from 'termcast/src/internal/providers'
+import { TermcastProvider } from 'termcast/src/internal/providers'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
 import { getStoredExtensions } from '../utils'
@@ -285,9 +285,9 @@ export async function runHomeCommand(): Promise<void> {
   logger.log(`preparing to render the home command component`)
 
   await render(
-    <Providers>
+    <TermcastProvider>
       <Home />
-    </Providers>,
+    </TermcastProvider>,
   )
   logger.log(`rendered home command component`)
 }
