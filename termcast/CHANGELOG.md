@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.10
+
+### Patch Changes
+
+- export from dist
+
 ## 0.3.8
 
 ### Patch Changes
