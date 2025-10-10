@@ -14,7 +14,9 @@
   },
   "exports": {
     ".": {
-      "default": "./src/index.tsx"
+      "development": "./src/index.tsx",
+      "types": "./src/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./src/*": "./src/*.tsx"
   },
