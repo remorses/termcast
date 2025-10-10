@@ -95,11 +95,7 @@ export type {
 } from 'termcast/src/components/form/types'
 
 // Icons and Images
-export {
-  Icon,
-  getIconEmoji,
-  IconComponent,
-} from 'termcast/src/components/icon'
+export { Icon, getIconEmoji, IconComponent } from 'termcast/src/components/icon'
 export { Image, ImageMask } from 'termcast/src/components/image'
 export type {
   ImageProps,
@@ -138,29 +134,17 @@ export {
 } from 'termcast/src/internal/navigation'
 
 // Hooks
-export {
-  useActionPanel,
-  useId,
-  useUnstableAI,
-} from 'termcast/src/hooks/index'
+export { useActionPanel, useId, useUnstableAI } from 'termcast/src/hooks/index'
 export type { ActionPanelState } from 'termcast/src/hooks/index'
 
 // Focus Context
 export { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 
 // Dialog
-export {
-  Dialog,
-  DialogProvider,
-  useDialog,
-} from 'termcast/src/internal/dialog'
+export { Dialog, DialogProvider, useDialog } from 'termcast/src/internal/dialog'
 
 // Toast
-export {
-  Toast,
-  showToast,
-  showFailureToast,
-} from 'termcast/src/apis/toast'
+export { Toast, showToast, showFailureToast } from 'termcast/src/apis/toast'
 
 // Clipboard
 export {
@@ -199,10 +183,7 @@ export {
   getSelectedFinderItems,
   getSelectedText,
 } from 'termcast/src/apis/environment'
-export type {
-  Environment,
-  LaunchProps,
-} from 'termcast/src/apis/environment'
+export type { Environment, LaunchProps } from 'termcast/src/apis/environment'
 
 export { LaunchType }
 
@@ -228,7 +209,7 @@ export { useStore } from 'termcast/src/state'
 export type { DialogPosition } from 'termcast/src/state'
 
 // Providers (for app setup)
-export { Providers } from 'termcast/src/internal/providers'
+export { TermcastProvider } from 'termcast/src/internal/providers'
 
 // Helper function for rendering examples
 export { renderWithProviders } from 'termcast/src/utils'

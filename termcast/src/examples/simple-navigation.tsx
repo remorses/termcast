@@ -3,7 +3,7 @@ import { render } from '@opentui/react'
 import List from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
-import { Providers } from 'termcast/src/internal/providers'
+import { TermcastProvider } from 'termcast/src/internal/providers'
 
 function DetailView({ title }: { title: string }): any {
   const { pop } = useNavigation()
@@ -80,9 +80,9 @@ function MainView(): any {
 
 function App(): any {
   return (
-    <Providers>
+    <TermcastProvider>
       <MainView />
-    </Providers>
+    </TermcastProvider>
   )
 }
 

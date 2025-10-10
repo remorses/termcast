@@ -3,7 +3,7 @@ import { render } from '@opentui/react'
 import List from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
-import { Providers } from 'termcast/src/internal/providers'
+import { TermcastProvider } from 'termcast/src/internal/providers'
 
 function ThirdLevel({ path }: { path: string[] }): any {
   const { pop } = useNavigation()
@@ -109,9 +109,9 @@ function FirstLevel(): any {
 
 function App(): any {
   return (
-    <Providers>
+    <TermcastProvider>
       <FirstLevel />
-    </Providers>
+    </TermcastProvider>
   )
 }
 
