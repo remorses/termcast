@@ -120,4 +120,4 @@ const AllList = () => {
   )
 }
 
-renderWithProviders(<AllList />)
+await renderWithProviders(<AllList />)

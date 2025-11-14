@@ -1,7 +1,6 @@
 import React from 'react'
 import { renderWithProviders } from 'termcast'
 import { useKeyboard } from '@opentui/react'
-import { fg, bold } from '@opentui/core'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 function SimpleScrollBoxDemo(): any {
@@ -24,7 +23,11 @@ function SimpleScrollBoxDemo(): any {
   return (
     <box flexDirection="column" width="100%" height="100%">
       <box padding={1} backgroundColor="#282c34">
-        <text>{bold(fg('#61afef')('Simple ScrollBox Demo'))}</text>
+        <text>
+          <strong>
+            <span fg='#61afef'>Simple ScrollBox Demo</span>
+          </strong>
+        </text>
       </box>
 
       <ScrollBox focused flexGrow={1} flexShrink={1}>
@@ -36,8 +39,8 @@ function SimpleScrollBoxDemo(): any {
             marginBottom={1}
           >
             <text fg="#282c34">
-              {bold(`Item ${i + 1}`)} - This is content for item number {i + 1}.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              <strong>{`Item ${i + 1}`}</strong> - This is content for item number{' '}
+              {i + 1}. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </text>
           </box>
         ))}
@@ -51,5 +54,5 @@ function SimpleScrollBoxDemo(): any {
 }
 
 if (import.meta.main) {
-  renderWithProviders(<SimpleScrollBoxDemo />)
+  await renderWithProviders(<SimpleScrollBoxDemo />)
 }

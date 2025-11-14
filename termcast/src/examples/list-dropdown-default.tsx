@@ -66,4 +66,4 @@ function ListDropdownDefaultExample() {
   )
 }
 
-renderWithProviders(<ListDropdownDefaultExample />)
+await renderWithProviders(<ListDropdownDefaultExample />)

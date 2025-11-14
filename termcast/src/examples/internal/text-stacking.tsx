@@ -1,4 +1,5 @@
-import { render } from '@opentui/react'
+import { createRoot } from '@opentui/react'
+import { createCliRenderer } from '@opentui/core'
 
 function TextStackingExample() {
   const items = [
@@ -87,4 +88,5 @@ function TextStackingExample() {
   )
 }
 
-render(<TextStackingExample />)
+const renderer = await createCliRenderer()
+createRoot(renderer).render(<TextStackingExample />)

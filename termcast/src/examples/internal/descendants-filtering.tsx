@@ -220,4 +220,4 @@ const Example = () => {
   )
 }
 
-renderWithProviders(<Example />)
+await renderWithProviders(<Example />)

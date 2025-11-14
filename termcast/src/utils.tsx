@@ -1,5 +1,6 @@
 import React, { type ReactNode } from 'react'
-import { render } from '@opentui/react'
+import { createRoot } from '@opentui/react'
+import { createCliRenderer } from '@opentui/core'
 import { TermcastProvider } from 'termcast/src/internal/providers'
 import path from 'node:path'
 import fs from 'node:fs'
@@ -12,8 +13,9 @@ import {
 } from './package-json'
 import { logger } from './logger'
 
-export function renderWithProviders(element: ReactNode): void {
-  render(<TermcastProvider>{element}</TermcastProvider>)
+export async function renderWithProviders(element: ReactNode): Promise<void> {
+  const renderer = await createCliRenderer()
+  createRoot(renderer).render(<TermcastProvider>{element}</TermcastProvider>)
 }
 
 export type CommonProps = {

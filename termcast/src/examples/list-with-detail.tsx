@@ -158,4 +158,4 @@ const ListWithDetailExample = () => {
   )
 }
 
-renderWithProviders(<ListWithDetailExample />)
+await renderWithProviders(<ListWithDetailExample />)

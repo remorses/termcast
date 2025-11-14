@@ -79,4 +79,4 @@ function PreferencesTestExample(): any {
   )
 }
 
-renderWithProviders(<PreferencesTestExample />)
+await renderWithProviders(<PreferencesTestExample />)

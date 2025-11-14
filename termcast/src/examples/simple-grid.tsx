@@ -146,4 +146,4 @@ const GridExample = () => {
   )
 }
 
-renderWithProviders(<GridExample />)
+await renderWithProviders(<GridExample />)

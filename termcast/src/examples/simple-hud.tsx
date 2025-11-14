@@ -57,4 +57,4 @@ function SimpleHUD(): any {
   )
 }
 
-renderWithProviders(<SimpleHUD />)
+await renderWithProviders(<SimpleHUD />)

@@ -121,4 +121,4 @@ function App(): any {
   )
 }
 
-renderWithProviders(<App />)
+await renderWithProviders(<App />)

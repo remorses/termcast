@@ -63,4 +63,4 @@ function FormTagPickerExample() {
   )
 }
 
-renderWithProviders(<FormTagPickerExample />)
+await renderWithProviders(<FormTagPickerExample />)

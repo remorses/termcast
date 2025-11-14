@@ -29,8 +29,8 @@
   "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
   "license": "",
   "dependencies": {
-    "@opentui/core": "0.1.23",
-    "@opentui/react": "0.1.23",
+    "@opentui/core": "0.1.44",
+    "@opentui/react": "0.1.44",
     "@tanstack/react-query": "^5.85.5",
     "@tanstack/react-query-persist-client": "^5.85.5",
     "cac": "^6.7.14",
@@ -40,7 +40,8 @@
     "jszip": "^3.10.1",
     "nanoid": "^5.1.5",
     "node-pty": "^1.1.0-beta34",
-    "react": "^19.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.62.0",
     "string-dedent": "^3.0.2",
     "zustand": "^5.0.8"
