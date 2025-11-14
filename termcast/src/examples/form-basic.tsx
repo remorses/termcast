@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { render } from '@opentui/react'
 import { Form, ActionPanel, Action } from 'termcast'
 import { logger } from 'termcast'
 import { showToast, Toast } from 'termcast'
@@ -119,4 +118,4 @@ export function FormBasicExample(): any {
   )
 }
 
-renderWithProviders(<FormBasicExample />)
+await renderWithProviders(<FormBasicExample />)

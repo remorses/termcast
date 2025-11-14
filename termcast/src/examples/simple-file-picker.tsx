@@ -72,4 +72,4 @@ const SimpleFilePicker = () => {
   )
 }
 
-renderWithProviders(<SimpleFilePicker />)
+await renderWithProviders(<SimpleFilePicker />)

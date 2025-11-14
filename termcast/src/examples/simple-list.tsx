@@ -146,4 +146,4 @@ function ListExample() {
   )
 }
 
-renderWithProviders(<ListExample />)
+await renderWithProviders(<ListExample />)

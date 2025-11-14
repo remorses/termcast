@@ -1,5 +1,6 @@
 import React from 'react'
-import { render } from '@opentui/react'
+import { createRoot } from '@opentui/react'
+import { createCliRenderer } from '@opentui/core'
 import List from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
@@ -115,4 +116,5 @@ function App(): any {
   )
 }
 
-render(<App />)
+const renderer = await createCliRenderer()
+createRoot(renderer).render(<App />)

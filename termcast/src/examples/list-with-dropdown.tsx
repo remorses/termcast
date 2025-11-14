@@ -94,4 +94,4 @@ function ListWithDropdownExample() {
 }
 
 // Render the example
-renderWithProviders(<ListWithDropdownExample />)
+await renderWithProviders(<ListWithDropdownExample />)

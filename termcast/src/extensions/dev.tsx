@@ -1,7 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import React from 'react'
-import { render } from '@opentui/react'
+import { createRoot } from '@opentui/react'
+import { createCliRenderer } from '@opentui/core'
 import { List, useStore } from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
@@ -173,7 +174,8 @@ export async function startDevMode({
     return <TermcastProvider key={String(devRebuildCount)}>{devElement}</TermcastProvider>
   }
 
-  await render(<App />)
+  const renderer = await createCliRenderer()
+  createRoot(renderer).render(<App />)
 }
 
 export async function triggerRebuild({

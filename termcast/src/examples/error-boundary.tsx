@@ -214,4 +214,4 @@ export default function ErrorBoundaryExample(): any {
 }
 ErrorBoundaryExample.displayName = 'ErrorBoundaryExample'
 
-renderWithProviders(<ErrorBoundaryExample />)
+await renderWithProviders(<ErrorBoundaryExample />)

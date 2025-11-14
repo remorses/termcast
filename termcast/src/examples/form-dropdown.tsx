@@ -99,4 +99,4 @@ function FormDropdownExample() {
   )
 }
 
-renderWithProviders(<FormDropdownExample />)
+await renderWithProviders(<FormDropdownExample />)

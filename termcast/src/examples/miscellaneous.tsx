@@ -777,4 +777,4 @@ function MiscellaneousExample(): any {
   )
 }
 
-renderWithProviders(<MiscellaneousExample />)
+await renderWithProviders(<MiscellaneousExample />)

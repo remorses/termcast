@@ -193,4 +193,4 @@ function SimpleListExample() {
   )
 }
 
-renderWithProviders(<SimpleListExample />)
+await renderWithProviders(<SimpleListExample />)

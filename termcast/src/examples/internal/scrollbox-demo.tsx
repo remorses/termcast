@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { renderWithProviders } from 'termcast'
 import { useKeyboard } from '@opentui/react'
-import { fg, bold } from '@opentui/core'
 
 function ScrollBoxListDemo(): any {
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -81,7 +80,11 @@ function ScrollBoxListDemo(): any {
   return (
     <box flexDirection='column' width='100%' height='100%'>
       <box padding={1} backgroundColor='#2e3440'>
-        <text>{bold(fg('#88c0d0')('ScrollBox Demo'))}</text>
+        <text>
+          <strong>
+            <span fg='#88c0d0'>ScrollBox Demo</span>
+          </strong>
+        </text>
         <text fg='#d8dee9'>
           ↑↓ Navigate | PgUp/PgDn Jump | Home/End First/Last
         </text>
@@ -123,9 +126,13 @@ function ScrollBoxListDemo(): any {
               marginBottom={0.5}
             >
               <text>
-                {isSelected
-                  ? bold(fg('#eceff4')(`▶ ${item.title}`))
-                  : fg('#d8dee9')(`  ${item.title}`)}
+                {isSelected ? (
+                  <strong>
+                    <span fg='#eceff4'>{`▶ ${item.title}`}</span>
+                  </strong>
+                ) : (
+                  <span fg='#d8dee9'>{`  ${item.title}`}</span>
+                )}
               </text>
               <text fg={isSelected ? '#e5e9f0' : '#81a1c1'}>
                 {item.description}
@@ -145,5 +152,5 @@ function ScrollBoxListDemo(): any {
 }
 
 if (import.meta.main) {
-  renderWithProviders(<ScrollBoxListDemo />)
+  await renderWithProviders(<ScrollBoxListDemo />)
 }

@@ -77,4 +77,4 @@ function ShowInFinderExample(): any {
   )
 }
 
-renderWithProviders(<ShowInFinderExample />)
+await renderWithProviders(<ShowInFinderExample />)

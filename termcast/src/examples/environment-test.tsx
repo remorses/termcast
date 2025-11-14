@@ -46,5 +46,5 @@ Command Mode: ${environment.commandMode}
 import { ActionPanel, Action } from 'termcast'
 
 if (require.main === module) {
-  renderWithProviders(<EnvironmentExample />)
+  await renderWithProviders(<EnvironmentExample />)
 }

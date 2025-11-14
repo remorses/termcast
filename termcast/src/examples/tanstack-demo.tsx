@@ -101,4 +101,4 @@ function UsePromiseExample() {
   )
 }
 
-renderWithProviders(<UsePromiseExample />)
+await renderWithProviders(<UsePromiseExample />)

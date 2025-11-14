@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import React from 'react'
-import { render } from '@opentui/react'
+import { createRoot } from '@opentui/react'
+import { createCliRenderer } from '@opentui/core'
 import { List, logger, useStore } from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
@@ -284,7 +285,8 @@ function ExtensionsList({
 export async function runHomeCommand(): Promise<void> {
   logger.log(`preparing to render the home command component`)
 
-  await render(
+  const renderer = await createCliRenderer()
+  createRoot(renderer).render(
     <TermcastProvider>
       <Home />
     </TermcastProvider>,
