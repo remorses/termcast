@@ -1,0 +1,3 @@
+[submodule "tuistory"]
+	path = tuistory
+	url = https://github.com/remorses/tuistory
