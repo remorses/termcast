@@ -400,6 +400,7 @@ or for example to see how to use the `<code>` opentui element: https://gitchambe
 do something like this for every new element you want to use and not know about, for exampel `<scrollbox>`, to see examples
 
 ---
+
 # core guidelines
 
 when summarizing changes at the end of the message, be super short, a few words and in bullet points, use bold text to highlight important keywords. use markdown.
@@ -421,8 +422,15 @@ always use kebab case for new filenames. never use uppercase letters in filename
 
 use `git ls-files | tree --fromfile` to see files in the repo. this command will ignore files ignored by git
 
+## handling unexpected file contents after a read or write
 
----
+if you find code that was not there since the last time you read the file it means the user or another agent edited the file. do not revert the changes that were added. instead keep them and integrate them with your new changes
+
+IMPORTANT: NEVER commit your changes unless clearly and specifically asked to!
+
+## opening me files in zed to show me a specific portion of code
+
+you can open files when i ask me "open in zed the line where ..." using the command `zed path/to/file:line`
 
 # typescript
 
@@ -431,6 +439,10 @@ use `git ls-files | tree --fromfile` to see files in the repo. this command will
 - use a single object argument instead of multiple positional args: use object arguments for new typescript functions if the function would accept more than one argument, so it is more readable, ({a,b,c}) instead of (a,b,c). this way you can use the object as a sort of named argument feature, where order of arguments does not matter and it's easier to discover parameters.
 
 - always add the {} block body in arrow functions: arrow functions should never be written as `onClick={(x) => setState('')}`. NEVER. instead you should ALWAYS write `onClick={() => {setState('')}}`. this way it's easy to add new statements in the arrow function without refactoring it.
+
+- in array operations .map, .filter, .reduce and .flatMap are preferred over .forEach and for of loops. For example prefer doing `.push(...array.map(x => x.items))` over mutating array variables inside for loops. Always think of how to turn for loops into expressions using .map, .filter or .flatMap if you ever are about to write a for loop.
+
+- if you encounter typescript errors like "undefined | T is not assignable to T" after .filter(Boolean) operations: use a guarded function instead of Boolean: `.filter(isTruthy)`. implemented as `function isTruthy<T>(value: T): value is NonNullable<T> { return Boolean(value) }`
 
 - minimize useless comments: do not add useless comments if the code is self descriptive. only add comments if requested or if this was a change that i asked for, meaning it is not obvious code and needs some inline documentation. if a comment is required because the part of the code was result of difficult back and forth with me, keep it very short.
 
@@ -454,7 +466,7 @@ use `git ls-files | tree --fromfile` to see files in the repo. this command will
 
 - when creating urls from a path and a base url, prefer using `new URL(path, baseUrl).toString()` instead of normal string interpolation. use type-safe react-router `href` or spiceflow `this.safePath` (available inside routes) if possible
 
-- for node built-in imports, never import singular names. instead do `import fs from 'node:fs'`, same for path, os, etc.
+- for node built-in imports, never import singular exported names. instead do `import fs from 'node:fs'`, same for path, os, etc.
 
 - NEVER start the development server with pnpm dev yourself. there is no reason to do so, even with &
 
@@ -522,12 +534,32 @@ remember to always add the explicit type to avoid unexpected type inference.
 DO `import fs from 'fs'; fs.writeFileSync(...)`
 DO NOT `import { writeFileSync } from 'fs';`
 
-
----
-
 # github
 
 you can use the `gh` cli to do operations on github for the current repository. For example: open issues, open PRs, check actions status, read workflow logs, etc.
+
+## creating issues and pull requests
+
+when opening issues and pull requests with gh cli, never use markdown headings or sections. instead just use simple paragraphs, lists and code examples. be as short as possible while remaining clear and using good English.
+
+example:
+
+```bash
+gh issue create --title "Fix login timeout" --body "The login form times out after 5 seconds on slow connections. This affects users on mobile networks.
+
+Steps to reproduce:
+1. Open login page on 3G connection
+2. Enter credentials
+3. Click submit
+
+Expected: Login completes within 30 seconds
+Actual: Request times out after 5 seconds
+
+Error in console:
+\`\`\`bash
+Error: Request timeout at /api/auth/login
+\`\`\`"
+```
 
 ## get current github repo
 
@@ -542,18 +574,25 @@ gh run view <id> --log-failed | tail -n 300 # read the logs for failed steps in 
 gh run view <id> --log | tail -n 300 # read all logs for a github actions run
 ```
 
-## reading github repositories
+## listing, searching, reading github repos files with gitchamber
 
-you can use gitchamber.com to read repo files. run `curl https://gitchamber.com` to see how the API works. always use curl to fetch the responses of gitchamber.com
+you MUST use gitchamber.com to read repo files. first ALWAYS run `curl https://gitchamber.com` to read detailed usage docs. always use curl to fetch the responses of gitchamber.com
 
 for example when working with the vercel ai sdk, you can fetch the latest docs using:
 
-https://gitchamber.com/repos/repos/vercel/ai/main/files
+https://gitchamber.com/repos/facebook/react/main/files
 
-use gitchamber to read the .md files using curl
+https://gitchamber.com/repos/remorses/fumabase/main/files?glob=**/*.ts
 
+https://gitchamber.com/repos/facebook/react/main/files/README.md?start=10&end=50
 
----
+https://gitchamber.com/repos/facebook/react/main/search/useState
+
+gitchamber allows you to list, search and read files in a repo. you MUST use it over alternatives likes raw.github.com, because 
+- it allows you to use context usage better via limit and offset pagination
+- it can list files, even filtering by a specific glob (default is *.md and *.mdx)
+- it can search a repo for a specific substring
+- it can show the code with line numbers for each line, letting you find a specific line number
 
 # react
 
@@ -595,12 +634,23 @@ use gitchamber to read the .md files using curl
 
 - hooks should be put in the src/hooks.tsx file. do not create a new file for each new hook. also notice that you should never create custom hooks, only do it if asked for.
 
+## zustand
 
----
+zustand is the preferred way to created global React state. put it in files like state.ts or x-state.ts where x is something that describe a portion of app state in case of multiple global states or multiple apps
+
+- minimize number of props. do not use props if you can use zustand state instead. the app has global zustand state that lets you get a piece of state down from the component tree by using something like `useStore(x => x.something)` or `useLoaderData<typeof loader>()` or even useRouteLoaderData if you are deep in the react component tree
+
+- do not consider local state truthful when interacting with server. when interacting with the server with rpc or api calls never use state from the render function as input for the api call. this state can easily become stale or not get updated in the closure context. instead prefer using zustand `useStore.getState().stateValue`. notice that useLoaderData or useParams should be fine in this case.
+
+- NEVER add zustand state setter methods. instead use useStore.setState to set state. For example never add a method `setVariable` in the state type. Instead call `setState` directly
+
+- zustand already merges new partial state with the previous state. NEVER DO `useStore.setState({ ...useStore.getInitialState(), ... })` unless for resetting state
 
 # testing
 
 do not write new test files unless asked. do not write tests if there is not already a test or describe block for that function or module.
+
+if the inputs for the tests is an array of repetitive fields and long content, generate this input data programmatically instead of hardcoding everything. only hardcode the important parts and generate other repetitive fields in a .map or .reduce
 
 tests should validate complex and non-obvious logic. if a test looks like a placeholder, do not add it.
 
@@ -633,75 +683,18 @@ sometimes tests work directly on database data, using prisma. to run these tests
 
 never write tests yourself that call prisma or interact with database or emails. for these, ask the user to write them for you.
 
-
----
-
-# changelog
-
-after you make a change that is noteworthy, add an entry in the CHANGELOG.md file in the root of the package. there are 2 kinds of packages, public and private packages. private packages have a private: true field in package.json, public packages do not and instead have a version field in package.json. public packages are the ones that are published to npm.
-
-If the current package has a version field and it is not private then include the version in the changelog too like in the examples, otherwise use the current date and time.
-
-If you use the version you MUST use a bumped version compared to the current package.json version, and you should update the package.json version field to that version. But do not publish. I will handle that myself.
-
-to write a changelog.md file for a public package, use the following format, add a heading with the new version and a bullet list of your changes, like this:
-
-```md
-## 0.1.3
-
-### Patch Changes
-
-- bug fixes
-
-## 0.1.2
-
-### Patch Changes
-
-- add support for githubPath
-```
-
-for private packages, which do not have versions, you must instead use the current date and time, for example:
-
-```md
-# Changelog
-
-## 2025-01-24 19:50
-
-- Added a feature to improve user experience
-- Fixed a bug that caused the app to crash on startup
-```
-
-these are just examples. be clear and concise in your changelog entries.
-
-use present tense. be detailed but concise, omit useless verbs like "implement", "added", just put the subject there instead, so it is shorter. it's implicit we are adding features or fixes. do not use nested bullet points. always show example code snippets if applicable, and use proper markdown formatting.
-
-```
-
-the website package has a dependency on docs-website. instead of duplicating code that is needed both in website and docs-website keep a file in docs-website instead and import from there for the website package.
-
-
----
-
+changelogs.md
 # writing docs
 
 when generating a .md or .mdx file to document things, always add a frontmatter with title and description. also add a prompt field with the exact prompt used to generate the doc. use @ to reference files and urls and provide any context necessary to be able to recreate this file from scratch using a model. if you used urls also reference them. reference all files you had to read to create the doc. use yaml | syntax to add this prompt and never go over the column width of 80
-
----
-
 # secrets
 
 this project uses doppler to manage secrets, with a single project with 3 envs: dev, preview and production. dev is the env already selected and implicit in doppler calls.
 
 in typescript never use process.env directly. instead find the closest `env.ts` file that exports an env object (this file should already exist). so the env can be used type-safely and i can clearly see which secrets are available and need to be added.
-
----
-
 # cac for cli development
 
 the cli uses cac npm package.
-
-
----
 
 # prisma
 
@@ -754,10 +747,10 @@ this simply means to always include a check in prisma queries to make sure that 
 
 ```typescript
 const resource = await prisma.resource.findFirst({
-    where: { resourceId, parentResource: { users: { some: { userId } } } },
-})
+  where: { resourceId, parentResource: { users: { some: { userId } } } },
+});
 if (!resource) {
-    throw new AppError(`cannot find resource`)
+  throw new AppError(`cannot find resource`);
 }
 ```
 
@@ -788,7 +781,25 @@ if (!user.subscription) {
 }
 ````
 
----
+## foreign key constraints
+
+sometimes you will get errors like "Invalid `upsert()` invocation: Foreign key constraint violated on the constraint: `filed1_filed2_fkey`". This can be caused by the following issue
+
+- a field that has a relation to table X is being passed a value where no table X exists for that id. You can fix the issue by making sure that the table exists before doing the create or upsert
+- With upsert, even if the create branch is valid, the update branch can violate the FK.
+
+```ts
+await prisma.child.upsert({
+  where: { id: 1 },
+  create: {
+    parent: { connect: { id: 1 } },
+  },
+  update: {
+    parent: { connect: { id: 9999 } }, // no such parent
+  },
+});
+```
+-
 
 # zod
 
@@ -811,7 +822,4 @@ const jsonSchema = toJSONSchema(mySchema, {
   removeAdditionalStrategy: "strict",
 });
 ```
-
-
----
 

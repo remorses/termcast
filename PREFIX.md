@@ -1,6 +1,6 @@
 # Project Coding Guidelines
 
-NOTICE: AGENTS.md is generated using AGENTS.sh and should NEVER be manually updated.
+NOTICE: AGENTS.md is generated using `bun agents.md` and should NEVER be manually updated. only update PREFIX.md
 
 ---
 
