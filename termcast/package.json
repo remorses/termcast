@@ -30,7 +30,6 @@
   "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
   "license": "",
   "dependencies": {
-    "termcast": "link:.",
     "@opentui/core": "0.1.44",
     "@opentui/react": "0.1.44",
     "@tanstack/react-query": "^5.85.5",

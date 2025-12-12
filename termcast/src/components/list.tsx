@@ -24,6 +24,7 @@ import { useDialog } from 'termcast/src/internal/dialog'
 import { createDescendants } from 'termcast/src/descendants'
 import { LoadingBar } from 'termcast/src/components/loading-bar'
 import { useNavigationPending } from 'termcast/src/internal/navigation'
+import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -845,16 +846,34 @@ export const List: ListType = (props) => {
           </box>
 
           {/* Main content area with optional detail view */}
-          <box style={{ flexDirection: 'row', flexGrow: 1 }}>
+          <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
             {/* List content - render children which will register themselves */}
-            <box style={{ marginTop: 1, width: isShowingDetail ? '50%' : '100%', flexGrow: isShowingDetail ? 0 : 1 }}>
-              <>
+            <box style={{ marginTop: 1, width: isShowingDetail ? '50%' : '100%', flexGrow: isShowingDetail ? 0 : 1, flexShrink: 1, flexDirection: 'column' }}>
+              {/* Scrollable list items */}
+              <ScrollBox
+                focused={inFocus && !isDropdownOpen}
+                flexGrow={1}
+                flexShrink={1}
+                style={{
+                  rootOptions: {
+                    backgroundColor: undefined,
+                  },
+                  scrollbarOptions: {
+                    visible: true,
+                    showArrows: true,
+                    trackOptions: {
+                      foregroundColor: Theme.primary,
+                      backgroundColor: Theme.backgroundPanel,
+                    },
+                  },
+                }}
+              >
                 {/* Render children - they will register as descendants */}
                 <ListItemsRenderer>{children}</ListItemsRenderer>
+              </ScrollBox>
 
-                {/* Footer with keyboard shortcuts or toast */}
-                <ListFooter />
-              </>
+              {/* Footer with keyboard shortcuts or toast */}
+              <ListFooter />
             </box>
 
             {/* Detail panel on the right */}

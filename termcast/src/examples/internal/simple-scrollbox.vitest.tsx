@@ -38,9 +38,17 @@ test('simple scrollbox navigation and scrolling', async () => {
     Use mouse scroll or arrow keys | Press [q] to quit"
   `)
 
-  // TODO: tuistory doesn't have scrollDown/scrollUp methods yet
-  // await session.scrollDown(3)
-  // await session.scrollUp(2)
+  // Scroll down to see more items
+  await session.scrollDown(3)
+
+  const afterScrollDownSnapshot = await session.text()
+  expect(afterScrollDownSnapshot).toMatchInlineSnapshot()
+
+  // Scroll back up
+  await session.scrollUp(2)
+
+  const afterScrollUpSnapshot = await session.text()
+  expect(afterScrollUpSnapshot).toMatchInlineSnapshot()
 
   await session.press('esc')
 

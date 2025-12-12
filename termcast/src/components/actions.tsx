@@ -22,7 +22,7 @@ import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { createDescendants } from 'termcast/src/descendants'
-import { useFormSubmit } from 'termcast'
+import { useFormSubmit } from 'termcast/src/components/form/index'
 import { logger } from '../logger'
 
 export enum ActionStyle {
