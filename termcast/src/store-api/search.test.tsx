@@ -18,7 +18,7 @@ describe('searchStoreListings', () => {
     expect(extensionNames).toMatchInlineSnapshot(`
           [
             "discogs",
-            "notion",
+            "prisma-postgres",
             "spiceblow-database",
             "tmdb",
             "turso",

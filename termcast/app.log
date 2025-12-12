@@ -1,0 +1,52 @@
+[2025-12-12T17:14:40.971Z] Building 5 commands...
+[2025-12-12T17:14:40.976Z] Resolving @raycast/api to termcast
+[2025-12-12T17:14:40.976Z] Resolving @raycast/api to termcast
+[2025-12-12T17:14:40.976Z] Resolving @raycast/api to termcast
+[2025-12-12T17:14:40.977Z] Resolving @raycast/api to termcast
+[2025-12-12T17:14:41.000Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-12-12T17:14:41.000Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-12-12T17:14:41.000Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-12-12T17:14:41.000Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-12-12T17:14:41.000Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-12-12T17:14:41.000Z] Successfully built 5 files
+[2025-12-12T17:14:41.357Z] ERROR: Cache subscriber error: Subscriber error
+Error: Subscriber error
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/dist/cache.test.js:156:27)
+    at unknown
+    at notifySubscribers (/Users/morse/Documents/GitHub/termcast/termcast/dist/cache.js:197:17)
+    at set (/Users/morse/Documents/GitHub/termcast/termcast/dist/cache.js:141:14)
+    at toThrow (unknown)
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/dist/cache.test.js:162:57)
+[2025-12-12T17:14:41.488Z] Building 5 commands...
+[2025-12-12T17:14:41.489Z] Resolving @raycast/api to termcast
+[2025-12-12T17:14:41.489Z] Resolving @raycast/api to termcast
+[2025-12-12T17:14:41.489Z] Resolving @raycast/api to termcast
+[2025-12-12T17:14:41.493Z] Resolving @raycast/api to termcast
+[2025-12-12T17:14:41.503Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-12-12T17:14:41.503Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-12-12T17:14:41.503Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-12-12T17:14:41.503Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-12-12T17:14:41.503Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-12-12T17:14:41.503Z] Successfully built 5 files
+[2025-12-12T17:14:43.289Z] ERROR: Cache subscriber error: Subscriber error
+Error: Subscriber error
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/apis/cache.test.ts:203:19)
+    at unknown
+    at notifySubscribers (/Users/morse/Documents/GitHub/termcast/termcast/src/apis/cache.tsx:250:9)
+    at set (/Users/morse/Documents/GitHub/termcast/termcast/src/apis/cache.tsx:177:10)
+    at toThrow (unknown)
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/apis/cache.test.ts:211:51)
+[2025-12-12T17:14:44.536Z] ERROR: Cache subscriber error: Subscriber error
+Error: Subscriber error
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/dist/apis/cache.test.js:156:27)
+    at unknown
+    at notifySubscribers (/Users/morse/Documents/GitHub/termcast/termcast/dist/apis/cache.js:197:17)
+    at set (/Users/morse/Documents/GitHub/termcast/termcast/dist/apis/cache.js:141:14)
+    at toThrow (unknown)
+    at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/dist/apis/cache.test.js:162:57)
+[2025-12-12T17:14:44.664Z] WARN: useActionPanel is deprecated and has no alternative
+[2025-12-12T17:14:44.664Z] WARN: useActionPanel is deprecated and has no alternative
+[2025-12-12T17:14:44.664Z] WARN: ActionPanel.update() is deprecated and has no effect {
+  actionPanel: "Test Panel",
+}
+[2025-12-12T17:14:44.665Z] WARN: useUnstableAI is deprecated. Use useAI from @raycast/utils instead
