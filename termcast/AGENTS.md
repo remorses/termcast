@@ -1,6 +1,6 @@
 # Project Coding Guidelines
 
-NOTICE: AGENTS.md is generated using AGENTS.sh and should NEVER be manually updated.
+NOTICE: AGENTS.md is generated using `bun agents.md` and should NEVER be manually updated. only update PREFIX.md
 
 ---
 
@@ -258,6 +258,14 @@ You CANNOT use .map.current to render items of a list for example. Instead move 
 
 read file @src/examples/internal/descendants.tsx for a real usage example with selection, navigation, pagination, submit support.
 
+## tuistory
+
+tuistory is used for e2e tests. After any change to tuistory source files, you must rebuild it:
+
+```bash
+cd tuistory && bun run build
+```
+
 ## testing
 
 bun must be used to write tests
@@ -400,6 +408,16 @@ or for example to see how to use the `<code>` opentui element: https://gitchambe
 do something like this for every new element you want to use and not know about, for exampel `<scrollbox>`, to see examples
 
 ---
+
+## submodules
+
+the folders tuistory and ghostty-opentui are submodules. they should always stay in branch main and not be detached. do not commit unless asked.
+
+## tuistory
+
+this is a package to test tui interfaces. 
+
+if there are issues with ANSI sequences in the snapshots the problem is probably in the package ghostty-opentui. which is where most of terminal rendering logic is
 
 # core guidelines
 

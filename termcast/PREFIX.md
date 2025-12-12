@@ -412,3 +412,9 @@ do something like this for every new element you want to use and not know about,
 ## submodules
 
 the folders tuistory and ghostty-opentui are submodules. they should always stay in branch main and not be detached. do not commit unless asked.
+
+## tuistory
+
+this is a package to test tui interfaces. 
+
+if there are issues with ANSI sequences in the snapshots the problem is probably in the package ghostty-opentui. which is where most of terminal rendering logic is
