@@ -44,6 +44,10 @@ export function ScrollBox({
           },
           ...(style?.scrollbarOptions || {}),
         },
+        horizontalScrollbarOptions: {
+          visible: false,
+          ...(style?.horizontalScrollbarOptions || {}),
+        },
       }}
       {...props}
     >

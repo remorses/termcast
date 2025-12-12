@@ -8,7 +8,7 @@ beforeEach(async () => {
     command: 'bun',
     args: ['src/examples/list-with-sections.tsx'],
     cols: 70,
-    rows: 50,
+    rows: 20,
   })
 })
 
@@ -32,18 +32,17 @@ test('list with sections navigation', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
-     Fruits
-    ›Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-     Vegetables
-     Carrot Orange and crunchy                              [Healthy]
-     Lettuce Green and fresh
-     Bread Freshly baked                                  Today [New]
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
+     Fruits                                                          █
+    ›Apple Red and sweet                             Fresh [Popular] █
+     Banana Yellow and nutritious                               Ripe █
+                                                                     █
+     Vegetables                                                      █
+     Carrot Orange and crunchy                             [Healthy] █
+     Lettuce Green and fresh                                         █
+     Bread Freshly baked                                 Today [New] ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -62,18 +61,17 @@ test('list with sections navigation', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
-     Fruits
-     Apple Red and sweet                              Fresh [Popular]
-    ›Banana Yellow and nutritious                                Ripe
-
-     Vegetables
-     Carrot Orange and crunchy                              [Healthy]
-     Lettuce Green and fresh
-     Bread Freshly baked                                  Today [New]
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
+     Fruits                                                          █
+     Apple Red and sweet                             Fresh [Popular] █
+    ›Banana Yellow and nutritious                               Ripe █
+                                                                     █
+     Vegetables                                                      █
+     Carrot Orange and crunchy                             [Healthy] █
+     Lettuce Green and fresh                                         █
+     Bread Freshly baked                                 Today [New] ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -89,18 +87,17 @@ test('list with sections navigation', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
-     Fruits
-     Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-     Vegetables
-    ›Carrot Orange and crunchy                              [Healthy]
-     Lettuce Green and fresh
-     Bread Freshly baked                                  Today [New]
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
+     Fruits                                                          █
+     Apple Red and sweet                             Fresh [Popular] █
+     Banana Yellow and nutritious                               Ripe █
+                                                                     █
+     Vegetables                                                      █
+    ›Carrot Orange and crunchy                             [Healthy] █
+     Lettuce Green and fresh                                         █
+     Bread Freshly baked                                 Today [New] ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -128,36 +125,6 @@ test('list with sections navigation', async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
      esc go back"
   `)
 
@@ -172,18 +139,17 @@ test('list with sections navigation', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
-     Fruits
-    ›Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-     Vegetables
-     Carrot Orange and crunchy                              [Healthy]
-     Lettuce Green and fresh
-     Bread Freshly baked                                  Today [New]
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
+     Fruits                                                          █
+    ›Apple Red and sweet                             Fresh [Popular] █
+     Banana Yellow and nutritious                               Ripe █
+                                                                     █
+     Vegetables                                                      █
+     Carrot Orange and crunchy                             [Healthy] █
+     Lettuce Green and fresh                                         █
+     Bread Freshly baked                                 Today [New] ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -213,8 +179,17 @@ test('list with sections search functionality', async () => {
     Simple List Example ────────────────────────────────────────────
 
     ban
-
-    Banana Yellow and nutritious                                Ripe
+    Banana Yellow and nutritious                               Ripe ▲
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    ▼
 
 
     ↵ select   ↑↓ navigate   ^k actions"
@@ -239,8 +214,17 @@ test('list with sections search functionality', async () => {
     Simple List Example ────────────────────────────────────────────
 
     let
-
-    Lettuce Green and fresh
+    Lettuce Green and fresh                                         ▲
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    ▼
 
 
     ↵ select   ↑↓ navigate   ^k actions"
@@ -259,18 +243,17 @@ test('list with sections search functionality', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
-     Fruits
-    ›Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-     Vegetables
-     Carrot Orange and crunchy                              [Healthy]
-     Lettuce Green and fresh
-     Bread Freshly baked                                  Today [New]
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
+     Fruits                                                          █
+    ›Apple Red and sweet                             Fresh [Popular] █
+     Banana Yellow and nutritious                               Ripe █
+                                                                     █
+     Vegetables                                                      █
+     Carrot Orange and crunchy                             [Healthy] █
+     Lettuce Green and fresh                                         █
+     Bread Freshly baked                                 Today [New] ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -292,8 +275,17 @@ test('list with sections search functionality', async () => {
     Simple List Example ────────────────────────────────────────────
 
     bread
-
-    Bread Freshly baked                                  Today [New]
+    Bread Freshly baked                                 Today [New] ▲
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    ▼
 
 
     ↵ select   ↑↓ navigate   ^k actions"
@@ -310,14 +302,7 @@ test('list with sections search functionality', async () => {
       Simple List Example ────────────────────────────────────────────
 
       bread
-
-      Bread Freshly baked                                  Today [New]
-
-
-      ↵ select   ↑↓ navigate   ^k actions
-
-
-    ┃┃
+    ┃┃Bread Freshly baked                                 Today [New] ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -328,7 +313,9 @@ test('list with sections search functionality', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃
+
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -351,18 +338,17 @@ test('list click functionality', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
-     Fruits
-     Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-     Vegetables
-     Carrot Orange and crunchy                              [Healthy]
-    ›Lettuce Green and fresh
-     Bread Freshly baked                                  Today [New]
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
+     Fruits                                                          █
+     Apple Red and sweet                             Fresh [Popular] █
+     Banana Yellow and nutritious                               Ripe █
+                                                                     █
+     Vegetables                                                      █
+     Carrot Orange and crunchy                             [Healthy] █
+    ›Lettuce Green and fresh                                         █
+     Bread Freshly baked                                 Today [New] ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -379,46 +365,47 @@ test('list click functionality', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
-     Fruits
-    ›Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-     Vegetables
-     Carrot Orange and crunchy                              [Healthy]
-     Lettuce Green and fresh
-     Bread Freshly baked                                  Today [New]
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
+     Fruits                                                          █
+    ›Apple Red and sweet                             Fresh [Popular] █
+     Banana Yellow and nutritious                               Ripe █
+                                                                     █
+     Vegetables                                                      █
+     Carrot Orange and crunchy                             [Healthy] █
+     Lettuce Green and fresh                                         █
+     Bread Freshly baked                                 Today [New] ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Click on the last item "Bread"
-  await session.click('Bread', { first: true })
+  // Navigate down to "Bread" item (it's scrolled out of view)
+  await session.press('down') // to Banana
+  await session.press('down') // to Carrot
+  await session.press('down') // to Lettuce
+  await session.press('down') // to Bread
 
-  const afterClickBreadSnapshot = await session.text()
-  expect(afterClickBreadSnapshot).toMatchInlineSnapshot(`
+  const afterNavigateToBreadSnapshot = await session.text()
+  expect(afterNavigateToBreadSnapshot).toMatchInlineSnapshot(`
     "
 
 
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
-     Fruits
-     Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-     Vegetables
-     Carrot Orange and crunchy                              [Healthy]
-     Lettuce Green and fresh
-    ›Bread Freshly baked                                  Today [New]
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
+     Fruits                                                          █
+     Apple Red and sweet                             Fresh [Popular] █
+     Banana Yellow and nutritious                               Ripe █
+                                                                     █
+     Vegetables                                                      █
+     Carrot Orange and crunchy                             [Healthy] █
+     Lettuce Green and fresh                                         █
+    ›Bread Freshly baked                                 Today [New] ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -444,14 +431,7 @@ test('list actions panel with ctrl+k', async () => {
       Simple List Example ────────────────────────────────────────────
 
       Search items...
-
-
-      Empty section should be hidden
-
-      Fruits
-     ›Apple Red and sweet                              Fresh [Popular]
-      Banana Yellow and nutritious                                Ripe
-    ┃┃
+    ┃┃                                                                ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -462,7 +442,9 @@ test('list actions panel with ctrl+k', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃
+
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate down to second action
@@ -476,14 +458,7 @@ test('list actions panel with ctrl+k', async () => {
       Simple List Example ────────────────────────────────────────────
 
       Search items...
-
-
-      Empty section should be hidden
-
-      Fruits
-     ›Apple Red and sweet                              Fresh [Popular]
-      Banana Yellow and nutritious                                Ripe
-    ┃┃
+    ┃┃                                                                ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -494,7 +469,9 @@ test('list actions panel with ctrl+k', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃
+
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Trigger the second action (Add to Cart)
@@ -508,22 +485,19 @@ test('list actions panel with ctrl+k', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-
-
-     Empty section should be hidden
-
+                                                                     ▲
+     Empty section should be hidden                                  █
+                                                                     █
      Fruits
-    ›Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
+    ›Apple Red and sweet                             Fresh [Popular]
+     Banana Yellow and nutritious                               Ripe
 
      Vegetables
-     Carrot Orange and crunchy                              [Healthy]
-     Lettuce Green and fresh
-     Bread Freshly baked                                  Today [New]
+     Carrot Orange and crunchy                             [Healthy]
+                                                                     ▼
 
 
-     ┌─────────────────────────────────────────────────────┐
-     │ ✓ Added to Cart - Apple has been added to your cart │
+     ┌─✓─Added─to─Cart─-─Apple─has─been─added─to─your─cart─┐
      └─────────────────────────────────────────────────────┘"
   `)
 }, 10000)

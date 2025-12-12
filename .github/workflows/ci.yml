@@ -24,6 +24,10 @@ jobs:
           bun-version: latest
       - name: Install dependencies
         run: bun install
+      # Build submodules
+      - name: Build ghostty-opentui
+        run: bun run build
+        working-directory: ghostty-opentui
       # scripts
       - run: bun run binary
         working-directory: termcast

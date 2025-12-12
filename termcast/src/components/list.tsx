@@ -851,7 +851,7 @@ export const List: ListType = (props) => {
             <box style={{ marginTop: 1, width: isShowingDetail ? '50%' : '100%', flexGrow: isShowingDetail ? 0 : 1, flexShrink: 1, flexDirection: 'column' }}>
               {/* Scrollable list items */}
               <ScrollBox
-                focused={inFocus && !isDropdownOpen}
+                focused={false}
                 flexGrow={1}
                 flexShrink={1}
                 style={{
