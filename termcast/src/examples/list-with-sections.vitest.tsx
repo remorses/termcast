@@ -1,31 +1,33 @@
-// node-pty does not work in bun, so we use vitest to run this test
-import { test, expect, afterEach, afterAll, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { test, expect, afterEach, beforeEach } from 'vitest'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/list-with-sections.tsx'], {
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/list-with-sections.tsx'],
     cols: 70,
     rows: 50,
   })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('list with sections navigation', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       // wait for list to show up
       return /search/i.test(text)
     },
   })
 
-  const initialSnapshot = await driver.text()
+  const initialSnapshot = await session.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 
@@ -50,11 +52,12 @@ test('list with sections navigation', async () => {
   // Add small delay to ensure all items have registered
   await new Promise((resolve) => setTimeout(resolve, 100))
 
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownSnapshot = await driver.text()
+  const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 
@@ -76,11 +79,12 @@ test('list with sections navigation', async () => {
      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  await driver.keys.down()
+  await session.press('down')
 
-  const secondDownSnapshot = await driver.text()
+  const secondDownSnapshot = await session.text()
   expect(secondDownSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 
@@ -102,11 +106,12 @@ test('list with sections navigation', async () => {
      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterEnterSnapshot = await driver.text()
+  const afterEnterSnapshot = await session.text()
   expect(afterEnterSnapshot).toMatchInlineSnapshot(`
     "
+
 
 
 
@@ -129,15 +134,40 @@ test('list with sections navigation', async () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      esc go back"
   `)
 
   // Go back to list with Escape
-  await driver.keys.escape()
+  await session.press('esc')
 
-  const afterEscapeSnapshot = await driver.text()
+  const afterEscapeSnapshot = await session.text()
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 
@@ -161,16 +191,16 @@ test('list with sections navigation', async () => {
 })
 
 test('list with sections search functionality', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       // wait for list to show up
       return /search/i.test(text)
     },
   })
 
-  await driver.keys.type('ban')
+  await session.type('ban')
 
-  const afterSearchBanSnapshot = await driver.text({
+  const afterSearchBanSnapshot = await session.text({
     waitFor: (text) => {
       return /\bban\b/.test(text)
     },
@@ -178,6 +208,7 @@ test('list with sections search functionality', async () => {
   // NOTE: No selection indicator (›) is expected here - this is OK
   expect(afterSearchBanSnapshot).toMatchInlineSnapshot(`
     "
+
 
     Simple List Example ────────────────────────────────────────────
 
@@ -190,12 +221,12 @@ test('list with sections search functionality', async () => {
   `)
 
   // Clear search and type "let" to search for Lettuce
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.type('let')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.type('let')
 
-  const afterSearchLetSnapshot = await driver.text({
+  const afterSearchLetSnapshot = await session.text({
     waitFor: (text) => {
       return /\blet\b/.test(text)
     },
@@ -203,6 +234,7 @@ test('list with sections search functionality', async () => {
   // NOTE: No selection indicator (›) is expected here - this is OK
   expect(afterSearchLetSnapshot).toMatchInlineSnapshot(`
     "
+
 
     Simple List Example ────────────────────────────────────────────
 
@@ -215,13 +247,14 @@ test('list with sections search functionality', async () => {
   `)
 
   // Clear search to show all items again
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
 
-  const afterClearSearchSnapshot = await driver.text()
+  const afterClearSearchSnapshot = await session.text()
   expect(afterClearSearchSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 
@@ -244,9 +277,9 @@ test('list with sections search functionality', async () => {
   `)
 
   // Search for "bread"
-  await driver.keys.type('bread')
+  await session.type('bread')
 
-  const afterSearchBreadSnapshot = await driver.text({
+  const afterSearchBreadSnapshot = await session.text({
     waitFor: (text) => {
       return /bread/i.test(text)
     },
@@ -254,6 +287,7 @@ test('list with sections search functionality', async () => {
   // NOTE: No selection indicator (›) is expected here - this is OK
   expect(afterSearchBreadSnapshot).toMatchInlineSnapshot(`
     "
+
 
     Simple List Example ────────────────────────────────────────────
 
@@ -266,36 +300,40 @@ test('list with sections search functionality', async () => {
   `)
 
   // Select the bread item
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterSelectBreadSnapshot = await driver.text()
+  const afterSelectBreadSnapshot = await session.text()
   expect(afterSelectBreadSnapshot).toMatchInlineSnapshot(`
     "
 
-    Simple List Example ────────────────────────────────────────────
 
-    bread
+      Simple List Example ────────────────────────────────────────────
 
-    Bread Freshly baked                                  Today [New]
+      bread
 
-
-    ↵ select   ↑↓ navigate   ^k actions
+      Bread Freshly baked                                  Today [New]
 
 
-
-                                                                esc
-
-     Search actions...
-    ›View Details
-     Add to Cart
+      ↵ select   ↑↓ navigate   ^k actions
 
 
-     ↵ select   ↑↓ navigate"
+    ┃┃
+    ┃                                                                  ┃
+    ┃                                                            esc   ┃
+    ┃                                                                  ┃
+    ┃   Search actions...                                              ┃
+    ┃  ›View Details                                                   ┃
+    ┃   Add to Cart                                                    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃"
   `)
 }, 10000)
 
 test('list click functionality', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       // wait for list to show up
       return /search/i.test(text)
@@ -303,11 +341,12 @@ test('list click functionality', async () => {
   })
 
   // Click on "Lettuce" item
-  await driver.clickText('Lettuce')
+  await session.click('Lettuce', { first: true })
 
-  const afterClickLettuceSnapshot = await driver.text()
+  const afterClickLettuceSnapshot = await session.text()
   expect(afterClickLettuceSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 
@@ -330,11 +369,12 @@ test('list click functionality', async () => {
   `)
 
   // Click on "Apple" item
-  await driver.clickText('Apple')
+  await session.click('Apple', { first: true })
 
-  const afterClickAppleSnapshot = await driver.text()
+  const afterClickAppleSnapshot = await session.text()
   expect(afterClickAppleSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 
@@ -357,11 +397,12 @@ test('list click functionality', async () => {
   `)
 
   // Click on the last item "Bread"
-  await driver.clickText('Bread')
+  await session.click('Bread', { first: true })
 
-  const afterClickBreadSnapshot = await driver.text()
+  const afterClickBreadSnapshot = await session.text()
   expect(afterClickBreadSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 
@@ -385,7 +426,7 @@ test('list click functionality', async () => {
 }, 10000)
 
 test('list actions panel with ctrl+k', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       // wait for list to show up
       return /search/i.test(text)
@@ -393,67 +434,76 @@ test('list actions panel with ctrl+k', async () => {
   })
 
   // Press ctrl+k to open actions panel
-  await driver.keys.ctrlK()
+  await session.press(['ctrl', 'k'])
 
-  const afterCtrlKSnapshot = await driver.text()
+  const afterCtrlKSnapshot = await session.text()
   expect(afterCtrlKSnapshot).toMatchInlineSnapshot(`
     "
 
-     Simple List Example ────────────────────────────────────────────
 
-     Search items...
+      Simple List Example ────────────────────────────────────────────
 
-
-     Empty section should be hidden
-
-     Fruits
-    ›Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-                                                                 esc
-
-      Search actions...
-     ›View Details
-      Add to Cart
+      Search items...
 
 
-      ↵ select   ↑↓ navigate"
+      Empty section should be hidden
+
+      Fruits
+     ›Apple Red and sweet                              Fresh [Popular]
+      Banana Yellow and nutritious                                Ripe
+    ┃┃
+    ┃                                                                  ┃
+    ┃                                                            esc   ┃
+    ┃                                                                  ┃
+    ┃   Search actions...                                              ┃
+    ┃  ›View Details                                                   ┃
+    ┃   Add to Cart                                                    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃"
   `)
 
   // Navigate down to second action
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownInActionsSnapshot = await driver.text()
+  const afterDownInActionsSnapshot = await session.text()
   expect(afterDownInActionsSnapshot).toMatchInlineSnapshot(`
     "
 
-     Simple List Example ────────────────────────────────────────────
 
-     Search items...
+      Simple List Example ────────────────────────────────────────────
 
-
-     Empty section should be hidden
-
-     Fruits
-    ›Apple Red and sweet                              Fresh [Popular]
-     Banana Yellow and nutritious                                Ripe
-
-                                                                 esc
-
-      Search actions...
-      View Details
-     ›Add to Cart
+      Search items...
 
 
-      ↵ select   ↑↓ navigate"
+      Empty section should be hidden
+
+      Fruits
+     ›Apple Red and sweet                              Fresh [Popular]
+      Banana Yellow and nutritious                                Ripe
+    ┃┃
+    ┃                                                                  ┃
+    ┃                                                            esc   ┃
+    ┃                                                                  ┃
+    ┃   Search actions...                                              ┃
+    ┃   View Details                                                   ┃
+    ┃  ›Add to Cart                                                    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃"
   `)
 
   // Trigger the second action (Add to Cart)
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterSelectSecondActionSnapshot = await driver.text()
+  const afterSelectSecondActionSnapshot = await session.text()
   expect(afterSelectSecondActionSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple List Example ────────────────────────────────────────────
 

@@ -1,24 +1,24 @@
-// node-pty does not work in bun, so we use vitest to run this test
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/list-with-detail.tsx'], {
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/list-with-detail.tsx'],
     cols: 80,
     rows: 30,
   })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('list with detail view display and navigation', async () => {
-  const initialSnapshot = await driver.text({
+  const initialSnapshot = await session.text({
     waitFor: (text) => {
-      // wait for list to show up with detail view
       return (
         /Pokemon List/i.test(text) &&
         text.includes('bulbasaur') &&
@@ -30,158 +30,152 @@ test('list with detail view display and navigation', async () => {
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
+
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-
-    ›bulbasaur #001                      │ # bulbasaur
-     ivysaur #002                        │
-     charmander #004                     │ ![Illustration](https://assets.pokemon.
-     charmeleon #005                     │
-     squirtle #007                       │ ## Types
-     wartortle #008                      │ Grass / Poison
-                                         │
-                                         │ ## Characteristics
-     ↵ select   ↑↓ navigate   ^k actions │ - Height: 0.7m
-                                         │ - Weight: 6.9kg
-                                         │
-                                         │ ## Abilities
-                                         │ - Chlorophyll
-                                         │ - Overgrow
-                                         │ ───────────────────────────────────────
-                                         │
-                                         │ Types:
-                                         │
-                                         │ Grass:
-                                         │ ─────────────────
-                                         │
-                                         │ Poison:
-                                         │ ─────────────────
-                                         │"
+    ›bulbasaur #001                       │ # bulbasaur
+     ivysaur #002                         │
+     charmander #004                      │ ![Illustration](https://assets.
+     charmeleon #005                      │ pokemon.com/assets/cms2/img/
+     squirtle #007                        │ pokedex/full/001.png)
+     wartortle #008                       │
+                                          │ ## Types
+                                          │ Grass / Poison
+     ↵ select   ↑↓ navigate   ^k actions  │
+                                          │
+                                          │ ───────────────────────────────────
+                                          │
+                                          │ Types:
+                                          │ Grass:
+                                          │ ─────────────────
+                                          │ ─────────────────
+                                          │ Characteristics:
+                                          │ Height:        0.7m
+                                          │ ─────────────────
+                                          │ Weight:        6.9kg
+                                          │ Abilities:───────
+                                          │ Chlorophyll:   Main Series
+                                          │ ─────────────────
+                                            Overgrow:      Main Series"
   `)
 
-  // Navigate down to next pokemon
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownSnapshot = await driver.text()
+  const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
+
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-
-     bulbasaur #001                      │ # ivysaur
-    ›ivysaur #002                        │
-     charmander #004                     │ ![Illustration](https://assets.pokemon.
-     charmeleon #005                     │
-     squirtle #007                       │ ## Types
-     wartortle #008                      │ Grass / Poison
-                                         │
-                                         │ ## Characteristics
-     ↵ select   ↑↓ navigate   ^k actions │ - Height: 1m
-                                         │ - Weight: 13kg
-                                         │
-                                         │ ## Abilities
-                                         │ - Chlorophyll
-                                         │ - Overgrow
-                                         │ ───────────────────────────────────────
-                                         │
-                                         │ Types:
-                                         │
-                                         │ Grass:
-                                         │ ─────────────────
-                                         │
-                                         │ Poison:
-                                         │ ─────────────────
-                                         │"
+     bulbasaur #001                       │ # ivysaur
+    ›ivysaur #002                         │
+     charmander #004                      │ ![Illustration](https://assets.
+     charmeleon #005                      │ pokemon.com/assets/cms2/img/
+     squirtle #007                        │ pokedex/full/002.png)
+     wartortle #008                       │
+                                          │ ## Types
+                                          │ Grass / Poison
+     ↵ select   ↑↓ navigate   ^k actions  │
+                                          │
+                                          │ ───────────────────────────────────
+                                          │
+                                          │ Types:
+                                          │ Grass:
+                                          │ ─────────────────
+                                          │ ─────────────────
+                                          │ Characteristics:
+                                          │ Height:        1m
+                                          │ ─────────────────
+                                          │ Weight:        13kg
+                                          │ Abilities:───────
+                                          │ Chlorophyll:   Main Series
+                                          │ ─────────────────
+                                            Overgrow:      Main Series"
   `)
 
-  // Navigate down to charmander
-  await driver.keys.down()
+  await session.press('down')
 
-  const charmanderSnapshot = await driver.text()
+  const charmanderSnapshot = await session.text()
   expect(charmanderSnapshot).toMatchInlineSnapshot(`
     "
 
+
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-
-     bulbasaur #001                      │ # charmander
-     ivysaur #002                        │
-    ›charmander #004                     │ ![Illustration](https://assets.pokemon.
-     charmeleon #005                     │
-     squirtle #007                       │ ## Types
-     wartortle #008                      │ Fire
-                                         │
-                                         │ ## Characteristics
-     ↵ select   ↑↓ navigate   ^k actions │ - Height: 0.6m
-                                         │ - Weight: 8.5kg
-                                         │
-                                         │ ## Abilities
-                                         │ - Blaze
-                                         │ - Solar Power
-                                         │ ───────────────────────────────────────
-                                         │
-                                         │ Types:
-                                         │
-                                         │ Fire:
-                                         │ ─────────────────
-                                         │
-                                         │ Characteristics:
-                                         │ Height:        0.6m
-                                         │"
+     bulbasaur #001                       │ # charmander
+     ivysaur #002                         │
+    ›charmander #004                      │ ![Illustration](https://assets.
+     charmeleon #005                      │ pokemon.com/assets/cms2/img/
+     squirtle #007                        │ pokedex/full/004.png)
+     wartortle #008                       │
+                                          │ ## Types
+                                          │ Fire
+     ↵ select   ↑↓ navigate   ^k actions  │
+                                          │ ## Characteristics
+                                          │ ───────────────────────────────────
+                                          │
+                                          │ Types:
+                                          │ Fire:
+                                          │ ─────────────────
+                                          │ Characteristics:
+                                          │ Height:        0.6m
+                                          │ Weight:────────8.5kg
+                                          │ ─────────────────
+                                          │ Abilities:
+                                          │ Blaze:         Main Series
+                                          │ ─────────────────
+                                          │ Solar Power:   Main Series"
   `)
 
-  // Open actions
-  await driver.keys.ctrlK()
+  await session.press(['ctrl', 'k'])
 
-  const actionsSnapshot = await driver.text()
+  const actionsSnapshot = await session.text()
   expect(actionsSnapshot).toMatchInlineSnapshot(`
     "
 
-    Pokemon List ─────────────────────────────────────────────────────────────
 
-    Search Pokemon...
+     Pokemon List ─────────────────────────────────────────────────────────────
 
-    bulbasaur #001                      │ # charmander
-
-                                                                         esc   n.
-
-      Search actions...
-     ›Toggle Detail
-      View on Pokemon.com
-
-
-      ↵ select   ↑↓ navigate
-
-                                        │ ## Abilities
-                                        │ - Blaze
-                                        │ - Solar Power
-                                        │ ───────────────────────────────────────
-                                        │
-                                        │ Types:
-                                        │
-                                        │ Fire:
-                                        │ ─────────────────
-                                        │
-                                        │ Characteristics:
-                                        │ Height:        0.6m
-                                        │"
+     Search Pokemon...
+     bulbasaur #001                       │ # charmander
+     ivysaur #002                         │
+    ┃┃harmander #004                      │ ![Illustration](https://assets.
+    ┃                                                                          ┃
+    ┃                                                                    esc   ┃
+    ┃                                                                          ┃
+    ┃   Search actions...                                                      ┃
+    ┃  ›Toggle Detail                                                          ┃
+    ┃   View on Pokemon.com                                                    ┃
+    ┃                                                                          ┃
+    ┃                                                                          ┃
+    ┃   ↵ select   ↑↓ navigate                                                 ┃
+    ┃                                                                          ┃
+    ┃┃                                    │ Fire:
+                                          │ ─────────────────
+                                          │ Characteristics:
+                                          │ Height:        0.6m
+                                          │ Weight:────────8.5kg
+                                          │ ─────────────────
+                                          │ Abilities:
+                                          │ Blaze:         Main Series
+                                          │ ─────────────────
+                                          │ Solar Power:   Main Series"
   `)
 
-  // Select "Toggle Detail" action
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterToggleSnapshot = await driver.text({
+  const afterToggleSnapshot = await session.text({
     waitFor: (text) => {
-      // Wait for accessories to appear (detail view is hidden)
-      return text.includes('Grass / Poison') || text.includes('Fire')
+      return text.includes('Grass / Poison') && !text.includes('## Types')
     },
   })
   expect(afterToggleSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
@@ -198,62 +192,57 @@ test('list with detail view display and navigation', async () => {
      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Open actions again and toggle detail back on
-  await driver.keys.ctrlK()
-  await driver.keys.enter()
+  await session.press(['ctrl', 'k'])
+  await session.press('enter')
 
-  const detailOnAgainSnapshot = await driver.text({
+  const detailOnAgainSnapshot = await session.text({
     waitFor: (text) => {
-      // Wait for detail view to reappear
-      return !text.includes('Grass / Poison') && !text.includes('Fire')
+      return text.includes('## Types')
     },
   })
   expect(detailOnAgainSnapshot).toMatchInlineSnapshot(`
     "
 
+
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-
      bulbasaur #001                       │ # charmander
      ivysaur #002                         │
-    ›charmander #004                      │ ![Illustration](https://assets.poke
-     charmeleon #005                      │
-     squirtle #007                        │ ## Types
-     wartortle #008                       │ Fire
-                                          │
+    ›charmander #004                      │ ![Illustration](https://assets.
+     charmeleon #005                      │ pokemon.com/assets/cms2/img/
+     squirtle #007                        │ pokedex/full/004.png)
+     wartortle #008                       │
+                                          │ ## Types
+                                          │ Fire
+     ↵ select   ↑↓ navigate   ^k actions  │
                                           │ ## Characteristics
-     ↵ select   ↑↓ navigate   ^k actions  │ - Height: 0.6m
-                                          │ - Weight: 8.5kg
-                                          │
-                                          │ ## Abilities
-                                          │ - Blaze
-                                          │ - Solar Power
                                           │ ───────────────────────────────────
                                           │
                                           │ Types:
-                                          │
                                           │ Fire:
                                           │ ─────────────────
-                                          │
                                           │ Characteristics:
                                           │ Height:        0.6m
-                                          │"
+                                          │ Weight:────────8.5kg
+                                          │ ─────────────────
+                                          │ Abilities:
+                                          │ Blaze:         Main Series
+                                          │ ─────────────────
+                                          │ Solar Power:   Main Series"
   `)
 }, 15000)
 
 test('list detail view search functionality', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for list to show up
       return /Pokemon List/i.test(text)
     },
   })
 
-  // Search for "char"
-  await driver.keys.type('char')
+  await session.type('char')
 
-  const searchCharSnapshot = await driver.text({
+  const searchCharSnapshot = await session.text({
     waitFor: (text) => {
       return /char/i.test(text) && text.includes('charmander')
     },
@@ -261,125 +250,121 @@ test('list detail view search functionality', async () => {
   expect(searchCharSnapshot).toMatchInlineSnapshot(`
     "
 
+
     Pokemon List ─────────────────────────────────────────────────────────────
 
     char
-
-    charmander #004                     │ # bulbasaur
-    charmeleon #005                     │
-                                        │ ![Illustration](https://assets.pokemon.
-                                        │
-    ↵ select   ↑↓ navigate   ^k actions │ ## Types
-                                        │ Grass / Poison
-                                        │
-                                        │ ## Characteristics
-                                        │ - Height: 0.7m
-                                        │ - Weight: 6.9kg
-                                        │
-                                        │ ## Abilities
-                                        │ - Chlorophyll
-                                        │ - Overgrow
-                                        │ ───────────────────────────────────────
-                                        │
-                                        │ Types:
-                                        │
-                                        │ Grass:
-                                        │ ─────────────────
-                                        │
-                                        │ Poison:
-                                        │ ─────────────────
-                                        │"
+    charmander #004                      │ # bulbasaur
+    charmeleon #005                      │
+                                         │ ![Illustration](https://assets.
+                                         │ pokemon.com/assets/cms2/img/
+    ↵ select   ↑↓ navigate   ^k actions  │ pokedex/full/001.png)
+                                         │
+                                         │ ## Types
+                                         │ Grass / Poison
+                                         │
+                                         │
+                                         │ ───────────────────────────────────
+                                         │
+                                         │ Types:
+                                         │ Grass:
+                                         │ ─────────────────
+                                         │ ─────────────────
+                                         │ Characteristics:
+                                         │ Height:        0.7m
+                                         │ ─────────────────
+                                         │ Weight:        6.9kg
+                                         │ Abilities:───────
+                                         │ Chlorophyll:   Main Series
+                                         │ ─────────────────
+                                           Overgrow:      Main Series"
   `)
 
-  // Clear search
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
 
-  // Search for "water"
-  await driver.keys.type('water')
+  await session.type('water')
 
-  const searchWaterSnapshot = await driver.text({
+  const searchWaterSnapshot = await session.text({
     waitFor: (text) => {
-      return /water/i.test(text) && text.includes('squirtle')
+      return /water/i.test(text)
     },
   })
   expect(searchWaterSnapshot).toMatchInlineSnapshot(`
     "
 
+
     Pokemon List ─────────────────────────────────────────────────────────────
 
     water
-
-                                        │ # bulbasaur
-                                        │
-    ↵ select   ↑↓ navigate   ^k actions │ ![Illustration](https://assets.pokemon.
-                                        │
-                                        │ ## Types
-                                        │ Grass / Poison
-                                        │
-                                        │ ## Characteristics
-                                        │ - Height: 0.7m
-                                        │ - Weight: 6.9kg
-                                        │
-                                        │ ## Abilities
-                                        │ - Chlorophyll
-                                        │ - Overgrow
-                                        │ ───────────────────────────────────────
-                                        │
-                                        │ Types:
-                                        │
-                                        │ Grass:
-                                        │ ─────────────────
-                                        │
-                                        │ Poison:
-                                        │ ─────────────────
-                                        │"
+                                         │ # bulbasaur
+                                         │
+    ↵ select   ↑↓ navigate   ^k actions  │ ![Illustration](https://assets.
+                                         │ pokemon.com/assets/cms2/img/
+                                         │ pokedex/full/001.png)
+                                         │
+                                         │ ## Types
+                                         │ Grass / Poison
+                                         │
+                                         │
+                                         │ ───────────────────────────────────
+                                         │
+                                         │ Types:
+                                         │ Grass:
+                                         │ ─────────────────
+                                         │ ─────────────────
+                                         │ Characteristics:
+                                         │ Height:        0.7m
+                                         │ ─────────────────
+                                         │ Weight:        6.9kg
+                                         │ Abilities:───────
+                                         │ Chlorophyll:   Main Series
+                                         │ ─────────────────
+                                           Overgrow:      Main Series"
   `)
 
-  // Navigate down to wartortle
-  await driver.keys.down()
+  await session.press('down')
 
-  const wartortleSnapshot = await driver.text()
+  const wartortleSnapshot = await session.text()
   expect(wartortleSnapshot).toMatchInlineSnapshot(`
     "
 
+
     Pokemon List ─────────────────────────────────────────────────────────────
 
     water
-
-                                        │ # bulbasaur
-                                        │
-    ↵ select   ↑↓ navigate   ^k actions │ ![Illustration](https://assets.pokemon.
-                                        │
-                                        │ ## Types
-                                        │ Grass / Poison
-                                        │
-                                        │ ## Characteristics
-                                        │ - Height: 0.7m
-                                        │ - Weight: 6.9kg
-                                        │
-                                        │ ## Abilities
-                                        │ - Chlorophyll
-                                        │ - Overgrow
-                                        │ ───────────────────────────────────────
-                                        │
-                                        │ Types:
-                                        │
-                                        │ Grass:
-                                        │ ─────────────────
-                                        │
-                                        │ Poison:
-                                        │ ─────────────────
-                                        │"
+                                         │ # bulbasaur
+                                         │
+    ↵ select   ↑↓ navigate   ^k actions  │ ![Illustration](https://assets.
+                                         │ pokemon.com/assets/cms2/img/
+                                         │ pokedex/full/001.png)
+                                         │
+                                         │ ## Types
+                                         │ Grass / Poison
+                                         │
+                                         │
+                                         │ ───────────────────────────────────
+                                         │
+                                         │ Types:
+                                         │ Grass:
+                                         │ ─────────────────
+                                         │ ─────────────────
+                                         │ Characteristics:
+                                         │ Height:        0.7m
+                                         │ ─────────────────
+                                         │ Weight:        6.9kg
+                                         │ Abilities:───────
+                                         │ Chlorophyll:   Main Series
+                                         │ ─────────────────
+                                           Overgrow:      Main Series"
   `)
 }, 10000)
 
 test('list detail metadata rendering', async () => {
-  const initialSnapshot = await driver.text({
+  const initialSnapshot = await session.text({
     waitFor: (text) => {
-      // wait for list with metadata to show up
       return (
         /Pokemon List/i.test(text) &&
         text.includes('bulbasaur') &&
@@ -392,43 +377,42 @@ test('list detail metadata rendering', async () => {
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
+
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-
-    ›bulbasaur #001                      │ # bulbasaur
-     ivysaur #002                        │
-     charmander #004                     │ ![Illustration](https://assets.pokemon.
-     charmeleon #005                     │
-     squirtle #007                       │ ## Types
-     wartortle #008                      │ Grass / Poison
-                                         │
-                                         │ ## Characteristics
-     ↵ select   ↑↓ navigate   ^k actions │ - Height: 0.7m
-                                         │ - Weight: 6.9kg
-                                         │
-                                         │ ## Abilities
-                                         │ - Chlorophyll
-                                         │ - Overgrow
-                                         │ ───────────────────────────────────────
-                                         │
-                                         │ Types:
-                                         │
-                                         │ Grass:
-                                         │ ─────────────────
-                                         │
-                                         │ Poison:
-                                         │ ─────────────────
-                                         │"
+    ›bulbasaur #001                       │ # bulbasaur
+     ivysaur #002                         │
+     charmander #004                      │ ![Illustration](https://assets.
+     charmeleon #005                      │ pokemon.com/assets/cms2/img/
+     squirtle #007                        │ pokedex/full/001.png)
+     wartortle #008                       │
+                                          │ ## Types
+                                          │ Grass / Poison
+     ↵ select   ↑↓ navigate   ^k actions  │
+                                          │
+                                          │ ───────────────────────────────────
+                                          │
+                                          │ Types:
+                                          │ Grass:
+                                          │ ─────────────────
+                                          │ ─────────────────
+                                          │ Characteristics:
+                                          │ Height:        0.7m
+                                          │ ─────────────────
+                                          │ Weight:        6.9kg
+                                          │ Abilities:───────
+                                          │ Chlorophyll:   Main Series
+                                          │ ─────────────────
+                                            Overgrow:      Main Series"
   `)
 
-  // Navigate to a different pokemon
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
 
-  const squirtleSnapshot = await driver.text({
+  const squirtleSnapshot = await session.text({
     waitFor: (text) => {
       return text.includes('squirtle') && text.includes('Water')
     },
@@ -436,33 +420,32 @@ test('list detail metadata rendering', async () => {
   expect(squirtleSnapshot).toMatchInlineSnapshot(`
     "
 
+
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-
-     bulbasaur #001                      │ # squirtle
-     ivysaur #002                        │
-     charmander #004                     │ ![Illustration](https://assets.pokemon.
-     charmeleon #005                     │
-    ›squirtle #007                       │ ## Types
-     wartortle #008                      │ Water
-                                         │
-                                         │ ## Characteristics
-     ↵ select   ↑↓ navigate   ^k actions │ - Height: 0.5m
-                                         │ - Weight: 9kg
-                                         │
-                                         │ ## Abilities
-                                         │ - Torrent
-                                         │ - Rain Dish
-                                         │ ───────────────────────────────────────
-                                         │
-                                         │ Types:
-                                         │
-                                         │ Water:
-                                         │ ─────────────────
-                                         │
-                                         │ Characteristics:
-                                         │ Height:        0.5m
-                                         │"
+     bulbasaur #001                       │ # squirtle
+     ivysaur #002                         │
+     charmander #004                      │ ![Illustration](https://assets.
+     charmeleon #005                      │ pokemon.com/assets/cms2/img/
+    ›squirtle #007                        │ pokedex/full/007.png)
+     wartortle #008                       │
+                                          │ ## Types
+                                          │ Water
+     ↵ select   ↑↓ navigate   ^k actions  │
+                                          │ ## Characteristics
+                                          │ ───────────────────────────────────
+                                          │
+                                          │ Types:
+                                          │ Water:
+                                          │ ─────────────────
+                                          │ Characteristics:
+                                          │ Height:        0.5m
+                                          │ Weight:────────9kg
+                                          │ ─────────────────
+                                          │ Abilities:
+                                          │ Torrent:       Main Series
+                                          │ ─────────────────
+                                          │ Rain Dish:     Main Series"
   `)
 }, 10000)

@@ -1,34 +1,36 @@
-// node-pty does not work in bun, so we use vitest to run this test
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/form-dropdown.tsx'], {
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/form-dropdown.tsx'],
     cols: 70,
     rows: 50,
   })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('form dropdown shows inline options', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for form to show up
       return /Dropdown Component Demo/i.test(text)
     },
   })
 
-  const initialSnapshot = await driver.text()
+  const initialSnapshot = await session.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  TypeScript, Rust
@@ -66,15 +68,16 @@ test('form dropdown shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Toggle TypeScript selection by pressing space
-  await driver.keys.space()
+  await session.press('space')
 
-  const afterToggleTypeScriptSnapshot = await driver.text()
+  const afterToggleTypeScriptSnapshot = await session.text()
   expect(afterToggleTypeScriptSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust
@@ -112,15 +115,16 @@ test('form dropdown shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate down
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownSnapshot = await driver.text()
+  const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust
@@ -158,18 +162,19 @@ test('form dropdown shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate down to see pagination
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
 
-  const afterMultipleDownSnapshot = await driver.text()
+  const afterMultipleDownSnapshot = await session.text()
   expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust
@@ -208,15 +213,16 @@ test('form dropdown shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Select an item
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterSelectSnapshot = await driver.text()
+  const afterSelectSnapshot = await session.text()
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust, Node.js
@@ -257,22 +263,22 @@ test('form dropdown shows inline options', async () => {
 }, 10000)
 
 test('form dropdown keyboard navigation', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for form to show up
       return /Dropdown Component Demo/i.test(text)
     },
   })
 
-  // Toggle TypeScript selection by pressing space
-  await driver.keys.space()
+  await session.press('space')
 
-  const afterToggleSnapshot = await driver.text()
+  const afterToggleSnapshot = await session.text()
   expect(afterToggleSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust
@@ -310,18 +316,19 @@ test('form dropdown keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate to last visible item
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
 
-  const lastVisibleSnapshot = await driver.text()
+  const lastVisibleSnapshot = await session.text()
   expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust
@@ -359,15 +366,16 @@ test('form dropdown keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate to next page
-  await driver.keys.down()
+  await session.press('down')
 
-  const nextPageSnapshot = await driver.text()
+  const nextPageSnapshot = await session.text()
   expect(nextPageSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust
@@ -406,15 +414,16 @@ test('form dropdown keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Go back up
-  await driver.keys.up()
+  await session.press('up')
 
-  const backToPreviousPageSnapshot = await driver.text()
+  const backToPreviousPageSnapshot = await session.text()
   expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust
@@ -453,15 +462,16 @@ test('form dropdown keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Escape doesn't close anything since dropdown is always inline
-  await driver.keys.escape()
+  await session.press('esc')
 
-  const afterEscapeSnapshot = await driver.text()
+  const afterEscapeSnapshot = await session.text()
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  Rust
@@ -502,22 +512,22 @@ test('form dropdown keyboard navigation', async () => {
 }, 10000)
 
 test('form dropdown with default value', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for form to show up
       return /Dropdown Component Demo/i.test(text)
     },
   })
 
-  // Navigate to second dropdown
-  await driver.keys.tab()
+  await session.press('tab')
 
-  const secondDropdownFocusedSnapshot = await driver.text()
+  const secondDropdownFocusedSnapshot = await session.text()
   expect(secondDropdownFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◇  Programming Languages
     │  TypeScript, Rust
@@ -555,15 +565,16 @@ test('form dropdown with default value', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Toggle Monokai selection by pressing space
-  await driver.keys.space()
+  await session.press('space')
 
-  const afterToggleMonokaiSnapshot = await driver.text()
+  const afterToggleMonokaiSnapshot = await session.text()
   expect(afterToggleMonokaiSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◇  Programming Languages
     │  TypeScript, Rust
@@ -601,11 +612,10 @@ test('form dropdown with default value', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Submit form
-  await driver.keys.escape()
-  await driver.keys.cmdEnter()
+  await session.press('esc')
+  await session.press(['alt', 'enter'])
 
-  const afterSubmitSnapshot = await driver.text({
+  const afterSubmitSnapshot = await session.text({
     waitFor: (text) => {
       return /Submitted Data/i.test(text)
     },
@@ -613,8 +623,10 @@ test('form dropdown with default value', async () => {
   expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◇  Programming Languages
     │  TypeScript, Rust
@@ -627,7 +639,6 @@ test('form dropdown with default value', async () => {
     │  ↑↓ to see more options
     │
     │  Choose your preferred programming languages
-    │
     ◆  Editor Theme
     │  Monokai
     │
@@ -646,6 +657,15 @@ test('form dropdown with default value', async () => {
     │  ○ High
     │  ○ Medium
     │  ○ Low
+    ▪  Submitted Data
+    │  {
+    │    "languages": [
+    │      "typescript",
+    │      "rust"
+    │    ],
+    │    "theme": "monokai",
+    │    "priority": ""
+    │  }
     └
 
 
@@ -654,23 +674,23 @@ test('form dropdown with default value', async () => {
 }, 10000)
 
 test('selecting second-to-last visible item should not scroll', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for form to show up
       return /Dropdown Component Demo/i.test(text)
     },
   })
 
-  // Navigate down twice to get to Green (second-to-last visible item)
-  await driver.keys.down()
-  await driver.keys.down()
+  await session.press('down')
+  await session.press('down')
 
-  const beforeSelectSnapshot = await driver.text()
+  const beforeSelectSnapshot = await session.text()
   expect(beforeSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  TypeScript, Rust
@@ -708,15 +728,16 @@ test('selecting second-to-last visible item should not scroll', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Press Enter to select Green
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterSelectSnapshot = await driver.text()
+  const afterSelectSnapshot = await session.text()
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-       Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more featu
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
     │
     ◆  Programming Languages
     │  TypeScript, Rust, React
@@ -753,6 +774,4 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
-
-  // The window should NOT have scrolled - should still show Red, Blue, Green, Yellow
 }, 10000)

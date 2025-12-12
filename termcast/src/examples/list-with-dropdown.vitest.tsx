@@ -1,24 +1,24 @@
-// node-pty does not work in bun, so we use vitest to run this test
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/list-with-dropdown.tsx'], {
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/list-with-dropdown.tsx'],
     cols: 70,
     rows: 50,
   })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('list with dropdown navigation', async () => {
-  const initialSnapshot = await driver.text({
+  const initialSnapshot = await session.text({
     waitFor: (text) => {
-      // wait for list to show up with all items loaded
       return (
         /search beers/i.test(text) &&
         text.includes('Beer ▾') &&
@@ -30,6 +30,7 @@ test('list with dropdown navigation', async () => {
 
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Search Beers ───────────────────────────────────────────────────
 
@@ -52,38 +53,36 @@ test('list with dropdown navigation', async () => {
      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Press ctrl+p to open dropdown
-  await driver.keys.ctrlP()
+  await session.press(['ctrl', 'p'])
 
-  // Capture snapshot immediately after pressing ctrl+p
-  const immediatelyAfterCtrlPSnapshot = await driver.text()
+  const immediatelyAfterCtrlPSnapshot = await session.text()
   expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
     "
 
 
-     Select Drink Type                                          esc
-
-     Search...
-
-     Alcoholic Beverages
-    ›Beer
-     Wine
-
-     Non-Alcoholic
-     Soda
-     Juice
-
-
-     ↵ select   ↑↓ navigate
-
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃ Search Beers ───────────────────────────────────────────────────
+    ┃                                                                  ┃
+    ┃   Select Drink Type                                        esc   ┃
+    ┃                                                                  ┃
+    ┃   Search...                                                      ┃
+    ┃                                                                  ┃
+    ┃   Alcoholic Beverages                                            ┃
+    ┃  ›Beer                                                           ┃
+    ┃   Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃   Non-Alcoholic                                                  ┃
+    ┃   Soda                                                           ┃
+    ┃   Juice                                                          ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃
+       ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  const afterCtrlPSnapshot = await driver.text({
+  const afterCtrlPSnapshot = await session.text({
     waitFor: (text) => {
-      // wait for dropdown to show up
       return /select drink type/i.test(text)
     },
   })
@@ -91,112 +90,111 @@ test('list with dropdown navigation', async () => {
     "
 
 
-     Select Drink Type                                          esc
-
-     Search...
-
-     Alcoholic Beverages
-    ›Beer
-     Wine
-
-     Non-Alcoholic
-     Soda
-     Juice
-
-
-     ↵ select   ↑↓ navigate
-
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃ Search Beers ───────────────────────────────────────────────────
+    ┃                                                                  ┃
+    ┃   Select Drink Type                                        esc   ┃
+    ┃                                                                  ┃
+    ┃   Search...                                                      ┃
+    ┃                                                                  ┃
+    ┃   Alcoholic Beverages                                            ┃
+    ┃  ›Beer                                                           ┃
+    ┃   Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃   Non-Alcoholic                                                  ┃
+    ┃   Soda                                                           ┃
+    ┃   Juice                                                          ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃
+       ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate down in dropdown
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownSnapshot = await driver.text()
+  const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
 
-     Select Drink Type                                          esc
-
-     Search...
-
-     Alcoholic Beverages
-     Beer
-    ›Wine
-
-     Non-Alcoholic
-     Soda
-     Juice
-
-
-     ↵ select   ↑↓ navigate
-
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃ Search Beers ───────────────────────────────────────────────────
+    ┃                                                                  ┃
+    ┃   Select Drink Type                                        esc   ┃
+    ┃                                                                  ┃
+    ┃   Search...                                                      ┃
+    ┃                                                                  ┃
+    ┃   Alcoholic Beverages                                            ┃
+    ┃   Beer                                                           ┃
+    ┃  ›Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃   Non-Alcoholic                                                  ┃
+    ┃   Soda                                                           ┃
+    ┃   Juice                                                          ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃
+       ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate down again
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterSecondDownSnapshot = await driver.text()
+  const afterSecondDownSnapshot = await session.text()
   expect(afterSecondDownSnapshot).toMatchInlineSnapshot(`
     "
 
 
-     Select Drink Type                                          esc
-
-     Search...
-
-     Alcoholic Beverages
-     Beer
-     Wine
-
-     Non-Alcoholic
-    ›Soda
-     Juice
-
-
-     ↵ select   ↑↓ navigate
-
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃ Search Beers ───────────────────────────────────────────────────
+    ┃                                                                  ┃
+    ┃   Select Drink Type                                        esc   ┃
+    ┃                                                                  ┃
+    ┃   Search...                                                      ┃
+    ┃                                                                  ┃
+    ┃   Alcoholic Beverages                                            ┃
+    ┃   Beer                                                           ┃
+    ┃   Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃   Non-Alcoholic                                                  ┃
+    ┃  ›Soda                                                           ┃
+    ┃   Juice                                                          ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃
+       ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Select the current item
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterSelectSnapshot = await driver.text({
+  const afterSelectSnapshot = await session.text({
     waitFor: (text) => {
-      // wait for dropdown to close and list to update
       return !text.includes('Select Drink Type')
     },
   })
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
-      "
-
-       Search Beers ───────────────────────────────────────────────────
+    "
 
 
-       Search...                                                 Soda ▾
+     Search Beers ───────────────────────────────────────────────────
 
 
-      ›Coca Cola Soda
-       Sprite Soda
+     Search...                                                 Soda ▾
 
 
-       ↵ select   ↑↓ navigate   ^k actions"
-    `)
+    ›Coca Cola Soda
+     Sprite Soda
+
+
+     ↵ select   ↑↓ navigate   ^k actions"
+  `)
 }, 10000)
 
 test('list with dropdown search and filter', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for list to show up with all items loaded
       return (
         /search beers/i.test(text) &&
         text.includes('Beer ▾') &&
@@ -206,84 +204,82 @@ test('list with dropdown search and filter', async () => {
     },
   })
 
-  // Open dropdown
-  await driver.keys.ctrlP()
+  await session.press(['ctrl', 'p'])
 
-  // Capture snapshot immediately after pressing ctrl+p
-  const immediatelyAfterCtrlPSnapshot = await driver.text()
+  const immediatelyAfterCtrlPSnapshot = await session.text()
   expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
     "
 
 
-     Select Drink Type                                          esc
-
-     Search...
-
-     Alcoholic Beverages
-    ›Beer
-     Wine
-
-     Non-Alcoholic
-     Soda
-     Juice
-
-
-     ↵ select   ↑↓ navigate
-
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃ Search Beers ───────────────────────────────────────────────────
+    ┃                                                                  ┃
+    ┃   Select Drink Type                                        esc   ┃
+    ┃                                                                  ┃
+    ┃   Search...                                                      ┃
+    ┃                                                                  ┃
+    ┃   Alcoholic Beverages                                            ┃
+    ┃  ›Beer                                                           ┃
+    ┃   Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃   Non-Alcoholic                                                  ┃
+    ┃   Soda                                                           ┃
+    ┃   Juice                                                          ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃
+       ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       return /select drink type/i.test(text)
     },
   })
 
-  // Type to search in dropdown
-  await driver.keys.type('wine')
+  await session.type('wine')
 
-  const afterSearchWineSnapshot = await driver.text({
+  const afterSearchWineSnapshot = await session.text({
     waitFor: (text) => {
       return /wine/i.test(text)
     },
   })
   expect(afterSearchWineSnapshot).toMatchInlineSnapshot(`
-      "
+    "
 
 
-      Select Drink Type                                          esc
+    ┃┃ Search Beers ───────────────────────────────────────────────────
+    ┃                                                                  ┃
+    ┃   Select Drink Type                                        esc   ┃
+    ┃                                                                  ┃
+    ┃   wine                                                           ┃
+    ┃   Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃   Non-Alcoholic                                                  ┃
+       Pinot Noir Wine
+       Coca Cola Soda
+       Sprite Soda
+       Orange Juice Juice
+       Apple Juice Juice
 
-      wine
-      Wine
 
+       ↵ select   ↑↓ navigate   ^k actions"
+  `)
 
-      ↵ select   ↑↓ navigate
+  await session.press('enter')
 
-      Sierra Nevada IPA Beer
-      Chateau Margaux Wine
-      Pinot Noir Wine
-      Coca Cola Soda
-      Sprite Soda
-      Orange Juice Juice
-      Apple Juice Juice
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
-    `)
-
-  // Select Wine
-  await driver.keys.enter()
-
-  const afterSelectWineSnapshot = await driver.text({
+  const afterSelectWineSnapshot = await session.text({
     waitFor: (text) => {
-      // wait for dropdown to close
       return !text.includes('Select Drink Type')
     },
   })
   expect(afterSelectWineSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Search Beers ───────────────────────────────────────────────────
 
@@ -300,16 +296,16 @@ test('list with dropdown search and filter', async () => {
      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Clear search in main list and type to search
-  await driver.keys.type('pinot')
+  await session.type('pinot')
 
-  const afterSearchPinotSnapshot = await driver.text({
+  const afterSearchPinotSnapshot = await session.text({
     waitFor: (text) => {
       return /pinot/i.test(text)
     },
   })
   expect(afterSearchPinotSnapshot).toMatchInlineSnapshot(`
     "
+
 
     Search Beers ───────────────────────────────────────────────────
 

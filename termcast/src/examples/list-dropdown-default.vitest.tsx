@@ -1,39 +1,35 @@
-// node-pty does not work in bun, so we use vitest to run this test
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver(
-    'bun',
-    ['src/examples/list-dropdown-default.tsx'],
-    {
-      cols: 80,
-      rows: 30,
-    },
-  )
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/list-dropdown-default.tsx'],
+    cols: 80,
+    rows: 30,
+  })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('dropdown defaults to first item when no value is provided', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for list to show up
       return /Dropdown Default Value Example/i.test(text)
     },
   })
 
-  // Small delay to ensure dropdown is initialized with default value
-  await driver.waitIdle()
+  await session.waitIdle()
 
-  const initialSnapshot = await driver.text()
+  const initialSnapshot = await session.text()
 
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
@@ -50,70 +46,67 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
      ↵ select   ↑↓ navigate   ^k actions"
   `)
-
-  // The dropdown should show "Apple" as the default value
-  // since it's the first item and no value/defaultValue was provided
 }, 10000)
 
 test('dropdown opens and shows items', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       return /Dropdown Default Value Example/i.test(text)
     },
   })
 
-  // Open dropdown with ctrl+p
-  await driver.keys.ctrlP()
+  await session.press(['ctrl', 'p'])
 
-  const dropdownOpenSnapshot = await driver.text()
+  const dropdownOpenSnapshot = await session.text()
   expect(dropdownOpenSnapshot).toMatchInlineSnapshot(`
     "
 
 
-      Filter by category                                                 esc
-
-      Select category...
-     ›Apple
-      Banana
-      Orange
-      Grape
-
-
-      ↵ select   ↑↓ navigate
-
-
-    ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃ropdown Default Value Example ───────────────────────────────────────────
+    ┃                                                                          ┃
+    ┃   Filter by category                                               esc   ┃
+    ┃                                                                          ┃
+    ┃   Select category...                                                     ┃
+    ┃  ›Apple                                                                  ┃
+    ┃   Banana                                                                 ┃
+    ┃   Orange                                                                 ┃
+    ┃   Grape                                                                  ┃
+    ┃                                                                          ┃
+    ┃                                                                          ┃
+    ┃   ↵ select   ↑↓ navigate                                                 ┃
+    ┃                                                                          ┃
+    ┃┃ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate down to second item
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownSnapshot = await driver.text()
+  const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
 
-      Filter by category                                                 esc
-
-      Select category...
-      Apple
-     ›Banana
-      Orange
-      Grape
-
-
-      ↵ select   ↑↓ navigate
-
-
-    ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃ropdown Default Value Example ───────────────────────────────────────────
+    ┃                                                                          ┃
+    ┃   Filter by category                                               esc   ┃
+    ┃                                                                          ┃
+    ┃   Select category...                                                     ┃
+    ┃   Apple                                                                  ┃
+    ┃  ›Banana                                                                 ┃
+    ┃   Orange                                                                 ┃
+    ┃   Grape                                                                  ┃
+    ┃                                                                          ┃
+    ┃                                                                          ┃
+    ┃   ↵ select   ↑↓ navigate                                                 ┃
+    ┃                                                                          ┃
+    ┃┃ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Select the second item
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterSelectSnapshot = await driver.text()
+  const afterSelectSnapshot = await session.text()
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
@@ -133,41 +126,41 @@ test('dropdown opens and shows items', async () => {
 }, 10000)
 
 test('clicking dropdown opens it', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       return /Dropdown Default Value Example/i.test(text)
     },
   })
 
-  // Click on the dropdown (it should show "Apple" by default)
-  await driver.clickText('Apple')
+  await session.click('Apple', { first: true })
 
-  const afterClickSnapshot = await driver.text()
+  const afterClickSnapshot = await session.text()
   expect(afterClickSnapshot).toMatchInlineSnapshot(`
     "
 
 
-      Filter by category                                                 esc
-
-      Select category...
-     ›Apple
-      Banana
-      Orange
-      Grape
-
-
-      ↵ select   ↑↓ navigate
-
-
-    ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃ropdown Default Value Example ───────────────────────────────────────────
+    ┃                                                                          ┃
+    ┃   Filter by category                                               esc   ┃
+    ┃                                                                          ┃
+    ┃   Select category...                                                     ┃
+    ┃  ›Apple                                                                  ┃
+    ┃   Banana                                                                 ┃
+    ┃   Orange                                                                 ┃
+    ┃   Grape                                                                  ┃
+    ┃                                                                          ┃
+    ┃                                                                          ┃
+    ┃   ↵ select   ↑↓ navigate                                                 ┃
+    ┃                                                                          ┃
+    ┃┃ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Select Orange
-  await driver.clickText('Orange')
+  await session.click('Orange', { first: true })
 
-  const afterSelectOrangeSnapshot = await driver.text()
+  const afterSelectOrangeSnapshot = await session.text()
   expect(afterSelectOrangeSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Dropdown Default Value Example ───────────────────────────────────────────
 

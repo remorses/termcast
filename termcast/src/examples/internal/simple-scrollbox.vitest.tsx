@@ -1,94 +1,48 @@
 import { expect, test } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
 test('simple scrollbox navigation and scrolling', async () => {
-  const driver = new NodeTuiDriver('bun', ['src/examples/internal/simple-scrollbox.tsx'])
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/simple-scrollbox.tsx'],
+  })
 
-  await driver.text({
+  await session.text({
     waitFor: (text) => text.includes('Simple ScrollBox Demo'),
   })
 
-  const initialText = await driver.text()
+  const initialText = await session.text()
   expect(initialText).toMatchInlineSnapshot(`
     "
 
 
-    Simple ScrollBox Demo
-
-
-    Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 5 - This is content for item number 5. Lorem ipsum dolor sit amet, cons"
-  `)
-
-  await driver.scrollDown(3)
-  const afterScrollDown = await driver.text()
-  expect(afterScrollDown).toMatchInlineSnapshot(`
-    "
-
 
     Simple ScrollBox Demo
+                                                                              ▲
+    Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet,   ▀
+    consectetur adipiscing elit.
 
 
 
-
-    Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet, cons
+    Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet,
+    consectetur adipiscing elit.
 
 
 
-    Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet, cons
+    Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet,
+    consectetur adipiscing elit.
 
 
+                                                                              ▼
 
-    Item 5 - This is content for item number 5. Lorem ipsum dolor sit amet, cons"
+    Use mouse scroll or arrow keys | Press [q] to quit"
   `)
 
-  await driver.scrollUp(2)
-  const afterScrollUp = await driver.text()
-  expect(afterScrollUp).toMatchInlineSnapshot(`
-    "
+  // TODO: tuistory doesn't have scrollDown/scrollUp methods yet
+  // await session.scrollDown(3)
+  // await session.scrollUp(2)
 
+  await session.press('esc')
 
-    Simple ScrollBox Demo
-
-    Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet, cons
-
-
-
-    Item 5 - This is content for item number 5. Lorem ipsum dolor sit amet, cons"
-  `)
-
-  await driver.keys.escape()
-
-  driver.dispose()
+  session.close()
 }, 30000)

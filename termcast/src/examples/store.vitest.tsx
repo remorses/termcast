@@ -1,22 +1,24 @@
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/store.tsx'], {
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/store.tsx'],
     cols: 80,
     rows: 30,
   })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('Store extension - searching for spiceblow shows Database', async () => {
   // Wait for store interface to load
-  const initialOutput = await driver.text({
+  const initialOutput = await session.text({
     waitFor: (text) => {
       // Wait until we see the store title
       return text.includes('Store - Install Extensions')
@@ -28,11 +30,11 @@ test('Store extension - searching for spiceblow shows Database', async () => {
   expect(initialOutput).toContain('Store - Install Extensions')
 
   // Type "spiceblow" in the search bar
-  await driver.keys.type('spiceblow')
+  await session.type('spiceblow')
 
   // Get the output after search, waiting for Database to appear
   // This will automatically wait for the API request to complete and results to show
-  const afterSearchOutput = await driver.text({
+  const afterSearchOutput = await session.text({
     waitFor: (text) => {
       return text.includes('Search, update, insert')
     },
@@ -43,11 +45,13 @@ test('Store extension - searching for spiceblow shows Database', async () => {
   expect(afterSearchOutput).toMatchInlineSnapshot(`
     "
 
+
      Store - Install Extensions ───────────────────────────────────────────────
 
      spiceblow
 
-    ›Spiceblow - Sql Database Management Search, update, insert and delete rows in
+    ›piceblow - Sql       Search, update, insert and delete rows in your Sql
+    Database Management  database, deeply integrated with AI
 
 
      ↵ select   ↑↓ navigate   ^k actions"

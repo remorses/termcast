@@ -1,37 +1,37 @@
-// node-pty does not work in bun, so we use vitest to run this test
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/form-tagpicker.tsx'], {
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/form-tagpicker.tsx'],
     cols: 70,
     rows: 50,
   })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('form tagpicker shows inline options', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for form to show up
       return /TagPicker Component Demo/i.test(text)
     },
   })
 
-  // Small delay to ensure form components are fully rendered
-  await driver.waitIdle()
+  await session.waitIdle()
 
-  const initialSnapshot = await driver.text()
+  const initialSnapshot = await session.text()
 
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -60,14 +60,14 @@ test('form tagpicker shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Select Basketball by pressing space
-  await driver.keys.space()
+  await session.press('space')
 
-  const afterSelectBasketballSnapshot = await driver.text()
+  const afterSelectBasketballSnapshot = await session.text()
   expect(afterSelectBasketballSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -96,14 +96,14 @@ test('form tagpicker shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate down
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownSnapshot = await driver.text()
+  const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -132,17 +132,17 @@ test('form tagpicker shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate down to see pagination
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
 
-  const afterMultipleDownSnapshot = await driver.text()
+  const afterMultipleDownSnapshot = await session.text()
   expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -171,14 +171,14 @@ test('form tagpicker shows inline options', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Select an item
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterSelectSnapshot = await driver.text()
+  const afterSelectSnapshot = await session.text()
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -209,21 +209,20 @@ test('form tagpicker shows inline options', async () => {
 }, 15000)
 
 test('form tagpicker keyboard navigation', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for form to show up
       return /TagPicker Component Demo/i.test(text)
     },
   })
 
-  // Select Basketball by pressing space
-  await driver.keys.space()
+  await session.press('space')
 
-  const afterSelectSnapshot = await driver.text()
+  const afterSelectSnapshot = await session.text()
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -252,17 +251,17 @@ test('form tagpicker keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate to last visible item
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.down()
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
 
-  const lastVisibleSnapshot = await driver.text()
+  const lastVisibleSnapshot = await session.text()
   expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -291,14 +290,14 @@ test('form tagpicker keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate to next page
-  await driver.keys.down()
+  await session.press('down')
 
-  const nextPageSnapshot = await driver.text()
+  const nextPageSnapshot = await session.text()
   expect(nextPageSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -327,14 +326,14 @@ test('form tagpicker keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Go back up
-  await driver.keys.up()
+  await session.press('up')
 
-  const backToPreviousPageSnapshot = await driver.text()
+  const backToPreviousPageSnapshot = await session.text()
   expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -363,14 +362,14 @@ test('form tagpicker keyboard navigation', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Escape doesn't close anything since tagpicker is always inline
-  await driver.keys.escape()
+  await session.press('esc')
 
-  const afterEscapeSnapshot = await driver.text()
+  const afterEscapeSnapshot = await session.text()
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
@@ -401,21 +400,20 @@ test('form tagpicker keyboard navigation', async () => {
 }, 15000)
 
 test('form tagpicker with default value', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
-      // wait for form to show up
       return /TagPicker Component Demo/i.test(text)
     },
   })
 
-  // Navigate to second tagpicker
-  await driver.keys.tab()
+  await session.press('tab')
 
-  const secondTagpickerFocusedSnapshot = await driver.text()
+  const secondTagpickerFocusedSnapshot = await session.text()
   expect(secondTagpickerFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◇  Favorite Sport
@@ -444,14 +442,14 @@ test('form tagpicker with default value', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Deselect Germany by pressing space (it was selected by default)
-  await driver.keys.space()
+  await session.press('space')
 
-  const afterDeselectGermanySnapshot = await driver.text()
+  const afterDeselectGermanySnapshot = await session.text()
   expect(afterDeselectGermanySnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◇  Favorite Sport
@@ -480,11 +478,10 @@ test('form tagpicker with default value', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Submit form
-  await driver.keys.escape()
-  await driver.keys.cmdEnter()
+  await session.press('esc')
+  await session.press(['alt', 'enter'])
 
-  const afterSubmitSnapshot = await driver.text({
+  const afterSubmitSnapshot = await session.text({
     waitFor: (text) => {
       return /Submitted Data/i.test(text)
     },
@@ -492,7 +489,8 @@ test('form tagpicker with default value', async () => {
   expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
     "
 
-       TagPicker Component Demo
+
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◇  Favorite Sport
@@ -507,13 +505,21 @@ test('form tagpicker with default value', async () => {
     │  Select your favorite sport from the list
     │
     ◆  Country
-    │  Select a country
+    │  Germany
     │
-    │› ○ Germany
+    │› ● Germany
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
+    │
+    ▪  Submitted Data
+    │  {
+    │    "sports": [],
+    │    "countries": [
+    │      "ger"
+    │    ]
+    │  }
     │
     └
 

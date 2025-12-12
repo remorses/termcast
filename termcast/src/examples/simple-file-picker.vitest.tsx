@@ -1,32 +1,35 @@
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/simple-file-picker.tsx'], {
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/simple-file-picker.tsx'],
     cols: 70,
     rows: 50,
   })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('file picker with autocomplete', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       // wait for form to show up
       return /Your Name/i.test(text)
     },
   })
 
-  const initialSnapshot = await driver.text()
+  const initialSnapshot = await session.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
-    ◇  Your Name
+
+    ◆  Your Name
     │  John Doe
     ◇  Select Files
     │  Enter file path...
@@ -47,18 +50,19 @@ test('file picker with autocomplete', async () => {
   `)
 
   // Tab to navigate to file picker field
-  await driver.keys.tab()
-  await driver.keys.tab()
+  await session.press('tab')
+  await session.press('tab')
 
   // Type "src" to trigger autocomplete
-  await driver.keys.type('src')
+  await session.type('src')
 
   // Wait for autocomplete to appear
   await new Promise((resolve) => setTimeout(resolve, 200))
 
-  const autocompleteSnapshot = await driver.text()
+  const autocompleteSnapshot = await session.text()
   expect(autocompleteSnapshot).toMatchInlineSnapshot(`
     "
+
 
     ◇  Your Name
     │  John Doe
@@ -69,7 +73,7 @@ test('file picker with autocomplete', async () => {
     ◆  Select Folder
     │  src
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁a src                                                      │
+    │  │ 📁 src                                                      │
     ◇  Select─Single─File────────────────────────────────────────────┘
     │  Enter file path...
     │  Choose exactly one file
@@ -81,11 +85,12 @@ test('file picker with autocomplete', async () => {
   `)
 
   // Navigate down in autocomplete
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownSnapshot = await driver.text()
+  const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
+
 
     ◇  Your Name
     │  John Doe
@@ -96,7 +101,7 @@ test('file picker with autocomplete', async () => {
     ◆  Select Folder
     │  src
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁a src                                                      │
+    │  │ 📁 src                                                      │
     ◇  Select─Single─File────────────────────────────────────────────┘
     │  Enter file path...
     │  Choose exactly one file
@@ -108,11 +113,12 @@ test('file picker with autocomplete', async () => {
   `)
 
   // Select item with Enter
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterSelectSnapshot = await driver.text()
+  const afterSelectSnapshot = await session.text()
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
+
 
     ◇  Your Name
     │  John Doe
@@ -123,29 +129,29 @@ test('file picker with autocomplete', async () => {
     ◆  Select Folder
     │  src/
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁a apis                                                     │
+    │  │ 📁 apis                                                     │
     ◇  SelectoSingletFile                                            │
-    │  Enterefilelpath...                                            │
-    │  Choosexexactlysone file                                       │
-    │  │    hooks                                                    │
-    └  │ 📁  internal                                                 │
-       │ 📁  store-api                                                │
-       │    utils                                                    │
-     ↵ submitcti↑↓-navigatex──^k─actions─────────────────────────────┘
-         📄  build.test.tsx"
+    │  Enterefilespath...                                            │
+    │  Chooseoexactly one file                                       │
+    │  │    internal                                                 │
+    └  │ 📁 store-api                                                │
+       │ 📄 action-utils.tsx                                         │
+       │    build.test.tsx                                           │
+     ↵ submit───↑↓─navigate───^k─actions─────────────────────────────┘"
   `)
 
   // Clear and test absolute path
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.type('/tmp')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.type('/tmp')
 
   await new Promise((resolve) => setTimeout(resolve, 200))
 
-  const absolutePathSnapshot = await driver.text()
+  const absolutePathSnapshot = await session.text()
   expect(absolutePathSnapshot).toMatchInlineSnapshot(`
     "
+
 
     ◇  Your Name
     │  John Doe
@@ -156,30 +162,30 @@ test('file picker with autocomplete', async () => {
     ◆  Select Folder
     │  /tmp/
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁  bunx-501-create-tui@latest                               │
-    ◇  SelectoSingleeFilenchd.dhqoLtU5Bo                             │
-    │  Enternfilecpath...cache                                       │
-    │  Chooseoexactly one file                                       │
-    │  │    tmp-mount-4o6LgO                                         │
-    └  │ 📁  tmp-mount-oUF2pm                                         │
-       │ 📁  tmp-mount-qehfhV                                         │
-       │    tmp-mount-V0riCs                                         │
-     ↵ submitdob↑↓Pnavigatelog^k─actions─────────────────────────────┘
-         📄  com.adobe.AdobeIPCBroker.ctrl-morse"
+    │  │ 📁 1.3.4                                                    │
+    ◇  SelectuSingle-File01c73                                       │
+    │  Enterbfile5path...ll@latest                                   │
+    │  Chooseoexactly.onenfileHaIInyg4um                             │
+    │  │    node-compile-cache                                       │
+    └  │ 📁 opentui-test                                             │
+       │ 📁 tmp-mount-512bLW                                         │
+       │    tmp-mount-5pOIbV                                         │
+     ↵ submit───↑↓─navigate───^k─actions─────────────────────────────┘"
   `)
 
   // Test ~ home directory expansion
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.type('~/')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.type('~/')
 
   await new Promise((resolve) => setTimeout(resolve, 200))
 
-  const homeDirectorySnapshot = await driver.text()
+  const homeDirectorySnapshot = await session.text()
   expect(homeDirectorySnapshot).toMatchInlineSnapshot(`
     "
+
 
     ◇  Your Name
     │  John Doe
@@ -190,51 +196,51 @@ test('file picker with autocomplete', async () => {
     ◆  Select Folder
     │  ~//
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁a Applications                                             │
+    │  │ 📁 Applications                                             │
     ◇  SelectwSingle File                                            │
-    │  Entercfileepath...                                            │
-    │  Chooseoexactly_one_filee                                      │
-    │  │    conductor                                                │
-    └  │ 📁  Desktop                                                  │
-       │ 📁  Documents                                                │
-       │    Downloads                                                │
-     ↵ submityad↑↓pnavigate───^k─actions─────────────────────────────┘
-         📁  example-pnpm-pubcket"
+    │  Entercfilenpath..._cache                                      │
+    │  Chooseoexactly one file                                       │
+    │  │    Desktop                                                  │
+    └  │ 📁 Documents                                                │
+       │ 📁 dyad-apps                                                │
+       │    example-pnpm-pubcket                                     │
+     ↵ submit───↑↓─navigate───^k─actions─────────────────────────────┘"
   `)
 }, 15000)
 
 test('file picker keyboard navigation', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       return /Your Name/i.test(text)
     },
   })
 
   // Tab to file picker
-  await driver.keys.tab()
-  await driver.keys.tab()
+  await session.press('tab')
+  await session.press('tab')
 
   // Type to trigger autocomplete
-  await driver.keys.type('.')
+  await session.type('.')
 
   await new Promise((resolve) => setTimeout(resolve, 200))
 
-  const withDotSnapshot = await driver.text()
+  const withDotSnapshot = await session.text()
   expect(withDotSnapshot).toMatchInlineSnapshot(`
     "
 
+
     ◇  Your Name
     │  John Doe
-    ◆  Select Files
+    ◇  Select Files
+    │  Enter file path...
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
     │  .
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁  .termcast-bundle                                         │
-    ◇  SelectgFolderre                                               │
+    │  │ 📁 .termcast-bundle                                         │
+    ◇  SelectgSinglerFile                                            │
     │  Enter─file─path...────────────────────────────────────────────┘
-    │  Choose a folder for output
-    │
-    ◇  Select Single File
-    │  Enter file path...
     │  Choose exactly one file
     │
     └
@@ -244,20 +250,21 @@ test('file picker keyboard navigation', async () => {
   `)
 
   // Test escape key to close autocomplete
-  await driver.keys.escape()
+  await session.press('esc')
 
-  const afterEscapeSnapshot = await driver.text()
+  const afterEscapeSnapshot = await session.text()
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
+
     ◇  Your Name
     │  John Doe
-    ◆  Select Files
-    │  .
+    ◇  Select Files
+    │  Enter file path...
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
+    ◆  Select Folder
+    │  .
     │  Choose a folder for output
     │
     ◇  Select Single File
@@ -271,27 +278,28 @@ test('file picker keyboard navigation', async () => {
   `)
 
   // Type again and navigate with arrows
-  await driver.keys.type('s')
+  await session.type('s')
 
   await new Promise((resolve) => setTimeout(resolve, 200))
 
   // Navigate down multiple times
-  await driver.keys.down()
-  await driver.keys.down()
-  await driver.keys.up()
+  await session.press('down')
+  await session.press('down')
+  await session.press('up')
 
-  const afterNavigationSnapshot = await driver.text()
+  const afterNavigationSnapshot = await session.text()
   expect(afterNavigationSnapshot).toMatchInlineSnapshot(`
     "
 
+
     ◇  Your Name
     │  John Doe
-    ◆  Select Files
-    │  .s
+    ◇  Select Files
+    │  Enter file path...
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
+    ◆  Select Folder
+    │  .s
     │  Choose a folder for output
     │
     ◇  Select Single File

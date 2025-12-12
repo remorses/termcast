@@ -1,22 +1,23 @@
-// node-pty does not work in bun, so we use vitest to run this test
 import { test, expect, afterEach, beforeEach } from 'vitest'
-import { NodeTuiDriver } from 'termcast/src/e2e-node'
+import { launchTerminal, Session } from 'tuistory/src'
 
-let driver: NodeTuiDriver
+let session: Session
 
-beforeEach(() => {
-  driver = new NodeTuiDriver('bun', ['src/examples/simple-grid.tsx'], {
+beforeEach(async () => {
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/simple-grid.tsx'],
     cols: 70,
     rows: 50,
   })
 })
 
 afterEach(() => {
-  driver?.dispose()
+  session?.close()
 })
 
 test('grid navigation and display', async () => {
-  const initialSnapshot = await driver.text({
+  const initialSnapshot = await session.text({
     waitFor: (text) => {
       // wait for grid to show up with all sections and items
       return (
@@ -31,6 +32,7 @@ test('grid navigation and display', async () => {
 
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
@@ -60,11 +62,12 @@ test('grid navigation and display', async () => {
   `)
 
   // Navigate down
-  await driver.keys.down()
+  await session.press('down')
 
-  const afterDownSnapshot = await driver.text()
+  const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
@@ -94,12 +97,13 @@ test('grid navigation and display', async () => {
   `)
 
   // Navigate right to Animals section
-  await driver.keys.down()
-  await driver.keys.down()
+  await session.press('down')
+  await session.press('down')
 
-  const animalsSnapshot = await driver.text()
+  const animalsSnapshot = await session.text()
   expect(animalsSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
@@ -129,45 +133,47 @@ test('grid navigation and display', async () => {
   `)
 
   // Open actions with ctrl+k
-  await driver.keys.ctrlK()
+  await session.press(['ctrl', 'k'])
 
-  const actionsSnapshot = await driver.text()
+  const actionsSnapshot = await session.text()
   expect(actionsSnapshot).toMatchInlineSnapshot(`
     "
 
-    Simple Grid Example ────────────────────────────────────────────
 
-    Search items...
+      Simple Grid Example ────────────────────────────────────────────
 
-
-    Fruits
-    Apple
-    Banana
-    Cherry
+      Search items...
 
 
-                                                                esc
+      Fruits
+      Apple
+      Banana
+      Cherry
 
-     Search actions...
-    ›Show Details
-     Copy Emoji                                                  ⌃C
+    ┃┃Animals
+    ┃                                                                  ┃
+    ┃                                                            esc   ┃
+    ┃                                                                  ┃
+    ┃   Search actions...                                              ┃
+    ┃  ›Show Details                                                   ┃
+    ┃   Copy Emoji                                                ⌃C   ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃Sun
 
 
-     ↵ select   ↑↓ navigate
-
-    Moon
-    Sun
-
-
-    ↵ select   ↑↓ navigate   ^k actions"
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Close actions with escape
-  await driver.keys.escape()
+  await session.press('esc')
 
-  const afterEscapeSnapshot = await driver.text()
+  const afterEscapeSnapshot = await session.text()
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
@@ -198,7 +204,7 @@ test('grid navigation and display', async () => {
 }, 15000)
 
 test('grid search functionality', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       // wait for grid to show up
       return /Simple Grid Example/i.test(text)
@@ -206,15 +212,16 @@ test('grid search functionality', async () => {
   })
 
   // Search for "cat"
-  await driver.keys.type('cat')
+  await session.type('cat')
 
-  const searchCatSnapshot = await driver.text({
+  const searchCatSnapshot = await session.text({
     waitFor: (text) => {
       return /cat/i.test(text)
     },
   })
   expect(searchCatSnapshot).toMatchInlineSnapshot(`
     "
+
 
     Simple Grid Example ────────────────────────────────────────────
 
@@ -227,18 +234,19 @@ test('grid search functionality', async () => {
   `)
 
   // Clear search and search for "space"
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.type('space')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.type('space')
 
-  const searchSpaceSnapshot = await driver.text({
+  const searchSpaceSnapshot = await session.text({
     waitFor: (text) => {
       return /space/i.test(text)
     },
   })
   expect(searchSpaceSnapshot).toMatchInlineSnapshot(`
     "
+
 
     Simple Grid Example ────────────────────────────────────────────
 
@@ -254,15 +262,16 @@ test('grid search functionality', async () => {
   `)
 
   // Clear search completely
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
-  await driver.keys.backspace()
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
+  await session.press('backspace')
 
-  const clearedSearchSnapshot = await driver.text()
+  const clearedSearchSnapshot = await session.text()
   expect(clearedSearchSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
@@ -292,15 +301,16 @@ test('grid search functionality', async () => {
   `)
 
   // Search for something that doesn't exist
-  await driver.keys.type('xyz123')
+  await session.type('xyz123')
 
-  const noResultsSnapshot = await driver.text({
+  const noResultsSnapshot = await session.text({
     waitFor: (text) => {
       return /xyz123/i.test(text)
     },
   })
   expect(noResultsSnapshot).toMatchInlineSnapshot(`
     "
+
 
     Simple Grid Example ────────────────────────────────────────────
 
@@ -313,7 +323,7 @@ test('grid search functionality', async () => {
 }, 10000)
 
 test('grid item selection and actions', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       // wait for grid to show up
       return /Simple Grid Example/i.test(text)
@@ -321,79 +331,82 @@ test('grid item selection and actions', async () => {
   })
 
   // Select first item and open actions
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const firstItemActionsSnapshot = await driver.text()
+  const firstItemActionsSnapshot = await session.text()
   expect(firstItemActionsSnapshot).toMatchInlineSnapshot(`
     "
 
-     Simple Grid Example ────────────────────────────────────────────
 
-     Search items...
+      Simple Grid Example ────────────────────────────────────────────
 
-
-     Fruits
-    ›Apple
-     Banana
-     Cherry
+      Search items...
 
 
-                                                                 esc
+      Fruits
+     ›Apple
+      Banana
+      Cherry
 
-      Search actions...
-     ›Show Details
-      Copy Emoji                                                  ⌃C
+    ┃┃Animals
+    ┃                                                                  ┃
+    ┃                                                            esc   ┃
+    ┃                                                                  ┃
+    ┃   Search actions...                                              ┃
+    ┃  ›Show Details                                                   ┃
+    ┃   Copy Emoji                                                ⌃C   ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃Sun
 
 
-      ↵ select   ↑↓ navigate
-
-     Moon
-     Sun
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate down in actions
-  await driver.keys.down()
+  await session.press('down')
 
-  const secondActionSnapshot = await driver.text()
+  const secondActionSnapshot = await session.text()
   expect(secondActionSnapshot).toMatchInlineSnapshot(`
     "
 
-     Simple Grid Example ────────────────────────────────────────────
 
-     Search items...
+      Simple Grid Example ────────────────────────────────────────────
 
-
-     Fruits
-    ›Apple
-     Banana
-     Cherry
+      Search items...
 
 
-                                                                 esc
+      Fruits
+     ›Apple
+      Banana
+      Cherry
 
-      Search actions...
-      Show Details
-     ›Copy Emoji                                                  ⌃C
+    ┃┃Animals
+    ┃                                                                  ┃
+    ┃                                                            esc   ┃
+    ┃                                                                  ┃
+    ┃   Search actions...                                              ┃
+    ┃   Show Details                                                   ┃
+    ┃  ›Copy Emoji                                                ⌃C   ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃Sun
 
 
-      ↵ select   ↑↓ navigate
-
-     Moon
-     Sun
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Select "Copy Emoji" action
-  await driver.keys.enter()
+  await session.press('enter')
 
-  const afterCopySnapshot = await driver.text()
+  const afterCopySnapshot = await session.text()
   expect(afterCopySnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
@@ -424,7 +437,7 @@ test('grid item selection and actions', async () => {
 }, 10000)
 
 test('grid mouse interaction', async () => {
-  await driver.text({
+  await session.text({
     waitFor: (text) => {
       // wait for grid to show up
       return /Simple Grid Example/i.test(text)
@@ -432,11 +445,12 @@ test('grid mouse interaction', async () => {
   })
 
   // Click on "Dog" item
-  await driver.clickText('Dog')
+  await session.click('Dog', { first: true })
 
-  const afterClickDogSnapshot = await driver.text()
+  const afterClickDogSnapshot = await session.text()
   expect(afterClickDogSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
@@ -466,11 +480,12 @@ test('grid mouse interaction', async () => {
   `)
 
   // Click on "Star" item
-  await driver.clickText('Star')
+  await session.click('Star', { first: true })
 
-  const afterClickStarSnapshot = await driver.text()
+  const afterClickStarSnapshot = await session.text()
   expect(afterClickStarSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
@@ -500,11 +515,12 @@ test('grid mouse interaction', async () => {
   `)
 
   // Click on "Apple" to go back to first section
-  await driver.clickText('Apple')
+  await session.click('Apple', { first: true })
 
-  const afterClickAppleSnapshot = await driver.text()
+  const afterClickAppleSnapshot = await session.text()
   expect(afterClickAppleSnapshot).toMatchInlineSnapshot(`
     "
+
 
      Simple Grid Example ────────────────────────────────────────────
 
