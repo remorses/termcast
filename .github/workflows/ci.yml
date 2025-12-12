@@ -33,6 +33,5 @@ jobs:
       # scripts
       - run: bun run binary
         working-directory: termcast
-      - name: Run unit tests
-        run: bun test || bun test
+      - run: bun run test || bun run test
         working-directory: termcast

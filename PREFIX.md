@@ -40,6 +40,8 @@ ALWAYS!
 
 ## React
 
+NEVER NEVER use forwardRef. it is not needed. instead just use a ref prop like React 19 best practice
+
 NEVER pass function or callbacks as dependencies of useEffect, this will very easily cause infinite loops if you forget to use useCallback
 
 NEVER use useCallback. it is useless if we never pass functions in useEffect dependencies
@@ -409,7 +411,8 @@ do something like this for every new element you want to use and not know about,
 
 ---
 
-## submodules
+
+## Submodules
 
 the folders tuistory and ghostty-opentui are submodules. they should always stay in branch main and not be detached. do not commit unless asked.
 
@@ -418,3 +421,43 @@ the folders tuistory and ghostty-opentui are submodules. they should always stay
 this is a package to test tui interfaces. 
 
 if there are issues with ANSI sequences in the snapshots the problem is probably in the package ghostty-opentui. which is where most of terminal rendering logic is
+
+The following folders are git submodules:
+
+- `tuistory/` - Package for testing TUI interfaces
+- `ghostty-opentui/` - Zig/Ghostty terminal emulation library
+
+## Submodule Detached HEAD Issue
+
+Git submodules frequently end up in a "detached HEAD" state. This happens because:
+
+1. **Submodules track commits, not branches** - The parent repo stores a specific commit SHA, not a branch name like "main"
+2. **`git submodule update` checks out commits** - Running `git submodule update` or cloning with `--recurse-submodules` checks out that specific SHA, putting you in detached HEAD
+3. **No branch tracking by default** - `.gitmodules` doesn't specify a branch to follow
+
+### Fixing detached HEAD while keeping changes
+
+If you made commits on the detached HEAD:
+
+```bash
+cd <submodule>
+git checkout main
+git cherry-pick <commit-sha>...  # cherry-pick your commits onto main
+```
+
+Or if no divergence from main:
+
+```bash
+cd <submodule>
+git checkout main
+```
+
+### Prevention
+
+After any submodule update, cd into submodules and run `git checkout main` before making changes.
+
+## Submodule Rules
+
+- Submodules should always stay on branch `main`, never detached
+- Do not commit submodule changes unless explicitly asked
+- Each submodule has its own AGENTS.md with package-specific guidelines

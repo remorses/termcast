@@ -12,7 +12,7 @@ import React, {
   createContext,
   useContext,
 } from 'react'
-import { TextAttributes } from '@opentui/core'
+import { TextAttributes, ScrollBoxRenderable } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import { logger } from 'termcast/src/logger'
 import { Theme } from 'termcast/src/theme'
@@ -310,6 +310,7 @@ interface ListItemDescendant {
   actions?: ReactNode
   visible?: boolean
   detail?: ReactNode
+  elementRef?: { y: number; height: number } | null
 }
 
 const {
@@ -505,8 +506,9 @@ function ListItemRow(props: {
   isShowingDetail?: boolean
   onMouseDown?: () => void
   index?: number
+  ref?: React.Ref<any>
 }) {
-  const { title, subtitle, accessories, active } = props
+  const { title, subtitle, accessories, active, ref } = props
   const [isHovered, setIsHovered] = useState(false)
 
   // Format accessories for display
@@ -550,6 +552,7 @@ function ListItemRow(props: {
 
   return (
     <box
+      ref={ref}
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -562,8 +565,12 @@ function ListItemRow(props: {
         paddingRight: 1,
       }}
       border={false}
-      onMouseMove={() => setIsHovered(true)}
-      onMouseOut={() => setIsHovered(false)}
+      onMouseMove={() => {
+        setIsHovered(true)
+      }}
+      onMouseOut={() => {
+        setIsHovered(false)
+      }}
       onMouseDown={props.onMouseDown}
     >
       <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
@@ -625,7 +632,7 @@ export const List: ListType = (props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
   const inputRef = useRef<any>(null)
-  const scrollBoxRef = useRef<any>(null)
+  const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useListDescendants()
   const navigationPending = useNavigationPending()
 
@@ -696,15 +703,36 @@ export const List: ListType = (props) => {
     }
   }, [selectedItemId])
 
+  const scrollToItem = (item: { props?: ListItemDescendant }) => {
+    const scrollBox = scrollBoxRef.current
+    const elementRef = item.props?.elementRef
+    if (!scrollBox || !elementRef) return
+
+    const contentY = scrollBox.content?.y || 0
+    const viewportHeight = scrollBox.viewport?.height || 10
+    const currentScrollTop = scrollBox.scrollTop || 0
+
+    const itemTop = elementRef.y - contentY
+    const itemBottom = itemTop + elementRef.height
+
+    const visibleTop = currentScrollTop
+    const visibleBottom = currentScrollTop + viewportHeight
+
+    if (itemTop < visibleTop) {
+      scrollBox.scrollTo(itemTop)
+    } else if (itemBottom > visibleBottom) {
+      scrollBox.scrollTo(itemBottom - viewportHeight)
+    }
+  }
+
   const move = (direction: -1 | 1) => {
-    // Get all visible items
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
       .sort((a, b) => a.index - b.index)
 
     if (items.length === 0) return
 
-    // Find currently selected item's position in visible items
+
     let currentVisibleIndex = items.findIndex(
       (item) => item.index === selectedIndex,
     )
@@ -712,11 +740,11 @@ export const List: ListType = (props) => {
       // If current selection is not visible, select first visible item
       if (items[0]) {
         setSelectedIndex(items[0].index)
+        scrollToItem(items[0])
       }
       return
     }
 
-    // Calculate next visible index
     let nextVisibleIndex = currentVisibleIndex + direction
     if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
     if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
@@ -724,10 +752,10 @@ export const List: ListType = (props) => {
     const nextItem = items[nextVisibleIndex]
     if (nextItem) {
       setSelectedIndex(nextItem.index)
+      scrollToItem(nextItem)
     }
   }
 
-  // Handle keyboard navigation
   const inFocus = useIsInFocus()
   const dialog = useDialog()
 
@@ -852,6 +880,7 @@ export const List: ListType = (props) => {
             <box style={{ marginTop: 1, width: isShowingDetail ? '50%' : '100%', flexGrow: isShowingDetail ? 0 : 1, flexShrink: 1, flexDirection: 'column' }}>
               {/* Scrollable list items */}
               <ScrollBox
+                ref={scrollBoxRef}
                 focused={false}
                 flexGrow={1}
                 flexShrink={1}
@@ -927,6 +956,7 @@ const ListItem: ListItemType = (props) => {
   const { sectionTitle } = listSectionContext
   const listContext = useContext(ListContext)
   const dialog = useDialog()
+  const elementRef = useRef<{ y: number; height: number } | null>(null)
 
   // Extract text values for descendant registration
   const titleText =
@@ -962,6 +992,7 @@ const ListItem: ListItemType = (props) => {
     actions: props.actions,
     visible: isVisible,
     detail: props.detail,
+    elementRef: elementRef.current,
   })
 
   // Get selected index from parent List context
@@ -1004,6 +1035,7 @@ const ListItem: ListItemType = (props) => {
       isShowingDetail={props.detail !== undefined}
       onMouseDown={handleMouseDown}
       index={index}
+      ref={elementRef}
     />
   )
 }

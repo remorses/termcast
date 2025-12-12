@@ -8,7 +8,7 @@
     "release": "cd .. && bun changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
     "binary": "bun build ./src/cli.tsx --env-file=\"\" --compile --outfile bin",
     "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
-    "agents.md": "agentsdotmd ./PREFIX.md core.md typescript.md github.md react.md vitest.md changelog.md docs-writing.md doppler.md cac.md prisma.md zod.md",
+
     "play": "bun src/cli.tsx",
     "test": "bun test && bun e2e",
     "e2e": "vitest --run"

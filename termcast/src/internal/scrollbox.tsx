@@ -6,6 +6,7 @@ interface ScrollBoxProps {
   flexGrow?: number
   flexShrink?: number
   style?: any
+  ref?: React.Ref<any>
 }
 
 export function ScrollBox({
@@ -14,10 +15,12 @@ export function ScrollBox({
   flexGrow,
   flexShrink,
   style,
+  ref,
   ...props
 }: ScrollBoxProps): any {
   return (
     <scrollbox
+      ref={ref}
       focused={focused}
       flexGrow={flexGrow}
       flexShrink={flexShrink}

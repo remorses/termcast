@@ -94,6 +94,11 @@ function SimpleListExample() {
             </ActionPanel>
           }
         />
+        <List.Item id='orange' title='Orange' subtitle='Citrus and juicy' accessories={[{ text: 'Fresh' }]} />
+        <List.Item id='grape' title='Grape' subtitle='Sweet clusters' accessories={[{ tag: 'Seasonal' }]} />
+        <List.Item id='mango' title='Mango' subtitle='Tropical delight' accessories={[{ text: 'Imported' }]} />
+        <List.Item id='pineapple' title='Pineapple' subtitle='Sweet and tangy' />
+        <List.Item id='strawberry' title='Strawberry' subtitle='Red and sweet' accessories={[{ tag: 'Popular' }]} />
       </List.Section>
       <List.Section title='Vegetables'>
         <List.Item
@@ -157,6 +162,11 @@ function SimpleListExample() {
             </ActionPanel>
           }
         />
+        <List.Item id='broccoli' title='Broccoli' subtitle='Green florets' accessories={[{ tag: 'Healthy' }]} />
+        <List.Item id='spinach' title='Spinach' subtitle='Leafy greens' accessories={[{ text: 'Organic' }]} />
+        <List.Item id='tomato' title='Tomato' subtitle='Red and ripe' />
+        <List.Item id='cucumber' title='Cucumber' subtitle='Cool and crisp' />
+        <List.Item id='pepper' title='Bell Pepper' subtitle='Colorful and crunchy' accessories={[{ tag: 'Fresh' }]} />
       </List.Section>
       <List.Item
         id='bread'
@@ -189,6 +199,7 @@ function SimpleListExample() {
           </ActionPanel>
         }
       />
+
     </List>
   )
 }

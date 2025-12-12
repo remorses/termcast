@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "format": "prettier --write .",
-
+    "agents.md": "agentsdotmd ./PREFIX.md core.md typescript.md github.md react.md vitest.md changelog.md docs-writing.md doppler.md cac.md prisma.md zod.md",
     "release": "cd termcast && bun run release"
   },
   "devDependencies": {
