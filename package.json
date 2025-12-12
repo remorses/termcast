@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "format": "prettier --write .",
+    "agents.md": "agentsdotmd ./PREFIX.md core.md typescript.md github.md react.md vitest.md changelog.md docs-writing.md doppler.md cac.md prisma.md zod.md",
     "release": "cd termcast && bun run release"
   },
   "devDependencies": {
@@ -30,5 +31,10 @@
     "node-window-manager",
     "extract-file-icon",
     "node-gyp-build"
-  ]
+  ],
+  "dependencies": {
+    "@opentui/core": "^0.1.59",
+    "@opentui/react": "^0.1.59",
+    "ghostty-opentui": "^1.3.6"
+  }
 }
