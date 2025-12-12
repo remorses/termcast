@@ -8,6 +8,7 @@
     "release": "cd .. && bun changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
     "binary": "bun build ./src/cli.tsx --env-file=\"\" --compile --outfile bin",
     "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
+    "agents.md": "agentsdotmd ./PREFIX.md core.md typescript.md github.md react.md vitest.md changelog.md docs-writing.md doppler.md cac.md prisma.md zod.md",
     "play": "bun src/cli.tsx",
     "test": "bun test && bun e2e",
     "e2e": "vitest --run"
@@ -44,6 +45,7 @@
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.62.0",
     "string-dedent": "^3.0.2",
+    "tuistory": "workspace:*",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
