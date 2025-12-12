@@ -11,6 +11,7 @@ import React, {
   useLayoutEffect,
   createContext,
   useContext,
+  useCallback,
 } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
@@ -272,6 +273,8 @@ interface ListContextValue {
   isFiltering: boolean
   setCurrentDetail?: (detail: ReactNode) => void
   isShowingDetail?: boolean
+  registerItemRef?: (index: number, ref: any) => void
+  unregisterItemRef?: (index: number) => void
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -625,8 +628,21 @@ export const List: ListType = (props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
   const inputRef = useRef<any>(null)
+  const scrollBoxRef = useRef<any>(null)
+  const itemRefs = useRef<Map<number, any>>(new Map())
   const descendantsContext = useListDescendants()
   const navigationPending = useNavigationPending()
+
+  // Register/unregister item refs
+  const registerItemRef = useCallback((index: number, ref: any) => {
+    if (ref) {
+      itemRefs.current.set(index, ref)
+    }
+  }, [])
+
+  const unregisterItemRef = useCallback((index: number) => {
+    itemRefs.current.delete(index)
+  }, [])
 
   const searchText =
     controlledSearchText !== undefined

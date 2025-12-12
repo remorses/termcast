@@ -25,7 +25,7 @@ jobs:
         with:
           bun-version: latest
       - name: Install dependencies
-        run: bun install
+        run: bun install --verbose || bun install --verbose
       # Build submodules
       - name: Build ghostty-opentui
         run: bun run build
