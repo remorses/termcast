@@ -1,15 +1,15 @@
-[2025-12-12T17:20:06.773Z] Building 5 commands...
-[2025-12-12T17:20:06.777Z] Resolving @raycast/api to termcast
-[2025-12-12T17:20:06.777Z] Resolving @raycast/api to termcast
-[2025-12-12T17:20:06.777Z] Resolving @raycast/api to termcast
-[2025-12-12T17:20:06.779Z] Resolving @raycast/api to termcast
-[2025-12-12T17:20:06.804Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
-[2025-12-12T17:20:06.804Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
-[2025-12-12T17:20:06.804Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
-[2025-12-12T17:20:06.804Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
-[2025-12-12T17:20:06.804Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
-[2025-12-12T17:20:06.804Z] Successfully built 5 files
-[2025-12-12T17:20:07.223Z] ERROR: Cache subscriber error: Subscriber error
+[2025-12-12T17:21:22.010Z] Building 5 commands...
+[2025-12-12T17:21:22.014Z] Resolving @raycast/api to termcast
+[2025-12-12T17:21:22.014Z] Resolving @raycast/api to termcast
+[2025-12-12T17:21:22.014Z] Resolving @raycast/api to termcast
+[2025-12-12T17:21:22.016Z] Resolving @raycast/api to termcast
+[2025-12-12T17:21:22.035Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-12-12T17:21:22.035Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-12-12T17:21:22.035Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-12-12T17:21:22.035Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-12-12T17:21:22.035Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-12-12T17:21:22.035Z] Successfully built 5 files
+[2025-12-12T17:21:22.455Z] ERROR: Cache subscriber error: Subscriber error
 Error: Subscriber error
     at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/dist/cache.test.js:156:27)
     at unknown
@@ -17,18 +17,18 @@ Error: Subscriber error
     at set (/Users/morse/Documents/GitHub/termcast/termcast/dist/cache.js:141:14)
     at toThrow (unknown)
     at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/dist/cache.test.js:162:57)
-[2025-12-12T17:20:07.384Z] Building 5 commands...
-[2025-12-12T17:20:07.385Z] Resolving @raycast/api to termcast
-[2025-12-12T17:20:07.385Z] Resolving @raycast/api to termcast
-[2025-12-12T17:20:07.385Z] Resolving @raycast/api to termcast
-[2025-12-12T17:20:07.389Z] Resolving @raycast/api to termcast
-[2025-12-12T17:20:07.399Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
-[2025-12-12T17:20:07.399Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
-[2025-12-12T17:20:07.399Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
-[2025-12-12T17:20:07.399Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
-[2025-12-12T17:20:07.399Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
-[2025-12-12T17:20:07.399Z] Successfully built 5 files
-[2025-12-12T17:20:09.302Z] ERROR: Cache subscriber error: Subscriber error
+[2025-12-12T17:21:22.617Z] Building 5 commands...
+[2025-12-12T17:21:22.617Z] Resolving @raycast/api to termcast
+[2025-12-12T17:21:22.617Z] Resolving @raycast/api to termcast
+[2025-12-12T17:21:22.617Z] Resolving @raycast/api to termcast
+[2025-12-12T17:21:22.622Z] Resolving @raycast/api to termcast
+[2025-12-12T17:21:22.631Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-12-12T17:21:22.632Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-12-12T17:21:22.632Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-12-12T17:21:22.632Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-12-12T17:21:22.632Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-12-12T17:21:22.632Z] Successfully built 5 files
+[2025-12-12T17:21:24.451Z] ERROR: Cache subscriber error: Subscriber error
 Error: Subscriber error
     at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/apis/cache.test.ts:203:19)
     at unknown
@@ -36,7 +36,7 @@ Error: Subscriber error
     at set (/Users/morse/Documents/GitHub/termcast/termcast/src/apis/cache.tsx:177:10)
     at toThrow (unknown)
     at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/src/apis/cache.test.ts:211:51)
-[2025-12-12T17:20:11.161Z] ERROR: Cache subscriber error: Subscriber error
+[2025-12-12T17:21:26.331Z] ERROR: Cache subscriber error: Subscriber error
 Error: Subscriber error
     at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/dist/apis/cache.test.js:156:27)
     at unknown
@@ -44,9 +44,9 @@ Error: Subscriber error
     at set (/Users/morse/Documents/GitHub/termcast/termcast/dist/apis/cache.js:141:14)
     at toThrow (unknown)
     at <anonymous> (/Users/morse/Documents/GitHub/termcast/termcast/dist/apis/cache.test.js:162:57)
-[2025-12-12T17:20:11.345Z] WARN: useActionPanel is deprecated and has no alternative
-[2025-12-12T17:20:11.345Z] WARN: useActionPanel is deprecated and has no alternative
-[2025-12-12T17:20:11.345Z] WARN: ActionPanel.update() is deprecated and has no effect {
+[2025-12-12T17:21:26.521Z] WARN: useActionPanel is deprecated and has no alternative
+[2025-12-12T17:21:26.521Z] WARN: useActionPanel is deprecated and has no alternative
+[2025-12-12T17:21:26.521Z] WARN: ActionPanel.update() is deprecated and has no effect {
   actionPanel: "Test Panel",
 }
-[2025-12-12T17:20:11.345Z] WARN: useUnstableAI is deprecated. Use useAI from @raycast/utils instead
+[2025-12-12T17:21:26.521Z] WARN: useUnstableAI is deprecated. Use useAI from @raycast/utils instead
