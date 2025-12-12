@@ -8,7 +8,7 @@ beforeEach(async () => {
     command: 'bun',
     args: ['src/examples/simple-navigation.tsx'],
     cols: 70,
-    rows: 50,
+    rows: 25,
   })
 })
 
@@ -36,12 +36,21 @@ test('navigation between main and detail views', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
-
-
-     Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
-     Third Item Navigate to third detail
+                                                                     ▲
+     Items                                                           █
+    ›First Item Navigate to first detail                             █
+     Second Item Navigate to second detail                           █
+     Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -58,12 +67,21 @@ test('navigation between main and detail views', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
-
-
-     Items
-     First Item Navigate to first detail
-    ›Second Item Navigate to second detail
-     Third Item Navigate to third detail
+                                                                     ▲
+     Items                                                           █
+     First Item Navigate to first detail                             █
+    ›Second Item Navigate to second detail                           █
+     Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -80,14 +98,8 @@ test('navigation between main and detail views', async () => {
       Navigation Example ─────────────────────────────────────────────
 
       Main view
-
-
-      Items
-      First Item Navigate to first detail
-     ›Second Item Navigate to second detail
-      Third Item Navigate to third detail
-
-    ┃┃
+                                                                      ▲
+    ┃┃Items                                                           █
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -98,7 +110,12 @@ test('navigation between main and detail views', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃                                                                █
+                                                                      █
+                                                                      ▼
+
+
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Press Enter again to select "Open Details" action
@@ -117,11 +134,21 @@ test('navigation between main and detail views', async () => {
      Detail: Second Item ────────────────────────────────────────────
 
      Detail view - Press ESC to go back
-
-
-     Details
-    ›his is the detail view for   Press Enter to go back or ESC to
-    Second Item                  navigate back
+                                                                     ▲
+     Details                                                         █
+    ›his is the detail view for   Press Enter to go back or ESC to   █
+    Second Item                  navigate back                       █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -143,12 +170,21 @@ test('navigation between main and detail views', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
-
-
-     Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
-     Third Item Navigate to third detail
+                                                                     ▲
+     Items                                                           █
+    ›First Item Navigate to first detail                             █
+     Second Item Navigate to second detail                           █
+     Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -166,12 +202,21 @@ test('navigation between main and detail views', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
-
-
-     Items
-     First Item Navigate to first detail
-     Second Item Navigate to second detail
-    ›Third Item Navigate to third detail
+                                                                     ▲
+     Items                                                           █
+     First Item Navigate to first detail                             █
+     Second Item Navigate to second detail                           █
+    ›Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -188,14 +233,8 @@ test('navigation between main and detail views', async () => {
       Navigation Example ─────────────────────────────────────────────
 
       Main view
-
-
-      Items
-      First Item Navigate to first detail
-      Second Item Navigate to second detail
-     ›Third Item Navigate to third detail
-
-    ┃┃
+                                                                      ▲
+    ┃┃Items                                                           █
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -206,7 +245,12 @@ test('navigation between main and detail views', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃                                                                █
+                                                                      █
+                                                                      ▼
+
+
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate to detail
@@ -224,11 +268,21 @@ test('navigation between main and detail views', async () => {
      Detail: Third Item ─────────────────────────────────────────────
 
      Detail view - Press ESC to go back
-
-
-     Details
-    ›his is the detail view for   Press Enter to go back or ESC to
-    Third Item                   navigate back
+                                                                     ▲
+     Details                                                         █
+    ›his is the detail view for   Press Enter to go back or ESC to   █
+    Third Item                   navigate back                       █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -245,14 +299,8 @@ test('navigation between main and detail views', async () => {
       Detail: Third Item ─────────────────────────────────────────────
 
       Detail view - Press ESC to go back
-
-
-      Details
-     ›his is the detail view for   Press Enter to go back or ESC to
-     Third Item                   navigate back
-
-
-    ┃┃↵ select   ↑↓ navigate   ^k actions
+                                                                      ▲
+    ┃┃Details                                                         █
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -263,7 +311,12 @@ test('navigation between main and detail views', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃                                                                █
+                                                                      █
+                                                                      ▼
+
+
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Select "Go Back" action
@@ -281,12 +334,21 @@ test('navigation between main and detail views', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
-
-
-     Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
-     Third Item Navigate to third detail
+                                                                     ▲
+     Items                                                           █
+    ›First Item Navigate to first detail                             █
+     Second Item Navigate to second detail                           █
+     Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -312,14 +374,8 @@ test('navigation with actions panel', async () => {
       Navigation Example ─────────────────────────────────────────────
 
       Main view
-
-
-      Items
-     ›First Item Navigate to first detail
-      Second Item Navigate to second detail
-      Third Item Navigate to third detail
-
-    ┃┃
+                                                                      ▲
+    ┃┃Items                                                           █
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -330,7 +386,12 @@ test('navigation with actions panel', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃                                                                █
+                                                                      █
+                                                                      ▼
+
+
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate down in actions panel
@@ -344,14 +405,8 @@ test('navigation with actions panel', async () => {
       Navigation Example ─────────────────────────────────────────────
 
       Main view
-
-
-      Items
-     ›First Item Navigate to first detail
-      Second Item Navigate to second detail
-      Third Item Navigate to third detail
-
-    ┃┃
+                                                                      ▲
+    ┃┃Items                                                           █
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -362,7 +417,12 @@ test('navigation with actions panel', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃                                                                █
+                                                                      █
+                                                                      ▼
+
+
+      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   // Select the Copy Title action
@@ -376,16 +436,23 @@ test('navigation with actions panel', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
+                                                                     ▲
+     Items                                                           █
+    ›First Item Navigate to first detail                             █
+     Second Item Navigate to second detail                           █
+     Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
-     Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
-     Third Item Navigate to third detail
-
-
-     ┌────────────────────────────────────┐
-     │ ✓ Copied to Clipboard - First Item │
+     ┌─✓─Copied─to─Clipboard─-─First─Item─┐
      └────────────────────────────────────┘"
   `)
 
@@ -406,15 +473,23 @@ test('navigation with actions panel', async () => {
      Detail: Second Item ────────────────────────────────────────────
 
      Detail view - Press ESC to go back
+                                                                     ▲
+     Details                                                         █
+    ›his is the detail view for   Press Enter to go back or ESC to   █
+    Second Item                  navigate back                       █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
-     Details
-    ›his is the detail view for   Press Enter to go back or ESC to
-    Second Item                  navigate back
-
-
-     ┌──────────────────────────────────────────────────────────────┐
-     │ ✓ Copied to Clipboard - First Item                           │
+     ┌─✓─Copied─to─Clipboard─-─First─Item───────────────────────────┐
      └──────────────────────────────────────────────────────────────┘"
   `)
 
@@ -429,14 +504,8 @@ test('navigation with actions panel', async () => {
       Detail: Second Item ────────────────────────────────────────────
 
       Detail view - Press ESC to go back
-
-
-      Details
-     ›his is the detail view for   Press Enter to go back or ESC to
-     Second Item                  navigate back
-
-
-    ┃┃┌──────────────────────────────────────────────────────────────┐
+                                                                      ▲
+    ┃┃Details                                                         █
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -447,7 +516,12 @@ test('navigation with actions panel', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃"
+    ┃┃                                                                █
+                                                                      ▼
+
+
+      ┌─✓─Copied─to─Clipboard─-─First─Item───────────────────────────┐
+      └──────────────────────────────────────────────────────────────┘"
   `)
 
   // Select Go Back action
@@ -465,16 +539,23 @@ test('navigation with actions panel', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
+                                                                     ▲
+     Items                                                           █
+    ›First Item Navigate to first detail                             █
+     Second Item Navigate to second detail                           █
+     Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
-     Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
-     Third Item Navigate to third detail
-
-
-     ┌──────────────────────────────────────────────────────────────┐
-     │ ✓ Copied to Clipboard - First Item                           │
+     ┌─✓─Copied─to─Clipboard─-─First─Item───────────────────────────┐
      └──────────────────────────────────────────────────────────────┘"
   `)
 }, 15000)
@@ -502,8 +583,21 @@ test('search functionality in main and detail views', async () => {
     Navigation Example ─────────────────────────────────────────────
 
     second
-
-    Second Item Navigate to second detail
+    Second Item Navigate to second detail                           ▲
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    ▼
 
 
     ↵ select   ↑↓ navigate   ^k actions"
@@ -525,12 +619,21 @@ test('search functionality in main and detail views', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
-
-
-     Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
-     Third Item Navigate to third detail
+                                                                     ▲
+     Items                                                           █
+    ›First Item Navigate to first detail                             █
+     Second Item Navigate to second detail                           █
+     Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -554,11 +657,21 @@ test('search functionality in main and detail views', async () => {
      Detail: First Item ─────────────────────────────────────────────
 
      Detail view - Press ESC to go back
-
-
-     Details
-    ›his is the detail view for   Press Enter to go back or ESC to
-    First Item                   navigate back
+                                                                     ▲
+     Details                                                         █
+    ›his is the detail view for   Press Enter to go back or ESC to   █
+    First Item                   navigate back                       █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -579,7 +692,21 @@ test('search functionality in main and detail views', async () => {
     Detail: First Item ─────────────────────────────────────────────
 
     test
-
+                                                                    ▲
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    █
+                                                                    ▼
 
 
     ↵ select   ↑↓ navigate   ^k actions"
@@ -600,12 +727,21 @@ test('search functionality in main and detail views', async () => {
      Navigation Example ─────────────────────────────────────────────
 
      Main view
-
-
-     Items
-    ›First Item Navigate to first detail
-     Second Item Navigate to second detail
-     Third Item Navigate to third detail
+                                                                     ▲
+     Items                                                           █
+    ›First Item Navigate to first detail                             █
+     Second Item Navigate to second detail                           █
+     Third Item Navigate to third detail                             █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"

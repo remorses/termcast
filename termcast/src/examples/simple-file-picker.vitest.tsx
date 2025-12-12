@@ -29,7 +29,7 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◆  Your Name
+    ◇  Your Name
     │  John Doe
     ◇  Select Files
     │  Enter file path...
@@ -164,12 +164,12 @@ test('file picker with autocomplete', async () => {
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁 1.3.4                                                    │
     ◇  SelectuSingle-File01c73                                       │
-    │  Enterbfile5path...ll@latest                                   │
-    │  Chooseoexactly.onenfileHaIInyg4um                             │
-    │  │    node-compile-cache                                       │
-    └  │ 📁 opentui-test                                             │
-       │ 📁 tmp-mount-512bLW                                         │
-       │    tmp-mount-5pOIbV                                         │
+    │  Enterbfile5path...ique@latest                                 │
+    │  Chooseuexactlynonelfiletest                                   │
+    │  │    com.apple.launchd.HaIInyg4um                             │
+    └  │ 📁 node-compile-cache                                       │
+       │ 📁 powerlogtest                                             │
+       │    tmp-mount-512bLW                                         │
      ↵ submit───↑↓─navigate───^k─actions─────────────────────────────┘"
   `)
 

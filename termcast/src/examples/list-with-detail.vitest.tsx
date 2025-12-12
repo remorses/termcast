@@ -44,20 +44,7 @@ test('list with detail view display and navigation', async () => {
                                          █│ Grass / Poison
                                          █│
                                          █│
-                                         █│ ───────────────────────────────────
-                                         █│
-                                         █│ Types:
-                                         █│ Grass:
-                                         █│ ─────────────────
-                                         █│ ─────────────────
-                                         █│ Characteristics:
-                                         █│ Height:        0.7m
-                                         █│ ─────────────────
-                                          │ Weight:        6.9kg
-                                         ▼│ Abilities:───────
-                                          │ Chlorophyll:   Main Series
-                                          │ ─────────────────
-     ↵ select   ↑↓ navigate   ^k actions    Overgrow:      Main Series"
+                                         █│ ──────────────────────────────────"
   `)
 
   await session.press('down')
@@ -217,7 +204,7 @@ test('list with detail view display and navigation', async () => {
     "
 
 
-     Pokemon List ────────────���────────────────────────────────────────────────
+     Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
      bulbasaur #001                      ▲│ # charmander

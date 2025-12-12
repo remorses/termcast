@@ -8,7 +8,7 @@ beforeEach(async () => {
     command: 'bun',
     args: ['src/examples/list-fetch-data.tsx'],
     cols: 70,
-    rows: 50,
+    rows: 25,
   })
 })
 
@@ -36,16 +36,21 @@ test('list shows initial items after fetch', async () => {
      SVG Library ────────────────────────────────────────────────────
 
      Search...
-
-
-     Icons
-    ›Home Icon Category: Icons
-     User Icon Category: Icons
-     Settings Icon Category: Icons
-
-     Illustrations
-     Welcome Banner Category: Illustrations
-     Hero Image Category: Illustrations
+                                                                     ▲
+     Icons                                                           █
+    ›Home Icon Category: Icons                                       █
+     User Icon Category: Icons                                       █
+     Settings Icon Category: Icons                                   █
+                                                                     █
+     Illustrations                                                   █
+     Welcome Banner Category: Illustrations                          █
+     Hero Image Category: Illustrations                              █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -62,16 +67,21 @@ test('list shows initial items after fetch', async () => {
      SVG Library ────────────────────────────────────────────────────
 
      Search...
-
-
-     Icons
-     Home Icon Category: Icons
-    ›User Icon Category: Icons
-     Settings Icon Category: Icons
-
-     Illustrations
-     Welcome Banner Category: Illustrations
-     Hero Image Category: Illustrations
+                                                                     ▲
+     Icons                                                           █
+     Home Icon Category: Icons                                       █
+    ›User Icon Category: Icons                                       █
+     Settings Icon Category: Icons                                   █
+                                                                     █
+     Illustrations                                                   █
+     Welcome Banner Category: Illustrations                          █
+     Hero Image Category: Illustrations                              █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
@@ -87,16 +97,21 @@ test('list shows initial items after fetch', async () => {
      SVG Library ────────────────────────────────────────────────────
 
      Search...
-
-
-     Icons
-     Home Icon Category: Icons
-     User Icon Category: Icons
-     Settings Icon Category: Icons
-
-     Illustrations
-    ›Welcome Banner Category: Illustrations
-     Hero Image Category: Illustrations
+                                                                     ▲
+     Icons                                                           █
+     Home Icon Category: Icons                                       █
+     User Icon Category: Icons                                       █
+     Settings Icon Category: Icons                                   █
+                                                                     █
+     Illustrations                                                   █
+    ›Welcome Banner Category: Illustrations                          █
+     Hero Image Category: Illustrations                              █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
      ↵ select   ↑↓ navigate   ^k actions"
