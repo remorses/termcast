@@ -501,3 +501,45 @@ test('list actions panel with ctrl+k', async () => {
      └─────────────────────────────────────────────────────┘"
   `)
 }, 10000)
+
+test('list scrollbox scrolling with arrow keys', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /search/i.test(text)
+    },
+  })
+
+  // Initial state - Apple is selected at the top
+  const initialSnapshot = await session.text()
+  expect(initialSnapshot).toMatchInlineSnapshot()
+
+  // Navigate down through all items to test scrolling
+  await session.press('down') // Banana
+  await session.press('down') // Carrot
+  await session.press('down') // Lettuce
+  await session.press('down') // Bread (last item)
+
+  const afterScrollDownSnapshot = await session.text()
+  expect(afterScrollDownSnapshot).toMatchInlineSnapshot()
+
+  // Navigate back up
+  await session.press('up') // Lettuce
+  await session.press('up') // Carrot
+  await session.press('up') // Banana
+  await session.press('up') // Apple
+
+  const afterScrollUpSnapshot = await session.text()
+  expect(afterScrollUpSnapshot).toMatchInlineSnapshot()
+
+  // Test page down navigation
+  await session.press('pagedown')
+
+  const afterPageDownSnapshot = await session.text()
+  expect(afterPageDownSnapshot).toMatchInlineSnapshot()
+
+  // Test page up navigation
+  await session.press('pageup')
+
+  const afterPageUpSnapshot = await session.text()
+  expect(afterPageUpSnapshot).toMatchInlineSnapshot()
+}, 10000)
