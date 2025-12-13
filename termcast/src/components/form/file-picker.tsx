@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Theme } from 'termcast/src/theme'
+import { BoxRenderable } from '@opentui/core'
 import { WithLeftBorder } from './with-left-border'
 import { FormItemProps, FormItemRef } from './types'
 import { useFormContext, Controller } from 'react-hook-form'
-import { useFocusContext } from './index'
+import { useFocusContext, useFormFieldDescendant } from './index'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { FileAutocomplete } from './file-autocomplete'
@@ -183,6 +184,14 @@ export const FilePicker = (props: FilePickerProps): any => {
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
 
+  const elementRef = useRef<BoxRenderable>(null)
+
+  // Register as form field descendant for scroll support
+  useFormFieldDescendant({
+    id: props.id,
+    elementRef: elementRef.current,
+  })
+
   const handleNavigateUp = () => {
     // Find previous field and focus it
     const fieldNames = Object.keys(getValues())
@@ -225,12 +234,14 @@ export const FilePicker = (props: FilePickerProps): any => {
       defaultValue={props.defaultValue || props.value || []}
       render={(renderProps) => {
         return (
-          <FilePickerField
-            {...renderProps}
-            props={props}
-            isFocused={isFocused}
-            setFocusedField={setFocusedField}
-          />
+          <box ref={elementRef} flexDirection='column'>
+            <FilePickerField
+              {...renderProps}
+              props={props}
+              isFocused={isFocused}
+              setFocusedField={setFocusedField}
+            />
+          </box>
         ) as React.ReactElement
       }}
     />

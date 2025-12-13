@@ -8,7 +8,7 @@ import React, {
   useEffect,
   Children,
 } from 'react'
-import { TextAttributes } from '@opentui/core'
+import { TextAttributes, BoxRenderable } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import {
   useFormContext,
@@ -16,7 +16,7 @@ import {
   ControllerRenderProps,
   ControllerFieldState,
 } from 'react-hook-form'
-import { useFocusContext } from './index'
+import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from 'termcast/src/logger'
 import { Theme } from 'termcast/src/theme'
@@ -239,6 +239,14 @@ const DropdownContent = ({
   const [focusedIndex, setFocusedIndex] = useState(0)
   const [offset, setOffset] = useState(0)
 
+  const elementRef = useRef<BoxRenderable>(null)
+
+  // Register as form field descendant for scroll support
+  useFormFieldDescendant({
+    id: props.id,
+    elementRef: elementRef.current,
+  })
+
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
   const [itemsCount, setItemsCount] = useState(0)
 
@@ -430,7 +438,7 @@ const DropdownContent = ({
   return (
     <FormDropdownDescendantsProvider value={descendantsContext}>
       <FormDropdownContext.Provider value={contextValue}>
-        <box flexDirection='column'>
+        <box ref={elementRef} flexDirection='column'>
           <WithLeftBorder withDiamond isFocused={isFocused}>
             <text
               fg={Theme.text}

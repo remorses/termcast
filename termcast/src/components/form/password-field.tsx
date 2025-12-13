@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { TextAttributes } from '@opentui/core'
+import React, { useState, useRef } from 'react'
+import { TextAttributes, BoxRenderable } from '@opentui/core'
 import { useFormContext, Controller } from 'react-hook-form'
-import { useFocusContext } from './index'
+import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from 'termcast/src/logger'
 import { Theme } from 'termcast/src/theme'
@@ -19,6 +19,14 @@ export const PasswordField = (props: PasswordFieldProps): any => {
   const { focusedField, setFocusedField } = useFocusContext()
   const isFocused = focusedField === props.id
 
+  const elementRef = useRef<BoxRenderable>(null)
+
+  // Register as form field descendant for scroll support
+  useFormFieldDescendant({
+    id: props.id,
+    elementRef: elementRef.current,
+  })
+
   // Use form navigation hook
   useFormNavigation(props.id)
 
@@ -34,7 +42,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
           : '*'.repeat(field.value.length)
 
         return (
-          <box flexDirection='column'>
+          <box ref={elementRef} flexDirection='column'>
             <WithLeftBorder withDiamond isFocused={isFocused}>
               <text
                 fg={Theme.text}

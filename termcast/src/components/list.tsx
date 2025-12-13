@@ -1,30 +1,25 @@
-import React, {
-  ReactNode,
-  ReactElement,
-  Children,
-  isValidElement,
-  useState,
-  useEffect,
-  useRef,
-  Fragment,
-  useMemo,
-  useLayoutEffect,
-  createContext,
-  useContext,
-} from 'react'
-import { TextAttributes, ScrollBoxRenderable, BoxRenderable } from '@opentui/core'
+import { BoxRenderable, ScrollBoxRenderable, TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
-import { logger } from 'termcast/src/logger'
-import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
-import { Action, ActionPanel } from 'termcast/src/components/actions'
-import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
-import { CommonProps } from 'termcast/src/utils'
-import { useStore } from 'termcast/src/state'
-import { useDialog } from 'termcast/src/internal/dialog'
-import { createDescendants } from 'termcast/src/descendants'
+import React, {
+    ReactElement,
+    ReactNode,
+    createContext,
+    useContext,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react'
 import { LoadingBar } from 'termcast/src/components/loading-bar'
+import { createDescendants } from 'termcast/src/descendants'
+import { useDialog } from 'termcast/src/internal/dialog'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useNavigationPending } from 'termcast/src/internal/navigation'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
+import { useStore } from 'termcast/src/state'
+import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
+import { CommonProps } from 'termcast/src/utils'
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -54,6 +49,7 @@ function ListFooter(): any {
       border={false}
       style={{
         paddingLeft: 1,
+        flexShrink: 0,
         paddingRight: 1,
         paddingTop: 1,
         marginTop: 1,
@@ -65,11 +61,11 @@ function ListFooter(): any {
       </text>
       <text fg={Theme.textMuted}> select</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'   '}↑↓
+        {'  '}↑↓
       </text>
       <text fg={Theme.textMuted}> navigate</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'   '}^k
+        {'  '}^k
       </text>
       <text fg={Theme.textMuted}> actions</text>
     </box>
@@ -1075,7 +1071,7 @@ const ListItemDetail: ListItemDetailType = (props) => {
       >
         <box style={{ flexDirection: 'column' }}>
           {markdown && (
-            <code content={markdown} filetype="markdown" syntaxStyle={markdownSyntaxStyle} />
+            <code content={markdown} filetype="markdown" syntaxStyle={markdownSyntaxStyle} drawUnstyledText={false} />
           )}
           {metadata && (
             <box

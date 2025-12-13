@@ -321,7 +321,7 @@ const Detail: DetailType = (props) => {
         }}
       >
         {props.markdown && (
-          <code  content={props.markdown} conceal  filetype="markdown" syntaxStyle={markdownSyntaxStyle} />
+          <code content={props.markdown} conceal filetype="markdown" syntaxStyle={markdownSyntaxStyle} drawUnstyledText={false} />
         )}
         {props.metadata}
       </box>

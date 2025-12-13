@@ -1,4 +1,10 @@
-import React, { useState, createContext, useContext, useEffect } from 'react'
+import React, {
+  useState,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react'
 import { useKeyboard } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { ActionPanel } from 'termcast/src/components/actions'
@@ -6,8 +12,16 @@ import { logger } from 'termcast/src/logger'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { Theme } from 'termcast/src/theme'
-import { TextAttributes } from '@opentui/core'
+import {
+  TextAttributes,
+  ScrollBoxRenderable,
+  BoxRenderable,
+} from '@opentui/core'
 import { useStore } from 'termcast/src/state'
+import {
+  createDescendants,
+  DescendantContextType,
+} from 'termcast/src/descendants'
 import {
   FormValues,
   FormProps,
@@ -23,6 +37,33 @@ import {
 
 export * from './types'
 export { useFormContext } from 'react-hook-form'
+
+// Form field descendant type - stores element ref for scrolling
+interface FormFieldDescendant {
+  id: string
+  elementRef?: BoxRenderable | null
+}
+
+// Create descendants for form fields
+const {
+  DescendantsProvider: FormFieldDescendantsProvider,
+  useDescendants: useFormFieldDescendants,
+  useDescendant: useFormFieldDescendant,
+} = createDescendants<FormFieldDescendant>()
+
+export { useFormFieldDescendant }
+
+// Context to provide scrollbox ref and descendants to form fields
+interface FormScrollContextValue {
+  scrollBoxRef: React.RefObject<ScrollBoxRenderable | null>
+  descendantsContext: DescendantContextType<FormFieldDescendant>
+}
+
+const FormScrollContext = createContext<FormScrollContextValue | null>(null)
+
+export const useFormScrollContext = () => {
+  return useContext(FormScrollContext)
+}
 
 // Context for managing focused field
 interface FocusContextValue {
@@ -157,14 +198,50 @@ export const Form: FormType = ((props) => {
     // mode: 'onChange',
   })
 
-  const [focusedField, setFocusedField] = useState<string | null>(null)
+  const [focusedField, setFocusedFieldRaw] = useState<string | null>(null)
+
+  const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
+  const descendantsContext = useFormFieldDescendants()
+
+  const scrollToField = (fieldId: string) => {
+    const scrollBox = scrollBoxRef.current
+    if (!scrollBox) return
+
+    // Find field in descendants map by matching props.id
+    const field = Object.values(descendantsContext.map.current).find(
+      (item) => item.props?.id === fieldId,
+    )
+    const elementRef = field?.props?.elementRef
+    if (!elementRef) return
+
+    const contentY = scrollBox.content?.y || 0
+    const viewportHeight = scrollBox.viewport?.height || 10
+    const currentScrollTop = scrollBox.scrollTop || 0
+
+    // Access current position from the BoxRenderable ref
+    const itemTop = elementRef.y - contentY
+    const itemBottom = itemTop + elementRef.height
+
+    if (itemTop < currentScrollTop) {
+      scrollBox.scrollTo(itemTop)
+    } else if (itemBottom > currentScrollTop + viewportHeight) {
+      scrollBox.scrollTo(itemBottom - viewportHeight)
+    }
+  }
+
+  const setFocusedField = (id: string | null) => {
+    setFocusedFieldRaw(id)
+    if (id) {
+      scrollToField(id)
+    }
+  }
 
   // Auto-focus first field on mount
   useEffect(() => {
     const fieldNames = Object.keys(methods.getValues())
     if (fieldNames.length > 0) {
       logger.log(`focusing `, fieldNames[0])
-      setFocusedField(fieldNames[0])
+      setFocusedFieldRaw(fieldNames[0])
     } else {
       logger.log(`no fields to focus in form`)
     }
@@ -202,16 +279,33 @@ export const Form: FormType = ((props) => {
     getFormValues: () => methods.getValues(),
   }
 
+  const scrollContextValue: FormScrollContextValue = {
+    scrollBoxRef,
+    descendantsContext,
+  }
+
   return (
     <FormProvider {...methods}>
       <FormSubmitContext.Provider value={submitContextValue}>
-        <FocusContext.Provider value={{ focusedField, setFocusedField }}>
-          <box flexDirection='column'>
-            {props.children}
-            <FormEnd />
-            <FormFooter />
-          </box>
-        </FocusContext.Provider>
+        <FormScrollContext.Provider value={scrollContextValue}>
+          <FocusContext.Provider value={{ focusedField, setFocusedField }}>
+            <box flexDirection='column' flexGrow={1}>
+              <scrollbox
+                ref={scrollBoxRef}
+                style={{
+                  flexGrow: 1,
+                  width: '100%',
+                }}
+              >
+                <FormFieldDescendantsProvider value={descendantsContext}>
+                  {props.children}
+                  <FormEnd />
+                </FormFieldDescendantsProvider>
+              </scrollbox>
+              <FormFooter />
+            </box>
+          </FocusContext.Provider>
+        </FormScrollContext.Provider>
       </FormSubmitContext.Provider>
     </FormProvider>
   )
