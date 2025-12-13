@@ -15,7 +15,7 @@ How to add scrollbox support to opentui components using the descendants pattern
 ```tsx
 interface ItemDescendant {
   title: string
-  elementRef?: { y: number; height: number } | null
+  elementRef?: BoxRenderable | null
 }
 
 const { DescendantsProvider, useDescendants, useDescendant } =
@@ -72,7 +72,7 @@ const move = (direction: -1 | 1) => {
 
 ```tsx
 function Item(props: { title: string; isSelected: boolean }) {
-  const elementRef = React.useRef<any>(null)
+  const elementRef = React.useRef<BoxRenderable>(null)
   
   useDescendant({
     title: props.title,

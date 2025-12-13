@@ -1,13 +1,14 @@
 import React, { ReactNode, useMemo, ReactElement } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
-import { Theme } from 'termcast/src/theme'
+import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { ActionPanel, Action } from 'termcast/src/components/actions'
 import { Image } from 'termcast/src/components/list'
 import { Color } from 'termcast/src/colors'
 import { useStore } from 'termcast/src/state'
 import { useDialog } from 'termcast/src/internal/dialog'
+import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -172,10 +173,11 @@ const DetailMetadata: DetailMetadataType = (props) => {
     <box
       style={{
         flexDirection: 'column',
-        paddingTop: 2,
-        paddingLeft: 2,
-        paddingRight: 2,
+        paddingTop: 1,
       }}
+      border={['top']}
+      borderStyle='single'
+      borderColor={Theme.border}
     >
       {props.children}
     </box>
@@ -285,17 +287,10 @@ const Detail: DetailType = (props) => {
   const dialog = useDialog()
   const inFocus = useIsInFocus()
 
-  const markdownLines = useMemo(() => {
-    if (!props.markdown) return []
-    // TODO: Implement proper markdown parsing
-    return props.markdown.split('\n')
-  }, [props.markdown])
-
   const firstActionTitle = useMemo(() => {
     return actions ? getFirstActionTitle(actions) : undefined
   }, [actions])
 
-  // Handle Ctrl+K and Return to show actions
   useKeyboard((evt) => {
     if (!inFocus) return
 
@@ -307,43 +302,34 @@ const Detail: DetailType = (props) => {
   })
 
   const content = (
-    <box
+    <ScrollBox
+      focused={false}
+      flexGrow={1}
+      flexShrink={1}
       style={{
-        flexDirection: 'row',
-        flexGrow: 1,
-        width: '100%',
+        rootOptions: {
+          backgroundColor: undefined,
+        },
+
       }}
     >
       <box
         style={{
-          flexGrow: 1,
           flexDirection: 'column',
           paddingTop: 2,
-          // paddingLeft: 2,
-          paddingRight: props.metadata ? 1 : 2,
+          paddingRight: 2,
         }}
       >
-        {markdownLines.map((line, index) => (
-          <text key={index} fg={Theme.text}>
-            {line || ' '}
-          </text>
-        ))}
+        {props.markdown && (
+          <code  content={props.markdown} conceal  filetype="markdown" syntaxStyle={markdownSyntaxStyle} />
+        )}
+        {props.metadata}
       </box>
-      {props.metadata && (
-        <box
-          style={{
-            flexShrink: 0,
-            width: 40,
-          }}
-        >
-          {props.metadata}
-        </box>
-      )}
-    </box>
+    </ScrollBox>
   )
 
   return (
-    <box style={{ flexDirection: 'column', height: '100%' }}>
+    <box style={{ flexDirection: 'column', height: '100%', flexGrow: 1 }}>
       {content}
       <DetailFooter
         hasActions={!!actions}

@@ -104,18 +104,20 @@ test('navigation between main and detail views', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›Open Details                                                   ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
+    ┃  ›Open Details                                                █  ┃
+    ┃   Copy Title                                                  █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃                                                                █
-                                                                      █
-                                                                      ▼
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃"
   `)
 
   // Press Enter again to select "Open Details" action
@@ -239,18 +241,20 @@ test('navigation between main and detail views', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›Open Details                                                   ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
+    ┃  ›Open Details                                                █  ┃
+    ┃   Copy Title                                                  █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃                                                                █
-                                                                      █
-                                                                      ▼
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃"
   `)
 
   // Navigate to detail
@@ -305,18 +309,20 @@ test('navigation between main and detail views', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›Go Back                                                        ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
+    ┃  ›Go Back                                                     █  ┃
+    ┃   Copy Title                                                  █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃                                                                █
-                                                                      █
-                                                                      ▼
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃"
   `)
 
   // Select "Go Back" action
@@ -380,18 +386,20 @@ test('navigation with actions panel', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›Open Details                                                   ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
+    ┃  ›Open Details                                                █  ┃
+    ┃   Copy Title                                                  █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃                                                                █
-                                                                      █
-                                                                      ▼
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃"
   `)
 
   // Navigate down in actions panel
@@ -411,18 +419,20 @@ test('navigation with actions panel', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃   Open Details                                                   ┃
-    ┃  ›Copy Title                                                     ┃
-    ┃                                                                  ┃
+    ┃   Open Details                                                █  ┃
+    ┃  ›Copy Title                                                  █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃                                                                █
-                                                                      █
-                                                                      ▼
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃"
   `)
 
   // Select the Copy Title action
@@ -510,18 +520,20 @@ test('navigation with actions panel', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›Go Back                                                        ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
+    ┃  ›Go Back                                                     █  ┃
+    ┃   Copy Title                                                  █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃                                                                █
-                                                                      ▼
-
-
-      ┌─✓─Copied─to─Clipboard─-─First─Item───────────────────────────┐
-      └──────────────────────────────────────────────────────────────┘"
+    ┃┃"
   `)
 
   // Select Go Back action

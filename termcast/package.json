@@ -8,7 +8,6 @@
     "release": "cd .. && bun changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
     "binary": "bun build ./src/cli.tsx --env-file=\"\" --compile --outfile bin",
     "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
-
     "play": "bun src/cli.tsx",
     "test": "bun test && bun e2e",
     "e2e": "vitest --run"
@@ -30,8 +29,8 @@
   "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
   "license": "",
   "dependencies": {
-    "@opentui/core": "0.1.44",
-    "@opentui/react": "0.1.44",
+    "@opentui/core": "0.1.60",
+    "@opentui/react": "0.1.60",
     "@tanstack/react-query": "^5.85.5",
     "@tanstack/react-query-persist-client": "^5.85.5",
     "cac": "^6.7.14",
@@ -50,12 +49,12 @@
   },
   "devDependencies": {
     "@types/bun": "^1.2.21",
-    "@types/node": "^24.3.0",
+    "@types/node": "^25.0.1",
     "@raycast/api": "^1.102.5",
     "@raycast/utils": "^2.2.1",
     "@xterm/addon-serialize": "^0.13.0",
     "@xterm/headless": "^5.5.0",
-    "bun-pty": "^0.3.2",
-    "vitest": "^3.2.4"
+    "bun-pty": "^0.4.2",
+    "vitest": "^4.0.15"
   }
 }

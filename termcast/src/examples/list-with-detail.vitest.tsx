@@ -34,8 +34,8 @@ test('list with detail view display and navigation', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-    ›bulbasaur #001                      ▲│ # bulbasaur
-     ivysaur #002                        █│
+    ›bulbasaur #001                      ▲│ # bulbasaur                       ▲
+     ivysaur #002                        █│                                   █
      charmander #004                     █│ ![Illustration](https://assets.
      charmeleon #005                     █│ pokemon.com/assets/cms2/img/
      squirtle #007                       █│ pokedex/full/001.png)
@@ -43,8 +43,21 @@ test('list with detail view display and navigation', async () => {
                                          █│ ## Types
                                          █│ Grass / Poison
                                          █│
+                                         █│ ## Characteristics
+                                         █│ - Height: 0.7m
+                                         █│ - Weight: 6.9kg
                                          █│
-                                         █│ ──────────────────────────────────"
+                                         █│ ## Abilities
+                                         █│ - Chlorophyll
+                                         █│ - Overgrow
+                                         █│ ──────────────────────────────────
+                                         █│
+                                         █│ Types:
+                                          │
+                                         ▼│ Grass:
+                                          │ ─────────────────
+                                          │                                   ▼
+     ↵ select   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -57,30 +70,29 @@ test('list with detail view display and navigation', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-     bulbasaur #001                      ▲│ # ivysaur
-    ›ivysaur #002                        █│
-     charmander #004                     █│ ![Illustration](https://assets.
-     charmeleon #005                     █│ pokemon.com/assets/cms2/img/
-     squirtle #007                       █│ pokedex/full/002.png)
-     wartortle #008                      █│
-                                         █│ ## Types
-                                         █│ Grass / Poison
+     bulbasaur #001                      ▲│ ivysaur                           ▲
+    ›ivysaur #002                        █│                                   █
+     charmander #004                     █│ Illustration
+     charmeleon #005                     █│
+     squirtle #007                       █│ Types
+     wartortle #008                      █│ Grass / Poison
                                          █│
+                                         █│ Characteristics
+                                         █│ - Height: 1m
+                                         █│ - Weight: 13kg
                                          █│
-                                         █│ ───────────────────────────────────
+                                         █│ Abilities
+                                         █│ - Chlorophyll
+                                         █│ - Overgrow
+                                         █│ ──────────────────────────────────
                                          █│
                                          █│ Types:
+                                         █│
                                          █│ Grass:
-                                         █│ ─────────────────
-                                         █│ ─────────────────
-                                         █│ Characteristics:
-                                         █│ Height:        1m
-                                         █│ ─────────────────
-                                          │ Weight:        13kg
-                                         ▼│ Abilities:───────
-                                          │ Chlorophyll:   Main Series
-                                          │ ─────────────────
-     ↵ select   ↑↓ navigate   ^k actions    Overgrow:      Main Series"
+                                         ▼│ ─────────────────
+                                          │
+                                          │ Poison:
+     ↵ select   ↑↓ navigate   ^k actions  │ ─────────────────                 ▼"
   `)
 
   await session.press('down')
@@ -93,29 +105,29 @@ test('list with detail view display and navigation', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-     bulbasaur #001                      ▲│ # charmander
-     ivysaur #002                        █│
-    ›charmander #004                     █│ ![Illustration](https://assets.
-     charmeleon #005                     █│ pokemon.com/assets/cms2/img/
-     squirtle #007                       █│ pokedex/full/004.png)
-     wartortle #008                      █│
-                                         █│ ## Types
-                                         █│ Fire
+     bulbasaur #001                      ▲│ charmander                        ▲
+     ivysaur #002                        █│                                   █
+    ›charmander #004                     █│ Illustration                      ▀
+     charmeleon #005                     █│
+     squirtle #007                       █│ Types
+     wartortle #008                      █│ Fire
                                          █│
-                                         █│ ## Characteristics
-                                         █│ ───────────────────────────────────
+                                         █│ Characteristics
+                                         █│ - Height: 0.6m
+                                         █│ - Weight: 8.5kg
+                                         █│
+                                         █│ Abilities
+                                         █│ - Blaze
+                                         █│ - Solar Power
+                                         █│ ──────────────────────────────────
                                          █│
                                          █│ Types:
+                                         █│
                                          █│ Fire:
-                                         █│ ─────────────────
-                                         █│ Characteristics:
-                                         █│ Height:        0.6m
-                                         █│ Weight:────────8.5kg
-                                         █│ ─────────────────
-                                         ▼│ Abilities:
-                                          │ Blaze:         Main Series
-                                          │ ─────────────────
-     ↵ select   ↑↓ navigate   ^k actions  │ Solar Power:   Main Series"
+                                         ▼│ ─────────────────
+                                          │
+                                          │ Characteristics:
+     ↵ select   ↑↓ navigate   ^k actions  │ Height:        0.6m               ▼"
   `)
 
   await session.press(['ctrl', 'k'])
@@ -128,29 +140,29 @@ test('list with detail view display and navigation', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-     bulbasaur #001                      ▲│ # charmander
-     ivysaur #002                        █│
-    ┃┃harmander #004                     █│ ![Illustration](https://assets.
+     bulbasaur #001                      ▲│ charmander                        ▲
+     ivysaur #002                        █│                                   █
+    ┃┃harmander #004                     █│ Illustration                      ▀
     ┃                                                                          ┃
     ┃                                                                    esc   ┃
     ┃                                                                          ┃
     ┃   Search actions...                                                      ┃
-    ┃  ›Toggle Detail                                                          ┃
-    ┃   View on Pokemon.com                                                    ┃
-    ┃                                                                          ┃
+    ┃  ›Toggle Detail                                                       █  ┃
+    ┃   View on Pokemon.com                                                 █  ┃
+    ┃                                                                       █  ┃
+    ┃                                                                       █  ┃
+    ┃                                                                       █  ┃
+    ┃                                                                       █  ┃
+    ┃                                                                       █  ┃
+    ┃                                                                       █  ┃
+    ┃                                                                       █  ┃
+    ┃                                                                       █  ┃
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-    ┃┃                                   █│ Fire:
-                                         █│ ─────────────────
-                                         █│ Characteristics:
-                                         █│ Height:        0.6m
-                                         █│ Weight:────────8.5kg
-                                         █│ ─────────────────
-                                         ▼│ Abilities:
-                                          │ Blaze:         Main Series
-                                          │ ─────────────────
-     ↵ select   ↑↓ navigate   ^k actions  │ Solar Power:   Main Series"
+    ┃┃                                    │
+                                          │ Characteristics:
+     ↵ select   ↑↓ navigate   ^k actions  │ Height:        0.6m               ▼"
   `)
 
   await session.press('enter')
@@ -197,7 +209,7 @@ test('list with detail view display and navigation', async () => {
 
   const detailOnAgainSnapshot = await session.text({
     waitFor: (text) => {
-      return text.includes('## Types')
+      return text.includes('charmander') && text.includes('Fire')
     },
   })
   expect(detailOnAgainSnapshot).toMatchInlineSnapshot(`
@@ -207,29 +219,29 @@ test('list with detail view display and navigation', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-     bulbasaur #001                      ▲│ # charmander
-     ivysaur #002                        █│
-    ›charmander #004                     █│ ![Illustration](https://assets.
-     charmeleon #005                     █│ pokemon.com/assets/cms2/img/
-     squirtle #007                       █│ pokedex/full/004.png)
-     wartortle #008                      █│
-                                         █│ ## Types
-                                         █│ Fire
+     bulbasaur #001                      ▲│ charmander                        ▲
+     ivysaur #002                        █│                                   █
+    ›charmander #004                     █│ Illustration                      ▀
+     charmeleon #005                     █│
+     squirtle #007                       █│ Types
+     wartortle #008                      █│ Fire
                                          █│
-                                         █│ ## Characteristics
-                                         █│ ───────────────────────────────────
+                                         █│ Characteristics
+                                         █│ - Height: 0.6m
+                                         █│ - Weight: 8.5kg
+                                         █│
+                                         █│ Abilities
+                                         █│ - Blaze
+                                         █│ - Solar Power
+                                         █│ ──────────────────────────────────
                                          █│
                                          █│ Types:
+                                         █│
                                          █│ Fire:
-                                         █│ ─────────────────
-                                         █│ Characteristics:
-                                         █│ Height:        0.6m
-                                         █│ Weight:────────8.5kg
-                                         █│ ─────────────────
-                                         ▼│ Abilities:
-                                          │ Blaze:         Main Series
-                                          │ ─────────────────
-     ↵ select   ↑↓ navigate   ^k actions  │ Solar Power:   Main Series"
+                                         ▼│ ─────────────────
+                                          │
+                                          │ Characteristics:
+     ↵ select   ↑↓ navigate   ^k actions  │ Height:        0.6m               ▼"
   `)
 }, 15000)
 
@@ -254,30 +266,29 @@ test('list detail view search functionality', async () => {
     Pokemon List ─────────────────────────────────────────────────────────────
 
     char
-    charmander #004                     ▲│ # bulbasaur
-    charmeleon #005                     █│
-                                        █│ ![Illustration](https://assets.
-                                        █│ pokemon.com/assets/cms2/img/
-                                        █│ pokedex/full/001.png)
+    charmander #004                     ▲│ bulbasaur                         ▲
+    charmeleon #005                     █│                                   █
+                                        █│ Illustration
                                         █│
-                                        █│ ## Types
+                                        █│ Types
                                         █│ Grass / Poison
                                         █│
+                                        █│ Characteristics
+                                        █│ - Height: 0.7m
+                                        █│ - Weight: 6.9kg
                                         █│
-                                        █│ ───────────────────────────────────
+                                        █│ Abilities
+                                        █│ - Chlorophyll
+                                        █│ - Overgrow
+                                        █│ ──────────────────────────────────
                                         █│
                                         █│ Types:
+                                        █│
                                         █│ Grass:
-                                        █│ ─────────────────
-                                        █│ ─────────────────
-                                        █│ Characteristics:
-                                        █│ Height:        0.7m
-                                        █│ ─────────────────
-                                         │ Weight:        6.9kg
-                                        ▼│ Abilities:───────
-                                         │ Chlorophyll:   Main Series
-                                         │ ─────────────────
-    ↵ select   ↑↓ navigate   ^k actions    Overgrow:      Main Series"
+                                        ▼│ ─────────────────
+                                         │
+                                         │ Poison:
+    ↵ select   ↑↓ navigate   ^k actions  │ ─────────────────                 ▼"
   `)
 
   await session.press('backspace')
@@ -299,30 +310,29 @@ test('list detail view search functionality', async () => {
     Pokemon List ─────────────────────────────────────────────────────────────
 
     water
-                                        ▲│ # bulbasaur
+                                        ▲│ bulbasaur                         ▲
+                                        █│                                   █
+                                        █│ Illustration
                                         █│
-                                        █│ ![Illustration](https://assets.
-                                        █│ pokemon.com/assets/cms2/img/
-                                        █│ pokedex/full/001.png)
-                                        █│
-                                        █│ ## Types
+                                        █│ Types
                                         █│ Grass / Poison
                                         █│
+                                        █│ Characteristics
+                                        █│ - Height: 0.7m
+                                        █│ - Weight: 6.9kg
                                         █│
-                                        █│ ───────────────────────────────────
+                                        █│ Abilities
+                                        █│ - Chlorophyll
+                                        █│ - Overgrow
+                                        █│ ──────────────────────────────────
                                         █│
                                         █│ Types:
+                                        █│
                                         █│ Grass:
-                                        █│ ─────────────────
-                                        █│ ─────────────────
-                                        █│ Characteristics:
-                                        █│ Height:        0.7m
-                                        █│ ─────────────────
-                                         │ Weight:        6.9kg
-                                        ▼│ Abilities:───────
-                                         │ Chlorophyll:   Main Series
-                                         │ ─────────────────
-    ↵ select   ↑↓ navigate   ^k actions    Overgrow:      Main Series"
+                                        ▼│ ─────────────────
+                                         │
+                                         │ Poison:
+    ↵ select   ↑↓ navigate   ^k actions  │ ─────────────────                 ▼"
   `)
 
   await session.press('down')
@@ -335,30 +345,29 @@ test('list detail view search functionality', async () => {
     Pokemon List ─────────────────────────────────────────────────────────────
 
     water
-                                        ▲│ # bulbasaur
+                                        ▲│ bulbasaur                         ▲
+                                        █│                                   █
+                                        █│ Illustration
                                         █│
-                                        █│ ![Illustration](https://assets.
-                                        █│ pokemon.com/assets/cms2/img/
-                                        █│ pokedex/full/001.png)
-                                        █│
-                                        █│ ## Types
+                                        █│ Types
                                         █│ Grass / Poison
                                         █│
+                                        █│ Characteristics
+                                        █│ - Height: 0.7m
+                                        █│ - Weight: 6.9kg
                                         █│
-                                        █│ ───────────────────────────────────
+                                        █│ Abilities
+                                        █│ - Chlorophyll
+                                        █│ - Overgrow
+                                        █│ ──────────────────────────────────
                                         █│
                                         █│ Types:
+                                        █│
                                         █│ Grass:
-                                        █│ ─────────────────
-                                        █│ ─────────────────
-                                        █│ Characteristics:
-                                        █│ Height:        0.7m
-                                        █│ ─────────────────
-                                         │ Weight:        6.9kg
-                                        ▼│ Abilities:───────
-                                         │ Chlorophyll:   Main Series
-                                         │ ─────────────────
-    ↵ select   ↑↓ navigate   ^k actions    Overgrow:      Main Series"
+                                        ▼│ ─────────────────
+                                         │
+                                         │ Poison:
+    ↵ select   ↑↓ navigate   ^k actions  │ ─────────────────                 ▼"
   `)
 }, 10000)
 
@@ -381,30 +390,29 @@ test('list detail metadata rendering', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-    ›bulbasaur #001                      ▲│ # bulbasaur
-     ivysaur #002                        █│
-     charmander #004                     █│ ![Illustration](https://assets.
-     charmeleon #005                     █│ pokemon.com/assets/cms2/img/
-     squirtle #007                       █│ pokedex/full/001.png)
-     wartortle #008                      █│
-                                         █│ ## Types
-                                         █│ Grass / Poison
+    ›bulbasaur #001                      ▲│ bulbasaur                         ▲
+     ivysaur #002                        █│                                   █
+     charmander #004                     █│ Illustration
+     charmeleon #005                     █│
+     squirtle #007                       █│ Types
+     wartortle #008                      █│ Grass / Poison
                                          █│
+                                         █│ Characteristics
+                                         █│ - Height: 0.7m
+                                         █│ - Weight: 6.9kg
                                          █│
-                                         █│ ───────────────────────────────────
+                                         █│ Abilities
+                                         █│ - Chlorophyll
+                                         █│ - Overgrow
+                                         █│ ──────────────────────────────────
                                          █│
                                          █│ Types:
+                                         █│
                                          █│ Grass:
-                                         █│ ─────────────────
-                                         █│ ─────────────────
-                                         █│ Characteristics:
-                                         █│ Height:        0.7m
-                                         █│ ─────────────────
-                                          │ Weight:        6.9kg
-                                         ▼│ Abilities:───────
-                                          │ Chlorophyll:   Main Series
-                                          │ ─────────────────
-     ↵ select   ↑↓ navigate   ^k actions    Overgrow:      Main Series"
+                                         ▼│ ─────────────────
+                                          │
+                                          │ Poison:
+     ↵ select   ↑↓ navigate   ^k actions  │ ─────────────────                 ▼"
   `)
 
   await session.press('down')
@@ -424,28 +432,28 @@ test('list detail metadata rendering', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-     bulbasaur #001                      ▲│ # squirtle
-     ivysaur #002                        █│
-     charmander #004                     █│ ![Illustration](https://assets.
-     charmeleon #005                     █│ pokemon.com/assets/cms2/img/
-    ›squirtle #007                       █│ pokedex/full/007.png)
-     wartortle #008                      █│
-                                         █│ ## Types
-                                         █│ Water
+     bulbasaur #001                      ▲│ squirtle                          ▲
+     ivysaur #002                        █│                                   █
+     charmander #004                     █│ Illustration                      ▀
+     charmeleon #005                     █│
+    ›squirtle #007                       █│ Types
+     wartortle #008                      █│ Water
                                          █│
-                                         █│ ## Characteristics
-                                         █│ ───────────────────────────────────
+                                         █│ Characteristics
+                                         █│ - Height: 0.5m
+                                         █│ - Weight: 9kg
+                                         █│
+                                         █│ Abilities
+                                         █│ - Torrent
+                                         █│ - Rain Dish
+                                         █│ ──────────────────────────────────
                                          █│
                                          █│ Types:
+                                         █│
                                          █│ Water:
-                                         █│ ─────────────────
-                                         █│ Characteristics:
-                                         █│ Height:        0.5m
-                                         █│ Weight:────────9kg
-                                         █│ ─────────────────
-                                         ▼│ Abilities:
-                                          │ Torrent:       Main Series
-                                          │ ─────────────────
-     ↵ select   ↑↓ navigate   ^k actions  │ Rain Dish:     Main Series"
+                                         ▼│ ───────────────────
+                                          │
+                                          │ Characteristics:
+     ↵ select   ↑↓ navigate   ^k actions  │ Height:        0.5m               ▼"
   `)
 }, 10000)

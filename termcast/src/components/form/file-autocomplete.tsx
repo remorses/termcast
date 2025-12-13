@@ -3,6 +3,7 @@ import { Theme } from 'termcast/src/theme'
 import { FileSystemItem, searchFiles, parsePath } from '../../utils/file-system'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 export interface FileAutocompleteProps {
   value: string
@@ -104,37 +105,52 @@ export const FileAutocomplete = ({
           Loading...
         </text>
       ) : (
-        <box flexDirection='column'>
-          {items.map((item, index) => (
-            <box
-              key={item.path}
-              paddingLeft={1}
-              paddingRight={1}
-              backgroundColor={
-                index === selectedIndex ? Theme.primary : undefined
-              }
-              onMouseDown={() => {
-                setSelectedIndex(index)
-                const newValue =
-                  value.substring(0, value.lastIndexOf('/') + 1) + item.name
-                if (item.isDirectory) {
-                  onChange(newValue + '/')
-                  // Keep autocomplete open for directories
-                } else {
-                  onSelect(newValue)
-                  onVisibilityChange(false)
+        <ScrollBox
+          focused={false}
+          flexGrow={1}
+          flexShrink={1}
+          style={{
+            rootOptions: {
+              backgroundColor: undefined,
+            },
+            scrollbarOptions: {
+              visible: true,
+              showArrows: false,
+
+            },
+          }}
+        >
+          <box flexDirection='column'>
+            {items.map((item, index) => (
+              <box
+                key={item.path}
+                paddingLeft={1}
+                paddingRight={1}
+                backgroundColor={
+                  index === selectedIndex ? Theme.primary : undefined
                 }
-              }}
-            >
-              <text
-                fg={index === selectedIndex ? Theme.background : Theme.text}
+                onMouseDown={() => {
+                  setSelectedIndex(index)
+                  const newValue =
+                    value.substring(0, value.lastIndexOf('/') + 1) + item.name
+                  if (item.isDirectory) {
+                    onChange(newValue + '/')
+                  } else {
+                    onSelect(newValue)
+                    onVisibilityChange(false)
+                  }
+                }}
               >
-                {item.isDirectory ? '📁 ' : '📄 '}
-                {item.name}
-              </text>
-            </box>
-          ))}
-        </box>
+                <text
+                  fg={index === selectedIndex ? Theme.background : Theme.text}
+                >
+                  {item.isDirectory ? '📁 ' : '📄 '}
+                  {item.name}
+                </text>
+              </box>
+            ))}
+          </box>
+        </ScrollBox>
       )}
     </box>
   )

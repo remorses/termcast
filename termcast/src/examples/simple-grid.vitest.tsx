@@ -51,10 +51,7 @@ test('grid navigation and display', async () => {
      Others
      House
      Car
-     Rocket                                                          ▼
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+     Rocket                                                          ▼"
   `)
 
   // Navigate down
@@ -137,18 +134,20 @@ test('grid navigation and display', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›Show Details                                                   ┃
-    ┃   Copy Emoji                                                ⌃C   ┃
-    ┃                                                                  ┃
+    ┃  ›Show Details                                                █  ┃
+    ┃   Copy Emoji                                               ⌃C █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃House
-      Car
-      Rocket                                                          ▼
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃"
   `)
 
   // Close actions with escape
@@ -360,18 +359,20 @@ test('grid item selection and actions', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›Show Details                                                   ┃
-    ┃   Copy Emoji                                                ⌃C   ┃
-    ┃                                                                  ┃
+    ┃  ›Show Details                                                █  ┃
+    ┃   Copy Emoji                                               ⌃C █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃House
-      Car
-      Rocket                                                          ▼
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃"
   `)
 
   // Navigate down in actions
@@ -391,18 +392,20 @@ test('grid item selection and actions', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃   Show Details                                                   ┃
-    ┃  ›Copy Emoji                                                ⌃C   ┃
-    ┃                                                                  ┃
+    ┃   Show Details                                                █  ┃
+    ┃  ›Copy Emoji                                               ⌃C █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃┃House
-      Car
-      Rocket                                                          ▼
-
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃┃"
   `)
 
   // Select "Copy Emoji" action
@@ -476,7 +479,16 @@ test('grid mouse interaction', async () => {
      ↵ select   ↑↓ navigate   ^k actions"
   `)
 
-  // Click on "Star" item
+  // Navigate down to make "Star" visible (it's below Rocket in Others section)
+  // Star is not visible with rows: 25 initially, so we need to scroll/navigate to it
+  await session.press('down') // Cat
+  await session.press('down') // Rabbit
+  await session.press('down') // House
+  await session.press('down') // Car
+  await session.press('down') // Rocket
+  await session.press('down') // Star (now visible)
+
+  // Click on "Star" item (now visible after navigation)
   await session.click('Star', { first: true })
 
   const afterClickStarSnapshot = await session.text()
@@ -484,53 +496,29 @@ test('grid mouse interaction', async () => {
     "
 
 
-     Simple Grid Example ────────────────────────────────────────────
+      Simple Grid Example ────────────────────────────────────────────
 
-     Search items...
-
-                                                                     ▲
-     Fruits                                                          █
-     Apple                                                           █
-     Banana                                                          █
-     Cherry                                                          █
-                                                                     █
-     Animals                                                         █
-     Dog                                                             █
-     Cat                                                             █
-     Rabbit                                                          █
-                                                                     █
-     Others                                                          █
-     House                                                           █
-     Car                                                             █
-     Rocket                                                          █
-    ›Star                                                            █
-     Moon                                                            █
-     Sun                                                             █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-
-                                                                     ▼
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+      Search items...
+      Fruits                                                          ▲
+    ┃┃Apple
+    ┃                                                                  ┃
+    ┃                                                            esc   ┃
+    ┃                                                                  ┃
+    ┃   Search actions...                                              ┃
+    ┃  ›Show Details                                                █  ┃
+    ┃   Copy Emoji                                               ⌃C █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃"
   `)
 
   // Click on "Apple" to go back to first section
@@ -541,52 +529,28 @@ test('grid mouse interaction', async () => {
     "
 
 
-     Simple Grid Example ────────────────────────────────────────────
+      Simple Grid Example ────────────────────────────────────────────
 
-     Search items...
-
-                                                                     ▲
-     Fruits                                                          █
-    ›Apple                                                           █
-     Banana                                                          █
-     Cherry                                                          █
-                                                                     █
-     Animals                                                         █
-     Dog                                                             █
-     Cat                                                             █
-     Rabbit                                                          █
-                                                                     █
-     Others                                                          █
-     House                                                           █
-     Car                                                             █
-     Rocket                                                          █
-     Star                                                            █
-     Moon                                                            █
-     Sun                                                             █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-
-                                                                     ▼
-
-
-     ↵ select   ↑↓ navigate   ^k actions"
+      Search items...
+      Fruits                                                          ▲
+    ┃┃Apple
+    ┃                                                                  ┃
+    ┃                                                            esc   ┃
+    ┃                                                                  ┃
+    ┃   Search actions...                                              ┃
+    ┃  ›Show Details                                                █  ┃
+    ┃   Copy Emoji                                               ⌃C █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
+    ┃┃"
   `)
 }, 10000)

@@ -273,7 +273,7 @@ test('list with sections search functionality', async () => {
     "
 
 
-    Simple List Example ────────────────────────────────────────────
+    Simple List Example ─────────────────────────────────────────────
 
     bread
     Bread Freshly baked                                 Today [New] ▲
@@ -308,15 +308,16 @@ test('list with sections search functionality', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›View Details                                                   ┃
-    ┃   Add to Cart                                                    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ┃┃
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃  ›View Details                                                █  ┃
+    ┃   Add to Cart                                                 █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃"
   `)
 }, 10000)
 
@@ -433,15 +434,16 @@ test('list actions panel with ctrl+k', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃  ›View Details                                                   ┃
-    ┃   Add to Cart                                                    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ┃┃
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃  ›View Details                                                █  ┃
+    ┃   Add to Cart                                                 █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃"
   `)
 
   // Navigate down to second action
@@ -460,15 +462,16 @@ test('list actions panel with ctrl+k', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
-    ┃   View Details                                                   ┃
-    ┃  ›Add to Cart                                                    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ┃┃
-
-      ↵ select   ↑↓ navigate   ^k actions"
+    ┃   View Details                                                █  ┃
+    ┃  ›Add to Cart                                                 █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃
+    ┃                                                               █  ┃"
   `)
 
   // Trigger the second action (Add to Cart)

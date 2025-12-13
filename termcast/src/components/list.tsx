@@ -12,10 +12,10 @@ import React, {
   createContext,
   useContext,
 } from 'react'
-import { TextAttributes, ScrollBoxRenderable } from '@opentui/core'
+import { TextAttributes, ScrollBoxRenderable, BoxRenderable } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import { logger } from 'termcast/src/logger'
-import { Theme } from 'termcast/src/theme'
+import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { Action, ActionPanel } from 'termcast/src/components/actions'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
@@ -506,7 +506,7 @@ function ListItemRow(props: {
   isShowingDetail?: boolean
   onMouseDown?: () => void
   index?: number
-  ref?: React.Ref<any>
+  ref?: React.Ref<BoxRenderable>
 }) {
   const { title, subtitle, accessories, active, ref } = props
   const [isHovered, setIsHovered] = useState(false)
@@ -891,10 +891,7 @@ export const List: ListType = (props) => {
                   scrollbarOptions: {
                     visible: true,
                     showArrows: true,
-                    trackOptions: {
-                      foregroundColor: Theme.primary,
-                      backgroundColor: Theme.backgroundPanel,
-                    },
+
                   },
                 }}
               >
@@ -956,7 +953,7 @@ const ListItem: ListItemType = (props) => {
   const { sectionTitle } = listSectionContext
   const listContext = useContext(ListContext)
   const dialog = useDialog()
-  const elementRef = useRef<{ y: number; height: number } | null>(null)
+  const elementRef = useRef<BoxRenderable>(null)
 
   // Extract text values for descendant registration
   const titleText =
@@ -1051,22 +1048,37 @@ const ListItemDetail: ListItemDetailType = (props) => {
         </box>
       )}
 
-      {markdown && (
-        <box style={{ flexGrow: 1, flexShrink: 1, overflow: 'scroll' }}>
-          <text>{markdown}</text>
-        </box>
-      )}
+      <ScrollBox
+        focused={false}
+        flexGrow={1}
+        flexShrink={1}
+        style={{
+          rootOptions: {
+            backgroundColor: undefined,
+          },
+          scrollbarOptions: {
+            visible: true,
+            showArrows: true,
 
-      {metadata && (
-        <box
-          style={{ paddingTop: 1 }}
-          border={['top']}
-          borderStyle='single'
-          borderColor={Theme.border}
-        >
-          {metadata}
+          },
+        }}
+      >
+        <box style={{ flexDirection: 'column' }}>
+          {markdown && (
+            <code content={markdown} filetype="markdown" syntaxStyle={markdownSyntaxStyle} />
+          )}
+          {metadata && (
+            <box
+              style={{ paddingTop: 1 }}
+              border={['top']}
+              borderStyle='single'
+              borderColor={Theme.border}
+            >
+              {metadata}
+            </box>
+          )}
         </box>
-      )}
+      </ScrollBox>
     </box>
   )
 }

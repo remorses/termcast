@@ -8,12 +8,13 @@ import React, {
   useContext,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { TextAttributes } from '@opentui/core'
+import { TextAttributes, ScrollBoxRenderable } from '@opentui/core'
 import { Theme } from 'termcast/src/theme'
 import { logger } from 'termcast/src/logger'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
 import { createDescendants } from 'termcast/src/descendants'
+import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 // SearchBarInterface provides the common search bar props
 interface SearchBarInterface {
@@ -53,6 +54,7 @@ interface DropdownItemDescendant {
   value: string
   title: string
   hidden?: boolean
+  elementRef?: { y: number; height: number } | null
 }
 
 const {
@@ -70,6 +72,7 @@ interface DropdownContextValue {
   setSelectedIndex?: (index: number) => void
   currentValue?: string
   onChange?: (value: string) => void
+  scrollBoxRef?: React.RefObject<ScrollBoxRenderable | null>
 }
 
 const DropdownContext = createContext<DropdownContextValue>({
@@ -107,7 +110,30 @@ const Dropdown: DropdownType = (props) => {
   const inputRef = useRef<any>(null)
   const lastSearchTextRef = useRef('')
   const throttleTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
+  const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useDropdownDescendants()
+
+  const scrollToItem = (item: { props?: DropdownItemDescendant }) => {
+    const scrollBox = scrollBoxRef.current
+    const elementRef = item.props?.elementRef
+    if (!scrollBox || !elementRef) return
+
+    const contentY = scrollBox.content?.y || 0
+    const viewportHeight = scrollBox.viewport?.height || 10
+    const currentScrollTop = scrollBox.scrollTop || 0
+
+    const itemTop = elementRef.y - contentY
+    const itemBottom = itemTop + elementRef.height
+
+    const visibleTop = currentScrollTop
+    const visibleBottom = currentScrollTop + viewportHeight
+
+    if (itemTop < visibleTop) {
+      scrollBox.scrollTo(itemTop)
+    } else if (itemBottom > visibleBottom) {
+      scrollBox.scrollTo(itemBottom - viewportHeight)
+    }
+  }
 
   // Create context value for children
   const contextValue = useMemo<DropdownContextValue>(
@@ -119,6 +145,7 @@ const Dropdown: DropdownType = (props) => {
       setSelectedIndex: setSelected,
       currentValue,
       onChange: (value: string) => selectItem(value),
+      scrollBoxRef,
     }),
     [searchText, filtering, selected, currentValue],
   )
@@ -157,15 +184,31 @@ const Dropdown: DropdownType = (props) => {
 
   const move = (direction: -1 | 1) => {
     const items = Object.values(descendantsContext.map.current)
-      .filter((item: any) => item.index !== -1)
+      .filter((item: any) => item.index !== -1 && !item.props?.hidden)
       .sort((a: any, b: any) => a.index - b.index)
 
     if (items.length === 0) return
 
-    let next = selected + direction
-    if (next < 0) next = items.length - 1
-    if (next >= items.length) next = 0
-    setSelected(next)
+    let currentVisibleIndex = items.findIndex(
+      (item) => item.index === selected,
+    )
+    if (currentVisibleIndex === -1) {
+      if (items[0]) {
+        setSelected(items[0].index)
+        scrollToItem(items[0])
+      }
+      return
+    }
+
+    let nextVisibleIndex = currentVisibleIndex + direction
+    if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
+    if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
+
+    const nextItem = items[nextVisibleIndex]
+    if (nextItem) {
+      setSelected(nextItem.index)
+      scrollToItem(nextItem)
+    }
   }
 
   const selectItem = (itemValue: string) => {
@@ -232,10 +275,26 @@ const Dropdown: DropdownType = (props) => {
                 />
               </box>
             </box>
-            <box style={{ paddingBottom: 1 }}>
+            <ScrollBox
+              ref={scrollBoxRef}
+              focused={false}
+              flexGrow={1}
+              flexShrink={1}
+              style={{
+                rootOptions: {
+                  backgroundColor: undefined,
+                  maxHeight: 10,
+                },
+                scrollbarOptions: {
+                  visible: true,
+                  showArrows: false,
+
+                },
+              }}
+            >
               {/* Render children - they will register as descendants and render themselves */}
               {children}
-            </box>
+            </ScrollBox>
           </box>
           <box
             border={false}
@@ -270,11 +329,13 @@ function ItemOption(props: {
   label?: string
   onMouseDown?: () => void
   onMouseMove?: () => void
+  elementRef?: React.Ref<any>
 }) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
     <box
+      ref={props.elementRef}
       style={{
         flexDirection: 'row',
         backgroundColor: props.active
@@ -337,6 +398,7 @@ function ItemOption(props: {
 
 const DropdownItem: (props: DropdownItemProps) => any = (props) => {
   const context = useContext(DropdownContext)
+  const elementRef = useRef<{ y: number; height: number } | null>(null)
   if (!context) return null
 
   const { searchText, filtering, currentSection, selectedIndex, currentValue } =
@@ -358,6 +420,7 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
     value: props.value,
     title: props.title,
     hidden: shouldHide,
+    elementRef: elementRef.current,
   })
 
   // Don't render if hidden
@@ -396,6 +459,7 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
       label={props.label}
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
+      elementRef={elementRef}
     />
   )
 }

@@ -1,3 +1,5 @@
+import { SyntaxStyle, RGBA } from '@opentui/core'
+
 export const Theme = {
   // Text colors
   text: '#FFFFFF',
@@ -27,5 +29,27 @@ export const Theme = {
   // Transparent
   transparent: undefined, // Use undefined for no background color
 } as const
+
+export const markdownSyntaxStyle = SyntaxStyle.fromStyles({
+  default: { fg: RGBA.fromHex(Theme.text) },
+  'markup.heading.1': { fg: RGBA.fromHex(Theme.primary), bold: true },
+  'markup.heading.2': { fg: RGBA.fromHex(Theme.primary), bold: true },
+  'markup.heading.3': { fg: RGBA.fromHex(Theme.primary), bold: true },
+  'markup.heading.4': { fg: RGBA.fromHex(Theme.primary), bold: true },
+  'markup.heading.5': { fg: RGBA.fromHex(Theme.primary), bold: true },
+  'markup.heading.6': { fg: RGBA.fromHex(Theme.primary), bold: true },
+  'markup.heading': { fg: RGBA.fromHex(Theme.primary), bold: true },
+  'markup.raw.block': { fg: RGBA.fromHex(Theme.accent) },
+  'markup.link.url': { fg: RGBA.fromHex(Theme.link) },
+  'markup.link.label': { fg: RGBA.fromHex(Theme.link) },
+  'markup.list': { fg: RGBA.fromHex(Theme.warning) },
+  'markup.list.checked': { fg: RGBA.fromHex(Theme.success) },
+  'markup.list.unchecked': { fg: RGBA.fromHex(Theme.textMuted) },
+  'markup.quote': { fg: RGBA.fromHex(Theme.textMuted), italic: true },
+  'punctuation.special': { fg: RGBA.fromHex(Theme.textMuted) },
+  'punctuation.delimiter': { fg: RGBA.fromHex(Theme.textMuted) },
+  'string.escape': { fg: RGBA.fromHex(Theme.warning) },
+  label: { fg: RGBA.fromHex(Theme.accent) },
+})
 
 export default Theme

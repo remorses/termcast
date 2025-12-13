@@ -1,4 +1,5 @@
 import React from 'react'
+import Theme from '../theme'
 
 interface ScrollBoxProps {
   children?: React.ReactNode
@@ -26,12 +27,13 @@ export function ScrollBox({
       flexShrink={flexShrink}
       style={{
         rootOptions: {
-          backgroundColor: '#1a1b26',
+          // backgroundColor: '#1a1b26',
           ...(style?.rootOptions || {}),
         },
         viewportOptions: {
           flexGrow: 1,
           flexShrink: 1,
+          paddingRight: 1,
           ...(style?.viewportOptions || {}),
         },
         contentOptions: {
@@ -42,8 +44,9 @@ export function ScrollBox({
           visible: true,
           showArrows: true,
           trackOptions: {
-            foregroundColor: '#7aa2f7',
-            backgroundColor: '#414868',
+            foregroundColor: Theme.textMuted,
+
+            // backgroundColor: '#414868',
           },
           ...(style?.scrollbarOptions || {}),
         },
