@@ -125,7 +125,12 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
         <box flexDirection='column'>
           <box flexDirection='column' borderStyle='single' padding={1}>
             <text marginBottom={1}>Filter Menu</text>
-            <input
+            <textarea
+              height={1}
+              keyBindings={[
+                { name: 'return', action: 'submit' },
+                { name: 'linefeed', action: 'submit' },
+              ]}
               value={searchQuery}
               onInput={(value) => {
                 setSearchQuery(value)

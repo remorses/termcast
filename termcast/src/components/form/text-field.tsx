@@ -47,7 +47,12 @@ export const TextField = (props: TextFieldProps): any => {
               </text>
             </WithLeftBorder>
             <WithLeftBorder isFocused={isFocused}>
-              <input
+              <textarea
+                height={1}
+                keyBindings={[
+                  { name: 'return', action: 'submit' },
+                  { name: 'linefeed', action: 'submit' },
+                ]}
                 value={field.value}
                 onInput={(value: string) => {
                   field.onChange(value)

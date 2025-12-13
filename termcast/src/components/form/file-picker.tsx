@@ -121,8 +121,13 @@ const FilePickerField = ({
       </WithLeftBorder>
       <WithLeftBorder isFocused={isFocused}>
         <box flexDirection='column' ref={anchorRef}>
-          <input
+          <textarea
             ref={inputRef}
+            height={1}
+            keyBindings={[
+              { name: 'return', action: 'submit' },
+              { name: 'linefeed', action: 'submit' },
+            ]}
             value={inputValue}
             placeholder={props.placeholder || 'Enter file path...'}
             focused={isFocused}

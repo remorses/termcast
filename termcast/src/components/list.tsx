@@ -435,8 +435,13 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
               <text fg={Theme.textMuted}>esc</text>
             </box>
             <box style={{ paddingTop: 1, paddingBottom: 1 }}>
-              <input
+              <textarea
                 ref={inputRef}
+                height={1}
+                keyBindings={[
+                  { name: 'return', action: 'submit' },
+                  { name: 'linefeed', action: 'submit' },
+                ]}
                 onInput={setSearchText}
                 placeholder={props.placeholder || 'Search...'}
                 focused={inFocus}
@@ -859,8 +864,13 @@ export const List: ListType = (props) => {
                   flexShrink: 1,
                 }}
               >
-                <input
+                <textarea
                   ref={inputRef}
+                  height={1}
+                  keyBindings={[
+                    { name: 'return', action: 'submit' },
+                    { name: 'linefeed', action: 'submit' },
+                  ]}
                   placeholder={searchBarPlaceholder}
                   focused={inFocus && !isDropdownOpen}
                   value={searchText}

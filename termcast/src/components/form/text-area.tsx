@@ -44,7 +44,7 @@ export const TextArea = (props: TextAreaProps): any => {
 
             <WithLeftBorder isFocused={isFocused}>
               <box flexGrow={1}>
-                <input
+                <textarea
                   value={field.value}
                   onInput={(value: string) => {
                     field.onChange(value)

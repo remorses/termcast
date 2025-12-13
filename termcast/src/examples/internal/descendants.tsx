@@ -189,7 +189,12 @@ const Example = () => {
 
   return (
     <box flexDirection='column'>
-      <input
+      <textarea
+        height={1}
+        keyBindings={[
+          { name: 'return', action: 'submit' },
+          { name: 'linefeed', action: 'submit' },
+        ]}
         value={searchQuery}
         onInput={setSearchQuery}
         focused

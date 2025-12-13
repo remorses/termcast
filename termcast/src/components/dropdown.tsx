@@ -263,8 +263,13 @@ const Dropdown: DropdownType = (props) => {
                 <text fg={Theme.textMuted}>esc</text>
               </box>
               <box style={{ paddingTop: 1, paddingBottom: 1 }}>
-                <input
+                <textarea
                   ref={inputRef}
+                  height={1}
+                  keyBindings={[
+                    { name: 'return', action: 'submit' },
+                    { name: 'linefeed', action: 'submit' },
+                  ]}
                   onInput={(value) => handleSearchTextChange(value)}
                   placeholder={placeholder}
                   focused={inFocus}

@@ -111,7 +111,16 @@ const MenuExample = () => {
     <DescendantsProvider value={context}>
       <FilteredIndexesContext.Provider value={filteredIndexes}>
         <box>
-          <input value={search} onInput={setSearch} placeholder='Search...' />
+          <textarea
+            height={1}
+            keyBindings={[
+              { name: 'return', action: 'submit' },
+              { name: 'linefeed', action: 'submit' },
+            ]}
+            value={search}
+            onInput={setSearch}
+            placeholder='Search...'
+          />
           <Item title='First Item' />
           <Item title='Second Item' />
           <Item title='Third Item' />

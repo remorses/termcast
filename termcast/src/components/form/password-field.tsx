@@ -46,7 +46,12 @@ export const PasswordField = (props: PasswordFieldProps): any => {
               </text>
             </WithLeftBorder>
             <WithLeftBorder isFocused={isFocused}>
-              <input
+              <textarea
+                height={1}
+                keyBindings={[
+                  { name: 'return', action: 'submit' },
+                  { name: 'linefeed', action: 'submit' },
+                ]}
                 value={displayValue}
                 onInput={(value: string) => {
                   // Ignore masked input (all asterisks) when not focused
