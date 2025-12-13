@@ -40,7 +40,7 @@ ALWAYS!
 
 ## React
 
-
+NEVER NEVER use forwardRef. it is not needed. instead just use a ref prop like React 19 best practice
 
 NEVER pass function or callbacks as dependencies of useEffect, this will very easily cause infinite loops if you forget to use useCallback
 
@@ -411,7 +411,8 @@ do something like this for every new element you want to use and not know about,
 
 ---
 
-## submodules
+
+## Submodules
 
 the folders tuistory and ghostty-opentui are submodules. they should always stay in branch main and not be detached. do not commit unless asked.
 
@@ -420,6 +421,46 @@ the folders tuistory and ghostty-opentui are submodules. they should always stay
 this is a package to test tui interfaces. 
 
 if there are issues with ANSI sequences in the snapshots the problem is probably in the package ghostty-opentui. which is where most of terminal rendering logic is
+
+The following folders are git submodules:
+
+- `tuistory/` - Package for testing TUI interfaces
+- `ghostty-opentui/` - Zig/Ghostty terminal emulation library
+
+## Submodule Detached HEAD Issue
+
+Git submodules frequently end up in a "detached HEAD" state. This happens because:
+
+1. **Submodules track commits, not branches** - The parent repo stores a specific commit SHA, not a branch name like "main"
+2. **`git submodule update` checks out commits** - Running `git submodule update` or cloning with `--recurse-submodules` checks out that specific SHA, putting you in detached HEAD
+3. **No branch tracking by default** - `.gitmodules` doesn't specify a branch to follow
+
+### Fixing detached HEAD while keeping changes
+
+If you made commits on the detached HEAD:
+
+```bash
+cd <submodule>
+git checkout main
+git cherry-pick <commit-sha>...  # cherry-pick your commits onto main
+```
+
+Or if no divergence from main:
+
+```bash
+cd <submodule>
+git checkout main
+```
+
+### Prevention
+
+After any submodule update, cd into submodules and run `git checkout main` before making changes.
+
+## Submodule Rules
+
+- Submodules should always stay on branch `main`, never detached
+- Do not commit submodule changes unless explicitly asked
+- Each submodule has its own AGENTS.md with package-specific guidelines
 
 # core guidelines
 
@@ -451,6 +492,129 @@ IMPORTANT: NEVER commit your changes unless clearly and specifically asked to!
 ## opening me files in zed to show me a specific portion of code
 
 you can open files when i ask me "open in zed the line where ..." using the command `zed path/to/file:line`
+
+
+Use tmux to run long-lived background commands as background “tasks” like vite dev servers, commands with watch mode.  
+Each task should be a tmux **session** that the agent can start, inspect, and stop via CLI.
+
+ALWAYS give long and descriptive names for the sessions, so other agents know what they are for.
+
+Run a background task (e.g. Vite dev server) without blocking:
+
+```bash
+tmux new-session -d -s project-name-vite-dev-port-8034 'cd /path/to/project && npm run dev --port 8034'
+```
+
+Every time you are about to start a new session, first check if there is one already.
+
+List all background tasks (sessions):
+
+```bash
+tmux ls
+```
+
+You can assume sessions that do not have names were not started by you or agents so you can ignore them
+
+Kill a background task:
+
+```bash
+tmux kill-session -t vite-dev
+```
+
+Never attach to a session. You are inside a non TTY terminal, meaning you instead will have to read the latest n logs instead.
+
+
+Fetch the last N log lines for a task without attaching (returns immediately):
+
+```bash
+tmux capture-pane -t vite-dev:0 -S -100 -p
+```
+
+Example pattern for a coding agent:
+
+1. Start a task:
+
+   ```bash
+   tmux new-session -d -s build 'cd /repo && npm run build'
+   ```
+
+2. Poll logs:
+
+   ```bash
+   tmux capture-pane -t build:0 -S -80 -p
+   ```
+
+3. List all running tasks:
+
+   ```bash
+   tmux ls
+   ```
+
+4. Stop a task when done:
+
+   ```bash
+   tmux kill-session -t build
+   ```
+
+# github
+
+you can use the `gh` cli to do operations on github for the current repository. For example: open issues, open PRs, check actions status, read workflow logs, etc.
+
+## creating issues and pull requests
+
+when opening issues and pull requests with gh cli, never use markdown headings or sections. instead just use simple paragraphs, lists and code examples. be as short as possible while remaining clear and using good English.
+
+example:
+
+```bash
+gh issue create --title "Fix login timeout" --body "The login form times out after 5 seconds on slow connections. This affects users on mobile networks.
+
+Steps to reproduce:
+1. Open login page on 3G connection
+2. Enter credentials
+3. Click submit
+
+Expected: Login completes within 30 seconds
+Actual: Request times out after 5 seconds
+
+Error in console:
+\`\`\`bash
+Error: Request timeout at /api/auth/login
+\`\`\`"
+```
+
+## get current github repo
+
+`git config --get remote.origin.url`
+
+## checking status of latest github actions workflow run
+
+```bash
+gh run list # lists latest actions runs
+gh run watch <id> --exit-status # if workflow is in progress, wait for the run to complete. the actions run is finished when this command exits. Set a tiemout of at least 10 minutes when running this command
+gh run view <id> --log-failed | tail -n 300 # read the logs for failed steps in the actions run
+gh run view <id> --log | tail -n 300 # read all logs for a github actions run
+```
+
+## listing, searching, reading github repos files with gitchamber
+
+you MUST use gitchamber.com to read repo files. first ALWAYS run `curl https://gitchamber.com` to read detailed usage docs. always use curl to fetch the responses of gitchamber.com
+
+for example when working with the vercel ai sdk, you can fetch the latest docs using:
+
+https://gitchamber.com/repos/facebook/react/main/files
+
+https://gitchamber.com/repos/remorses/fumabase/main/files?glob=**/*.ts
+
+https://gitchamber.com/repos/facebook/react/main/files/README.md?start=10&end=50
+
+https://gitchamber.com/repos/facebook/react/main/search/useState
+
+gitchamber allows you to list, search and read files in a repo. you MUST use it over alternatives likes raw.github.com, because 
+- it allows you to use context usage better via limit and offset pagination
+- it can list files, even filtering by a specific glob (default is *.md and *.mdx)
+- it can search a repo for a specific substring
+- it can show the code with line numbers for each line, letting you find a specific line number
 
 # typescript
 
@@ -707,119 +871,9 @@ changelogs.md
 # writing docs
 
 when generating a .md or .mdx file to document things, always add a frontmatter with title and description. also add a prompt field with the exact prompt used to generate the doc. use @ to reference files and urls and provide any context necessary to be able to recreate this file from scratch using a model. if you used urls also reference them. reference all files you had to read to create the doc. use yaml | syntax to add this prompt and never go over the column width of 80
-# secrets
-
-this project uses doppler to manage secrets, with a single project with 3 envs: dev, preview and production. dev is the env already selected and implicit in doppler calls.
-
-in typescript never use process.env directly. instead find the closest `env.ts` file that exports an env object (this file should already exist). so the env can be used type-safely and i can clearly see which secrets are available and need to be added.
 # cac for cli development
 
 the cli uses cac npm package.
-
-# prisma
-
-this project uses prisma to interact with the database. if you need to add new queries always read the schema.prisma inside the db folder first so you understand the shape of the tables in the database.
-
-never add new tables to the prisma schema, instead ask me to do so.
-
-prisma upsert calls are preferable over updates, so that you also handle the case where the row is missing.
-
-never make changes to schema.prisma yourself, instead propose a change with a message and ask me to do it. this file is too important to be edited by agents.
-
-NEVER run `pnpm push` in db or commands like `pnpm prisma db push` or other prisma commands that mutate the database!
-
-### prisma queries for relations
-
-- NEVER add more than 1 include nesting. this is very bad for performance because prisma will have to do the query to get the relation sequentially. instead of adding a new nested `include` you should add a new prisma query and wrap them in a `Promise.all`
-
-### prisma transactions for complex relations inserts
-
-for very complex updates or inserts that involve more than 3 related tables, for example a Chat with ChatMessages and ChatMessagePath, you should use transaction instead of a super complex single query:
-
-- start a transaction
-- delete the parent table, the one with cascade deletes, so that the related tables are also deleted
-- recreate all the tables again, reuse the old existing rows data when you don't have all the fields available
-- make sure to create all the rows in the related tables. use for loops if necessary
-
-### prisma, always make sure user has access to prisma tables
-
-> IMPORTANT! always read the schema.prisma file before adding a new prisma query, to understand how to structure it
-
-try to never write sql by hand, use prisma
-
-if a query becomes too complex because fetching too deeply into related tables (more than 1 `include` nesting), use different queries instead, put them in a Promise.all
-
-### prisma, concurrency
-
-when doing prisma queries or other async operations try to parallelize them using Promise.all
-
-this will speed up operations that can be done concurrently.
-
-this is especially important in react-router loaders
-
-### prisma security
-
-all loaders, actions and spiceflow routes of the project should have authorization checks.
-
-these checks should check that the current user, identified by userId, has access to the fetched and updated rows.
-
-this simply means to always include a check in prisma queries to make sure that the user has access to the updated or queried rows, for example:
-
-```typescript
-const resource = await prisma.resource.findFirst({
-  where: { resourceId, parentResource: { users: { some: { userId } } } },
-});
-if (!resource) {
-  throw new AppError(`cannot find resource`);
-}
-```
-
-### prisma transactions
-
-NEVER use prisma interactive transactions (passing a function to `prisma.$transaction`), instead pass an array of operations. this is basically the same thing, operations are executed in order, but it has much better performance.
-
-if you need to use complex logic to construct the array of operations, create an empty array using `const operations: Prisma.PrismaPromise<any>[]` first, then push to this array the queries you want to execute
-
-> IMPORTANT! while constructing the operations array you should never call await in between, this would cause the prisma query to start and would make the transaction invalid.
-
-````typescript
-
-## errors
-
-if you throw an error that is not unexpected you should use the `AppError` class, this way I can skip sending these errors to Sentry in the `notifyError` function
-
-for example for cases where a resource is not found or user has no subscription.
-
-you can even throw response errors, for example:
-
-```typescript
-if (!user.subscription) {
-    throw new ResponseError(
-        403,
-        JSON.stringify({ message: `user has no subscription` }),
-    )
-}
-````
-
-## foreign key constraints
-
-sometimes you will get errors like "Invalid `upsert()` invocation: Foreign key constraint violated on the constraint: `filed1_filed2_fkey`". This can be caused by the following issue
-
-- a field that has a relation to table X is being passed a value where no table X exists for that id. You can fix the issue by making sure that the table exists before doing the create or upsert
-- With upsert, even if the create branch is valid, the update branch can violate the FK.
-
-```ts
-await prisma.child.upsert({
-  where: { id: 1 },
-  create: {
-    parent: { connect: { id: 1 } },
-  },
-  update: {
-    parent: { connect: { id: 9999 } }, // no such parent
-  },
-});
-```
--
 
 # zod
 
@@ -842,3 +896,96 @@ const jsonSchema = toJSONSchema(mySchema, {
   removeAdditionalStrategy: "strict",
 });
 ```
+
+# Scrollbox with Descendants Pattern
+
+How to add scrollbox support to opentui components using the descendants pattern.
+
+## Overview
+
+1. Store element refs in descendant props
+2. Track selected index in parent
+3. On selection change, scroll to item if out of view
+
+## Implementation
+
+### 1. Add `elementRef` to descendant type
+
+```tsx
+interface ItemDescendant {
+  title: string
+  elementRef?: BoxRenderable | null
+}
+
+const { DescendantsProvider, useDescendants, useDescendant } =
+  createDescendants<ItemDescendant>()
+```
+
+### 2. Parent: scrollToItem function
+
+```tsx
+const scrollBoxRef = React.useRef<any>(null)
+
+const scrollToItem = (item: { props?: ItemDescendant }) => {
+  const scrollBox = scrollBoxRef.current
+  const elementRef = item.props?.elementRef
+  if (!scrollBox || !elementRef) return
+
+  const contentY = scrollBox.content?.y || 0
+  const viewportHeight = scrollBox.viewport?.height || 10
+  const currentScrollTop = scrollBox.scrollTop || 0
+
+  const itemTop = elementRef.y - contentY
+  const itemBottom = itemTop + elementRef.height
+
+  if (itemTop < currentScrollTop) {
+    scrollBox.scrollTo(itemTop)
+  } else if (itemBottom > currentScrollTop + viewportHeight) {
+    scrollBox.scrollTo(itemBottom - viewportHeight)
+  }
+}
+```
+
+### 3. Parent: call scrollToItem on move
+
+```tsx
+const move = (direction: -1 | 1) => {
+  const items = Object.values(context.map.current)
+    .filter((item) => item.index !== -1)
+    .sort((a, b) => a.index - b.index)
+
+  let nextIndex = selectedIndex + direction
+  // wrap around
+  if (nextIndex < 0) nextIndex = items.length - 1
+  if (nextIndex >= items.length) nextIndex = 0
+
+  const nextItem = items[nextIndex]
+  if (nextItem) {
+    setSelectedIndex(nextIndex)
+    scrollToItem(nextItem)
+  }
+}
+```
+
+### 4. Item: capture ref and pass to descendant
+
+```tsx
+function Item(props: { title: string; isSeleclted: boolean }) {
+  const elementRef = React.useRef<BoxRenderable>(null)
+  
+  useDescendant({
+    title: props.title,
+    elementRef: elementRef.current,
+  })
+
+  return (
+    <box ref={elementRef}>
+      <text>{props.isSelected ? '›' : ' '}{props.title}</text>
+    </box>
+  )
+}
+```
+
+## Full Example
+
+See `src/examples/internal/scrollbox-with-descendants.tsx`
