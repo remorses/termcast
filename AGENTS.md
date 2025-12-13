@@ -30,24 +30,6 @@ We are basically implementing the package @raycast/api from scratch. DO NOT impl
 
 This should be done one piece at a time, one hook and component at a time
 
-## opentui
-
-opentui is the framework used to render the tui, using react.
-
-IMPORTANT! before starting every task ALWAYS read opentui docs with `curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/react/README.md`
-
-ALWAYS!
-
-## React
-
-NEVER NEVER use forwardRef. it is not needed. instead just use a ref prop like React 19 best practice
-
-NEVER pass function or callbacks as dependencies of useEffect, this will very easily cause infinite loops if you forget to use useCallback
-
-NEVER use useCallback. it is useless if we never pass functions in useEffect dependencies
-
-Try to never use useEffect if possible. usually you can move logic directly in event handlers instead
-
 ## Porting a new Raycast component or feature
 
 Here is the process to follow to implement each API:
@@ -127,12 +109,6 @@ You can see the full list of raycast docs pages using
 curl -s https://developers.raycast.com/sitemap-pages.xml
 
 NEVER import @raycast/api to reuse their types. we are porting that package into this repo, you cannot import it, instead implement it again
-
-## understanding how to use opentui React elements
-
-This is not a plain react project, instead it is a React with opentui renderer, which supports box, group, input, etc
-
-To understand how to use these components read other files in the project. try to use the theme.tsx file for colors
 
 ## todos
 
@@ -401,13 +377,6 @@ Or lift hooks in component scope
 
 setTimeout must never be used to schedule React updates after some time. This strategy is stupid and never makes sense.
 
-## researching opentui patterns
-
-you can read more examples of opentui react code using gitchamber by listing and reading files from the correct endpoint: https://gitchamber.com/repos/sst/opentui/main/files?glob=packages/react/examples/**
-
-or for example to see how to use the `<code>` opentui element: https://gitchamber.com/repos/sst/opentui/main/search/<code?glob=\*\*
-
-do something like this for every new element you want to use and not know about, for exampel `<scrollbox>`, to see examples
 
 ---
 
@@ -461,6 +430,41 @@ After any submodule update, cd into submodules and run `git checkout main` befor
 - Submodules should always stay on branch `main`, never detached
 - Do not commit submodule changes unless explicitly asked
 - Each submodule has its own AGENTS.md with package-specific guidelines
+
+
+## opentui
+
+opentui is the framework used to render the tui, using react.
+
+IMPORTANT! before starting every task ALWAYS read opentui docs with `curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/react/README.md`
+
+ALWAYS!
+
+## React
+
+NEVER NEVER use forwardRef. it is not needed. instead just use a ref prop like React 19 best practice
+
+NEVER pass function or callbacks as dependencies of useEffect, this will very easily cause infinite loops if you forget to use useCallback
+
+NEVER use useCallback. it is useless if we never pass functions in useEffect dependencies
+
+Try to never use useEffect if possible. usually you can move logic directly in event handlers instead
+
+
+## understanding how to use opentui React elements
+
+This is not a plain react project, instead it is a React with opentui renderer, which supports box, group, input, etc
+
+To understand how to use these components read other files in the project. try to use the theme.tsx file for colors
+
+
+## researching opentui patterns
+
+you can read more examples of opentui react code using gitchamber by listing and reading files from the correct endpoint: https://gitchamber.com/repos/sst/opentui/main/files?glob=packages/react/examples/**
+
+or for example to see how to use the `<code>` opentui element: https://gitchamber.com/repos/sst/opentui/main/search/<code?glob=\*\*
+
+do something like this for every new element you want to use and not know about, for exampel `<scrollbox>`, to see examples
 
 # core guidelines
 
@@ -830,6 +834,18 @@ zustand is the preferred way to created global React state. put it in files like
 
 - zustand already merges new partial state with the previous state. NEVER DO `useStore.setState({ ...useStore.getInitialState(), ... })` unless for resetting state
 
+## non controlled input components
+
+some components do not have a value prop to set the value via React state. these are called uncontrolled components. Instead they usually let you get the current input value via ref. something like ref.current.value. They usually also have an onChange prop that let you know when the value changes
+
+these usually have a initialValue or defaultValue to programmatically set the initial value of the input
+
+when using these components you SHOULD not track their state via React: instead you should programmatically set their value and read their value via refs in event handlers
+
+tracking uncontrolled inputs via React state means that you will need to add useEffect to programmatically change their value when our state changes. this is an anti pattern. instead you MUST keep in mind the uncontrolled input manages its own state and we interface with it via refs and initialValue prop. 
+
+using React state in these cases is only necessary if you have to show the input value during render. if that is not the case you can just use `inputRef.current.value` instead and set the value via `inputRef.current.value = something`
+
 # testing
 
 do not write new test files unless asked. do not write tests if there is not already a test or describe block for that function or module.
@@ -970,7 +986,7 @@ const move = (direction: -1 | 1) => {
 ### 4. Item: capture ref and pass to descendant
 
 ```tsx
-function Item(props: { title: string; isSeleclted: boolean }) {
+function Item(props: { title: string; isSelected: boolean }) {
   const elementRef = React.useRef<BoxRenderable>(null)
   
   useDescendant({
@@ -989,3 +1005,4 @@ function Item(props: { title: string; isSeleclted: boolean }) {
 ## Full Example
 
 See `src/examples/internal/scrollbox-with-descendants.tsx`
+

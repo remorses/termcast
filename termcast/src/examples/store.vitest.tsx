@@ -49,9 +49,9 @@ test('Store extension - searching for spiceblow shows Database', async () => {
      Store - Install Extensions ───────────────────────────────────────────────
 
      spiceblow
-    ›piceblow - Sql       Search, update, insert and delete rows in your Sql   ▲
-    Database Management  database, deeply integrated with AI                   █
-                                                                               █
+
+    ›piceblow - Sql Database  Search, update, insert and delete rows in your   ▲
+    Management               Sql database, deeply integrated with AI           █
                                                                                █
                                                                                █
                                                                                █
@@ -71,6 +71,6 @@ test('Store extension - searching for spiceblow shows Database', async () => {
                                                                                ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 30000)

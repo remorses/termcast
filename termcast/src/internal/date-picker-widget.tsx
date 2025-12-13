@@ -325,6 +325,7 @@ export function DatePickerWidget({
         }
         break
       case 'return': // Enter key
+      case 'space': // Space key
         if (focus === 'grid' && onChange) {
           onChange(selected)
         }
@@ -357,7 +358,9 @@ export function DatePickerWidget({
       style={{
         flexDirection: 'column',
         alignItems: 'flex-start',
-        padding: 1,
+        paddingTop: 1,
+        paddingLeft: 1,
+        paddingRight: 1,
       }}
     >
       {/* Year (line 1) */}
@@ -439,7 +442,7 @@ export function DatePickerWidget({
       </box>
 
       {/* Days grid: 7 columns x 6 rows, same fixed-box strategy */}
-      <box style={{ flexDirection: 'column', minHeight: 6 }}>
+      <box style={{ flexDirection: 'column' }}>
         {filteredWeeks.map((row, i) => {
           // Skip empty rows
           if (row.every((d) => d === null)) return null
@@ -463,7 +466,7 @@ export function DatePickerWidget({
                     style={{
                       ...cellStyle,
                       backgroundColor:
-                        enableColors && isSel && focus === 'grid'
+                        enableColors && isSel
                           ? Theme.primary
                           : enableColors && isToday
                             ? Theme.backgroundPanel
@@ -477,7 +480,7 @@ export function DatePickerWidget({
                   >
                     <text
                       fg={
-                        isSel && focus === 'grid'
+                        isSel
                           ? Theme.text
                           : enableColors && isToday
                             ? Theme.accent

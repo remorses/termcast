@@ -1,8 +1,9 @@
 // This example shows how to filter descendants by passing search query via context
 // Items conditionally render null when they don't match the search
 import { useKeyboard } from '@opentui/react'
+import { TextareaRenderable } from '@opentui/core'
 import { createDescendants } from 'termcast/src/descendants'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useRef } from 'react'
 import { renderWithProviders } from '../../utils'
 import { logger } from 'termcast/src/logger'
 
@@ -36,6 +37,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
   const [searchQuery, setSearchQuery] = useState('')
+  const inputRef = useRef<TextareaRenderable>(null)
 
   useKeyboard((evt) => {
     const items = Object.values(descendantsContext.map.current).filter(
@@ -126,13 +128,14 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
           <box flexDirection='column' borderStyle='single' padding={1}>
             <text marginBottom={1}>Filter Menu</text>
             <textarea
+              ref={inputRef}
               height={1}
               keyBindings={[
                 { name: 'return', action: 'submit' },
                 { name: 'linefeed', action: 'submit' },
               ]}
-              value={searchQuery}
-              onInput={(value) => {
+              onContentChange={() => {
+                const value = inputRef.current?.plainText || ''
                 setSearchQuery(value)
                 // Reset focus to first item when search changes
                 setFocusedIndex(0)

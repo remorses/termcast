@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "format": "prettier --write .",
-    "agents.md": "agentsdotmd ./PREFIX.md core.md tmux.md github.md typescript.md github.md react.md vitest.md changelog.md docs-writing.md cac.md zod.md ./termcast/RAYCAST_SCROLLING.md",
+    "agents.md": "agentsdotmd ./PREFIX.md opentui.md core.md tmux.md github.md typescript.md github.md react.md vitest.md changelog.md docs-writing.md cac.md zod.md ./termcast/RAYCAST_SCROLLING.md",
     "release": "cd termcast && bun run release"
   },
   "devDependencies": {

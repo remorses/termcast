@@ -1,42 +1,41 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Theme } from 'termcast/src/theme'
+import { TextareaRenderable } from '@opentui/core'
 import { FileSystemItem, searchFiles, parsePath } from '../../utils/file-system'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 export interface FileAutocompleteProps {
-  value: string
-  onChange: (value: string) => void
   onSelect: (path: string) => void
   visible: boolean
   onVisibilityChange: (visible: boolean) => void
-  inputRef: React.RefObject<any>
+  inputRef: React.RefObject<TextareaRenderable | null>
   anchorRef: React.RefObject<any>
+  searchTrigger: number
 }
 
 export const FileAutocomplete = ({
-  value,
-  onChange,
   onSelect,
   visible,
   onVisibilityChange,
   inputRef,
   anchorRef,
+  searchTrigger,
 }: FileAutocompleteProps): any => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [items, setItems] = useState<FileSystemItem[]>([])
   const [loading, setLoading] = useState(false)
   const isInFocus = useIsInFocus()
 
-  // Parse the input to get base path and prefix
-  const { basePath, prefix } = value
-    ? parsePath(value)
-    : { basePath: '.', prefix: '' }
-
-  // Search for files when value changes or visibility changes
+  // Search for files when searchTrigger changes or visibility changes
   useEffect(() => {
     if (!visible) return
+
+    const value = inputRef.current?.plainText || ''
+    const { basePath, prefix } = value
+      ? parsePath(value)
+      : { basePath: '.', prefix: '' }
 
     const searchForFiles = async () => {
       setLoading(true)
@@ -52,7 +51,7 @@ export const FileAutocomplete = ({
     }
 
     searchForFiles()
-  }, [value, visible, basePath, prefix])
+  }, [searchTrigger, visible])
 
   // Handle keyboard navigation
   useKeyboard((evt) => {
@@ -66,13 +65,16 @@ export const FileAutocomplete = ({
       onVisibilityChange(false)
     } else if (evt.name === 'return') {
       if (items[selectedIndex]) {
+        const value = inputRef.current?.plainText || ''
         const selectedItem = items[selectedIndex]
         const newValue =
           value.substring(0, value.lastIndexOf('/') + 1) + selectedItem.name
 
         if (selectedItem.isDirectory) {
-          // Add trailing slash for directories
-          onChange(newValue + '/')
+          // Add trailing slash for directories and update textarea
+          const fullPath = newValue + '/'
+          inputRef.current?.setText(fullPath)
+          inputRef.current!.cursorOffset = fullPath.length
           // Keep autocomplete open for directories
         } else {
           onSelect(newValue)
@@ -131,10 +133,13 @@ export const FileAutocomplete = ({
                 }
                 onMouseDown={() => {
                   setSelectedIndex(index)
+                  const value = inputRef.current?.plainText || ''
                   const newValue =
                     value.substring(0, value.lastIndexOf('/') + 1) + item.name
                   if (item.isDirectory) {
-                    onChange(newValue + '/')
+                    const fullPath = newValue + '/'
+                    inputRef.current?.setText(fullPath)
+                    inputRef.current!.cursorOffset = fullPath.length
                   } else {
                     onSelect(newValue)
                     onVisibilityChange(false)

@@ -8,7 +8,11 @@ import React, {
   useContext,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { TextAttributes, ScrollBoxRenderable } from '@opentui/core'
+import {
+  TextAttributes,
+  ScrollBoxRenderable,
+  TextareaRenderable,
+} from '@opentui/core'
 import { Theme } from 'termcast/src/theme'
 import { logger } from 'termcast/src/logger'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
@@ -103,15 +107,22 @@ const Dropdown: DropdownType = (props) => {
   } = props
 
   const [selected, setSelected] = useState(0)
-  const [searchText, setSearchText] = useState('')
+  const [searchText, setSearchTextState] = useState('')
   const [currentValue, setCurrentValue] = useState<string | undefined>(
     value || defaultValue,
   )
-  const inputRef = useRef<any>(null)
+  const inputRef = useRef<TextareaRenderable>(null)
   const lastSearchTextRef = useRef('')
   const throttleTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useDropdownDescendants()
+
+  // Update textarea and reset selection - single source of truth is the ref
+  const setSearchText = (text: string) => {
+    inputRef.current?.setText(text)
+    setSearchTextState(text)
+    setSelected(0)
+  }
 
   const scrollToItem = (item: { props?: DropdownItemDescendant }) => {
     const scrollBox = scrollBoxRef.current
@@ -157,16 +168,13 @@ const Dropdown: DropdownType = (props) => {
     }
   }, [value])
 
-  // Reset selected index when search changes
-  useEffect(() => {
-    setSelected(0)
-  }, [searchText])
-
-  // Handle search text change with throttling
+  // Handle search text change from textarea - called by onContentChange
   const handleSearchTextChange = (text: string) => {
     if (!inFocus) return
 
-    setSearchText(text)
+    // Update state for context and reset selection
+    setSearchTextState(text)
+    setSelected(0)
 
     if (onSearchTextChange) {
       if (throttle) {
@@ -270,10 +278,13 @@ const Dropdown: DropdownType = (props) => {
                     { name: 'return', action: 'submit' },
                     { name: 'linefeed', action: 'submit' },
                   ]}
-                  onInput={(value) => handleSearchTextChange(value)}
+                  onContentChange={() => {
+                    const value = inputRef.current?.plainText || ''
+                    handleSearchTextChange(value)
+                  }}
                   placeholder={placeholder}
                   focused={inFocus}
-                  value={searchText}
+                  initialValue=""
                   focusedBackgroundColor={Theme.backgroundPanel}
                   cursorColor={Theme.primary}
                   focusedTextColor={Theme.textMuted}

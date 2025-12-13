@@ -1,7 +1,6 @@
 import { useKeyboard, useTerminalDimensions } from '@opentui/react'
 import React, { type ReactNode, useRef } from 'react'
 import { Theme } from 'termcast/src/theme'
-import { RGBA } from '@opentui/core'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
 import {
@@ -104,7 +103,6 @@ export function Dialog({
       paddingRight={positionStyles.paddingRight}
       left={0}
       top={0}
-      backgroundColor={RGBA.fromInts(0, 0, 0, 150)}
       onMouseDown={handleBackdropClick}
     >
       <box

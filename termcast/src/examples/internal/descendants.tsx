@@ -1,9 +1,10 @@
 // read src/descendants.tsx to understand the core hooks that make this example possible
 //
 import { useKeyboard } from '@opentui/react'
+import { TextareaRenderable } from '@opentui/core'
 import { createDescendants } from 'termcast/src/descendants'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useRef, useLayoutEffect } from 'react'
 import { renderWithProviders } from '../../utils'
 import { logger } from 'termcast/src/logger'
 
@@ -167,6 +168,7 @@ const Item = ({ title }: { title: string; key?: any }) => {
 
 const Example = () => {
   const [searchQuery, setSearchQuery] = useState('')
+  const inputRef = useRef<TextareaRenderable>(null)
   const allItems = [
     'First Item',
     'Second Item',
@@ -182,6 +184,7 @@ const Example = () => {
     'Twelfth Item',
   ]
 
+
   // Filter items based on search query
   const filteredItems = allItems.filter((title) =>
     title.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -190,13 +193,17 @@ const Example = () => {
   return (
     <box flexDirection='column'>
       <textarea
+        ref={inputRef}
         height={1}
         keyBindings={[
           { name: 'return', action: 'submit' },
           { name: 'linefeed', action: 'submit' },
         ]}
-        value={searchQuery}
-        onInput={setSearchQuery}
+        initialValue={searchQuery}
+        onContentChange={() => {
+          const value = inputRef.current?.plainText || ''
+          setSearchQuery(value)
+        }}
         focused
         placeholder='Search items...'
         marginBottom={1}

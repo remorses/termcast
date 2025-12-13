@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Theme } from 'termcast/src/theme'
-import { BoxRenderable } from '@opentui/core'
+import { BoxRenderable, TextareaRenderable } from '@opentui/core'
 import { WithLeftBorder } from './with-left-border'
 import { FormItemProps, FormItemRef } from './types'
 import { useFormContext, Controller } from 'react-hook-form'
@@ -55,28 +55,21 @@ const FilePickerField = ({
   setFocusedField: (id: string) => void
 }): any => {
   const isInFocus = useIsInFocus()
-  const [inputValue, setInputValue] = React.useState('')
   const [showAutocomplete, setShowAutocomplete] = React.useState(false)
-  const inputRef = React.useRef<any>(null)
+  const [searchTrigger, setSearchTrigger] = React.useState(0)
+  const inputRef = React.useRef<TextareaRenderable>(null)
   const anchorRef = React.useRef<any>(null)
-
-  // Show autocomplete when typing
-  React.useEffect(() => {
-    if (inputValue && isFocused) {
-      setShowAutocomplete(true)
-    } else if (!inputValue) {
-      setShowAutocomplete(false)
-    }
-  }, [inputValue, isFocused])
 
   // Handle Enter key
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
 
     if (evt.name === 'return') {
+      const inputValue = inputRef.current?.plainText || ''
       // If input is empty, show files in current directory
       if (!inputValue && !showAutocomplete) {
         setShowAutocomplete(true)
+        setSearchTrigger((n) => n + 1)
       }
       // If autocomplete is not visible and input has value, add the path
       else if (inputValue.trim() && !showAutocomplete) {
@@ -89,7 +82,7 @@ const FilePickerField = ({
         if (props.onChange) {
           props.onChange(newFiles)
         }
-        setInputValue('')
+        inputRef.current?.setText('')
       }
     }
   })
@@ -102,7 +95,7 @@ const FilePickerField = ({
     if (props.onChange) {
       props.onChange(newFiles)
     }
-    setInputValue('')
+    inputRef.current?.setText('')
     setShowAutocomplete(false)
   }
 
@@ -129,11 +122,19 @@ const FilePickerField = ({
               { name: 'return', action: 'submit' },
               { name: 'linefeed', action: 'submit' },
             ]}
-            value={inputValue}
+            initialValue=""
             placeholder={props.placeholder || 'Enter file path...'}
             focused={isFocused}
             onMouseDown={() => setFocusedField(props.id)}
-            onInput={(value: string) => setInputValue(value)}
+            onContentChange={() => {
+              const value = inputRef.current?.plainText || ''
+              if (value && isFocused) {
+                setShowAutocomplete(true)
+                setSearchTrigger((n) => n + 1)
+              } else if (!value) {
+                setShowAutocomplete(false)
+              }
+            }}
           />
           {selectedFiles.length > 0 && (
             <box flexDirection='column' marginTop={1}>
@@ -160,19 +161,12 @@ const FilePickerField = ({
         </WithLeftBorder>
       )}
       <FileAutocomplete
-        value={inputValue}
-        onChange={(newValue) => {
-          setInputValue(newValue)
-          // Move cursor to end when value changes
-          if (inputRef.current) {
-            inputRef.current.cursorPosition = newValue.length
-          }
-        }}
         onSelect={handleSelectFile}
         visible={showAutocomplete}
         onVisibilityChange={setShowAutocomplete}
         inputRef={inputRef}
         anchorRef={anchorRef}
+        searchTrigger={searchTrigger}
       />
     </box>
   ) as React.ReactElement

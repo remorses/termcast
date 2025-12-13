@@ -33,8 +33,8 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-     Search...                                                          Apple ▾
-
+     Search...
+                                                                        Apple ▾
 
     ›First Item This list has a dropdown                                       ▲
      Second Item The dropdown should default to first item                     █
@@ -53,11 +53,10 @@ test('dropdown defaults to first item when no value is provided', async () => {
                                                                                █
                                                                                █
                                                                                █
-
                                                                                ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -80,6 +79,7 @@ test('dropdown opens and shows items', async () => {
     ┃   Filter by category                                               esc   ┃
     ┃                                                                          ┃
     ┃   Select category...                                                     ┃
+    ┃                                                                          ┃
     ┃  ›Apple                                                                  ┃
     ┃   Banana                                                                 ┃
     ┃   Orange                                                                 ┃
@@ -96,12 +96,10 @@ test('dropdown opens and shows items', async () => {
                                                                                █
                                                                                █
                                                                                █
-                                                                               █
-
                                                                                ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -116,6 +114,7 @@ test('dropdown opens and shows items', async () => {
     ┃   Filter by category                                               esc   ┃
     ┃                                                                          ┃
     ┃   Select category...                                                     ┃
+    ┃                                                                          ┃
     ┃   Apple                                                                  ┃
     ┃  ›Banana                                                                 ┃
     ┃   Orange                                                                 ┃
@@ -132,12 +131,10 @@ test('dropdown opens and shows items', async () => {
                                                                                █
                                                                                █
                                                                                █
-                                                                               █
-
                                                                                ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('enter')
@@ -149,8 +146,8 @@ test('dropdown opens and shows items', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-     Search...                                                         Banana ▾
-
+     Search...
+                                                                       Banana ▾
 
     ›First Item This list has a dropdown                                       ▲
      Second Item The dropdown should default to first item                     █
@@ -169,11 +166,10 @@ test('dropdown opens and shows items', async () => {
                                                                                █
                                                                                █
                                                                                █
-
                                                                                ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -196,6 +192,7 @@ test('clicking dropdown opens it', async () => {
     ┃   Filter by category                                               esc   ┃
     ┃                                                                          ┃
     ┃   Select category...                                                     ┃
+    ┃                                                                          ┃
     ┃  ›Apple                                                                  ┃
     ┃   Banana                                                                 ┃
     ┃   Orange                                                                 ┃
@@ -212,12 +209,10 @@ test('clicking dropdown opens it', async () => {
                                                                                █
                                                                                █
                                                                                █
-                                                                               █
-
                                                                                ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   await session.click('Orange', { first: true })
@@ -229,8 +224,8 @@ test('clicking dropdown opens it', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-     Search...                                                         Orange ▾
-
+     Search...
+                                                                       Orange ▾
 
     ›First Item This list has a dropdown                                       ▲
      Second Item The dropdown should default to first item                     █
@@ -249,10 +244,9 @@ test('clicking dropdown opens it', async () => {
                                                                                █
                                                                                █
                                                                                █
-
                                                                                ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 10000)

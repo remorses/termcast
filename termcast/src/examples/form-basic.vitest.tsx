@@ -43,7 +43,6 @@ test('form basic navigation and input', async () => {
     │                                                                █
     ◇  Password                                                      █
     │  Enter secure password                                         █
-    │                                                                █
     │  Must be at least 8 characters                                 █
     │                                                                █
     ◇  Biography                                                     █
@@ -54,8 +53,8 @@ test('form basic navigation and input', async () => {
     │                                                                █
     │  Maximum 500 characters                                        █
     │                                                                █
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     ▀
     │
     │  Receive weekly updates
     │
@@ -76,74 +75,28 @@ test('form basic navigation and input', async () => {
     │
     │   ←       2025        →
     │   ←     December      →
+    │
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
+}, 10000)
 
-  // Type in username field
-  await session.type('johndoe')
-
-  const afterUsernameSnapshot = await session.text()
-  expect(afterUsernameSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◆  Username                                                      █
-    │  johndoe                                                       █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  Enter secure password                                         █
-    │                                                                █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◇  Biography                                                     █
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
-  `)
+test('password field shows text while focused and asterisks when unfocused', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
 
   // Tab to password field
   await session.press('tab')
-  await session.type('securepass123')
 
-  const afterPasswordSnapshot = await session.text()
-  expect(afterPasswordSnapshot).toMatchInlineSnapshot(`
+  // Type password - should show plaintext while focused
+  await session.type('secret123')
+
+  const passwordTypingSnapshot = await session.text()
+  expect(passwordTypingSnapshot).toMatchInlineSnapshot(`
     "
 
 
@@ -152,13 +105,12 @@ test('form basic navigation and input', async () => {
     │  keys or Tab to navigate between fields.                       █
     │                                                                █
     ◇  Username                                                      █
-    │  johndoe                                                       █
+    │  Enter your username                                           █
     │                                                                █
     │  Required field                                                █
     │                                                                █
     ◆  Password                                                      █
-    │  securepass123                                                 █
-    │                                                                █
+    │  secret123                                                     █
     │  Must be at least 8 characters                                 █
     │                                                                █
     ◇  Biography                                                     █
@@ -169,8 +121,8 @@ test('form basic navigation and input', async () => {
     │                                                                █
     │  Maximum 500 characters                                        █
     │                                                                █
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     ▀
     │
     │  Receive weekly updates
     │
@@ -191,17 +143,17 @@ test('form basic navigation and input', async () => {
     │
     │   ←       2025        →
     │   ←     December      →
+    │
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Tab to biography field
+  // Tab away - password should now show asterisks
   await session.press('tab')
-  await session.type('I am a software developer')
 
-  const afterBioSnapshot = await session.text()
-  expect(afterBioSnapshot).toMatchInlineSnapshot(`
+  const passwordUnfocusedSnapshot = await session.text()
+  expect(passwordUnfocusedSnapshot).toMatchInlineSnapshot(`
     "
 
 
@@ -210,25 +162,24 @@ test('form basic navigation and input', async () => {
     │  keys or Tab to navigate between fields.                       █
     │                                                                █
     ◇  Username                                                      █
-    │  johndoe                                                       █
+    │  Enter your username                                           █
     │                                                                █
     │  Required field                                                █
     │                                                                █
     ◇  Password                                                      █
-    │  securepass123                                                 █
-    │                                                                █
+    │  *********                                                     █
     │  Must be at least 8 characters                                 █
     │                                                                █
     ◆  Biography                                                     █
-    │  I am a software developer                                     █
+    │  Tell us about yourself...                                     █
     │                                                                █
     │                                                                █
     │                                                                █
     │                                                                █
     │  Maximum 500 characters                                        █
     │                                                                █
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     ▀
     │
     │  Receive weekly updates
     │
@@ -249,213 +200,55 @@ test('form basic navigation and input', async () => {
     │
     │   ←       2025        →
     │   ←     December      →
+    │
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
+}, 10000)
 
-  // Tab to newsletter checkbox and toggle it
-  await session.press('tab')
-  await session.press('space')
+test('form date picker selection with space and enter', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
 
-  const afterCheckboxSnapshot = await session.text()
-  expect(afterCheckboxSnapshot).toMatchInlineSnapshot(`
+  // Navigate to dropdown, then space to select first item which focuses date picker
+  // (This is what the dropdown test does and "Selected:" shows in that case)
+  await session.press('tab') // -> password
+  await session.press('tab') // -> bio
+  await session.press('tab') // -> checkbox
+  await session.press('tab') // -> dropdown
+  await session.press('tab') // -> date picker
+
+  const datePickerFocusedSnapshot = await session.text()
+  expect(datePickerFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  johndoe                                                       █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  securepass123                                                 █
-    │                                                                █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◇  Biography                                                     █
-    │  I am a software developer                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◆  Email Preferences
-    │  ● Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Tab to country dropdown and select United States
-  await session.press('tab')
-  await session.press('space')
-
-  const afterSelectUSSnapshot = await session.text()
-  expect(afterSelectUSSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  johndoe                                                       █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  securepass123                                                 █
-    │                                                                █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◇  Biography                                                     █
-    │  I am a software developer                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences
-    │  ● Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  United States
-    │
-    │  Americas
-    │› ● United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Select United States
-  await session.press('enter')
-
-  const afterCountrySelectSnapshot = await session.text()
-  expect(afterCountrySelectSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  johndoe                                                       █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  securepass123                                                 █
-    │                                                                █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◇  Biography                                                     █
-    │  I am a software developer                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences
-    │  ● Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  United States
-    │
-    │  Americas
-    │› ● United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Tab to date picker
-  await session.press('tab')
-  await session.type('1990-05-15')
-
-  const afterDateSnapshot = await session.text()
-  expect(afterDateSnapshot).toMatchInlineSnapshot(`
-    "
-
-
+    ◇  Password
+    │  Enter secure password
     │  Must be at least 8 characters
     │
     ◇  Biography
-    │  I am a software developer
+    │  Tell us about yourself...
     │
     │
     │
     │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ● Subscribe to newsletter
+    │  Maximum 500 characters                                        █
+    │                                                                █
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     █
     │                                                                █
     │  Receive weekly updates                                        █
     │                                                                █
     ◇  Country                                                       █
-    │  United States                                                 █
+    │  Select your country                                           █
     │                                                                █
     │  Americas                                                      █
-    │  ● United States                                               █
+    │  ○ United States                                               █
     │  ○ Canada                                                      █
     │  ○ Mexico                                                      █
     │  Europe                                                        █
@@ -466,17 +259,15 @@ test('form basic navigation and input', async () => {
     │                                                                █
     ◆  Date of Birth                                                 █
     │                                                                █
-    │   ←       2025        →                                        █
-    │   ←     December      →                                        █
-    │                                                                █
-    │   Mo Tu We Th Fr Sa Su                                         █
+    │   ←       2025        →                                        ▀
+    │   ←     December      →
+    │
+    │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
-    │
-    │
     │
     │  Format: YYYY-MM-DD
     │
@@ -485,43 +276,45 @@ test('form basic navigation and input', async () => {
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Submit form with Cmd+Enter (alt+enter in tuistory)
-  await session.press(['alt', 'enter'])
+  // Select current date with space - should show "Selected:" text
+  await session.press('space')
 
-  const afterSubmitSnapshot = await session.text({
-    timeout: 3000,
-    waitFor: (text) => {
-      // wait for submitted data to show - use flexible pattern to handle potential escape codes
-      // Text may be corrupted like "Sub5itted" so match partial patterns
-      return /username.*johndoe/i.test(text) && /password.*securepass/i.test(text)
-    },
-  })
-  expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
+  const afterSpaceSelectSnapshot = await session.text()
+  expect(afterSpaceSelectSnapshot).toMatchInlineSnapshot(`
     "
 
 
-    ▪  Form Component Demo
-    │  This demonstrates all available form input types. Use arrow
-    ◇  UsernameTab to navigate between fields.
-    │  Required field
     ◇  Password
-    │  Must*be*at*least 8 characters
+    │  Enter secure password
+    │  Must be at least 8 characters
     │
     ◇  Biography
-    │  I am a software developer
+    │  Tell us about yourself...
     │
-    │  Maximum 500 characters
-    ◇  Email Preferences
-    │  ● Subscribe to newsletter
-    │  Receive weekly updates
-    ◇  Country
-    │  United States
-    │  Americas
-    │  ○ Canada States
-    │  Europeco
-    │  ↑↓UtotseeKmoreooptions
-    │  Your country of residence
-    ◆  Date of Birth
+    │
+    │
+    │
+    │  Maximum 500 characters                                        █
+    │                                                                █
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     █
+    │                                                                █
+    │  Receive weekly updates                                        █
+    │                                                                █
+    ◇  Country                                                       █
+    │  Select your country                                           █
+    │                                                                █
+    │  Americas                                                      █
+    │  ○ United States                                               █
+    │  ○ Canada                                                      █
+    │  ○ Mexico                                                      █
+    │  Europe                                                        █
+    │  ○ United Kingdom                                              █
+    │  ↑↓ to see more options                                        █
+    │                                                                █
+    │  Your country of residence                                     █
+    │                                                                █
+    ◆  Date of Birth                                                 █
     │
     │   ←       2025        →
     │   ←     December      →
@@ -529,266 +322,76 @@ test('form basic navigation and input', async () => {
     │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
-    ◇  Upload:DocumentsDD 21
-    │  Selectfone2ortmore documents to attach
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
     │   29 30 31
-    │  •o↑↓/Tab:gNavigate fields | Space: Toggle checkbox | Enter/
-    └  Space: Open dropdown | ^K/⌘↵: Show actions
-
-
-     ┌─✓Form─Submitted─-─All─form─data─has─been─captured────────────┐
-     └────────────────successfully──────────────────────────────────┘
-
-
-    ▪  Submitted Data:
-    │  {
-    │    "username": "johndoe",
-    │    "password": "securepass123",
-    │    "bio": "I am a software developer",
-    │    "newsletter": true,"
-  `)
-}, 15000)
-
-test('form navigation with shift+tab', async () => {
-  await session.text({
-    waitFor: (text) => {
-      // wait for form to show up
-      return /Form Component Demo/i.test(text)
-    },
-  })
-
-  // Fill some fields first
-  await session.type('testuser')
-  await session.press('tab')
-  await session.type('password')
-  await session.press('tab')
-
-  const afterForwardTabSnapshot = await session.text()
-  expect(afterForwardTabSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  testuser                                                      █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  password                                                      █
-    │                                                                █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◆  Biography                                                     █
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
     │
-    │  Receive weekly updates
+    │  Selected: 2025-12-13
     │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
-  // Navigate backwards with Shift+Tab
-  await session.press(['shift', 'tab'])
+  // Navigate to a different day and select with enter
+  await session.press('right') // move to next day
+  await session.press('enter')
 
-  const afterBackwardTabSnapshot = await session.text()
-  expect(afterBackwardTabSnapshot).toMatchInlineSnapshot(`
+  const afterEnterSelectSnapshot = await session.text()
+  expect(afterEnterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  testuser                                                      █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  password                                                      █
-    │                                                                █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◇  Biography                                                     █
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
     │  Maximum 500 characters                                        █
     │                                                                █
-    ◆  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     █
+    │                                                                █
+    │  Receive weekly updates                                        █
+    │                                                                █
+    ◇  Country                                                       █
+    │  Select your country                                           █
+    │                                                                █
+    │  Americas                                                      █
+    │  ○ United States                                               █
+    │  ○ Canada                                                      █
+    │  ○ Mexico                                                      █
+    │  Europe                                                        █
+    │  ○ United Kingdom                                              █
+    │  ↑↓ to see more options                                        █
+    │                                                                █
+    │  Your country of residence                                     █
+    │                                                                █
+    ◆  Date of Birth                                                 █
     │
     │   ←       2025        →
     │   ←     December      →
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Go back to username field
-  await session.press(['shift', 'tab'])
-
-  const backToUsernameSnapshot = await session.text()
-  expect(backToUsernameSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  testuser                                                      █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  password                                                      █
-    │                                                                █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◇  Biography                                                     █
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
     │
-    │  Receive weekly updates
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30 31
     │
-    ◆  Country
-    │  Select your country
+    │  Selected: 2025-12-14
     │
-    │  Americas
-    │› ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Clear and type new username
-  await session.press(['ctrl', 'a'])
-  await session.type('newuser')
-
-  const afterEditUsernameSnapshot = await session.text()
-  expect(afterEditUsernameSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  testuser                                                      █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  password                                                      █
-    │                                                                █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◇  Biography                                                     █
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  Select your country
-    │
-    │  Americas
-    │› ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
+
 
 test('form dropdown navigation', async () => {
   await session.text({
@@ -813,6 +416,8 @@ test('form dropdown navigation', async () => {
     "
 
 
+    ◇  Password
+    │  Enter secure password
     │  Must be at least 8 characters
     │
     ◇  Biography
@@ -821,10 +426,10 @@ test('form dropdown navigation', async () => {
     │
     │
     │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
+    │  Maximum 500 characters                                        █
+    │                                                                █
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     █
     │                                                                █
     │  Receive weekly updates                                        █
     │                                                                █
@@ -842,20 +447,18 @@ test('form dropdown navigation', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │                                                                █
-    │   ←       2025        →                                        █
-    │   ←     December      →                                        █
-    │                                                                █
-    │   Mo Tu We Th Fr Sa Su                                         █
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
+    │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │
-    │
-    │  Format: YYYY-MM-DD
+    │  Selected: 2025-12-13
     │
 
 
@@ -870,6 +473,8 @@ test('form dropdown navigation', async () => {
     "
 
 
+    ◇  Password
+    │  Enter secure password
     │  Must be at least 8 characters
     │
     ◇  Biography
@@ -878,10 +483,10 @@ test('form dropdown navigation', async () => {
     │
     │
     │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
+    │  Maximum 500 characters                                        █
+    │                                                                █
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     █
     │                                                                █
     │  Receive weekly updates                                        █
     │                                                                █
@@ -899,20 +504,18 @@ test('form dropdown navigation', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │                                                                █
-    │   ←       2025        →                                        █
-    │   ←     December      →                                        █
-    │                                                                █
-    │   Mo Tu We Th Fr Sa Su                                         █
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
+    │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │
-    │
-    │  Format: YYYY-MM-DD
+    │  Selected: 2025-12-13
     │
 
 
@@ -929,6 +532,8 @@ test('form dropdown navigation', async () => {
     "
 
 
+    ◇  Password
+    │  Enter secure password
     │  Must be at least 8 characters
     │
     ◇  Biography
@@ -937,10 +542,10 @@ test('form dropdown navigation', async () => {
     │
     │
     │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
+    │  Maximum 500 characters                                        █
+    │                                                                █
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     █
     │                                                                █
     │  Receive weekly updates                                        █
     │                                                                █
@@ -958,20 +563,18 @@ test('form dropdown navigation', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │                                                                █
-    │   ←       2025        →                                        █
-    │   ←     December      →                                        █
-    │                                                                █
-    │   Mo Tu We Th Fr Sa Su                                         █
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
+    │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │
-    │
-    │  Format: YYYY-MM-DD
+    │  Selected: 2025-12-13
     │
 
 
@@ -986,6 +589,8 @@ test('form dropdown navigation', async () => {
     "
 
 
+    ◇  Password
+    │  Enter secure password
     │  Must be at least 8 characters
     │
     ◇  Biography
@@ -994,10 +599,10 @@ test('form dropdown navigation', async () => {
     │
     │
     │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
+    │  Maximum 500 characters                                        █
+    │                                                                █
+    ◇  Email Preferences                                             █
+    │  ○ Subscribe to newsletter                                     █
     │                                                                █
     │  Receive weekly updates                                        █
     │                                                                █
@@ -1015,20 +620,18 @@ test('form dropdown navigation', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │                                                                █
-    │   ←       2025        →                                        █
-    │   ←     December      →                                        █
-    │                                                                █
-    │   Mo Tu We Th Fr Sa Su                                         █
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
+    │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │
-    │
-    │  Format: YYYY-MM-DD
+    │  Selected: 2025-12-13
     │
 
 

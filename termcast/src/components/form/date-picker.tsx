@@ -108,6 +108,13 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                 focused={isFocused}
               />
             </WithLeftBorder>
+            {field.value && (
+              <WithLeftBorder isFocused={isFocused}>
+                <text fg={Theme.accent}>
+                  Selected: {field.value.toISOString().split('T')[0]}
+                </text>
+              </WithLeftBorder>
+            )}
             {(fieldState.error || props.error) && (
               <WithLeftBorder isFocused={isFocused}>
                 <text fg={Theme.error}>

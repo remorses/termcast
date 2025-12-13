@@ -36,16 +36,15 @@ test('list with sections navigation', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-    ›Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+    ›Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Add small delay to ensure all items have registered
@@ -65,16 +64,15 @@ test('list with sections navigation', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-     Apple Red and sweet                             Fresh [Popular]
-    ›Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+     Apple Red and sweet                            Fresh [Popular]
+    ›Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -91,16 +89,15 @@ test('list with sections navigation', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-     Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-    ›Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+     Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+    ›Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('enter')
@@ -117,16 +114,15 @@ test('list with sections navigation', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-     Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-    ›Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+     Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+    ›Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Go back to list with Escape
@@ -144,16 +140,15 @@ test('list with sections navigation', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-     Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-    ›Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+     Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+    ›Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 })
 
@@ -180,9 +175,8 @@ test('list with sections search functionality', async () => {
     Simple List Example ────────────────────────────────────────────
 
     ban
-    Banana Yellow and nutritious                               Ripe ▲
-                                                                    █
-                                                                    █
+
+    Banana Yellow and nutritious                              Ripe  ▲
                                                                     █
                                                                     █
                                                                     █
@@ -193,7 +187,7 @@ test('list with sections search functionality', async () => {
                                                                     ▼
 
 
-    ↵ select   ↑↓ navigate   ^k actions"
+    ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search and type "let" to search for Lettuce
@@ -215,9 +209,8 @@ test('list with sections search functionality', async () => {
     Simple List Example ────────────────────────────────────────────
 
     let
+
     Lettuce Green and fresh                                         ▲
-                                                                    █
-                                                                    █
                                                                     █
                                                                     █
                                                                     █
@@ -228,7 +221,7 @@ test('list with sections search functionality', async () => {
                                                                     ▼
 
 
-    ↵ select   ↑↓ navigate   ^k actions"
+    ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search to show all items again
@@ -245,19 +238,18 @@ test('list with sections search functionality', async () => {
 
      Search items...
                                                                      ▲
-     Empty section should be hidden                                  ▀
-
+     Empty section should be hidden                                  █
+                                                                     █
      Fruits
-    ›Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+    ›Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Search for "bread"
@@ -273,12 +265,11 @@ test('list with sections search functionality', async () => {
     "
 
 
-    Simple List Example ─────────────────────────────────────────────
+    Simple List Example ────────────────────────────────────────────
 
     bread
-    Bread Freshly baked                                 Today [New] ▲
-                                                                    █
-                                                                    █
+
+    Bread Freshly baked                                Today [New]  ▲
                                                                     █
                                                                     █
                                                                     █
@@ -289,7 +280,7 @@ test('list with sections search functionality', async () => {
                                                                     ▼
 
 
-    ↵ select   ↑↓ navigate   ^k actions"
+    ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Select the bread item
@@ -303,14 +294,14 @@ test('list with sections search functionality', async () => {
       Simple List Example ────────────────────────────────────────────
 
       bread
-    ┃┃Bread Freshly baked                                 Today [New] ▲
+    ┃┃
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
+    ┃                                                                  ┃
     ┃  ›View Details                                                █  ┃
     ┃   Add to Cart                                                 █  ┃
-    ┃                                                               █  ┃
     ┃                                                               █  ┃
     ┃                                                               █  ┃
     ┃                                                               █  ┃
@@ -343,16 +334,15 @@ test('list click functionality', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-     Apple Red and sweet                             Fresh [Popular]
-    ›Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+     Apple Red and sweet                            Fresh [Popular]
+    ›Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Click on "Apple" item
@@ -370,16 +360,15 @@ test('list click functionality', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-    ›Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+    ›Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Click on "Grape" item (visible in initial view)
@@ -397,16 +386,15 @@ test('list click functionality', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-     Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-    ›Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+     Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+    ›Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -434,9 +422,9 @@ test('list actions panel with ctrl+k', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
+    ┃                                                                  ┃
     ┃  ›View Details                                                █  ┃
     ┃   Add to Cart                                                 █  ┃
-    ┃                                                               █  ┃
     ┃                                                               █  ┃
     ┃                                                               █  ┃
     ┃                                                               █  ┃
@@ -462,9 +450,9 @@ test('list actions panel with ctrl+k', async () => {
     ┃                                                            esc   ┃
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
+    ┃                                                                  ┃
     ┃   View Details                                                █  ┃
     ┃  ›Add to Cart                                                 █  ┃
-    ┃                                                               █  ┃
     ┃                                                               █  ┃
     ┃                                                               █  ┃
     ┃                                                               █  ┃
@@ -488,16 +476,15 @@ test('list actions panel with ctrl+k', async () => {
                                                                      ▲
      Empty section should be hidden                                  █
                                                                      █
-     Fruits                                                          █
-    ›Apple Red and sweet                             Fresh [Popular] ▀
-     Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy                                       ▼
+     Fruits
+    ›Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]  ▼
 
 
-     ┌─✓─Added─to─Cart─-─Apple─has─been─added─to─your─cart─┐
+     ┌─────────────────────────────────────────────────────┐
+     │ ✓ Added to Cart - Apple has been added to your cart │
      └─────────────────────────────────────────────────────┘"
   `)
 }, 10000)
@@ -521,16 +508,15 @@ test('list scrollbox scrolling with sections', async () => {
      Empty section should be hidden                                  ▀
 
      Fruits
-    ›Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▼
+    ›Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
+     Pineapple Sweet and tangy                                       ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate down through Fruits section
@@ -549,20 +535,19 @@ test('list scrollbox scrolling with sections', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-                                                                     ▲
-     Empty section should be hidden                                  ▀
-
+     Empty section should be hidden                                  ▲
+                                                                     ▄
      Fruits
-     Apple Red and sweet                             Fresh [Popular]
-     Banana Yellow and nutritious                               Ripe
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
+     Apple Red and sweet                            Fresh [Popular]
+     Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
-    ›Strawberry Red and sweet                              [Popular] ▼
+    ›Strawberry Red and sweet                             [Popular]  ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Continue to Vegetables section
@@ -578,20 +563,19 @@ test('list scrollbox scrolling with sections', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-     Banana Yellow and nutritious                               Ripe ▲
-     Orange Citrus and juicy                                   Fresh
-     Grape Sweet clusters                                 [Seasonal]
-     Mango Tropical delight                                 Imported
+     Orange Citrus and juicy                                  Fresh  ▲
+     Grape Sweet clusters                                [Seasonal]
+     Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
-     Strawberry Red and sweet                              [Popular] ▄
-
+     Strawberry Red and sweet                             [Popular]
+                                                                     ▀
      Vegetables
-     Carrot Orange and crunchy                             [Healthy]
+     Carrot Orange and crunchy                            [Healthy]
      Lettuce Green and fresh
-    ›Broccoli Green florets                                [Healthy] ▼
+    ›Broccoli Green florets                               [Healthy]  ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate to the last items
@@ -609,20 +593,19 @@ test('list scrollbox scrolling with sections', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-     Strawberry Red and sweet                              [Popular] ▲
-
+                                                                     ▲
      Vegetables
-     Carrot Orange and crunchy                             [Healthy]
+     Carrot Orange and crunchy                            [Healthy]
      Lettuce Green and fresh
-     Broccoli Green florets                                [Healthy]
-     Spinach Leafy greens                                    Organic
+     Broccoli Green florets                               [Healthy]
+     Spinach Leafy greens                                   Organic
      Tomato Red and ripe
      Cucumber Cool and crisp
-     Bell Pepper Colorful and crunchy                        [Fresh] ▄
-    ›Bread Freshly baked                                 Today [New] ▼
+     Bell Pepper Colorful and crunchy                       [Fresh]  ▄
+    ›Bread Freshly baked                                Today [New]  ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate back up to top
@@ -638,19 +621,18 @@ test('list scrollbox scrolling with sections', async () => {
      Simple List Example ────────────────────────────────────────────
 
      Search items...
-     Strawberry Red and sweet                              [Popular] ▲
-
+                                                                     ▲
      Vegetables
-     Carrot Orange and crunchy                             [Healthy]
+     Carrot Orange and crunchy                            [Healthy]
      Lettuce Green and fresh
-     Broccoli Green florets                                [Healthy]
-     Spinach Leafy greens                                    Organic
+     Broccoli Green florets                               [Healthy]
+     Spinach Leafy greens                                   Organic
      Tomato Red and ripe
      Cucumber Cool and crisp
-     Bell Pepper Colorful and crunchy                        [Fresh] ▄
-    ›Bread Freshly baked                                 Today [New] ▼
+     Bell Pepper Colorful and crunchy                       [Fresh]  ▄
+    ›Bread Freshly baked                                Today [New]  ▼
 
 
-     ↵ select   ↑↓ navigate   ^k actions"
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 15000)

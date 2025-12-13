@@ -65,6 +65,14 @@ test('form dropdown shows inline options', async () => {
     └
 
 
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -112,6 +120,14 @@ test('form dropdown shows inline options', async () => {
     └
 
 
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -157,6 +173,14 @@ test('form dropdown shows inline options', async () => {
     │  ○ Medium
     │  ○ Low
     └
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -210,6 +234,13 @@ test('form dropdown shows inline options', async () => {
     └
 
 
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -256,6 +287,13 @@ test('form dropdown shows inline options', async () => {
     │  ○ Medium
     │  ○ Low
     └
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -313,6 +351,14 @@ test('form dropdown keyboard navigation', async () => {
     └
 
 
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -363,6 +409,14 @@ test('form dropdown keyboard navigation', async () => {
     └
 
 
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -409,6 +463,13 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ Medium
     │  ○ Low
     └
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -459,6 +520,13 @@ test('form dropdown keyboard navigation', async () => {
     └
 
 
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -505,6 +573,13 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ Medium
     │  ○ Low
     └
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -562,6 +637,14 @@ test('form dropdown with default value', async () => {
     └
 
 
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -609,6 +692,14 @@ test('form dropdown with default value', async () => {
     └
 
 
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -624,21 +715,22 @@ test('form dropdown with default value', async () => {
     "
 
 
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │  ↑↓ to see more options
-    │
+    ▪  Dropdown Component Demo                                       █
+    │  Test dropdown with sections, multiple selection, and more     █
+    │  features                                                      █
+    │                                                                █
+    ◇  Programming Languages                                         █
+    │  TypeScript, Rust                                              █
+    │                                                                █
+    │  Frontend                                                      █
+    │  ● TypeScript                                                  █
+    │  ○ JavaScript                                                  █
+    │  ○ React                                                       █
+    │  ○ Vue                                                         █
+    │  ↑↓ to see more options                                        █
+    │                                                                █
     │  Choose your preferred programming languages
+    │
     ◆  Editor Theme
     │  Monokai
     │
@@ -666,7 +758,6 @@ test('form dropdown with default value', async () => {
     │    "theme": "monokai",
     │    "priority": ""
     │  }
-    └
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -725,6 +816,14 @@ test('selecting second-to-last visible item should not scroll', async () => {
     └
 
 
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -770,6 +869,14 @@ test('selecting second-to-last visible item should not scroll', async () => {
     │  ○ Medium
     │  ○ Low
     └
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"

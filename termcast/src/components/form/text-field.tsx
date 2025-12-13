@@ -1,12 +1,12 @@
-import React, { useRef } from 'react'
-import { TextAttributes, BoxRenderable } from '@opentui/core'
-import { useFormContext, Controller } from 'react-hook-form'
+import React, { useRef, useCallback } from 'react'
+import { BoxRenderable, TextareaRenderable } from '@opentui/core'
+import { useFormContext } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { logger } from 'termcast/src/logger'
 import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
+import { createTextareaFormRef } from './form-ref'
 
 export interface TextFieldProps extends FormItemProps<string> {
   placeholder?: string
@@ -15,14 +15,12 @@ export interface TextFieldProps extends FormItemProps<string> {
 export type TextFieldRef = FormItemRef
 
 export const TextField = (props: TextFieldProps): any => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext()
+  const { register, formState } = useFormContext()
   const { focusedField, setFocusedField } = useFocusContext()
   const isFocused = focusedField === props.id
 
   const elementRef = useRef<BoxRenderable>(null)
+  const textareaRef = useRef<TextareaRenderable>(null)
 
   // Register as form field descendant for scroll support
   useFormFieldDescendant({
@@ -33,63 +31,73 @@ export const TextField = (props: TextFieldProps): any => {
   // Use form navigation hook
   useFormNavigation(props.id)
 
+  // Get register props
+  const registration = register(props.id, {
+    required: props.error ? props.error : false,
+  })
+
+  // Create form ref adapter with onContentChange handler
+  const { formRef, onContentChange } = createTextareaFormRef(
+    props.id,
+    textareaRef,
+    registration,
+  )
+
+  // Memoize ref callback - register() returns new object every render,
+  // so we must not pass registration.ref directly to avoid re-renders
+  const handleRef = useCallback((el: TextareaRenderable | null) => {
+    textareaRef.current = el
+    registration.ref(formRef)
+  }, [])
+
+  const handleContentChange = useCallback(() => {
+    onContentChange()
+    props.onChange?.(formRef.value)
+  }, [props.onChange])
+
+  const fieldError = formState.errors[props.id]
+
   return (
-    <Controller
-      name={props.id}
-      control={control}
-      defaultValue={props.defaultValue || props.value || ''}
-      rules={{
-        required: props.error ? props.error : false,
-      }}
-      render={({ field, fieldState, formState }) => {
-        return (
-          <box ref={elementRef} flexDirection='column'>
-            <WithLeftBorder withDiamond isFocused={isFocused}>
-              <text
-                fg={Theme.text}
-                onMouseDown={() => {
-                  setFocusedField(props.id)
-                }}
-              >
-                {props.title}
-              </text>
-            </WithLeftBorder>
-            <WithLeftBorder isFocused={isFocused}>
-              <textarea
-                height={1}
-                keyBindings={[
-                  { name: 'return', action: 'submit' },
-                  { name: 'linefeed', action: 'submit' },
-                ]}
-                value={field.value}
-                onInput={(value: string) => {
-                  field.onChange(value)
-                  if (props.onChange) {
-                    props.onChange(value)
-                  }
-                }}
-                placeholder={props.placeholder}
-                focused={isFocused}
-                onMouseDown={() => {
-                  setFocusedField(props.id)
-                }}
-              />
-            </WithLeftBorder>
-            {(fieldState.error || props.error) && (
-              <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.error}>
-                  {fieldState.error?.message || props.error}
-                </text>
-              </WithLeftBorder>
-            )}
-            {props.info && (
-              <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.textMuted}>{props.info}</text>
-              </WithLeftBorder>
-            )}
-          </box>
-        ) as React.ReactElement
-      }}
-    />
+    <box ref={elementRef} flexDirection="column">
+      <WithLeftBorder withDiamond isFocused={isFocused}>
+        <text
+          fg={Theme.text}
+          onMouseDown={() => {
+            setFocusedField(props.id)
+          }}
+        >
+          {props.title}
+        </text>
+      </WithLeftBorder>
+      <WithLeftBorder isFocused={isFocused}>
+        <textarea
+          ref={handleRef}
+          height={1}
+          keyBindings={[
+            { name: 'return', action: 'submit' },
+            { name: 'linefeed', action: 'submit' },
+          ]}
+          initialValue={props.defaultValue || props.value || ''}
+          onContentChange={handleContentChange}
+          placeholder={props.placeholder}
+          focused={isFocused}
+          onMouseDown={() => {
+            setFocusedField(props.id)
+          }}
+        />
+      </WithLeftBorder>
+      {(fieldError || props.error) && (
+        <WithLeftBorder isFocused={isFocused}>
+          <text fg={Theme.error}>
+            {(fieldError?.message as string) || props.error}
+          </text>
+        </WithLeftBorder>
+      )}
+      {props.info && (
+        <WithLeftBorder isFocused={isFocused}>
+          <text fg={Theme.textMuted}>{props.info}</text>
+        </WithLeftBorder>
+      )}
+    </box>
   )
 }

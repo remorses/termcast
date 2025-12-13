@@ -57,6 +57,25 @@ test('form tagpicker shows inline options', async () => {
     └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -93,6 +112,25 @@ test('form tagpicker shows inline options', async () => {
     └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -127,6 +165,25 @@ test('form tagpicker shows inline options', async () => {
     │  ↑↓ to see more options
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -168,6 +225,25 @@ test('form tagpicker shows inline options', async () => {
     └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -202,6 +278,25 @@ test('form tagpicker shows inline options', async () => {
     │  ↑↓ to see more options
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -248,6 +343,25 @@ test('form tagpicker keyboard navigation', async () => {
     └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -287,6 +401,25 @@ test('form tagpicker keyboard navigation', async () => {
     └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -321,6 +454,25 @@ test('form tagpicker keyboard navigation', async () => {
     │  ↑↓ to see more options
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -359,6 +511,25 @@ test('form tagpicker keyboard navigation', async () => {
     └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -393,6 +564,25 @@ test('form tagpicker keyboard navigation', async () => {
     │  ↑↓ to see more options
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -439,6 +629,25 @@ test('form tagpicker with default value', async () => {
     └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
@@ -473,6 +682,25 @@ test('form tagpicker with default value', async () => {
     │  ↑↓ to see more options
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -522,6 +750,17 @@ test('form tagpicker with default value', async () => {
     │  }
     │
     └
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"

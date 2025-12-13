@@ -29,21 +29,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◇  Your Name
+    ◆  Your Name
     │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
     ◇  Select Folder
     │  Enter file path...
+    │
     │  Choose a folder for output
     │
     ◇  Select Single File
     │  Enter file path...
+    │
     │  Choose exactly one file
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -64,21 +92,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◆  Your Name
-    │  John Doesrc
+    ◇  Your Name
+    │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
-    │  Choose a folder for output
-    │
+    ◆  Select Folder
+    │  src
+    │  ┌─────────────────────────────────────────────────────────────┐
+    │  │ 📁 src                                                     █│
+    │  └─────────────────────────────────────────────────────────────┘
     ◇  Select Single File
     │  Enter file path...
+    │
     │  Choose exactly one file
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -92,21 +148,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◆  Your Name
-    │  John Doesrc
+    ◇  Your Name
+    │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
-    │  Choose a folder for output
-    │
+    ◆  Select Folder
+    │  src
+    │  ┌─────────────────────────────────────────────────────────────┐
+    │  │ 📁 src                                                     █│
+    │  └─────────────────────────────────────────────────────────────┘
     ◇  Select Single File
     │  Enter file path...
+    │
     │  Choose exactly one file
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -120,21 +204,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◆  Your Name
-    │  John Doesrc
+    ◇  Your Name
+    │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
-    │  Choose a folder for output
-    │
-    ◇  Select Single File
-    │  Enter file path...
-    │  Choose exactly one file
-    │
-    └
+    ◆  Select Folder
+    │  src/
+    │  ┌─────────────────────────────────────────────────────────────┐
+    │  │ 📁 apis                                                    █│
+    │  │ 📁 components                                              █│
+    ◇  SelectxSingle File                                           ▀│
+    │  Enterefilespath...                                            │
+    │  │    hooks                                                    │
+    │  Choosenexactly one file                                       │
+    │  │    store-api                                                │
+    └  │ 📁 utils                                                    │
+       └─────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -153,21 +265,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◆  Your Name
-    │  John Doe/tmp
+    ◇  Your Name
+    │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
+    ◆  Select Folder
+    │  s/tmp
+    │
     │  Choose a folder for output
     │
     ◇  Select Single File
     │  Enter file path...
+    │
     │  Choose exactly one file
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -187,21 +327,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◆  Your Name
-    │  John Doe~/
+    ◇  Your Name
+    │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
-    ◇  Select Folder
-    │  Enter file path...
+    ◆  Select Folder
+    │  s~/
+    │
     │  Choose a folder for output
     │
     ◇  Select Single File
     │  Enter file path...
+    │
     │  Choose exactly one file
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -231,19 +399,47 @@ test('file picker keyboard navigation', async () => {
 
     ◇  Your Name
     │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
     ◆  Select Folder
     │  .
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁 .termcast-bundle                                        █│
-    ◇  SelectgSinglerFile                                           █│
-    │  Enter─file─path...────────────────────────────────────────────┘
+    │  │ 📄 .gitignore                                              █│
+    ◇  Select─Single─File────────────────────────────────────────────┘
+    │  Enter file path...
+    │
     │  Choose exactly one file
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -259,19 +455,47 @@ test('file picker keyboard navigation', async () => {
 
     ◇  Your Name
     │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
     ◆  Select Folder
     │  .
+    │
     │  Choose a folder for output
     │
     ◇  Select Single File
     │  Enter file path...
+    │
     │  Choose exactly one file
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -294,19 +518,47 @@ test('file picker keyboard navigation', async () => {
 
     ◇  Your Name
     │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
+    │
     │  Choose one or more files to upload
     │
     ◆  Select Folder
     │  .s
+    │
     │  Choose a folder for output
     │
     ◇  Select Single File
     │  Enter file path...
+    │
     │  Choose exactly one file
     │
     └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ submit   ↑↓ navigate   ^k actions"

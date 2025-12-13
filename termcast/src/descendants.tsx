@@ -1,6 +1,7 @@
 // inspired by https://github.com/pacocoursey/use-descendants
 //
 import * as React from 'react'
+import { TextareaRenderable } from '@opentui/core'
 
 type DescendantMap<T> = { [id: string]: { index: number; props?: T } }
 
@@ -92,12 +93,10 @@ const FilteredIndexesContext = React.createContext<number[]>([])
 
 const MenuExample = () => {
   const context = useDescendants()
-  const [search, setSearchRaw] = React.useState('')
   const [filteredIndexes, setFilteredIndexes] = React.useState<number[]>([])
+  const inputRef = React.useRef<TextareaRenderable>(null)
 
-  // Filtering logic is now in this wrapper
-  const setSearch = (value: string) => {
-    setSearchRaw(value)
+  const updateFilter = (value: string) => {
     const items = Object.entries(context.map.current)
     const filtered = items
       .filter(([, item]) =>
@@ -112,13 +111,15 @@ const MenuExample = () => {
       <FilteredIndexesContext.Provider value={filteredIndexes}>
         <box>
           <textarea
+            ref={inputRef}
             height={1}
             keyBindings={[
               { name: 'return', action: 'submit' },
               { name: 'linefeed', action: 'submit' },
             ]}
-            value={search}
-            onInput={setSearch}
+            onContentChange={() => {
+              updateFilter(inputRef.current?.plainText || '')
+            }}
             placeholder='Search...'
           />
           <Item title='First Item' />

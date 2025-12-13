@@ -1,4 +1,9 @@
-import { BoxRenderable, ScrollBoxRenderable, TextAttributes } from '@opentui/core'
+import {
+  BoxRenderable,
+  ScrollBoxRenderable,
+  TextAttributes,
+  TextareaRenderable,
+} from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import React, {
     ReactElement,
@@ -353,7 +358,7 @@ interface ListDropdownDialogProps extends DropdownProps {
 function ListDropdownDialog(props: ListDropdownDialogProps): any {
   const [searchText, setSearchTextRaw] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const inputRef = useRef<any>(null)
+  const inputRef = useRef<TextareaRenderable>(null)
   const descendantsContext = useDropdownDescendants()
 
   // Wrapper function that updates search text
@@ -361,6 +366,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
     setSearchTextRaw(value)
     setSelectedIndex(0) // Reset selection when search changes
   }
+
 
   const move = (direction: -1 | 1) => {
     // Get all visible items
@@ -438,10 +444,13 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                   { name: 'return', action: 'submit' },
                   { name: 'linefeed', action: 'submit' },
                 ]}
-                onInput={setSearchText}
+                onContentChange={() => {
+                  const value = inputRef.current?.plainText || ''
+                  setSearchText(value)
+                }}
                 placeholder={props.placeholder || 'Search...'}
                 focused={inFocus}
-                value={searchText}
+                initialValue={searchText}
                 focusedBackgroundColor={Theme.backgroundPanel}
                 cursorColor={Theme.primary}
                 focusedTextColor={Theme.textMuted}
@@ -632,7 +641,7 @@ export const List: ListType = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
-  const inputRef = useRef<any>(null)
+  const inputRef = useRef<TextareaRenderable>(null)
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useListDescendants()
   const navigationPending = useNavigationPending()
@@ -641,6 +650,15 @@ export const List: ListType = (props) => {
     controlledSearchText !== undefined
       ? controlledSearchText
       : internalSearchText
+
+  // Sync controlled searchText → textarea (only when externally controlled)
+  useLayoutEffect(() => {
+    if (controlledSearchText === undefined) return
+    const textarea = inputRef.current
+    if (textarea && textarea.plainText !== controlledSearchText) {
+      textarea.setText(controlledSearchText)
+    }
+  }, [controlledSearchText])
 
   // Determine if filtering is enabled
   // List filters automatically when:
@@ -869,8 +887,11 @@ export const List: ListType = (props) => {
                   ]}
                   placeholder={searchBarPlaceholder}
                   focused={inFocus && !isDropdownOpen}
-                  value={searchText}
-                  onInput={handleSearchChange}
+                  initialValue={searchText}
+                  onContentChange={() => {
+                    const value = inputRef.current?.plainText || ''
+                    handleSearchChange(value)
+                  }}
                   focusedBackgroundColor={Theme.backgroundPanel}
                   cursorColor={Theme.primary}
                   focusedTextColor={Theme.text}
