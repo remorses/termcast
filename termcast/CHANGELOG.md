@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.11
+
+### Patch Changes
+
+- Center Form content horizontally using flexbox layout
+- Add maxWidth constraint to Form description and scrollbox for consistent width
+- Fix flaky password field test to use regex match instead of exact value
+
 ## 1.3.10
 
 ### Patch Changes

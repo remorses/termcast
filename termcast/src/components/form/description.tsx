@@ -9,9 +9,11 @@ export interface DescriptionProps {
   isFormTitle?: boolean
 }
 
+export const FORM_MAX_WIDTH = 70
+
 export const Description = (props: DescriptionProps): any => {
   return (
-    <>
+    <box flexDirection='column' maxWidth={FORM_MAX_WIDTH}>
       {props.title && (
         <WithLeftBorder
           customCharacter={{ focused: '⁉', unfocused: '▪︎' }}
@@ -25,6 +27,6 @@ export const Description = (props: DescriptionProps): any => {
       <WithLeftBorder isFocused={false}>
         <text fg={Theme.textMuted}>{props.text}</text>
       </WithLeftBorder>
-    </>
+    </box>
   )
 }

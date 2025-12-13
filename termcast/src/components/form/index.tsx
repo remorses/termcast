@@ -34,6 +34,7 @@ import {
   FormProps_2,
   FormItemProps_2,
 } from './types'
+import { FORM_MAX_WIDTH } from './description'
 
 export * from './types'
 export { useFormContext } from 'react-hook-form'
@@ -289,20 +290,22 @@ export const Form: FormType = ((props) => {
       <FormSubmitContext.Provider value={submitContextValue}>
         <FormScrollContext.Provider value={scrollContextValue}>
           <FocusContext.Provider value={{ focusedField, setFocusedField }}>
-            <box flexDirection='column' flexGrow={1}>
-              <scrollbox
-                ref={scrollBoxRef}
-                style={{
-                  flexGrow: 1,
-                  width: '100%',
-                }}
-              >
-                <FormFieldDescendantsProvider value={descendantsContext}>
-                  {props.children}
-                  <FormEnd />
-                </FormFieldDescendantsProvider>
-              </scrollbox>
-              <FormFooter />
+            <box flexDirection='row' flexGrow={1} justifyContent='center'>
+              <box flexDirection='column'>
+                <scrollbox
+                  ref={scrollBoxRef}
+                  style={{
+                    flexGrow: 1,
+                    maxWidth: FORM_MAX_WIDTH,
+                  }}
+                >
+                  <FormFieldDescendantsProvider value={descendantsContext}>
+                    {props.children}
+                    <FormEnd />
+                  </FormFieldDescendantsProvider>
+                </scrollbox>
+                <FormFooter />
+              </box>
             </box>
           </FocusContext.Provider>
         </FormScrollContext.Provider>
