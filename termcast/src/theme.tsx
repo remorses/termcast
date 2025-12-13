@@ -21,6 +21,7 @@ export const Theme = {
 
   // Additional UI colors
   border: '#333333',
+  selectedMuted: '#004488', // Dimmer blue for selected values when not focused
   highlight: '#0080FF',
   selected: '#0080FF',
   yellow: '#FFFF00', // Yellow for icons

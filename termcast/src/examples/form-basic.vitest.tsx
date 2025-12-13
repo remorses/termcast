@@ -82,7 +82,7 @@ test('form basic navigation and input', async () => {
   `)
 }, 10000)
 
-test('password field shows text while focused and asterisks when unfocused', async () => {
+test('password field always shows asterisks and submits real value', async () => {
   await session.text({
     waitFor: (text) => {
       return /Form Component Demo/i.test(text)
@@ -110,7 +110,7 @@ test('password field shows text while focused and asterisks when unfocused', asy
     │  Required field                                                █
     │                                                                █
     ◆  Password                                                      █
-    │  secret123                                                     █
+    │  *********                                                     █
     │  Must be at least 8 characters                                 █
     │                                                                █
     ◇  Biography                                                     █
@@ -205,6 +205,19 @@ test('password field shows text while focused and asterisks when unfocused', asy
 
      ↵ submit   ↑↓ navigate   ^k actions"
   `)
+
+  // Submit form and check password value is real text not asterisks
+  await session.press(['alt', 'enter'])
+  await session.waitIdle()
+  // Scroll down to see submitted data
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  const submittedSnapshot = await session.text({
+    timeout: 3000,
+    waitFor: (text) => text.includes('"password"'),
+  })
+  expect(submittedSnapshot).toContain('"password": "secret123"')
 }, 10000)
 
 test('form date picker selection with space and enter', async () => {

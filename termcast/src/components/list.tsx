@@ -1473,6 +1473,11 @@ const ListSection = (props: SectionProps) => {
   const listContext = useContext(ListContext)
   const searchText = listContext?.searchText || ''
 
+  // Don't render empty sections
+  if (React.Children.count(props.children) === 0) {
+    return null
+  }
+
   // Create new context with section title and search text
   const sectionContextValue = useMemo(
     () => ({

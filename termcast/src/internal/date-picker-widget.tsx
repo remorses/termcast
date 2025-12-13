@@ -458,7 +458,8 @@ export function DatePickerWidget({
                   )
                 }
 
-                const isSel = sameDay(d, selected)
+                const isCursor = sameDay(d, selected)
+                const isValue = initialValue ? sameDay(d, initialValue) : false
                 const isToday = sameDay(d, today)
                 return (
                   <box
@@ -466,11 +467,13 @@ export function DatePickerWidget({
                     style={{
                       ...cellStyle,
                       backgroundColor:
-                        enableColors && isSel
+                        enableColors && isCursor
                           ? Theme.primary
-                          : enableColors && isToday
-                            ? Theme.backgroundPanel
-                            : undefined,
+                          : isValue
+                            ? Theme.selectedMuted
+                            : enableColors && isToday
+                              ? Theme.backgroundPanel
+                              : undefined,
                     }}
                     onMouseDown={() => {
                       setSelected(d)
@@ -480,13 +483,15 @@ export function DatePickerWidget({
                   >
                     <text
                       fg={
-                        isSel
+                        enableColors && isCursor
                           ? Theme.text
-                          : enableColors && isToday
-                            ? Theme.accent
-                            : enableColors && (j === 5 || j === 6)
-                              ? Theme.error
-                              : Theme.text
+                          : isValue
+                            ? Theme.text
+                            : enableColors && isToday
+                              ? Theme.accent
+                              : enableColors && (j === 5 || j === 6)
+                                ? Theme.error
+                                : Theme.text
                       }
                     >
                       {String(d.getDate()).padStart(2, ' ')}

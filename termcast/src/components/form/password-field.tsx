@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { BoxRenderable } from '@opentui/core'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
@@ -18,6 +18,8 @@ export const PasswordField = (props: PasswordFieldProps): any => {
   const { focusedField, setFocusedField } = useFocusContext()
   const isFocused = focusedField === props.id
   const elementRef = useRef<BoxRenderable>(null)
+  const realValueRef = useRef(props.defaultValue || props.value || '')
+  const [displayLength, setDisplayLength] = useState(realValueRef.current.length)
 
   useFormFieldDescendant({
     id: props.id,
@@ -32,9 +34,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
       control={control}
       defaultValue={props.defaultValue || props.value || ''}
       render={({ field, fieldState }) => {
-        const displayValue = isFocused
-          ? field.value
-          : '*'.repeat(field.value?.length || 0)
+        const displayValue = '*'.repeat(displayLength)
 
         return (
           <box ref={elementRef} flexDirection="column">
@@ -51,10 +51,27 @@ export const PasswordField = (props: PasswordFieldProps): any => {
             <WithLeftBorder isFocused={isFocused}>
               <input
                 value={displayValue}
-                onInput={(value: string) => {
+                onInput={(newDisplay: string) => {
                   if (!isFocused) return
-                  field.onChange(value)
-                  props.onChange?.(value)
+
+                  const currentValue = realValueRef.current
+                  const oldLen = currentValue.length
+                  const newLen = newDisplay.length
+
+                  let newValue: string
+                  if (newLen > oldLen) {
+                    const addedChars = newDisplay.replace(/\*/g, '')
+                    newValue = currentValue + addedChars
+                  } else if (newLen < oldLen) {
+                    newValue = currentValue.slice(0, newLen)
+                  } else {
+                    return
+                  }
+
+                  realValueRef.current = newValue
+                  setDisplayLength(newValue.length)
+                  field.onChange(newValue)
+                  props.onChange?.(newValue)
                 }}
                 placeholder={props.placeholder}
                 focused={isFocused}
