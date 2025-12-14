@@ -127,7 +127,7 @@ function FormFooter(): any {
       }}
     >
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        ↵
+        ^↵
       </text>
       <text fg={Theme.textMuted}> submit</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
@@ -260,6 +260,14 @@ export const Form: FormType = ((props) => {
 
     if (evt.name === 'k' && evt.ctrl && props.actions) {
       // Ctrl+K shows actions
+      dialog.push(
+        <FormSubmitContext.Provider value={submitContextValue}>
+          {props.actions}
+        </FormSubmitContext.Provider>,
+        'bottom-right',
+      )
+    } else if (evt.name === 'return' && evt.ctrl && props.actions) {
+      // Ctrl+Return shows actions (form submit shortcut)
       dialog.push(
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
