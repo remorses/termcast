@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import fs from 'node:fs'
 import path from 'node:path'
+import { useQuery } from '@tanstack/react-query'
 import { Form } from './form'
 import { showToast, Toast } from '../apis/toast'
 import { ActionPanel, Action } from './actions'
@@ -39,15 +40,12 @@ export function ExtensionPreferences({
   commandName,
   onSubmit,
 }: ExtensionPreferencesProps): any {
-  const [preferences, setPreferences] = useState<PreferenceManifest[]>([])
-  const [savedValues, setSavedValues] = useState<Record<string, any>>({})
-  const [isLoading, setIsLoading] = useState(true)
   const { pop } = useNavigation()
 
-  useEffect(() => {
-    const loadPreferences = async () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['extension-preferences', extensionName, commandName],
+    queryFn: async () => {
       try {
-        // Get extension package.json to read preference manifest
         const storeDir = getStoreDirectory()
         const extensionDir = path.join(storeDir, extensionName)
         const packageJsonPath = path.join(extensionDir, 'package.json')
@@ -60,11 +58,9 @@ export function ExtensionPreferences({
           fs.readFileSync(packageJsonPath, 'utf-8'),
         )
 
-        // Get preferences based on whether this is for a command or extension
         let prefsToUse: PreferenceManifest[] = []
 
         if (commandName) {
-          // Look for command-specific preferences
           const command = packageJson.commands?.find(
             (cmd) => cmd.name === commandName,
           )
@@ -72,40 +68,38 @@ export function ExtensionPreferences({
             prefsToUse = command.preferences || []
           }
         } else {
-          // Get extension preferences (shared across all commands)
           prefsToUse = packageJson.preferences || []
         }
 
-        // Load saved values from LocalStorage
         const preferencesKey = commandName
           ? `preferences.${extensionName}.${commandName}`
           : `preferences.${extensionName}`
         const saved = await LocalStorage.getItem(preferencesKey)
 
+        let savedValues: Record<string, any> = {}
         if (saved && typeof saved === 'string') {
           try {
-            const parsed = JSON.parse(saved)
-            setSavedValues(parsed)
+            savedValues = JSON.parse(saved)
           } catch (e) {
             logger.error('Failed to parse saved preferences:', e)
           }
         }
 
-        setPreferences(prefsToUse)
+        return { preferences: prefsToUse, savedValues }
       } catch (error) {
         logger.error(`Failed to load preferences for ${extensionName}:`, error)
-        await showToast({
+        showToast({
           style: Toast.Style.Failure,
           title: 'Failed to load preferences',
           message: String(error),
         })
-      } finally {
-        setIsLoading(false)
+        return { preferences: [], savedValues: {} }
       }
-    }
+    },
+  })
 
-    loadPreferences()
-  }, [extensionName])
+  const preferences = data?.preferences ?? []
+  const savedValues = data?.savedValues ?? {}
 
   const handleSubmit = async (values: Record<string, any>) => {
     try {
