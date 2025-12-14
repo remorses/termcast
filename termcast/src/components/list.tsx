@@ -916,7 +916,7 @@ export const List: ListType = (props) => {
                     backgroundColor: undefined,
                   },
                   scrollbarOptions: {
-                    visible: true,
+
                     showArrows: true,
 
                   },
@@ -1084,7 +1084,7 @@ const ListItemDetail: ListItemDetailType = (props) => {
             backgroundColor: undefined,
           },
           scrollbarOptions: {
-            visible: true,
+
             showArrows: true,
 
           },

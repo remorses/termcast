@@ -302,7 +302,7 @@ const Dropdown: DropdownType = (props) => {
                   maxHeight: 10,
                 },
                 scrollbarOptions: {
-                  visible: true,
+
                   showArrows: false,
 
                 },

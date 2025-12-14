@@ -41,8 +41,8 @@ export function ScrollBox({
           ...(style?.contentOptions || {}),
         },
         scrollbarOptions: {
-          visible: true,
-          showArrows: true,
+          // visible: true,
+          // showArrows: true,
           trackOptions: {
             foregroundColor: Theme.textMuted,
 

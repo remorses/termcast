@@ -108,7 +108,7 @@ function ScrollBoxListDemo(): any {
             flexShrink: 0,
           },
           scrollbarOptions: {
-            visible: true,
+
             showArrows: true,
           },
         }}
