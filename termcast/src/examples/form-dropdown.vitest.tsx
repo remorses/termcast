@@ -46,10 +46,10 @@ test('form dropdown shows inline options', async () => {
     │
     ◇  Editor Theme
     │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
+    │                                                                █
+    │  ○ Monokai                                                     █
+    │  ● Dracula                                                     █
+    │  ○ One Dark                                                    ▀
     │  ○ Nord
     │  ↑↓ to see more options
     │

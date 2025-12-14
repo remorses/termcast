@@ -265,25 +265,25 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    │  s/tmp
-    │
-    │  Choose a folder for output
-    │
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
+      ◇  Your Name
+      │  John Doe
+      │
+      ◇  Select Files
+      │  Enter file path...
+      │
+      │  Choose one or more files to upload
+      │
+      ◆  Select Folder
+      │  s/tmp
+      │
+      │  Choose a folder for output
+      │
+      ◇  Select Single File
+      │  Enter file path...
+      │
+      │  Choose exactly one file
+      │
+      └
 
 
 
@@ -298,19 +298,21 @@ test('file picker with autocomplete', async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
+                              Console (Focused)
+       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
+       de_modules/@tanstack/query-persist-client-core/build/modern/persist
+       .js:51:19)
+             at persistQueryClientSave (/Users/morse/Documents/GitHub/term
+       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
+       de_modules/@tanstack/query-persist-client-core/build/modern/persist
+       .js:40:38)
+             at <anonymous> (/Users/morse/Documents/GitHub/termcast/node_m
+       ules/.bun/@tanstack+query-persist-client-core@5.91.11/node_modules/
+       @tanstack/query-persist-client-core/build/modern/persist.js:56:7)
+       │ ✗ Unatn<anonymous>e(/Users/morse/Documents/GitHub/termcast/node_m
+       ules/.bun/@tanstack+query-core@5.90.12/node_modules/@tanstack/query
+       -core/build/modern/queryCache.js:75:9)
+    >        at forEach (native:1:11)"
   `)
 
   // Test ~ home directory expansion
@@ -327,25 +329,25 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    │  s~/
-    │
-    │  Choose a folder for output
-    │
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
+      ◇  Your Name
+      │  John Doe
+      │
+      ◇  Select Files
+      │  Enter file path...
+      │
+      │  Choose one or more files to upload
+      │
+      ◆  Select Folder
+      │  s~/
+      │
+      │  Choose a folder for output
+      │
+      ◇  Select Single File
+      │  Enter file path...
+      │
+      │  Choose exactly one file
+      │
+      └
 
 
 
@@ -360,19 +362,21 @@ test('file picker with autocomplete', async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
+                              Console (Focused)
+       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
+       de_modules/@tanstack/query-persist-client-core/build/modern/persist
+       .js:51:19)
+             at persistQueryClientSave (/Users/morse/Documents/GitHub/term
+       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
+       de_modules/@tanstack/query-persist-client-core/build/modern/persist
+       .js:40:38)
+             at <anonymous> (/Users/morse/Documents/GitHub/termcast/node_m
+       ules/.bun/@tanstack+query-persist-client-core@5.91.11/node_modules/
+       @tanstack/query-persist-client-core/build/modern/persist.js:56:7)
+       │ ✗ Unatn<anonymous>e(/Users/morse/Documents/GitHub/termcast/node_m
+       ules/.bun/@tanstack+query-core@5.90.12/node_modules/@tanstack/query
+       -core/build/modern/queryCache.js:75:9)
+    >        at forEach (native:1:11)"
   `)
 }, 15000)
 

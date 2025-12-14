@@ -110,7 +110,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field                                                █
     │                                                                █
     ◆  Password                                                      █
-    │  **********                                                    █
+    │  *********                                                     █
     │  Must be at least 8 characters                                 █
     │                                                                █
     ◇  Biography                                                     █
@@ -167,7 +167,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field                                                █
     │                                                                █
     ◇  Password                                                      █
-    │  **********                                                    █
+    │  *********                                                     █
     │  Must be at least 8 characters                                 █
     │                                                                █
     ◆  Biography                                                     █
@@ -339,7 +339,7 @@ test('form date picker selection with space and enter', async () => {
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │  Selected: 2025-12-13
+    │  Selected: 2025-12-14
     │
 
 
@@ -397,7 +397,7 @@ test('form date picker selection with space and enter', async () => {
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │  Selected: 2025-12-14
+    │  Selected: 2025-12-15
     │
 
 
@@ -471,7 +471,7 @@ test('form dropdown navigation', async () => {
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │  Selected: 2025-12-13
+    │  Selected: 2025-12-14
     │
 
 
@@ -528,7 +528,7 @@ test('form dropdown navigation', async () => {
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │  Selected: 2025-12-13
+    │  Selected: 2025-12-14
     │
 
 
@@ -587,7 +587,7 @@ test('form dropdown navigation', async () => {
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │  Selected: 2025-12-13
+    │  Selected: 2025-12-14
     │
 
 
@@ -644,7 +644,7 @@ test('form dropdown navigation', async () => {
     │   22 23 24 25 26 27 28
     │   29 30 31
     │
-    │  Selected: 2025-12-13
+    │  Selected: 2025-12-14
     │
 
 

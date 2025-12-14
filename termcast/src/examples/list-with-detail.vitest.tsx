@@ -434,16 +434,16 @@ test('list detail metadata rendering', async () => {
 
      bulbasaur #001                      ▲│ squirtle                          ▲
      ivysaur #002                        █│                                   █
-     charmander #004                     █│ Illustration                      ▀
-     charmeleon #005                     █│
-    ›squirtle #007                       █│ Types
-     wartortle #008                      █│ Water
-                                         █│
-                                         █│ Characteristics
-                                         █│ - Height: 0.5m
-                                         █│ - Weight: 9kg
-                                         █│
-                                         █│ Abilities
+     charmander #004                     █│ Illustration                      █
+     charmeleon #005                     █│                                   █
+    ›squirtle #007                       █│ Types                             █
+     wartortle #008                      █│ Water                             █
+                                         █│                                   █
+                                         █│ Characteristics                   █
+                                         █│ - Height: 0.5m                    █
+                                         █│ - Weight: 9kg                     █
+                                         █│                                   █
+                                         █│ Abilities                         ▀
                                          █│ - Torrent
                                          █│ - Rain Dish
                                          █│ ─────────────────────────────────
