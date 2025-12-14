@@ -32,13 +32,13 @@ test('dev command shows extension commands list', async () => {
 
      Simple Test Extension ────────────────────────────────
 
-     Search commands...
-                                                           ▲
+     Search commands...                                    ▲
      Commands                                              █
-    ›List Items Displays a simple list with some ite view
+    ›List Items Displays a simple list with some ite view  ▀
      Search ItemSearch and filter through a list of  view
      Google Oauth                                    view
-     usePromise DShows how to use the usePromise hoo view  ▼
+     usePromise DShows how to use the usePromise hoo view
+     Show StatShows the current application state in view  ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -65,11 +65,11 @@ test('selecting command with arguments shows arguments form', async () => {
 
      Simple Test Extension ────────────────────────────────
 
-     Search commands...
-     List ItemsDisplays a simple list with some item view  ▲
+     Commandsommands...                                    ▲
+     List ItemsDisplays a simple list with some item view
      Search ItemSearch and filter through a list of  view
-     Google Oauth                                    view
-     usePromise DShows how to use the usePromise hoo view  █
+     Google Oauth                                    view  █
+     usePromise DShows how to use the usePromise hoo view  ▀
      Show StatShows the current application state in view
     ›With ArgumenDemonstrates command arguments (tex view  ▼
 
@@ -166,11 +166,11 @@ test('can fill arguments and run command', async () => {
 
      Command Arguments Demo ───────────────────────────────
 
-     Search...
-                                                           ▲
+     Search...                                             ▲
      Received Arguments                                    █
-    › Search Query my search term
-     Secret Key (empty)                                    ▼
+    › Search Query my search term                          █
+     Secret Key (empty)                                    █
+     Category (empty)                                      ▼
 
 
      ┌────────────────────────────────────────┐
@@ -201,13 +201,13 @@ test('can run simple view command without arguments', async () => {
 
      List Items ───────────────────────────────────────────
 
-     Search...
-                                                           ▲
+     Search...                                             ▲
      Items                                                 █
     › First Item This is the first item                    █
-     Second Item This is the second item
-     Third Item This is the third item
-     Fourth Item This is the fourth item                   ▼
+     Second Item This is the second item                   █
+     Third Item This is the third item                     █
+     Fourth Item This is the fourth item                   █
+     Fifth Item This is the fifth item                     ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"

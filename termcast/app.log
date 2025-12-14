@@ -1,16 +1,16 @@
-[2025-12-14T18:33:10.017Z] Building 7 commands...
-[2025-12-14T18:33:10.022Z] Resolving @raycast/api to termcast
-[2025-12-14T18:33:10.022Z] Resolving @raycast/api to termcast
-[2025-12-14T18:33:10.022Z] Resolving @raycast/api to termcast
-[2025-12-14T18:33:10.022Z] Resolving @raycast/api to termcast
-[2025-12-14T18:33:10.023Z] Resolving @raycast/api to termcast
-[2025-12-14T18:33:10.023Z] Resolving @raycast/api to termcast
-[2025-12-14T18:33:10.031Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
-[2025-12-14T18:33:10.031Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
-[2025-12-14T18:33:10.031Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
-[2025-12-14T18:33:10.031Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
-[2025-12-14T18:33:10.031Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
-[2025-12-14T18:33:10.031Z] Built with-arguments -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/with-arguments.js
-[2025-12-14T18:33:10.031Z] Built quick-action -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/quick-action.js
-[2025-12-14T18:33:10.031Z] Successfully built 7 files
-[2025-12-14T18:33:10.041Z] dev mode started
+[2025-12-14T18:38:43.954Z] Building 7 commands...
+[2025-12-14T18:38:43.959Z] Resolving @raycast/api to termcast
+[2025-12-14T18:38:43.959Z] Resolving @raycast/api to termcast
+[2025-12-14T18:38:43.960Z] Resolving @raycast/api to termcast
+[2025-12-14T18:38:43.960Z] Resolving @raycast/api to termcast
+[2025-12-14T18:38:43.960Z] Resolving @raycast/api to termcast
+[2025-12-14T18:38:43.960Z] Resolving @raycast/api to termcast
+[2025-12-14T18:38:43.974Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2025-12-14T18:38:43.974Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2025-12-14T18:38:43.974Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2025-12-14T18:38:43.974Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2025-12-14T18:38:43.974Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2025-12-14T18:38:43.974Z] Built with-arguments -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/with-arguments.js
+[2025-12-14T18:38:43.974Z] Built quick-action -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/quick-action.js
+[2025-12-14T18:38:43.974Z] Successfully built 7 files
+[2025-12-14T18:38:43.982Z] dev mode started
