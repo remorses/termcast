@@ -35,6 +35,7 @@ import {
   FormItemProps_2,
 } from './types'
 import { FORM_MAX_WIDTH } from './description'
+import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 export * from './types'
 export { useFormContext } from 'react-hook-form'
@@ -292,11 +293,13 @@ export const Form: FormType = ((props) => {
           <FocusContext.Provider value={{ focusedField, setFocusedField }}>
             <box flexDirection='row' flexGrow={1} justifyContent='center'>
               <box flexDirection='column'>
-                <scrollbox
+                <ScrollBox
                   ref={scrollBoxRef}
+                  flexGrow={1}
                   style={{
-                    flexGrow: 1,
-                    maxWidth: FORM_MAX_WIDTH,
+                    rootOptions: {
+                      maxWidth: FORM_MAX_WIDTH,
+                    },
                     contentOptions: {
                       justifyContent: 'center',
                     },
@@ -306,7 +309,7 @@ export const Form: FormType = ((props) => {
                     {props.children}
                     <FormEnd />
                   </FormFieldDescendantsProvider>
-                </scrollbox>
+                </ScrollBox>
                 <FormFooter />
               </box>
             </box>
