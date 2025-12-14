@@ -32,13 +32,14 @@ test('dev command shows extension commands list', async () => {
 
      Simple Test Extension ────────────────────────────────
 
-     Search commands...                                    ▲
-     Commands                                              █
+     Search commands...
+
+     Commands                                              ▲
     ›List Items Displays a simple list with some ite view  ▀
      Search Items Search and filter through a list o view
      Google Oauth                                    view
      usePromise Demo Shows how to use the usePromise view
-     Show State Shows the current application state  view  ▼
+                                                           ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -65,13 +66,14 @@ test('selecting command with arguments shows arguments form', async () => {
 
      Simple Test Extension ────────────────────────────────
 
-     Commandsommands...                                    ▲
-     List Items Displays a simple list with some ite view
-     Search Items Search and filter through a list o view
-     Google Oauth                                    view  █
-     usePromise Demo Shows how to use the usePromise view  ▀
+     Search commands...
+
+     Search Items Search and filter through a list o view  ▲
+     Google Oauth                                    view
+     usePromise Demo Shows how to use the usePromise view  ▄
      Show State Shows the current application state  view
-    ›With Arguments Demonstrates command arguments ( view  ▼
+    ›With Arguments Demonstrates command arguments ( view
+                                                           ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -103,7 +105,7 @@ test('selecting command with arguments shows arguments form', async () => {
     │  Category                                            ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 30000)
 
@@ -147,7 +149,7 @@ test('can fill arguments and run command', async () => {
     │  Category                                            ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Submit the form with Alt+Enter (opens action panel), then Enter (selects submit)
@@ -165,11 +167,11 @@ test('can fill arguments and run command', async () => {
 
 
      Command Arguments Demo ───────────────────────────────
+     Search...
 
-     Search...                                             ▲
-     Received Arguments                                    █
+     Received Arguments                                    ▲
     ›Search Query my search term                           █
-     Secret Key (empty)                                    █
+     Secret Key (empty)
      Category (empty)                                      ▼
 
 
@@ -201,13 +203,14 @@ test('can run simple view command without arguments', async () => {
 
      List Items ───────────────────────────────────────────
 
-     Search...                                             ▲
-     Items                                                 █
+     Search...
+
+     Items                                                 ▲
     ›First Item This is the first item                     █
-     Second Item This is the second item                   █
-     Third Item This is the third item                     █
-     Fourth Item This is the fourth item                   █
-     Fifth Item This is the fifth item                     ▼
+     Second Item This is the second item
+     Third Item This is the third item
+     Fourth Item This is the fourth item
+                                                           ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"

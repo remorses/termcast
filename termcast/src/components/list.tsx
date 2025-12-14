@@ -858,13 +858,14 @@ export const List: ListType = (props) => {
           )}
 
           {/* Search bar with optional dropdown accessory */}
-          <box>
+          <box style={{ flexShrink: 0 }}>
             <box
               border={false}
               style={{
                 paddingLeft: 1,
                 paddingRight: 1,
                 marginTop: 1,
+                marginBottom: 1,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -1491,14 +1492,13 @@ const ListSection = (props: SectionProps) => {
   const showTitle = props.title && !searchText.trim()
 
   return (
-    <>
+    <box style={{ marginBottom: 1 }}>
       {/* Render section title if provided and not searching */}
       {showTitle && (
         <box
           border={false}
           style={{
             paddingLeft: 1,
-            paddingTop: 1,
           }}
         >
           <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
@@ -1510,7 +1510,7 @@ const ListSection = (props: SectionProps) => {
       <ListSectionContext.Provider value={sectionContextValue}>
         {props.children}
       </ListSectionContext.Provider>
-    </>
+    </box>
   )
 }
 

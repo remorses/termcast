@@ -126,6 +126,7 @@ function FormFooter(): any {
         flexDirection: 'row',
       }}
     >
+      <text fg={Theme.text} attributes={TextAttributes.BOLD}>↵</text>
       <text fg={Theme.textMuted}> submit</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
         {'   '}↑↓
