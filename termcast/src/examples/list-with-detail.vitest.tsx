@@ -21,8 +21,10 @@ test('list with detail view display and navigation', async () => {
     waitFor: (text) => {
       return (
         /Pokemon List/i.test(text) &&
-        text.includes('bulbasaur') &&
-        text.includes('#001')
+        text.includes('›bulbasaur') &&
+        text.includes('Grass / Poison') &&
+        text.includes('Height: 0.7m') &&
+        text.includes('↵ select')
       )
     },
   })
@@ -34,34 +36,36 @@ test('list with detail view display and navigation', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-
-    ›bulbasaur #001                      ▲│                                   ▲
-     ivysaur #002                        █│ ───────────────────────────────── █
-     charmander #004                     █│                                   █
-     charmeleon #005                     █│ Types:                            █
-     squirtle #007                       █│                                   █
-     wartortle #008                      █│ Grass:                            █
-                                         █│ ─────────────────                 █
-                                         █│                                   ▀
-                                         █│ Poison:
-                                         █│ ─────────────────
+    ›bulbasaur #001                      ▲│ bulbasaur                         ▲
+     ivysaur #002                        █│                                   █
+     charmander #004                     █│ Illustration                      █
+     charmeleon #005                     █│                                   ▀
+     squirtle #007                       █│ Types
+     wartortle #008                      █│ Grass / Poison
                                          █│
-                                         █│ Characteristics:
-                                         █│ Height:        0.7m
+                                         █│ Characteristics
+                                         █│ - Height: 0.7m
+                                         █│ - Weight: 6.9kg
                                          █│
-                                         █│ ─────────────────
-                                         █│ Weight:        6.9kg
+                                         █│ Abilities
+                                         █│ - Chlorophyll
+                                         █│ - Overgrow
+                                         █│ ─────────────────────────────────
                                          █│
-                                         █│ ─────────────────
-                                         ▼│ Abilities:
+                                         █│ Types:
+                                         █│
+                                         █│ Grass:
+                                         ▼│ ─────────────────
                                           │
-                                          │ Chlorophyll:   Main Series
+                                          │ Poison:
      ↵ select  ↑↓ navigate  ^k actions    │ ─────────────────                 ▼"
   `)
 
   await session.press('down')
 
-  const afterDownSnapshot = await session.text()
+  const afterDownSnapshot = await session.text({
+    waitFor: (text) => text.includes('ivysaur') && text.includes('Height: 1m'),
+  })
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -389,28 +393,28 @@ test('list detail metadata rendering', async () => {
      Pokemon List ─────────────────────────────────────────────────────────────
 
      Search Pokemon...
-
-    ›bulbasaur #001                      ▲│                                   ▲
-     ivysaur #002                        █│ ───────────────────────────────── █
-     charmander #004                     █│                                   █
-     charmeleon #005                     █│ Types:                            █
-     squirtle #007                       █│                                   █
-     wartortle #008                      █│ Grass:                            █
-                                         █│ ─────────────────                 █
-                                         █│                                   ▀
-                                         █│ Poison:
-                                         █│ ─────────────────
+    ›bulbasaur #001                      ▲│ bulbasaur                         ▲
+     ivysaur #002                        █│                                   █
+     charmander #004                     █│ Illustration                      █
+     charmeleon #005                     █│                                   ▀
+     squirtle #007                       █│ Types
+     wartortle #008                      █│ Grass / Poison
                                          █│
-                                         █│ Characteristics:
-                                         █│ Height:        0.7m
+                                         █│ Characteristics
+                                         █│ - Height: 0.7m
+                                         █│ - Weight: 6.9kg
                                          █│
-                                         █│ ─────────────────
-                                         █│ Weight:        6.9kg
+                                         █│ Abilities
+                                         █│ - Chlorophyll
+                                         █│ - Overgrow
+                                         █│ ─────────────────────────────────
                                          █│
-                                         █│ ─────────────────
-                                         ▼│ Abilities:
+                                         █│ Types:
+                                         █│
+                                         █│ Grass:
+                                         ▼│ ─────────────────
                                           │
-                                          │ Chlorophyll:   Main Series
+                                          │ Poison:
      ↵ select  ↑↓ navigate  ^k actions    │ ─────────────────                 ▼"
   `)
 

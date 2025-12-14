@@ -17,13 +17,16 @@ afterEach(() => {
 })
 
 test('form dropdown shows inline options', async () => {
-  await session.text({
+  const initialSnapshot = await session.text({
     waitFor: (text) => {
-      return /Dropdown Component Demo/i.test(text)
+      return (
+        /Dropdown Component Demo/i.test(text) &&
+        text.includes('Programming Languages') &&
+        text.includes('TypeScript') &&
+        text.includes('↵ submit')
+      )
     },
   })
-
-  const initialSnapshot = await session.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -46,10 +49,10 @@ test('form dropdown shows inline options', async () => {
     │
     ◇  Editor Theme
     │  Dracula
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    ▀
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
     │  ○ Nord
     │  ↑↓ to see more options
     │

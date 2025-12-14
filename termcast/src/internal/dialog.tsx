@@ -11,10 +11,10 @@ import {
 import { logger } from '../logger'
 
 const Border = {
-  topLeft: '┃',
-  topRight: '┃',
-  bottomLeft: '┃',
-  bottomRight: '┃',
+  topLeft: '',
+  topRight: '',
+  bottomLeft: '',
+  bottomRight: '',
   horizontal: '',
   vertical: '┃',
   topT: '+',

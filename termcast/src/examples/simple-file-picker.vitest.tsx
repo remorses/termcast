@@ -84,10 +84,9 @@ test('file picker with autocomplete', async () => {
   // Type "src" to trigger autocomplete
   await session.type('src')
 
-  // Wait for autocomplete to appear
-  await new Promise((resolve) => setTimeout(resolve, 200))
-
-  const autocompleteSnapshot = await session.text()
+  const autocompleteSnapshot = await session.text({
+    waitFor: (text) => text.includes('📁 src'),
+  })
   expect(autocompleteSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -258,32 +257,32 @@ test('file picker with autocomplete', async () => {
   await session.press('backspace')
   await session.type('/tmp')
 
-  await new Promise((resolve) => setTimeout(resolve, 200))
-
-  const absolutePathSnapshot = await session.text()
+  const absolutePathSnapshot = await session.text({
+    waitFor: (text) => text.includes('/tmp'),
+  })
   expect(absolutePathSnapshot).toMatchInlineSnapshot(`
     "
 
 
-      ◇  Your Name
-      │  John Doe
-      │
-      ◇  Select Files
-      │  Enter file path...
-      │
-      │  Choose one or more files to upload
-      │
-      ◆  Select Folder
-      │  s/tmp
-      │
-      │  Choose a folder for output
-      │
-      ◇  Select Single File
-      │  Enter file path...
-      │
-      │  Choose exactly one file
-      │
-      └
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
+    │  s/tmp
+    │
+    │  Choose a folder for output
+    │
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
 
 
 
@@ -298,21 +297,19 @@ test('file picker with autocomplete', async () => {
 
 
 
-                              Console (Focused)
-       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
-       de_modules/@tanstack/query-persist-client-core/build/modern/persist
-       .js:51:19)
-             at persistQueryClientSave (/Users/morse/Documents/GitHub/term
-       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
-       de_modules/@tanstack/query-persist-client-core/build/modern/persist
-       .js:40:38)
-             at <anonymous> (/Users/morse/Documents/GitHub/termcast/node_m
-       ules/.bun/@tanstack+query-persist-client-core@5.91.11/node_modules/
-       @tanstack/query-persist-client-core/build/modern/persist.js:56:7)
-       │ ✗ Unatn<anonymous>e(/Users/morse/Documents/GitHub/termcast/node_m
-       ules/.bun/@tanstack+query-core@5.90.12/node_modules/@tanstack/query
-       -core/build/modern/queryCache.js:75:9)
-    >        at forEach (native:1:11)"
+
+
+
+
+
+
+
+
+
+
+
+
+     ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Test ~ home directory expansion
@@ -322,32 +319,32 @@ test('file picker with autocomplete', async () => {
   await session.press('backspace')
   await session.type('~/')
 
-  await new Promise((resolve) => setTimeout(resolve, 200))
-
-  const homeDirectorySnapshot = await session.text()
+  const homeDirectorySnapshot = await session.text({
+    waitFor: (text) => text.includes('~/'),
+  })
   expect(homeDirectorySnapshot).toMatchInlineSnapshot(`
     "
 
 
-      ◇  Your Name
-      │  John Doe
-      │
-      ◇  Select Files
-      │  Enter file path...
-      │
-      │  Choose one or more files to upload
-      │
-      ◆  Select Folder
-      │  s~/
-      │
-      │  Choose a folder for output
-      │
-      ◇  Select Single File
-      │  Enter file path...
-      │
-      │  Choose exactly one file
-      │
-      └
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
+    │  s~/
+    │
+    │  Choose a folder for output
+    │
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
 
 
 
@@ -362,21 +359,19 @@ test('file picker with autocomplete', async () => {
 
 
 
-                              Console (Focused)
-       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
-       de_modules/@tanstack/query-persist-client-core/build/modern/persist
-       .js:51:19)
-             at persistQueryClientSave (/Users/morse/Documents/GitHub/term
-       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
-       de_modules/@tanstack/query-persist-client-core/build/modern/persist
-       .js:40:38)
-             at <anonymous> (/Users/morse/Documents/GitHub/termcast/node_m
-       ules/.bun/@tanstack+query-persist-client-core@5.91.11/node_modules/
-       @tanstack/query-persist-client-core/build/modern/persist.js:56:7)
-       │ ✗ Unatn<anonymous>e(/Users/morse/Documents/GitHub/termcast/node_m
-       ules/.bun/@tanstack+query-core@5.90.12/node_modules/@tanstack/query
-       -core/build/modern/queryCache.js:75:9)
-    >        at forEach (native:1:11)"
+
+
+
+
+
+
+
+
+
+
+
+
+     ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 15000)
 
@@ -394,9 +389,9 @@ test('file picker keyboard navigation', async () => {
   // Type to trigger autocomplete
   await session.type('.')
 
-  await new Promise((resolve) => setTimeout(resolve, 200))
-
-  const withDotSnapshot = await session.text()
+  const withDotSnapshot = await session.text({
+    waitFor: (text) => text.includes('📁 .termcast-bundle'),
+  })
   expect(withDotSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -508,7 +503,9 @@ test('file picker keyboard navigation', async () => {
   // Type again and navigate with arrows
   await session.type('s')
 
-  await new Promise((resolve) => setTimeout(resolve, 200))
+  await session.text({
+    waitFor: (text) => text.includes('.s'),
+  })
 
   // Navigate down multiple times
   await session.press('down')

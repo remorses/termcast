@@ -92,10 +92,12 @@ test('password field always shows asterisks and submits real value', async () =>
   // Tab to password field
   await session.press('tab')
 
-  // Type password - should show plaintext while focused
+  // Type password - should show asterisks
   await session.type('secret123')
 
-  const passwordTypingSnapshot = await session.text()
+  const passwordTypingSnapshot = await session.text({
+    waitFor: (text) => text.includes('*********'),
+  })
   expect(passwordTypingSnapshot).toMatchInlineSnapshot(`
     "
 
