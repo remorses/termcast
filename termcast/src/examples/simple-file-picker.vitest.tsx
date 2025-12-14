@@ -17,14 +17,16 @@ afterEach(() => {
 })
 
 test('file picker with autocomplete', async () => {
-  await session.text({
+  const initialSnapshot = await session.text({
     waitFor: (text) => {
-      // wait for form to show up
-      return /Your Name/i.test(text)
+      return (
+        /Your Name/i.test(text) &&
+        text.includes('Select Files') &&
+        text.includes('Select Folder') &&
+        text.includes('submit')
+      )
     },
   })
-
-  const initialSnapshot = await session.text()
   expect(initialSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -102,7 +104,7 @@ test('file picker with autocomplete', async () => {
     ◆  Select Folder
     │  src
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁 src                                                     █│
+    │  │ 📁 src                                                      │
     │  └─────────────────────────────────────────────────────────────┘
     ◇  Select Single File
     │  Enter file path...
@@ -142,7 +144,9 @@ test('file picker with autocomplete', async () => {
   // Navigate down in autocomplete
   await session.press('down')
 
-  const afterDownSnapshot = await session.text()
+  const afterDownSnapshot = await session.text({
+    waitFor: (text) => text.includes('📁 src'),
+  })
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -158,7 +162,7 @@ test('file picker with autocomplete', async () => {
     ◆  Select Folder
     │  src
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁 src                                                     █│
+    │  │ 📁 src                                                      │
     │  └─────────────────────────────────────────────────────────────┘
     ◇  Select Single File
     │  Enter file path...
@@ -198,7 +202,9 @@ test('file picker with autocomplete', async () => {
   // Select item with Enter
   await session.press('enter')
 
-  const afterSelectSnapshot = await session.text()
+  const afterSelectSnapshot = await session.text({
+    waitFor: (text) => text.includes('src/') && text.includes('📁 apis'),
+  })
   expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -214,9 +220,9 @@ test('file picker with autocomplete', async () => {
     ◆  Select Folder
     │  src/
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁 apis                                                    █│
-    │  │ 📁 components                                              █│
-    ◇  SelectxSingle File                                           ▀│
+    │  │ 📁 apis                                                     │
+    │  │ 📁 components                                               │
+    ◇  SelectxSingle File                                            │
     │  Enterefilespath...                                            │
     │  │    hooks                                                    │
     │  Choosenexactly one file                                       │
@@ -407,8 +413,8 @@ test('file picker keyboard navigation', async () => {
     ◆  Select Folder
     │  .
     │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁 .termcast-bundle                                        █│
-    │  │ 📄 .gitignore                                              █│
+    │  │ 📁 .termcast-bundle                                         │
+    │  │ 📄 .gitignore                                               │
     ◇  Select─Single─File────────────────────────────────────────────┘
     │  Enter file path...
     │
@@ -447,7 +453,9 @@ test('file picker keyboard navigation', async () => {
   // Test escape key to close autocomplete
   await session.press('esc')
 
-  const afterEscapeSnapshot = await session.text()
+  const afterEscapeSnapshot = await session.text({
+    waitFor: (text) => text.includes('Select Folder') && !text.includes('📁 .termcast-bundle'),
+  })
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -512,7 +520,9 @@ test('file picker keyboard navigation', async () => {
   await session.press('down')
   await session.press('up')
 
-  const afterNavigationSnapshot = await session.text()
+  const afterNavigationSnapshot = await session.text({
+    waitFor: (text) => text.includes('.s') && text.includes('Select Folder'),
+  })
   expect(afterNavigationSnapshot).toMatchInlineSnapshot(`
     "
 

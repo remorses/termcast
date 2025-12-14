@@ -74,7 +74,7 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-    ┃┃ropdown Default Value Example ───────────────────────────────────────────
+     Dropdown Default Value Example ───────────────────────────────────────────
     ┃                                                                          ┃
     ┃   Filter by category                                               esc   ┃
     ┃                                                                          ┃
@@ -88,7 +88,7 @@ test('dropdown opens and shows items', async () => {
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-    ┃┃                                                                         █
+                                                                               █
                                                                                █
                                                                                █
                                                                                █
@@ -109,7 +109,7 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-    ┃┃ropdown Default Value Example ───────────────────────────────────────────
+     Dropdown Default Value Example ───────────────────────────────────────────
     ┃                                                                          ┃
     ┃   Filter by category                                               esc   ┃
     ┃                                                                          ┃
@@ -123,7 +123,7 @@ test('dropdown opens and shows items', async () => {
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-    ┃┃                                                                         █
+                                                                               █
                                                                                █
                                                                                █
                                                                                █
@@ -187,7 +187,7 @@ test('clicking dropdown opens it', async () => {
     "
 
 
-    ┃┃ropdown Default Value Example ───────────────────────────────────────────
+     Dropdown Default Value Example ───────────────────────────────────────────
     ┃                                                                          ┃
     ┃   Filter by category                                               esc   ┃
     ┃                                                                          ┃
@@ -201,7 +201,7 @@ test('clicking dropdown opens it', async () => {
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-    ┃┃                                                                         █
+                                                                               █
                                                                                █
                                                                                █
                                                                                █

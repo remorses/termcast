@@ -23,6 +23,9 @@ test('form dropdown shows inline options', async () => {
         /Dropdown Component Demo/i.test(text) &&
         text.includes('Programming Languages') &&
         text.includes('TypeScript') &&
+        text.includes('Editor Theme') &&
+        text.includes('Task Priority') &&
+        text.includes('Critical') &&
         text.includes('↵ submit')
       )
     },

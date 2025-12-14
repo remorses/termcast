@@ -132,7 +132,7 @@ test('grid navigation and display', async () => {
 
       Search items...
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -357,7 +357,7 @@ test('grid item selection and actions', async () => {
 
       Search items...
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -390,7 +390,7 @@ test('grid item selection and actions', async () => {
 
       Search items...
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -503,7 +503,7 @@ test('grid mouse interaction', async () => {
 
       Search items...
 
-    ┃┃Apple                                                           ▲
+      Apple                                                           ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -536,7 +536,7 @@ test('grid mouse interaction', async () => {
 
       Search items...
 
-    ┃┃Apple                                                           ▲
+      Apple                                                           ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃

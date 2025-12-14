@@ -99,7 +99,7 @@ test('navigation between main and detail views', async () => {
 
       Main view
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -236,7 +236,7 @@ test('navigation between main and detail views', async () => {
 
       Main view
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -304,7 +304,7 @@ test('navigation between main and detail views', async () => {
 
       Detail view - Press ESC to go back
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -381,7 +381,7 @@ test('navigation with actions panel', async () => {
 
       Main view
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -414,7 +414,7 @@ test('navigation with actions panel', async () => {
 
       Main view
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -516,7 +516,7 @@ test('navigation with actions panel', async () => {
 
       Detail view - Press ESC to go back
 
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃

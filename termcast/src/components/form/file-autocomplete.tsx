@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Theme } from 'termcast/src/theme'
-import { TextareaRenderable } from '@opentui/core'
-import { FileSystemItem, searchFiles, parsePath } from '../../utils/file-system'
+import { TextareaRenderable, RGBA } from '@opentui/core'
+import { searchFiles, parsePath } from '../../utils/file-system'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
-import { ScrollBox } from 'termcast/src/internal/scrollbox'
+
+const backgroundPanel = RGBA.fromHex(Theme.backgroundPanel)
+const primary = RGBA.fromHex(Theme.primary)
+const border = RGBA.fromHex(Theme.border)
 
 export interface FileAutocompleteProps {
   onSelect: (path: string) => void
@@ -42,7 +45,6 @@ export const FileAutocomplete = ({
     enabled: visible,
   })
 
-  // Handle keyboard navigation
   useKeyboard((evt) => {
     if (!visible || !isInFocus) return
 
@@ -60,11 +62,9 @@ export const FileAutocomplete = ({
           value.substring(0, value.lastIndexOf('/') + 1) + selectedItem.name
 
         if (selectedItem.isDirectory) {
-          // Add trailing slash for directories and update textarea
           const fullPath = newValue + '/'
           inputRef.current?.setText(fullPath)
           inputRef.current!.cursorOffset = fullPath.length
-          // Keep autocomplete open for directories
         } else {
           onSelect(newValue)
           onVisibilityChange(false)
@@ -75,9 +75,14 @@ export const FileAutocomplete = ({
 
   if (!visible || items.length === 0) return null
 
-  // Calculate position based on anchor element
   const anchorElement = anchorRef.current
   if (!anchorElement) return null
+
+  const maxVisible = 8
+  const visibleItems = items.slice(0, maxVisible)
+  const displayHeight = visibleItems.length
+
+  const contentWidth = anchorElement.width - 2
 
   return (
     <box
@@ -85,67 +90,33 @@ export const FileAutocomplete = ({
       top={anchorElement.y + anchorElement.height}
       left={anchorElement.x}
       width={anchorElement.width}
+      height={displayHeight + 2}
       zIndex={1000}
       borderStyle='single'
-      borderColor={Theme.border}
-      backgroundColor={Theme.backgroundPanel}
-      maxHeight={10}
+      borderColor={border}
+      backgroundColor={backgroundPanel}
+      shouldFill
     >
-      {loading ? (
-        <text fg={Theme.textMuted} padding={1}>
-          Loading...
-        </text>
-      ) : (
-        <ScrollBox
-          focused={false}
-          flexGrow={1}
-          flexShrink={1}
-          style={{
-            rootOptions: {
-              backgroundColor: undefined,
-            },
-            scrollbarOptions: {
-              visible: true,
-              showArrows: false,
-
-            },
-          }}
-        >
-          <box flexDirection='column'>
-            {items.map((item, index) => (
-              <box
+      <box flexDirection='column' backgroundColor={backgroundPanel} shouldFill>
+        {loading ? (
+          <text fg={Theme.textMuted}> Loading...</text>
+        ) : (
+          visibleItems.map((item, index) => {
+            const icon = item.isDirectory ? '📁 ' : '📄 '
+            const text = ' ' + icon + item.name
+            const padded = text.padEnd(contentWidth, ' ')
+            return (
+              <text
                 key={item.path}
-                paddingLeft={1}
-                paddingRight={1}
-                backgroundColor={
-                  index === selectedIndex ? Theme.primary : undefined
-                }
-                onMouseDown={() => {
-                  setSelectedIndex(index)
-                  const value = inputRef.current?.plainText || ''
-                  const newValue =
-                    value.substring(0, value.lastIndexOf('/') + 1) + item.name
-                  if (item.isDirectory) {
-                    const fullPath = newValue + '/'
-                    inputRef.current?.setText(fullPath)
-                    inputRef.current!.cursorOffset = fullPath.length
-                  } else {
-                    onSelect(newValue)
-                    onVisibilityChange(false)
-                  }
-                }}
+                fg={index === selectedIndex ? Theme.background : Theme.text}
+                bg={index === selectedIndex ? Theme.primary : Theme.backgroundPanel}
               >
-                <text
-                  fg={index === selectedIndex ? Theme.background : Theme.text}
-                >
-                  {item.isDirectory ? '📁 ' : '📄 '}
-                  {item.name}
-                </text>
-              </box>
-            ))}
-          </box>
-        </ScrollBox>
-      )}
+                {padded}
+              </text>
+            )
+          })
+        )}
+      </box>
     </box>
   )
 }

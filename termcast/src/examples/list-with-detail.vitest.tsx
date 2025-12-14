@@ -145,7 +145,7 @@ test('list with detail view display and navigation', async () => {
      Search Pokemon...
 
      bulbasaur #001                      ▲│ charmander                        ▲
-    ┃┃vysaur #002                        █│                                   █
+     ivysaur #002                        █│                                   █
     ┃                                                                          ┃
     ┃                                                                    esc   ┃
     ┃                                                                          ┃
@@ -164,7 +164,7 @@ test('list with detail view display and navigation', async () => {
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-    ┃┃                                    │
+                                          │
      ↵ select  ↑↓ navigate  ^k actions    │ Characteristics:                  ▼"
   `)
 
@@ -381,7 +381,9 @@ test('list detail metadata rendering', async () => {
         /Pokemon List/i.test(text) &&
         text.includes('bulbasaur') &&
         text.includes('Types') &&
-        text.includes('Height')
+        text.includes('Height') &&
+        text.includes('Abilities') &&
+        text.includes('Chlorophyll')
       )
     },
   })

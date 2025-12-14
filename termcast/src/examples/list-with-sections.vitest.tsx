@@ -294,7 +294,7 @@ test('list with sections search functionality', async () => {
       Simple List Example ────────────────────────────────────────────
 
       bread
-    ┃┃
+
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -417,7 +417,7 @@ test('list actions panel with ctrl+k', async () => {
       Simple List Example ────────────────────────────────────────────
 
       Search items...
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -445,7 +445,7 @@ test('list actions panel with ctrl+k', async () => {
       Simple List Example ────────────────────────────────────────────
 
       Search items...
-    ┃┃                                                                ▲
+                                                                      ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
