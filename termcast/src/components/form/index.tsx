@@ -297,6 +297,9 @@ export const Form: FormType = ((props) => {
                   style={{
                     flexGrow: 1,
                     maxWidth: FORM_MAX_WIDTH,
+                    contentOptions: {
+                      justifyContent: 'center',
+                    },
                   }}
                 >
                   <FormFieldDescendantsProvider value={descendantsContext}>

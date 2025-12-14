@@ -5,6 +5,7 @@
 ### Patch Changes
 
 - Center Form content horizontally using flexbox layout
+- Center Form content vertically using scrollbox contentOptions
 - Add maxWidth constraint to Form description and scrollbox for consistent width
 - Fix flaky password field test to use regex match instead of exact value
 
