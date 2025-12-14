@@ -126,16 +126,13 @@ function FormFooter(): any {
         flexDirection: 'row',
       }}
     >
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        ^↵
-      </text>
       <text fg={Theme.textMuted}> submit</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
         {'   '}↑↓
       </text>
       <text fg={Theme.textMuted}> navigate</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'   '}^k
+          {'   '}^k
       </text>
       <text fg={Theme.textMuted}> actions</text>
     </box>
@@ -266,7 +263,7 @@ export const Form: FormType = ((props) => {
         </FormSubmitContext.Provider>,
         'bottom-right',
       )
-    } else if (evt.name === 'return' && evt.ctrl && props.actions) {
+    } else if (evt.name === 'return' && evt.hyper && props.actions) {
       // Ctrl+Return shows actions (form submit shortcut)
       dialog.push(
         <FormSubmitContext.Provider value={submitContextValue}>

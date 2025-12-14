@@ -43,6 +43,43 @@
       "subtitle": "Display current state as JSON",
       "description": "Shows the current application state in JSON format",
       "mode": "view"
+    },
+    {
+      "name": "with-arguments",
+      "title": "With Arguments",
+      "subtitle": "Command with arguments",
+      "description": "Demonstrates command arguments (text, password, dropdown)",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "query",
+          "type": "text",
+          "placeholder": "Search query",
+          "required": true
+        },
+        {
+          "name": "secretKey",
+          "type": "password",
+          "placeholder": "Secret key"
+        },
+        {
+          "name": "category",
+          "type": "dropdown",
+          "placeholder": "Category",
+          "data": [
+            { "title": "Work", "value": "work" },
+            { "title": "Personal", "value": "personal" },
+            { "title": "Other", "value": "other" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "quick-action",
+      "title": "Quick Action",
+      "subtitle": "No-view command",
+      "description": "Copies current timestamp to clipboard without showing a view",
+      "mode": "no-view"
     }
   ]
 }

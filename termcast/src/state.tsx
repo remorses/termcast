@@ -26,6 +26,7 @@ interface AppState {
   extensionPath: string | null
   extensionPackageJson: RaycastPackageJson | null
   currentCommandName: string | null
+  currentCommandArguments: Record<string, string> | null
   // OAuth state
   googleAccessToken?: string
   googleIdToken?: string
@@ -43,6 +44,7 @@ export const useStore = create<AppState>(() => ({
   extensionPath: null,
   extensionPackageJson: null,
   currentCommandName: null,
+  currentCommandArguments: null,
   // OAuth state
   googleAccessToken: undefined,
   googleIdToken: undefined,

@@ -525,38 +525,40 @@ function ListItemRow(props: {
   const accessoryElements: ReactNode[] = []
   if (accessories) {
     accessories.forEach((accessory) => {
-      if ('text' in accessory && accessory.text) {
-        const textValue =
-          typeof accessory.text === 'string'
-            ? accessory.text
-            : accessory.text?.value
-        if (textValue) {
-          accessoryElements.push(
-            <text
-              key={`text-${textValue}`}
-              fg={active ? Theme.background : Theme.info}
-            >
-              {textValue}
-            </text>,
-          )
+        if ('text' in accessory && accessory.text) {
+          const textValue =
+            typeof accessory.text === 'string'
+              ? accessory.text
+              : accessory.text?.value
+          if (textValue) {
+            accessoryElements.push(
+              <text
+                key={`text-${textValue}`}
+                fg={active ? Theme.background : Theme.info}
+                wrapMode="none"
+              >
+                {textValue}
+              </text>,
+            )
+          }
         }
-      }
-      if ('tag' in accessory && accessory.tag) {
-        const tagValue =
-          typeof accessory.tag === 'string'
-            ? accessory.tag
-            : accessory.tag?.value
-        if (tagValue) {
-          accessoryElements.push(
-            <text
-              key={`tag-${tagValue}`}
-              fg={active ? Theme.background : Theme.warning}
-            >
-              [{tagValue}]
-            </text>,
-          )
+        if ('tag' in accessory && accessory.tag) {
+          const tagValue =
+            typeof accessory.tag === 'string'
+              ? accessory.tag
+              : accessory.tag?.value
+          if (tagValue) {
+            accessoryElements.push(
+              <text
+                key={`tag-${tagValue}`}
+                fg={active ? Theme.background : Theme.warning}
+                wrapMode="none"
+              >
+                [{tagValue}]
+              </text>,
+            )
+          }
         }
-      }
     })
   }
 
@@ -573,6 +575,7 @@ function ListItemRow(props: {
             : undefined,
         paddingLeft: active ? 0 : 1,
         paddingRight: 1,
+        gap: 1,
       }}
       border={false}
       onMouseMove={() => {
@@ -583,9 +586,9 @@ function ListItemRow(props: {
       }}
       onMouseDown={props.onMouseDown}
     >
-      <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
+      <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1, overflow: 'hidden', gap: 1 }}>
         {active && (
-          <text fg={Theme.textMuted} selectable={false}>
+          <text fg={Theme.textMuted} selectable={false} wrapMode="none">
             ›
           </text>
         )}
@@ -593,6 +596,7 @@ function ListItemRow(props: {
           fg={active ? Theme.background : Theme.text}
           attributes={active ? TextAttributes.BOLD : undefined}
           selectable={false}
+          wrapMode="none"
         >
           {title}
         </text>
@@ -600,14 +604,14 @@ function ListItemRow(props: {
           <text
             fg={active ? Theme.background : Theme.textMuted}
             selectable={false}
+            wrapMode="none"
           >
-            {' '}
             {subtitle}
           </text>
         )}
       </box>
       {accessoryElements.length > 0 && (
-        <box style={{ flexDirection: 'row' }}>
+        <box style={{ flexDirection: 'row', flexShrink: 0 }}>
           {accessoryElements.map((elem, i) => (
             <box key={i} style={{ flexDirection: 'row' }}>
               {i > 0 && <text> </text>}
@@ -616,7 +620,6 @@ function ListItemRow(props: {
           ))}
         </box>
       )}
-      {/*{active && <text fg={Theme.textMuted}>‹</text>}*/}
     </box>
   )
 }

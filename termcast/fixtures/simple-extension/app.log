@@ -1,0 +1,23 @@
+[2025-12-14T18:10:46.184Z] Building 7 commands...
+[2025-12-14T18:10:46.192Z] Resolving @raycast/api to @termcast/cli
+[2025-12-14T18:10:46.192Z] Resolving @raycast/api to @termcast/cli
+[2025-12-14T18:10:46.192Z] Resolving @raycast/api to @termcast/cli
+[2025-12-14T18:10:46.193Z] Resolving @raycast/api to @termcast/cli
+[2025-12-14T18:10:46.193Z] Resolving @raycast/api to @termcast/cli
+[2025-12-14T18:10:46.195Z] Resolving @raycast/api to @termcast/cli
+[2025-12-14T18:10:46.200Z] ERROR: Build failed: Could not resolve: "termcast". Maybe you need to "bun install"?
+Could not resolve: "termcast". Maybe you need to "bun install"?
+Could not resolve: "termcast/src/logger". Maybe you need to "bun install"?
+Error: Build failed: Could not resolve: "termcast". Maybe you need to "bun install"?
+Could not resolve: "termcast". Maybe you need to "bun install"?
+Could not resolve: "termcast/src/logger". Maybe you need to "bun install"?
+    at buildExtensionCommands (/$bunfs/root/termcast-macos-arm64:47853:20)
+    at processTicksAndRejections (native:7:39)
+[2025-12-14T18:10:46.200Z] failed to start dev Build failed: Could not resolve: "termcast". Maybe you need to "bun install"?
+Could not resolve: "termcast". Maybe you need to "bun install"?
+Could not resolve: "termcast/src/logger". Maybe you need to "bun install"?
+Error: Build failed: Could not resolve: "termcast". Maybe you need to "bun install"?
+Could not resolve: "termcast". Maybe you need to "bun install"?
+Could not resolve: "termcast/src/logger". Maybe you need to "bun install"?
+    at buildExtensionCommands (/$bunfs/root/termcast-macos-arm64:47853:20)
+    at processTicksAndRejections (native:7:39)

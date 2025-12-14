@@ -11,6 +11,7 @@ import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
 import { getCommandsWithFiles, CommandWithFile } from '../package-json'
 import { buildExtensionCommands } from '../build'
+import { runCommand, clearCommandArguments } from '../utils/run-command'
 
 interface BundledCommand extends CommandWithFile {
   bundledPath: string
@@ -24,47 +25,37 @@ function ExtensionCommandsList({
   commands: BundledCommand[]
 }): any {
   const { push } = useNavigation()
-  const packageJson = getCommandsWithFiles({
+  const { packageJson } = getCommandsWithFiles({
     packageJsonPath: path.join(extensionPath, 'package.json'),
-  }).packageJson
+  })
+  const devRebuildCount = useStore((state) => state.devRebuildCount)
 
   const handleCommandSelect = async (command: BundledCommand) => {
+    clearCommandArguments()
+
+    if (!command.bundledPath) {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: 'Command not built',
+        message: `Command ${command.name} was not built successfully`,
+      })
+      return
+    }
+
     try {
-      if (!command.bundledPath) {
-        await showToast({
-          style: Toast.Style.Failure,
-          title: 'Command not built',
-          message: `Command ${command.name} was not built successfully`,
-        })
-        return
-      }
-
-      const state = useStore.getState()
-      const devRebuildCount = state.devRebuildCount
-
-      // Set the current command in state
-      useStore.setState({ currentCommandName: command.name })
-
-      const module = await import(
-        `${command.bundledPath}?rebuild=${devRebuildCount}`
-      )
-      const Component = module.default
-
-      if (!Component) {
-        await showToast({
-          style: Toast.Style.Failure,
-          title: 'No default export',
-          message: `Command file ${command.name} has no default export`,
-        })
-        return
-      }
-
-      push(<Component />)
-    } catch (error) {
+      await runCommand({
+        command,
+        extensionName: packageJson.name,
+        packageJson,
+        bundledPath: command.bundledPath,
+        push,
+        cacheBustParam: String(devRebuildCount),
+      })
+    } catch (error: any) {
       await showToast({
         style: Toast.Style.Failure,
         title: 'Failed to load command',
-        message: error.message ? error.message : error,
+        message: error.message || String(error),
       })
     }
   }

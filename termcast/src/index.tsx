@@ -107,6 +107,9 @@ export type {
 // Alerts
 export { Alert, confirmAlert } from 'termcast/src/components/alert'
 
+// Command Arguments
+export { CommandArguments } from 'termcast/src/components/command-arguments'
+
 // MenuBar
 export { MenuBarExtra } from 'termcast/src/components/menubar-extra'
 export type {

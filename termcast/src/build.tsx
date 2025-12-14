@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { execSync } from 'node:child_process'
 import type { BunPlugin } from 'bun'
 import { logger } from './logger'
 import { getCommandsWithFiles, CommandWithFile } from './package-json'
@@ -9,6 +10,7 @@ import * as opentuiCore from '@opentui/core'
 import * as react from 'react'
 
 const GLOBALS_NAMESPACE = 'globals'
+const VIRTUAL_ENTRY_NAMESPACE = 'virtual-entry'
 
 const aliasPlugin: BunPlugin = {
   name: 'alias-raycast-to-termcast',
