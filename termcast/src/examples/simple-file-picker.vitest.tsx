@@ -31,16 +31,28 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◆  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◇  Select Folder
-    │  Enter file path...
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     █
+    ◆  Your Name                                                     █
+    ┃  John Doe                                                      █
+    ┃                                                                █
+    ◇  Select Files                                                  █
+    │  Enter file path...                                            █
+    │                                                                █
+    │  Choose one or more files to upload                            █
+    │                                                                █
+    ◇  Select Folder                                                 █
+    │  Enter file path...                                            ▀
     │
     │  Choose a folder for output
     │
@@ -50,18 +62,6 @@ test('file picker with autocomplete', async () => {
     │  Choose exactly one file
     │
     └
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -93,37 +93,37 @@ test('file picker with autocomplete', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     ◇  Your Name
     │  John Doe
     │
     ◇  Select Files
     │  Enter file path...
     │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    │  src
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁 src                                                      │
-    │  └─────────────────────────────────────────────────────────────┘
+    ◆  └─────────────────────────────────────────────────────────────┘
+    ┃  src
+    ┃
+    ┃  Choose a folder for output
+    ┃
     ◇  Select Single File
     │  Enter file path...
     │
     │  Choose exactly one file
     │
     └
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -151,37 +151,37 @@ test('file picker with autocomplete', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     ◇  Your Name
     │  John Doe
     │
     ◇  Select Files
     │  Enter file path...
     │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    │  src
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁 src                                                      │
-    │  └─────────────────────────────────────────────────────────────┘
+    ◆  └─────────────────────────────────────────────────────────────┘
+    ┃  src
+    ┃
+    ┃  Choose a folder for output
+    ┃
     ◇  Select Single File
     │  Enter file path...
     │
     │  Choose exactly one file
     │
     └
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -209,37 +209,37 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
+
+
+
+
+
+
+
+
+
+
+
+       ┌─────────────────────────────────────────────────────────────┐
+    ◇  │ 📁 apis                                                     │
+    │  │ 📁 components                                               │
+    │  │ 📁 examples                                                 │
+    ◇  │ 📁 extensions                                               │
+    │  │ 📁 hooks                                                    │
+    │  │ 📁 internal                                                 │
+    │  │ 📁 store-api                                                │
+    │  │ 📁 utils                                                    │
+    ◆  └─────────────────────────────────────────────────────────────┘
+    ┃  src/
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
     │  Enter file path...
     │
-    │  Choose one or more files to upload
+    │  Choose exactly one file
     │
-    ◆  Select Folder
-    │  src/
-    │  ┌─────────────────────────────────────────────────────────────┐
-    │  │ 📁 apis                                                     │
-    │  │ 📁 components                                               │
-    ◇  SelectxSingle File                                            │
-    │  Enterefilespath...                                            │
-    │  │    hooks                                                    │
-    │  Choosenexactly one file                                       │
-    │  │    store-api                                                │
-    └  │ 📁 utils                                                    │
-       └─────────────────────────────────────────────────────────────┘
-
-
-
-
-
-
-
-
-
-
-
+    └
 
 
 
@@ -270,6 +270,18 @@ test('file picker with autocomplete', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     ◇  Your Name
     │  John Doe
     │
@@ -279,28 +291,16 @@ test('file picker with autocomplete', async () => {
     │  Choose one or more files to upload
     │
     ◆  Select Folder
-    │  s/tmp
-    │
-    │  Choose a folder for output
-    │
+    ┃  s/tmp
+    ┃
+    ┃  Choose a folder for output
+    ┃
     ◇  Select Single File
     │  Enter file path...
     │
     │  Choose exactly one file
     │
     └
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -332,25 +332,6 @@ test('file picker with autocomplete', async () => {
     "
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    │  s~/
-    │
-    │  Choose a folder for output
-    │
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
 
 
 
@@ -362,22 +343,43 @@ test('file picker with autocomplete', async () => {
 
 
 
+      ◇  Your Name
+      │  John Doe
+      │
+      ◇  Select Files
+      │  Enter file path...
+      │
+      │  Choose one or more files to upload
+      │
+      ◆  Select Folder
+      ┃  s~/
+      ┃
+      ┃  Choose a folder for output
+      ┃
+      ◇  Select Single File
+      │  Enter file path...
+      │
+      │  Choose exactly one file
+      │
+      └
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
+                              Console (Focused)
+       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
+       de_modules/@tanstack/query-persist-client-core/build/modern/persist
+       .js:51:19)
+             at persistQueryClientSave (/Users/morse/Documents/GitHub/term
+       st/node_modules/.bun/@tanstack+query-persist-client-core@5.91.11/no
+       de_modules/@tanstack/query-persist-client-core/build/modern/persist
+       .js:40:38)
+             at <anonymous> (/Users/morse/Documents/GitHub/termcast/node_m
+       ules/.bun/@tanstack+query-persist-client-core@5.91.11/node_modules/
+       @tanstack/query-persist-client-core/build/modern/persist.js:56:7)
+       │ ✗ Unatn<anonymous>e(/Users/morse/Documents/GitHub/termcast/node_m
+       ules/.bun/@tanstack+query-core@5.90.12/node_modules/@tanstack/query
+       -core/build/modern/queryCache.js:75:9)
+    >        at forEach (native:1:11)"
   `)
 }, 15000)
 
@@ -402,37 +404,37 @@ test('file picker keyboard navigation', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     ◇  Your Name
     │  John Doe
     │
     ◇  Select Files
     │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    │  .
     │  ┌─────────────────────────────────────────────────────────────┐
     │  │ 📁 .termcast-bundle                                         │
     │  │ 📄 .gitignore                                               │
-    ◇  Select─Single─File────────────────────────────────────────────┘
+    ◆  └─────────────────────────────────────────────────────────────┘
+    ┃  .
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
     │  Enter file path...
     │
     │  Choose exactly one file
     │
     └
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -460,6 +462,18 @@ test('file picker keyboard navigation', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     ◇  Your Name
     │  John Doe
     │
@@ -469,28 +483,16 @@ test('file picker keyboard navigation', async () => {
     │  Choose one or more files to upload
     │
     ◆  Select Folder
-    │  .
-    │
-    │  Choose a folder for output
-    │
+    ┃  .
+    ┃
+    ┃  Choose a folder for output
+    ┃
     ◇  Select Single File
     │  Enter file path...
     │
     │  Choose exactly one file
     │
     └
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -527,6 +529,18 @@ test('file picker keyboard navigation', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     ◇  Your Name
     │  John Doe
     │
@@ -536,28 +550,16 @@ test('file picker keyboard navigation', async () => {
     │  Choose one or more files to upload
     │
     ◆  Select Folder
-    │  .s
-    │
-    │  Choose a folder for output
-    │
+    ┃  .s
+    ┃
+    ┃  Choose a folder for output
+    ┃
     ◇  Select Single File
     │  Enter file path...
     │
     │  Choose exactly one file
     │
     └
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

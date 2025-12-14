@@ -31,20 +31,30 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Choose your favorite sport...
-    │
-    │› ○ Basketball
-    │  ○ Football
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Choose your favorite sport...
+    ┃
+    ┃› ○ Basketball
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -53,17 +63,7 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -86,20 +86,30 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball
-    │
-    │› ● Basketball
-    │  ○ Football
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball
+    ┃
+    ┃› ● Basketball
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -108,17 +118,7 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -141,20 +141,30 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball
-    │
-    │  ● Basketball
-    │› ○ Football
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball
+    ┃
+    ┃  ● Basketball
+    ┃› ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -163,17 +173,7 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -199,20 +199,30 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball
-    │
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ○ Golf
-    │› ○ Swimming
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ○ Golf
+    ┃› ○ Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -221,17 +231,7 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -254,20 +254,30 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball, Swimming
-    │
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ○ Golf
-    │› ● Swimming
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball, Swimming
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ○ Golf
+    ┃› ● Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -276,17 +286,7 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -317,20 +317,30 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball
-    │
-    │› ● Basketball
-    │  ○ Football
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball
+    ┃
+    ┃› ● Basketball
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -339,17 +349,7 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -375,20 +375,30 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball
-    │
-    │  ○ Football
-    │  ○ Tennis
-    │  ○ Baseball
-    │› ○ Golf
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball
+    ┃
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃› ○ Golf
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -397,17 +407,7 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -430,20 +430,30 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball
-    │
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ○ Golf
-    │› ○ Swimming
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ○ Golf
+    ┃› ○ Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -452,17 +462,7 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -485,20 +485,30 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball
-    │
-    │  ○ Tennis
-    │  ○ Baseball
-    │› ○ Golf
-    │  ○ Swimming
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃› ○ Golf
+    ┃  ○ Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -507,17 +517,7 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -540,20 +540,30 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Basketball
-    │
-    │  ○ Tennis
-    │  ○ Baseball
-    │› ○ Golf
-    │  ○ Swimming
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
+    ┃  Basketball
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃› ○ Golf
+    ┃  ○ Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
     ◇  Country
     │  Germany
     │
@@ -562,17 +572,7 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Netherlands
     │  ○ Norway
     │  ↑↓ to see more options
-    │
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -603,6 +603,16 @@ test('form tagpicker with default value', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
@@ -618,24 +628,14 @@ test('form tagpicker with default value', async () => {
     │  Select your favorite sport from the list
     │
     ◆  Country
-    │  Germany
-    │
-    │› ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    │
+    ┃  Germany
+    ┃
+    ┃› ● Germany
+    ┃  ○ India
+    ┃  ○ Netherlands
+    ┃  ○ Norway
+    ┃  ↑↓ to see more options
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -658,6 +658,16 @@ test('form tagpicker with default value', async () => {
     "
 
 
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
@@ -673,24 +683,14 @@ test('form tagpicker with default value', async () => {
     │  Select your favorite sport from the list
     │
     ◆  Country
-    │  Select a country
-    │
-    │› ○ Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    │
+    ┃  Select a country
+    ┃
+    ┃› ○ Germany
+    ┃  ○ India
+    ┃  ○ Netherlands
+    ┃  ○ Norway
+    ┃  ↑↓ to see more options
     └
-
-
-
-
-
-
-
-
-
 
 
 
@@ -718,6 +718,12 @@ test('form tagpicker with default value', async () => {
     "
 
 
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
@@ -733,14 +739,14 @@ test('form tagpicker with default value', async () => {
     │  Select your favorite sport from the list
     │
     ◆  Country
-    │  Germany
-    │
-    │› ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    │
+    ┃  Germany
+    ┃
+    ┃› ● Germany
+    ┃  ○ India
+    ┃  ○ Netherlands
+    ┃  ○ Norway
+    ┃  ↑↓ to see more options
+    ┃
     ▪  Submitted Data
     │  {
     │    "sports": [],
@@ -749,12 +755,6 @@ test('form tagpicker with default value', async () => {
     │    ]
     │  }
     │
-    └
-
-
-
-
-
 
 
 

@@ -37,10 +37,10 @@ test('form basic navigation and input', async () => {
     │  keys or Tab to navigate between fields.                       █
     │                                                                █
     ◆  Username                                                      █
-    │  Enter your username                                           █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
+    ┃  Enter your username                                           █
+    ┃                                                                █
+    ┃  Required field                                                █
+    ┃                                                                █
     ◇  Password                                                      █
     │  Enter secure password                                         █
     │  Must be at least 8 characters                                 █
@@ -112,9 +112,9 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field                                                █
     │                                                                █
     ◆  Password                                                      █
-    │  **********                                                    █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
+    ┃  **********                                                    █
+    ┃  Must be at least 8 characters                                 █
+    ┃                                                                █
     ◇  Biography                                                     █
     │  Tell us about yourself...                                     █
     │                                                                █
@@ -173,13 +173,13 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Must be at least 8 characters                                 █
     │                                                                █
     ◆  Biography                                                     █
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
+    ┃  Tell us about yourself...                                     █
+    ┃                                                                █
+    ┃                                                                █
+    ┃                                                                █
+    ┃                                                                █
+    ┃  Maximum 500 characters                                        █
+    ┃                                                                █
     ◇  Email Preferences                                             █
     │  ○ Subscribe to newsletter                                     ▀
     │
@@ -273,19 +273,19 @@ test('form date picker selection with space and enter', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │                                                                █
-    │   ←       2025        →                                        ▀
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
-    │
-    │  Format: YYYY-MM-DD
-    │
+    ┃                                                                █
+    ┃   ←       2025        →                                        ▀
+    ┃   ←     December      →
+    ┃
+    ┃   Mo Tu We Th Fr Sa Su
+    ┃    1  2  3  4  5  6  7
+    ┃    8  9 10 11 12 13 14
+    ┃   15 16 17 18 19 20 21
+    ┃   22 23 24 25 26 27 28
+    ┃   29 30 31
+    ┃
+    ┃  Format: YYYY-MM-DD
+    ┃
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -330,19 +330,19 @@ test('form date picker selection with space and enter', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
-    │
-    │  Selected: 2025-12-14
-    │
+    ┃
+    ┃   ←       2025        →
+    ┃   ←     December      →
+    ┃
+    ┃   Mo Tu We Th Fr Sa Su
+    ┃    1  2  3  4  5  6  7
+    ┃    8  9 10 11 12 13 14
+    ┃   15 16 17 18 19 20 21
+    ┃   22 23 24 25 26 27 28
+    ┃   29 30 31
+    ┃
+    ┃  Selected: 2025-12-14
+    ┃
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -388,19 +388,19 @@ test('form date picker selection with space and enter', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
-    │
-    │  Selected: 2025-12-15
-    │
+    ┃
+    ┃   ←       2025        →
+    ┃   ←     December      →
+    ┃
+    ┃   Mo Tu We Th Fr Sa Su
+    ┃    1  2  3  4  5  6  7
+    ┃    8  9 10 11 12 13 14
+    ┃   15 16 17 18 19 20 21
+    ┃   22 23 24 25 26 27 28
+    ┃   29 30 31
+    ┃
+    ┃  Selected: 2025-12-15
+    ┃
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -462,19 +462,19 @@ test('form dropdown navigation', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
-    │
-    │  Selected: 2025-12-14
-    │
+    ┃
+    ┃   ←       2025        →
+    ┃   ←     December      →
+    ┃
+    ┃   Mo Tu We Th Fr Sa Su
+    ┃    1  2  3  4  5  6  7
+    ┃    8  9 10 11 12 13 14
+    ┃   15 16 17 18 19 20 21
+    ┃   22 23 24 25 26 27 28
+    ┃   29 30 31
+    ┃
+    ┃  Selected: 2025-12-14
+    ┃
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -519,19 +519,19 @@ test('form dropdown navigation', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
-    │
-    │  Selected: 2025-12-14
-    │
+    ┃
+    ┃   ←       2025        →
+    ┃   ←     December      →
+    ┃
+    ┃   Mo Tu We Th Fr Sa Su
+    ┃    1  2  3  4  5  6  7
+    ┃    8  9 10 11 12 13 14
+    ┃   15 16 17 18 19 20 21
+    ┃   22 23 24 25 26 27 28
+    ┃   29 30 31
+    ┃
+    ┃  Selected: 2025-12-14
+    ┃
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -578,19 +578,19 @@ test('form dropdown navigation', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
-    │
-    │  Selected: 2025-12-14
-    │
+    ┃
+    ┃   ←       2025        →
+    ┃   ←     December      →
+    ┃
+    ┃   Mo Tu We Th Fr Sa Su
+    ┃    1  2  3  4  5  6  7
+    ┃    8  9 10 11 12 13 14
+    ┃   15 16 17 18 19 20 21
+    ┃   22 23 24 25 26 27 28
+    ┃   29 30 31
+    ┃
+    ┃  Selected: 2025-12-14
+    ┃
 
 
      ↵ submit   ↑↓ navigate   ^k actions"
@@ -635,19 +635,19 @@ test('form dropdown navigation', async () => {
     │  Your country of residence                                     █
     │                                                                █
     ◆  Date of Birth                                                 █
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
-    │
-    │  Selected: 2025-12-14
-    │
+    ┃
+    ┃   ←       2025        →
+    ┃   ←     December      →
+    ┃
+    ┃   Mo Tu We Th Fr Sa Su
+    ┃    1  2  3  4  5  6  7
+    ┃    8  9 10 11 12 13 14
+    ┃   15 16 17 18 19 20 21
+    ┃   22 23 24 25 26 27 28
+    ┃   29 30 31
+    ┃
+    ┃  Selected: 2025-12-14
+    ┃
 
 
      ↵ submit   ↑↓ navigate   ^k actions"

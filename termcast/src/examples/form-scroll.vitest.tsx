@@ -34,8 +34,8 @@ test(
       │  Test scrolling behavior when navigating with Tab
       │
       ◆  Field 1
-      │  First field
-      │
+      ┃  First field
+      ┃
       ◇  Field 2
       │  Second field
       │
@@ -57,8 +57,8 @@ test(
       │  First field
       │
       ◆  Field 2
-      │  Second field
-      │
+      ┃  Second field
+      ┃
 
 
        ↵ submit   ↑↓ navigate   ^k actions"
@@ -77,8 +77,8 @@ test(
       │  Second field
       │
       ◆  Field 3
-      │  Third field
-      │
+      ┃  Third field
+      ┃
 
 
        ↵ submit   ↑↓ navigate   ^k actions"
@@ -97,8 +97,8 @@ test(
       │  Third field
       │
       ◆  Field 4
-      │  Fourth field
-      │
+      ┃  Fourth field
+      ┃
 
 
        ↵ submit   ↑↓ navigate   ^k actions"
@@ -117,8 +117,8 @@ test(
       │  Fourth field                                        ▀
       │
       ◆  Field 5
-      │  Fifth field
-      │
+      ┃  Fifth field
+      ┃
 
 
        ↵ submit   ↑↓ navigate   ^k actions"
@@ -137,8 +137,8 @@ test(
       │  Fifth field
       │                                                      ▄
       ◆  Field 6
-      │  Sixth field
-      │
+      ┃  Sixth field
+      ┃
 
 
        ↵ submit   ↑↓ navigate   ^k actions"
@@ -157,8 +157,8 @@ test(
       │  Sixth field
       │
       ◆  Field 7                                             ▄
-      │  Seventh field
-      │
+      ┃  Seventh field
+      ┃
 
 
        ↵ submit   ↑↓ navigate   ^k actions"
@@ -177,8 +177,8 @@ test(
       │  Seventh field
       │
       ◆  Field 8
-      │  Eighth field
-      │                                                      ▀
+      ┃  Eighth field
+      ┃                                                      ▀
 
 
        ↵ submit   ↑↓ navigate   ^k actions"
@@ -191,8 +191,8 @@ test(
 
 
       ◆  Field 1
-      │  First field                                         ▄
-      │
+      ┃  First field                                         ▄
+      ┃
       ◇  Field 2
       │  Second field
       │
@@ -214,8 +214,8 @@ test(
       │  First field                                         ▄
       │
       ◆  Field 2
-      │  Second field
-      │
+      ┃  Second field
+      ┃
       ◇  Field 3
       │  Third field
       │
