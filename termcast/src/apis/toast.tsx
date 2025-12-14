@@ -121,12 +121,12 @@ export class Toast {
   }
 }
 
-export interface ToastComponentProps {
+interface ToastContentProps {
   toast: Toast
   onHide: () => void
 }
 
-export function ToastComponent({ toast, onHide }: ToastComponentProps): any {
+function ToastContent({ toast, onHide }: ToastContentProps): any {
   const [, forceUpdate] = useState(0)
   const dimensions = useTerminalDimensions()
   const inFocus = useIsInFocus()
@@ -140,6 +140,18 @@ export function ToastComponent({ toast, onHide }: ToastComponentProps): any {
       toast._setCallbacks({})
     }
   }, [toast, onHide])
+
+  useKeyboard((evt) => {
+    if (!inFocus) return
+
+    if (evt.name === 'escape') {
+      onHide()
+    } else if (toast.primaryAction && evt.name === 'return') {
+      toast.primaryAction.onAction(toast)
+    } else if (toast.secondaryAction && evt.name === 'tab') {
+      toast.secondaryAction.onAction(toast)
+    }
+  })
 
   const getIcon = () => {
     switch (toast.style) {
@@ -180,7 +192,6 @@ export function ToastComponent({ toast, onHide }: ToastComponentProps): any {
 
   useEffect(() => {
     if (toast.style !== Toast.Style.Animated) {
-      // Use longer duration for error toasts
       const duration = toast.style === Toast.Style.Failure ? 8000 : 5000
       const timer = setTimeout(() => {
         onHide()
@@ -192,19 +203,6 @@ export function ToastComponent({ toast, onHide }: ToastComponentProps): any {
   const icon =
     toast.style === Toast.Style.Animated ? getIcon()[animationFrame] : getIcon()
 
-  useKeyboard((evt) => {
-    if (!inFocus) return
-
-    if (evt.name === 'escape') {
-      onHide()
-    } else if (toast.primaryAction && evt.name === 'enter') {
-      toast.primaryAction.onAction(toast)
-    } else if (toast.secondaryAction && evt.name === 'tab') {
-      toast.secondaryAction.onAction(toast)
-    }
-  })
-
-  // TODO use flexWrap when implemented
   const wrapText = (text: string, maxWidth: number): string[] => {
     if (!text) return []
 
@@ -281,13 +279,36 @@ export function ToastComponent({ toast, onHide }: ToastComponentProps): any {
   )
 }
 
+export function ToastOverlay(): any {
+  const dimensions = useTerminalDimensions()
+  const toastElement = useStore((state) => state.toast)
+
+  if (!toastElement) {
+    return null
+  }
+
+  return (
+    <box
+      position='absolute'
+      left={0}
+      top={dimensions.height - 3}
+      width={dimensions.width}
+      height={3}
+      justifyContent='flex-end'
+      alignItems='center'
+    >
+      {toastElement}
+    </box>
+  )
+}
+
 let currentToastInstance: Toast | null = null
 
 export function showToastInternal(toast: Toast): void {
   currentToastInstance = toast
   useStore.setState({
     toast: (
-      <ToastComponent
+      <ToastContent
         toast={toast}
         onHide={() => {
           useStore.setState({ toast: null })

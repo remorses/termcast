@@ -9,6 +9,7 @@ import {
   type DialogStackItem,
 } from 'termcast/src/state'
 import { logger } from '../logger'
+import { ToastOverlay } from 'termcast/src/apis/toast'
 
 const Border = {
   topLeft: '',
@@ -169,6 +170,7 @@ export function DialogProvider(props: DialogProviderProps): any {
           })}
         </box>
       )}
+      <ToastOverlay />
     </>
   )
 }

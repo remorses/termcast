@@ -17,7 +17,7 @@ import {
   ScrollBoxRenderable,
   BoxRenderable,
 } from '@opentui/core'
-import { useStore } from 'termcast/src/state'
+
 import {
   createDescendants,
   DescendantContextType,
@@ -95,26 +95,7 @@ export const useFormSubmit = () => {
   return context // Can be null if not in a form
 }
 
-// Footer component to show keyboard shortcuts
 function FormFooter(): any {
-  const toast = useStore((state) => state.toast)
-
-  if (toast) {
-    return (
-      <box
-        border={false}
-        style={{
-          paddingLeft: 1,
-          paddingRight: 1,
-          paddingTop: 1,
-          marginTop: 1,
-        }}
-      >
-        {toast}
-      </box>
-    )
-  }
-
   return (
     <box
       border={false}

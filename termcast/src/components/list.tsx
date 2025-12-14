@@ -22,7 +22,7 @@ import { useDialog } from 'termcast/src/internal/dialog'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useNavigationPending } from 'termcast/src/internal/navigation'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
-import { useStore } from 'termcast/src/state'
+
 import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { CommonProps } from 'termcast/src/utils'
 
@@ -31,24 +31,6 @@ interface ActionsInterface {
 }
 
 function ListFooter(): any {
-  const toast = useStore((state) => state.toast)
-
-  if (toast) {
-    return (
-      <box
-        border={false}
-        style={{
-          paddingLeft: 1,
-          paddingRight: 1,
-          paddingTop: 1,
-          marginTop: 1,
-        }}
-      >
-        {toast}
-      </box>
-    )
-  }
-
   return (
     <box
       border={false}
