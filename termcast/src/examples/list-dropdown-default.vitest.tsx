@@ -36,24 +36,24 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
      Search...                                                          Apple ▾
 
-    ›First Item This list has a dropdown                                       ▲
-     Second Item The dropdown should default to first item                     █
-     Vegetables                                                                █
-     Carrot With another dropdown                                              █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               ▼
+    ›First Item This list has a dropdown
+     Second Item The dropdown should default to first item
+     Vegetables
+     Carrot With another dropdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -88,15 +88,15 @@ test('dropdown opens and shows items', async () => {
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               ▼
+
+
+
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -123,15 +123,15 @@ test('dropdown opens and shows items', async () => {
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               ▼
+
+
+
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -149,24 +149,24 @@ test('dropdown opens and shows items', async () => {
 
      Search...                                                         Banana ▾
 
-    ›First Item This list has a dropdown                                       ▲
-     Second Item The dropdown should default to first item                     █
-     Vegetables                                                                █
-     Carrot With another dropdown                                              █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               ▼
+    ›First Item This list has a dropdown
+     Second Item The dropdown should default to first item
+     Vegetables
+     Carrot With another dropdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -201,15 +201,15 @@ test('clicking dropdown opens it', async () => {
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               ▼
+
+
+
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -227,24 +227,24 @@ test('clicking dropdown opens it', async () => {
 
      Search...                                                         Orange ▾
 
-    ›First Item This list has a dropdown                                       ▲
-     Second Item The dropdown should default to first item                     █
-     Vegetables                                                                █
-     Carrot With another dropdown                                              █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               ▼
+    ›First Item This list has a dropdown
+     Second Item The dropdown should default to first item
+     Vegetables
+     Carrot With another dropdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"

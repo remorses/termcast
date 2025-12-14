@@ -37,19 +37,19 @@ test('list with dropdown navigation', async () => {
 
      Search...                                                 Beer ▾
 
-    ›Augustiner Helles Beer                                          ▲
-     Camden Hells Beer                                               █
-     Leffe Blonde Beer                                               █
-     Sierra Nevada IPA Beer                                          █
-     Chateau Margaux Wine                                            █
-     Pinot Noir Wine                                                 █
-     Coca Cola Soda                                                  █
-     Sprite Soda                                                     █
-     Orange Juice Juice                                              █
-     Apple Juice Juice                                               █
-                                                                     █
-                                                                     █
-                                                                     ▼
+    ›Augustiner Helles Beer
+     Camden Hells Beer
+     Leffe Blonde Beer
+     Sierra Nevada IPA Beer
+     Chateau Margaux Wine
+     Pinot Noir Wine
+     Coca Cola Soda
+     Sprite Soda
+     Orange Juice Juice
+     Apple Juice Juice
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -193,19 +193,19 @@ test('list with dropdown navigation', async () => {
 
      Search...                                                 Soda ▾
 
-    ›Coca Cola Soda                                                  ▲
-     Sprite Soda                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+    ›Coca Cola Soda
+     Sprite Soda
+
+
+
+
+
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -235,20 +235,20 @@ test('list with dropdown search and filter', async () => {
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
-    ┃   Search...                                                      ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   Alcoholic Beverages                                            ┃
-    ┃  ›Beer                                                           ┃
-    ┃   Wine                                                           ┃
-    ┃                                                                  ┃
-    ┃   Non-Alcoholic                                                  ┃
-    ┃   Soda                                                           ┃
-    ┃   Juice                                                          ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
+    ┃
+      ›Augustiner Helles Beer
+       Camden Hells Beer
+       Leffe Blonde Beer
+       Sierra Nevada IPA Beer
+       Chateau Margaux Wine
+       Pinot Noir Wine
+       Coca Cola Soda
+       Sprite Soda
+       Orange Juice Juice
+       Apple Juice Juice
+
+
+
 
 
        ↵ select  ↑↓ navigate  ^k actions"
@@ -283,12 +283,12 @@ test('list with dropdown search and filter', async () => {
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
     ┃   Non-Alcoholic                                                  ┃
-       Sprite Soda                                                     █
-       Orange Juice Juice                                              █
-       Apple Juice Juice                                               █
-                                                                       █
-                                                                       █
-                                                                       ▼
+       Sprite Soda
+       Orange Juice Juice
+       Apple Juice Juice
+
+
+
 
 
        ↵ select  ↑↓ navigate  ^k actions"
@@ -310,19 +310,19 @@ test('list with dropdown search and filter', async () => {
 
      Search...                                                 Beer ▾
 
-    ›Augustiner Helles Beer                                          ▲
-     Camden Hells Beer                                               █
-     Leffe Blonde Beer                                               █
-     Sierra Nevada IPA Beer                                          █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+    ›Augustiner Helles Beer
+     Camden Hells Beer
+     Leffe Blonde Beer
+     Sierra Nevada IPA Beer
+
+
+
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -344,19 +344,19 @@ test('list with dropdown search and filter', async () => {
 
     pinot                                                     Beer ▾
 
-                                                                    ▲
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    ▼
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     ↵ select  ↑↓ navigate  ^k actions"

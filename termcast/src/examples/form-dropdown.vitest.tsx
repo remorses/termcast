@@ -34,49 +34,49 @@ test('form dropdown shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  TypeScript, Rust                                              █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃› ● TypeScript                                                  █
-    ┃  ○ JavaScript                                                  █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  TypeScript, Rust
+    ┃
+    ┃  Frontend
+    ┃› ● TypeScript
+    ┃  ○ JavaScript
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -89,49 +89,49 @@ test('form dropdown shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  TypeScript, Rust                                              █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃› ● TypeScript                                                  █
-    ┃  ○ JavaScript                                                  █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust
+    ┃
+    ┃  Frontend
+    ┃› ○ TypeScript
+    ┃  ○ JavaScript
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -144,49 +144,49 @@ test('form dropdown shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  Rust                                                          █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ○ TypeScript                                                  █
-    ┃› ○ JavaScript                                                  █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust
+    ┃
+    ┃  Frontend
+    ┃  ○ TypeScript
+    ┃› ○ JavaScript
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -202,49 +202,49 @@ test('form dropdown shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  Rust                                                          █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ○ Svelte                                                      █
-    ┃  Backend                                                       █
-    ┃› ○ Node.js                                                     █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    └  ○ Low                                                         █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust
+    ┃
+    ┃  Frontend
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃  ○ Svelte
+    ┃  Backend
+    ┃› ○ Node.js
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    └  ○ Low
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -257,49 +257,49 @@ test('form dropdown shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  Rust, Node.js                                                 █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ○ Svelte                                                      █
-    ┃  Backend                                                       █
-    ┃› ● Node.js                                                     █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    └  ○ Low                                                         █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust, Node.js
+    ┃
+    ┃  Frontend
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃  ○ Svelte
+    ┃  Backend
+    ┃› ● Node.js
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    └  ○ Low
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -320,49 +320,49 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  Rust                                                          █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃› ○ TypeScript                                                  █
-    ┃  ○ JavaScript                                                  █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust
+    ┃
+    ┃  Frontend
+    ┃› ○ TypeScript
+    ┃  ○ JavaScript
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -378,49 +378,49 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  Rust                                                          █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ○ JavaScript                                                  █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃› ○ Svelte                                                      █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust
+    ┃
+    ┃  Frontend
+    ┃  ○ JavaScript
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃› ○ Svelte
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -433,49 +433,49 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  Rust                                                          █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ○ Svelte                                                      █
-    ┃  Backend                                                       █
-    ┃› ○ Node.js                                                     █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    └  ○ Low                                                         █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust
+    ┃
+    ┃  Frontend
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃  ○ Svelte
+    ┃  Backend
+    ┃› ○ Node.js
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    └  ○ Low
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -488,49 +488,49 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  Rust                                                          █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃› ○ Svelte                                                      █
-    ┃  Backend                                                       █
-    ┃  ○ Node.js                                                     █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    └  ○ Low                                                         █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust
+    ┃
+    ┃  Frontend
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃› ○ Svelte
+    ┃  Backend
+    ┃  ○ Node.js
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    └  ○ Low
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -543,49 +543,49 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  Rust                                                          █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃› ○ Svelte                                                      █
-    ┃  Backend                                                       █
-    ┃  ○ Node.js                                                     █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    └  ○ Low                                                         █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  Rust
+    ┃
+    ┃  Frontend
+    ┃  ○ React
+    ┃  ○ Vue
+    ┃› ○ Svelte
+    ┃  Backend
+    ┃  ○ Node.js
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    └  ○ Low
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -606,49 +606,49 @@ test('form dropdown with default value', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◇  Programming Languages                                         █
-    │  TypeScript, Rust                                              █
-    │                                                                █
-    │  Frontend                                                      █
-    │  ● TypeScript                                                  █
-    │  ○ JavaScript                                                  █
-    │  ○ React                                                       █
-    │  ○ Vue                                                         █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Choose your preferred programming languages                   █
-    │                                                                █
-    ◆  Editor Theme                                                  █
-    ┃  Dracula                                                       █
-    ┃                                                                █
-    ┃› ○ Monokai                                                     █
-    ┃  ● Dracula                                                     █
-    ┃  ○ One Dark                                                    █
-    ┃  ○ Nord                                                        █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your preferred editor color theme                      █
-    ┃                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◆  Editor Theme
+    ┃  Dracula
+    ┃
+    ┃› ○ Monokai
+    ┃  ● Dracula
+    ┃  ○ One Dark
+    ┃  ○ Nord
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your preferred editor color theme
+    ┃
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -661,49 +661,49 @@ test('form dropdown with default value', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◇  Programming Languages                                         █
-    │  TypeScript, Rust                                              █
-    │                                                                █
-    │  Frontend                                                      █
-    │  ● TypeScript                                                  █
-    │  ○ JavaScript                                                  █
-    │  ○ React                                                       █
-    │  ○ Vue                                                         █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Choose your preferred programming languages                   █
-    │                                                                █
-    ◆  Editor Theme                                                  █
-    ┃  Monokai                                                       █
-    ┃                                                                █
-    ┃› ● Monokai                                                     █
-    ┃  ○ Dracula                                                     █
-    ┃  ○ One Dark                                                    █
-    ┃  ○ Nord                                                        █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your preferred editor color theme                      █
-    ┃                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◆  Editor Theme
+    ┃  Monokai
+    ┃
+    ┃› ● Monokai
+    ┃  ○ Dracula
+    ┃  ○ One Dark
+    ┃  ○ Nord
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your preferred editor color theme
+    ┃
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -721,7 +721,7 @@ test('form dropdown with default value', async () => {
     "
 
 
-    ▪  Dropdown Component Demo                                       ▲
+    ▪  Dropdown Component Demo                                       █
     │  Test dropdown with sections, multiple selection, and more     █
     │  features                                                      █
     │                                                                █
@@ -735,7 +735,7 @@ test('form dropdown with default value', async () => {
     │  ○ Vue                                                         █
     │  ↑↓ to see more options                                        █
     │                                                                █
-    │  Choose your preferred programming languages                   ▀
+    │  Choose your preferred programming languages
     │
     ◆  Editor Theme
     ┃  Monokai
@@ -763,7 +763,7 @@ test('form dropdown with default value', async () => {
     │    ],
     │    "theme": "monokai",
     │    "priority": ""
-    │  }                                                             ▼
+    │  }
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -785,49 +785,49 @@ test('selecting second-to-last visible item should not scroll', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  TypeScript, Rust                                              █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ● TypeScript                                                  █
-    ┃  ○ JavaScript                                                  █
-    ┃› ○ React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  TypeScript, Rust
+    ┃
+    ┃  Frontend
+    ┃  ● TypeScript
+    ┃  ○ JavaScript
+    ┃› ○ React
+    ┃  ○ Vue
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -840,49 +840,49 @@ test('selecting second-to-last visible item should not scroll', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    ┃  TypeScript, Rust, React                                       █
-    ┃                                                                █
-    ┃  Frontend                                                      █
-    ┃  ● TypeScript                                                  █
-    ┃  ○ JavaScript                                                  █
-    ┃› ● React                                                       █
-    ┃  ○ Vue                                                         █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Choose your preferred programming languages                   █
-    ┃                                                                █
-    ◇  Editor Theme                                                  █
-    │  Dracula                                                       █
-    │                                                                █
-    │  ○ Monokai                                                     █
-    │  ● Dracula                                                     █
-    │  ○ One Dark                                                    █
-    │  ○ Nord                                                        █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your preferred editor color theme                      █
-    │                                                                █
-    ◇  Task Priority                                                 █
-    │  Select priority level                                         █
-    │                                                                █
-    │  ○ Critical                                                    █
-    │  ○ High                                                        █
-    │  ○ Medium                                                      █
-    │  ○ Low                                                         █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+    ▪  Dropdown Component Demo
+    │  Test dropdown with sections, multiple selection, and more
+    │  features
+    │
+    ◆  Programming Languages
+    ┃  TypeScript, Rust, React
+    ┃
+    ┃  Frontend
+    ┃  ● TypeScript
+    ┃  ○ JavaScript
+    ┃› ● React
+    ┃  ○ Vue
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"

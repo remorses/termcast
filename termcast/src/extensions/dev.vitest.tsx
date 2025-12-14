@@ -93,8 +93,8 @@ test('selecting command with arguments shows arguments form', async () => {
     "
 
 
-    ▪  With Arguments                                      ▲
-    │  Enter the arguments to run this command.            █
+    ▪  With Arguments                                      █
+    │  Enter the arguments to run this command.            ▀
     │
     ◆  Search query
     ┃  Search query
@@ -102,7 +102,7 @@ test('selecting command with arguments shows arguments form', async () => {
     ◇  Secret key
     │  Secret key
     ◇  Category
-    │  Category                                            ▼
+    │  Category
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -137,8 +137,8 @@ test('can fill arguments and run command', async () => {
     "
 
 
-    ▪  With Arguments                                      ▲
-    │  Enter the arguments to run this command.            █
+    ▪  With Arguments                                      █
+    │  Enter the arguments to run this command.            ▀
     │
     ◆  Search query
     ┃  my search term
@@ -146,7 +146,7 @@ test('can fill arguments and run command', async () => {
     ◇  Secret key
     │  Secret key
     ◇  Category
-    │  Category                                            ▼
+    │  Category
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -167,17 +167,19 @@ test('can fill arguments and run command', async () => {
 
 
      Command Arguments Demo ───────────────────────────────
+
      Search...
 
-     Received Arguments                                    ▲
-    ›Search Query my search term                           █
+     Received Arguments
+    ›Search Query my search term
      Secret Key (empty)
-     Category (empty)                                      ▼
+     Category (empty)
 
 
-     ┌────────────────────────────────────────┐
-     │ ✓ Copied to Clipboard - my search term │
-     └────────────────────────────────────────┘"
+
+     ↵ sele┌────────────────────────────────────────┐
+           │ ✓ Copied to Clipboard - my search term │
+           └────────────────────────────────────────┘"
   `)
 }, 30000)
 

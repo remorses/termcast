@@ -31,49 +31,49 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Choose your favorite sport...                                 █
-    ┃                                                                █
-    ┃› ○ Basketball                                                  █
-    ┃  ○ Football                                                    █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Choose your favorite sport...
+    ┃
+    ┃› ○ Basketball
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -86,49 +86,49 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball                                                    █
-    ┃                                                                █
-    ┃› ● Basketball                                                  █
-    ┃  ○ Football                                                    █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball
+    ┃
+    ┃› ● Basketball
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -141,49 +141,49 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball                                                    █
-    ┃                                                                █
-    ┃  ● Basketball                                                  █
-    ┃› ○ Football                                                    █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball
+    ┃
+    ┃  ● Basketball
+    ┃› ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -199,49 +199,49 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball                                                    █
-    ┃                                                                █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃  ○ Golf                                                        █
-    ┃› ○ Swimming                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ○ Golf
+    ┃› ○ Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -254,49 +254,49 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball, Swimming                                          █
-    ┃                                                                █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃  ○ Golf                                                        █
-    ┃› ● Swimming                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball, Swimming
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ○ Golf
+    ┃› ● Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -317,49 +317,49 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball                                                    █
-    ┃                                                                █
-    ┃› ● Basketball                                                  █
-    ┃  ○ Football                                                    █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball
+    ┃
+    ┃› ● Basketball
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -375,49 +375,49 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball                                                    █
-    ┃                                                                █
-    ┃  ○ Football                                                    █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃› ○ Golf                                                        █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball
+    ┃
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃› ○ Golf
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -430,49 +430,49 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball                                                    █
-    ┃                                                                █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃  ○ Golf                                                        █
-    ┃› ○ Swimming                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃  ○ Golf
+    ┃› ○ Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -485,49 +485,49 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball                                                    █
-    ┃                                                                █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃› ○ Golf                                                        █
-    ┃  ○ Swimming                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃› ○ Golf
+    ┃  ○ Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -540,49 +540,49 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◆  Favorite Sport                                                █
-    ┃  Basketball                                                    █
-    ┃                                                                █
-    ┃  ○ Tennis                                                      █
-    ┃  ○ Baseball                                                    █
-    ┃› ○ Golf                                                        █
-    ┃  ○ Swimming                                                    █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ┃  Select your favorite sport from the list                      █
-    ┃                                                                █
-    ◇  Country                                                       █
-    │  Germany                                                       █
-    │                                                                █
-    │  ● Germany                                                     █
-    │  ○ India                                                       █
-    │  ○ Netherlands                                                 █
-    │  ○ Norway                                                      █
-    │  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◆  Favorite Sport
+    ┃  Basketball
+    ┃
+    ┃  ○ Tennis
+    ┃  ○ Baseball
+    ┃› ○ Golf
+    ┃  ○ Swimming
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -603,49 +603,49 @@ test('form tagpicker with default value', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◇  Favorite Sport                                                █
-    │  Choose your favorite sport...                                 █
-    │                                                                █
-    │  ○ Basketball                                                  █
-    │  ○ Football                                                    █
-    │  ○ Tennis                                                      █
-    │  ○ Baseball                                                    █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your favorite sport from the list                      █
-    │                                                                █
-    ◆  Country                                                       █
-    ┃  Germany                                                       █
-    ┃                                                                █
-    ┃› ● Germany                                                     █
-    ┃  ○ India                                                       █
-    ┃  ○ Netherlands                                                 █
-    ┃  ○ Norway                                                      █
-    ┃  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◆  Country
+    ┃  Germany
+    ┃
+    ┃› ● Germany
+    ┃  ○ India
+    ┃  ○ Netherlands
+    ┃  ○ Norway
+    ┃  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -658,49 +658,49 @@ test('form tagpicker with default value', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◇  Favorite Sport                                                █
-    │  Choose your favorite sport...                                 █
-    │                                                                █
-    │  ○ Basketball                                                  █
-    │  ○ Football                                                    █
-    │  ○ Tennis                                                      █
-    │  ○ Baseball                                                    █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your favorite sport from the list                      █
-    │                                                                █
-    ◆  Country                                                       █
-    ┃  Select a country                                              █
-    ┃                                                                █
-    ┃› ○ Germany                                                     █
-    ┃  ○ India                                                       █
-    ┃  ○ Netherlands                                                 █
-    ┃  ○ Norway                                                      █
-    ┃  ↑↓ to see more options                                        █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◆  Country
+    ┃  Select a country
+    ┃
+    ┃› ○ Germany
+    ┃  ○ India
+    ┃  ○ Netherlands
+    ┃  ○ Norway
+    ┃  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -718,49 +718,49 @@ test('form tagpicker with default value', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ▪  TagPicker Component Demo                                      █
-    │  Test tag picker with multiple selection support               █
-    │                                                                █
-    ◇  Favorite Sport                                                █
-    │  Choose your favorite sport...                                 █
-    │                                                                █
-    │  ○ Basketball                                                  █
-    │  ○ Football                                                    █
-    │  ○ Tennis                                                      █
-    │  ○ Baseball                                                    █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Select your favorite sport from the list                      █
-    │                                                                █
-    ◆  Country                                                       █
-    ┃  Germany                                                       █
-    ┃                                                                █
-    ┃› ● Germany                                                     █
-    ┃  ○ India                                                       █
-    ┃  ○ Netherlands                                                 █
-    ┃  ○ Norway                                                      █
-    ┃  ↑↓ to see more options                                        █
-    ┃                                                                █
-    ▪  Submitted Data                                                █
-    │  {                                                             █
-    │    "sports": [],                                               █
-    │    "countries": [                                              █
-    │      "ger"                                                     █
-    │    ]                                                           █
-    │  }                                                             █
-    │                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+    ▪  TagPicker Component Demo
+    │  Test tag picker with multiple selection support
+    │
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◆  Country
+    ┃  Germany
+    ┃
+    ┃› ● Germany
+    ┃  ○ India
+    ┃  ○ Netherlands
+    ┃  ○ Norway
+    ┃  ↑↓ to see more options
+    ┃
+    ▪  Submitted Data
+    │  {
+    │    "sports": [],
+    │    "countries": [
+    │      "ger"
+    │    ]
+    │  }
+    │
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"

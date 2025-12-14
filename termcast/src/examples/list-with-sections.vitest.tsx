@@ -176,15 +176,15 @@ test('list with sections search functionality', async () => {
 
     ban
 
-    Banana Yellow and nutritious                              Ripe  ▲
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    ▼
+    Banana Yellow and nutritious                               Ripe
+
+
+
+
+
+
+
+
 
 
     ↵ select  ↑↓ navigate  ^k actions"
@@ -210,15 +210,15 @@ test('list with sections search functionality', async () => {
 
     let
 
-                                                                    ▲
-    Lettuce Green and fresh                                         █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    ▼
+
+    Lettuce Green and fresh
+
+
+
+
+
+
+
 
 
     ↵ select  ↑↓ navigate  ^k actions"
@@ -269,15 +269,15 @@ test('list with sections search functionality', async () => {
 
     bread
 
-                                                                    ▲
-                                                                    █
-    Bread Freshly baked                                Today [New]  █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    ▼
+
+
+    Bread Freshly baked                                 Today [New]
+
+
+
+
+
+
 
 
     ↵ select  ↑↓ navigate  ^k actions"
@@ -300,15 +300,15 @@ test('list with sections search functionality', async () => {
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
     ┃                                                                  ┃
-    ┃  ›View Details                                                █  ┃
-    ┃   Add to Cart                                                 █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃"
+    ┃  ›View Details                                                   ┃
+    ┃   Add to Cart                                                    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃"
   `)
 }, 10000)
 
@@ -423,15 +423,15 @@ test('list actions panel with ctrl+k', async () => {
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
     ┃                                                                  ┃
-    ┃  ›View Details                                                █  ┃
-    ┃   Add to Cart                                                 █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃"
+    ┃  ›View Details                                                   ┃
+    ┃   Add to Cart                                                    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃"
   `)
 
   // Navigate down to second action
@@ -451,15 +451,15 @@ test('list actions panel with ctrl+k', async () => {
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
     ┃                                                                  ┃
-    ┃   View Details                                                █  ┃
-    ┃  ›Add to Cart                                                 █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃"
+    ┃   View Details                                                   ┃
+    ┃  ›Add to Cart                                                    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃"
   `)
 
   // Trigger the second action (Add to Cart)
@@ -475,17 +475,19 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›Apple Red and sweet                            Fresh [Popular]  █
-     Banana Yellow and nutritious                              Ripe  ▀
+    ›Apple Red and sweet                            Fresh [Popular]  ▀
+     Banana Yellow and nutritious                              Ripe
      Orange Citrus and juicy                                  Fresh
      Grape Sweet clusters                                [Seasonal]
      Mango Tropical delight                                Imported
-     Pineapple Sweet and tangy                                       ▼
+     Pineapple Sweet and tangy
+     Strawberry Red and sweet                             [Popular]
+                                                                     ▼
 
 
-     ┌─────────────────────────────────────────────────────┐
-     │ ✓ Added to Cart - Apple has been added to your cart │
-     └─────────────────────────────────────────────────────┘"
+     ↵ sel┌─────────────────────────────────────────────────────┐
+          │ ✓ Added to Cart - Apple has been added to your cart │
+          └─────────────────────────────────────────────────────┘"
   `)
 }, 10000)
 

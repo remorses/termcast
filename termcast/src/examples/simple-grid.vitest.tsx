@@ -138,16 +138,16 @@ test('grid navigation and display', async () => {
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
     ┃                                                                  ┃
-    ┃  ›Show Details                                                █  ┃
-    ┃   Copy Emoji                                              ⌃C  █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
+    ┃  ›Show Details                                                   ┃
+    ┃   Copy Emoji                                               ⌃C    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃"
@@ -209,20 +209,20 @@ test('grid search functionality', async () => {
 
     cat
 
-                                                                    ▲
-    Cat                                                             █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    ▼
+
+    Cat
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     ↵ select  ↑↓ navigate  ^k actions"
@@ -247,20 +247,20 @@ test('grid search functionality', async () => {
 
     space
 
-                                                                    ▲
-                                                                    █
-    Rocket                                                          █
-    Star                                                            █
-    Moon                                                            █
-    Sun                                                             █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    ▼
+
+
+    Rocket
+    Star
+    Moon
+    Sun
+
+
+
+
+
+
+
+
 
 
     ↵ select  ↑↓ navigate  ^k actions"
@@ -317,20 +317,20 @@ test('grid search functionality', async () => {
 
     xyz123
 
-                                                                    ▲
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    █
-                                                                    ▼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     ↵ select  ↑↓ navigate  ^k actions"
@@ -363,16 +363,16 @@ test('grid item selection and actions', async () => {
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
     ┃                                                                  ┃
-    ┃  ›Show Details                                                █  ┃
-    ┃   Copy Emoji                                              ⌃C  █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
+    ┃  ›Show Details                                                   ┃
+    ┃   Copy Emoji                                               ⌃C    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃"
@@ -396,16 +396,16 @@ test('grid item selection and actions', async () => {
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
     ┃                                                                  ┃
-    ┃   Show Details                                                █  ┃
-    ┃  ›Copy Emoji                                              ⌃C  █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
+    ┃   Show Details                                                   ┃
+    ┃  ›Copy Emoji                                               ⌃C    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃"
@@ -509,16 +509,16 @@ test('grid mouse interaction', async () => {
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
     ┃                                                                  ┃
-    ┃  ›Show Details                                                █  ┃
-    ┃   Copy Emoji                                              ⌃C  █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
+    ┃  ›Show Details                                                   ┃
+    ┃   Copy Emoji                                               ⌃C    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃"
@@ -542,16 +542,16 @@ test('grid mouse interaction', async () => {
     ┃                                                                  ┃
     ┃   Search actions...                                              ┃
     ┃                                                                  ┃
-    ┃  ›Show Details                                                █  ┃
-    ┃   Copy Emoji                                              ⌃C  █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
-    ┃                                                               █  ┃
+    ┃  ›Show Details                                                   ┃
+    ┃   Copy Emoji                                               ⌃C    ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃"

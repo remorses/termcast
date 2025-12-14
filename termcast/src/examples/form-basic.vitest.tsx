@@ -32,9 +32,9 @@ test('form basic navigation and input', async () => {
     "
 
 
-    ▪  Form Component Demo                                           ▲
+    ▪  Form Component Demo                                           █
     │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
+    │  keys or Tab to navigate between fields.
     │
     ◆  Username
     ┃  Enter your username
@@ -75,10 +75,10 @@ test('form basic navigation and input', async () => {
     │
     │   ←       2025        →
     │   ←     December      →
-    │                                                                ▼
+    │
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -102,9 +102,9 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-    ▪  Form Component Demo                                           ▲
+    ▪  Form Component Demo                                           █
     │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
+    │  keys or Tab to navigate between fields.
     │
     ◇  Username
     │  Enter your username
@@ -112,7 +112,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◆  Password
-    ┃  **********
+    ┃  *********
     ┃  Must be at least 8 characters
     ┃
     ◇  Biography
@@ -145,10 +145,10 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   ←       2025        →
     │   ←     December      →
-    │                                                                ▼
+    │
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Tab away - password should now show asterisks
@@ -159,9 +159,9 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-    ▪  Form Component Demo                                           ▲
+    ▪  Form Component Demo                                           █
     │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.                       █
+    │  keys or Tab to navigate between fields.
     │
     ◇  Username
     │  Enter your username
@@ -169,7 +169,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  **********
+    │  *********
     │  Must be at least 8 characters
     │
     ◆  Biography
@@ -202,19 +202,25 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   ←       2025        →
     │   ←     December      →
-    │                                                                ▼
+    │
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Submit form and check password value is real text not asterisks
-  await session.press(['alt', 'enter'])
+  await session.press(['ctrl', 'enter'])
   await session.waitIdle()
   // Scroll down to see submitted data
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
+  await session.scrollDown(10)
+  await session.scrollDown(10)
+  await session.scrollDown(10)
+  await session.scrollDown(10)
+  await session.scrollDown(10)
+  await session.scrollDown(10)
+  await session.scrollDown(10)
+  await session.scrollDown(10)
+
   const submittedSnapshot = await session.text({
     timeout: 3000,
     waitFor: (text) => text.includes('"password"'),
@@ -242,7 +248,7 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Password                                                      ▲
+    ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -285,10 +291,10 @@ test('form date picker selection with space and enter', async () => {
     ┃   29 30 31
     ┃
     ┃  Format: YYYY-MM-DD
-    ┃                                                                ▼
+    ┃
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Select current date with space - should show "Selected:" text
@@ -299,7 +305,7 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Password                                                      ▲
+    ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -317,7 +323,7 @@ test('form date picker selection with space and enter', async () => {
     │  Receive weekly updates
     │
     ◇  Country
-    │  Select your country                                           ▄
+    │  Select your country                                           █
     │                                                                █
     │  Americas
     │  ○ United States
@@ -342,10 +348,10 @@ test('form date picker selection with space and enter', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃                                                                ▼
+    ┃
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate to a different day and select with enter
@@ -357,7 +363,7 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Password                                                      ▲
+    ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -375,7 +381,7 @@ test('form date picker selection with space and enter', async () => {
     │  Receive weekly updates
     │
     ◇  Country
-    │  Select your country                                           ▄
+    │  Select your country                                           █
     │                                                                █
     │  Americas
     │  ○ United States
@@ -400,10 +406,10 @@ test('form date picker selection with space and enter', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-15
-    ┃                                                                ▼
+    ┃
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -431,7 +437,7 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Password                                                      ▲
+    ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -449,7 +455,7 @@ test('form dropdown navigation', async () => {
     │  Receive weekly updates
     │
     ◇  Country
-    │  Select your country                                           ▄
+    │  Select your country                                           █
     │                                                                █
     │  Americas
     │  ○ United States
@@ -474,10 +480,10 @@ test('form dropdown navigation', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃                                                                ▼
+    ┃
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate down in dropdown
@@ -488,7 +494,7 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Password                                                      ▲
+    ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -506,7 +512,7 @@ test('form dropdown navigation', async () => {
     │  Receive weekly updates
     │
     ◇  Country
-    │  Select your country                                           ▄
+    │  Select your country                                           █
     │                                                                █
     │  Americas
     │  ○ United States
@@ -531,10 +537,10 @@ test('form dropdown navigation', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃                                                                ▼
+    ┃
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate to Europe section
@@ -547,7 +553,7 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Password                                                      ▲
+    ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -565,7 +571,7 @@ test('form dropdown navigation', async () => {
     │  Receive weekly updates
     │
     ◇  Country
-    │  Select your country                                           ▄
+    │  Select your country                                           █
     │                                                                █
     │  Americas
     │  ○ United States
@@ -590,10 +596,10 @@ test('form dropdown navigation', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃                                                                ▼
+    ┃
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Select France
@@ -604,8 +610,6 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Password                                                      ▲
-    │  Enter secure password
     │  Must be at least 8 characters
     │
     ◇  Biography
@@ -622,14 +626,14 @@ test('form dropdown navigation', async () => {
     │  Receive weekly updates
     │
     ◇  Country
-    │  Select your country                                           ▄
-    │                                                                █
+    │  Select your country
+    │
     │  Americas
     │  ○ United States
     │  ○ Canada
     │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
+    │  Europe                                                        █
+    │  ○ United Kingdom                                              █
     │  ↑↓ to see more options
     │
     │  Your country of residence
@@ -647,9 +651,11 @@ test('form dropdown navigation', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃                                                                ▼
+    ┃
+    ┃  Format: YYYY-MM-DD
+    ┃
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)

@@ -31,49 +31,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ◆  Your Name                                                     █
-    ┃  John Doe                                                      █
-    ┃                                                                █
-    ◇  Select Files                                                  █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose one or more files to upload                            █
-    │                                                                █
-    ◇  Select Folder                                                 █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose a folder for output                                    █
-    │                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+
+    ◆  Your Name
+    ┃  John Doe
+    ┃
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◇  Select Folder
+    │  Enter file path...
+    │
+    │  Choose a folder for output
+    │
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -93,49 +93,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ◇  Your Name                                                     █
-    │  John Doe                                                      █
-    │                                                                █
-    ◇  Select Files                                                  █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  ┌───────────────────────────────────────────────────────────┐ █
-    │  │ 📁 src                                                    │ █
-    ◆  └───────────────────────────────────────────────────────────┘ █
-    ┃  src                                                           █
-    ┃                                                                █
-    ┃  Choose a folder for output                                    █
-    ┃                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  ┌────────────────────────────────────────────────────────────┐
+    │  │ 📁 src                                                     │
+    ◆  └────────────────────────────────────────────────────────────┘
+    ┃  src
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -151,49 +151,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ◇  Your Name                                                     █
-    │  John Doe                                                      █
-    │                                                                █
-    ◇  Select Files                                                  █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  ┌───────────────────────────────────────────────────────────┐ █
-    │  │ 📁 src                                                    │ █
-    ◆  └───────────────────────────────────────────────────────────┘ █
-    ┃  src                                                           █
-    ┃                                                                █
-    ┃  Choose a folder for output                                    █
-    ┃                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  ┌────────────────────────────────────────────────────────────┐
+    │  │ 📁 src                                                     │
+    ◆  └────────────────────────────────────────────────────────────┘
+    ┃  src
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -209,49 +209,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-       ┌───────────────────────────────────────────────────────────┐ █
-    ◇  │ 📁 apis                                                   │ █
-    │  │ 📁 components                                             │ █
-    │  │ 📁 examples                                               │ █
-    ◇  │ 📁 extensions                                             │ █
-    │  │ 📁 hooks                                                  │ █
-    │  │ 📁 internal                                               │ █
-    │  │ 📁 store-api                                              │ █
-    │  │ 📁 utils                                                  │ █
-    ◆  └───────────────────────────────────────────────────────────┘ █
-    ┃  src/                                                          █
-    ┃                                                                █
-    ┃  Choose a folder for output                                    █
-    ┃                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+       ┌────────────────────────────────────────────────────────────┐
+    ◇  │ 📁 apis                                                    │
+    │  │ 📁 components                                              │
+    │  │ 📁 examples                                                │
+    ◇  │ 📁 extensions                                              │
+    │  │ 📁 hooks                                                   │
+    │  │ 📁 internal                                                │
+    │  │ 📁 store-api                                               │
+    │  │ 📁 utils                                                   │
+    ◆  └────────────────────────────────────────────────────────────┘
+    ┃  src/
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -270,49 +270,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ◇  Your Name                                                     █
-    │  John Doe                                                      █
-    │                                                                █
-    ◇  Select Files                                                  █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose one or more files to upload                            █
-    │                                                                █
-    ◆  Select Folder                                                 █
-    ┃  s/tmp                                                         █
-    ┃                                                                █
-    ┃  Choose a folder for output                                    █
-    ┃                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
+    ┃  s/tmp
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -332,49 +332,49 @@ test('file picker with autocomplete', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ◇  Your Name                                                     █
-    │  John Doe                                                      █
-    │                                                                █
-    ◇  Select Files                                                  █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose one or more files to upload                            █
-    │                                                                █
-    ◆  Select Folder                                                 █
-    ┃  s~/                                                           █
-    ┃                                                                █
-    ┃  Choose a folder for output                                    █
-    ┃                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
+    ┃  s~/
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -402,49 +402,49 @@ test('file picker keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ◇  Your Name                                                     █
-    │  John Doe                                                      █
-    │                                                                █
-    ◇  Select Files                                                  █
-    │  Enter file path...                                            █
-    │  ┌───────────────────────────────────────────────────────────┐ █
-    │  │ 📁 .termcast-bundle                                       │ █
-    │  │ 📄 .gitignore                                             │ █
-    ◆  └───────────────────────────────────────────────────────────┘ █
-    ┃  .                                                             █
-    ┃                                                                █
-    ┃  Choose a folder for output                                    █
-    ┃                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │  ┌────────────────────────────────────────────────────────────┐
+    │  │ 📁 .termcast-bundle                                        │
+    │  │ 📄 .gitignore                                              │
+    ◆  └────────────────────────────────────────────────────────────┘
+    ┃  .
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -460,49 +460,49 @@ test('file picker keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ◇  Your Name                                                     █
-    │  John Doe                                                      █
-    │                                                                █
-    ◇  Select Files                                                  █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose one or more files to upload                            █
-    │                                                                █
-    ◆  Select Folder                                                 █
-    ┃  .                                                             █
-    ┃                                                                █
-    ┃  Choose a folder for output                                    █
-    ┃                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
+    ┃  .
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"
@@ -527,49 +527,49 @@ test('file picker keyboard navigation', async () => {
     "
 
 
-                                                                     ▲
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-    ◇  Your Name                                                     █
-    │  John Doe                                                      █
-    │                                                                █
-    ◇  Select Files                                                  █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose one or more files to upload                            █
-    │                                                                █
-    ◆  Select Folder                                                 █
-    ┃  .s                                                            █
-    ┃                                                                █
-    ┃  Choose a folder for output                                    █
-    ┃                                                                █
-    ◇  Select Single File                                            █
-    │  Enter file path...                                            █
-    │                                                                █
-    │  Choose exactly one file                                       █
-    │                                                                █
-    └                                                                █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
+    ┃  .s
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      alt ↵ submit   ↑↓ navigate   ^k actions"

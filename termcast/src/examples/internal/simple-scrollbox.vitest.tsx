@@ -18,8 +18,8 @@ test('simple scrollbox navigation and scrolling', async () => {
 
 
     Simple ScrollBox Demo
-                                                                              ▲
-    Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet,   ▀
+                                                                              ▀
+    Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet,
     consectetur adipiscing elit.
 
 
@@ -33,7 +33,7 @@ test('simple scrollbox navigation and scrolling', async () => {
     consectetur adipiscing elit.
 
 
-                                                                              ▼
+
 
     Use mouse scroll or arrow keys | Press [q] to quit"
   `)
@@ -48,8 +48,8 @@ test('simple scrollbox navigation and scrolling', async () => {
 
 
     Simple ScrollBox Demo
-                                                                              ▲
                                                                               ▄
+
 
     Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet,
     consectetur adipiscing elit.
@@ -63,7 +63,7 @@ test('simple scrollbox navigation and scrolling', async () => {
 
     Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet,
     consectetur adipiscing elit.
-                                                                              ▼
+
 
     Use mouse scroll or arrow keys | Press [q] to quit"
   `)
@@ -78,8 +78,8 @@ test('simple scrollbox navigation and scrolling', async () => {
 
 
     Simple ScrollBox Demo
-    Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet,   ▲
-    consectetur adipiscing elit.                                              ▀
+    Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet,   ▀
+    consectetur adipiscing elit.
 
 
 
@@ -93,7 +93,7 @@ test('simple scrollbox navigation and scrolling', async () => {
 
 
 
-    Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet,   ▼
+    Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet,
 
     Use mouse scroll or arrow keys | Press [q] to quit"
   `)

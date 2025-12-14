@@ -37,20 +37,20 @@ test('list shows initial items after fetch', async () => {
 
      Search...
 
-     Icons                                                           ▲
-    ›Home Icon Category: Icons                                       █
-     User Icon Category: Icons                                       █
-     Settings Icon Category: Icons                                   █
-                                                                     █
-     Illustrations                                                   █
-     Welcome Banner Category: Illustrations                          █
-     Hero Image Category: Illustrations                              █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+     Icons
+    ›Home Icon Category: Icons
+     User Icon Category: Icons
+     Settings Icon Category: Icons
+
+     Illustrations
+     Welcome Banner Category: Illustrations
+     Hero
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -68,20 +68,20 @@ test('list shows initial items after fetch', async () => {
 
      Search...
 
-     Icons                                                           ▲
-     Home Icon Category: Icons                                       █
-    ›User Icon Category: Icons                                       █
-     Settings Icon Category: Icons                                   █
-                                                                     █
-     Illustrations                                                   █
-     Welcome Banner Category: Illustrations                          █
-     Hero Image Category: Illustrations                              █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+     Icons
+     Home Icon Category: Icons
+    ›User Icon Category: Icons
+     Settings Icon Category: Icons
+
+     Illustrations
+     Welcome Banner Category: Illustrations
+     Hero Image Category: Illustrations
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -98,20 +98,20 @@ test('list shows initial items after fetch', async () => {
 
      Search...
 
-     Icons                                                           ▲
-     Home Icon Category: Icons                                       █
-     User Icon Category: Icons                                       █
-     Settings Icon Category: Icons                                   █
-                                                                     █
-     Illustrations                                                   █
-    ›Welcome Banner Category: Illustrations                          █
-     Hero Image Category: Illustrations                              █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     █
-                                                                     ▼
+     Icons
+     Home Icon Category: Icons
+     User Icon Category: Icons
+     Settings Icon Category: Icons
+
+     Illustrations
+    ›Welcome Banner Category: Illustrations
+     Hero Image Category: Illustrations
+
+
+
+
+
+
 
 
      ↵ select  ↑↓ navigate  ^k actions"
