@@ -87,7 +87,7 @@ export const FileAutocomplete = ({
   return (
     <box
       position='absolute'
-      top={anchorElement.y + anchorElement.height}
+      top={anchorElement.y - displayHeight - 2}
       left={anchorElement.x}
       width={anchorElement.width}
       height={displayHeight + 2}
