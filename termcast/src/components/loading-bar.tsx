@@ -132,7 +132,7 @@ export function LoadingBar(props: LoadingBarProps): any {
       }}
     >
       {characters.map((char, index) => (
-        <text key={index} fg={getCharacterColor(index)}>
+        <text key={index} fg={getCharacterColor(index)} flexShrink={0}>
           {char}
         </text>
       ))}
