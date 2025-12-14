@@ -35,9 +35,7 @@ test('list shows initial items after fetch', async () => {
 
      SVG Library ────────────────────────────────────────────────────
 
-     Search...
-
-                                                                     ▲
+     Search...                                                       ▲
      Icons                                                           █
     ›Home Icon Category: Icons                                       █
      User Icon Category: Icons                                       █
@@ -46,6 +44,8 @@ test('list shows initial items after fetch', async () => {
      Illustrations                                                   █
      Welcome Banner Category: Illustrations                          █
      Hero Image Category: Illustrations                              █
+                                                                     █
+                                                                     █
                                                                      █
                                                                      █
                                                                      █
@@ -66,9 +66,7 @@ test('list shows initial items after fetch', async () => {
 
      SVG Library ────────────────────────────────────────────────────
 
-     Search...
-
-                                                                     ▲
+     Search...                                                       ▲
      Icons                                                           █
      Home Icon Category: Icons                                       █
     ›User Icon Category: Icons                                       █
@@ -77,6 +75,8 @@ test('list shows initial items after fetch', async () => {
      Illustrations                                                   █
      Welcome Banner Category: Illustrations                          █
      Hero Image Category: Illustrations                              █
+                                                                     █
+                                                                     █
                                                                      █
                                                                      █
                                                                      █
@@ -96,9 +96,7 @@ test('list shows initial items after fetch', async () => {
 
      SVG Library ────────────────────────────────────────────────────
 
-     Search...
-
-                                                                     ▲
+     Search...                                                       ▲
      Icons                                                           █
      Home Icon Category: Icons                                       █
      User Icon Category: Icons                                       █
@@ -107,6 +105,8 @@ test('list shows initial items after fetch', async () => {
      Illustrations                                                   █
     ›Welcome Banner Category: Illustrations                          █
      Hero Image Category: Illustrations                              █
+                                                                     █
+                                                                     █
                                                                      █
                                                                      █
                                                                      █

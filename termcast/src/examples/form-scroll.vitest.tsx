@@ -30,18 +30,18 @@ test(
       "
 
 
-      ▪  Form Scroll Test                                    ▀
-      │  Test scrolling behavior when navigating with Tab
+      ▪  Form Scroll Test                                    ▲
+      │  Test scrolling behavior when navigating with Tab    ▀
       │
       ◆  Field 1
       ┃  First field
       ┃
       ◇  Field 2
       │  Second field
-      │
+      │                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -50,18 +50,18 @@ test(
       "
 
 
-      ▪  Form Scroll Test                                    ▀
-      │  Test scrolling behavior when navigating with Tab
+      ▪  Form Scroll Test                                    ▲
+      │  Test scrolling behavior when navigating with Tab    ▀
       │
       ◇  Field 1
       │  First field
       │
       ◆  Field 2
       ┃  Second field
-      ┃
+      ┃                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -70,18 +70,18 @@ test(
       "
 
 
-      ◇  Field 1
-      │  First field                                         ▄
-      │
+      ◇  Field 1                                             ▲
+      │  First field
+      │                                                      ▀
       ◇  Field 2
       │  Second field
       │
       ◆  Field 3
       ┃  Third field
-      ┃
+      ┃                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -90,18 +90,18 @@ test(
       "
 
 
-      ◇  Field 2
+      ◇  Field 2                                             ▲
       │  Second field
-      │                                                      ▄
-      ◇  Field 3
+      │
+      ◇  Field 3                                             ▀
       │  Third field
       │
       ◆  Field 4
       ┃  Fourth field
-      ┃
+      ┃                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -110,7 +110,7 @@ test(
       "
 
 
-      ◇  Field 3
+      ◇  Field 3                                             ▲
       │  Third field
       │
       ◇  Field 4
@@ -118,10 +118,10 @@ test(
       │
       ◆  Field 5
       ┃  Fifth field
-      ┃
+      ┃                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -130,18 +130,18 @@ test(
       "
 
 
-      ◇  Field 4
+      ◇  Field 4                                             ▲
       │  Fourth field
       │
       ◇  Field 5
       │  Fifth field
-      │                                                      ▄
+      │                                                      ▀
       ◆  Field 6
       ┃  Sixth field
-      ┃
+      ┃                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -150,18 +150,18 @@ test(
       "
 
 
-      ◇  Field 5
+      ◇  Field 5                                             ▲
       │  Fifth field
       │
       ◇  Field 6
       │  Sixth field
       │
-      ◆  Field 7                                             ▄
+      ◆  Field 7                                             ▀
       ┃  Seventh field
-      ┃
+      ┃                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -170,18 +170,18 @@ test(
       "
 
 
-      ◇  Field 6
+      ◇  Field 6                                             ▲
       │  Sixth field
       │
       ◇  Field 7
       │  Seventh field
       │
       ◆  Field 8
-      ┃  Eighth field
-      ┃                                                      ▀
+      ┃  Eighth field                                        ▀
+      ┃                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press(['shift', 'tab'])
@@ -190,18 +190,18 @@ test(
       "
 
 
-      ◆  Field 1
-      ┃  First field                                         ▄
-      ┃
+      ◆  Field 1                                             ▲
+      ┃  First field
+      ┃                                                      ▀
       ◇  Field 2
       │  Second field
       │
       ◇  Field 3
       │  Third field
-      │
+      │                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press(['shift', 'tab'])
@@ -210,18 +210,18 @@ test(
       "
 
 
-      ◇  Field 1
-      │  First field                                         ▄
-      │
+      ◇  Field 1                                             ▲
+      │  First field
+      │                                                      ▀
       ◆  Field 2
       ┃  Second field
       ┃
       ◇  Field 3
       │  Third field
-      │
+      │                                                      ▼
 
 
-       ↵ submit   ↑↓ navigate   ^k actions"
+        submit   ↑↓ navigate   ^k actions"
     `)
   },
   30000,

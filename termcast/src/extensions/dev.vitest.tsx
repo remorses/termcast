@@ -35,10 +35,10 @@ test('dev command shows extension commands list', async () => {
      Search commands...                                    ▲
      Commands                                              █
     ›List Items Displays a simple list with some ite view  ▀
-     Search ItemSearch and filter through a list of  view
+     Search Items Search and filter through a list o view
      Google Oauth                                    view
-     usePromise DShows how to use the usePromise hoo view
-     Show StatShows the current application state in view  ▼
+     usePromise Demo Shows how to use the usePromise view
+     Show State Shows the current application state  view  ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -66,12 +66,12 @@ test('selecting command with arguments shows arguments form', async () => {
      Simple Test Extension ────────────────────────────────
 
      Commandsommands...                                    ▲
-     List ItemsDisplays a simple list with some item view
-     Search ItemSearch and filter through a list of  view
+     List Items Displays a simple list with some ite view
+     Search Items Search and filter through a list o view
      Google Oauth                                    view  █
-     usePromise DShows how to use the usePromise hoo view  ▀
-     Show StatShows the current application state in view
-    ›With ArgumenDemonstrates command arguments (tex view  ▼
+     usePromise Demo Shows how to use the usePromise view  ▀
+     Show State Shows the current application state  view
+    ›With Arguments Demonstrates command arguments ( view  ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -168,7 +168,7 @@ test('can fill arguments and run command', async () => {
 
      Search...                                             ▲
      Received Arguments                                    █
-    › Search Query my search term                          █
+    ›Search Query my search term                           █
      Secret Key (empty)                                    █
      Category (empty)                                      ▼
 
@@ -203,7 +203,7 @@ test('can run simple view command without arguments', async () => {
 
      Search...                                             ▲
      Items                                                 █
-    › First Item This is the first item                    █
+    ›First Item This is the first item                     █
      Second Item This is the second item                   █
      Third Item This is the third item                     █
      Fourth Item This is the fourth item                   █

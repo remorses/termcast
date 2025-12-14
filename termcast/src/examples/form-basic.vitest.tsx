@@ -32,29 +32,29 @@ test('form basic navigation and input', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
+    ▪  Form Component Demo                                           ▲
     │  This demonstrates all available form input types. Use arrow   █
     │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◆  Username                                                      █
-    ┃  Enter your username                                           █
-    ┃                                                                █
-    ┃  Required field                                                █
-    ┃                                                                █
-    ◇  Password                                                      █
-    │  Enter secure password                                         █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◇  Biography                                                     █
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     ▀
+    │
+    ◆  Username
+    ┃  Enter your username
+    ┃
+    ┃  Required field
+    ┃
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
     │
     │  Receive weekly updates
     │
@@ -75,10 +75,10 @@ test('form basic navigation and input', async () => {
     │
     │   ←       2025        →
     │   ←     December      →
-    │
+    │                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -102,29 +102,29 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-    ▪  Form Component Demo                                           █
+    ▪  Form Component Demo                                           ▲
     │  This demonstrates all available form input types. Use arrow   █
     │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  Enter your username                                           █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◆  Password                                                      █
-    ┃  **********                                                    █
-    ┃  Must be at least 8 characters                                 █
-    ┃                                                                █
-    ◇  Biography                                                     █
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │                                                                █
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     ▀
+    │
+    ◇  Username
+    │  Enter your username
+    │
+    │  Required field
+    │
+    ◆  Password
+    ┃  **********
+    ┃  Must be at least 8 characters
+    ┃
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
     │
     │  Receive weekly updates
     │
@@ -145,10 +145,10 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   ←       2025        →
     │   ←     December      →
-    │
+    │                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 
   // Tab away - password should now show asterisks
@@ -159,29 +159,29 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-    ▪  Form Component Demo                                           █
+    ▪  Form Component Demo                                           ▲
     │  This demonstrates all available form input types. Use arrow   █
     │  keys or Tab to navigate between fields.                       █
-    │                                                                █
-    ◇  Username                                                      █
-    │  Enter your username                                           █
-    │                                                                █
-    │  Required field                                                █
-    │                                                                █
-    ◇  Password                                                      █
-    │  **********                                                    █
-    │  Must be at least 8 characters                                 █
-    │                                                                █
-    ◆  Biography                                                     █
-    ┃  Tell us about yourself...                                     █
-    ┃                                                                █
-    ┃                                                                █
-    ┃                                                                █
-    ┃                                                                █
-    ┃  Maximum 500 characters                                        █
-    ┃                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     ▀
+    │
+    ◇  Username
+    │  Enter your username
+    │
+    │  Required field
+    │
+    ◇  Password
+    │  **********
+    │  Must be at least 8 characters
+    │
+    ◆  Biography
+    ┃  Tell us about yourself...
+    ┃
+    ┃
+    ┃
+    ┃
+    ┃  Maximum 500 characters
+    ┃
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
     │
     │  Receive weekly updates
     │
@@ -202,10 +202,10 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   ←       2025        →
     │   ←     December      →
-    │
+    │                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 
   // Submit form and check password value is real text not asterisks
@@ -242,7 +242,7 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Password
+    ◇  Password                                                      ▲
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -252,29 +252,29 @@ test('form date picker selection with space and enter', async () => {
     │
     │
     │
-    │  Maximum 500 characters                                        █
-    │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     █
-    │                                                                █
-    │  Receive weekly updates                                        █
-    │                                                                █
-    ◇  Country                                                       █
-    │  Select your country                                           █
-    │                                                                █
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
     │  Americas                                                      █
     │  ○ United States                                               █
-    │  ○ Canada                                                      █
-    │  ○ Mexico                                                      █
-    │  Europe                                                        █
-    │  ○ United Kingdom                                              █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Your country of residence                                     █
-    │                                                                █
-    ◆  Date of Birth                                                 █
-    ┃                                                                █
-    ┃   ←       2025        →                                        ▀
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
+    ┃
+    ┃   ←       2025        →
     ┃   ←     December      →
     ┃
     ┃   Mo Tu We Th Fr Sa Su
@@ -285,10 +285,10 @@ test('form date picker selection with space and enter', async () => {
     ┃   29 30 31
     ┃
     ┃  Format: YYYY-MM-DD
-    ┃
+    ┃                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 
   // Select current date with space - should show "Selected:" text
@@ -299,7 +299,7 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Password
+    ◇  Password                                                      ▲
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -309,27 +309,27 @@ test('form date picker selection with space and enter', async () => {
     │
     │
     │
-    │  Maximum 500 characters                                        █
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country                                           ▄
     │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     █
-    │                                                                █
-    │  Receive weekly updates                                        █
-    │                                                                █
-    ◇  Country                                                       █
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas                                                      █
-    │  ○ United States                                               █
-    │  ○ Canada                                                      █
-    │  ○ Mexico                                                      █
-    │  Europe                                                        █
-    │  ○ United Kingdom                                              █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Your country of residence                                     █
-    │                                                                █
-    ◆  Date of Birth                                                 █
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
     ┃
     ┃   ←       2025        →
     ┃   ←     December      →
@@ -342,10 +342,10 @@ test('form date picker selection with space and enter', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃
+    ┃                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate to a different day and select with enter
@@ -357,7 +357,7 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Password
+    ◇  Password                                                      ▲
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -367,27 +367,27 @@ test('form date picker selection with space and enter', async () => {
     │
     │
     │
-    │  Maximum 500 characters                                        █
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country                                           ▄
     │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     █
-    │                                                                █
-    │  Receive weekly updates                                        █
-    │                                                                █
-    ◇  Country                                                       █
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas                                                      █
-    │  ○ United States                                               █
-    │  ○ Canada                                                      █
-    │  ○ Mexico                                                      █
-    │  Europe                                                        █
-    │  ○ United Kingdom                                              █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Your country of residence                                     █
-    │                                                                █
-    ◆  Date of Birth                                                 █
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
     ┃
     ┃   ←       2025        →
     ┃   ←     December      →
@@ -400,10 +400,10 @@ test('form date picker selection with space and enter', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-15
-    ┃
+    ┃                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -431,7 +431,7 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Password
+    ◇  Password                                                      ▲
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -441,27 +441,27 @@ test('form dropdown navigation', async () => {
     │
     │
     │
-    │  Maximum 500 characters                                        █
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country                                           ▄
     │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     █
-    │                                                                █
-    │  Receive weekly updates                                        █
-    │                                                                █
-    ◇  Country                                                       █
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas                                                      █
-    │  ○ United States                                               █
-    │  ○ Canada                                                      █
-    │  ○ Mexico                                                      █
-    │  Europe                                                        █
-    │  ○ United Kingdom                                              █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Your country of residence                                     █
-    │                                                                █
-    ◆  Date of Birth                                                 █
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
     ┃
     ┃   ←       2025        →
     ┃   ←     December      →
@@ -474,10 +474,10 @@ test('form dropdown navigation', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃
+    ┃                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate down in dropdown
@@ -488,7 +488,7 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Password
+    ◇  Password                                                      ▲
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -498,27 +498,27 @@ test('form dropdown navigation', async () => {
     │
     │
     │
-    │  Maximum 500 characters                                        █
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country                                           ▄
     │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     █
-    │                                                                █
-    │  Receive weekly updates                                        █
-    │                                                                █
-    ◇  Country                                                       █
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas                                                      █
-    │  ○ United States                                               █
-    │  ○ Canada                                                      █
-    │  ○ Mexico                                                      █
-    │  Europe                                                        █
-    │  ○ United Kingdom                                              █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Your country of residence                                     █
-    │                                                                █
-    ◆  Date of Birth                                                 █
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
     ┃
     ┃   ←       2025        →
     ┃   ←     December      →
@@ -531,10 +531,10 @@ test('form dropdown navigation', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃
+    ┃                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate to Europe section
@@ -547,7 +547,7 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Password
+    ◇  Password                                                      ▲
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -557,27 +557,27 @@ test('form dropdown navigation', async () => {
     │
     │
     │
-    │  Maximum 500 characters                                        █
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country                                           ▄
     │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     █
-    │                                                                █
-    │  Receive weekly updates                                        █
-    │                                                                █
-    ◇  Country                                                       █
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas                                                      █
-    │  ○ United States                                               █
-    │  ○ Canada                                                      █
-    │  ○ Mexico                                                      █
-    │  Europe                                                        █
-    │  ○ United Kingdom                                              █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Your country of residence                                     █
-    │                                                                █
-    ◆  Date of Birth                                                 █
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
     ┃
     ┃   ←       2025        →
     ┃   ←     December      →
@@ -590,10 +590,10 @@ test('form dropdown navigation', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃
+    ┃                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 
   // Select France
@@ -604,7 +604,7 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Password
+    ◇  Password                                                      ▲
     │  Enter secure password
     │  Must be at least 8 characters
     │
@@ -614,27 +614,27 @@ test('form dropdown navigation', async () => {
     │
     │
     │
-    │  Maximum 500 characters                                        █
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country                                           ▄
     │                                                                █
-    ◇  Email Preferences                                             █
-    │  ○ Subscribe to newsletter                                     █
-    │                                                                █
-    │  Receive weekly updates                                        █
-    │                                                                █
-    ◇  Country                                                       █
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas                                                      █
-    │  ○ United States                                               █
-    │  ○ Canada                                                      █
-    │  ○ Mexico                                                      █
-    │  Europe                                                        █
-    │  ○ United Kingdom                                              █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Your country of residence                                     █
-    │                                                                █
-    ◆  Date of Birth                                                 █
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◆  Date of Birth
     ┃
     ┃   ←       2025        →
     ┃   ←     December      →
@@ -647,9 +647,9 @@ test('form dropdown navigation', async () => {
     ┃   29 30 31
     ┃
     ┃  Selected: 2025-12-14
-    ┃
+    ┃                                                                ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+      submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)

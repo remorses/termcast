@@ -48,10 +48,10 @@ test('Store extension - searching for spiceblow shows Database', async () => {
 
      Store - Install Extensions ───────────────────────────────────────────────
 
-     spiceblow
-
-    ›piceblow - Sql Database  Search, update, insert and delete rows in your   ▲
-    Management               Sql database, deeply integrated with AI           █
+    ›Spiceblow - Sql Database Management Search, update, insert and delete ro  ▲
+                                                                               █
+                                                                               █
+                                                                               █
                                                                                █
                                                                                █
                                                                                █

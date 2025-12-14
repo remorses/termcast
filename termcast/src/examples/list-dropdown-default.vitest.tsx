@@ -34,13 +34,13 @@ test('dropdown defaults to first item when no value is provided', async () => {
      Dropdown Default Value Example ───────────────────────────────────────────
 
      Search...
-                                                                        Apple ▾
-
-    ›First Item This list has a dropdown                                       ▲
+    ›First Item This list has a dropdown                                      ▾▲
      Second Item The dropdown should default to first item                     █
                                                                                █
      Vegetables                                                                █
      Carrot With another dropdown                                              █
+                                                                               █
+                                                                               █
                                                                                █
                                                                                █
                                                                                █
@@ -147,13 +147,13 @@ test('dropdown opens and shows items', async () => {
      Dropdown Default Value Example ───────────────────────────────────────────
 
      Search...
-                                                                       Banana ▾
-
-    ›First Item This list has a dropdown                                       ▲
+    ›First Item This list has a dropdown                                      ▾▲
      Second Item The dropdown should default to first item                     █
                                                                                █
      Vegetables                                                                █
      Carrot With another dropdown                                              █
+                                                                               █
+                                                                               █
                                                                                █
                                                                                █
                                                                                █

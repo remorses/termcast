@@ -432,6 +432,14 @@ After any submodule update, cd into submodules and run `git checkout main` befor
 - Each submodule has its own AGENTS.md with package-specific guidelines
 
 
+## termcast forms
+
+- tab is used to change focused input
+- shift tab goes to the previous focused input 
+- arrows change selected item inside the focused input. for example in a dropdown
+- ctrl p will show the actions available for the form. or ctrl enter to submit it
+
+
 ## opentui
 
 opentui is the framework used to render the tui, using react.
@@ -465,6 +473,16 @@ you can read more examples of opentui react code using gitchamber by listing and
 or for example to see how to use the `<code>` opentui element: https://gitchamber.com/repos/sst/opentui/main/search/<code?glob=\*\*
 
 do something like this for every new element you want to use and not know about, for exampel `<scrollbox>`, to see examples
+
+## keys
+
+cdm modifier cannot be intercepted in opentui. because parent terminal app will not forward it. instead use alt or ctrl .
+
+## overlapping text in boxes
+
+if you see text elements too close to each other the issues is probably that the content does not fix in the box row so elements shrink and gaps or paddings are no longer respected. 
+
+to fix this issue add flexShrink={0} to all elements inside the row
 
 # core guidelines
 
@@ -796,7 +814,7 @@ gitchamber allows you to list, search and read files in a repo. you MUST use it 
 
 - too many `useState` calls are bad. if some piece of state is dependent on other state just compute it as an expression in render. do not add new state unless strictly necessary. before adding a new useState to a component, use @think tool to think hard if you can instead: use expression with already existing local state, use expression with some global state, use expression with loader data, use expression with some other existing variable instead. for example if you need to show a popover when there is an error you should use the error as open state for the popover instead of adding new useState hook
 
-- `useCallback` is bad. it should be always avoided.
+- `useCallback` is bad. it should be always avoided unless for ref props. ref props ALWAYS need to be passed memoized functions or the component could remount on ever render!
 
 - NEVER pass functions to useEffect or useMemo dependencies. when you start passing functions to hook dependencies you need to add useCallback everywhere in the code, useCallback is a virus that infects the codebase and should be ALWAYS avoided.
 
@@ -848,26 +866,26 @@ using React state in these cases is only necessary if you have to show the input
 
 # testing
 
-do not write new test files unless asked. do not write tests if there is not already a test or describe block for that function or module.
+do not create dumb tests that test nothing. do not write tests if there is not already a test file or describe block for that function or module.
 
 if the inputs for the tests is an array of repetitive fields and long content, generate this input data programmatically instead of hardcoding everything. only hardcode the important parts and generate other repetitive fields in a .map or .reduce
 
 tests should validate complex and non-obvious logic. if a test looks like a placeholder, do not add it.
 
-use vitest to run tests. tests should be run from the current package directory and not root. try using the test script instead of vitest directly. additional vitest flags can be added at the end, like --run to disable watch mode or -u to update snapshots.
+use vitest or bun test to run tests. tests should be run from the current package directory and not root. try using the test script instead of vitest directly. additional vitest flags can be added at the end, like --run to disable watch mode or -u to update snapshots.
 
 to understand how the code you are writing works, you should add inline snapshots in the test files with expect().toMatchInlineSnapshot(), then run the test with `pnpm test -u --run` or `pnpm vitest -u --run` to update the snapshot in the file, then read the file again to inspect the result. if the result is not expected, update the code and repeat until the snapshot matches your expectations. never write the inline snapshots in test files yourself. just leave them empty and run `pnpm test -u --run` to update them.
 
 > always call `pnpm vitest` or `pnpm test` with `--run` or they will hang forever waiting for changes!
 > ALWAYS read back the test if you use the `-u` option to make sure the inline snapshots are as you expect.
 
-- NEVER writes the snapshots content yourself in `toMatchInlineSnapshot`. instead leave it empty and call `pnpm test -u` to fill in snapshots content.
+- NEVER write the snapshots content yourself in `toMatchInlineSnapshot`. instead leave it as is and call `pnpm test -u` to fill in snapshots content. the first time you call `toMatchInlineSnapshot()` you can leave it empty
 
 - when updating implementation and `toMatchInlineSnapshot` should change, DO NOT remove the inline snapshots yourself, just run `pnpm test -u` instead! This will replace contents of the snapshots without wasting time doing it yourself.
 
 - for very long snapshots you should use `toMatchFileSnapshot(filename)` instead of `toMatchInlineSnapshot()`. put the snapshot files in a snapshots/ directory and use the appropriate extension for the file based on the content
 
-never test client react components. only server code that runs on the server.
+never test client react components. only React and browser independent code. 
 
 most tests should be simple calls to functions with some expect calls, no mocks. test files should be called the same as the file where the tested function is being exported from.
 
