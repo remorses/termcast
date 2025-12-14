@@ -222,3 +222,6 @@ export { closeMainWindow, PopToRootType } from 'termcast/src/apis/window'
 
 // HUD
 export { showHUD } from 'termcast/src/apis/hud'
+
+// Compile support
+export { startCompiledExtension } from 'termcast/src/extensions/dev'

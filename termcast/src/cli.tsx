@@ -8,6 +8,7 @@ import { logger } from './logger'
 import { installExtension } from './utils'
 import './globals'
 import { startDevMode, triggerRebuild } from './extensions/dev'
+import { compileExtension } from './compile'
 import { runHomeCommand } from './extensions/home'
 import { showToast, Toast } from './apis/toast'
 import packageJson from '../package.json'
@@ -172,6 +173,29 @@ cli
       console.log(`\nExtension installed to store as '${extensionName}'`)
     } catch (error: any) {
       console.error('Build failed:', error.message)
+      process.exit(1)
+    }
+  })
+
+cli
+  .command('compile [path]', 'Compile the extension to a standalone executable')
+  .option('-o, --outfile <path>', 'Output file path for the executable')
+  .option('--minify', 'Minify the output')
+  .action(async (extensionPath, options) => {
+    extensionPath = path.resolve(extensionPath || process.cwd())
+
+    console.log('Compiling extension to executable...')
+    try {
+      const result = await compileExtension({
+        extensionPath,
+        outfile: options.outfile,
+        minify: options.minify,
+      })
+
+      console.log(`\nExecutable created: ${result.outfile}`)
+      console.log(`Run it with: ${result.outfile}`)
+    } catch (error: any) {
+      console.error('Compile failed:', error.message)
       process.exit(1)
     }
   })

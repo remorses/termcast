@@ -15,6 +15,7 @@ import { runCommand, clearCommandArguments } from '../utils/run-command'
 
 interface BundledCommand extends CommandWithFile {
   bundledPath: string
+  Component?: (props: any) => any
 }
 
 function ExtensionCommandsList({
@@ -33,7 +34,7 @@ function ExtensionCommandsList({
   const handleCommandSelect = async (command: BundledCommand) => {
     clearCommandArguments()
 
-    if (!command.bundledPath) {
+    if (!command.bundledPath && !command.Component) {
       await showToast({
         style: Toast.Style.Failure,
         title: 'Command not built',
@@ -48,6 +49,7 @@ function ExtensionCommandsList({
         extensionName: packageJson.name,
         packageJson,
         bundledPath: command.bundledPath,
+        Component: command.Component,
         push,
         cacheBustParam: String(devRebuildCount),
       })
@@ -163,6 +165,49 @@ export async function startDevMode({
     const devRebuildCount = useStore((state) => state.devRebuildCount)
 
     return <TermcastProvider key={String(devRebuildCount)}>{devElement}</TermcastProvider>
+  }
+
+  const renderer = await createCliRenderer()
+  createRoot(renderer).render(<App />)
+}
+
+export async function startCompiledExtension({
+  extensionPath,
+  compiledCommands,
+}: {
+  extensionPath: string
+  compiledCommands: Array<{
+    name: string
+    bundledPath: string
+    Component: (props: any) => any
+  }>
+}): Promise<void> {
+  const packageJsonPath = path.join(extensionPath, 'package.json')
+  const { packageJson, commands: commandsMetadata } = getCommandsWithFiles({
+    packageJsonPath,
+  })
+
+  const commands: BundledCommand[] = compiledCommands.map((compiled) => {
+    const metadata = commandsMetadata.find((cmd) => cmd.name === compiled.name)
+    return {
+      ...metadata!,
+      bundledPath: '',
+      Component: compiled.Component,
+    }
+  })
+
+  useStore.setState({
+    ...useStore.getInitialState(),
+    extensionPath,
+    extensionPackageJson: packageJson,
+    devElement: (
+      <ExtensionCommandsList extensionPath={extensionPath} commands={commands} />
+    ),
+  })
+
+  function App(): any {
+    const devElement = useStore((state) => state.devElement)
+    return <TermcastProvider>{devElement}</TermcastProvider>
   }
 
   const renderer = await createCliRenderer()

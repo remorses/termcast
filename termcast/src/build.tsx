@@ -12,7 +12,7 @@ import * as react from 'react'
 const GLOBALS_NAMESPACE = 'globals'
 const VIRTUAL_ENTRY_NAMESPACE = 'virtual-entry'
 
-const aliasPlugin: BunPlugin = {
+export const aliasPlugin: BunPlugin = {
   name: 'alias-raycast-to-termcast',
   async setup(build) {
     // Import packages once at setup time
