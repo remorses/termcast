@@ -59,7 +59,7 @@ export const Checkbox = (props: CheckboxProps): any => {
           <box ref={elementRef} flexDirection='column'>
             <WithLeftBorder withDiamond isFocused={isFocused}>
               <text
-                fg={Theme.text}
+                fg={isFocused ? Theme.primary : Theme.text}
                 onMouseDown={() => {
                   // Always focus the field when clicked
                   if (!isFocused) {

@@ -291,39 +291,39 @@ export function DatePickerWidget({
           setFocus('grid')
         }
         break
-      case 'tab':
-        if (key.shift) {
-          if (focus === 'year') {
-            // At top of widget, trigger callback or cycle to bottom
-            if (onFirstRowUpKey) {
-              onFirstRowUpKey()
-            } else {
-              // Cycle to grid if no callback
-              setFocus('grid')
-            }
-          } else {
-            // Shift+Tab: Move focus up (grid -> month -> year)
-            setFocus((f) =>
-              f === 'grid' ? 'month' : f === 'month' ? 'year' : 'year',
-            )
-          }
-        } else {
-          if (focus === 'grid') {
-            // At bottom of widget, trigger callback or cycle to top
-            if (onLastRowDownKey) {
-              onLastRowDownKey()
-            } else {
-              // Cycle to year if no callback
-              setFocus('year')
-            }
-          } else {
-            // Tab: Move focus down (year -> month -> grid)
-            setFocus((f) =>
-              f === 'year' ? 'month' : f === 'month' ? 'grid' : 'grid',
-            )
-          }
-        }
-        break
+      // case 'tab':
+      //   if (key.shift) {
+      //     if (focus === 'year') {
+      //       // At top of widget, trigger callback or cycle to bottom
+      //       if (onFirstRowUpKey) {
+      //         onFirstRowUpKey()
+      //       } else {
+      //         // Cycle to grid if no callback
+      //         setFocus('grid')
+      //       }
+      //     } else {
+      //       // Shift+Tab: Move focus up (grid -> month -> year)
+      //       setFocus((f) =>
+      //         f === 'grid' ? 'month' : f === 'month' ? 'year' : 'year',
+      //       )
+      //     }
+      //   } else {
+      //     if (focus === 'grid') {
+      //       // At bottom of widget, trigger callback or cycle to top
+      //       if (onLastRowDownKey) {
+      //         onLastRowDownKey()
+      //       } else {
+      //         // Cycle to year if no callback
+      //         setFocus('year')
+      //       }
+      //     } else {
+      //       // Tab: Move focus down (year -> month -> grid)
+      //       setFocus((f) =>
+      //         f === 'year' ? 'month' : f === 'month' ? 'grid' : 'grid',
+      //       )
+      //     }
+      //   }
+      //   break
       case 'return': // Enter key
       case 'space': // Space key
         if (focus === 'grid' && onChange) {
@@ -467,6 +467,7 @@ export function DatePickerWidget({
                     style={{
                       ...cellStyle,
                       backgroundColor:
+                        focus !== 'grid' ? 'transparent' :
                         enableColors && isCursor
                           ? Theme.primary
                           : isValue
@@ -483,6 +484,7 @@ export function DatePickerWidget({
                   >
                     <text
                       fg={
+
                         enableColors && isCursor
                           ? Theme.text
                           : isValue

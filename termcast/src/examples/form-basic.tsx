@@ -104,16 +104,17 @@ export function FormBasicExample(): any {
           title='Form Navigation'
           text='• ↑↓/Tab: Navigate fields | Space: Toggle checkbox | Enter/Space: Open dropdown | ^K/⌘↵: Show actions'
         />
+        {submittedData && (
+
+            <Form.Description
+              title='Submitted Data:'
+              text={JSON.stringify(submittedData, null, 2)}
+            />
+
+        )}
       </Form>
 
-      {submittedData && (
-        <box flexDirection='column' marginTop={2}>
-          <Form.Description
-            title='Submitted Data:'
-            text={JSON.stringify(submittedData, null, 2)}
-          />
-        </box>
-      )}
+
     </box>
   )
 }
