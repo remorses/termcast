@@ -34,8 +34,9 @@ test('list with dropdown navigation', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-     Search...
-                                                               Beer ▾
+
+     Search...                                                 Beer ▾
+
     ›Augustiner Helles Beer                                          ▲
      Camden Hells Beer                                               █
      Leffe Blonde Beer                                               █
@@ -46,7 +47,6 @@ test('list with dropdown navigation', async () => {
      Sprite Soda                                                     █
      Orange Juice Juice                                              █
      Apple Juice Juice                                               █
-                                                                     █
                                                                      █
                                                                      █
                                                                      ▼
@@ -190,11 +190,11 @@ test('list with dropdown navigation', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-     Search...
-                                                               Soda ▾
+
+     Search...                                                 Soda ▾
+
     ›Coca Cola Soda                                                  ▲
      Sprite Soda                                                     █
-                                                                     █
                                                                      █
                                                                      █
                                                                      █
@@ -283,9 +283,9 @@ test('list with dropdown search and filter', async () => {
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
     ┃   Non-Alcoholic                                                  ┃
+       Sprite Soda                                                     █
        Orange Juice Juice                                              █
        Apple Juice Juice                                               █
-                                                                       █
                                                                        █
                                                                        █
                                                                        ▼
@@ -307,13 +307,13 @@ test('list with dropdown search and filter', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-     Search...
-                                                               Beer ▾
+
+     Search...                                                 Beer ▾
+
     ›Augustiner Helles Beer                                          ▲
      Camden Hells Beer                                               █
      Leffe Blonde Beer                                               █
      Sierra Nevada IPA Beer                                          █
-                                                                     █
                                                                      █
                                                                      █
                                                                      █
@@ -341,10 +341,10 @@ test('list with dropdown search and filter', async () => {
 
     Search Beers ───────────────────────────────────────────────────
 
-    pinot
-                                                              Beer ▾
+
+    pinot                                                     Beer ▾
+
                                                                     ▲
-                                                                    █
                                                                     █
                                                                     █
                                                                     █

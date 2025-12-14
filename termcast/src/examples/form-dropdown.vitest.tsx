@@ -34,52 +34,52 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+                                                                     ▲
+                                                                     █
+                                                                     █
+                                                                     █
+    ▪  Dropdown Component Demo                                       █
+    │  Test dropdown with sections, multiple selection, and more     █
+    │  features                                                      █
+    │                                                                █
+    ◆  Programming Languages                                         █
+    ┃  TypeScript, Rust                                              █
+    ┃                                                                █
+    ┃  Frontend                                                      █
+    ┃› ● TypeScript                                                  █
+    ┃  ○ JavaScript                                                  █
+    ┃  ○ React                                                       █
+    ┃  ○ Vue                                                         █
+    ┃  ↑↓ to see more options                                        █
+    ┃                                                                █
+    ┃  Choose your preferred programming languages                   █
+    ┃                                                                █
+    ◇  Editor Theme                                                  █
+    │  Dracula                                                       █
+    │                                                                █
+    │  ○ Monokai                                                     █
+    │  ● Dracula                                                     █
+    │  ○ One Dark                                                    █
+    │  ○ Nord                                                        █
+    │  ↑↓ to see more options                                        █
+    │                                                                █
+    │  Select your preferred editor color theme                      █
+    │                                                                █
+    ◇  Task Priority                                                 █
+    │  Select priority level                                         █
+    │                                                                █
+    │  ○ Critical                                                    █
+    │  ○ High                                                        █
+    │  ○ Medium                                                      █
+    │  ○ Low                                                         █
+    └                                                                █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  TypeScript, Rust
-    ┃
-    ┃  Frontend
-    ┃› ● TypeScript
-    ┃  ○ JavaScript
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-    └
-
-
-
-
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -89,52 +89,52 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+                                                                     ▲
+                                                                     █
+                                                                     █
+                                                                     █
+    ▪  Dropdown Component Demo                                       █
+    │  Test dropdown with sections, multiple selection, and more     █
+    │  features                                                      █
+    │                                                                █
+    ◆  Programming Languages                                         █
+    ┃  TypeScript, Rust                                              █
+    ┃                                                                █
+    ┃  Frontend                                                      █
+    ┃› ● TypeScript                                                  █
+    ┃  ○ JavaScript                                                  █
+    ┃  ○ React                                                       █
+    ┃  ○ Vue                                                         █
+    ┃  ↑↓ to see more options                                        █
+    ┃                                                                █
+    ┃  Choose your preferred programming languages                   █
+    ┃                                                                █
+    ◇  Editor Theme                                                  █
+    │  Dracula                                                       █
+    │                                                                █
+    │  ○ Monokai                                                     █
+    │  ● Dracula                                                     █
+    │  ○ One Dark                                                    █
+    │  ○ Nord                                                        █
+    │  ↑↓ to see more options                                        █
+    │                                                                █
+    │  Select your preferred editor color theme                      █
+    │                                                                █
+    ◇  Task Priority                                                 █
+    │  Select priority level                                         █
+    │                                                                █
+    │  ○ Critical                                                    █
+    │  ○ High                                                        █
+    │  ○ Medium                                                      █
+    │  ○ Low                                                         █
+    └                                                                █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃› ○ TypeScript
-    ┃  ○ JavaScript
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-    └
-
-
-
-
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -144,52 +144,52 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+                                                                     ▲
+                                                                     █
+                                                                     █
+                                                                     █
+    ▪  Dropdown Component Demo                                       █
+    │  Test dropdown with sections, multiple selection, and more     █
+    │  features                                                      █
+    │                                                                █
+    ◆  Programming Languages                                         █
+    ┃  Rust                                                          █
+    ┃                                                                █
+    ┃  Frontend                                                      █
+    ┃  ○ TypeScript                                                  █
+    ┃› ○ JavaScript                                                  █
+    ┃  ○ React                                                       █
+    ┃  ○ Vue                                                         █
+    ┃  ↑↓ to see more options                                        █
+    ┃                                                                █
+    ┃  Choose your preferred programming languages                   █
+    ┃                                                                █
+    ◇  Editor Theme                                                  █
+    │  Dracula                                                       █
+    │                                                                █
+    │  ○ Monokai                                                     █
+    │  ● Dracula                                                     █
+    │  ○ One Dark                                                    █
+    │  ○ Nord                                                        █
+    │  ↑↓ to see more options                                        █
+    │                                                                █
+    │  Select your preferred editor color theme                      █
+    │                                                                █
+    ◇  Task Priority                                                 █
+    │  Select priority level                                         █
+    │                                                                █
+    │  ○ Critical                                                    █
+    │  ○ High                                                        █
+    │  ○ Medium                                                      █
+    │  ○ Low                                                         █
+    └                                                                █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃  ○ TypeScript
-    ┃› ○ JavaScript
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-    └
-
-
-
-
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -202,52 +202,52 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+                                                                     ▲
+                                                                     █
+                                                                     █
+                                                                     █
+    ▪  Dropdown Component Demo                                       █
+    │  Test dropdown with sections, multiple selection, and more     █
+    │  features                                                      █
+    │                                                                █
+    ◆  Programming Languages                                         █
+    ┃  Rust                                                          █
+    ┃                                                                █
+    ┃  Frontend                                                      █
+    ┃  ○ React                                                       █
+    ┃  ○ Vue                                                         █
+    ┃  ○ Svelte                                                      █
+    ┃  Backend                                                       █
+    ┃› ○ Node.js                                                     █
+    ┃  ↑↓ to see more options                                        █
+    ┃                                                                █
+    ┃  Choose your preferred programming languages                   █
+    ┃                                                                █
+    ◇  Editor Theme                                                  █
+    │  Dracula                                                       █
+    │                                                                █
+    │  ○ Monokai                                                     █
+    │  ● Dracula                                                     █
+    │  ○ One Dark                                                    █
+    │  ○ Nord                                                        █
+    │  ↑↓ to see more options                                        █
+    │                                                                █
+    │  Select your preferred editor color theme                      █
+    │                                                                █
+    ◇  Task Priority                                                 █
+    │  Select priority level                                         █
+    │                                                                █
+    │  ○ Critical                                                    █
+    │  ○ High                                                        █
+    │  ○ Medium                                                      █
+    └  ○ Low                                                         █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ○ Svelte
-    ┃  Backend
-    ┃› ○ Node.js
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    └  ○ Low
-
-
-
-
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('enter')
@@ -257,52 +257,52 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+                                                                     ▲
+                                                                     █
+                                                                     █
+                                                                     █
+    ▪  Dropdown Component Demo                                       █
+    │  Test dropdown with sections, multiple selection, and more     █
+    │  features                                                      █
+    │                                                                █
+    ◆  Programming Languages                                         █
+    ┃  Rust, Node.js                                                 █
+    ┃                                                                █
+    ┃  Frontend                                                      █
+    ┃  ○ React                                                       █
+    ┃  ○ Vue                                                         █
+    ┃  ○ Svelte                                                      █
+    ┃  Backend                                                       █
+    ┃› ● Node.js                                                     █
+    ┃  ↑↓ to see more options                                        █
+    ┃                                                                █
+    ┃  Choose your preferred programming languages                   █
+    ┃                                                                █
+    ◇  Editor Theme                                                  █
+    │  Dracula                                                       █
+    │                                                                █
+    │  ○ Monokai                                                     █
+    │  ● Dracula                                                     █
+    │  ○ One Dark                                                    █
+    │  ○ Nord                                                        █
+    │  ↑↓ to see more options                                        █
+    │                                                                █
+    │  Select your preferred editor color theme                      █
+    │                                                                █
+    ◇  Task Priority                                                 █
+    │  Select priority level                                         █
+    │                                                                █
+    │  ○ Critical                                                    █
+    │  ○ High                                                        █
+    │  ○ Medium                                                      █
+    └  ○ Low                                                         █
+                                                                     █
+                                                                     █
+                                                                     █
+                                                                     ▼
 
 
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust, Node.js
-    ┃
-    ┃  Frontend
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ○ Svelte
-    ┃  Backend
-    ┃› ● Node.js
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    └  ○ Low
-
-
-
-
-
-
-     ↵ submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -365,7 +365,7 @@ test('form dropdown keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -423,7 +423,7 @@ test('form dropdown keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -478,7 +478,7 @@ test('form dropdown keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('up')
@@ -533,7 +533,7 @@ test('form dropdown keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -588,7 +588,7 @@ test('form dropdown keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -651,7 +651,7 @@ test('form dropdown with default value', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -706,7 +706,7 @@ test('form dropdown with default value', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -766,7 +766,7 @@ test('form dropdown with default value', async () => {
     │  }                                                             ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -830,7 +830,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('enter')
@@ -885,6 +885,6 @@ test('selecting second-to-last visible item should not scroll', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)

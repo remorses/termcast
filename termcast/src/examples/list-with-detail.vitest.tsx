@@ -35,6 +35,8 @@ test('list with detail view display and navigation', async () => {
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
+     Search Pokemon...
+
     ›bulbasaur #001                      ▲
      ivysaur #002                        █│ bulbasaur                         ▲
      charmander #004                     █│                                   █
@@ -53,12 +55,10 @@ test('list with detail view display and navigation', async () => {
                                          █│ ─────────────────────────────────
                                          █│
                                          █│ Types:
-                                         █│
-                                         █│ Grass:
-                                         ▼│ ─────────────────
-                                          │
-                                          │ Poison:
-     ↵ select  ↑↓ navigate  ^k actions    │ ─────────────────                 ▼"
+                                         ▼│
+                                          │ Grass:
+                                          │ ─────────────────
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press('down')
@@ -72,7 +72,9 @@ test('list with detail view display and navigation', async () => {
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
-     bulbasaurk#001...                   ▲
+     Search Pokemon...
+
+     bulbasaur #001                      ▲
     ›ivysaur #002                        █│ ivysaur                           ▲
      charmander #004                     █│                                   █
      charmeleon #005                     █│ Illustration
@@ -90,12 +92,10 @@ test('list with detail view display and navigation', async () => {
                                          █│ ─────────────────────────────────
                                          █│
                                          █│ Types:
-                                         █│
-                                         █│ Grass:
-                                         ▼│ ─────────────────
-                                          │
-                                          │ Poison:
-     ↵ select  ↑↓ navigate  ^k actions    │ ─────────────────                 ▼"
+                                         ▼│
+                                          │ Grass:
+                                          │ ─────────────────
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press('down')
@@ -107,10 +107,12 @@ test('list with detail view display and navigation', async () => {
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
-     bulbasaurk#001...                   ▲
+     Search Pokemon...
+
+     bulbasaur #001                      ▲
      ivysaur #002                        █│ charmander                        ▲
     ›charmander #004                     █│                                   █
-     charmeleon #005                     █│ Illustration                      ▀
+     charmeleon #005                     █│ Illustration
      squirtle #007                       █│
      wartortle #008                      █│ Types
                                          █│ Fire
@@ -125,12 +127,10 @@ test('list with detail view display and navigation', async () => {
                                          █│ ─────────────────────────────────
                                          █│
                                          █│ Types:
-                                         █│
-                                         █│ Fire:
-                                         ▼│ ─────────────────
-                                          │
-                                          │ Characteristics:
-     ↵ select  ↑↓ navigate  ^k actions    │ Height:        0.6m               ▼"
+                                         ▼│
+                                          │ Fire:
+                                          │ ─────────────────
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press(['ctrl', 'k'])
@@ -142,10 +142,10 @@ test('list with detail view display and navigation', async () => {
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
-     bulbasaurk#001...                   ▲
+     Search Pokemon...
+
+     bulbasaur #001                      ▲
      ivysaur #002                        █│ charmander                        ▲
-    ›charmander #004                     █│                                   █
-     charmeleon #005                     █│ Illustration                      ▀
     ┃                                                                          ┃
     ┃                                                                    esc   ┃
     ┃                                                                          ┃
@@ -164,8 +164,8 @@ test('list with detail view display and navigation', async () => {
     ┃                                                                          ┃
     ┃   ↵ select   ↑↓ navigate                                                 ┃
     ┃                                                                          ┃
-                                          │ Characteristics:
-     ↵ select  ↑↓ navigate  ^k actions    │ Height:        0.6m               ▼"
+                                          │ ─────────────────
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press('enter')
@@ -181,14 +181,14 @@ test('list with detail view display and navigation', async () => {
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
-     bulbasaurk#001...                                         Grass / Poison  ▲
+     Search Pokemon...
+
+     bulbasaur #001                                            Grass / Poison  ▲
      ivysaur #002                                              Grass / Poison  █
     ›charmander #004                                                     Fire  █
      charmeleon #005                                                     Fire  █
      squirtle #007                                                      Water  █
      wartortle #008                                                     Water  █
-                                                                               █
-                                                                               █
                                                                                █
                                                                                █
                                                                                █
@@ -221,10 +221,12 @@ test('list with detail view display and navigation', async () => {
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
-     bulbasaurk#001...                   ▲
+     Search Pokemon...
+
+     bulbasaur #001                      ▲
      ivysaur #002                        █│ charmander                        ▲
     ›charmander #004                     █│                                   █
-     charmeleon #005                     █│ Illustration                      ▀
+     charmeleon #005                     █│ Illustration
      squirtle #007                       █│
      wartortle #008                      █│ Types
                                          █│ Fire
@@ -239,12 +241,10 @@ test('list with detail view display and navigation', async () => {
                                          █│ ─────────────────────────────────
                                          █│
                                          █│ Types:
-                                         █│
-                                         █│ Fire:
-                                         ▼│ ─────────────────
-                                          │
-                                          │ Characteristics:
-     ↵ select  ↑↓ navigate  ^k actions    │ Height:        0.6m               ▼"
+                                         ▼│
+                                          │ Fire:
+                                          │ ─────────────────
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 }, 15000)
 
@@ -268,6 +268,8 @@ test('list detail view search functionality', async () => {
 
     Pokemon List ─────────────────────────────────────────────────────────────
 
+    char
+
     charmander #004                     ▲
     charmeleon #005                     █│ bulbasaur                         ▲
                                         █│                                   █
@@ -286,12 +288,10 @@ test('list detail view search functionality', async () => {
                                         █│ ─────────────────────────────────
                                         █│
                                         █│ Types:
-                                        █│
-                                        █│ Grass:
-                                        ▼│ ─────────────────
-                                         │
-                                         │ Poison:
-    ↵ select  ↑↓ navigate  ^k actions    │ ─────────────────                 ▼"
+                                        ▼│
+                                         │ Grass:
+                                         │ ─────────────────
+    ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press('backspace')
@@ -312,7 +312,9 @@ test('list detail view search functionality', async () => {
 
     Pokemon List ─────────────────────────────────────────────────────────────
 
-    water                               ▲
+    water
+
+                                        ▲
                                         █│ bulbasaur                         ▲
                                         █│                                   █
                                         █│ Illustration
@@ -330,12 +332,10 @@ test('list detail view search functionality', async () => {
                                         █│ ─────────────────────────────────
                                         █│
                                         █│ Types:
-                                        █│
-                                        █│ Grass:
-                                        ▼│ ─────────────────
-                                         │
-                                         │ Poison:
-    ↵ select  ↑↓ navigate  ^k actions    │ ─────────────────                 ▼"
+                                        ▼│
+                                         │ Grass:
+                                         │ ─────────────────
+    ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press('down')
@@ -347,7 +347,9 @@ test('list detail view search functionality', async () => {
 
     Pokemon List ─────────────────────────────────────────────────────────────
 
-    water                               ▲
+    water
+
+                                        ▲
                                         █│ bulbasaur                         ▲
                                         █│                                   █
                                         █│ Illustration
@@ -365,12 +367,10 @@ test('list detail view search functionality', async () => {
                                         █│ ─────────────────────────────────
                                         █│
                                         █│ Types:
-                                        █│
-                                        █│ Grass:
-                                        ▼│ ─────────────────
-                                         │
-                                         │ Poison:
-    ↵ select  ↑↓ navigate  ^k actions    │ ─────────────────                 ▼"
+                                        ▼│
+                                         │ Grass:
+                                         │ ─────────────────
+    ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 }, 10000)
 
@@ -394,30 +394,30 @@ test('list detail metadata rendering', async () => {
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
+     Search Pokemon...
+
     ›bulbasaur #001                      ▲
-     ivysaur #002                        █│ bulbasaur                         ▲
-     charmander #004                     █│                                   █
-     charmeleon #005                     █│ Illustration
-     squirtle #007                       █│
-     wartortle #008                      █│ Types
-                                         █│ Grass / Poison
+     ivysaur #002                        █│                                   ▲
+     charmander #004                     █│ ───────────────────────────────── █
+     charmeleon #005                     █│                                   █
+     squirtle #007                       █│ Types:                            █
+     wartortle #008                      █│                                   █
+                                         █│ Grass:                            ▀
+                                         █│ ─────────────────
                                          █│
-                                         █│ Characteristics
-                                         █│ - Height: 0.7m
-                                         █│ - Weight: 6.9kg
+                                         █│ Poison:
+                                         █│ ─────────────────
                                          █│
-                                         █│ Abilities
-                                         █│ - Chlorophyll
-                                         █│ - Overgrow
-                                         █│ ─────────────────────────────────
+                                         █│ Characteristics:
+                                         █│ Height:        0.7m
                                          █│
-                                         █│ Types:
+                                         █│ ─────────────────
+                                         █│ Weight:        6.9kg
                                          █│
-                                         █│ Grass:
                                          ▼│ ─────────────────
+                                          │ Abilities:
                                           │
-                                          │ Poison:
-     ↵ select  ↑↓ navigate  ^k actions    │ ─────────────────                 ▼"
+     ↵ select  ↑↓ navigate  ^k actions    │ Chlorophyll:   Main Series        ▼"
   `)
 
   await session.press('down')
@@ -436,10 +436,12 @@ test('list detail metadata rendering', async () => {
 
      Pokemon List ─────────────────────────────────────────────────────────────
 
-     bulbasaurk#001...                   ▲
+     Search Pokemon...
+
+     bulbasaur #001                      ▲
      ivysaur #002                        █│ squirtle                          ▲
      charmander #004                     █│                                   █
-     charmeleon #005                     █│ Illustration                      ▀
+     charmeleon #005                     █│ Illustration
     ›squirtle #007                       █│
      wartortle #008                      █│ Types
                                          █│ Water
@@ -454,11 +456,9 @@ test('list detail metadata rendering', async () => {
                                          █│ ─────────────────────────────────
                                          █│
                                          █│ Types:
-                                         █│
-                                         █│ Water:
-                                         ▼│ ─────────────────
-                                          │
-                                          │ Characteristics:
-     ↵ select  ↑↓ navigate  ^k actions    │ Height:        0.5m               ▼"
+                                         ▼│
+                                          │ Water:
+                                          │ ─────────────────
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 }, 10000)

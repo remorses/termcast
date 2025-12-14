@@ -39,10 +39,10 @@ test('autocomplete shows on ./ input with proper background', async () => {
     │  │ 📁 fixtures                                               │ █
     │  │ 📁 node_modules                                           │ █
     ◇  │ 📁 src                                                    │ █
+    │  │ 📄 app.log                                                │ █
     │  │ 📄 ARCHITECTURE.md                                        │ █
     │  │ 📄 bin                                                    │ █
     │  │ 📄 bunfig.toml                                            │ █
-    │  │ 📄 CHANGELOG.md                                           │ █
     ◆  └───────────────────────────────────────────────────────────┘ █
     ┃  ./                                                            █
     ┃                                                                █
@@ -58,7 +58,7 @@ test('autocomplete shows on ./ input with proper background', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -104,7 +104,7 @@ test('autocomplete dropdown covers background content', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -154,7 +154,7 @@ test('autocomplete navigation with down/up keys', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('up')
@@ -189,7 +189,7 @@ test('autocomplete navigation with down/up keys', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -240,6 +240,6 @@ test('escape closes autocomplete', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)

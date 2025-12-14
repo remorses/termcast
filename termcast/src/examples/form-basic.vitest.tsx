@@ -78,7 +78,7 @@ test('form basic navigation and input', async () => {
     │                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -148,7 +148,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Tab away - password should now show asterisks
@@ -205,7 +205,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Submit form and check password value is real text not asterisks
@@ -288,7 +288,7 @@ test('form date picker selection with space and enter', async () => {
     ┃                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Select current date with space - should show "Selected:" text
@@ -345,7 +345,7 @@ test('form date picker selection with space and enter', async () => {
     ┃                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate to a different day and select with enter
@@ -403,7 +403,7 @@ test('form date picker selection with space and enter', async () => {
     ┃                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -477,7 +477,7 @@ test('form dropdown navigation', async () => {
     ┃                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate down in dropdown
@@ -534,7 +534,7 @@ test('form dropdown navigation', async () => {
     ┃                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate to Europe section
@@ -593,7 +593,7 @@ test('form dropdown navigation', async () => {
     ┃                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Select France
@@ -650,6 +650,6 @@ test('form dropdown navigation', async () => {
     ┃                                                                ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)

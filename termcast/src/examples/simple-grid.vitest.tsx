@@ -36,12 +36,13 @@ test('grid navigation and display', async () => {
 
      Simple Grid Example ────────────────────────────────────────────
 
-     Search items...                                                 ▲
-     Fruits                                                          █
+     Search items...
+
+     Fruits                                                          ▲
     ›Apple                                                           █
      Banana                                                          █
-     Cherry                                                          █
-                                                                     ▀
+     Cherry
+
      Animals
      Dog
      Cat
@@ -50,8 +51,7 @@ test('grid navigation and display', async () => {
      Others
      House
      Car
-     Rocket
-     Star                                                            ▼
+     Rocket                                                          ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -67,12 +67,13 @@ test('grid navigation and display', async () => {
 
      Simple Grid Example ────────────────────────────────────────────
 
-     Search items...                                                 ▲
-     Fruits                                                          █
+     Search items...
+
+     Fruits                                                          ▲
      Apple                                                           █
     ›Banana                                                          █
-     Cherry                                                          █
-                                                                     ▀
+     Cherry
+
      Animals
      Dog
      Cat
@@ -81,8 +82,7 @@ test('grid navigation and display', async () => {
      Others
      House
      Car
-     Rocket
-     Star                                                            ▼
+     Rocket                                                          ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -99,12 +99,13 @@ test('grid navigation and display', async () => {
 
      Simple Grid Example ────────────────────────────────────────────
 
-     Search items...                                                 ▲
-     Fruits                                                          █
+     Search items...
+
+     Fruits                                                          ▲
      Apple                                                           █
      Banana                                                          █
-     Cherry                                                          █
-                                                                     ▀
+     Cherry
+
      Animals
     ›Dog
      Cat
@@ -113,8 +114,7 @@ test('grid navigation and display', async () => {
      Others
      House
      Car
-     Rocket
-     Star                                                            ▼
+     Rocket                                                          ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -130,9 +130,9 @@ test('grid navigation and display', async () => {
 
       Simple Grid Example ────────────────────────────────────────────
 
-      Search items...                                                 ▲
-      Fruits                                                          █
-      Apple                                                           █
+      Search items...
+
+      Fruits                                                          ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -163,12 +163,13 @@ test('grid navigation and display', async () => {
 
      Simple Grid Example ────────────────────────────────────────────
 
-     Search items...                                                 ▲
-     Fruits                                                          █
+     Search items...
+
+     Fruits                                                          ▲
      Apple                                                           █
      Banana                                                          █
-     Cherry                                                          █
-                                                                     ▀
+     Cherry
+
      Animals
     ›Dog
      Cat
@@ -177,8 +178,7 @@ test('grid navigation and display', async () => {
      Others
      House
      Car
-     Rocket
-     Star                                                            ▼
+     Rocket                                                          ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -207,10 +207,10 @@ test('grid search functionality', async () => {
 
     Simple Grid Example ────────────────────────────────────────────
 
-    Cat                                                             ▲
-                                                                    █
-                                                                    █
-                                                                    █
+    cat
+
+                                                                    ▲
+    Cat                                                             █
                                                                     █
                                                                     █
                                                                     █
@@ -247,12 +247,12 @@ test('grid search functionality', async () => {
 
     space
 
-    Rocket                                                          ▲
+                                                                    ▲
+                                                                    █
+    Rocket                                                          █
     Star                                                            █
     Moon                                                            █
     Sun                                                             █
-                                                                    █
-                                                                    █
                                                                     █
                                                                     █
                                                                     █
@@ -282,10 +282,9 @@ test('grid search functionality', async () => {
 
      Search items...
 
-                                                                     ▲
-     Fruits                                                          █
+     Fruits                                                          ▲
     ›Apple                                                           █
-     Banana
+     Banana                                                          █
      Cherry
 
      Animals
@@ -295,7 +294,8 @@ test('grid search functionality', async () => {
 
      Others
      House
-     Car                                                             ▼
+     Car
+     Rocket                                                          ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -355,9 +355,9 @@ test('grid item selection and actions', async () => {
 
       Simple Grid Example ────────────────────────────────────────────
 
-      Search items...                                                 ▲
-      Fruits                                                          █
-     ›Apple                                                           █
+      Search items...
+
+      Fruits                                                          ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -388,9 +388,9 @@ test('grid item selection and actions', async () => {
 
       Simple Grid Example ────────────────────────────────────────────
 
-      Search items...                                                 ▲
-      Fruits                                                          █
-     ›Apple                                                           █
+      Search items...
+
+      Fruits                                                          ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -421,12 +421,13 @@ test('grid item selection and actions', async () => {
 
      Simple Grid Example ────────────────────────────────────────────
 
-     Search items...                                                 ▲
-     Fruits                                                          █
+     Search items...
+
+     Fruits                                                          ▲
     ›Apple                                                           █
      Banana                                                          █
-     Cherry                                                          █
-                                                                     ▀
+     Cherry
+
      Animals
      Dog
      Cat
@@ -435,8 +436,7 @@ test('grid item selection and actions', async () => {
      Others
      House
      Car
-     Rocket
-     Star                                                            ▼
+     Rocket                                                          ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -461,12 +461,13 @@ test('grid mouse interaction', async () => {
 
      Simple Grid Example ────────────────────────────────────────────
 
-     Search items...                                                 ▲
-     Fruits                                                          █
+     Search items...
+
+     Fruits                                                          ▲
      Apple                                                           █
      Banana                                                          █
-     Cherry                                                          █
-                                                                     ▀
+     Cherry
+
      Animals
     ›Dog
      Cat
@@ -475,8 +476,7 @@ test('grid mouse interaction', async () => {
      Others
      House
      Car
-     Rocket
-     Star                                                            ▼
+     Rocket                                                          ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -501,9 +501,9 @@ test('grid mouse interaction', async () => {
 
       Simple Grid Example ────────────────────────────────────────────
 
-      Search items...                                                 ▲
-      Fruits                                                          █
-      Apple                                                           █
+      Search items...
+
+      Apple                                                           ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -534,9 +534,9 @@ test('grid mouse interaction', async () => {
 
       Simple Grid Example ────────────────────────────────────────────
 
-      Search items...                                                 ▲
-      Fruits                                                          █
-      Apple                                                           █
+      Search items...
+
+      Apple                                                           ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃

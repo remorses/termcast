@@ -41,7 +41,7 @@ test(
       │                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -61,7 +61,7 @@ test(
       ┃                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -81,7 +81,7 @@ test(
       ┃                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -101,7 +101,7 @@ test(
       ┃                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -121,7 +121,7 @@ test(
       ┃                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -141,7 +141,7 @@ test(
       ┃                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -161,7 +161,7 @@ test(
       ┃                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
@@ -181,7 +181,7 @@ test(
       ┃                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press(['shift', 'tab'])
@@ -201,7 +201,7 @@ test(
       │                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press(['shift', 'tab'])
@@ -221,7 +221,7 @@ test(
       │                                                      ▼
 
 
-        submit   ↑↓ navigate   ^k actions"
+       alt ↵ submit   ↑↓ navigate   ^k actions"
     `)
   },
   30000,

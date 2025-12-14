@@ -76,7 +76,7 @@ test('form tagpicker shows inline options', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -131,7 +131,7 @@ test('form tagpicker shows inline options', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -186,7 +186,7 @@ test('form tagpicker shows inline options', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -244,7 +244,7 @@ test('form tagpicker shows inline options', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('enter')
@@ -299,7 +299,7 @@ test('form tagpicker shows inline options', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 15000)
 
@@ -362,7 +362,7 @@ test('form tagpicker keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -420,7 +420,7 @@ test('form tagpicker keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -475,7 +475,7 @@ test('form tagpicker keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('up')
@@ -530,7 +530,7 @@ test('form tagpicker keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -585,7 +585,7 @@ test('form tagpicker keyboard navigation', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 15000)
 
@@ -648,7 +648,7 @@ test('form tagpicker with default value', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -703,7 +703,7 @@ test('form tagpicker with default value', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -763,6 +763,6 @@ test('form tagpicker with default value', async () => {
                                                                      ▼
 
 
-      submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 15000)

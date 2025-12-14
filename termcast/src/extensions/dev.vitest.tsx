@@ -105,7 +105,7 @@ test('selecting command with arguments shows arguments form', async () => {
     │  Category                                            ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 30000)
 
@@ -149,7 +149,7 @@ test('can fill arguments and run command', async () => {
     │  Category                                            ▼
 
 
-     ↵ submit   ↑↓ navigate   ^k actions"
+     alt ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Submit the form with Alt+Enter (opens action panel), then Enter (selects submit)
