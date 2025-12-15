@@ -7,5 +7,6 @@
     "customConditions": ["bun"],
     "jsxImportSource": "@opentui/react"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.vitest.tsx", "src/**/*.test.tsx", "src/**/*.test.ts"]
 }
