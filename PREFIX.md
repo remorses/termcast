@@ -447,6 +447,6 @@ to publish termcast
 - update termcast/CHANGELOG.md with changes that were made. see pas commits if you do not know
 - commit
 - create a tag with termcast@0.0.0 where 0.0.0 is new version
-- push with tags
+- push with tags (never trigger release with gh workflow run)
 - release script should publish the npm version. and also the binary in gh releases. 
 - see gh ci for in progress script and make sure they are successful
