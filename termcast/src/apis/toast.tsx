@@ -4,7 +4,7 @@ import { TextAttributes } from '@opentui/core'
 import { logger } from 'termcast/src/logger'
 import { useStore } from 'termcast/src/state'
 import { useKeyboard, useTerminalDimensions } from '@opentui/react'
-
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
 export namespace Toast {
   export interface Options {
@@ -129,7 +129,7 @@ interface ToastContentProps {
 function ToastContent({ toast, onHide }: ToastContentProps): any {
   const [, forceUpdate] = useState(0)
   const dimensions = useTerminalDimensions()
-  const dialogStack = useStore((state) => state.dialogStack)
+  const inFocus = useIsInFocus()
 
   useEffect(() => {
     const onUpdate = () => {
@@ -142,7 +142,7 @@ function ToastContent({ toast, onHide }: ToastContentProps): any {
   }, [toast, onHide])
 
   useKeyboard((evt) => {
-    if (dialogStack.length > 0) return
+    if (!inFocus) return
 
     if (evt.name === 'escape') {
       onHide()

@@ -767,6 +767,19 @@ export const List: ListType = (props) => {
     }
   }, [selectedItemId])
 
+  // Call onSelectionChange when selection changes
+  useEffect(() => {
+    if (!onSelectionChange) return
+
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1)
+      .sort((a, b) => a.index - b.index)
+
+    const currentItem = items.find((item) => item.index === selectedIndex)
+    const selectedId = currentItem?.props?.id ?? null
+    onSelectionChange(selectedId)
+  }, [selectedIndex])
+
   const scrollToItem = (item: { props?: ListItemDescendant }) => {
     const scrollBox = scrollBoxRef.current
     const elementRef = item.props?.elementRef

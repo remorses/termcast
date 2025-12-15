@@ -170,7 +170,9 @@ export function DialogProvider(props: DialogProviderProps): any {
           })}
         </box>
       )}
-      <ToastOverlay />
+      <InFocus inFocus={false}>
+        <ToastOverlay />
+      </InFocus>
     </>
   )
 }
