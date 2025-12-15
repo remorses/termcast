@@ -203,10 +203,10 @@ cli
   })
 
 cli
-  .command('release <path>', 'Build and publish extension to GitHub releases')
+  .command('release [path]', 'Build and publish extension to GitHub releases')
   .option('--single', 'Only compile for the current platform')
   .action(async (extensionPath: string, options: { single?: boolean }) => {
-    extensionPath = path.resolve(extensionPath)
+    extensionPath = path.resolve(extensionPath || process.cwd())
 
     console.log('Building and releasing extension...')
     try {

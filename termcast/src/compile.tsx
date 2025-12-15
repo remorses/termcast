@@ -171,7 +171,8 @@ export async function compileExtension({
     })),
   })
 
-  const tempEntryPath = path.join(bundleDir, '_entry.tsx')
+  const targetSuffix = target ? targetToFileSuffix(target) : 'local'
+  const tempEntryPath = path.join(bundleDir, `_entry-${targetSuffix}.tsx`)
   fs.writeFileSync(tempEntryPath, entryCode)
 
   const bunTarget = target ? targetToString(target) : 'bun'

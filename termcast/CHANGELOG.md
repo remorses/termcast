@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.20
+
+### Patch Changes
+
+- Make release path argument optional, defaults to current directory
+- Fix race condition in parallel compilation by using unique temp entry files per target
+
 ## 1.3.19
 
 ### Patch Changes
