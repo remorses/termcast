@@ -66,6 +66,11 @@ export async function releaseExtension({
     if (error.message?.includes('already exists')) {
       throw error
     }
+    const stderr = error.stderr?.toString() || ''
+    const isNotFound = stderr.includes('release not found') || stderr.includes('Not Found')
+    if (!isNotFound) {
+      throw new Error(`Failed to check release status: ${stderr || error.message}`)
+    }
   }
 
   // Install dependencies for all platforms

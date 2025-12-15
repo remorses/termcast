@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.19
+
+### Patch Changes
+
+- Fix release command silently failing when gh errors occur (now properly surfaces auth/remote issues)
+
 ## 1.3.13
 
 ### Patch Changes
