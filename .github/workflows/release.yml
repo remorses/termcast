@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -94,6 +94,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          submodules: recursive
           fetch-depth: 0 # Need full history to get all tags
 
       - name: Download all artifacts
