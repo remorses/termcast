@@ -1,0 +1,21 @@
+{
+  "name": "submodule-diff",
+  "version": "0.0.1",
+  "title": "Submodule Diff",
+  "description": "Watch git submodule diffs in real-time",
+  "icon": "command-icon.png",
+  "author": "remorses",
+  "categories": [
+    "Developer Tools"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "submodule-diff",
+      "title": "Submodule Diff",
+      "subtitle": "Watch submodule changes",
+      "description": "Displays uncommitted changes across git submodules",
+      "mode": "view"
+    }
+  ]
+}
