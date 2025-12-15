@@ -1,17 +1,26 @@
-#!/usr/bin/env bash
+import figlet from 'figlet'
+
+export function generateInstallScript(githubRepo: string): string {
+  const binaryName = githubRepo.split('/')[1]
+  const installDirName = `.${binaryName}`
+  const logo = figlet.textSync(binaryName, { font: 'Small' })
+  const logoLines = logo.split('\n')
+  const docsUrl = `https://github.com/${githubRepo}`
+
+  return `#!/usr/bin/env bash
 set -euo pipefail
 
-APP=termcast
+APP=${binaryName}
 
-MUTED='\033[0;2m'
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-CYAN='\033[0;36m'
-ORANGE='\033[38;5;214m'
-BOLD='\033[1m'
-NC='\033[0m' # No Color
+MUTED='\\033[0;2m'
+RED='\\033[0;31m'
+GREEN='\\033[0;32m'
+CYAN='\\033[0;36m'
+ORANGE='\\033[38;5;214m'
+BOLD='\\033[1m'
+NC='\\033[0m' # No Color
 
-requested_version=${VERSION:-}
+requested_version=\${VERSION:-}
 
 raw_os=$(uname -s)
 os=$(echo "$raw_os" | tr '[:upper:]' '[:lower:]')
@@ -41,7 +50,7 @@ case "$combo" in
   linux-x64|linux-arm64|darwin-x64|darwin-arm64|windows-x64)
     ;;
   *)
-    echo -e "${RED}Unsupported OS/Arch: $os/$arch${NC}"
+    echo -e "\${RED}Unsupported OS/Arch: $os/$arch\${NC}"
     exit 1
     ;;
 esac
@@ -92,29 +101,29 @@ filename="$APP-$target$archive_ext"
 
 if [ "$os" = "linux" ]; then
     if ! command -v tar >/dev/null 2>&1; then
-         echo -e "${RED}Error: 'tar' is required but not installed.${NC}"
+         echo -e "\${RED}Error: 'tar' is required but not installed.\${NC}"
          exit 1
     fi
 else
     if ! command -v unzip >/dev/null 2>&1; then
-        echo -e "${RED}Error: 'unzip' is required but not installed.${NC}"
+        echo -e "\${RED}Error: 'unzip' is required but not installed.\${NC}"
         exit 1
     fi
 fi
 
-INSTALL_DIR=$HOME/.termcast/bin
+INSTALL_DIR=$HOME/${installDirName}/bin
 mkdir -p "$INSTALL_DIR"
 
 if [ -z "$requested_version" ]; then
-    url="https://github.com/remorses/termcast/releases/latest/download/$filename"
-    specific_version=$(curl -s https://api.github.com/repos/remorses/termcast/releases/latest | sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')
+    url="https://github.com/${githubRepo}/releases/latest/download/$filename"
+    specific_version=$(curl -s https://api.github.com/repos/${githubRepo}/releases/latest | sed -n 's/.*"tag_name": *"v\\([^"]*\\)".*/\\1/p')
 
     if [[ $? -ne 0 || -z "$specific_version" ]]; then
-        echo -e "${RED}Failed to fetch version information${NC}"
+        echo -e "\${RED}Failed to fetch version information\${NC}"
         exit 1
     fi
 else
-    url="https://github.com/remorses/termcast/releases/download/v${requested_version}/$filename"
+    url="https://github.com/${githubRepo}/releases/download/v\${requested_version}/$filename"
     specific_version=$requested_version
 fi
 
@@ -129,20 +138,20 @@ print_message() {
         error) color="$RED" ;;
     esac
 
-    echo -e "${color}${message}${NC}"
+    echo -e "\${color}\${message}\${NC}"
 }
 
 check_version() {
-    if command -v termcast >/dev/null 2>&1; then
-        termcast_path=$(which termcast)
+    if command -v ${binaryName} >/dev/null 2>&1; then
+        ${binaryName}_path=$(which ${binaryName})
 
-        installed_version=$(termcast --version 2>/dev/null | head -1 || echo "0.0.0")
+        installed_version=$(${binaryName} --version 2>/dev/null | head -1 || echo "0.0.0")
         installed_version=$(echo $installed_version | sed 's/[^0-9.]//g')
 
         if [[ "$installed_version" != "$specific_version" ]]; then
-            print_message info "${MUTED}Installed version: ${NC}$installed_version"
+            print_message info "\${MUTED}Installed version: \${NC}$installed_version"
         else
-            print_message info "${MUTED}Version ${NC}$specific_version${MUTED} already installed${NC}"
+            print_message info "\${MUTED}Version \${NC}$specific_version\${MUTED} already installed\${NC}"
             exit 0
         fi
     fi
@@ -154,8 +163,8 @@ unbuffered_sed() {
     elif echo | sed -l -e "" >/dev/null 2>&1; then
         sed -nl "$@"
     else
-        local pad="$(printf "\n%512s" "")"
-        sed -ne "s/$/\\${pad}/" "$@"
+        local pad="$(printf "\\n%512s" "")"
+        sed -ne "s/$/\\\\\${pad}/" "$@"
     fi
 }
 
@@ -171,11 +180,11 @@ print_progress() {
     local off=$(( width - on ))
 
     local filled=$(printf "%*s" "$on" "")
-    filled=${filled// /■}
+    filled=\${filled// /■}
     local empty=$(printf "%*s" "$off" "")
-    empty=${empty// /･}
+    empty=\${empty// /･}
 
-    printf "\r${CYAN}%s%s %3d%%${NC}" "$filled" "$empty" "$percent" >&4
+    printf "\\r\${CYAN}%s%s %3d%%\${NC}" "$filled" "$empty" "$percent" >&4
 }
 
 download_with_progress() {
@@ -188,42 +197,42 @@ download_with_progress() {
         exec 4>/dev/null
     fi
 
-    local tmp_dir=${TMPDIR:-/tmp}
-    local basename="${tmp_dir}/termcast_install_$$"
-    local tracefile="${basename}.trace"
+    local tmp_dir=\${TMPDIR:-/tmp}
+    local basename="\${tmp_dir}/${binaryName}_install_$$"
+    local tracefile="\${basename}.trace"
 
     rm -f "$tracefile"
     mkfifo "$tracefile"
 
     # Hide cursor
-    printf "\033[?25l" >&4
+    printf "\\033[?25l" >&4
 
-    trap "trap - RETURN; rm -f \"$tracefile\"; printf '\033[?25h' >&4; exec 4>&-" RETURN
+    trap "trap - RETURN; rm -f \\"$tracefile\\"; printf '\\033[?25h' >&4; exec 4>&-" RETURN
 
     (
         curl --trace-ascii "$tracefile" -s -L -o "$output" "$url"
     ) &
     local curl_pid=$!
 
-    unbuffered_sed \
-        -e 'y/ACDEGHLNORTV/acdeghlnortv/' \
-        -e '/^0000: content-length:/p' \
-        -e '/^<= recv data/p' \
-        "$tracefile" | \
+    unbuffered_sed \\
+        -e 'y/ACDEGHLNORTV/acdeghlnortv/' \\
+        -e '/^0000: content-length:/p' \\
+        -e '/^<= recv data/p' \\
+        "$tracefile" | \\
     {
         local length=0
         local bytes=0
         
         while IFS=" " read -r -a line; do
-            [ "${#line[@]}" -lt 2 ] && continue
-            local tag="${line[0]} ${line[1]}"
+            [ "\${#line[@]}" -lt 2 ] && continue
+            local tag="\${line[0]} \${line[1]}"
             
             if [ "$tag" = "0000: content-length:" ]; then
-                length="${line[2]}"
-                length=$(echo "$length" | tr -d '\r')
+                length="\${line[2]}"
+                length=$(echo "$length" | tr -d '\\r')
                 bytes=0
             elif [ "$tag" = "<= recv" ]; then
-                local size="${line[3]}"
+                local size="\${line[3]}"
                 bytes=$(( bytes + size ))
                 if [ "$length" -gt 0 ]; then
                     print_progress "$bytes" "$length"
@@ -239,8 +248,8 @@ download_with_progress() {
 }
 
 download_and_install() {
-    print_message info "\n${MUTED}Installing ${NC}termcast ${MUTED}version: ${NC}$specific_version"
-    mkdir -p termcasttmp && cd termcasttmp
+    print_message info "\\n\${MUTED}Installing \${NC}${binaryName} \${MUTED}version: \${NC}$specific_version"
+    mkdir -p ${binaryName}tmp && cd ${binaryName}tmp
     
     if [[ "$os" == "windows" ]] || ! download_with_progress "$url" "$filename"; then
         # Fallback to standard curl on Windows or if custom progress fails
@@ -253,9 +262,9 @@ download_and_install() {
         unzip -q "$filename"
     fi
     
-    mv termcast "$INSTALL_DIR"
-    chmod 755 "${INSTALL_DIR}/termcast"
-    cd .. && rm -rf termcasttmp
+    mv ${binaryName} "$INSTALL_DIR"
+    chmod 755 "\${INSTALL_DIR}/${binaryName}"
+    cd .. && rm -rf ${binaryName}tmp
 }
 
 check_version
@@ -268,16 +277,16 @@ add_to_path() {
     if grep -Fxq "$command" "$config_file"; then
         print_message info "Command already exists in $config_file, skipping write."
     elif [[ -w $config_file ]]; then
-        echo -e "\n# termcast" >> "$config_file"
+        echo -e "\\n# ${binaryName}" >> "$config_file"
         echo "$command" >> "$config_file"
-        print_message info "${MUTED}Successfully added ${NC}termcast ${MUTED}to \$PATH in ${NC}$config_file"
+        print_message info "\${MUTED}Successfully added \${NC}${binaryName} \${MUTED}to \\$PATH in \${NC}$config_file"
     else
         print_message warning "Manually add the directory to $config_file (or similar):"
         print_message info "  $command"
     fi
 }
 
-XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+XDG_CONFIG_HOME=\${XDG_CONFIG_HOME:-$HOME/.config}
 
 current_shell=$(basename "$SHELL")
 case $current_shell in
@@ -310,7 +319,7 @@ for file in $config_files; do
 done
 
 if [[ -z $config_file ]]; then
-    print_message error "No config file found for $current_shell. Checked files: ${config_files[@]}"
+    print_message error "No config file found for $current_shell. Checked files: \${config_files[@]}"
     exit 1
 fi
 
@@ -320,39 +329,37 @@ if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
             add_to_path "$config_file" "fish_add_path $INSTALL_DIR"
         ;;
         zsh)
-            add_to_path "$config_file" "export PATH=$INSTALL_DIR:\$PATH"
+            add_to_path "$config_file" "export PATH=$INSTALL_DIR:\\$PATH"
         ;;
         bash)
-            add_to_path "$config_file" "export PATH=$INSTALL_DIR:\$PATH"
+            add_to_path "$config_file" "export PATH=$INSTALL_DIR:\\$PATH"
         ;;
         ash)
-            add_to_path "$config_file" "export PATH=$INSTALL_DIR:\$PATH"
+            add_to_path "$config_file" "export PATH=$INSTALL_DIR:\\$PATH"
         ;;
         sh)
-            add_to_path "$config_file" "export PATH=$INSTALL_DIR:\$PATH"
+            add_to_path "$config_file" "export PATH=$INSTALL_DIR:\\$PATH"
         ;;
         *)
             export PATH=$INSTALL_DIR:$PATH
             print_message warning "Manually add the directory to $config_file (or similar):"
-            print_message info "  export PATH=$INSTALL_DIR:\$PATH"
+            print_message info "  export PATH=$INSTALL_DIR:\\$PATH"
         ;;
     esac
 fi
 
-if [ -n "${GITHUB_ACTIONS-}" ] && [ "${GITHUB_ACTIONS}" == "true" ]; then
+if [ -n "\${GITHUB_ACTIONS-}" ] && [ "\${GITHUB_ACTIONS}" == "true" ]; then
     echo "$INSTALL_DIR" >> $GITHUB_PATH
-    print_message info "Added $INSTALL_DIR to \$GITHUB_PATH"
+    print_message info "Added $INSTALL_DIR to \\$GITHUB_PATH"
 fi
 
 echo -e ""
-echo -e "  _                            _   "
-echo -e " | |_ ___ _ _ _ __  __ __ _ __| |_ "
-echo -e " |  _/ -_) '_| '  \\/ _/ _` (_-<  _|"
-echo -e "  \\__\\___|_| |_|_|_\\__\\__,_/__/\\__|"
-echo -e "                                   "
+${logoLines.map((line) => `echo -e "${line.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`).join('\n')}
 echo -e ""
-echo -e "cd <project>  ${MUTED}# Open directory${NC}"
-echo -e "termcast      ${MUTED}# Run command${NC}"
+echo -e "cd <project>  \${MUTED}# Open directory\${NC}"
+echo -e "${binaryName}      \${MUTED}# Run command\${NC}"
 echo -e ""
-echo -e "${MUTED}For more information visit ${NC}https://github.com/remorses/termcast"
+echo -e "\${MUTED}For more information visit \${NC}${docsUrl}"
 echo -e ""
+`
+}

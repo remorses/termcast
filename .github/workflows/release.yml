@@ -20,18 +20,22 @@ jobs:
             os_id: linux
             arch: x64
             ext: ''
+            archive_ext: '.tar.gz'
           - os: macos-13
-            os_id: macos
+            os_id: darwin
             arch: x64
             ext: ''
+            archive_ext: '.zip'
           - os: macos-14
-            os_id: macos
+            os_id: darwin
             arch: arm64
             ext: ''
+            archive_ext: '.zip'
           - os: windows-latest
             os_id: windows
             arch: x64
             ext: '.exe'
+            archive_ext: '.zip'
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -54,11 +58,26 @@ jobs:
         shell: bash
         run: |
           mkdir -p bins
-          cd termcast && bun build src/cli.tsx --env-file="" --compile --outfile "../bins/termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
+          cd termcast && bun build src/cli.tsx --env-file="" --compile --outfile "../bins/termcast${{ matrix.ext }}"
 
       - name: Make executable (unix)
         if: runner.os != 'Windows'
-        run: chmod +x "bins/termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
+        run: chmod +x "bins/termcast${{ matrix.ext }}"
+
+      - name: Create archive (Linux)
+        if: matrix.os_id == 'linux'
+        run: |
+          cd bins
+          tar -czvf "termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.archive_ext }}" termcast
+          rm termcast
+
+      - name: Create archive (macOS/Windows)
+        if: matrix.os_id != 'linux'
+        shell: bash
+        run: |
+          cd bins
+          zip "termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.archive_ext }}" termcast${{ matrix.ext }}
+          rm termcast${{ matrix.ext }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
