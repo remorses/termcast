@@ -152,7 +152,7 @@ jobs:
         run: bun install --verbose
 
       - name: Publish to npm
-        run: bun publish --access public
+        run: npm publish --access public
         working-directory: termcast
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
