@@ -5,6 +5,8 @@
 ### Patch Changes
 
 - Enable keyboard scrolling (up/down arrows) for ScrollBox components in Detail and List detail panel
+- Add page up/page down support in Form to scroll the form content
+- Make Form.Description focusable when id prop is provided
 
 ## 1.3.11
 

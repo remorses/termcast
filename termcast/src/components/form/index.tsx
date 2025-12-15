@@ -232,10 +232,27 @@ export const Form: FormType = ((props) => {
   const inFocus = useIsInFocus()
   const dialog = useDialog()
 
-  // Handle action key navigation only
+  // Handle action keys and page scrolling
   useKeyboard((evt) => {
     // Only handle keyboard events when form is in focus
     if (!inFocus) return
+
+    // Page up/down scrolling
+    if (evt.name === 'pageup' || evt.name === 'pagedown') {
+      const scrollBox = scrollBoxRef.current
+      if (!scrollBox) return
+
+      const viewportHeight = scrollBox.viewport?.height || 10
+      const currentScrollTop = scrollBox.scrollTop || 0
+      const scrollAmount = viewportHeight - 2 // Leave some overlap
+
+      if (evt.name === 'pageup') {
+        scrollBox.scrollTo(Math.max(0, currentScrollTop - scrollAmount))
+      } else {
+        scrollBox.scrollTo(currentScrollTop + scrollAmount)
+      }
+      return
+    }
 
     if (evt.name === 'k' && evt.ctrl && props.actions) {
       // Ctrl+K shows actions
