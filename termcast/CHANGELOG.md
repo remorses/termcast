@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.13
+
+### Patch Changes
+
+- Implement Action.Style.Destructive: actions with destructive style now render in red
+
 ## 1.3.12
 
 ### Patch Changes

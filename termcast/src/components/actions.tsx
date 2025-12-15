@@ -54,6 +54,7 @@ export interface ActionPanelSectionProps extends CommonProps {
 
 interface ActionType {
   (props: ActionProps): any
+  Style: typeof ActionStyle
   Push: (props: PushActionProps) => any
   CopyToClipboard: (props: CopyToClipboardProps) => any
   OpenInBrowser: (props: OpenInBrowserProps) => any
@@ -172,6 +173,8 @@ const Action: ActionType = (props) => {
     execute: () => props.onAction?.(),
   })
 
+  const isDestructive = props.style === ActionStyle.Destructive
+
   // Render as Dropdown.Item
   return (
     <Dropdown.Item
@@ -179,9 +182,12 @@ const Action: ActionType = (props) => {
       value={props.title}
       icon={props.icon}
       label={formatShortcut(props.shortcut)}
+      color={isDestructive ? Theme.error : undefined}
     />
   )
 }
+
+Action.Style = ActionStyle
 
 Action.Push = (props) => {
   const dialog = useDialog()

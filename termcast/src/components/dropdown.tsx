@@ -46,6 +46,7 @@ export interface DropdownItemProps extends CommonProps {
 
   keywords?: string[]
   label?: string
+  color?: string
 }
 
 export interface DropdownSectionProps extends CommonProps {
@@ -343,6 +344,7 @@ function ItemOption(props: {
   active?: boolean
   current?: boolean
   label?: string
+  color?: string
   onMouseDown?: () => void
   onMouseMove?: () => void
   elementRef?: React.Ref<any>
@@ -389,9 +391,11 @@ function ItemOption(props: {
           fg={
             props.active
               ? Theme.background
-              : props.current
-                ? Theme.primary
-                : Theme.text
+              : props.color
+                ? props.color
+                : props.current
+                  ? Theme.primary
+                  : Theme.text
           }
           attributes={props.active ? TextAttributes.BOLD : undefined}
           selectable={false}
@@ -473,6 +477,7 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
       active={isActive}
       current={isCurrent}
       label={props.label}
+      color={props.color}
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
       elementRef={elementRef}
