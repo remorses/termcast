@@ -38,6 +38,578 @@ test('form dropdown shows inline options', async () => {
 
 
 
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('space')
+
+  const afterToggleTypeScriptSnapshot = await session.text()
+  expect(afterToggleTypeScriptSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('down')
+
+  const afterDownSnapshot = await session.text()
+  expect(afterDownSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+
+  const afterMultipleDownSnapshot = await session.text()
+  expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('enter')
+
+  const afterSelectSnapshot = await session.text()
+  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+}, 10000)
+
+test('form dropdown keyboard navigation', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Dropdown Component Demo/i.test(text)
+    },
+  })
+
+  await session.press('space')
+
+  const afterToggleSnapshot = await session.text()
+  expect(afterToggleSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+
+  const lastVisibleSnapshot = await session.text()
+  expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('down')
+
+  const nextPageSnapshot = await session.text()
+  expect(nextPageSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('up')
+
+  const backToPreviousPageSnapshot = await session.text()
+  expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('esc')
+
+  const afterEscapeSnapshot = await session.text()
+  expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
+    │
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
+    ◇  Task Priority
+    │  Select priority level
+    │
+    │  ○ Critical
+    │  ○ High
+    │  ○ Medium
+    │  ○ Low
+    └
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+}, 10000)
+
+test('form dropdown with default value', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Dropdown Component Demo/i.test(text)
+    },
+  })
+
+  await session.press('tab')
+
+  const secondDropdownFocusedSnapshot = await session.text()
+  expect(secondDropdownFocusedSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
     ▪  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -79,579 +651,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('space')
-
-  const afterToggleTypeScriptSnapshot = await session.text()
-  expect(afterToggleTypeScriptSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃› ○ TypeScript
-    ┃  ○ JavaScript
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-    └
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('down')
-
-  const afterDownSnapshot = await session.text()
-  expect(afterDownSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃  ○ TypeScript
-    ┃› ○ JavaScript
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-    └
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-
-  const afterMultipleDownSnapshot = await session.text()
-  expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ○ Svelte
-    ┃  Backend
-    ┃› ○ Node.js
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    └  ○ Low
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('enter')
-
-  const afterSelectSnapshot = await session.text()
-  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust, Node.js
-    ┃
-    ┃  Frontend
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ○ Svelte
-    ┃  Backend
-    ┃› ● Node.js
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    └  ○ Low
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-}, 10000)
-
-test('form dropdown keyboard navigation', async () => {
-  await session.text({
-    waitFor: (text) => {
-      return /Dropdown Component Demo/i.test(text)
-    },
-  })
-
-  await session.press('space')
-
-  const afterToggleSnapshot = await session.text()
-  expect(afterToggleSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃› ○ TypeScript
-    ┃  ○ JavaScript
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-    └
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-
-  const lastVisibleSnapshot = await session.text()
-  expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃  ○ JavaScript
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃› ○ Svelte
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-    └
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('down')
-
-  const nextPageSnapshot = await session.text()
-  expect(nextPageSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃  ○ Svelte
-    ┃  Backend
-    ┃› ○ Node.js
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    └  ○ Low
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('up')
-
-  const backToPreviousPageSnapshot = await session.text()
-  expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃› ○ Svelte
-    ┃  Backend
-    ┃  ○ Node.js
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    └  ○ Low
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('esc')
-
-  const afterEscapeSnapshot = await session.text()
-  expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    ┃  Rust
-    ┃
-    ┃  Frontend
-    ┃  ○ React
-    ┃  ○ Vue
-    ┃› ○ Svelte
-    ┃  Backend
-    ┃  ○ Node.js
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ↑↓ to see more options
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    └  ○ Low
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-}, 10000)
-
-test('form dropdown with default value', async () => {
-  await session.text({
-    waitFor: (text) => {
-      return /Dropdown Component Demo/i.test(text)
-    },
-  })
-
-  await session.press('tab')
-
-  const secondDropdownFocusedSnapshot = await session.text()
-  expect(secondDropdownFocusedSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │  ↑↓ to see more options
-    │
-    │  Choose your preferred programming languages
-    │
-    ◆  Editor Theme
-    ┃  Dracula
-    ┃
-    ┃› ○ Monokai
-    ┃  ● Dracula
-    ┃  ○ One Dark
-    ┃  ○ Nord
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your preferred editor color theme
-    ┃
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-    └
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -669,29 +669,29 @@ test('form dropdown with default value', async () => {
     │  Test dropdown with sections, multiple selection, and more
     │  features
     │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │  ↑↓ to see more options
-    │
-    │  Choose your preferred programming languages
-    │
-    ◆  Editor Theme
-    ┃  Monokai
+    ◆  Programming Languages
+    ┃  Rust
     ┃
-    ┃› ● Monokai
-    ┃  ○ Dracula
-    ┃  ○ One Dark
-    ┃  ○ Nord
+    ┃  Frontend
+    ┃› ○ TypeScript
+    ┃  ○ JavaScript
+    ┃  ○ React
+    ┃  ○ Vue
     ┃  ↑↓ to see more options
     ┃
-    ┃  Select your preferred editor color theme
+    ┃  Choose your preferred programming languages
     ┃
+    ◇  Editor Theme
+    │  Dracula
+    │
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
     ◇  Task Priority
     │  Select priority level
     │
@@ -706,7 +706,7 @@ test('form dropdown with default value', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -725,29 +725,29 @@ test('form dropdown with default value', async () => {
     │  Test dropdown with sections, multiple selection, and more     █
     │  features                                                      █
     │                                                                █
-    ◇  Programming Languages                                         █
-    │  TypeScript, Rust                                              █
-    │                                                                █
-    │  Frontend                                                      █
-    │  ● TypeScript                                                  █
-    │  ○ JavaScript                                                  █
-    │  ○ React                                                       █
-    │  ○ Vue                                                         █
-    │  ↑↓ to see more options                                        █
-    │                                                                █
-    │  Choose your preferred programming languages
+    ◆  Programming Languages                                         █
+    ┃  Rust, TypeScript                                              █
+    ┃                                                                █
+    ┃  Frontend                                                      █
+    ┃› ● TypeScript                                                  █
+    ┃  ○ JavaScript                                                  █
+    ┃  ○ React                                                       █
+    ┃  ○ Vue                                                         █
+    ┃  ↑↓ to see more options                                        █
+    ┃                                                                █
+    ┃  Choose your preferred programming languages
+    ┃
+    ◇  Editor Theme
+    │  Dracula
     │
-    ◆  Editor Theme
-    ┃  Monokai
-    ┃
-    ┃› ● Monokai
-    ┃  ○ Dracula
-    ┃  ○ One Dark
-    ┃  ○ Nord
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your preferred editor color theme
-    ┃
+    │  ○ Monokai
+    │  ● Dracula
+    │  ○ One Dark
+    │  ○ Nord
+    │  ↑↓ to see more options
+    │
+    │  Select your preferred editor color theme
+    │
     ◇  Task Priority
     │  Select priority level
     │
@@ -758,15 +758,15 @@ test('form dropdown with default value', async () => {
     ▪  Submitted Data
     │  {
     │    "languages": [
-    │      "typescript",
-    │      "rust"
+    │      "rust",
+    │      "typescript"
     │    ],
-    │    "theme": "monokai",
+    │    "theme": "dracula",
     │    "priority": ""
     │  }
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -789,22 +789,22 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
     │
-    ◆  Programming Languages
-    ┃  TypeScript, Rust
-    ┃
-    ┃  Frontend
-    ┃  ● TypeScript
-    ┃  ○ JavaScript
-    ┃› ○ React
-    ┃  ○ Vue
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
     ◇  Editor Theme
     │  Dracula
     │
@@ -830,7 +830,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('enter')
@@ -844,22 +844,22 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
+    ■  Dropdown Component Demo
+    ┃  Test dropdown with sections, multiple selection, and more
+    ┃  features
+    ┃
+    ◇  Programming Languages
+    │  TypeScript, Rust
     │
-    ◆  Programming Languages
-    ┃  TypeScript, Rust, React
-    ┃
-    ┃  Frontend
-    ┃  ● TypeScript
-    ┃  ○ JavaScript
-    ┃› ● React
-    ┃  ○ Vue
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Choose your preferred programming languages
-    ┃
+    │  Frontend
+    │  ● TypeScript
+    │  ○ JavaScript
+    │  ○ React
+    │  ○ Vue
+    │  ↑↓ to see more options
+    │
+    │  Choose your preferred programming languages
+    │
     ◇  Editor Theme
     │  Dracula
     │
@@ -885,6 +885,6 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)

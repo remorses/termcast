@@ -41,6 +41,578 @@ test('form tagpicker shows inline options', async () => {
 
 
 
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('space')
+
+  const afterSelectBasketballSnapshot = await session.text()
+  expect(afterSelectBasketballSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('down')
+
+  const afterDownSnapshot = await session.text()
+  expect(afterDownSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+
+  const afterMultipleDownSnapshot = await session.text()
+  expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('enter')
+
+  const afterSelectSnapshot = await session.text()
+  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+}, 15000)
+
+test('form tagpicker keyboard navigation', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /TagPicker Component Demo/i.test(text)
+    },
+  })
+
+  await session.press('space')
+
+  const afterSelectSnapshot = await session.text()
+  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+
+  const lastVisibleSnapshot = await session.text()
+  expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('down')
+
+  const nextPageSnapshot = await session.text()
+  expect(nextPageSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('up')
+
+  const backToPreviousPageSnapshot = await session.text()
+  expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  await session.press('esc')
+
+  const afterEscapeSnapshot = await session.text()
+  expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+    ■  TagPicker Component Demo
+    ┃  Test tag picker with multiple selection support
+    ┃
+    ◇  Favorite Sport
+    │  Choose your favorite sport...
+    │
+    │  ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ↑↓ to see more options
+    │
+    │  Select your favorite sport from the list
+    │
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+}, 15000)
+
+test('form tagpicker with default value', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /TagPicker Component Demo/i.test(text)
+    },
+  })
+
+  await session.press('tab')
+
+  const secondTagpickerFocusedSnapshot = await session.text()
+  expect(secondTagpickerFocusedSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
@@ -76,579 +648,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('space')
-
-  const afterSelectBasketballSnapshot = await session.text()
-  expect(afterSelectBasketballSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃› ● Basketball
-    ┃  ○ Football
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('down')
-
-  const afterDownSnapshot = await session.text()
-  expect(afterDownSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃  ● Basketball
-    ┃› ○ Football
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-
-  const afterMultipleDownSnapshot = await session.text()
-  expect(afterMultipleDownSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ○ Golf
-    ┃› ○ Swimming
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('enter')
-
-  const afterSelectSnapshot = await session.text()
-  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball, Swimming
-    ┃
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ○ Golf
-    ┃› ● Swimming
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-}, 15000)
-
-test('form tagpicker keyboard navigation', async () => {
-  await session.text({
-    waitFor: (text) => {
-      return /TagPicker Component Demo/i.test(text)
-    },
-  })
-
-  await session.press('space')
-
-  const afterSelectSnapshot = await session.text()
-  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃› ● Basketball
-    ┃  ○ Football
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-
-  const lastVisibleSnapshot = await session.text()
-  expect(lastVisibleSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃  ○ Football
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃› ○ Golf
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('down')
-
-  const nextPageSnapshot = await session.text()
-  expect(nextPageSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ○ Golf
-    ┃› ○ Swimming
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('up')
-
-  const backToPreviousPageSnapshot = await session.text()
-  expect(backToPreviousPageSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃› ○ Golf
-    ┃  ○ Swimming
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  await session.press('esc')
-
-  const afterEscapeSnapshot = await session.text()
-  expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃› ○ Golf
-    ┃  ○ Swimming
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
-    ◇  Country
-    │  Germany
-    │
-    │  ● Germany
-    │  ○ India
-    │  ○ Netherlands
-    │  ○ Norway
-    │  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-}, 15000)
-
-test('form tagpicker with default value', async () => {
-  await session.text({
-    waitFor: (text) => {
-      return /TagPicker Component Demo/i.test(text)
-    },
-  })
-
-  await session.press('tab')
-
-  const secondTagpickerFocusedSnapshot = await session.text()
-  expect(secondTagpickerFocusedSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-    ▪  TagPicker Component Demo
-    │  Test tag picker with multiple selection support
-    │
-    ◇  Favorite Sport
-    │  Choose your favorite sport...
-    │
-    │  ○ Basketball
-    │  ○ Football
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
-    ◆  Country
-    ┃  Germany
-    ┃
-    ┃› ● Germany
-    ┃  ○ India
-    ┃  ○ Netherlands
-    ┃  ○ Norway
-    ┃  ↑↓ to see more options
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -671,25 +671,25 @@ test('form tagpicker with default value', async () => {
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
-    ◇  Favorite Sport
-    │  Choose your favorite sport...
-    │
-    │  ○ Basketball
-    │  ○ Football
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
-    ◆  Country
-    ┃  Select a country
+    ◆  Favorite Sport
+    ┃  Basketball
     ┃
-    ┃› ○ Germany
-    ┃  ○ India
-    ┃  ○ Netherlands
-    ┃  ○ Norway
+    ┃› ● Basketball
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
     ┃  ↑↓ to see more options
+    ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
     └
 
 
@@ -703,7 +703,7 @@ test('form tagpicker with default value', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -727,26 +727,26 @@ test('form tagpicker with default value', async () => {
     ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
-    ◇  Favorite Sport
-    │  Choose your favorite sport...
-    │
-    │  ○ Basketball
-    │  ○ Football
-    │  ○ Tennis
-    │  ○ Baseball
-    │  ↑↓ to see more options
-    │
-    │  Select your favorite sport from the list
-    │
-    ◆  Country
-    ┃  Germany
+    ◆  Favorite Sport
+    ┃  Choose your favorite sport...
     ┃
-    ┃› ● Germany
-    ┃  ○ India
-    ┃  ○ Netherlands
-    ┃  ○ Norway
+    ┃› ○ Basketball
+    ┃  ○ Football
+    ┃  ○ Tennis
+    ┃  ○ Baseball
     ┃  ↑↓ to see more options
     ┃
+    ┃  Select your favorite sport from the list
+    ┃
+    ◇  Country
+    │  Germany
+    │
+    │  ● Germany
+    │  ○ India
+    │  ○ Netherlands
+    │  ○ Norway
+    │  ↑↓ to see more options
+    │
     ▪  Submitted Data
     │  {
     │    "sports": [],
@@ -763,6 +763,6 @@ test('form tagpicker with default value', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 15000)

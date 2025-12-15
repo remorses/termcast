@@ -5,6 +5,7 @@
   "repository": "https://github.com/remorses/termcast",
   "scripts": {
     "build": "tsc && bun run binary",
+    "prepublishOnly": "tsc",
     "release": "cd .. && bun changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
     "binary": "bun build ./src/cli.tsx --env-file=\"\" --compile --outfile bin",
     "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",

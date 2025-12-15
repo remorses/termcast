@@ -30,6 +30,26 @@ test(
       "
 
 
+      ■  Form Scroll Test                                    ▀
+      ┃  Test scrolling behavior when navigating with Tab
+      ┃
+      ◇  Field 1
+      │  First field
+      │
+      ◇  Field 2
+      │  Second field
+      │
+
+
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
+    `)
+
+    await session.press('tab')
+    const afterTab1 = await session.text()
+    expect(afterTab1).toMatchInlineSnapshot(`
+      "
+
+
       ▪  Form Scroll Test                                    ▀
       │  Test scrolling behavior when navigating with Tab
       │
@@ -41,12 +61,12 @@ test(
       │
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
-    const afterTab1 = await session.text()
-    expect(afterTab1).toMatchInlineSnapshot(`
+    const afterTab2 = await session.text()
+    expect(afterTab2).toMatchInlineSnapshot(`
       "
 
 
@@ -61,12 +81,12 @@ test(
       ┃
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
-    const afterTab2 = await session.text()
-    expect(afterTab2).toMatchInlineSnapshot(`
+    const afterTab3 = await session.text()
+    expect(afterTab3).toMatchInlineSnapshot(`
       "
 
 
@@ -81,12 +101,12 @@ test(
       ┃
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
-    const afterTab3 = await session.text()
-    expect(afterTab3).toMatchInlineSnapshot(`
+    const afterTab4 = await session.text()
+    expect(afterTab4).toMatchInlineSnapshot(`
       "
 
 
@@ -101,12 +121,12 @@ test(
       ┃
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
-    const afterTab4 = await session.text()
-    expect(afterTab4).toMatchInlineSnapshot(`
+    const afterTab5 = await session.text()
+    expect(afterTab5).toMatchInlineSnapshot(`
       "
 
 
@@ -121,12 +141,12 @@ test(
       ┃
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
-    const afterTab5 = await session.text()
-    expect(afterTab5).toMatchInlineSnapshot(`
+    const afterTab6 = await session.text()
+    expect(afterTab6).toMatchInlineSnapshot(`
       "
 
 
@@ -141,12 +161,12 @@ test(
       ┃
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press('tab')
-    const afterTab6 = await session.text()
-    expect(afterTab6).toMatchInlineSnapshot(`
+    const afterTab7 = await session.text()
+    expect(afterTab7).toMatchInlineSnapshot(`
       "
 
 
@@ -161,12 +181,12 @@ test(
       ┃
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
-    await session.press('tab')
-    const afterTab7 = await session.text()
-    expect(afterTab7).toMatchInlineSnapshot(`
+    await session.press(['shift', 'tab'])
+    const afterShiftTab1 = await session.text()
+    expect(afterShiftTab1).toMatchInlineSnapshot(`
       "
 
 
@@ -181,27 +201,7 @@ test(
       ┃                                                      ▀
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
-    `)
-
-    await session.press(['shift', 'tab'])
-    const afterShiftTab1 = await session.text()
-    expect(afterShiftTab1).toMatchInlineSnapshot(`
-      "
-
-
-      ◆  Field 1
-      ┃  First field                                         ▄
-      ┃
-      ◇  Field 2
-      │  Second field
-      │
-      ◇  Field 3
-      │  Third field
-      │
-
-
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
 
     await session.press(['shift', 'tab'])
@@ -210,18 +210,18 @@ test(
       "
 
 
-      ◇  Field 1
-      │  First field                                         ▄
-      │
-      ◆  Field 2
-      ┃  Second field
+      ■  Form Scroll Test                                    ▀
+      ┃  Test scrolling behavior when navigating with Tab
       ┃
-      ◇  Field 3
-      │  Third field
+      ◇  Field 1
+      │  First field
+      │
+      ◇  Field 2
+      │  Second field
       │
 
 
-       alt ↵ submit   ↑↓ navigate   ^k actions"
+       ctrl ↵ submit   ↑↓ navigate   ^k actions"
     `)
   },
   30000,

@@ -112,7 +112,7 @@ test('file picker with autocomplete', async () => {
     │  Enter file path...
     │  ┌────────────────────────────────────────────────────────────┐
     │  │ 📁 src                                                     │
-    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
+    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src
     ┃
@@ -170,7 +170,7 @@ test('file picker with autocomplete', async () => {
     │  Enter file path...
     │  ┌────────────────────────────────────────────────────────────┐
     │  │ 📁 src                                                     │
-    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
+    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src
     ┃
@@ -228,7 +228,7 @@ test('file picker with autocomplete', async () => {
     │  │ 📁 internal                                                │
     │  │ 📁 store-api                                               │
     │  │ 📁 utils                                                   │
-    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
+    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src/
     ┃
@@ -421,7 +421,7 @@ test('file picker keyboard navigation', async () => {
     │  Enter file path...
     │  ┌────────────────────────────────────────────────────────────┐
     │  │ 📁 .termcast-bundle                                        │
-    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
+    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  .
     ┃
@@ -575,3 +575,138 @@ test('file picker keyboard navigation', async () => {
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
+
+test('right arrow selects item and left arrow removes last selection', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Your Name/i.test(text)
+    },
+  })
+
+  // Tab to file picker
+  await session.press('tab')
+  await session.press('tab')
+
+  // Type to trigger autocomplete
+  await session.type('src')
+
+  await session.text({
+    waitFor: (text) => text.includes('📁 src'),
+  })
+
+  // Use right arrow to select folder (instead of tab)
+  await session.press('right')
+
+  const afterRightArrowSnapshot = await session.text({
+    waitFor: (text) => text.includes('Selected files:') && text.includes('• src'),
+  })
+  expect(afterRightArrowSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
+    ┃  Enter file path...
+    ┃
+    ┃  Selected files:
+    ┃  • src
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  // Use left arrow to remove the selection (input should be empty)
+  await session.press('left')
+
+  const afterLeftArrowSnapshot = await session.text({
+    waitFor: (text) => !text.includes('Selected files:'),
+  })
+  expect(afterLeftArrowSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
+    │  Enter file path...
+    │
+    │  Choose one or more files to upload
+    │
+    ◆  Select Folder
+    ┃  Enter file path...
+    ┃
+    ┃  Choose a folder for output
+    ┃
+    ◇  Select Single File
+    │  Enter file path...
+    │
+    │  Choose exactly one file
+    │
+    └
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+}, 15000)

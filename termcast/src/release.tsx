@@ -145,8 +145,11 @@ export async function releaseExtension({
     }),
   )
 
+
+
   console.log(`\n✅ Release ${tag} published successfully!`)
   console.log(`   ${compileResults.length} binaries uploaded`)
+
 
   return {
     success: true,

@@ -32,15 +32,15 @@ test('form basic navigation and input', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
+    ■  Form Component Demo                                           █
+    ┃  This demonstrates all available form input types. Use arrow   █
+    ┃  keys or Tab to navigate between fields.
+    ┃
+    ◇  Username
+    │  Enter your username
     │
-    ◆  Username
-    ┃  Enter your username
-    ┃
-    ┃  Required field
-    ┃
+    │  Required field
+    │
     ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
@@ -252,11 +252,11 @@ test('form date picker selection with space and enter', async () => {
     │  This demonstrates all available form input types. Use arrow   █
     │  keys or Tab to navigate between fields.
     │
-    ◆  Username
-    ┃  Enter your username
-    ┃
-    ┃  Required field
-    ┃
+    ◇  Username
+    │  Enter your username
+    │
+    │  Required field
+    │
     ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
@@ -274,19 +274,19 @@ test('form date picker selection with space and enter', async () => {
     │
     │  Receive weekly updates
     │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
+    ◆  Country
+    ┃  Select your country
+    ┃
+    ┃  Americas
+    ┃› ○ United States
+    ┃  ○ Canada
+    ┃  ○ Mexico
+    ┃  Europe
+    ┃  ○ United Kingdom
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Your country of residence
+    ┃
     ◇  Date of Birth
     │
     │   ←       2025        →
@@ -314,10 +314,10 @@ test('form date picker selection with space and enter', async () => {
     │
     │  Required field
     │
-    ◆  Password
-    ┃  Enter secure password
-    ┃  Must be at least 8 characters
-    ┃
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
     ◇  Biography
     │  Tell us about yourself...
     │
@@ -331,19 +331,19 @@ test('form date picker selection with space and enter', async () => {
     │
     │  Receive weekly updates
     │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
+    ◆  Country
+    ┃  United States
+    ┃
+    ┃  Americas
+    ┃› ● United States
+    ┃  ○ Canada
+    ┃  ○ Mexico
+    ┃  Europe
+    ┃  ○ United Kingdom
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Your country of residence
+    ┃
     ◇  Date of Birth
     │
     │   ←       2025        →
@@ -372,10 +372,10 @@ test('form date picker selection with space and enter', async () => {
     │
     │  Required field
     │
-    ◆  Password
-    ┃  *
-    ┃  Must be at least 8 characters
-    ┃
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
     ◇  Biography
     │  Tell us about yourself...
     │
@@ -389,19 +389,19 @@ test('form date picker selection with space and enter', async () => {
     │
     │  Receive weekly updates
     │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
+    ◆  Country
+    ┃  United States
+    ┃
+    ┃  Americas
+    ┃› ● United States
+    ┃  ○ Canada
+    ┃  ○ Mexico
+    ┃  Europe
+    ┃  ○ United Kingdom
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Your country of residence
+    ┃
     ◇  Date of Birth
     │
     │   ←       2025        →
@@ -441,11 +441,11 @@ test('form dropdown navigation', async () => {
     │  This demonstrates all available form input types. Use arrow   █
     │  keys or Tab to navigate between fields.
     │
-    ◆  Username
-    ┃  Enter your username
-    ┃
-    ┃  Required field
-    ┃
+    ◇  Username
+    │  Enter your username
+    │
+    │  Required field
+    │
     ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
@@ -463,19 +463,19 @@ test('form dropdown navigation', async () => {
     │
     │  Receive weekly updates
     │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
+    ◆  Country
+    ┃  United States
+    ┃
+    ┃  Americas
+    ┃› ● United States
+    ┃  ○ Canada
+    ┃  ○ Mexico
+    ┃  Europe
+    ┃  ○ United Kingdom
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Your country of residence
+    ┃
     ◇  Date of Birth
     │
     │   ←       2025        →
@@ -499,14 +499,14 @@ test('form dropdown navigation', async () => {
     │  keys or Tab to navigate between fields.
     │
     ◇  Username
-    │
+    │  Enter your username
     │
     │  Required field
     │
-    ◆  Password
-    ┃  Enter secure password
-    ┃  Must be at least 8 characters
-    ┃
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
     ◇  Biography
     │  Tell us about yourself...
     │
@@ -520,19 +520,19 @@ test('form dropdown navigation', async () => {
     │
     │  Receive weekly updates
     │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
+    ◆  Country
+    ┃  United States
+    ┃
+    ┃  Americas
+    ┃  ● United States
+    ┃› ○ Canada
+    ┃  ○ Mexico
+    ┃  Europe
+    ┃  ○ United Kingdom
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Your country of residence
+    ┃
     ◇  Date of Birth
     │
     │   ←       2025        →
@@ -558,14 +558,14 @@ test('form dropdown navigation', async () => {
     │  keys or Tab to navigate between fields.
     │
     ◇  Username
-    │
+    │  Enter your username
     │
     │  Required field
     │
-    ◆  Password
-    ┃  Enter secure password
-    ┃  Must be at least 8 characters
-    ┃
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
     ◇  Biography
     │  Tell us about yourself...
     │
@@ -579,19 +579,19 @@ test('form dropdown navigation', async () => {
     │
     │  Receive weekly updates
     │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
+    ◆  Country
+    ┃  United States
+    ┃
+    ┃  Americas
+    ┃  ○ Canada
+    ┃  ○ Mexico
+    ┃  Europe
+    ┃  ○ United Kingdom
+    ┃› ○ France
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Your country of residence
+    ┃
     ◇  Date of Birth
     │
     │   ←       2025        →
@@ -615,14 +615,14 @@ test('form dropdown navigation', async () => {
     │  keys or Tab to navigate between fields.
     │
     ◇  Username
-    │
+    │  Enter your username
     │
     │  Required field
     │
-    ◆  Password
-    ┃  Enter secure password
-    ┃  Must be at least 8 characters
-    ┃
+    ◇  Password
+    │  Enter secure password
+    │  Must be at least 8 characters
+    │
     ◇  Biography
     │  Tell us about yourself...
     │
@@ -636,19 +636,19 @@ test('form dropdown navigation', async () => {
     │
     │  Receive weekly updates
     │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
+    ◆  Country
+    ┃  France
+    ┃
+    ┃  Americas
+    ┃  ○ Canada
+    ┃  ○ Mexico
+    ┃  Europe
+    ┃  ○ United Kingdom
+    ┃› ● France
+    ┃  ↑↓ to see more options
+    ┃
+    ┃  Your country of residence
+    ┃
     ◇  Date of Birth
     │
     │   ←       2025        →
