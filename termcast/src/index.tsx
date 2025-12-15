@@ -133,7 +133,9 @@ export { Color } from 'termcast/src/colors'
 // Navigation
 export {
   useNavigation,
+  NavigationProvider,
   NavigationContainer,
+  popToRoot,
 } from 'termcast/src/internal/navigation'
 
 // Hooks
@@ -185,6 +187,7 @@ export {
   environment,
   getSelectedFinderItems,
   getSelectedText,
+  launchCommand,
 } from 'termcast/src/apis/environment'
 export type { Environment, LaunchProps } from 'termcast/src/apis/environment'
 
@@ -222,6 +225,15 @@ export { closeMainWindow, PopToRootType } from 'termcast/src/apis/window'
 
 // HUD
 export { showHUD } from 'termcast/src/apis/hud'
+
+// Keyboard
+export { Keyboard } from 'termcast/src/keyboard'
+export type {
+  KeyboardKeyEquivalent,
+  KeyboardKeyModifier,
+  KeyboardShortcut,
+  KeyboardCrossPlatformShortcut,
+} from 'termcast/src/keyboard'
 
 // Compile support
 export { startCompiledExtension } from 'termcast/src/extensions/dev'

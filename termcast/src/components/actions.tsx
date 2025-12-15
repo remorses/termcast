@@ -20,6 +20,11 @@ import { useDialog } from 'termcast/src/internal/dialog'
 import { Dropdown } from 'termcast/src/components/dropdown'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
+import type {
+  KeyboardShortcut,
+  KeyboardKeyEquivalent,
+  KeyboardKeyModifier,
+} from 'termcast/src/keyboard'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { createDescendants } from 'termcast/src/descendants'
 import { useFormSubmit } from 'termcast/src/components/form/index'
@@ -35,8 +40,8 @@ export interface ActionProps extends CommonProps {
   icon?: string | null
   style?: ActionStyle
   shortcut?: {
-    modifiers?: string[]
-    key: string
+    modifiers?: KeyboardKeyModifier[]
+    key: KeyboardKeyEquivalent
   } | null
   onAction?: () => void
   autoFocus?: boolean
@@ -148,7 +153,7 @@ interface PickDateProps extends Omit<ActionProps, 'onAction'> {
 // Create descendants for Actions - minimal fields needed
 interface ActionDescendant {
   title: string
-  shortcut?: { modifiers?: string[]; key: string } | null
+  shortcut?: { modifiers?: KeyboardKeyModifier[]; key: KeyboardKeyEquivalent } | null
   execute: () => void
 }
 
@@ -586,14 +591,14 @@ interface ActionPanelSubmenuProps extends ActionPanelSectionProps {
   title: string
   icon?: string | null
   shortcut?: {
-    modifiers?: string[]
-    key: string
+    modifiers?: KeyboardKeyModifier[]
+    key: KeyboardKeyEquivalent
   } | null
 }
 
 // Helper function to format shortcuts for display
 function formatShortcut(
-  shortcut?: { modifiers?: string[]; key: string } | null,
+  shortcut?: { modifiers?: KeyboardKeyModifier[]; key: KeyboardKeyEquivalent } | null,
 ): string {
   if (!shortcut) return ''
 

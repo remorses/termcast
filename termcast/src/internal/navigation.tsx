@@ -17,6 +17,7 @@ import { logger } from '../logger'
 interface Navigation {
   push: (element: ReactNode, onPop?: () => void) => void
   pop: () => void
+  popToRoot: () => void
 }
 
 interface NavigationContextType {
@@ -80,12 +81,29 @@ export function NavigationProvider(props: NavigationProviderProps): any {
     })
   }, [])
 
+  const popToRoot = useCallback(() => {
+    const currentStack = useStore.getState().navigationStack
+    if (currentStack.length <= 1) return
+
+    const poppedItems = currentStack.slice(1)
+    for (const item of poppedItems.reverse()) {
+      if (item?.onPop) {
+        item.onPop()
+      }
+    }
+
+    startNavigationTransition(() => {
+      useStore.setState({ navigationStack: [currentStack[0]] })
+    })
+  }, [])
+
   const navigation = React.useMemo(
     () => ({
       push,
       pop,
+      popToRoot,
     }),
-    [push, pop],
+    [push, pop, popToRoot],
   )
 
   const value = React.useMemo(
@@ -136,6 +154,20 @@ export function useNavigation(): Navigation {
 export function useNavigationPending(): boolean {
   const context = useContext(NavigationContext)
   return context?.isPending || false
+}
+
+export async function popToRoot(): Promise<void> {
+  const currentStack = useStore.getState().navigationStack
+  if (currentStack.length <= 1) return
+
+  const poppedItems = currentStack.slice(1)
+  for (const item of poppedItems.reverse()) {
+    if (item?.onPop) {
+      item.onPop()
+    }
+  }
+
+  useStore.setState({ navigationStack: [currentStack[0]] })
 }
 
 interface NavigationContainerProps extends CommonProps {

@@ -122,6 +122,16 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
     launchContext: undefined,
   }
 
+  // Menu bar commands are not supported in termcast
+  if (command.mode === 'menu-bar') {
+    await showToast({
+      style: Toast.Style.Failure,
+      title: 'Unsupported command type',
+      message: 'Menu bar commands are not supported',
+    })
+    return
+  }
+
   // Handle no-view commands (they export an async function, not a component)
   if (command.mode === 'no-view') {
     if (typeof CommandComponent === 'function') {

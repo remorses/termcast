@@ -68,7 +68,7 @@ function ExtensionCommandsList({
       searchBarPlaceholder='Search commands...'
     >
       <List.Section title='Commands'>
-        {commands.map((command) => (
+        {commands.filter((cmd) => cmd.mode !== 'menu-bar').map((command) => (
           <List.Item
             key={command.name}
             id={command.name}

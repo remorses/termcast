@@ -208,6 +208,66 @@ export async function getSelectedFinderItems(): Promise<string[]> {
   return []
 }
 
+export interface LaunchOptions {
+  name: string
+  type: LaunchType
+  arguments?: Record<string, any>
+  context?: Record<string, any>
+}
+
+export async function launchCommand(options: LaunchOptions): Promise<void> {
+  const state = useStore.getState()
+  const { extensionPath, extensionPackageJson, navigationStack, devRebuildCount } = state
+
+  if (!extensionPath || !extensionPackageJson) {
+    throw new Error('No extension loaded')
+  }
+
+  const commandDef = extensionPackageJson.commands?.find(
+    (cmd) => cmd.name === options.name,
+  )
+
+  if (!commandDef) {
+    throw new Error(`Command '${options.name}' not found in extension`)
+  }
+
+  const bundledPath = path.join(extensionPath, '.termcast-bundle', `${options.name}.js`)
+
+  if (!fs.existsSync(bundledPath)) {
+    throw new Error(`Command '${options.name}' has not been built`)
+  }
+
+  const importPath = devRebuildCount
+    ? `${bundledPath}?rebuild=${devRebuildCount}`
+    : bundledPath
+  const module = await import(importPath)
+  const CommandComponent = module.default
+
+  if (!CommandComponent) {
+    throw new Error(`Command '${options.name}' has no default export`)
+  }
+
+  const launchProps: LaunchProps = {
+    arguments: options.arguments || {},
+    fallbackText: undefined,
+    launchContext: options.context,
+  }
+
+  useStore.setState({ currentCommandName: options.name })
+
+  if (commandDef.mode === 'no-view') {
+    await CommandComponent(launchProps)
+    return
+  }
+
+  const { createElement } = await import('react')
+  const element = createElement(CommandComponent, launchProps)
+
+  useStore.setState({
+    navigationStack: [...navigationStack, { element }],
+  })
+}
+
 export async function getSelectedText(): Promise<string> {
   // TODO: Improve implementation and cross-platform support
   // Current implementation has issues:

@@ -138,9 +138,10 @@ cli
         .on('add', rebuild)
         .on('unlink', rebuild)
         .on('error', (error) => logger.error('Watcher error:', error))
-    } catch (e) {
+    } catch (e: any) {
+      console.error('Failed to start dev mode:', e?.message || e)
       logger.error(e)
-      logger.log(`failed to start dev`, e)
+      process.exit(1)
     }
   })
 
@@ -360,6 +361,93 @@ cli
       process.exit(0)
     } catch (error) {
       console.error('Error downloading PR:', error)
+      process.exit(1)
+    }
+  })
+
+cli
+  .command('download <extensionName>', 'Download extension from Raycast extensions repo')
+  .option('-o, --output <path>', 'Output directory', { default: '.' })
+  .action(async (extensionName: string, options: { output: string }) => {
+    try {
+      const destPath = path.resolve(options.output)
+      const extensionDir = path.join(destPath, extensionName)
+
+      console.log(`Downloading extension '${extensionName}' from raycast/extensions...`)
+
+      if (fs.existsSync(extensionDir)) {
+        console.log(`Removing existing directory: ${extensionDir}`)
+        fs.rmSync(extensionDir, { recursive: true, force: true })
+      }
+
+      fs.mkdirSync(destPath, { recursive: true })
+
+      const repoUrl = 'https://github.com/raycast/extensions.git'
+      const cloneCmd = `git clone -n --depth=1 --filter=tree:0 "${repoUrl}" "${extensionName}"`
+      console.log(`Running: ${cloneCmd}`)
+      try {
+        execSync(cloneCmd, {
+          cwd: destPath,
+          stdio: 'inherit',
+        })
+      } catch (error) {
+        console.error(`Failed to clone repository`)
+        process.exit(1)
+      }
+
+      const sparseCmd = `git sparse-checkout set --no-cone "extensions/${extensionName}"`
+      console.log(`Running: ${sparseCmd}`)
+      try {
+        execSync(sparseCmd, {
+          cwd: extensionDir,
+          stdio: 'inherit',
+        })
+      } catch (error) {
+        console.error(`Failed to set sparse-checkout`)
+        process.exit(1)
+      }
+
+      const checkoutCmd = 'git checkout'
+      console.log(`Running: ${checkoutCmd}`)
+      try {
+        execSync(checkoutCmd, {
+          cwd: extensionDir,
+          stdio: 'inherit',
+        })
+      } catch (error) {
+        console.error(`Failed to checkout files`)
+        process.exit(1)
+      }
+
+      const extensionPath = path.join(extensionDir, 'extensions', extensionName)
+
+      if (!fs.existsSync(extensionPath)) {
+        console.error(`Extension '${extensionName}' not found in raycast/extensions repo`)
+        fs.rmSync(extensionDir, { recursive: true, force: true })
+        process.exit(1)
+      }
+
+      const filesToMove = fs.readdirSync(extensionPath)
+      for (const file of filesToMove) {
+        const src = path.join(extensionPath, file)
+        const dest = path.join(extensionDir, file)
+        fs.renameSync(src, dest)
+      }
+
+      fs.rmSync(path.join(extensionDir, 'extensions'), { recursive: true, force: true })
+      fs.rmSync(path.join(extensionDir, '.git'), { recursive: true, force: true })
+
+      console.log(`\nInstalling dependencies...`)
+      execSync('npm install', {
+        cwd: extensionDir,
+        stdio: 'inherit',
+      })
+
+      console.log(`\n✅ Extension downloaded successfully!`)
+      console.log(`📁 Path: ${extensionDir}`)
+      process.exit(0)
+    } catch (error) {
+      console.error('Error downloading extension:', error)
       process.exit(1)
     }
   })
