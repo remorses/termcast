@@ -1,7 +1,7 @@
 import { $ } from 'bun'
 import path from 'node:path'
 import React from 'react'
-import { List, Action, ActionPanel, renderWithProviders } from 'termcast'
+import { List, Action, ActionPanel, renderWithProviders, Color } from 'termcast'
 
 interface FileDiff {
   file: string
@@ -120,13 +120,15 @@ function SubmoduleDiffList(): any {
             >
               {submodule.files.map((file) => {
                 const fullPath = path.join(submodule.path, file.file)
-                const stats = `+${file.additions}-${file.deletions}`
                 return (
                   <List.Item
                     key={fullPath}
                     id={fullPath}
                     title={file.file}
-                    accessories={[{ text: stats }]}
+                    accessories={[
+                      { text: { value: `+${file.additions}`, color: Color.Green } },
+                      { text: { value: `-${file.deletions}`, color: Color.Red } },
+                    ]}
                     actions={
                       <ActionPanel>
                         <Action

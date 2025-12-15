@@ -4,8 +4,6 @@ import type { BunPlugin } from 'bun'
 import { logger } from './logger'
 import { getCommandsWithFiles } from './package-json'
 
-const TERMCAST_SRC_DIR = path.dirname(new URL(import.meta.url).pathname)
-
 const raycastAliasPlugin: BunPlugin = {
   name: 'raycast-to-termcast',
   setup(build) {
@@ -19,7 +17,7 @@ const raycastAliasPlugin: BunPlugin = {
   },
 }
 
-function generateEntryCode({
+export function generateEntryCode({
   extensionPath,
   commands,
 }: {
@@ -66,10 +64,63 @@ main().catch((err) => {
 `
 }
 
+export interface CompileTarget {
+  os: 'linux' | 'darwin' | 'win32'
+  arch: 'arm64' | 'x64'
+  abi?: 'musl'
+  avx2?: false
+}
+
+export function targetToString(target: CompileTarget): string {
+  return [
+    'bun',
+    target.os === 'win32' ? 'windows' : target.os,
+    target.arch,
+    target.avx2 === false ? 'baseline' : undefined,
+    target.abi,
+  ]
+    .filter(Boolean)
+    .join('-')
+}
+
+export function targetToFileSuffix(target: CompileTarget): string {
+  const os = target.os === 'win32' ? 'windows' : target.os === 'darwin' ? 'macos' : 'linux'
+  const ext = target.os === 'win32' ? '.exe' : ''
+  const parts = [os, target.arch]
+  if (target.abi) {
+    parts.push(target.abi)
+  }
+  if (target.avx2 === false) {
+    parts.push('baseline')
+  }
+  return parts.join('-') + ext
+}
+
+export const ALL_TARGETS: CompileTarget[] = [
+  { os: 'linux', arch: 'arm64' },
+  { os: 'linux', arch: 'x64' },
+  { os: 'linux', arch: 'x64', avx2: false },
+  { os: 'linux', arch: 'arm64', abi: 'musl' },
+  { os: 'linux', arch: 'x64', abi: 'musl' },
+  { os: 'linux', arch: 'x64', abi: 'musl', avx2: false },
+  { os: 'darwin', arch: 'arm64' },
+  { os: 'darwin', arch: 'x64' },
+  { os: 'darwin', arch: 'x64', avx2: false },
+  { os: 'win32', arch: 'x64' },
+  { os: 'win32', arch: 'x64', avx2: false },
+]
+
+export function getCurrentTarget(): CompileTarget {
+  const platform = process.platform as 'linux' | 'darwin' | 'win32'
+  const arch = process.arch === 'arm64' ? 'arm64' : 'x64'
+  return { os: platform, arch }
+}
+
 export interface CompileOptions {
   extensionPath: string
   outfile?: string
   minify?: boolean
+  target?: CompileTarget
 }
 
 export interface CompileResult {
@@ -81,6 +132,7 @@ export async function compileExtension({
   extensionPath,
   outfile,
   minify = false,
+  target,
 }: CompileOptions): Promise<CompileResult> {
   const resolvedPath = path.resolve(extensionPath)
 
@@ -118,13 +170,14 @@ export async function compileExtension({
   const tempEntryPath = path.join(bundleDir, '_entry.tsx')
   fs.writeFileSync(tempEntryPath, entryCode)
 
+  const bunTarget = target ? targetToString(target) : 'bun'
   const defaultOutfile =
     outfile || path.join(resolvedPath, packageJson.name || 'extension')
 
   try {
     const result = await Bun.build({
       entrypoints: [tempEntryPath],
-      target: 'bun',
+      target: bunTarget as 'bun',
       minify,
       compile: {
         outfile: defaultOutfile,

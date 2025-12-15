@@ -11,5 +11,26 @@ export enum Color {
 }
 
 export namespace Color {
-  export type ColorLike = Color | string
+  export interface Dynamic {
+    light: string
+    dark: string
+    adjustContrast?: boolean
+  }
+
+  export type Raw = string
+
+  export type ColorLike = Color | Dynamic | Raw
+}
+
+export function resolveColor(color: Color.ColorLike | undefined | null): string | undefined {
+  if (!color) {
+    return undefined
+  }
+  if (typeof color === 'string') {
+    return color
+  }
+  if (typeof color === 'object' && 'dark' in color) {
+    return color.dark
+  }
+  return undefined
 }

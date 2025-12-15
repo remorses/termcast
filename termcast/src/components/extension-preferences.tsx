@@ -231,27 +231,51 @@ export function ExtensionPreferences({
               </Form.Dropdown>
             )
 
-          // TODO: Implement file and directory pickers and appPicker
           case 'file':
-          case 'directory':
-          case 'appPicker':
             return (
-              <Form.TextField
+              <Form.FilePicker
                 key={pref.name}
                 id={pref.name}
                 title={pref.title}
-                placeholder={
-                  pref.type === 'file'
-                    ? 'Enter file path'
-                    : pref.type === 'directory'
-                      ? 'Enter directory path'
-                      : 'Enter application name'
-                }
-                defaultValue={defaultValue}
-                info={
-                  pref.description ||
-                  `Select a ${pref.type.replace('appPicker', 'application')}`
-                }
+                placeholder={pref.placeholder || 'Select a file'}
+                defaultValue={defaultValue ? [defaultValue] : []}
+                info={pref.description}
+                allowMultipleSelection={false}
+                canChooseFiles={true}
+                canChooseDirectories={false}
+                storeValue
+              />
+            )
+
+          case 'directory':
+            return (
+              <Form.FilePicker
+                key={pref.name}
+                id={pref.name}
+                title={pref.title}
+                placeholder={pref.placeholder || 'Select a folder'}
+                defaultValue={defaultValue ? [defaultValue] : []}
+                info={pref.description}
+                allowMultipleSelection={false}
+                canChooseFiles={false}
+                canChooseDirectories={true}
+                storeValue
+              />
+            )
+
+          case 'appPicker':
+            return (
+              <Form.FilePicker
+                key={pref.name}
+                id={pref.name}
+                title={pref.title}
+                placeholder={pref.placeholder || 'Select an application'}
+                defaultValue={defaultValue ? [defaultValue] : []}
+                info={pref.description || 'Select an application'}
+                allowMultipleSelection={false}
+                canChooseFiles={true}
+                canChooseDirectories={false}
+                initialDirectory='/Applications'
                 storeValue
               />
             )

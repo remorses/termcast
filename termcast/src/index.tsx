@@ -95,7 +95,7 @@ export type {
 } from 'termcast/src/components/form/types'
 
 // Icons and Images
-export { Icon, getIconEmoji, IconComponent } from 'termcast/src/components/icon'
+export { Icon, getIconEmoji, getIconShape, IconComponent } from 'termcast/src/components/icon'
 export { Image, ImageMask } from 'termcast/src/components/image'
 export type {
   ImageProps,

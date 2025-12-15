@@ -31,8 +31,8 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
      Scrollbox Test ─────────────────────────────
      Search items...
 
-    ›Item 1 Description for item 1               ▲
-     Item 2 Description for item 2               ▼
+    ›♠ Item 1 Description for item 1             ▲
+     ■ Item 2 Description for item 2             ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -52,8 +52,8 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
      Scrollbox Test ─────────────────────────────
      Search items...
 
-     Item 5 Description for item 5               ▲
-    ›Item 6 Description for item 6               ▼
+     ▼ Item 5 Description for item 5             ▲
+    ›♦ Item 6 Description for item 6             ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -71,8 +71,8 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
      Scrollbox Test ─────────────────────────────
      Search items...
 
-     Item 8 Description for item 8               ▲
-    ›Item 9 Description for item 9               ▼
+     ★ Item 8 Description for item 8             ▲
+    ›■ Item 9 Description for item 9             ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -94,8 +94,8 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
      Scrollbox Test ─────────────────────────────
      Search items...
 
-    ›Item 2 Description for item 2               ▲
-     Item 3 Description for item 3               ▼
+    ›■ Item 2 Description for item 2             ▲
+     ♠ Item 3 Description for item 3             ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"

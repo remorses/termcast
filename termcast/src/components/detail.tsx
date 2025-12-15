@@ -5,7 +5,7 @@ import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { ActionPanel, Action } from 'termcast/src/components/actions'
 import { Image } from 'termcast/src/components/list'
-import { Color } from 'termcast/src/colors'
+import { Color, resolveColor } from 'termcast/src/colors'
 
 import { useDialog } from 'termcast/src/internal/dialog'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
@@ -40,7 +40,7 @@ interface LabelProps {
     | string
     | {
         value: string
-        color?: Color | null
+        color?: Color.ColorLike | null
       }
 }
 
@@ -85,7 +85,7 @@ const DetailMetadataLabel = (props: LabelProps): any => {
       <text fg={Theme.textMuted} style={{ minWidth: 15 }}>
         {props.title}:
       </text>
-      <text fg={textColor || Theme.text}>{textValue || '—'}</text>
+      <text fg={resolveColor(textColor) || Theme.text}>{textValue || '—'}</text>
     </box>
   )
 }
@@ -126,7 +126,7 @@ const DetailMetadataTagListItem = (props: TagListItemProps): any => {
 
   return (
     <text
-      fg={props.color || Theme.text}
+      fg={resolveColor(props.color) || Theme.text}
       style={{
         paddingRight: 1,
         paddingLeft: props.icon ? 1 : 0,

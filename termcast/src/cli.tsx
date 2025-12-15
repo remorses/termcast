@@ -9,6 +9,7 @@ import { installExtension } from './utils'
 import './globals'
 import { startDevMode, triggerRebuild } from './extensions/dev'
 import { compileExtension } from './compile'
+import { releaseExtension } from './release'
 import { runHomeCommand } from './extensions/home'
 import { showToast, Toast } from './apis/toast'
 import packageJson from '../package.json'
@@ -196,6 +197,27 @@ cli
       console.log(`Run it with: ${result.outfile}`)
     } catch (error: any) {
       console.error('Compile failed:', error.message)
+      process.exit(1)
+    }
+  })
+
+cli
+  .command('release <path>', 'Build and publish extension to GitHub releases')
+  .option('--single', 'Only compile for the current platform')
+  .action(async (extensionPath: string, options: { single?: boolean }) => {
+    extensionPath = path.resolve(extensionPath)
+
+    console.log('Building and releasing extension...')
+    try {
+      const result = await releaseExtension({
+        extensionPath,
+        single: options.single,
+      })
+
+      console.log(`\nRelease complete: v${result.version}`)
+      console.log(`Uploaded ${result.uploadedFiles.length} binaries`)
+    } catch (error: any) {
+      console.error('Release failed:', error.message)
       process.exit(1)
     }
   })

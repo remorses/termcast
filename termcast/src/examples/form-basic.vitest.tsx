@@ -107,12 +107,12 @@ test('password field always shows asterisks and submits real value', async () =>
     │  keys or Tab to navigate between fields.
     │
     ◇  Username
-    │  Enter your username
+    │  s
     │
     │  Required field
     │
     ◆  Password
-    ┃  *********
+    ┃  ***************
     ┃  Must be at least 8 characters
     ┃
     ◇  Biography
@@ -164,12 +164,12 @@ test('password field always shows asterisks and submits real value', async () =>
     │  keys or Tab to navigate between fields.
     │
     ◇  Username
-    │  Enter your username
+    │  s
     │
     │  Required field
     │
     ◇  Password
-    │  *********
+    │  ***************
     │  Must be at least 8 characters
     │
     ◆  Biography
@@ -219,7 +219,7 @@ test('password field always shows asterisks and submits real value', async () =>
   await session.scrollDown(10)
   await session.scrollDown(10)
   await session.scrollDown(10)
-  await session.scrollDown(10)
+  await session.scrollDown(200)
 
   const submittedSnapshot = await session.text({
     timeout: 3000,
@@ -248,6 +248,15 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
+    ▪  Form Component Demo                                           █
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
+    │
+    ◆  Username
+    ┃  Enter your username
+    ┃
+    ┃  Required field
+    ┃
     ◇  Password
     │  Enter secure password
     │  Must be at least 8 characters
@@ -268,8 +277,8 @@ test('form date picker selection with space and enter', async () => {
     ◇  Country
     │  Select your country
     │
-    │  Americas                                                      █
-    │  ○ United States                                               █
+    │  Americas
+    │  ○ United States
     │  ○ Canada
     │  ○ Mexico
     │  Europe
@@ -278,20 +287,11 @@ test('form date picker selection with space and enter', async () => {
     │
     │  Your country of residence
     │
-    ◆  Date of Birth
-    ┃
-    ┃   ←       2025        →
-    ┃   ←     December      →
-    ┃
-    ┃   Mo Tu We Th Fr Sa Su
-    ┃    1  2  3  4  5  6  7
-    ┃    8  9 10 11 12 13 14
-    ┃   15 16 17 18 19 20 21
-    ┃   22 23 24 25 26 27 28
-    ┃   29 30 31
-    ┃
-    ┃  Format: YYYY-MM-DD
-    ┃
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -305,10 +305,19 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
+    ▪  Form Component Demo                                           █
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
     │
+    ◇  Username
+    │  Enter your username
+    │
+    │  Required field
+    │
+    ◆  Password
+    ┃  Enter secure password
+    ┃  Must be at least 8 characters
+    ┃
     ◇  Biography
     │  Tell us about yourself...
     │
@@ -323,8 +332,8 @@ test('form date picker selection with space and enter', async () => {
     │  Receive weekly updates
     │
     ◇  Country
-    │  Select your country                                           █
-    │                                                                █
+    │  Select your country
+    │
     │  Americas
     │  ○ United States
     │  ○ Canada
@@ -335,20 +344,11 @@ test('form date picker selection with space and enter', async () => {
     │
     │  Your country of residence
     │
-    ◆  Date of Birth
-    ┃
-    ┃   ←       2025        →
-    ┃   ←     December      →
-    ┃
-    ┃   Mo Tu We Th Fr Sa Su
-    ┃    1  2  3  4  5  6  7
-    ┃    8  9 10 11 12 13 14
-    ┃   15 16 17 18 19 20 21
-    ┃   22 23 24 25 26 27 28
-    ┃   29 30 31
-    ┃
-    ┃  Selected: 2025-12-14
-    ┃
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -363,10 +363,19 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
+    ▪  Form Component Demo                                           █
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
     │
+    ◇  Username
+    │  Enter your username
+    │
+    │  Required field
+    │
+    ◆  Password
+    ┃  *
+    ┃  Must be at least 8 characters
+    ┃
     ◇  Biography
     │  Tell us about yourself...
     │
@@ -381,8 +390,8 @@ test('form date picker selection with space and enter', async () => {
     │  Receive weekly updates
     │
     ◇  Country
-    │  Select your country                                           █
-    │                                                                █
+    │  Select your country
+    │
     │  Americas
     │  ○ United States
     │  ○ Canada
@@ -393,20 +402,11 @@ test('form date picker selection with space and enter', async () => {
     │
     │  Your country of residence
     │
-    ◆  Date of Birth
-    ┃
-    ┃   ←       2025        →
-    ┃   ←     December      →
-    ┃
-    ┃   Mo Tu We Th Fr Sa Su
-    ┃    1  2  3  4  5  6  7
-    ┃    8  9 10 11 12 13 14
-    ┃   15 16 17 18 19 20 21
-    ┃   22 23 24 25 26 27 28
-    ┃   29 30 31
-    ┃
-    ┃  Selected: 2025-12-15
-    ┃
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -437,179 +437,17 @@ test('form dropdown navigation', async () => {
     "
 
 
+    ▪  Form Component Demo                                           █
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
+    │
+    ◆  Username
+    ┃  Enter your username
+    ┃
+    ┃  Required field
+    ┃
     ◇  Password
     │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...
-    │
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◆  Date of Birth
-    ┃
-    ┃   ←       2025        →
-    ┃   ←     December      →
-    ┃
-    ┃   Mo Tu We Th Fr Sa Su
-    ┃    1  2  3  4  5  6  7
-    ┃    8  9 10 11 12 13 14
-    ┃   15 16 17 18 19 20 21
-    ┃   22 23 24 25 26 27 28
-    ┃   29 30 31
-    ┃
-    ┃  Selected: 2025-12-14
-    ┃
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Navigate down in dropdown
-  await session.press('down')
-
-  const afterDownSnapshot = await session.text()
-  expect(afterDownSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...
-    │
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◆  Date of Birth
-    ┃
-    ┃   ←       2025        →
-    ┃   ←     December      →
-    ┃
-    ┃   Mo Tu We Th Fr Sa Su
-    ┃    1  2  3  4  5  6  7
-    ┃    8  9 10 11 12 13 14
-    ┃   15 16 17 18 19 20 21
-    ┃   22 23 24 25 26 27 28
-    ┃   29 30 31
-    ┃
-    ┃  Selected: 2025-12-14
-    ┃
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Navigate to Europe section
-  await session.press('down')
-  await session.press('down')
-  await session.press('down')
-
-  const europeSelectionSnapshot = await session.text()
-  expect(europeSelectionSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...
-    │
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country                                           █
-    │                                                                █
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
-    │  Your country of residence
-    │
-    ◆  Date of Birth
-    ┃
-    ┃   ←       2025        →
-    ┃   ←     December      →
-    ┃
-    ┃   Mo Tu We Th Fr Sa Su
-    ┃    1  2  3  4  5  6  7
-    ┃    8  9 10 11 12 13 14
-    ┃   15 16 17 18 19 20 21
-    ┃   22 23 24 25 26 27 28
-    ┃   29 30 31
-    ┃
-    ┃  Selected: 2025-12-14
-    ┃
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Select France
-  await session.press('enter')
-
-  const afterFranceSelectSnapshot = await session.text()
-  expect(afterFranceSelectSnapshot).toMatchInlineSnapshot(`
-    "
-
-
     │  Must be at least 8 characters
     │
     ◇  Biography
@@ -632,28 +470,190 @@ test('form dropdown navigation', async () => {
     │  ○ United States
     │  ○ Canada
     │  ○ Mexico
-    │  Europe                                                        █
-    │  ○ United Kingdom                                              █
+    │  Europe
+    │  ○ United Kingdom
     │  ↑↓ to see more options
     │
     │  Your country of residence
     │
-    ◆  Date of Birth
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  // Navigate down in dropdown
+  await session.press('down')
+
+  const afterDownSnapshot = await session.text()
+  expect(afterDownSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+    ▪  Form Component Demo                                           █
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
+    │
+    ◇  Username
+    │
+    │
+    │  Required field
+    │
+    ◆  Password
+    ┃  Enter secure password
+    ┃  Must be at least 8 characters
     ┃
-    ┃   ←       2025        →
-    ┃   ←     December      →
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  // Navigate to Europe section
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+
+  const europeSelectionSnapshot = await session.text()
+  expect(europeSelectionSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+    ▪  Form Component Demo                                           █
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
+    │
+    ◇  Username
+    │
+    │
+    │  Required field
+    │
+    ◆  Password
+    ┃  Enter secure password
+    ┃  Must be at least 8 characters
     ┃
-    ┃   Mo Tu We Th Fr Sa Su
-    ┃    1  2  3  4  5  6  7
-    ┃    8  9 10 11 12 13 14
-    ┃   15 16 17 18 19 20 21
-    ┃   22 23 24 25 26 27 28
-    ┃   29 30 31
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+
+  // Select France
+  await session.press('enter')
+
+  const afterFranceSelectSnapshot = await session.text()
+  expect(afterFranceSelectSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+    ▪  Form Component Demo                                           █
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
+    │
+    ◇  Username
+    │
+    │
+    │  Required field
+    │
+    ◆  Password
+    ┃  Enter secure password
+    ┃  Must be at least 8 characters
     ┃
-    ┃  Selected: 2025-12-14
-    ┃
-    ┃  Format: YYYY-MM-DD
-    ┃
+    ◇  Biography
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
+    ◇  Email Preferences
+    │  ○ Subscribe to newsletter
+    │
+    │  Receive weekly updates
+    │
+    ◇  Country
+    │  Select your country
+    │
+    │  Americas
+    │  ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"

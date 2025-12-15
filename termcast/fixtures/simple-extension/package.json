@@ -1,5 +1,6 @@
 {
   "name": "simple-extension",
+  "version": "0.0.2",
   "title": "Simple Test Extension",
   "description": "A simple Raycast extension for testing",
   "icon": "command-icon.png",

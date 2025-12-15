@@ -76,7 +76,7 @@ test('file picker with autocomplete', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Tab to navigate to file picker field
@@ -110,9 +110,9 @@ test('file picker with autocomplete', async () => {
     │
     ◇  Select Files
     │  Enter file path...
-    │
     │  ┌────────────────────────────────────────────────────────────┐
     │  │ 📁 src                                                     │
+    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src
     ┃
@@ -138,7 +138,7 @@ test('file picker with autocomplete', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Navigate down in autocomplete
@@ -168,9 +168,9 @@ test('file picker with autocomplete', async () => {
     │
     ◇  Select Files
     │  Enter file path...
-    │
     │  ┌────────────────────────────────────────────────────────────┐
     │  │ 📁 src                                                     │
+    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src
     ┃
@@ -196,7 +196,7 @@ test('file picker with autocomplete', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Select item with Enter
@@ -219,16 +219,16 @@ test('file picker with autocomplete', async () => {
 
 
 
-
        ┌────────────────────────────────────────────────────────────┐
-    ◇  │ 📁 apis                                                    │
-    │  │ 📁 components                                              │
+       │ 📁 apis                                                    │
+    ◇  │ 📁 components                                              │
     │  │ 📁 examples                                                │
-    ◇  │ 📁 extensions                                              │
-    │  │ 📁 hooks                                                   │
+    │  │ 📁 extensions                                              │
+    ◇  │ 📁 hooks                                                   │
     │  │ 📁 internal                                                │
     │  │ 📁 store-api                                               │
     │  │ 📁 utils                                                   │
+    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src/
     ┃
@@ -254,7 +254,7 @@ test('file picker with autocomplete', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Clear and test absolute path
@@ -315,7 +315,7 @@ test('file picker with autocomplete', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Test ~ home directory expansion
@@ -377,7 +377,7 @@ test('file picker with autocomplete', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 15000)
 
@@ -421,7 +421,7 @@ test('file picker keyboard navigation', async () => {
     │  Enter file path...
     │  ┌────────────────────────────────────────────────────────────┐
     │  │ 📁 .termcast-bundle                                        │
-    │  │ 📄 .gitignore                                              │
+    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  .
     ┃
@@ -447,7 +447,7 @@ test('file picker keyboard navigation', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Test escape key to close autocomplete
@@ -505,7 +505,7 @@ test('file picker keyboard navigation', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Type again and navigate with arrows
@@ -572,6 +572,6 @@ test('file picker keyboard navigation', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)

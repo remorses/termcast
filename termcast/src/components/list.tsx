@@ -23,8 +23,44 @@ import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useNavigationPending } from 'termcast/src/internal/navigation'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
+import { Color, resolveColor } from 'termcast/src/colors'
+import { getIconEmoji } from 'termcast/src/components/icon'
 import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { CommonProps } from 'termcast/src/utils'
+
+export { Color }
+
+function formatRelativeDate(date: Date): string {
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffSec = Math.floor(diffMs / 1000)
+  const diffMin = Math.floor(diffSec / 60)
+  const diffHour = Math.floor(diffMin / 60)
+  const diffDay = Math.floor(diffHour / 24)
+  const diffWeek = Math.floor(diffDay / 7)
+  const diffMonth = Math.floor(diffDay / 30)
+  const diffYear = Math.floor(diffDay / 365)
+
+  if (diffSec < 60) {
+    return 'now'
+  }
+  if (diffMin < 60) {
+    return `${diffMin}m`
+  }
+  if (diffHour < 24) {
+    return `${diffHour}h`
+  }
+  if (diffDay < 7) {
+    return `${diffDay}d`
+  }
+  if (diffWeek < 4) {
+    return `${diffWeek}w`
+  }
+  if (diffMonth < 12) {
+    return `${diffMonth}mo`
+  }
+  return `${diffYear}y`
+}
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -80,10 +116,8 @@ interface PaginationInterface {
   }
 }
 
-export type Color = string
-
 export namespace Image {
-  export type ImageLike = string
+  export type ImageLike = string | { source: string; tintColor?: string }
 }
 
 export type ItemAccessory =
@@ -93,7 +127,7 @@ export type ItemAccessory =
         | null
         | {
             value: string | null
-            color?: Color
+            color?: Color.ColorLike
           }
     }
   | {
@@ -102,7 +136,7 @@ export type ItemAccessory =
         | null
         | {
             value: Date | null
-            color?: Color
+            color?: Color.ColorLike
           }
     }
   | {
@@ -110,7 +144,7 @@ export type ItemAccessory =
         | string
         | {
             value: string
-            color?: Color
+            color?: Color.ColorLike
           }
     }
   | {
@@ -229,7 +263,7 @@ interface ListItemDetailMetadataType {
 
 interface ListItemDetailMetadataTagListType {
   (props: { title: string; children: ReactNode }): any
-  Item: (props: { text?: string; color?: Color; icon?: Image.ImageLike; onAction?: () => void }) => any
+  Item: (props: { text?: string; color?: Color.ColorLike; icon?: Image.ImageLike; onAction?: () => void }) => any
 }
 
 interface ListDropdownType {
@@ -493,6 +527,8 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
 function ListItemRow(props: {
   title: string
   subtitle?: string
+  icon?: string
+  iconColor?: string
   accessories?: ItemAccessory[]
   active?: boolean
   isShowingDetail?: boolean
@@ -500,47 +536,72 @@ function ListItemRow(props: {
   index?: number
   ref?: React.Ref<BoxRenderable>
 }) {
-  const { title, subtitle, accessories, active, ref } = props
+  const { title, subtitle, icon, iconColor, accessories, active, ref } = props
   const [isHovered, setIsHovered] = useState(false)
 
-  // Format accessories for display
   const accessoryElements: ReactNode[] = []
   if (accessories) {
     accessories.forEach((accessory) => {
-        if ('text' in accessory && accessory.text) {
-          const textValue =
-            typeof accessory.text === 'string'
-              ? accessory.text
-              : accessory.text?.value
-          if (textValue) {
-            accessoryElements.push(
-              <text
-                key={`text-${textValue}`}
-                fg={active ? Theme.background : Theme.info}
-                wrapMode="none"
-              >
-                {textValue}
-              </text>,
-            )
-          }
+      if ('text' in accessory && accessory.text) {
+        const textValue =
+          typeof accessory.text === 'string'
+            ? accessory.text
+            : accessory.text?.value
+        const textColor =
+          typeof accessory.text === 'object' ? accessory.text?.color : undefined
+        if (textValue) {
+          accessoryElements.push(
+            <text
+              key={`text-${textValue}`}
+              fg={active ? Theme.background : resolveColor(textColor) || Theme.info}
+              wrapMode="none"
+            >
+              {textValue}
+            </text>,
+          )
         }
-        if ('tag' in accessory && accessory.tag) {
-          const tagValue =
-            typeof accessory.tag === 'string'
-              ? accessory.tag
-              : accessory.tag?.value
-          if (tagValue) {
-            accessoryElements.push(
-              <text
-                key={`tag-${tagValue}`}
-                fg={active ? Theme.background : Theme.warning}
-                wrapMode="none"
-              >
-                [{tagValue}]
-              </text>,
-            )
-          }
+      }
+      if ('tag' in accessory && accessory.tag) {
+        const tagValue =
+          typeof accessory.tag === 'string'
+            ? accessory.tag
+            : accessory.tag?.value
+        const tagColor =
+          typeof accessory.tag === 'object' ? accessory.tag?.color : undefined
+        if (tagValue) {
+          accessoryElements.push(
+            <text
+              key={`tag-${tagValue}`}
+              fg={active ? Theme.background : resolveColor(tagColor) || Theme.warning}
+              wrapMode="none"
+            >
+              [{tagValue}]
+            </text>,
+          )
         }
+      }
+      if ('date' in accessory && accessory.date) {
+        const dateValue =
+          accessory.date instanceof Date
+            ? accessory.date
+            : accessory.date?.value
+        const dateColor =
+          typeof accessory.date === 'object' && !(accessory.date instanceof Date)
+            ? accessory.date?.color
+            : undefined
+        if (dateValue) {
+          const formatted = formatRelativeDate(dateValue)
+          accessoryElements.push(
+            <text
+              key={`date-${dateValue.getTime()}`}
+              fg={active ? Theme.background : resolveColor(dateColor) || Theme.success}
+              wrapMode="none"
+            >
+              {formatted}
+            </text>,
+          )
+        }
+      }
     })
   }
 
@@ -555,7 +616,7 @@ function ListItemRow(props: {
           : isHovered
             ? Theme.backgroundPanel
             : undefined,
-        paddingLeft: active ? 0 : 1,
+        paddingLeft: 0,
         paddingRight: 1,
         gap: 1,
       }}
@@ -569,17 +630,18 @@ function ListItemRow(props: {
       onMouseDown={props.onMouseDown}
     >
       <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1, overflow: 'hidden', gap: 1 }}>
-
-        <text
-          fg={active ? Theme.background : Theme.text}
-          attributes={active ? TextAttributes.BOLD : undefined}
-          selectable={false}
-          wrapMode="none"
-          flexShrink={0}
-        >
-          {active ? '›' : ''}
-          {title}
-        </text>
+        <box style={{ flexDirection: 'row', flexShrink: 0 }}>
+          <text fg={active ? Theme.background : Theme.text} attributes={active ? TextAttributes.BOLD : undefined} selectable={false} wrapMode="none">{active ? '›' : ' '}</text>
+          {icon && <text fg={active ? Theme.background : iconColor || Theme.text} selectable={false} wrapMode="none">{getIconEmoji(icon)} </text>}
+          <text
+            fg={active ? Theme.background : Theme.text}
+            attributes={active ? TextAttributes.BOLD : undefined}
+            selectable={false}
+            wrapMode="none"
+          >
+            {title}
+          </text>
+        </box>
         {subtitle && (
           <text
             fg={active ? Theme.background : Theme.textMuted}
@@ -1031,11 +1093,34 @@ const ListItem: ListItemType = (props) => {
   // Don't show accessories if we're showing detail
   const showAccessories = !props.detail && props.accessories
 
+  // Get icon string and color from props.icon (can be string or object with value/tintColor)
+  const { iconValue, iconColor } = (() => {
+    if (!props.icon) return { iconValue: undefined, iconColor: undefined }
+    if (typeof props.icon === 'string') return { iconValue: props.icon, iconColor: undefined }
+    const iconObj = props.icon as Record<string, unknown>
+    if ('source' in iconObj && typeof iconObj.source === 'string') {
+      return { iconValue: iconObj.source, iconColor: iconObj.tintColor as string | undefined }
+    }
+    if ('value' in iconObj && iconObj.value) {
+      const val = iconObj.value
+      if (typeof val === 'string') return { iconValue: val, iconColor: undefined }
+      if (typeof val === 'object' && val !== null) {
+        const valObj = val as Record<string, unknown>
+        if ('source' in valObj && typeof valObj.source === 'string') {
+          return { iconValue: valObj.source, iconColor: valObj.tintColor as string | undefined }
+        }
+      }
+    }
+    return { iconValue: undefined, iconColor: undefined }
+  })()
+
   // Render the item row directly
   return (
     <ListItemRow
       title={titleText}
       subtitle={subtitleText}
+      icon={iconValue}
+      iconColor={iconColor}
       accessories={showAccessories ? props.accessories : undefined}
       active={isActive}
       isShowingDetail={props.detail !== undefined}
@@ -1137,10 +1222,10 @@ const ListItemDetailMetadataTagList = (props: { title: string; children: ReactNo
   )
 }
 
-const ListItemDetailMetadataTagListItem = (props: { text?: string; color?: Color; icon?: Image.ImageLike; onAction?: () => void }) => {
+const ListItemDetailMetadataTagListItem = (props: { text?: string; color?: Color.ColorLike; icon?: Image.ImageLike; onAction?: () => void }) => {
   return (
     <box style={{ paddingRight: 1 }}>
-      <text fg={props.color || Theme.accent}>[{props.text}]</text>
+      <text fg={resolveColor(props.color) || Theme.accent}>[{props.text}]</text>
     </box>
   )
 }
@@ -1603,9 +1688,14 @@ Grid.Item = (props: GridItemProps) => {
   const { content, getDetailMarkdown, ...itemProps } = props
 
   // Extract image value and tooltip
-  const imageValue = typeof content === 'string' ? content : content?.value
+  const imageValue = (() => {
+    if (typeof content === 'string') return content
+    if (content && 'source' in content) return content
+    if (content && 'value' in content) return content.value
+    return undefined
+  })()
   const imageTooltip =
-    typeof content === 'object' ? content?.tooltip : undefined
+    typeof content === 'object' && content && 'tooltip' in content ? content.tooltip : undefined
 
   // Convert Grid.Item props to List.Item props
   const listItemProps: ItemProps = {

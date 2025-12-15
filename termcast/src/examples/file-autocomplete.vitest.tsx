@@ -33,21 +33,21 @@ test('autocomplete shows on ./ input with proper background', async () => {
     "
 
 
-       │ 📁 src                                                     │
-       │ 📄 app.log                                                 │
-    ◇  │ 📄 ARCHITECTURE.md                                         │
-    │  │ 📄 bin                                                     │
-    │  │ 📄 bunfig.toml                                             │
+
+
+    ◇  Your Name
+    │  John Doe
+    │  ┌────────────────────────────────────────────────────────────┐
+    ◇  │ 📁 dist                                                    │
+    │  │ 📁 fixtures                                                │
+    │  │ 📁 node_modules                                            │
+    │  │ 📁 src                                                     │
+    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  ./
     ┃
-    ┃  Choose one or more files to upload
+    ┃  Choose a folder for output
     ┃
-    ◇  Select Folder
-    │  Enter file path...
-    │
-    │  Choose a folder for output
-    │
     ◇  Select Single File
     │  Enter file path...
     │
@@ -58,7 +58,7 @@ test('autocomplete shows on ./ input with proper background', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -79,16 +79,16 @@ test('autocomplete dropdown covers background content', async () => {
     "
 
 
-
        ┌────────────────────────────────────────────────────────────┐
-    ◇  │ 📁 apis                                                    │
-    │  │ 📁 components                                              │
+       │ 📁 apis                                                    │
+    ◇  │ 📁 components                                              │
     │  │ 📁 examples                                                │
-    ◇  │ 📁 extensions                                              │
-    │  │ 📁 hooks                                                   │
+    │  │ 📁 extensions                                              │
+    ◇  │ 📁 hooks                                                   │
     │  │ 📁 internal                                                │
     │  │ 📁 store-api                                               │
     │  │ 📁 utils                                                   │
+    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src/
     ┃
@@ -104,7 +104,7 @@ test('autocomplete dropdown covers background content', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -129,16 +129,16 @@ test('autocomplete navigation with down/up keys', async () => {
     "
 
 
-
        ┌────────────────────────────────────────────────────────────┐
-    ◇  │ 📁 apis                                                    │
-    │  │ 📁 components                                              │
+       │ 📁 apis                                                    │
+    ◇  │ 📁 components                                              │
     │  │ 📁 examples                                                │
-    ◇  │ 📁 extensions                                              │
-    │  │ 📁 hooks                                                   │
+    │  │ 📁 extensions                                              │
+    ◇  │ 📁 hooks                                                   │
     │  │ 📁 internal                                                │
     │  │ 📁 store-api                                               │
     │  │ 📁 utils                                                   │
+    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src/
     ┃
@@ -154,7 +154,7 @@ test('autocomplete navigation with down/up keys', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   await session.press('up')
@@ -164,16 +164,16 @@ test('autocomplete navigation with down/up keys', async () => {
     "
 
 
-
        ┌────────────────────────────────────────────────────────────┐
-    ◇  │ 📁 apis                                                    │
-    │  │ 📁 components                                              │
+       │ 📁 apis                                                    │
+    ◇  │ 📁 components                                              │
     │  │ 📁 examples                                                │
-    ◇  │ 📁 extensions                                              │
-    │  │ 📁 hooks                                                   │
+    │  │ 📁 extensions                                              │
+    ◇  │ 📁 hooks                                                   │
     │  │ 📁 internal                                                │
     │  │ 📁 store-api                                               │
     │  │ 📁 utils                                                   │
+    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src/
     ┃
@@ -189,7 +189,7 @@ test('autocomplete navigation with down/up keys', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
@@ -240,6 +240,6 @@ test('escape closes autocomplete', async () => {
 
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)

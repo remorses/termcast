@@ -35,6 +35,11 @@ export interface FilePickerProps extends FormItemProps<string[]> {
    * Placeholder text for the input field
    */
   placeholder?: string
+  /**
+   * The initial directory to start browsing from.
+   * @defaultValue current working directory
+   */
+  initialDirectory?: string
 }
 
 export type FilePickerRef = FormItemRef
@@ -167,6 +172,9 @@ const FilePickerField = ({
         inputRef={inputRef}
         anchorRef={anchorRef}
         searchTrigger={searchTrigger}
+        canChooseFiles={props.canChooseFiles}
+        canChooseDirectories={props.canChooseDirectories}
+        initialDirectory={props.initialDirectory}
       />
     </box>
   ) as React.ReactElement
