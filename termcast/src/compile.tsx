@@ -84,7 +84,7 @@ export function targetToString(target: CompileTarget): string {
 }
 
 export function targetToFileSuffix(target: CompileTarget): string {
-  const os = target.os === 'win32' ? 'windows' : target.os === 'darwin' ? 'macos' : 'linux'
+  const os = target.os === 'win32' ? 'windows' : target.os === 'darwin' ? 'darwin' : 'linux'
   const ext = target.os === 'win32' ? '.exe' : ''
   const parts = [os, target.arch]
   if (target.abi) {
@@ -94,6 +94,10 @@ export function targetToFileSuffix(target: CompileTarget): string {
     parts.push('baseline')
   }
   return parts.join('-') + ext
+}
+
+export function getArchiveExtension(target: CompileTarget): string {
+  return target.os === 'linux' ? '.tar.gz' : '.zip'
 }
 
 export const ALL_TARGETS: CompileTarget[] = [

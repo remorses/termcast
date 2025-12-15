@@ -8,6 +8,7 @@ import {
   compileExtension,
   ALL_TARGETS,
   targetToFileSuffix,
+  getArchiveExtension,
   type CompileTarget,
 } from './compile'
 
@@ -92,7 +93,8 @@ export async function releaseExtension({
   const compileResults = await Promise.all(
     targets.map(async (target) => {
       const suffix = targetToFileSuffix(target)
-      const outfile = path.join(outputDir, `${name}-${suffix}`)
+      const binaryName = `${name}-${suffix}`
+      const outfile = path.join(outputDir, binaryName)
 
       const result = await compileExtension({
         extensionPath: resolvedPath,
@@ -102,7 +104,21 @@ export async function releaseExtension({
       })
 
       console.log(`  ✓ ${path.basename(result.outfile)}`)
-      return result.outfile
+
+      const archiveExt = getArchiveExtension(target)
+      const archiveName = `${name}-${suffix}${archiveExt}`
+      const archivePath = path.join(outputDir, archiveName)
+
+      if (archiveExt === '.tar.gz') {
+        await execAsync(`tar -czvf "${archiveName}" "${binaryName}"`, { cwd: outputDir })
+      } else {
+        await execAsync(`zip "${archiveName}" "${binaryName}"`, { cwd: outputDir })
+      }
+
+      fs.unlinkSync(result.outfile)
+      console.log(`  ✓ ${archiveName}`)
+
+      return archivePath
     }),
   )
 
