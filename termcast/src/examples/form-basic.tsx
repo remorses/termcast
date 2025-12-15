@@ -18,7 +18,7 @@ export function FormBasicExample(): any {
   }
 
   return (
-    <box flexDirection='column'>
+
       <Form
         actions={
           <ActionPanel>
@@ -115,7 +115,7 @@ export function FormBasicExample(): any {
       </Form>
 
 
-    </box>
+
   )
 }
 

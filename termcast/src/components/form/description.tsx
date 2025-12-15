@@ -1,6 +1,5 @@
-import React, { useRef, useLayoutEffect } from 'react'
+import React, { useRef, useId } from 'react'
 import { BoxRenderable, TextAttributes } from '@opentui/core'
-import { useFormContext } from 'react-hook-form'
 import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFocusContext, useFormFieldDescendant } from './index'
@@ -17,28 +16,20 @@ export const FORM_MAX_WIDTH = 70
 
 export const Description = (props: DescriptionProps): any => {
   const elementRef = useRef<BoxRenderable>(null)
+  const autoId = useId()
+  const id = props.id || autoId
 
-  // Only use focus features if id is provided
-  const focusContext = props.id ? useFocusContext() : null
-  const { setValue } = useFormContext()
+  const focusContext = useFocusContext()
+  const isFocused = focusContext.focusedField === id
 
-  const isFocused = props.id ? focusContext?.focusedField === props.id : false
-
-  // Register as form field descendant for scroll support
+  // Register as form field descendant for scroll and navigation support
   useFormFieldDescendant({
-    id: props.id || '',
+    id,
     elementRef: elementRef.current,
   })
 
-  // Register with react-hook-form by setting a value so it appears in getValues()
-  useLayoutEffect(() => {
-    if (props.id) {
-      setValue(props.id, '')
-    }
-  }, [props.id])
-
   // Use form navigation for tab/arrow key support
-  useFormNavigation(props.id || '')
+  useFormNavigation(id)
 
   return (
     <box
@@ -46,14 +37,12 @@ export const Description = (props: DescriptionProps): any => {
       flexDirection='column'
       maxWidth={FORM_MAX_WIDTH}
       onMouseDown={() => {
-        if (props.id && focusContext) {
-          focusContext.setFocusedField(props.id)
-        }
+        focusContext.setFocusedField(id)
       }}
     >
       {props.title && (
         <WithLeftBorder
-          customCharacter={{ focused: '⁉', unfocused: '▪︎' }}
+          customCharacter={{ focused: '■', unfocused: '▪︎' }}
           isFocused={isFocused}
         >
           <text fg={Theme.text} attributes={TextAttributes.BOLD}>

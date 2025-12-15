@@ -1,14 +1,14 @@
 import React, { useRef } from 'react'
-import { TextAttributes, BoxRenderable } from '@opentui/core'
+import { BoxRenderable } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { logger } from 'termcast/src/logger'
 import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { DatePickerWidget } from 'termcast/src/internal/date-picker-widget'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { useFormNavigationHelpers } from './use-form-navigation'
 
 export enum DatePickerType {
   Date = 'date',
@@ -29,7 +29,7 @@ interface DatePickerComponentType {
 }
 
 const DatePickerComponent = (props: DatePickerProps): any => {
-  const { control, getValues } = useFormContext()
+  const { control } = useFormContext()
   const { focusedField, setFocusedField } = useFocusContext()
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
@@ -42,27 +42,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
     elementRef: elementRef.current,
   })
 
-  const handleNavigateUp = () => {
-    // Find previous field and focus it
-    const fieldNames = Object.keys(getValues())
-    const currentIndex = fieldNames.indexOf(props.id)
-    if (currentIndex > 0) {
-      setFocusedField(fieldNames[currentIndex - 1])
-    } else {
-      setFocusedField(fieldNames[fieldNames.length - 1])
-    }
-  }
-
-  const handleNavigateDown = () => {
-    // Find next field and focus it
-    const fieldNames = Object.keys(getValues())
-    const currentIndex = fieldNames.indexOf(props.id)
-    if (currentIndex < fieldNames.length - 1) {
-      setFocusedField(fieldNames[currentIndex + 1])
-    } else {
-      setFocusedField(fieldNames[0])
-    }
-  }
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
 
   // Handle tab navigation only
   useKeyboard((evt) => {
@@ -70,9 +50,9 @@ const DatePickerComponent = (props: DatePickerProps): any => {
 
     if (evt.name === 'tab') {
       if (evt.shift) {
-        handleNavigateUp()
+        navigateToPrevious()
       } else {
-        handleNavigateDown()
+        navigateToNext()
       }
     }
   })

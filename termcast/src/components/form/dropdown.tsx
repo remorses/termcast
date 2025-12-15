@@ -5,10 +5,8 @@ import React, {
   useMemo,
   useRef,
   useLayoutEffect,
-  useEffect,
-  Children,
 } from 'react'
-import { TextAttributes, BoxRenderable } from '@opentui/core'
+import { BoxRenderable } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import {
   useFormContext,
@@ -26,6 +24,7 @@ import {
 } from 'termcast/src/descendants'
 import { WithLeftBorder } from './with-left-border'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { useFormNavigationHelpers } from './use-form-navigation'
 
 export interface DropdownProps extends FormItemProps<string | string[]> {
   placeholder?: string
@@ -233,7 +232,6 @@ const DropdownContent = ({
 }: DropdownContentProps) => {
   const descendantsContext = useFormDropdownDescendants()
   const isInFocus = useIsInFocus()
-  const { getValues } = useFormContext()
   const { focusedField, setFocusedField } = useFocusContext()
   const isFocused = focusedField === props.id
   const [focusedIndex, setFocusedIndex] = useState(0)
@@ -250,27 +248,7 @@ const DropdownContent = ({
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
   const [itemsCount, setItemsCount] = useState(0)
 
-  const handleNavigateUp = () => {
-    // Find previous field and focus it
-    const fieldNames = Object.keys(getValues())
-    const currentIndex = fieldNames.indexOf(props.id)
-    if (currentIndex > 0) {
-      setFocusedField(fieldNames[currentIndex - 1])
-    } else {
-      setFocusedField(fieldNames[fieldNames.length - 1])
-    }
-  }
-
-  const handleNavigateDown = () => {
-    // Find next field and focus it
-    const fieldNames = Object.keys(getValues())
-    const currentIndex = fieldNames.indexOf(props.id)
-    if (currentIndex < fieldNames.length - 1) {
-      setFocusedField(fieldNames[currentIndex + 1])
-    } else {
-      setFocusedField(fieldNames[0])
-    }
-  }
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
 
   // Helper to get value for a descendantId
   const getValueForDescendantId = (
@@ -375,9 +353,9 @@ const DropdownContent = ({
     // Handle tab navigation
     if (evt.name === 'tab') {
       if (evt.shift) {
-        handleNavigateUp()
+        navigateToPrevious()
       } else {
-        handleNavigateDown()
+        navigateToNext()
       }
     }
   })

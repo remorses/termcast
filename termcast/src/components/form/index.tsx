@@ -2,7 +2,7 @@ import React, {
   useState,
   createContext,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useRef,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
@@ -217,12 +217,16 @@ export const Form: FormType = ((props) => {
     }
   }
 
-  // Auto-focus first field on mount
-  useEffect(() => {
-    const fieldNames = Object.keys(methods.getValues())
-    if (fieldNames.length > 0) {
-      logger.log(`focusing `, fieldNames[0])
-      setFocusedFieldRaw(fieldNames[0])
+  // Auto-focus first field after children have registered as descendants
+  useLayoutEffect(() => {
+    const descendants = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.id)
+      .sort((a, b) => a.index - b.index)
+    
+    if (descendants.length > 0) {
+      const firstId = descendants[0].props!.id
+      logger.log(`focusing `, firstId)
+      setFocusedFieldRaw(firstId)
     } else {
       logger.log(`no fields to focus in form`)
     }

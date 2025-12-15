@@ -1,7 +1,46 @@
 import { useKeyboard } from '@opentui/react'
-import { useFormContext } from 'react-hook-form'
-import { useFocusContext } from './index'
+import { useFocusContext, useFormScrollContext } from './index'
 import { useIsInFocus } from '../../internal/focus-context'
+
+// Helper hook to get navigation functions without keyboard handling
+export function useFormNavigationHelpers(id: string) {
+  const scrollContext = useFormScrollContext()
+  const { setFocusedField } = useFocusContext()
+
+  // Get sorted field IDs from descendants
+  const getFieldIds = () => {
+    if (!scrollContext) return []
+    const descendants = Object.values(scrollContext.descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.id)
+      .sort((a, b) => a.index - b.index)
+    return descendants.map((item) => item.props!.id)
+  }
+
+  const navigateToPrevious = () => {
+    const fieldIds = getFieldIds()
+    const currentIndex = fieldIds.indexOf(id)
+    if (currentIndex > 0) {
+      setFocusedField(fieldIds[currentIndex - 1])
+    } else {
+      setFocusedField(fieldIds[fieldIds.length - 1])
+    }
+  }
+
+  const navigateToNext = () => {
+    const fieldIds = getFieldIds()
+    const currentIndex = fieldIds.indexOf(id)
+    if (currentIndex < fieldIds.length - 1) {
+      setFocusedField(fieldIds[currentIndex + 1])
+    } else {
+      setFocusedField(fieldIds[0])
+    }
+  }
+
+  return {
+    navigateToPrevious,
+    navigateToNext,
+  }
+}
 
 export function useFormNavigation(
   id: string,
@@ -10,8 +49,7 @@ export function useFormNavigation(
     handleTabs?: boolean
   },
 ) {
-  const { getValues } = useFormContext()
-  const { focusedField, setFocusedField } = useFocusContext()
+  const { focusedField } = useFocusContext()
   const isInFocus = useIsInFocus()
   const isFocused = focusedField === id
 
@@ -19,25 +57,7 @@ export function useFormNavigation(
 
   handleArrows = false
 
-  const navigateToPrevious = () => {
-    const fieldNames = Object.keys(getValues())
-    const currentIndex = fieldNames.indexOf(id)
-    if (currentIndex > 0) {
-      setFocusedField(fieldNames[currentIndex - 1])
-    } else {
-      setFocusedField(fieldNames[fieldNames.length - 1])
-    }
-  }
-
-  const navigateToNext = () => {
-    const fieldNames = Object.keys(getValues())
-    const currentIndex = fieldNames.indexOf(id)
-    if (currentIndex < fieldNames.length - 1) {
-      setFocusedField(fieldNames[currentIndex + 1])
-    } else {
-      setFocusedField(fieldNames[0])
-    }
-  }
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(id)
 
   useKeyboard((evt) => {
     // Only handle keyboard events when this field is focused and form is in focus

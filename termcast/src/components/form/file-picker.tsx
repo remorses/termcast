@@ -8,6 +8,7 @@ import { useFocusContext, useFormFieldDescendant } from './index'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { FileAutocomplete } from './file-autocomplete'
+import { useFormNavigationHelpers } from './use-form-navigation'
 
 export interface FilePickerProps extends FormItemProps<string[]> {
   /**
@@ -181,7 +182,7 @@ const FilePickerField = ({
 }
 
 export const FilePicker = (props: FilePickerProps): any => {
-  const { control, getValues } = useFormContext()
+  const { control } = useFormContext()
   const { focusedField, setFocusedField } = useFocusContext()
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
@@ -194,27 +195,7 @@ export const FilePicker = (props: FilePickerProps): any => {
     elementRef: elementRef.current,
   })
 
-  const handleNavigateUp = () => {
-    // Find previous field and focus it
-    const fieldNames = Object.keys(getValues())
-    const currentIndex = fieldNames.indexOf(props.id)
-    if (currentIndex > 0) {
-      setFocusedField(fieldNames[currentIndex - 1])
-    } else {
-      setFocusedField(fieldNames[fieldNames.length - 1])
-    }
-  }
-
-  const handleNavigateDown = () => {
-    // Find next field and focus it
-    const fieldNames = Object.keys(getValues())
-    const currentIndex = fieldNames.indexOf(props.id)
-    if (currentIndex < fieldNames.length - 1) {
-      setFocusedField(fieldNames[currentIndex + 1])
-    } else {
-      setFocusedField(fieldNames[0])
-    }
-  }
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
 
   // Handle keyboard navigation
   useKeyboard((evt) => {
@@ -222,9 +203,9 @@ export const FilePicker = (props: FilePickerProps): any => {
 
     if (evt.name === 'tab') {
       if (evt.shift) {
-        handleNavigateUp()
+        navigateToPrevious()
       } else {
-        handleNavigateDown()
+        navigateToNext()
       }
     }
   })
