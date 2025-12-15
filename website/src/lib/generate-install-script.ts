@@ -116,14 +116,14 @@ mkdir -p "$INSTALL_DIR"
 
 if [ -z "$requested_version" ]; then
     url="https://github.com/${githubRepo}/releases/latest/download/$filename"
-    specific_version=$(curl -s https://api.github.com/repos/${githubRepo}/releases/latest | sed -n 's/.*"tag_name": *"v\\([^"]*\\)".*/\\1/p')
+    specific_version=$(curl -s https://api.github.com/repos/${githubRepo}/releases/latest | sed -n 's/.*"tag_name": *"${binaryName}@\\([^"]*\\)".*/\\1/p')
 
     if [[ $? -ne 0 || -z "$specific_version" ]]; then
         echo -e "\${RED}Failed to fetch version information\${NC}"
         exit 1
     fi
 else
-    url="https://github.com/${githubRepo}/releases/download/v\${requested_version}/$filename"
+    url="https://github.com/${githubRepo}/releases/download/${binaryName}@\${requested_version}/$filename"
     specific_version=$requested_version
 fi
 
@@ -354,7 +354,7 @@ if [ -n "\${GITHUB_ACTIONS-}" ] && [ "\${GITHUB_ACTIONS}" == "true" ]; then
 fi
 
 echo -e ""
-${logoLines.map((line) => `echo -e "${line.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`).join('\n')}
+${logoLines.map((line) => `echo -e "${line.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/`/g, '\\`')}"`).join('\n')}
 echo -e ""
 echo -e "cd <project>  \${MUTED}# Open directory\${NC}"
 echo -e "${binaryName}      \${MUTED}# Run command\${NC}"
