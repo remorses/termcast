@@ -48,6 +48,10 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Install build tools (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y build-essential python3
+
       - name: Install deps
         run: bun install
 
@@ -135,6 +139,10 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+
+      - name: Install build tools (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y build-essential python3
 
       - name: Install deps
         run: bun install
