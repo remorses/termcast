@@ -1,7 +1,7 @@
 import { $ } from 'bun'
 import path from 'node:path'
 import React from 'react'
-import { List, Action, ActionPanel, Color } from '@raycast/api'
+import { List, Action, ActionPanel, Color } from 'termcast'
 
 interface FileDiff {
   file: string

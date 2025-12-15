@@ -1,5 +1,5 @@
 {
-  "name": "submodule-diff",
+  "name": "submodiff",
   "version": "0.0.1",
   "title": "Submodule Diff",
   "description": "Watch git submodule diffs in real-time",
@@ -17,5 +17,8 @@
       "description": "Displays uncommitted changes across git submodules",
       "mode": "view"
     }
-  ]
+  ],
+  "dependencies": {
+    "termcast": "latest"
+  }
 }
