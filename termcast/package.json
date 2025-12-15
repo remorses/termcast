@@ -45,10 +45,10 @@
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.62.0",
     "string-dedent": "^3.0.2",
-    "tuistory": "workspace:*",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "tuistory": "workspace:*",
     "@types/bun": "^1.2.21",
     "@types/node": "^25.0.1",
     "@raycast/api": "^1.102.5",
