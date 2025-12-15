@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.12
+
+### Patch Changes
+
+- Enable keyboard scrolling (up/down arrows) for ScrollBox components in Detail and List detail panel
+
 ## 1.3.11
 
 ### Patch Changes

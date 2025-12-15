@@ -92,6 +92,7 @@ function ScrollBoxListDemo(): any {
 
       <scrollbox
         ref={scrollBoxRef}
+        focused={true}
         flexGrow={1}
         flexShrink={1}
         style={{

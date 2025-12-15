@@ -1143,7 +1143,7 @@ const ListItemDetail: ListItemDetailType = (props) => {
       )}
 
       <ScrollBox
-        focused={false}
+        focused={true}
         flexGrow={1}
         flexShrink={1}
         style={{

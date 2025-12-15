@@ -63,7 +63,7 @@ function ScrollboxWithDescendants() {
   return (
     <DescendantsProvider value={context}>
       <box style={{ flexDirection: 'column', height: 10 }}>
-        <scrollbox ref={scrollBoxRef} flexGrow={1} flexShrink={1}>
+        <scrollbox ref={scrollBoxRef} focused={true} flexGrow={1} flexShrink={1}>
           {items.map((title, i) => (
             <Item key={i} title={title} isSelected={selectedIndex === i} />
           ))}

@@ -285,7 +285,7 @@ const Detail: DetailType = (props) => {
 
   const content = (
     <ScrollBox
-      focused={false}
+      focused={true}
       flexGrow={1}
       flexShrink={1}
       style={{
