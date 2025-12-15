@@ -66,9 +66,22 @@ const FilePickerField = ({
   const inputRef = React.useRef<TextareaRenderable>(null)
   const anchorRef = React.useRef<any>(null)
 
-  // Handle Enter key
+  // Handle Enter key and left arrow for removing last file
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
+
+    // Left arrow removes last selected file when input is empty
+    if (evt.name === 'left') {
+      const inputValue = inputRef.current?.plainText || ''
+      if (!inputValue && selectedFiles.length > 0) {
+        const newFiles = selectedFiles.slice(0, -1)
+        field.onChange(newFiles)
+        if (props.onChange) {
+          props.onChange(newFiles)
+        }
+      }
+      return
+    }
 
     if (evt.name === 'return') {
       const inputValue = inputRef.current?.plainText || ''

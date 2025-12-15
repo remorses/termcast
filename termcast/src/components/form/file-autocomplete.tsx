@@ -83,7 +83,7 @@ export const FileAutocomplete = ({
           onVisibilityChange(false)
         }
       }
-    } else if (evt.name === 'tab' && !evt.shift) {
+    } else if (evt.name === 'right') {
       if (items[selectedIndex]) {
         const value = inputRef.current?.plainText || ''
         const selectedItem = items[selectedIndex]
@@ -107,8 +107,8 @@ export const FileAutocomplete = ({
   const contentWidth = anchorElement.width - 2
 
   const hintText = directoryOnlyMode
-    ? '↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close'
-    : '↑↓ navigate  ⏎ open/select  ⇥ select  esc close'
+    ? '↑↓ navigate  ⏎ open folder  → select folder  esc close'
+    : '↑↓ navigate  ⏎ open/select  → select  esc close'
 
   return (
     <box
