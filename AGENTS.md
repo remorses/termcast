@@ -439,6 +439,18 @@ After any submodule update, cd into submodules and run `git checkout main` befor
 - arrows change selected item inside the focused input. for example in a dropdown
 - ctrl p will show the actions available for the form. or ctrl enter to submit it
 
+## publish termcast
+
+to publish termcast
+
+- bump termcast/package.json version. never a major bump
+- update termcast/CHANGELOG.md with changes that were made. see pas commits if you do not know
+- commit
+- create a tag with termcast@0.0.0 where 0.0.0 is new version
+- push with tags (never trigger release with gh workflow run)
+- release script should publish the npm version. and also the binary in gh releases. 
+- see gh ci for in progress script and make sure they are successful
+
 
 ## opentui
 
