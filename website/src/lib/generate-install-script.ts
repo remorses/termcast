@@ -3,7 +3,7 @@ import figlet from 'figlet'
 export function generateInstallScript(githubRepo: string): string {
   const binaryName = githubRepo.split('/')[1]
   const installDirName = `.${binaryName}`
-  const logo = figlet.textSync(binaryName, { font: 'Small' })
+  const logo = figlet.textSync(binaryName, { font: 'Small Slant' })
   const logoLines = logo.split('\n')
   const docsUrl = `https://github.com/${githubRepo}`
 
@@ -16,7 +16,7 @@ MUTED='\\033[0;2m'
 RED='\\033[0;31m'
 GREEN='\\033[0;32m'
 CYAN='\\033[0;36m'
-ORANGE='\\033[38;5;214m'
+ORANGE='\\033[38;2;255;192;0m'
 BOLD='\\033[1m'
 NC='\\033[0m' # No Color
 
@@ -184,7 +184,7 @@ print_progress() {
     local empty=$(printf "%*s" "$off" "")
     empty=\${empty// /･}
 
-    printf "\\r\${CYAN}%s%s %3d%%\${NC}" "$filled" "$empty" "$percent" >&4
+    printf "\\r\${ORANGE}%s%s %3d%%\${NC}" "$filled" "$empty" "$percent" >&4
 }
 
 download_with_progress() {
