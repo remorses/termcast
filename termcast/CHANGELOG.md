@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.21
+
+### Patch Changes
+
+- Use stable node-pty 1.0.0 instead of beta for better CI compatibility
+
 ## 1.3.20
 
 ### Patch Changes

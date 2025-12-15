@@ -1,6 +1,6 @@
 {
   "name": "termcast",
-  "version": "1.3.20",
+  "version": "1.3.21",
   "description": "Raycast for the terminal",
   "repository": "https://github.com/remorses/termcast",
   "scripts": {
@@ -41,7 +41,7 @@
     "google-auth-library": "^10.3.0",
     "jszip": "^3.10.1",
     "nanoid": "^5.1.5",
-    "node-pty": "^1.1.0-beta34",
+    "node-pty": "^1.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.62.0",
