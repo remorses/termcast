@@ -14,14 +14,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-13, macos-14, windows-latest]
+        os: [ubuntu-latest, macos-13-large, macos-14, windows-latest]
         include:
           - os: ubuntu-latest
             os_id: linux
             arch: x64
             ext: ''
             archive_ext: '.tar.gz'
-          - os: macos-13
+          - os: macos-13-large
             os_id: darwin
             arch: x64
             ext: ''
@@ -40,6 +40,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
