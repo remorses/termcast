@@ -39,7 +39,7 @@ test('list with detail view display and navigation', async () => {
 
     ›bulbasaur #001
      ivysaur #002                         │ bulbasaur                         ▲
-     charmander #004                      │                                   █
+     charmander #004                      │                                   ▀
      charmeleon #005                      │ Illustration
      squirtle #007                        │
      wartortle #008                       │ Types
@@ -76,7 +76,7 @@ test('list with detail view display and navigation', async () => {
 
      bulbasaur #001
     ›ivysaur #002                         │ ivysaur                           ▲
-     charmander #004                      │                                   █
+     charmander #004                      │                                   ▀
      charmeleon #005                      │ Illustration
      squirtle #007                        │
      wartortle #008                       │ Types
@@ -272,7 +272,7 @@ test('list detail view search functionality', async () => {
 
     charmander #004
     charmeleon #005                      │ bulbasaur                         ▲
-                                         │                                   █
+                                         │                                   ▀
                                          │ Illustration
                                          │
                                          │ Types
@@ -316,7 +316,7 @@ test('list detail view search functionality', async () => {
 
 
                                          │ bulbasaur                         ▲
-                                         │                                   █
+                                         │                                   ▀
                                          │ Illustration
                                          │
                                          │ Types
@@ -351,7 +351,7 @@ test('list detail view search functionality', async () => {
 
 
                                          │ bulbasaur                         ▲
-                                         │                                   █
+                                         │                                   ▀
                                          │ Illustration
                                          │
                                          │ Types
@@ -398,7 +398,7 @@ test('list detail metadata rendering', async () => {
 
     ›bulbasaur #001
      ivysaur #002                         │ bulbasaur                         ▲
-     charmander #004                      │                                   █
+     charmander #004                      │                                   ▀
      charmeleon #005                      │ Illustration
      squirtle #007                        │
      wartortle #008                       │ Types

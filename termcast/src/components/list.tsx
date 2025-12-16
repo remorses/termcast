@@ -1192,8 +1192,8 @@ const ListItemDetailMetadata = (props: MetadataProps) => {
 
 const ListItemDetailMetadataLabel = (props: { title: string; text?: string; icon?: Image.ImageLike }) => {
   return (
-    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
-      <text fg={Theme.textMuted} style={{ minWidth: 15 }}>{props.title}:</text>
+    <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
+      <text fg={Theme.textMuted}>{props.title}:</text>
       {props.text && <text fg={Theme.text}>{props.text}</text>}
     </box>
   )
@@ -1209,8 +1209,8 @@ const ListItemDetailMetadataSeparator = () => {
 
 const ListItemDetailMetadataLink = (props: { title: string; target: string; text: string }) => {
   return (
-    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
-      <text fg={Theme.textMuted} style={{ minWidth: 15 }}>{props.title}:</text>
+    <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
+      <text fg={Theme.textMuted}>{props.title}:</text>
       <text fg={Theme.link}>{props.text}</text>
     </box>
   )
