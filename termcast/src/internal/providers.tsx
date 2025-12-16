@@ -6,7 +6,7 @@ import React, {
 } from 'react'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { DialogProvider } from 'termcast/src/internal/dialog'
+import { DialogProvider, DialogOverlay } from 'termcast/src/internal/dialog'
 import { NavigationProvider } from 'termcast/src/internal/navigation'
 import { CommonProps } from 'termcast/src/utils'
 import { Cache } from 'termcast/src/apis/cache'
@@ -420,7 +420,9 @@ export function TermcastProvider(props: ProvidersProps): any {
           <DialogProvider>
             <box padding={2}>
               {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
-              <NavigationProvider>{props.children}</NavigationProvider>
+              <NavigationProvider overlay={<DialogOverlay />}>
+                {props.children}
+              </NavigationProvider>
             </box>
           </DialogProvider>
         </PersistQueryClientProvider>

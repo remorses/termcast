@@ -190,15 +190,15 @@ test(
       "
 
 
-      ◇  Field 6
-      │  Sixth field
+      ◇  Field 5
+      │  Fifth field
       │
-      ◇  Field 7
+      ◆  Field 6
+      ┃  Sixth field
+      ┃
+      ◇  Field 7                                             ▄
       │  Seventh field
       │
-      ◆  Field 8
-      ┃  Eighth field
-      ┃                                                      ▀
 
 
        ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -210,14 +210,14 @@ test(
       "
 
 
-      ■  Form Scroll Test                                    ▀
-      ┃  Test scrolling behavior when navigating with Tab
+      ◆  Field 5
+      ┃  Fifth field
       ┃
-      ◇  Field 1
-      │  First field
+      ◇  Field 6
+      │  Sixth field
       │
-      ◇  Field 2
-      │  Second field
+      ◇  Field 7                                             ▄
+      │  Seventh field
       │
 
 

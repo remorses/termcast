@@ -130,7 +130,6 @@ interface DialogProviderProps {
 export function DialogProvider(props: DialogProviderProps): any {
   const dialogStack = useStore((state) => state.dialogStack)
   const inFocus = useIsInFocus()
-  const navContext = useContext(NavigationContext)
 
   useKeyboard((evt) => {
     if (!inFocus) return
@@ -147,37 +146,47 @@ export function DialogProvider(props: DialogProviderProps): any {
   return (
     <>
       <InFocus inFocus={!dialogStack?.length}>{props.children}</InFocus>
-      {dialogStack.length > 0 && (
-        <box position='absolute'>
-          {dialogStack.map((item, index) => {
-            const isLastItem = index === dialogStack.length - 1
-            return (
-              <InFocus key={'dialog' + String(index)} inFocus={isLastItem}>
-                <Dialog
-                  position={item.position}
-                  onClickOutside={() => {
-                    if (!isLastItem) return
-                    const state = useStore.getState()
-                    if (state.dialogStack.length > 0) {
-                      useStore.setState({
-                        dialogStack: state.dialogStack.slice(0, -1),
-                      })
-                    }
-                  }}
-                >
-                  <NavigationContext.Provider value={navContext}>
-                    {item.element}
-                  </NavigationContext.Provider>
-                </Dialog>
-              </InFocus>
-            )
-          })}
-        </box>
-      )}
       <InFocus inFocus={false}>
         <ToastOverlay />
       </InFocus>
     </>
+  )
+}
+
+export function DialogOverlay(): any {
+  const dialogStack = useStore((state) => state.dialogStack)
+  const navContext = useContext(NavigationContext)
+
+  if (dialogStack.length === 0) {
+    return null
+  }
+
+  return (
+    <box position='absolute'>
+      {dialogStack.map((item, index) => {
+        const isLastItem = index === dialogStack.length - 1
+        return (
+          <InFocus key={'dialog' + String(index)} inFocus={isLastItem}>
+            <Dialog
+              position={item.position}
+              onClickOutside={() => {
+                if (!isLastItem) return
+                const state = useStore.getState()
+                if (state.dialogStack.length > 0) {
+                  useStore.setState({
+                    dialogStack: state.dialogStack.slice(0, -1),
+                  })
+                }
+              }}
+            >
+              <NavigationContext.Provider value={navContext}>
+                {item.element}
+              </NavigationContext.Provider>
+            </Dialog>
+          </InFocus>
+        )
+      })}
+    </box>
   )
 }
 

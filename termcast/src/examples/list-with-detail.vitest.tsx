@@ -397,27 +397,27 @@ test('list detail metadata rendering', async () => {
      Search Pokemon...
 
     ›bulbasaur #001
-     ivysaur #002                         │ bulbasaur                         ▲
-     charmander #004                      │                                   █
-     charmeleon #005                      │ Illustration
-     squirtle #007                        │
-     wartortle #008                       │ Types
-                                          │ Grass / Poison
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 0.7m
-                                          │ - Weight: 6.9kg
-                                          │
-                                          │ Abilities
-                                          │ - Chlorophyll
-                                          │ - Overgrow
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Grass:
+     ivysaur #002                         │                                   ▲
+     charmander #004                      │ ───────────────────────────────── █
+     charmeleon #005                      │                                   █
+     squirtle #007                        │ Types:                            █
+     wartortle #008                       │                                   █
+                                          │ Grass:                            ▀
                                           │ ─────────────────
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+                                          │
+                                          │ Poison:
+                                          │ ─────────────────
+                                          │
+                                          │ Characteristics:
+                                          │ Height:        0.7m
+                                          │
+                                          │ ─────────────────
+                                          │ Weight:        6.9kg
+                                          │
+                                          │ ─────────────────
+                                          │ Abilities:
+                                          │
+     ↵ select  ↑↓ navigate  ^k actions    │ Chlorophyll:   Main Series        ▼"
   `)
 
   await session.press('down')

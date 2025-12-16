@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.22
+
+### Patch Changes
+
+- Fix useNavigation not working inside ActionPanel components by restructuring dialog rendering to be inside NavigationContext
+
 ## 1.3.21
 
 ### Patch Changes

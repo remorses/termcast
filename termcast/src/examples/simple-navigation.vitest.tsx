@@ -535,9 +535,9 @@ test('navigation with actions panel', async () => {
     ┃                                                                  ┃
     ┃                                                                  ┃
     ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+    ┃              ┌────────────────────────────────────┐              ┃
+    ┃   ↵ select   │↓✓nCopiedeto Clipboard - First Item │              ┃
+    ┃              └────────────────────────────────────┘              ┃"
   `)
 
   // Select Go Back action

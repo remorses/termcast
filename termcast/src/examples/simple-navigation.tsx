@@ -6,9 +6,12 @@ import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
 import { TermcastProvider } from 'termcast/src/internal/providers'
 
-function DetailView({ title }: { title: string }): any {
+function GoBackAction(): any {
   const { pop } = useNavigation()
+  return <Action title='Go Back' onAction={() => pop()} />
+}
 
+function DetailView({ title }: { title: string }): any {
   return (
     <List
       searchBarPlaceholder='Detail view - Press ESC to go back'
@@ -21,7 +24,7 @@ function DetailView({ title }: { title: string }): any {
           subtitle='Press Enter to go back or ESC to navigate back'
           actions={
             <ActionPanel>
-              <Action title='Go Back' onAction={() => pop()} />
+              <GoBackAction />
               <Action.CopyToClipboard content={title} title='Copy Title' />
             </ActionPanel>
           }
@@ -31,9 +34,17 @@ function DetailView({ title }: { title: string }): any {
   )
 }
 
-function MainView(): any {
+function OpenDetailsAction({ title }: { title: string }): any {
   const { push } = useNavigation()
+  return (
+    <Action
+      title='Open Details'
+      onAction={() => push(<DetailView title={title} />)}
+    />
+  )
+}
 
+function MainView(): any {
   const items = [
     {
       id: 'first',
@@ -62,10 +73,7 @@ function MainView(): any {
             subtitle={item.subtitle}
             actions={
               <ActionPanel>
-                <Action
-                  title='Open Details'
-                  onAction={() => push(<DetailView title={item.title} />)}
-                />
+                <OpenDetailsAction title={item.title} />
                 <Action.CopyToClipboard
                   content={item.title}
                   title='Copy Title'

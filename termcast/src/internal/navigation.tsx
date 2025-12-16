@@ -32,6 +32,7 @@ export const NavigationContext = createContext<NavigationContextType | undefined
 
 interface NavigationProviderProps extends CommonProps {
   children: ReactNode
+  overlay?: ReactNode
 }
 
 export function NavigationProvider(props: NavigationProviderProps): any {
@@ -139,6 +140,7 @@ export function NavigationProvider(props: NavigationProviderProps): any {
       {React.cloneElement(currentItem?.element as React.ReactElement, {
         key: stack.length,
       })}
+      {props.overlay}
     </NavigationContext.Provider>
   )
 }
