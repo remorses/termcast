@@ -184,6 +184,8 @@ export async function compileExtension({
       entrypoints: [tempEntryPath],
       target: bunTarget as 'bun',
       minify,
+      bytecode: true,
+      sourcemap: 'external',
       compile: {
         outfile: defaultOutfile,
       },
