@@ -6,7 +6,7 @@ How to add scrollbox support to opentui components using the descendants pattern
 
 1. Store element refs in descendant props
 2. Track selected index in parent
-3. On selection change, scroll to item if out of view
+3. On selection change, scroll so the top of the item is centered in the viewport
 
 ## Implementation
 
@@ -34,16 +34,13 @@ const scrollToItem = (item: { props?: ItemDescendant }) => {
 
   const contentY = scrollBox.content?.y || 0
   const viewportHeight = scrollBox.viewport?.height || 10
-  const currentScrollTop = scrollBox.scrollTop || 0
 
+  // Calculate item position relative to content
   const itemTop = elementRef.y - contentY
-  const itemBottom = itemTop + elementRef.height
 
-  if (itemTop < currentScrollTop) {
-    scrollBox.scrollTo(itemTop)
-  } else if (itemBottom > currentScrollTop + viewportHeight) {
-    scrollBox.scrollTo(itemBottom - viewportHeight)
-  }
+  // Scroll so the top of the item is centered in the viewport
+  const targetScrollTop = itemTop - viewportHeight / 2
+  scrollBox.scrollTo(Math.max(0, targetScrollTop))
 }
 ```
 

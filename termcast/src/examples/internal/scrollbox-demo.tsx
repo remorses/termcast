@@ -20,39 +20,15 @@ function ScrollBoxListDemo(): any {
       const selectedItem = itemRefs.current.get(selectedIndex)
 
       if (scrollBox && selectedItem) {
-        // Get the actual item height including padding and margins
-        const itemHeight = selectedItem.height
-
         // Calculate item position in the content
-        // We need the absolute position of the item within the scrollable content
         const itemRelativeTop = selectedItem.y - scrollBox.content.y
-        const itemRelativeBottom = itemRelativeTop + itemHeight
 
         // Get viewport info
         const viewportHeight = scrollBox.viewport.height
-        const currentScrollTop = scrollBox.scrollTop || 0
 
-        // Define safe zone with padding
-        const safePadding = 2
-
-        // Calculate if item is fully visible
-        const itemVisibleTop = itemRelativeTop - currentScrollTop
-        const itemVisibleBottom = itemRelativeBottom - currentScrollTop
-
-        // Check if we need to scroll
-        if (itemVisibleTop < safePadding) {
-          // Item is too close to top or above viewport
-          const newScrollTop = Math.max(0, itemRelativeTop - safePadding)
-          scrollBox.scrollTo(newScrollTop)
-        } else if (itemVisibleBottom > viewportHeight - safePadding) {
-          // Item is too close to bottom or below viewport
-          // Calculate scroll position to show item at bottom with padding
-          const newScrollTop = Math.max(
-            0,
-            itemRelativeBottom - viewportHeight + safePadding,
-          )
-          scrollBox.scrollTo(newScrollTop)
-        }
+        // Scroll so the top of the item is centered in the viewport
+        const targetScrollTop = itemRelativeTop - viewportHeight / 2
+        scrollBox.scrollTo(Math.max(0, targetScrollTop))
       }
     }, 20) // Give enough time for layout
 

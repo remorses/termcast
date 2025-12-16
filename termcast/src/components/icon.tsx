@@ -6,11 +6,11 @@ const ICON_SHAPES = [
   '◆', // filled diamond
   '▲', // filled triangle up
   '▼', // filled triangle down
-  '★', // filled star
-  '♦', // diamond suit
-  '♥', // heart suit
-  '♠', // spade suit
-  '♣', // club suit
+  // '★', // filled star
+  // '♦', // diamond suit
+  // '♥', // heart suit
+  // '♠', // spade suit
+  // '♣', // club suit
 ]
 
 function hashString(str: string): number {
@@ -505,13 +505,28 @@ function createIconEnum(): Record<string, string> {
   return icons
 }
 
-export const Icon = createIconEnum()
+function createIconWithUnicode(): Record<string, string> {
+  const icons: Record<string, string> = {}
+
+  for (const iconId of iconIds) {
+    const name = iconId.replace(/-16$/, '')
+    const pascalName = pascalCase(name)
+    icons[pascalName] = getIconShape(iconId)
+  }
+
+  return icons
+}
+
+export const IconSource = createIconEnum()
+export const Icon = createIconWithUnicode()
 
 export function getIconEmoji(icon: string): string {
+  // If it's an icon ID (like 'pencil-16'), convert to unicode
   if (iconIds.includes(icon)) {
     return getIconShape(icon)
   }
-  return '?'
+  // Otherwise assume it's already unicode and return as-is
+  return icon
 }
 
 interface IconProps {
@@ -520,5 +535,9 @@ interface IconProps {
 }
 
 export function IconComponent({ source }: IconProps): any {
-  return getIconEmoji(source)
+  // If it's an icon ID, convert to unicode; otherwise return as-is
+  if (iconIds.includes(source)) {
+    return getIconShape(source)
+  }
+  return source
 }

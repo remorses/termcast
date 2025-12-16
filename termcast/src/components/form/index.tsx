@@ -201,11 +201,9 @@ export const Form: FormType = ((props) => {
 
     // Access current position from the BoxRenderable ref
     const itemTop = elementRef.y - contentY
-    const itemHeight = elementRef.height
-    const itemCenter = itemTop + itemHeight / 2
 
-    // Scroll so the item is centered in the viewport
-    const targetScrollTop = itemCenter - viewportHeight / 2
+    // Scroll so the top of the item is centered in the viewport
+    const targetScrollTop = itemTop - viewportHeight / 2
     scrollBox.scrollTo(Math.max(0, targetScrollTop))
   }
 

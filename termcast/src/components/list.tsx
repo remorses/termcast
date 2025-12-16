@@ -800,19 +800,13 @@ export const List: ListType = (props) => {
 
     const contentY = scrollBox.content?.y || 0
     const viewportHeight = scrollBox.viewport?.height || 10
-    const currentScrollTop = scrollBox.scrollTop || 0
 
+    // Calculate item position relative to content
     const itemTop = elementRef.y - contentY
-    const itemBottom = itemTop + elementRef.height
 
-    const visibleTop = currentScrollTop
-    const visibleBottom = currentScrollTop + viewportHeight
-
-    if (itemTop < visibleTop) {
-      scrollBox.scrollTo(itemTop)
-    } else if (itemBottom > visibleBottom) {
-      scrollBox.scrollTo(itemBottom - viewportHeight)
-    }
+    // Scroll so the top of the item is centered in the viewport
+    const targetScrollTop = itemTop - viewportHeight / 2
+    scrollBox.scrollTo(Math.max(0, targetScrollTop))
   }
 
   const move = (direction: -1 | 1) => {
