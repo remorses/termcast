@@ -1,5 +1,6 @@
 import React from 'react'
 import Theme from '../theme'
+import { MacOSScrollAccel } from '@opentui/core'
 
 interface ScrollBoxProps {
   children?: React.ReactNode
@@ -23,6 +24,7 @@ export function ScrollBox({
     <scrollbox
       ref={ref}
       focused={focused}
+      scrollAcceleration={new MacOSScrollAccel()}
       flexGrow={flexGrow}
       flexShrink={flexShrink}
       style={{
