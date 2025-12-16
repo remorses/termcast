@@ -9,6 +9,7 @@ import { Color, resolveColor } from 'termcast/src/colors'
 
 import { useDialog } from 'termcast/src/internal/dialog'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
+import { useStore } from 'termcast/src/state'
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -277,6 +278,7 @@ const Detail: DetailType = (props) => {
     if (!inFocus) return
 
     if (evt.name === 'k' && evt.ctrl && actions) {
+      useStore.setState({ forceShowActionsOverlay: true })
       dialog.push(actions, 'bottom-right')
     } else if (evt.name === 'return' && actions) {
       dialog.push(actions, 'bottom-right')

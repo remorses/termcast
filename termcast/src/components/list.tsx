@@ -18,6 +18,7 @@ import React, {
 } from 'react'
 import { LoadingBar } from 'termcast/src/components/loading-bar'
 import { createDescendants } from 'termcast/src/descendants'
+import { useStore } from 'termcast/src/state'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useNavigationPending } from 'termcast/src/internal/navigation'
@@ -855,10 +856,12 @@ export const List: ListType = (props) => {
 
       // Show current item's actions if available
       if (currentItem?.props?.actions) {
+        useStore.setState({ forceShowActionsOverlay: true })
         dialog.push(currentItem.props.actions, 'bottom-right')
       }
       // Otherwise show List's own actions
       else if (props.actions) {
+        useStore.setState({ forceShowActionsOverlay: true })
         dialog.push(props.actions, 'bottom-right')
       }
       return
@@ -1568,13 +1571,21 @@ const ListSection = (props: SectionProps) => {
     [parentContext, props.title, searchText],
   )
 
-  // Hide section title when searching
-  const showTitle = props.title && !searchText.trim()
+  const isSearching = searchText.trim().length > 0
+
+  const children = (
+    <ListSectionContext.Provider value={sectionContextValue}>
+      {props.children}
+    </ListSectionContext.Provider>
+  )
+
+  if (isSearching) {
+    return children
+  }
 
   return (
     <box style={{ marginBottom: 1 }}>
-      {/* Render section title if provided and not searching */}
-      {showTitle && (
+      {props.title && (
         <box
           border={false}
           style={{
@@ -1586,10 +1597,7 @@ const ListSection = (props: SectionProps) => {
           </text>
         </box>
       )}
-      {/* Render children with section context */}
-      <ListSectionContext.Provider value={sectionContextValue}>
-        {props.children}
-      </ListSectionContext.Provider>
+      {children}
     </box>
   )
 }

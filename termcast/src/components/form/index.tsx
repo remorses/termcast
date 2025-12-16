@@ -12,6 +12,7 @@ import { logger } from 'termcast/src/logger'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { Theme } from 'termcast/src/theme'
+import { useStore } from 'termcast/src/state'
 import {
   TextAttributes,
   ScrollBoxRenderable,
@@ -259,7 +260,8 @@ export const Form: FormType = ((props) => {
     }
 
     if (evt.name === 'k' && evt.ctrl && props.actions) {
-      // Ctrl+K shows actions
+      // Ctrl+K shows actions (always show overlay)
+      useStore.setState({ forceShowActionsOverlay: true })
       dialog.push(
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}

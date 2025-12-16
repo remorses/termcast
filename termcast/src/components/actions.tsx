@@ -18,6 +18,7 @@ import {
 } from 'termcast/src/action-utils'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { Dropdown } from 'termcast/src/components/dropdown'
+import { useStore } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
 import type {
@@ -644,8 +645,14 @@ const ActionPanel: ActionPanelType = (props) => {
   if (!dialog.stack.length) return null
   // if (!inFocus) return
 
-  // Check if there's only one action and execute it immediately
+  // Check if there's only one action and execute it immediately (unless forced to show overlay)
   useLayoutEffect(() => {
+    const forceShow = useStore.getState().forceShowActionsOverlay
+    if (forceShow) {
+      useStore.setState({ forceShowActionsOverlay: false })
+      return
+    }
+
     const allActions = Object.values(descendantsContext.map.current)
       .filter((item: any) => item.index !== -1)
       .map((item: any) => item.props as ActionDescendant)
