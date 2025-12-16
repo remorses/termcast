@@ -93,19 +93,19 @@ test('selecting command with arguments shows arguments form', async () => {
     "
 
 
-    ▪  With Arguments                                      █
-    │  Enter the arguments to run this command.            ▀
-    │
-    ◆  Search query
-    ┃  Search query
+    ■  With Arguments                                      █
+    ┃  Enter the arguments to run this command.            ▀
     ┃
+    ◇  Search query
+    │  Search query
+    │
     ◇  Secret key
     │  Secret key
     ◇  Category
     │  Category
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 30000)
 
@@ -137,19 +137,19 @@ test('can fill arguments and run command', async () => {
     "
 
 
-    ▪  With Arguments                                      █
-    │  Enter the arguments to run this command.            ▀
-    │
-    ◆  Search query
-    ┃  my search term
+    ■  With Arguments                                      █
+    ┃  Enter the arguments to run this command.            ▀
     ┃
+    ◇  Search query
+    │  Search query
+    │
     ◇  Secret key
     │  Secret key
     ◇  Category
     │  Category
 
 
-     alt ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 
   // Submit the form with Alt+Enter (opens action panel), then Enter (selects submit)
@@ -171,15 +171,15 @@ test('can fill arguments and run command', async () => {
      Search...
 
      Received Arguments
-    ›Search Query my search term
-     Secret Key (empty)
-     Category (empty)
+    ›♣ Search Query (empty)
+     ♣ Secret Key (empty)
+     ♣ Category (empty)
 
 
 
-     ↵ sele┌────────────────────────────────────────┐
-           │ ✓ Copied to Clipboard - my search term │
-           └────────────────────────────────────────┘"
+     ↵ select  ┌─────────────────────────────────┐
+               │ ✓ Copied to Clipboard - (empty) │
+               └─────────────────────────────────┘"
   `)
 }, 30000)
 
@@ -208,10 +208,10 @@ test('can run simple view command without arguments', async () => {
      Search...
 
      Items                                                 ▲
-    ›First Item This is the first item                     █
-     Second Item This is the second item
-     Third Item This is the third item
-     Fourth Item This is the fourth item
+    ›♠ First Item This is the first item                   █
+     ♠ Second Item This is the second item
+     ♠ Third Item This is the third item
+     ♠ Fourth Item This is the fourth item
                                                            ▼
 
 

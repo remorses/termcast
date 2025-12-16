@@ -44,7 +44,7 @@ test('list shows initial items after fetch', async () => {
 
      Illustrations
      Welcome Banner Category: Illustrations
-     Hero
+     Hero Image Category: Illustrations
 
 
 

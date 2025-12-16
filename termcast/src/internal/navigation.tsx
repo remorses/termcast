@@ -26,7 +26,7 @@ interface NavigationContextType {
   isPending: boolean
 }
 
-const NavigationContext = createContext<NavigationContextType | undefined>(
+export const NavigationContext = createContext<NavigationContextType | undefined>(
   undefined,
 )
 

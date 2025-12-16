@@ -39,19 +39,19 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›Apple                                                           █
-     Banana                                                          █
-     Cherry
+    ›? Apple                                                         █
+     ? Banana                                                        █
+     ? Cherry
 
      Animals
-     Dog
-     Cat
-     Rabbit
+     ? Dog
+     ? Cat
+     ? Rabbit
 
      Others
-     House
-     Car
-     Rocket                                                          ▼
+     ? House
+     ? Car
+     ? Rocket                                                        ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -70,19 +70,19 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     Apple                                                           █
-    ›Banana                                                          █
-     Cherry
+     ? Apple                                                         █
+    ›? Banana                                                        █
+     ? Cherry
 
      Animals
-     Dog
-     Cat
-     Rabbit
+     ? Dog
+     ? Cat
+     ? Rabbit
 
      Others
-     House
-     Car
-     Rocket                                                          ▼
+     ? House
+     ? Car
+     ? Rocket                                                        ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -102,19 +102,19 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     Apple                                                           █
-     Banana                                                          █
-     Cherry
+     ? Apple                                                         █
+     ? Banana                                                        █
+     ? Cherry
 
      Animals
-    ›Dog
-     Cat
-     Rabbit
+    ›? Dog
+     ? Cat
+     ? Rabbit
 
      Others
-     House
-     Car
-     Rocket                                                          ▼
+     ? House
+     ? Car
+     ? Rocket                                                        ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -166,19 +166,19 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     Apple                                                           █
-     Banana                                                          █
-     Cherry
+     ? Apple                                                         █
+     ? Banana                                                        █
+     ? Cherry
 
      Animals
-    ›Dog
-     Cat
-     Rabbit
+    ›? Dog
+     ? Cat
+     ? Rabbit
 
      Others
-     House
-     Car
-     Rocket                                                          ▼
+     ? House
+     ? Car
+     ? Rocket                                                        ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -209,8 +209,8 @@ test('grid search functionality', async () => {
 
     cat
 
+    ? Cat
 
-    Cat
 
 
 
@@ -247,12 +247,12 @@ test('grid search functionality', async () => {
 
     space
 
+    ? Rocket
+    ? Star
+    ? Moon
+    ? Sun
 
 
-    Rocket
-    Star
-    Moon
-    Sun
 
 
 
@@ -283,19 +283,19 @@ test('grid search functionality', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›Apple                                                           █
-     Banana                                                          █
-     Cherry
+    ›? Apple                                                         █
+     ? Banana                                                        █
+     ? Cherry
 
      Animals
-     Dog
-     Cat
-     Rabbit
+     ? Dog
+     ? Cat
+     ? Rabbit
 
      Others
-     House
-     Car
-     Rocket                                                          ▼
+     ? House
+     ? Car
+     ? Rocket                                                        ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -424,19 +424,19 @@ test('grid item selection and actions', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›Apple                                                           █
-     Banana                                                          █
-     Cherry
+    ›? Apple                                                         █
+     ? Banana                                                        █
+     ? Cherry
 
      Animals
-     Dog
-     Cat
-     Rabbit
+     ? Dog
+     ? Cat
+     ? Rabbit
 
      Others
-     House
-     Car
-     Rocket                                                          ▼
+     ? House
+     ? Car
+     ? Rocket                                                        ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -464,19 +464,19 @@ test('grid mouse interaction', async () => {
      Search items...
 
      Fruits                                                          ▲
-     Apple                                                           █
-     Banana                                                          █
-     Cherry
+     ? Apple                                                         █
+     ? Banana                                                        █
+     ? Cherry
 
      Animals
-    ›Dog
-     Cat
-     Rabbit
+    ›? Dog
+     ? Cat
+     ? Rabbit
 
      Others
-     House
-     Car
-     Rocket                                                          ▼
+     ? House
+     ? Car
+     ? Rocket                                                        ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -503,7 +503,7 @@ test('grid mouse interaction', async () => {
 
       Search items...
 
-      Apple                                                           ▲
+      ? Apple                                                         ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃
@@ -536,7 +536,7 @@ test('grid mouse interaction', async () => {
 
       Search items...
 
-      Apple                                                           ▲
+      ? Apple                                                         ▲
     ┃                                                                  ┃
     ┃                                                            esc   ┃
     ┃                                                                  ┃

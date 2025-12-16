@@ -1,5 +1,5 @@
 import { useKeyboard, useTerminalDimensions } from '@opentui/react'
-import React, { type ReactNode, useRef } from 'react'
+import React, { type ReactNode, useRef, useContext } from 'react'
 import { Theme } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
@@ -10,6 +10,7 @@ import {
 } from 'termcast/src/state'
 import { logger } from '../logger'
 import { ToastOverlay } from 'termcast/src/apis/toast'
+import { NavigationContext } from 'termcast/src/internal/navigation'
 
 const Border = {
   topLeft: '',
@@ -129,6 +130,7 @@ interface DialogProviderProps {
 export function DialogProvider(props: DialogProviderProps): any {
   const dialogStack = useStore((state) => state.dialogStack)
   const inFocus = useIsInFocus()
+  const navContext = useContext(NavigationContext)
 
   useKeyboard((evt) => {
     if (!inFocus) return
@@ -163,7 +165,9 @@ export function DialogProvider(props: DialogProviderProps): any {
                     }
                   }}
                 >
-                  {item.element}
+                  <NavigationContext.Provider value={navContext}>
+                    {item.element}
+                  </NavigationContext.Provider>
                 </Dialog>
               </InFocus>
             )

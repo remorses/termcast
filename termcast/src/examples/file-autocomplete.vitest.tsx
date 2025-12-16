@@ -36,13 +36,13 @@ test('autocomplete shows on ./ input with proper background', async () => {
 
 
     ◇  Your Name
-    │  John Doe
     │  ┌────────────────────────────────────────────────────────────┐
-    ◇  │ 📁 dist                                                    │
-    │  │ 📁 fixtures                                                │
+    │  │ 📁 dist                                                    │
+    ◇  │ 📁 fixtures                                                │
     │  │ 📁 node_modules                                            │
     │  │ 📁 src                                                     │
-    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
+    │  │ 📁 tmp                                                     │
+    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  ./
     ┃
@@ -88,7 +88,7 @@ test('autocomplete dropdown covers background content', async () => {
     │  │ 📁 internal                                                │
     │  │ 📁 store-api                                               │
     │  │ 📁 utils                                                   │
-    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
+    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src/
     ┃
@@ -138,7 +138,7 @@ test('autocomplete navigation with down/up keys', async () => {
     │  │ 📁 internal                                                │
     │  │ 📁 store-api                                               │
     │  │ 📁 utils                                                   │
-    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
+    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src/
     ┃
@@ -173,7 +173,7 @@ test('autocomplete navigation with down/up keys', async () => {
     │  │ 📁 internal                                                │
     │  │ 📁 store-api                                               │
     │  │ 📁 utils                                                   │
-    │  │ ↑↓ navigate  ⏎ open folder  ⇥ select folder  esc close     │
+    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
     ◆  └────────────────────────────────────────────────────────────┘
     ┃  src/
     ┃

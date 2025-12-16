@@ -271,27 +271,27 @@ test('list detail view search functionality', async () => {
     char
 
     charmander #004
-    charmeleon #005                      │                                   ▲
-                                         │ ───────────────────────────────── █
+    charmeleon #005                      │ bulbasaur                         ▲
                                          │                                   █
-                                         │ Types:                            █
-                                         │                                   █
-                                         │ Grass:                            ▀
+                                         │ Illustration
+                                         │
+                                         │ Types
+                                         │ Grass / Poison
+                                         │
+                                         │ Characteristics
+                                         │ - Height: 0.7m
+                                         │ - Weight: 6.9kg
+                                         │
+                                         │ Abilities
+                                         │ - Chlorophyll
+                                         │ - Overgrow
+                                         │ ─────────────────────────────────
+                                         │
+                                         │ Types:
+                                         │
+                                         │ Grass:
                                          │ ─────────────────
-                                         │
-                                         │ Poison:
-                                         │ ─────────────────
-                                         │
-                                         │ Characteristics:
-                                         │ Height:        0.7m
-                                         │
-                                         │ ─────────────────
-                                         │ Weight:        6.9kg
-                                         │
-                                         │ ─────────────────
-                                         │ Abilities:
-                                         │
-    ↵ select  ↑↓ navigate  ^k actions    │ Chlorophyll:   Main Series        ▼"
+    ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press('backspace')
@@ -397,27 +397,27 @@ test('list detail metadata rendering', async () => {
      Search Pokemon...
 
     ›bulbasaur #001
-     ivysaur #002                         │                                   ▲
-     charmander #004                      │ ───────────────────────────────── █
-     charmeleon #005                      │                                   █
-     squirtle #007                        │ Types:                            █
-     wartortle #008                       │                                   █
-                                          │ Grass:                            ▀
+     ivysaur #002                         │ bulbasaur                         ▲
+     charmander #004                      │                                   █
+     charmeleon #005                      │ Illustration
+     squirtle #007                        │
+     wartortle #008                       │ Types
+                                          │ Grass / Poison
+                                          │
+                                          │ Characteristics
+                                          │ - Height: 0.7m
+                                          │ - Weight: 6.9kg
+                                          │
+                                          │ Abilities
+                                          │ - Chlorophyll
+                                          │ - Overgrow
+                                          │ ─────────────────────────────────
+                                          │
+                                          │ Types:
+                                          │
+                                          │ Grass:
                                           │ ─────────────────
-                                          │
-                                          │ Poison:
-                                          │ ─────────────────
-                                          │
-                                          │ Characteristics:
-                                          │ Height:        0.7m
-                                          │
-                                          │ ─────────────────
-                                          │ Weight:        6.9kg
-                                          │
-                                          │ ─────────────────
-                                          │ Abilities:
-                                          │
-     ↵ select  ↑↓ navigate  ^k actions    │ Chlorophyll:   Main Series        ▼"
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press('down')

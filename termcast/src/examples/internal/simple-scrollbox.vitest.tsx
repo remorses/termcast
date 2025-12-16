@@ -42,37 +42,8 @@ test('simple scrollbox navigation and scrolling', async () => {
   await session.scrollDown(3)
 
   const afterScrollDownSnapshot = await session.text()
+  expect(afterScrollDownSnapshot).not.toEqual(initialText)
   expect(afterScrollDownSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-    Simple ScrollBox Demo
-                                                                              ▄
-
-
-    Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet,
-    consectetur adipiscing elit.
-
-
-
-    Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet,
-    consectetur adipiscing elit.
-
-
-
-    Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet,
-    consectetur adipiscing elit.
-
-
-    Use mouse scroll or arrow keys | Press [q] to quit"
-  `)
-
-  // Scroll back up
-  await session.scrollUp(2)
-
-  const afterScrollUpSnapshot = await session.text()
-  expect(afterScrollUpSnapshot).toMatchInlineSnapshot(`
     "
 
 
@@ -94,6 +65,37 @@ test('simple scrollbox navigation and scrolling', async () => {
 
 
     Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet,
+
+    Use mouse scroll or arrow keys | Press [q] to quit"
+  `)
+
+  // Scroll back up
+  await session.scrollUp(2)
+
+  const afterScrollUpSnapshot = await session.text()
+  expect(afterScrollUpSnapshot).not.toEqual(afterScrollDownSnapshot)
+  expect(afterScrollUpSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+    Simple ScrollBox Demo
+                                                                              ▀
+    Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet,
+    consectetur adipiscing elit.
+
+
+
+    Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet,
+    consectetur adipiscing elit.
+
+
+
+    Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet,
+    consectetur adipiscing elit.
+
+
+
 
     Use mouse scroll or arrow keys | Press [q] to quit"
   `)

@@ -210,8 +210,8 @@ test('list with sections search functionality', async () => {
 
     let
 
-
     Lettuce Green and fresh
+
 
 
 
@@ -269,9 +269,9 @@ test('list with sections search functionality', async () => {
 
     bread
 
-
-
     Bread Freshly baked                                 Today [New]
+
+
 
 
 

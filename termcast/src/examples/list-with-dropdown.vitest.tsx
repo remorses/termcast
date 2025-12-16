@@ -235,20 +235,20 @@ test('list with dropdown search and filter', async () => {
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
-    ┃
-      ›Augustiner Helles Beer
-       Camden Hells Beer
-       Leffe Blonde Beer
-       Sierra Nevada IPA Beer
-       Chateau Margaux Wine
-       Pinot Noir Wine
-       Coca Cola Soda
-       Sprite Soda
-       Orange Juice Juice
-       Apple Juice Juice
-
-
-
+    ┃   Search...                                                      ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   Alcoholic Beverages                                            ┃
+    ┃  ›Beer                                                           ┃
+    ┃   Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃   Non-Alcoholic                                                  ┃
+    ┃   Soda                                                           ┃
+    ┃   Juice                                                          ┃
+    ┃                                                                  ┃
+    ┃                                                                  ┃
+    ┃   ↵ select   ↑↓ navigate                                         ┃
+    ┃                                                                  ┃
 
 
        ↵ select  ↑↓ navigate  ^k actions"

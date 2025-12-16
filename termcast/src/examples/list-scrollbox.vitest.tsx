@@ -101,3 +101,62 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
      ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 15000)
+
+test('list scrollbox scrolls with mouse wheel', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Item 1/i.test(text)
+    },
+  })
+
+  const initialSnapshot = await session.text()
+  expect(initialSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+     Scrollbox Test ─────────────────────────────
+     Search items...
+
+    ›♠ Item 1 Description for item 1             ▲
+     ■ Item 2 Description for item 2             ▼
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
+  `)
+
+  await session.scrollDown(3)
+
+  const afterScrollDownSnapshot = await session.text()
+  expect(afterScrollDownSnapshot).not.toEqual(initialSnapshot)
+  expect(afterScrollDownSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+    Scrollbox Test ─────────────────────────────
+    Search items...
+
+    ■ Item 2 Description for item 2             ▲
+    ♠ Item 3 Description for item 3             ▼
+
+
+    ↵ select  ↑↓ navigate  ^k actions"
+  `)
+
+  await session.scrollUp(2)
+
+  const afterScrollUpSnapshot = await session.text()
+  expect(afterScrollUpSnapshot).not.toEqual(afterScrollDownSnapshot)
+  expect(afterScrollUpSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+     Scrollbox Test ─────────────────────────────
+     Search items...
+
+    ›♠ Item 1 Description for item 1             ▲
+     ■ Item 2 Description for item 2             ▼
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
+  `)
+}, 15000)
