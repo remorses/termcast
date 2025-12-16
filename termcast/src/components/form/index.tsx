@@ -198,17 +198,15 @@ export const Form: FormType = ((props) => {
 
     const contentY = scrollBox.content?.y || 0
     const viewportHeight = scrollBox.viewport?.height || 10
-    const currentScrollTop = scrollBox.scrollTop || 0
 
     // Access current position from the BoxRenderable ref
     const itemTop = elementRef.y - contentY
-    const itemBottom = itemTop + elementRef.height
+    const itemHeight = elementRef.height
+    const itemCenter = itemTop + itemHeight / 2
 
-    if (itemTop < currentScrollTop) {
-      scrollBox.scrollTo(itemTop)
-    } else if (itemBottom > currentScrollTop + viewportHeight) {
-      scrollBox.scrollTo(itemBottom - viewportHeight)
-    }
+    // Scroll so the item is centered in the viewport
+    const targetScrollTop = itemCenter - viewportHeight / 2
+    scrollBox.scrollTo(Math.max(0, targetScrollTop))
   }
 
   const setFocusedField = (id: string | null) => {
@@ -260,8 +258,7 @@ export const Form: FormType = ((props) => {
     }
 
     if (evt.name === 'k' && evt.ctrl && props.actions) {
-      // Ctrl+K shows actions (always show overlay)
-      useStore.setState({ forceShowActionsOverlay: true })
+      // Ctrl+K shows actions (always show sheet)
       dialog.push(
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
@@ -269,7 +266,8 @@ export const Form: FormType = ((props) => {
         'bottom-right',
       )
     } else if (evt.name === 'return' && evt.ctrl && props.actions) {
-      // Ctrl+Return shows actions (form submit shortcut)
+      // Ctrl+Return executes first action directly
+      useStore.setState({ shouldAutoExecuteFirstAction: true })
       dialog.push(
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
@@ -277,7 +275,8 @@ export const Form: FormType = ((props) => {
         'bottom-right',
       )
     } else if (evt.name === 'return' && evt.meta && props.actions) {
-      // Cmd+Return also shows actions (consistent with List)
+      // Cmd+Return also executes first action directly
+      useStore.setState({ shouldAutoExecuteFirstAction: true })
       dialog.push(
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}

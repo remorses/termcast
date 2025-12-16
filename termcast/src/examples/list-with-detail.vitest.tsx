@@ -397,27 +397,27 @@ test('list detail metadata rendering', async () => {
      Search Pokemon...
 
     ›bulbasaur #001
-     ivysaur #002                         │                                   ▲
-     charmander #004                      │ ───────────────────────────────── █
-     charmeleon #005                      │                                   █
-     squirtle #007                        │ Types:                            █
-     wartortle #008                       │                                   █
-                                          │ Grass:                            ▀
+     ivysaur #002                         │ bulbasaur                         ▲
+     charmander #004                      │                                   █
+     charmeleon #005                      │ Illustration
+     squirtle #007                        │
+     wartortle #008                       │ Types
+                                          │ Grass / Poison
+                                          │
+                                          │ Characteristics
+                                          │ - Height: 0.7m
+                                          │ - Weight: 6.9kg
+                                          │
+                                          │ Abilities
+                                          │ - Chlorophyll
+                                          │ - Overgrow
+                                          │ ─────────────────────────────────
+                                          │
+                                          │ Types:
+                                          │
+                                          │ Grass:
                                           │ ─────────────────
-                                          │
-                                          │ Poison:
-                                          │ ─────────────────
-                                          │
-                                          │ Characteristics:
-                                          │ Height:        0.7m
-                                          │
-                                          │ ─────────────────
-                                          │ Weight:        6.9kg
-                                          │
-                                          │ ─────────────────
-                                          │ Abilities:
-                                          │
-     ↵ select  ↑↓ navigate  ^k actions    │ Chlorophyll:   Main Series        ▼"
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 
   await session.press('down')
@@ -462,3 +462,108 @@ test('list detail metadata rendering', async () => {
      ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
   `)
 }, 10000)
+
+test('list with detail layout consistency - short vs long detail content', async () => {
+  // Use the long-detail example to test layout shift with very long content
+  const testSession = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/list-with-detail-long.tsx'],
+    cols: 80,
+    rows: 25,
+  })
+
+  // First item has SHORT detail - should fit without overflow
+  const shortDetailSnapshot = await testSession.text({
+    waitFor: (text) => {
+      return (
+        text.includes('›Short Detail') &&
+        text.includes('Brief content')
+      )
+    },
+  })
+
+  // Navigate to second item which has LONG detail - will overflow
+  await testSession.press('down')
+
+  const longDetailSnapshot = await testSession.text({
+    waitFor: (text) => {
+      return (
+        text.includes('›Long Detail') &&
+        text.includes('extensive')
+      )
+    },
+  })
+
+  testSession.close()
+
+  // Compare list item positions - they should be consistent
+  expect(shortDetailSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+     Detail Length Test ───────────────────────────────────────────────────────
+
+     Search...
+
+    ›Short Detail
+     Long Detail                          │ Brief content
+     Another Item                         │
+                                          │ This is short.
+                                          │
+                                          │
+                                          │
+                                          │
+                                          │
+                                          │
+                                          │
+                                          │
+                                          │
+                                          │
+                                          │
+                                          │
+     ↵ select  ↑↓ navigate  ^k actions    │"
+  `)
+  expect(longDetailSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+     Detail Length Test ───────────────────────────────────────────────────────
+
+     Search...
+
+     Short Detail
+    ›Long Detail                          │ This item has extensive detail    ▲
+     Another Item                         │ content                           ▀
+                                          │
+                                          │ Section 1
+                                          │ This is a very long description
+                                          │ that contains multiple paragraphs
+                                          │ and sections to test how the
+                                          │ layout behaves when the detail
+                                          │ panel content overflows.
+                                          │
+                                          │ Section 2
+                                          │ More content here to ensure we
+                                          │ have enough text to cause
+                                          │ vertical overflow in the detail
+                                          │ panel scrollbox.
+     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+  `)
+
+  // Extract the LINE NUMBER (vertical position) of list items to verify no layout shift
+  const getListItemLineNumber = (snapshot: string, itemText: string) => {
+    const lines = snapshot.split('\n')
+    const lineIndex = lines.findIndex((line) => line.includes(itemText))
+    return lineIndex
+  }
+
+  // Check vertical position - the "Short Detail" item should be at the same line number
+  // regardless of whether the detail panel has overflow or not
+  const shortLineNum = getListItemLineNumber(shortDetailSnapshot, 'Short Detail')
+  const longLineNum = getListItemLineNumber(longDetailSnapshot, 'Short Detail')
+
+  // BUG: The list items shift vertically when detail content overflows
+  // When detail doesn't overflow: there's a blank line after navigation title
+  // When detail overflows: the blank line disappears, shifting all content up
+  expect(shortLineNum).toBe(longLineNum)
+}, 20000)

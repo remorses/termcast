@@ -645,20 +645,19 @@ const ActionPanel: ActionPanelType = (props) => {
   if (!dialog.stack.length) return null
   // if (!inFocus) return
 
-  // Check if there's only one action and execute it immediately (unless forced to show overlay)
+  // Auto-execute first action if flag is set (triggered by enter/ctrl+enter)
   useLayoutEffect(() => {
-    const forceShow = useStore.getState().forceShowActionsOverlay
-    if (forceShow) {
-      useStore.setState({ forceShowActionsOverlay: false })
-      return
-    }
+    const shouldExecute = useStore.getState().shouldAutoExecuteFirstAction
+    useStore.setState({ shouldAutoExecuteFirstAction: false })
+
+    if (!shouldExecute) return
 
     const allActions = Object.values(descendantsContext.map.current)
       .filter((item: any) => item.index !== -1)
       .map((item: any) => item.props as ActionDescendant)
 
-    if (allActions.length === 1) {
-      logger.log(`Auto-executing single action: ${allActions[0].title}`)
+    if (allActions[0]) {
+      logger.log(`Auto-executing first action: ${allActions[0].title}`)
       dialog.clear()
       allActions[0].execute()
     }

@@ -278,9 +278,11 @@ const Detail: DetailType = (props) => {
     if (!inFocus) return
 
     if (evt.name === 'k' && evt.ctrl && actions) {
-      useStore.setState({ forceShowActionsOverlay: true })
+      // Ctrl+K shows actions (always show sheet)
       dialog.push(actions, 'bottom-right')
     } else if (evt.name === 'return' && actions) {
+      // Enter executes first action directly
+      useStore.setState({ shouldAutoExecuteFirstAction: true })
       dialog.push(actions, 'bottom-right')
     }
   })

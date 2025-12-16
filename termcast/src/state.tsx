@@ -30,8 +30,8 @@ interface AppState {
   // OAuth state
   googleAccessToken?: string
   googleIdToken?: string
-  // Actions overlay state
-  forceShowActionsOverlay: boolean
+  // Actions state - when true, auto-execute first action instead of showing sheet
+  shouldAutoExecuteFirstAction: boolean
 }
 
 export const useStore = create<AppState>(() => ({
@@ -50,6 +50,6 @@ export const useStore = create<AppState>(() => ({
   // OAuth state
   googleAccessToken: undefined,
   googleIdToken: undefined,
-  // Actions overlay state
-  forceShowActionsOverlay: false,
+  // Actions state
+  shouldAutoExecuteFirstAction: false,
 }))

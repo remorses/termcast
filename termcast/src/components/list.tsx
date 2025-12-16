@@ -176,7 +176,7 @@ export interface ItemProps extends ActionsInterface, CommonProps {
         tooltip: string
       }
   accessories?: ItemAccessory[]
-  detail?: ReactElement<DetailProps>
+  detail?: ReactNode
 }
 
 export interface DetailProps extends CommonProps {
@@ -671,7 +671,7 @@ export const List: ListType = (props) => {
   const {
     children,
     onSelectionChange,
-    filtering = true,
+    filtering,
     searchText: controlledSearchText,
     onSearchTextChange,
     searchBarPlaceholder = 'Search...',
@@ -701,23 +701,35 @@ export const List: ListType = (props) => {
   useLayoutEffect(() => {
     if (controlledSearchText === undefined) return
     const textarea = inputRef.current
-    if (textarea && textarea.plainText !== controlledSearchText) {
-      textarea.setText(controlledSearchText)
-    }
+    if (!textarea) return
+
+    // Skip if textarea already has the correct value
+    if (textarea.plainText === controlledSearchText) return
+
+    // Save cursor position, set text, then restore cursor (clamped to valid range)
+    const cursorOffset = textarea.cursorOffset
+    textarea.setText(controlledSearchText)
+    textarea.cursorOffset = Math.min(cursorOffset, controlledSearchText.length)
   }, [controlledSearchText])
 
-  // Determine if filtering is enabled
-  // List filters automatically when:
-  // - filtering is not specified (defaults to true) OR filtering is explicitly true
-  // List does NOT filter automatically when:
-  // - When filtering={false}
-  // - When onSearchTextChange is provided (implicitly sets filtering to false)
-  // - Unless you explicitly set filtering={true} alongside onSearchTextChange
+  // Filtering logic (matches Raycast behavior):
+  //
+  // | filtering prop | onSearchTextChange | Result          |
+  // |----------------|-------------------|-----------------|
+  // | undefined      | undefined         | true (default)  |
+  // | undefined      | provided          | false           |
+  // | true           | undefined         | true            |
+  // | true           | provided          | true            |
+  // | false          | undefined         | false           |
+  // | false          | provided          | false           |
+  //
+  // Summary: filtering defaults to true, but is implicitly disabled when
+  // onSearchTextChange is provided (user manages filtering). Set filtering={true}
+  // explicitly to use built-in filtering alongside onSearchTextChange.
   const isFilteringEnabled = (() => {
     if (filtering === false) return false
     if (filtering === true) return true
-    // filtering is undefined/not specified
-    return !onSearchTextChange // defaults to true unless onSearchTextChange is provided
+    return !onSearchTextChange
   })()
 
   const openDropdown = () => {
@@ -727,7 +739,7 @@ export const List: ListType = (props) => {
   // Wrapper function that updates search text
   const setInternalSearchText = (value: string) => {
     setInternalSearchTextRaw(value)
-    // Reset to 0 when search changes - this is expected UX behavior
+    // Reset selection when search changes - this is expected UX behavior
     setSelectedIndex(0)
   }
 
@@ -761,9 +773,9 @@ export const List: ListType = (props) => {
         .filter((item) => item.index !== -1)
         .sort((a, b) => a.index - b.index)
 
-      const index = items.findIndex((item) => item.props?.id === selectedItemId)
-      if (index !== -1) {
-        setSelectedIndex(index)
+      const foundIndex = items.findIndex((item) => item.props?.id === selectedItemId)
+      if (foundIndex !== -1) {
+        setSelectedIndex(foundIndex)
       }
     }
   }, [selectedItemId])
@@ -776,7 +788,7 @@ export const List: ListType = (props) => {
       .filter((item) => item.index !== -1)
       .sort((a, b) => a.index - b.index)
 
-    const currentItem = items.find((item) => item.index === selectedIndex)
+    const currentItem = items[selectedIndex]
     const selectedId = currentItem?.props?.id ?? null
     onSelectionChange(selectedId)
   }, [selectedIndex])
@@ -810,27 +822,15 @@ export const List: ListType = (props) => {
 
     if (items.length === 0) return
 
+    // Calculate next position with wrap-around
+    let nextIndex = selectedIndex + direction
+    if (nextIndex < 0) nextIndex = items.length - 1
+    if (nextIndex >= items.length) nextIndex = 0
 
-    let currentVisibleIndex = items.findIndex(
-      (item) => item.index === selectedIndex,
-    )
-    if (currentVisibleIndex === -1) {
-      // If current selection is not visible, select first visible item
-      if (items[0]) {
-        setSelectedIndex(items[0].index)
-        scrollToItem(items[0])
-      }
-      return
-    }
-
-    let nextVisibleIndex = currentVisibleIndex + direction
-    if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
-    if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
-
-    const nextItem = items[nextVisibleIndex]
+    const nextItem = items[nextIndex]
     if (nextItem) {
-      setSelectedIndex(nextItem.index)
       scrollToItem(nextItem)
+      setSelectedIndex(nextIndex)
     }
   }
 
@@ -846,22 +846,20 @@ export const List: ListType = (props) => {
       return
     }
 
-    // Handle Ctrl+K to show actions
+    // Get current item by selectedIndex
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1)
+      .sort((a, b) => a.index - b.index)
+    const currentItem = items[selectedIndex]
+
+    // Handle Ctrl+K to show actions (always show sheet)
     if (evt.name === 'k' && evt.ctrl) {
-      const items = Object.values(descendantsContext.map.current)
-        .filter((item) => item.index !== -1)
-        .sort((a, b) => a.index - b.index)
-
-      const currentItem = items.find((item) => item.index === selectedIndex)
-
       // Show current item's actions if available
       if (currentItem?.props?.actions) {
-        useStore.setState({ forceShowActionsOverlay: true })
         dialog.push(currentItem.props.actions, 'bottom-right')
       }
       // Otherwise show List's own actions
       else if (props.actions) {
-        useStore.setState({ forceShowActionsOverlay: true })
         dialog.push(props.actions, 'bottom-right')
       }
       return
@@ -869,15 +867,12 @@ export const List: ListType = (props) => {
 
     if (evt.name === 'up') move(-1)
     if (evt.name === 'down') move(1)
+    // Handle Enter to execute first action directly
     if (evt.name === 'return') {
-      const items = Object.values(descendantsContext.map.current)
-        .filter((item) => item.index !== -1)
-        .sort((a, b) => a.index - b.index)
-
-      const currentItem = items.find((item) => item.index === selectedIndex)
       if (!currentItem?.props) return
 
       if (currentItem.props.actions) {
+        useStore.setState({ shouldAutoExecuteFirstAction: true })
         dialog.push(currentItem.props.actions, 'bottom-right')
       }
     }
@@ -907,7 +902,7 @@ export const List: ListType = (props) => {
               border={false}
               style={{
                 paddingBottom: 0,
-                flexGrow: 1,
+                flexShrink: 0,
               }}
             >
               <LoadingBar
@@ -1079,7 +1074,7 @@ const ListItem: ListItemType = (props) => {
     elementRef: elementRef.current,
   })
 
-  // Get selected index from parent List context
+  // Check if this item is selected
   const selectedIndex = listContext?.selectedIndex ?? 0
   const isActive = index === selectedIndex
 
