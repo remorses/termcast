@@ -262,7 +262,7 @@ download_and_install() {
         unzip -q "$filename"
     fi
     
-    mv ${binaryName} "$INSTALL_DIR"
+    mv "${binaryName}-$target" "$INSTALL_DIR/${binaryName}"
     chmod 755 "\${INSTALL_DIR}/${binaryName}"
     cd .. && rm -rf ${binaryName}tmp
 }
