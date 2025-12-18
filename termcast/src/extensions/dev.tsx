@@ -18,46 +18,6 @@ interface BundledCommand extends CommandWithFile {
   Component?: (props: any) => any
 }
 
-function ExtensionCommandsRoot({
-  extensionPath,
-  commands,
-  autoRunSingle,
-}: {
-  extensionPath: string
-  commands: BundledCommand[]
-  autoRunSingle?: boolean
-}): any {
-  const { push } = useNavigation()
-  const { packageJson } = getCommandsWithFiles({
-    packageJsonPath: path.join(extensionPath, 'package.json'),
-  })
-  const devRebuildCount = useStore((state) => state.devRebuildCount)
-
-  const runnableCommands = commands.filter((cmd) => cmd.mode !== 'menu-bar')
-
-  if (autoRunSingle && runnableCommands.length === 1) {
-    const command = runnableCommands[0]
-    clearCommandArguments()
-    runCommand({
-      command,
-      extensionName: packageJson.name,
-      packageJson,
-      bundledPath: command.bundledPath,
-      Component: command.Component,
-      push,
-      cacheBustParam: String(devRebuildCount),
-    })
-    return null
-  }
-
-  return (
-    <ExtensionCommandsList
-      extensionPath={extensionPath}
-      commands={commands}
-    />
-  )
-}
-
 function ExtensionCommandsList({
   extensionPath,
   commands,
@@ -195,11 +155,7 @@ export async function startDevMode({
     extensionPath: resolvedPath,
     extensionPackageJson: packageJson,
     devElement: (
-      <ExtensionCommandsRoot
-        extensionPath={resolvedPath}
-        commands={commands}
-        autoRunSingle
-      />
+      <ExtensionCommandsList extensionPath={resolvedPath} commands={commands} />
     ),
     devRebuildCount: 1,
   })
@@ -245,11 +201,7 @@ export async function startCompiledExtension({
     extensionPath,
     extensionPackageJson: packageJson,
     devElement: (
-      <ExtensionCommandsRoot
-        extensionPath={extensionPath}
-        commands={commands}
-        autoRunSingle
-      />
+      <ExtensionCommandsList extensionPath={extensionPath} commands={commands} />
     ),
   })
 
