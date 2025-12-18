@@ -239,6 +239,9 @@ const DropdownContent = ({
 
   const elementRef = useRef<BoxRenderable>(null)
 
+  const typeAheadTextRef = useRef('')
+  const typeAheadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   // Register as form field descendant for scroll support
   useFormFieldDescendant({
     id: props.id,
@@ -357,6 +360,41 @@ const DropdownContent = ({
       } else {
         navigateToNext()
       }
+      return
+    }
+
+    // Type-ahead search
+    if (
+      evt.name.length === 1 &&
+      /^[a-zA-Z0-9]$/.test(evt.name) &&
+      !evt.ctrl &&
+      !evt.meta &&
+      !evt.option
+    ) {
+      if (typeAheadTimeoutRef.current) {
+        clearTimeout(typeAheadTimeoutRef.current)
+      }
+
+      typeAheadTextRef.current += evt.name.toLowerCase()
+      const searchText = typeAheadTextRef.current
+
+      const sortedItems = items.sort((a, b) => a.index - b.index)
+      const matchingItem = sortedItems.find((item) => {
+        return item.props?.title?.toLowerCase().startsWith(searchText)
+      })
+
+      if (matchingItem) {
+        setFocusedIndex(matchingItem.index)
+        if (matchingItem.index < offset) {
+          setOffset(matchingItem.index)
+        } else if (matchingItem.index >= offset + itemsPerPage) {
+          setOffset(Math.max(0, matchingItem.index - itemsPerPage + 1))
+        }
+      }
+
+      typeAheadTimeoutRef.current = setTimeout(() => {
+        typeAheadTextRef.current = ''
+      }, 300)
     }
   })
 
