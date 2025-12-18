@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import React from 'react'
 import { createRoot } from '@opentui/react'
 import { createCliRenderer } from '@opentui/core'
@@ -12,11 +13,13 @@ import { getStoredExtensions } from '../utils'
 import Store from './store'
 import { ExtensionPreferences } from '../components/extension-preferences'
 import { runCommand, clearCommandArguments } from '../utils/run-command'
+import { initializeDatabase } from '../apis/localstorage'
 import '../globals'
 
 interface ExtensionCommand {
   extensionName: string
   extensionTitle: string
+  extensionDir?: string
   command: any
   bundledPath?: string
   Component?: () => any
@@ -51,6 +54,8 @@ function ExtensionsList({
 
   const handleCommandSelect = async (item: ExtensionCommand) => {
     clearCommandArguments()
+
+
 
     try {
       await runCommand({
@@ -208,12 +213,14 @@ export default function Home({
     const packageJson = JSON.parse(
       fs.readFileSync(extension.packageJsonPath, 'utf-8'),
     )
+    const extensionPath = path.dirname(extension.packageJsonPath)
 
     for (const command of extension.commands) {
       if (command.bundledPath) {
         allCommands.push({
           extensionName: extension.name,
           extensionTitle: packageJson.title || extension.name,
+          extensionDir: extensionPath,
           command,
           bundledPath: command.bundledPath,
           packageJson,

@@ -11,12 +11,13 @@ let currentDbPath: string | null = null
 function getCurrentDatabasePath(): string {
   const extensionPath = useStore.getState().extensionPath
 
-  if (extensionPath) {
-    // Use .termcast-bundle directory inside extension path
-    return path.join(extensionPath, '.termcast-bundle', 'data.db')
-  } else {
-    return path.join(os.homedir(), '.termcast', '.termcast-bundle', 'data.db')
+  if (!extensionPath) {
+    throw new Error(
+      'extensionPath not set - cannot access LocalStorage before extension is initialized',
+    )
   }
+  // Use .termcast-bundle directory inside extension path
+  return path.join(extensionPath, '.termcast-bundle', 'data.db')
 }
 
 function getDatabase(): Database {
@@ -58,6 +59,8 @@ function getDatabase(): Database {
   }
   return db
 }
+
+
 
 export namespace LocalStorage {
   export type Value = string | number | boolean

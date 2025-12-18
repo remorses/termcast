@@ -9,6 +9,7 @@ import { LocalStorage } from 'termcast/src/apis/localstorage'
 import { useNavigation } from 'termcast/src/internal/navigation'
 import { logger } from 'termcast/src/logger'
 import { getStoreDirectory } from 'termcast/src/utils'
+import { useStore } from 'termcast/src/state'
 import type { RaycastPackageJson } from 'termcast/src/package-json'
 
 interface ExtensionPreferencesProps {
@@ -46,17 +47,26 @@ export function ExtensionPreferences({
     queryKey: ['extension-preferences', extensionName, commandName],
     queryFn: async () => {
       try {
-        const storeDir = getStoreDirectory()
-        const extensionDir = path.join(storeDir, extensionName)
-        const packageJsonPath = path.join(extensionDir, 'package.json')
+        // First check extensionPath from state (dev mode), then fall back to store directory
+        const { extensionPath, extensionPackageJson } = useStore.getState()
 
-        if (!fs.existsSync(packageJsonPath)) {
-          throw new Error(`Extension ${extensionName} not found`)
+        let packageJson: RaycastPackageJson
+
+        if (extensionPath && extensionPackageJson?.name === extensionName) {
+          // Dev mode - use package.json from state or read from extensionPath
+          packageJson = extensionPackageJson
+        } else {
+          // Store extension - read from store directory
+          const storeDir = getStoreDirectory()
+          const extensionDir = path.join(storeDir, extensionName)
+          const packageJsonPath = path.join(extensionDir, 'package.json')
+
+          if (!fs.existsSync(packageJsonPath)) {
+            throw new Error(`Extension ${extensionName} not found`)
+          }
+
+          packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
         }
-
-        const packageJson: RaycastPackageJson = JSON.parse(
-          fs.readFileSync(packageJsonPath, 'utf-8'),
-        )
 
         let prefsToUse: PreferenceManifest[] = []
 
@@ -136,11 +146,11 @@ export function ExtensionPreferences({
   }
 
   if (preferences.length === 0) {
-    // If no preferences but onSubmit provided, call it immediately
-    if (onSubmit) {
-      onSubmit({})
-      return null
-    }
+    // TODO this causes an infinite loop, because initially prefs are zero
+    // if (onSubmit) {
+    //   onSubmit({})
+    //   return null
+    // }
 
     return (
       <Form
