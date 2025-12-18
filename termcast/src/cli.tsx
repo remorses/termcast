@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execSync, spawn } from 'node:child_process'
 import { cac } from 'cac'
-import chokidar from 'chokidar'
+import * as watcher from '@parcel/watcher'
 import { buildExtensionCommands } from './build'
 import { logger } from './logger'
 import { installExtension } from './utils'
@@ -81,45 +81,20 @@ cli
         return
       }
 
-      // TODO: Chokidar disabled for debugging deep nested directory issue
-      console.log('\nFile watching temporarily disabled for debugging')
-      return
-
       console.log('\nWatching for file changes...')
 
-      // Watch entire extension directory
-      const watcher = chokidar.watch(extensionPath, {
-        persistent: true,
-        ignoreInitial: true,
-        awaitWriteFinish: {
-          stabilityThreshold: 300,
-          pollInterval: 100,
-        },
-      })
-
+      // Watch entire extension directory using @parcel/watcher
       const ignoredPatterns = [
-        'node_modules',
-        '.termcast-bundle',
-        '.git',
-        '.build',  // Swift build output
-        'app.log',
-        'dist',
-        'build',
+        '**/node_modules/**',
+        '**/.termcast-bundle/**',
+        '**/.git/**',
+        '**/.build/**',  // Swift build output
+        '**/*.log',
+        '**/dist/**',
+        '**/build/**',
       ]
 
-      const shouldIgnore = (filePath: string) => {
-        const relativePath = path.relative(extensionPath, filePath)
-        return ignoredPatterns.some(
-          (pattern) =>
-            relativePath.includes(pattern) || filePath.endsWith('.log'),
-        )
-      }
-
       const rebuild = async (filePath: string) => {
-        if (shouldIgnore(filePath)) {
-          return
-        }
-
         if (isBuilding) {
           logger.log('Build already in progress, skipping...')
           return
@@ -138,11 +113,20 @@ cli
         }
       }
 
-      watcher
-        .on('change', rebuild)
-        .on('add', rebuild)
-        .on('unlink', rebuild)
-        .on('error', (error) => logger.error('Watcher error:', error))
+      const subscription = await watcher.subscribe(
+        extensionPath,
+        (err, events) => {
+          if (err) {
+            logger.error('Watcher error:', err)
+            return
+          }
+          // Trigger rebuild for any event (create, update, delete)
+          if (events.length > 0) {
+            rebuild(events[0].path)
+          }
+        },
+        { ignore: ignoredPatterns }
+      )
     } catch (e: any) {
       console.error('Failed to start dev mode:', e?.message || e)
       logger.error(e)

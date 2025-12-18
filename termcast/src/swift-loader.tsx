@@ -74,7 +74,7 @@ interface SwiftBuildResult {
 
 function findFilesRecursively(dir: string, filename: string): string[] {
   const results: string[] = []
-  
+
   if (!fs.existsSync(dir)) {
     return results
   }
@@ -103,11 +103,11 @@ async function findSwiftBuildResult(swiftPath: string): Promise<SwiftBuildResult
   }
 
   const packageName = nameMatch[1]
-  
+
   // Find binary - check debug first, then release
   const debugBinaryPath = path.join(swiftPath, '.build', 'debug', packageName)
   const releaseBinaryPath = path.join(swiftPath, '.build', 'release', packageName)
-  
+
   let binaryPath: string
   if (fs.existsSync(debugBinaryPath)) {
     binaryPath = debugBinaryPath
@@ -120,9 +120,9 @@ async function findSwiftBuildResult(swiftPath: string): Promise<SwiftBuildResult
   // Find raycast.js using glob-like search
   const buildDir = path.join(swiftPath, '.build')
   const raycastJsFiles = findFilesRecursively(buildDir, 'raycast.js')
-  
+
   // Filter to find the one from RaycastTypeScriptPlugin for our package
-  const matchingFiles = raycastJsFiles.filter(f => 
+  const matchingFiles = raycastJsFiles.filter(f =>
     f.includes('RaycastTypeScriptPlugin') && f.includes(packageName)
   )
 
@@ -198,7 +198,7 @@ export const swiftLoaderPlugin: BunPlugin = {
     // Resolve swift: imports
     build.onResolve({ filter: /^swift:/ }, (args) => {
       logger.log(`Swift: onResolve called for ${args.path} from ${args.importer}`)
-      
+
       // Extract the path after "swift:"
       const swiftRelativePath = args.path.slice(6) // Remove "swift:"
 
@@ -228,7 +228,7 @@ export const swiftLoaderPlugin: BunPlugin = {
       logger.log(`Swift: generating module...`)
       const contents = generateSwiftModule(result)
       logger.log(`Swift: module generated, length=${contents.length}`)
-      logger.log(`Swift: module contents:\n${contents}`)
+      // logger.log(`Swift: module contents:\n${contents}`)
 
       return {
         contents,

@@ -2,6 +2,8 @@
 
 NOTICE: AGENTS.md is generated using `bun agents.md` and should NEVER be manually updated. only update PREFIX.md
 
+ALWAYS use bun to install dependencies
+
 ---
 
 # termcast specific rules
