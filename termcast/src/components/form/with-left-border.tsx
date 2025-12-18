@@ -43,7 +43,7 @@ export const WithLeftBorder = ({
     <box
       paddingLeft={paddingLeft}
       border={['left']}
-      borderStyle={isFocused ? 'heavy' : 'single'}
+      // borderStyle={isFocused ? 'heavy' : 'single'}
       borderColor={isFocused ? Theme.accent : undefined}
       flexShrink={0}
       flexDirection='row'
