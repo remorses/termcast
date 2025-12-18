@@ -31,6 +31,8 @@ function ExtensionCommandsList({
   })
   const devRebuildCount = useStore((state) => state.devRebuildCount)
 
+  const visibleCommands = commands.filter((cmd) => cmd.mode !== 'menu-bar')
+
   const handleCommandSelect = async (command: BundledCommand) => {
     clearCommandArguments()
 
@@ -62,13 +64,24 @@ function ExtensionCommandsList({
     }
   }
 
+  // Auto-run single command
+  React.useLayoutEffect(() => {
+    if (visibleCommands.length === 1) {
+      handleCommandSelect(visibleCommands[0])
+    }
+  }, [])
+
+  if (visibleCommands.length === 1) {
+    return null
+  }
+
   return (
     <List
       navigationTitle={packageJson.title || 'Extension Commands'}
       searchBarPlaceholder='Search commands...'
     >
       <List.Section title='Commands'>
-        {commands.filter((cmd) => cmd.mode !== 'menu-bar').map((command) => (
+        {visibleCommands.map((command) => (
           <List.Item
             key={command.name}
             id={command.name}
@@ -111,7 +124,7 @@ function ExtensionCommandsList({
         ))}
       </List.Section>
 
-      {commands.length === 0 && (
+      {visibleCommands.length === 0 && (
         <List.Section title='No Commands'>
           <List.Item
             title='No commands found'
