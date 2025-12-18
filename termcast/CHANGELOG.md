@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.23
+
+### Patch Changes
+
+- Fix file/directory preferences being saved as arrays instead of strings
+
 ## 1.3.22
 
 ### Patch Changes

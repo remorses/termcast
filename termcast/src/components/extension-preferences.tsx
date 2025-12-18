@@ -113,11 +113,29 @@ export function ExtensionPreferences({
 
   const handleSubmit = async (values: Record<string, any>) => {
     try {
+      // Transform file/directory values from arrays to strings
+      // Form.FilePicker returns string[] but Raycast preferences expect string for file/directory types
+      const transformedValues: Record<string, any> = {}
+      for (const pref of preferences) {
+        const value = values[pref.name]
+        if (
+          (pref.type === 'file' ||
+            pref.type === 'directory' ||
+            pref.type === 'appPicker') &&
+          Array.isArray(value)
+        ) {
+          // Extract first element from array, or empty string if empty
+          transformedValues[pref.name] = value[0] || ''
+        } else {
+          transformedValues[pref.name] = value
+        }
+      }
+
       // Save preferences to LocalStorage
       const preferencesKey = commandName
         ? `preferences.${extensionName}.${commandName}`
         : `preferences.${extensionName}`
-      await LocalStorage.setItem(preferencesKey, JSON.stringify(values))
+      await LocalStorage.setItem(preferencesKey, JSON.stringify(transformedValues))
 
       await showToast({
         style: Toast.Style.Success,
@@ -128,7 +146,7 @@ export function ExtensionPreferences({
       })
 
       if (onSubmit) {
-        onSubmit(values)
+        onSubmit(transformedValues)
       } else {
         pop()
       }
