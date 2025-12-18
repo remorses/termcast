@@ -1,0 +1,18 @@
+{
+  "name": "hot-reload-extension",
+  "version": "0.0.1",
+  "title": "Hot Reload Test",
+  "description": "A simple extension for testing hot reload",
+  "icon": "command-icon.png",
+  "author": "test",
+  "categories": ["Productivity"],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "detail-view",
+      "title": "Detail View",
+      "description": "Shows a detail view with a marker",
+      "mode": "view"
+    }
+  ]
+}

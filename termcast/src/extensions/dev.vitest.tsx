@@ -218,3 +218,68 @@ test('can run simple view command without arguments', async () => {
      ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 30000)
+
+test('hot reload updates TUI when source file changes', async () => {
+  const hotReloadFixtureDir = path.resolve(__dirname, '../../fixtures/hot-reload-extension')
+  const sourceFilePath = path.join(hotReloadFixtureDir, 'src/detail-view.tsx')
+  const fs = await import('node:fs')
+
+  // Read original content to restore later
+  const originalContent = fs.readFileSync(sourceFilePath, 'utf-8')
+
+  // Start a new session for this test
+  const hotReloadSession = await launchTerminal({
+    command: 'bun',
+    args: ['src/cli.tsx', 'dev', hotReloadFixtureDir],
+    cols: 60,
+    rows: 16,
+  })
+
+  try {
+    // Wait for the extension to load
+    await hotReloadSession.text({
+      waitFor: (text) => /Hot Reload Test/i.test(text),
+      timeout: 10000,
+    })
+
+    // Run the Detail View command
+    await hotReloadSession.press('enter')
+    await hotReloadSession.press('enter')
+
+    // Wait for the detail view to show
+    await hotReloadSession.text({
+      waitFor: (text) => /MARKER_VALUE/i.test(text),
+      timeout: 10000,
+    })
+
+    // Generate a random number
+    const randomNumber = Math.floor(Math.random() * 1000000)
+
+    // Update the source file with the random number
+    const newContent = originalContent.replace('MARKER_VALUE', `UPDATED_${randomNumber}`)
+    fs.writeFileSync(sourceFilePath, newContent)
+
+    // Wait for rebuild - navigation resets to commands list
+    await hotReloadSession.text({
+      waitFor: (text) => /Hot Reload Test/i.test(text) && /Detail View/i.test(text),
+      timeout: 15000,
+    })
+
+    // Run the command again to see updated content
+    await hotReloadSession.press('enter')
+    await hotReloadSession.press('enter')
+
+    // Wait for the updated content
+    await hotReloadSession.text({
+      waitFor: (text) => text.includes(`UPDATED_${randomNumber}`),
+      timeout: 10000,
+    })
+
+    const updatedSnapshot = await hotReloadSession.text()
+    expect(updatedSnapshot).toContain(`UPDATED_${randomNumber}`)
+  } finally {
+    // Restore original content
+    fs.writeFileSync(sourceFilePath, originalContent)
+    hotReloadSession?.close()
+  }
+}, 60000)

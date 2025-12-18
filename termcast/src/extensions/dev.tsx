@@ -242,6 +242,7 @@ export async function triggerRebuild({
         />
       ),
       devRebuildCount: state.devRebuildCount + 1,
+      navigationStack: [], // Reset navigation so NavigationProvider re-initializes with new devElement
     })
   } catch (error: any) {
     await showToast({
