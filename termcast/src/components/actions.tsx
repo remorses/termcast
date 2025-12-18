@@ -750,11 +750,13 @@ ActionPanel.Section = (props) => {
     [parentContext, props.title],
   )
 
-  // Section provides context to its children
+  // Section renders Dropdown.Section and provides context to its children
   return (
-    <ActionPanelContext.Provider value={sectionContextValue}>
-      {props.children}
-    </ActionPanelContext.Provider>
+    <Dropdown.Section title={props.title}>
+      <ActionPanelContext.Provider value={sectionContextValue}>
+        {props.children}
+      </ActionPanelContext.Provider>
+    </Dropdown.Section>
   )
 }
 
@@ -770,11 +772,13 @@ ActionPanel.Submenu = (props) => {
     [parentContext, props.title],
   )
 
-  // Submenu provides context to its children
+  // Submenu renders Dropdown.Section and provides context to its children
   return (
-    <ActionPanelContext.Provider value={submenuContextValue}>
-      {props.children}
-    </ActionPanelContext.Provider>
+    <Dropdown.Section title={props.title}>
+      <ActionPanelContext.Provider value={submenuContextValue}>
+        {props.children}
+      </ActionPanelContext.Provider>
+    </Dropdown.Section>
   )
 }
 
