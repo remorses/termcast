@@ -1,0 +1,26 @@
+{
+  "name": "swift-extension",
+  "version": "0.0.1",
+  "title": "Swift Test Extension",
+  "description": "A test extension that uses Swift",
+  "icon": "command-icon.png",
+  "author": "test",
+  "categories": ["Productivity"],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "list-items",
+      "title": "List Items",
+      "subtitle": "Shows a list of items",
+      "description": "Displays a simple list with some items",
+      "mode": "view"
+    },
+    {
+      "name": "swift-list",
+      "title": "Swift List",
+      "subtitle": "Shows items from Swift",
+      "description": "Displays a list of items returned by a Swift function",
+      "mode": "view"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import { CommandArguments } from 'termcast/src/components/command-arguments'
 import { ExtensionPreferences } from 'termcast/src/components/extension-preferences'
 import type { RaycastArgument, RaycastPackageJson } from 'termcast/src/package-json'
 import type { LaunchProps } from 'termcast/src/apis/environment'
+import { logger } from '../logger'
 
 export interface RunnableCommand {
   name: string
@@ -95,6 +96,7 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
     const importPath = cacheBustParam
       ? `${bundledPath}?rebuild=${cacheBustParam}`
       : bundledPath
+    // logger.log(`importing ${importPath}`)
     const module = await import(importPath)
     CommandComponent = module.default
 

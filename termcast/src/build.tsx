@@ -8,6 +8,7 @@ import * as termcastApi from './index'
 import * as opentuiReact from '@opentui/react'
 import * as opentuiCore from '@opentui/core'
 import * as react from 'react'
+import { swiftLoaderPlugin } from './swift-loader'
 
 const GLOBALS_NAMESPACE = 'globals'
 const VIRTUAL_ENTRY_NAMESPACE = 'virtual-entry'
@@ -225,7 +226,7 @@ export async function buildExtensionCommands({
     target: target || (format === 'cjs' ? 'node' : 'bun'),
     format,
     // external: [],
-    plugins: [aliasPlugin],
+    plugins: [aliasPlugin, swiftLoaderPlugin],
     naming: '[name].js',
     throw: false,
   })

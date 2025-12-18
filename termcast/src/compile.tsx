@@ -3,6 +3,7 @@ import path from 'node:path'
 import type { BunPlugin } from 'bun'
 import { logger } from './logger'
 import { getCommandsWithFiles } from './package-json'
+import { swiftLoaderPlugin } from './swift-loader'
 
 const raycastAliasPlugin: BunPlugin = {
   name: 'raycast-to-termcast',
@@ -184,20 +185,33 @@ export async function compileExtension({
       entrypoints: [tempEntryPath],
       target: bunTarget as 'bun',
       minify,
-      bytecode: true,
+      // bytecode: true, // TODO need to wait for opentui to support this removing top level await
       sourcemap: 'external',
       compile: {
         outfile: defaultOutfile,
       },
-      plugins: [raycastAliasPlugin],
+      plugins: [raycastAliasPlugin, swiftLoaderPlugin],
       throw: false,
     } as Parameters<typeof Bun.build>[0])
 
     if (!result.success) {
-      const errorMessage = result.logs
-        .map((log: any) => log.message || String(log))
-        .join('\n')
-      throw new Error(`Compile failed: ${errorMessage || 'Unknown error'}`)
+      const errorDetails = result.logs.map((log: any) => {
+        const parts = [log.message || String(log)]
+        if (log.position) {
+          parts.push(`  at ${log.position.file}:${log.position.line}:${log.position.column}`)
+        }
+        if (log.notes) {
+          for (const note of log.notes) {
+            parts.push(`  note: ${note.text}`)
+            if (note.location) {
+              parts.push(`    at ${note.location.file}:${note.location.line}`)
+            }
+          }
+        }
+        return parts.join('\n')
+      })
+      logger.log('Compile errors:', JSON.stringify(result.logs, null, 2))
+      throw new Error(`Compile failed: ${errorDetails.join('\n\n') || 'Unknown error'}`)
     }
 
     logger.log('Build outputs:', result.outputs?.map((o) => o.path))

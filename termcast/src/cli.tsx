@@ -81,6 +81,10 @@ cli
         return
       }
 
+      // TODO: Chokidar disabled for debugging deep nested directory issue
+      console.log('\nFile watching temporarily disabled for debugging')
+      return
+
       console.log('\nWatching for file changes...')
 
       // Watch entire extension directory
@@ -97,6 +101,7 @@ cli
         'node_modules',
         '.termcast-bundle',
         '.git',
+        '.build',  // Swift build output
         'app.log',
         'dist',
         'build',

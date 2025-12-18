@@ -13,3 +13,4 @@ build
 *.zip
 *.log
 tmp
+.build/**

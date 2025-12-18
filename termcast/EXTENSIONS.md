@@ -46,3 +46,7 @@ Preferences are stored in SQLite with keys:
 - Command-level: `preferences.{extensionName}.{commandName}`
 
 The `ExtensionPreferences` component loads preference definitions from `package.json` at the extension path.
+
+## logs
+
+logs that happen during extension execution are output in a local app.log file, in the cwd where the extension was run
