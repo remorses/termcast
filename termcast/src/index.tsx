@@ -124,6 +124,9 @@ export type {
 // AI
 export { AI } from 'termcast/src/apis/ai'
 
+// Browser Extension
+export { BrowserExtension } from 'termcast/src/apis/browser-extension'
+
 // OAuth
 export { OAuth } from 'termcast/src/apis/oauth'
 
