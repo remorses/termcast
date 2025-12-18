@@ -4,6 +4,7 @@ import React, {
   useContext,
   useLayoutEffect,
   useRef,
+  useEffect,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
@@ -222,20 +223,22 @@ export const Form: FormType = ((props) => {
     }
   }
 
-  // Auto-focus first field after children have registered as descendants
-  useLayoutEffect(() => {
+  // Auto-focus first field when descendants become available
+  // Runs on every render until a field is focused (handles async loading)
+  useEffect(() => {
+    // Skip if there's already a focused field
+    if (focusedField) return
+
     const descendants = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.id)
       .sort((a, b) => a.index - b.index)
 
     if (descendants.length > 0) {
       const firstId = descendants[0].props!.id
-      logger.log(`focusing `, firstId)
+      logger.log(`auto-focusing first field:`, firstId)
       setFocusedFieldRaw(firstId)
-    } else {
-      logger.log(`no fields to focus in form`)
     }
-  }, [])
+  })
 
   // Get focus state and dialog
   const inFocus = useIsInFocus()
