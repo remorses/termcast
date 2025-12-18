@@ -251,7 +251,9 @@ const DropdownContent = ({
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
   const [itemsCount, setItemsCount] = useState(0)
 
-  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(
+    props.id,
+  )
 
   // Helper to get value for a descendantId
   const getValueForDescendantId = (
@@ -379,9 +381,13 @@ const DropdownContent = ({
       const searchText = typeAheadTextRef.current
 
       const sortedItems = items.sort((a, b) => a.index - b.index)
-      const matchingItem = sortedItems.find((item) => {
-        return item.props?.title?.toLowerCase().startsWith(searchText)
-      })
+      const matchingItem =
+        sortedItems.find((item) => {
+          return item.props?.title?.toLowerCase().startsWith(searchText)
+        }) ||
+        sortedItems.find((item) => {
+          return item.props?.title?.toLowerCase().includes(searchText)
+        })
 
       if (matchingItem) {
         setFocusedIndex(matchingItem.index)
@@ -478,7 +484,9 @@ const DropdownContent = ({
                 : props.placeholder || 'Select...'}
             </text>
           </WithLeftBorder>
+
           {props.children}
+
           {itemsCount > itemsPerPage && (
             <WithLeftBorder isFocused={isFocused}>
               <text fg={Theme.textMuted}>↑↓ to see more options</text>

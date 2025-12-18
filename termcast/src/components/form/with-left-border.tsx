@@ -28,11 +28,12 @@ export const WithLeftBorder = ({
       <box flexDirection='row'>
         <text
           key={String(isFocused)}
+          flexShrink={0}
           fg={isFocused ? Theme.accent : Theme.text}
         >
           <b>{isFocused ? chars.focused : chars.unfocused}</b>
         </text>
-        <box flexGrow={1} paddingLeft={paddingLeft}>
+        <box flexShrink={0} flexGrow={1} paddingLeft={paddingLeft}>
           {children}
         </box>
       </box>
@@ -44,6 +45,7 @@ export const WithLeftBorder = ({
       border={['left']}
       borderStyle={isFocused ? 'heavy' : 'single'}
       borderColor={isFocused ? Theme.accent : undefined}
+      flexShrink={0}
       flexDirection='row'
     >
       <box paddingTop={paddingTop} paddingBottom={paddingBottom} flexGrow={1}>
