@@ -17,7 +17,9 @@ import {
   moveToTrash,
 } from 'termcast/src/action-utils'
 import { useDialog } from 'termcast/src/internal/dialog'
+import { useNavigation } from 'termcast/src/internal/navigation'
 import { Dropdown } from 'termcast/src/components/dropdown'
+import { ExtensionPreferences } from 'termcast/src/components/extension-preferences'
 import { useStore } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
@@ -632,8 +634,20 @@ function formatShortcut(
 const ActionPanel: ActionPanelType = (props) => {
   const { children, title } = props
   const dialog = useDialog()
+  const { push } = useNavigation()
   const inFocus = useIsInFocus()
   const descendantsContext = useActionDescendants()
+
+  // Get extension and command info for configure actions
+  const extensionPackageJson = useStore((state) => state.extensionPackageJson)
+  const currentCommandName = useStore((state) => state.currentCommandName)
+
+  const hasExtensionPrefs =
+    (extensionPackageJson?.preferences?.length ?? 0) > 0
+  const currentCommand = extensionPackageJson?.commands?.find(
+    (c) => c.name === currentCommandName,
+  )
+  const hasCommandPrefs = (currentCommand?.preferences?.length ?? 0) > 0
 
   // Create context value
   const contextValue = useMemo<ActionPanelContextValue>(
@@ -686,6 +700,38 @@ const ActionPanel: ActionPanelType = (props) => {
           }}
         >
           {children}
+          {(hasExtensionPrefs || hasCommandPrefs) && (
+            <ActionPanel.Section title="Settings">
+              {hasExtensionPrefs && (
+                <Action
+                  title="Configure Extension..."
+                  shortcut={{ modifiers: ['cmd', 'shift'], key: ',' }}
+                  onAction={() => {
+                    dialog.clear()
+                    push(
+                      <ExtensionPreferences
+                        extensionName={extensionPackageJson!.name}
+                      />,
+                    )
+                  }}
+                />
+              )}
+              {hasCommandPrefs && (
+                <Action
+                  title="Configure Command..."
+                  onAction={() => {
+                    dialog.clear()
+                    push(
+                      <ExtensionPreferences
+                        extensionName={extensionPackageJson!.name}
+                        commandName={currentCommandName!}
+                      />,
+                    )
+                  }}
+                />
+              )}
+            </ActionPanel.Section>
+          )}
         </Dropdown>
       </ActionPanelContext.Provider>
     </ActionDescendantsProvider>
