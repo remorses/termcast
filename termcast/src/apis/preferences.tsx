@@ -35,47 +35,73 @@ export function getPreferenceValues<
     return {} as Values
   }
 
+  // Build defaults from preference definitions
+  const defaults: PreferenceValues = {}
+
+  // Extension-level preference defaults
+  const extensionPrefs = extensionPackageJson?.preferences || []
+  for (const pref of extensionPrefs) {
+    if (pref.default !== undefined) {
+      defaults[pref.name] = pref.default
+    }
+  }
+
+  // Command-specific preference defaults (override extension defaults)
+  if (currentCommandName && extensionPackageJson?.commands) {
+    const commandDef = extensionPackageJson.commands.find(
+      (cmd) => cmd.name === currentCommandName,
+    )
+    const commandPrefs = commandDef?.preferences || []
+    for (const pref of commandPrefs) {
+      if (pref.default !== undefined) {
+        defaults[pref.name] = pref.default
+      }
+    }
+  }
+
+  let extensionSavedValues: PreferenceValues = {}
+  let commandSavedValues: PreferenceValues = {}
+
   try {
-    // First try to load command-specific preferences, then fall back to extension preferences
+    // Load extension-level preferences
+    const extensionPreferencesKey = `preferences.${extensionName}`
+    const extensionPreferences = LocalStorage.getItemSync(extensionPreferencesKey)
+
+    if (extensionPreferences && typeof extensionPreferences === 'string') {
+      try {
+        extensionSavedValues = JSON.parse(extensionPreferences)
+        logger.log(
+          `Loaded extension preferences for ${extensionName}:`,
+          extensionSavedValues,
+        )
+      } catch (parseError) {
+        logger.error(`Failed to parse extension preferences:`, parseError)
+      }
+    }
+
+    // Load command-specific preferences
     if (currentCommandName) {
       const commandPreferencesKey = `preferences.${extensionName}.${currentCommandName}`
       const commandPreferences = LocalStorage.getItemSync(commandPreferencesKey)
 
       if (commandPreferences && typeof commandPreferences === 'string') {
         try {
-          const parsed = JSON.parse(commandPreferences)
+          commandSavedValues = JSON.parse(commandPreferences)
           logger.log(
             `Loaded command preferences for ${extensionName}/${currentCommandName}:`,
-            parsed,
+            commandSavedValues,
           )
-          return parsed as Values
         } catch (parseError) {
           logger.error(`Failed to parse command preferences:`, parseError)
         }
-      }
-    }
-
-    // Fall back to extension-level preferences
-    const extensionPreferencesKey = `preferences.${extensionName}`
-    const extensionPreferences = LocalStorage.getItemSync(
-      extensionPreferencesKey,
-    )
-
-    if (extensionPreferences && typeof extensionPreferences === 'string') {
-      try {
-        const parsed = JSON.parse(extensionPreferences)
-        logger.log(`Loaded extension preferences for ${extensionName}:`, parsed)
-        return parsed as Values
-      } catch (parseError) {
-        logger.error(`Failed to parse extension preferences:`, parseError)
       }
     }
   } catch (error) {
     logger.error(`Failed to load preferences for ${extensionName}:`, error)
   }
 
-  // Return empty preferences if none saved
-  return {} as Values
+  // Merge: defaults < extension saved < command saved
+  return { ...defaults, ...extensionSavedValues, ...commandSavedValues } as Values
 }
 
 /**
