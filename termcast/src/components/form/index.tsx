@@ -34,7 +34,10 @@ import {
   FormValues_2,
   FormProps_2,
   FormItemProps_2,
+  LinkAccessoryProps,
 } from './types'
+import { LoadingBar } from 'termcast/src/components/loading-bar'
+import { useNavigationPending } from 'termcast/src/internal/navigation'
 import { FORM_MAX_WIDTH } from './description'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
@@ -108,14 +111,16 @@ function FormFooter(): any {
         flexDirection: 'row',
       }}
     >
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>ctrl ↵</text>
+      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+        ctrl ↵
+      </text>
       <text fg={Theme.textMuted}> submit</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
         {'   '}↑↓
       </text>
       <text fg={Theme.textMuted}> navigate</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-          {'   '}^k
+        {'   '}^k
       </text>
       <text fg={Theme.textMuted}> actions</text>
     </box>
@@ -172,15 +177,18 @@ interface FormType {
   FilePicker: (props: FilePickerProps) => any
   Separator: () => any
   Description: (props: DescriptionProps) => any
+  LinkAccessory: (props: LinkAccessoryProps) => any
 }
 
 export const Form: FormType = ((props) => {
+  const { navigationTitle, isLoading, searchBarAccessory } = props
   const methods = useForm<FormValues>({
     // defaultValues: {},
     // mode: 'onChange',
   })
 
   const [focusedField, setFocusedFieldRaw] = useState<string | null>(null)
+  const navigationPending = useNavigationPending()
 
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useFormFieldDescendants()
@@ -219,7 +227,7 @@ export const Form: FormType = ((props) => {
     const descendants = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.id)
       .sort((a, b) => a.index - b.index)
-    
+
     if (descendants.length > 0) {
       const firstId = descendants[0].props!.id
       logger.log(`focusing `, firstId)
@@ -299,7 +307,29 @@ export const Form: FormType = ((props) => {
         <FormScrollContext.Provider value={scrollContextValue}>
           <FocusContext.Provider value={{ focusedField, setFocusedField }}>
             <box flexDirection='row' flexGrow={1} justifyContent='center'>
-              <box flexDirection='column'>
+              <box flexGrow={0} flexDirection='column'>
+                {/* Navigation header with title, loading bar, and accessory */}
+                {(navigationTitle || searchBarAccessory) && (
+                  <box
+                    border={false}
+                    style={{
+                      flexShrink: 0,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: 3,
+                      maxWidth: FORM_MAX_WIDTH,
+                    }}
+                  >
+                    <box overflow='hidden'>
+                      <LoadingBar
+                        title={navigationTitle || ''}
+                        isLoading={isLoading || navigationPending}
+                      />
+                    </box>
+                    {searchBarAccessory}
+                  </box>
+                )}
                 <ScrollBox
                   ref={scrollBoxRef}
                   flexGrow={1}
@@ -350,3 +380,27 @@ Form.TagPicker = TagPicker
 Form.FilePicker = FilePicker
 Form.Separator = Separator
 Form.Description = Description
+
+// LinkAccessory component - shows a link in the navigation bar
+function LinkAccessory(props: LinkAccessoryProps): any {
+  return (
+    <box
+      style={{
+        flexShrink: 0,
+        maxWidth: '50%',
+        overflow: 'hidden',
+        paddingRight: 1,
+      }}
+    >
+      <text
+        fg={Theme.textMuted}
+        attributes={TextAttributes.UNDERLINE}
+        wrapMode='none'
+      >
+        {props.text}
+      </text>
+    </box>
+  )
+}
+
+Form.LinkAccessory = LinkAccessory

@@ -127,6 +127,14 @@ cli
         },
         { ignore: ignoredPatterns }
       )
+
+      // Clean up watcher on exit signals
+      const cleanup = async () => {
+        await subscription.unsubscribe()
+        process.exit(0)
+      }
+      process.on('SIGINT', cleanup)
+      process.on('SIGTERM', cleanup)
     } catch (e: any) {
       console.error('Failed to start dev mode:', e?.message || e)
       logger.error(e)

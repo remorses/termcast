@@ -405,6 +405,7 @@ export namespace OAuth {
 
       return new Promise((resolve, reject) => {
         const port = 8989
+        let authTimeout: ReturnType<typeof setTimeout>
 
         // Create a local server to handle the OAuth callback
         const server = http.createServer((req, res) => {
@@ -534,6 +535,7 @@ export namespace OAuth {
                 res.end(JSON.stringify({ success: true }))
 
                 server.close()
+                clearTimeout(authTimeout)
                 this.isAuthorizing = false
 
                 // For implicit flow, save tokens immediately since we won't do token exchange
@@ -570,6 +572,7 @@ export namespace OAuth {
                 })
                 res.end(JSON.stringify({ error: 'parse_error' }))
                 server.close()
+                clearTimeout(authTimeout)
                 reject(error)
               }
             })
@@ -608,11 +611,12 @@ export namespace OAuth {
 
         server.on('error', (error) => {
           logger.error('OAuth implicit flow server error:', error)
+          clearTimeout(authTimeout)
           reject(error)
         })
 
         // Set a timeout for the authorization
-        setTimeout(
+        authTimeout = setTimeout(
           () => {
             server.close()
             reject(new Error('OAuth authorization timeout'))

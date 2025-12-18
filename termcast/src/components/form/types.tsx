@@ -6,12 +6,18 @@ export interface FormValues {
   [key: string]: FormValue
 }
 
+export interface LinkAccessoryProps {
+  target: string
+  text: string
+}
+
 export interface FormProps {
   actions?: React.ReactNode
   children?: React.ReactNode
   navigationTitle?: string
   isLoading?: boolean
   enableDrafts?: boolean
+  searchBarAccessory?: React.ReactElement<LinkAccessoryProps> | null
 }
 
 export interface FormItemProps<T> {
