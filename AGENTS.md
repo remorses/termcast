@@ -451,6 +451,55 @@ to publish termcast
 - release script should publish the npm version. and also the binary in gh releases. 
 - see gh ci for in progress script and make sure they are successful
 
+# Extension Execution Modes
+
+termcast supports three ways to run extensions: dev mode, compiled, and installed from store.
+
+## Storage Paths
+
+| Mode | Extension Path | SQLite Database |
+|------|----------------|-----------------|
+| Dev | Local folder (e.g. `~/my-extension`) | `{extensionPath}/.termcast-bundle/data.db` |
+| Compiled | Bundled with app | `{extensionPath}/.termcast-bundle/data.db` |
+| Store | `~/.termcast/store/{extensionName}` | `{extensionPath}/.termcast-bundle/data.db` |
+
+The database path is determined by `extensionPath` in state. If not set, falls back to `~/.termcast/.termcast-bundle/data.db`.
+
+## Dev Mode
+
+Entry: `startDevMode({ extensionPath })`
+
+1. Reads `package.json` from local `extensionPath`
+2. Builds commands with esbuild (ESM format, bun target)
+3. Sets state: `extensionPath`, `extensionPackageJson`
+4. Shows command list, imports bundled files with cache-busting query param on each rebuild
+5. Watches for changes and triggers `triggerRebuild()`
+
+## Compiled Mode
+
+Entry: `startCompiledExtension({ extensionPath, compiledCommands })`
+
+1. Commands are pre-compiled and passed as `Component` functions
+2. Reads `package.json` from `extensionPath`
+3. Sets state: `extensionPath`, `extensionPackageJson`
+4. No build step needed - components are already bundled
+
+## Store Mode
+
+Entry: Home list shows installed extensions from `getStoreDirectory()`
+
+1. Extensions installed to `~/.termcast/store/{extensionName}/`
+2. Each has its own `package.json` and pre-built bundle
+3. Sets `extensionPath` to the store subdirectory when running
+
+## Preferences
+
+Preferences are stored in SQLite with keys:
+- Extension-level: `preferences.{extensionName}`
+- Command-level: `preferences.{extensionName}.{commandName}`
+
+The `ExtensionPreferences` component loads preference definitions from `package.json` at the extension path.
+
 
 ## opentui
 
@@ -495,7 +544,7 @@ do something like this for every new element you want to use and not know about,
 
 cdm modifier (named hyper in opentui) cannot be intercepted in opentui. because parent terminal app will not forward it. instead use alt or ctrl
 
-enter key is named return in opentui.
+enter key is named return in opentui. alt is option.
 
 ## overlapping text in boxes
 
@@ -511,11 +560,11 @@ when summarizing changes at the end of the message, be super short, a few words 
 
 please ask questions and confirm assumptions before generating complex architecture code.
 
-NEVER run commands with & at the end to run them in the background. this is leaky and harmful! instead ask me to run commands in the background if needed.
+NEVER run commands with & at the end to run them in the background. this is leaky and harmful! instead ask me to run commands in the background using tmux if needed.
 
 NEVER commit yourself unless asked to do so. I will commit the code myself.
 
-NEVER add comments unless I tell you
+NEVER use git to revert files to previous state if you did not create those files yourself! there can be user changes in files you touched, if you revert those changes the user will be very upset!
 
 ## files
 
@@ -602,6 +651,7 @@ Example pattern for a coding agent:
 
 # github
 
+
 you can use the `gh` cli to do operations on github for the current repository. For example: open issues, open PRs, check actions status, read workflow logs, etc.
 
 ## creating issues and pull requests
@@ -636,6 +686,7 @@ Error: Request timeout at /api/auth/login
 ```bash
 gh run list # lists latest actions runs
 gh run watch <id> --exit-status # if workflow is in progress, wait for the run to complete. the actions run is finished when this command exits. Set a tiemout of at least 10 minutes when running this command
+gh pr checks --watch --fail-fast # watch for current branch pr ci checks to finish
 gh run view <id> --log-failed | tail -n 300 # read the logs for failed steps in the actions run
 gh run view <id> --log | tail -n 300 # read all logs for a github actions run
 ```
@@ -702,6 +753,7 @@ gitchamber allows you to list, search and read files in a repo. you MUST use it 
 
 - if you encounter typescript lint errors for an npm package, read the node_modules/package/\*.d.ts files to understand the typescript types of the package. if you cannot understand them, ask me to help you with it.
 
+- NEVER silently suppress errors in catch {} blocks if they contain more than one function call
 ```ts
 // BAD. DO NOT DO THIS
 let favicon: string | undefined;
@@ -764,6 +816,7 @@ DO NOT `import { writeFileSync } from 'fs';`
 
 # github
 
+
 you can use the `gh` cli to do operations on github for the current repository. For example: open issues, open PRs, check actions status, read workflow logs, etc.
 
 ## creating issues and pull requests
@@ -798,6 +851,7 @@ Error: Request timeout at /api/auth/login
 ```bash
 gh run list # lists latest actions runs
 gh run watch <id> --exit-status # if workflow is in progress, wait for the run to complete. the actions run is finished when this command exits. Set a tiemout of at least 10 minutes when running this command
+gh pr checks --watch --fail-fast # watch for current branch pr ci checks to finish
 gh run view <id> --log-failed | tail -n 300 # read the logs for failed steps in the actions run
 gh run view <id> --log | tail -n 300 # read all logs for a github actions run
 ```
@@ -961,7 +1015,7 @@ How to add scrollbox support to opentui components using the descendants pattern
 
 1. Store element refs in descendant props
 2. Track selected index in parent
-3. On selection change, scroll to item if out of view
+3. On selection change, scroll so the top of the item is centered in the viewport
 
 ## Implementation
 
@@ -989,16 +1043,13 @@ const scrollToItem = (item: { props?: ItemDescendant }) => {
 
   const contentY = scrollBox.content?.y || 0
   const viewportHeight = scrollBox.viewport?.height || 10
-  const currentScrollTop = scrollBox.scrollTop || 0
 
+  // Calculate item position relative to content
   const itemTop = elementRef.y - contentY
-  const itemBottom = itemTop + elementRef.height
 
-  if (itemTop < currentScrollTop) {
-    scrollBox.scrollTo(itemTop)
-  } else if (itemBottom > currentScrollTop + viewportHeight) {
-    scrollBox.scrollTo(itemBottom - viewportHeight)
-  }
+  // Scroll so the top of the item is centered in the viewport
+  const targetScrollTop = itemTop - viewportHeight / 2
+  scrollBox.scrollTo(Math.max(0, targetScrollTop))
 }
 ```
 
