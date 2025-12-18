@@ -8,6 +8,67 @@ export interface FileSystemItem {
   isDirectory: boolean
 }
 
+/**
+ * Recursively list all files in a directory (up to maxDepth levels)
+ */
+export async function listAllFiles({
+  basePath = '.',
+  maxDepth = 3,
+  maxFiles = 1000,
+  includeDirectories = true,
+}: {
+  basePath?: string
+  maxDepth?: number
+  maxFiles?: number
+  includeDirectories?: boolean
+} = {}): Promise<string[]> {
+  const results: string[] = []
+  
+  // Resolve ~ to home directory
+  if (basePath.startsWith('~')) {
+    basePath = basePath.replace('~', os.homedir())
+  }
+  
+  const resolvedBase = path.isAbsolute(basePath)
+    ? basePath
+    : path.resolve(process.cwd(), basePath)
+
+  async function walk(dir: string, depth: number) {
+    if (depth > maxDepth || results.length >= maxFiles) return
+    
+    try {
+      const entries = await fs.readdir(dir, { withFileTypes: true })
+      
+      for (const entry of entries) {
+        if (results.length >= maxFiles) break
+        
+        // Skip hidden files and common ignored directories
+        if (entry.name.startsWith('.')) continue
+        if (entry.name === 'node_modules') continue
+        if (entry.name === 'dist') continue
+        if (entry.name === 'build') continue
+        
+        const fullPath = path.join(dir, entry.name)
+        const relativePath = path.relative(resolvedBase, fullPath)
+        
+        if (entry.isDirectory()) {
+          if (includeDirectories) {
+            results.push(relativePath + '/')
+          }
+          await walk(fullPath, depth + 1)
+        } else {
+          results.push(relativePath)
+        }
+      }
+    } catch {
+      // Ignore permission errors etc
+    }
+  }
+  
+  await walk(resolvedBase, 0)
+  return results.sort()
+}
+
 export async function searchFiles(
   searchPath: string,
   prefix: string,

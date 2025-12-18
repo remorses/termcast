@@ -16,7 +16,7 @@ afterEach(() => {
   session?.close()
 })
 
-test('file picker with autocomplete', async () => {
+test('file picker shows form fields', async () => {
   const initialSnapshot = await session.text({
     waitFor: (text) => {
       return (
@@ -44,8 +44,8 @@ test('file picker with autocomplete', async () => {
 
 
     ◆  Your Name
-    ┃  John Doe
-    ┃
+    │  John Doe
+    │
     ◇  Select Files
     │  Enter file path...
     │
@@ -78,16 +78,22 @@ test('file picker with autocomplete', async () => {
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
+}, 10000)
 
-  // Tab to navigate to file picker field
+test('typing opens autocomplete dialog with file list', async () => {
+  await session.text({
+    waitFor: (text) => /Your Name/i.test(text),
+  })
+
+  // Tab to file picker field
   await session.press('tab')
   await session.press('tab')
 
-  // Type "src" to trigger autocomplete
-  await session.type('src')
+  // Type to trigger autocomplete
+  await session.type('s')
 
   const autocompleteSnapshot = await session.text({
-    waitFor: (text) => text.includes('📁 src'),
+    waitFor: (text) => text.includes('Filter:') && text.includes('📁'),
   })
   expect(autocompleteSnapshot).toMatchInlineSnapshot(`
     "
@@ -106,260 +112,21 @@ test('file picker with autocomplete', async () => {
 
 
     ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │  ┌────────────────────────────────────────────────────────────┐
-    │  │ 📁 src                                                     │
-    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
-    ◆  └────────────────────────────────────────────────────────────┘
-    ┃  src
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Navigate down in autocomplete
-  await session.press('down')
-
-  const afterDownSnapshot = await session.text({
-    waitFor: (text) => text.includes('📁 src'),
-  })
-  expect(afterDownSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │  ┌────────────────────────────────────────────────────────────┐
-    │  │ 📁 src                                                     │
-    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
-    ◆  └────────────────────────────────────────────────────────────┘
-    ┃  src
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Select item with Enter
-  await session.press('enter')
-
-  const afterSelectSnapshot = await session.text({
-    waitFor: (text) => text.includes('src/') && text.includes('📁 apis'),
-  })
-  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-       ┌────────────────────────────────────────────────────────────┐
-       │ 📁 apis                                                    │
-    ◇  │ 📁 components                                              │
-    │  │ 📁 examples                                                │
-    │  │ 📁 extensions                                              │
-    ◇  │ 📁 hooks                                                   │
-    │  │ 📁 internal                                                │
-    │  │ 📁 store-api                                               │
-    │  │ 📁 utils                                                   │
-    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
-    ◆  └────────────────────────────────────────────────────────────┘
-    ┃  src/
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Clear and test absolute path
-  await session.press('backspace')
-  await session.press('backspace')
-  await session.press('backspace')
-  await session.type('/tmp')
-
-  const absolutePathSnapshot = await session.text({
-    waitFor: (text) => text.includes('/tmp'),
-  })
-  expect(absolutePathSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    ┃  s/tmp
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Test ~ home directory expansion
-  await session.press('backspace')
-  await session.press('backspace')
-  await session.press('backspace')
-  await session.press('backspace')
-  await session.type('~/')
-
-  const homeDirectorySnapshot = await session.text({
-    waitFor: (text) => text.includes('~/'),
-  })
-  expect(homeDirectorySnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    ┃  s~/
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
+    │┃
+    │┃ Filter: s
+    ◇┃
+    │┃  📁 fixtures/
+    │┃  📁 fixtures/hot-reload-extension/
+    │┃  📁 fixtures/hot-reload-extension/src/
+    │┃  📁 fixtures/simple-extension/
+    ◆┃  📁 fixtures/simple-extension/src/
+    │┃  📁 fixtures/swift-extension/
+    │┃  📁 fixtures/swift-extension/src/
+    │┃  📁 fixtures/swift-extension/swift/
+    │┃  📁 fixtures/swift-extension/swift/Sources/
+    ◇┃  📁 fixtures/swift-extension/swift/Sources/SwiftAPI/
+    │┃
+    │┃ ↑↓ navigate  ⏎/tab select  esc close
     │  Choose exactly one file
     │
     └
@@ -381,80 +148,28 @@ test('file picker with autocomplete', async () => {
   `)
 }, 15000)
 
-test('file picker keyboard navigation', async () => {
+test('escape closes autocomplete without going back', async () => {
   await session.text({
-    waitFor: (text) => {
-      return /Your Name/i.test(text)
-    },
+    waitFor: (text) => /Your Name/i.test(text),
   })
 
-  // Tab to file picker
+  // Tab to file picker field
   await session.press('tab')
   await session.press('tab')
 
   // Type to trigger autocomplete
-  await session.type('.')
+  await session.type('s')
 
-  const withDotSnapshot = await session.text({
-    waitFor: (text) => text.includes('📁 .termcast-bundle'),
+  await session.text({
+    waitFor: (text) => text.includes('Filter:'),
   })
-  expect(withDotSnapshot).toMatchInlineSnapshot(`
-    "
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │  ┌────────────────────────────────────────────────────────────┐
-    │  │ 📁 .termcast-bundle                                        │
-    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
-    ◆  └────────────────────────────────────────────────────────────┘
-    ┃  .
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Test escape key to close autocomplete
+  // Press escape to close autocomplete
   await session.press('esc')
 
+  // Verify form is still visible (didn't navigate away)
   const afterEscapeSnapshot = await session.text({
-    waitFor: (text) => text.includes('Select Folder') && !text.includes('📁 .termcast-bundle'),
+    waitFor: (text) => text.includes('Select Folder') && !text.includes('Filter:'),
   })
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
@@ -481,10 +196,10 @@ test('file picker keyboard navigation', async () => {
     │  Choose one or more files to upload
     │
     ◆  Select Folder
-    ┃  .
-    ┃
-    ┃  Choose a folder for output
-    ┃
+    │  s
+    │
+    │  Choose a folder for output
+    │
     ◇  Select Single File
     │  Enter file path...
     │
@@ -507,100 +222,33 @@ test('file picker keyboard navigation', async () => {
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
+}, 15000)
 
-  // Type again and navigate with arrows
-  await session.type('s')
-
+test('selecting first item with enter adds it to the list', async () => {
   await session.text({
-    waitFor: (text) => text.includes('.s'),
+    waitFor: (text) => /Your Name/i.test(text),
   })
 
-  // Navigate down multiple times
-  await session.press('down')
-  await session.press('down')
-  await session.press('up')
-
-  const afterNavigationSnapshot = await session.text({
-    waitFor: (text) => text.includes('.s') && text.includes('Select Folder'),
-  })
-  expect(afterNavigationSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    ┃  .s
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-}, 10000)
-
-test('right arrow selects item and left arrow removes last selection', async () => {
-  await session.text({
-    waitFor: (text) => {
-      return /Your Name/i.test(text)
-    },
-  })
-
-  // Tab to file picker
+  // Tab to folder picker field (which shows directories)
   await session.press('tab')
   await session.press('tab')
 
   // Type to trigger autocomplete
-  await session.type('src')
+  await session.type('s')
 
+  // Wait for dialog to appear with folders
   await session.text({
-    waitFor: (text) => text.includes('📁 src'),
+    waitFor: (text) => text.includes('📁'),
   })
 
-  // Use right arrow to select folder (instead of tab)
-  await session.press('right')
+  // Press enter to select first match
+  await session.press('enter')
 
-  const afterRightArrowSnapshot = await session.text({
-    waitFor: (text) => text.includes('Selected files:') && text.includes('• src'),
+  // Verify file was added
+  const afterSelectSnapshot = await session.text({
+    waitFor: (text) => text.includes('Selected files:'),
   })
-  expect(afterRightArrowSnapshot).toMatchInlineSnapshot(`
+  expect(afterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
 
@@ -624,76 +272,18 @@ test('right arrow selects item and left arrow removes last selection', async () 
     │  Choose one or more files to upload
     │
     ◆  Select Folder
-    ┃  Enter file path...
-    ┃
-    ┃  Selected files:
-    ┃  • src
-    ┃
-    ┃  Choose a folder for output
-    ┃
+    │  Enter file path...
+    │
+    │  Selected files:
+    │  • fixtures
+    │
+    │  Choose a folder for output
+    │
     ◇  Select Single File
     │  Enter file path...
     │
     │  Choose exactly one file
     └
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-
-  // Use left arrow to remove the selection (input should be empty)
-  await session.press('left')
-
-  const afterLeftArrowSnapshot = await session.text({
-    waitFor: (text) => !text.includes('Selected files:'),
-  })
-  expect(afterLeftArrowSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    ┃  Enter file path...
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
-
 
 
 

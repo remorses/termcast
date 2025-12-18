@@ -7,8 +7,9 @@ import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
-import { FileAutocomplete } from './file-autocomplete'
+import { FileAutocompleteDialog } from './file-autocomplete'
 import { useFormNavigationHelpers } from './use-form-navigation'
+import { useDialog } from 'termcast/src/internal/dialog'
 
 export interface FilePickerProps extends FormItemProps<string[]> {
   /**
@@ -61,10 +62,37 @@ const FilePickerField = ({
   setFocusedField: (id: string) => void
 }): any => {
   const isInFocus = useIsInFocus()
-  const [showAutocomplete, setShowAutocomplete] = React.useState(false)
-  const [searchTrigger, setSearchTrigger] = React.useState(0)
   const inputRef = React.useRef<TextareaRenderable>(null)
-  const anchorRef = React.useRef<any>(null)
+  const dialog = useDialog()
+
+  const showAutocomplete = () => {
+    if (dialog.stack.length > 0) return
+
+    const handleSelect = (path: string) => {
+      const currentFiles = field.value || []
+      const newFiles =
+        props.allowMultipleSelection !== false ? [...currentFiles, path] : [path]
+      field.onChange(newFiles)
+      if (props.onChange) {
+        props.onChange(newFiles)
+      }
+      inputRef.current?.setText('')
+      dialog.clear()
+    }
+
+    dialog.push(
+      <FileAutocompleteDialog
+        onSelect={handleSelect}
+        onClose={() => {
+          dialog.clear()
+        }}
+        inputRef={inputRef}
+        canChooseFiles={props.canChooseFiles}
+        canChooseDirectories={props.canChooseDirectories}
+        initialDirectory={props.initialDirectory}
+      />
+    )
+  }
 
   // Handle Enter key and left arrow for removing last file
   useKeyboard((evt) => {
@@ -86,12 +114,11 @@ const FilePickerField = ({
     if (evt.name === 'return') {
       const inputValue = inputRef.current?.plainText || ''
       // If input is empty, show files in current directory
-      if (!inputValue && !showAutocomplete) {
-        setShowAutocomplete(true)
-        setSearchTrigger((n) => n + 1)
+      if (!inputValue) {
+        showAutocomplete()
       }
-      // If autocomplete is not visible and input has value, add the path
-      else if (inputValue.trim() && !showAutocomplete) {
+      // If input has value, add the path directly
+      else if (inputValue.trim()) {
         const currentFiles = field.value || []
         const newFiles =
           props.allowMultipleSelection !== false
@@ -105,18 +132,6 @@ const FilePickerField = ({
       }
     }
   })
-
-  const handleSelectFile = (path: string) => {
-    const currentFiles = field.value || []
-    const newFiles =
-      props.allowMultipleSelection !== false ? [...currentFiles, path] : [path]
-    field.onChange(newFiles)
-    if (props.onChange) {
-      props.onChange(newFiles)
-    }
-    inputRef.current?.setText('')
-    setShowAutocomplete(false)
-  }
 
   const selectedFiles = field.value || []
 
@@ -133,7 +148,7 @@ const FilePickerField = ({
         </text>
       </WithLeftBorder>
       <WithLeftBorder isFocused={isFocused}>
-        <box flexDirection='column' ref={anchorRef}>
+        <box flexDirection='column'>
           <textarea
             ref={inputRef}
             height={1}
@@ -148,10 +163,7 @@ const FilePickerField = ({
             onContentChange={() => {
               const value = inputRef.current?.plainText || ''
               if (value && isFocused) {
-                setShowAutocomplete(true)
-                setSearchTrigger((n) => n + 1)
-              } else if (!value) {
-                setShowAutocomplete(false)
+                showAutocomplete()
               }
             }}
           />
@@ -179,17 +191,6 @@ const FilePickerField = ({
           <text fg={Theme.textMuted}>{props.info}</text>
         </WithLeftBorder>
       )}
-      <FileAutocomplete
-        onSelect={handleSelectFile}
-        visible={showAutocomplete}
-        onVisibilityChange={setShowAutocomplete}
-        inputRef={inputRef}
-        anchorRef={anchorRef}
-        searchTrigger={searchTrigger}
-        canChooseFiles={props.canChooseFiles}
-        canChooseDirectories={props.canChooseDirectories}
-        initialDirectory={props.initialDirectory}
-      />
     </box>
   ) as React.ReactElement
 }

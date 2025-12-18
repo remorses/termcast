@@ -1,151 +1,133 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Theme } from 'termcast/src/theme'
-import { TextareaRenderable, RGBA } from '@opentui/core'
-import { searchFiles, parsePath } from '../../utils/file-system'
+import { TextareaRenderable } from '@opentui/core'
+import { listAllFiles } from '../../utils/file-system'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
-const backgroundPanel = RGBA.fromHex(Theme.backgroundPanel)
-const primary = RGBA.fromHex(Theme.primary)
-const border = RGBA.fromHex(Theme.border)
-
-export interface FileAutocompleteProps {
+export interface FileAutocompleteDialogProps {
   onSelect: (path: string) => void
-  visible: boolean
-  onVisibilityChange: (visible: boolean) => void
+  onClose: () => void
   inputRef: React.RefObject<TextareaRenderable | null>
-  anchorRef: React.RefObject<any>
-  searchTrigger: number
   canChooseFiles?: boolean
   canChooseDirectories?: boolean
   initialDirectory?: string
 }
 
-export const FileAutocomplete = ({
+function fuzzyMatch(text: string, query: string): boolean {
+  if (!query) return true
+  const lowerText = text.toLowerCase()
+  const lowerQuery = query.toLowerCase()
+  
+  let queryIndex = 0
+  for (let i = 0; i < lowerText.length && queryIndex < lowerQuery.length; i++) {
+    if (lowerText[i] === lowerQuery[queryIndex]) {
+      queryIndex++
+    }
+  }
+  return queryIndex === lowerQuery.length
+}
+
+export const FileAutocompleteDialog = ({
   onSelect,
-  visible,
-  onVisibilityChange,
+  onClose,
   inputRef,
-  anchorRef,
-  searchTrigger,
   canChooseFiles = true,
   canChooseDirectories = false,
   initialDirectory,
-}: FileAutocompleteProps): any => {
+}: FileAutocompleteDialogProps): any => {
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [filter, setFilter] = useState(() => inputRef.current?.plainText || '')
   const isInFocus = useIsInFocus()
 
-  const inputValue = inputRef.current?.plainText || ''
-  const defaultBasePath = initialDirectory || '.'
-  const { basePath, prefix } = inputValue
-    ? parsePath(inputValue)
-    : { basePath: defaultBasePath, prefix: '' }
-
-  const { data: items = [], isLoading: loading } = useQuery({
-    queryKey: ['file-autocomplete', basePath, prefix, searchTrigger, canChooseFiles, canChooseDirectories],
+  const { data: allFiles = [], isLoading } = useQuery({
+    queryKey: ['file-list', initialDirectory, canChooseFiles, canChooseDirectories],
     queryFn: async () => {
-      const results = await searchFiles(basePath, prefix)
-      const filtered = results.filter((item) => {
-        if (item.isDirectory) return true
+      // Always include directories in the listing, filter afterwards
+      const files = await listAllFiles({
+        basePath: initialDirectory || '.',
+        maxDepth: 4,
+        maxFiles: 500,
+        includeDirectories: true,
+      })
+      
+      // Filter based on canChooseFiles/canChooseDirectories
+      return files.filter((f) => {
+        const isDir = f.endsWith('/')
+        if (isDir) {
+          return canChooseDirectories
+        }
         return canChooseFiles
       })
-      setSelectedIndex(0)
-      return filtered
     },
-    enabled: visible,
   })
 
-  const directoryOnlyMode = canChooseDirectories && !canChooseFiles
+  // Filter files based on current input
+  const filteredFiles = allFiles.filter((file) => fuzzyMatch(file, filter))
+  const visibleFiles = filteredFiles.slice(0, 10)
 
   useKeyboard((evt) => {
-    if (!visible || !isInFocus) return
+    if (!isInFocus) return
 
     if (evt.name === 'up') {
-      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : items.length - 1))
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : visibleFiles.length - 1))
     } else if (evt.name === 'down') {
-      setSelectedIndex((prev) => (prev < items.length - 1 ? prev + 1 : 0))
-    } else if (evt.name === 'escape') {
-      onVisibilityChange(false)
-    } else if (evt.name === 'return') {
-      if (items[selectedIndex]) {
-        const value = inputRef.current?.plainText || ''
-        const selectedItem = items[selectedIndex]
-        const newValue =
-          value.substring(0, value.lastIndexOf('/') + 1) + selectedItem.name
-
-        if (selectedItem.isDirectory) {
-          const fullPath = newValue + '/'
-          inputRef.current?.setText(fullPath)
-          inputRef.current!.cursorOffset = fullPath.length
-        } else {
-          onSelect(newValue)
-          onVisibilityChange(false)
-        }
+      setSelectedIndex((prev) => (prev < visibleFiles.length - 1 ? prev + 1 : 0))
+    } else if (evt.name === 'return' || evt.name === 'tab') {
+      const selected = visibleFiles[selectedIndex]
+      if (selected) {
+        const path = selected.endsWith('/') ? selected.slice(0, -1) : selected
+        inputRef.current?.setText(path)
+        onSelect(path)
+        onClose()
       }
-    } else if (evt.name === 'right') {
-      if (items[selectedIndex]) {
-        const value = inputRef.current?.plainText || ''
-        const selectedItem = items[selectedIndex]
-        const newValue =
-          value.substring(0, value.lastIndexOf('/') + 1) + selectedItem.name
-        onSelect(newValue)
-        onVisibilityChange(false)
+    } else if (evt.name === 'backspace') {
+      if (filter.length > 0) {
+        const newFilter = filter.slice(0, -1)
+        setFilter(newFilter)
+        setSelectedIndex(0)
       }
+    } else if (evt.name && evt.name.length === 1 && !evt.ctrl && !evt.meta) {
+      // Single character input
+      const newFilter = filter + evt.name
+      setFilter(newFilter)
+      setSelectedIndex(0)
     }
   })
 
-  if (!visible || items.length === 0) return null
-
-  const anchorElement = anchorRef.current
-  if (!anchorElement) return null
-
-  const maxVisible = 8
-  const visibleItems = items.slice(0, maxVisible)
-  const displayHeight = visibleItems.length + 1
-
-  const contentWidth = anchorElement.width - 2
-
-  const hintText = directoryOnlyMode
-    ? '↑↓ navigate  ⏎ open folder  → select folder  esc close'
-    : '↑↓ navigate  ⏎ open/select  → select  esc close'
+  const hintText = '↑↓ navigate  ⏎/tab select  esc close'
 
   return (
-    <box
-      position='absolute'
-      top={anchorElement.y - displayHeight - 2}
-      left={anchorElement.x}
-      width={anchorElement.width}
-      height={displayHeight + 2}
-      zIndex={1000}
-      borderStyle='single'
-      borderColor={border}
-      backgroundColor={backgroundPanel}
-      shouldFill
-    >
-      <box flexDirection='column' backgroundColor={backgroundPanel} shouldFill>
-        {loading ? (
-          <text fg={Theme.textMuted}> Loading...</text>
-        ) : (
-          <>
-            {visibleItems.map((item, index) => {
-              const icon = item.isDirectory ? '📁 ' : '📄 '
-              const text = ' ' + icon + item.name
-              const padded = text.padEnd(contentWidth, ' ')
-              return (
-                <text
-                  key={item.path}
-                  fg={index === selectedIndex ? Theme.background : Theme.text}
-                  bg={index === selectedIndex ? Theme.primary : Theme.backgroundPanel}
-                >
-                  {padded}
-                </text>
-              )
-            })}
-            <text fg={Theme.textMuted}> {hintText}</text>
-          </>
-        )}
+    <box flexDirection='column' paddingLeft={1} paddingRight={1}>
+      <box flexDirection='row'>
+        <text fg={Theme.textMuted}>Filter: </text>
+        <text fg={Theme.primary}>{filter || '(type to filter)'}</text>
       </box>
+      <box height={1} />
+      {isLoading ? (
+        <text fg={Theme.textMuted}>Loading files...</text>
+      ) : visibleFiles.length === 0 ? (
+        <text fg={Theme.textMuted}>No files found</text>
+      ) : (
+        <>
+          {visibleFiles.map((file, index) => {
+            const isDir = file.endsWith('/')
+            const icon = isDir ? '📁 ' : '📄 '
+            return (
+              <text
+                key={file}
+                fg={index === selectedIndex ? Theme.background : Theme.text}
+                bg={index === selectedIndex ? Theme.primary : Theme.backgroundPanel}
+              >
+                {' '}{icon}{file}
+              </text>
+            )
+          })}
+        </>
+      )}
+      <box height={1} />
+      <text fg={Theme.textMuted}>{hintText}</text>
     </box>
   )
 }

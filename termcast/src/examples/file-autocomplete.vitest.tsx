@@ -16,18 +16,19 @@ afterEach(() => {
   session?.close()
 })
 
-test('autocomplete shows on ./ input with proper background', async () => {
+test('autocomplete shows flat file list in dialog', async () => {
   await session.text({
     waitFor: (text) => text.includes('Select Files') && text.includes('Select Folder'),
   })
 
+  // Navigate to folder picker (canChooseDirectories=true)
   await session.press('tab')
   await session.press('tab')
 
-  await session.type('./')
+  await session.type('s')
 
   const snapshot = await session.text({
-    waitFor: (text) => text.includes('📁'),
+    waitFor: (text) => text.includes('Filter:') && text.includes('📁'),
   })
   expect(snapshot).toMatchInlineSnapshot(`
     "
@@ -36,72 +37,26 @@ test('autocomplete shows on ./ input with proper background', async () => {
 
 
     ◇  Your Name
-    │  ┌────────────────────────────────────────────────────────────┐
-    │  │ 📁 dist                                                    │
-    ◇  │ 📁 fixtures                                                │
-    │  │ 📁 node_modules                                            │
-    │  │ 📁 src                                                     │
-    │  │ 📁 tmp                                                     │
-    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
-    ◆  └────────────────────────────────────────────────────────────┘
-    ┃  ./
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
+    │  John Doe
+    │
+    ◇  Select Files
     │  Enter file path...
     │
-    │  Choose exactly one file
-    │
-    └
-
-
-
-
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
-  `)
-}, 10000)
-
-test('autocomplete dropdown covers background content', async () => {
-  await session.text({
-    waitFor: (text) => text.includes('Select Files'),
-  })
-
-  await session.press('tab')
-  await session.press('tab')
-
-  await session.type('src/')
-
-  const snapshot = await session.text({
-    waitFor: (text) => text.includes('📁 apis'),
-  })
-  expect(snapshot).toMatchInlineSnapshot(`
-    "
-
-
-       ┌────────────────────────────────────────────────────────────┐
-       │ 📁 apis                                                    │
-    ◇  │ 📁 components                                              │
-    │  │ 📁 examples                                                │
-    │  │ 📁 extensions                                              │
-    ◇  │ 📁 hooks                                                   │
-    │  │ 📁 internal                                                │
-    │  │ 📁 store-api                                               │
-    │  │ 📁 utils                                                   │
-    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
-    ◆  └────────────────────────────────────────────────────────────┘
-    ┃  src/
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
-
-
+    │┃
+    │┃ Filter: s
+    ◆┃
+    │┃  📁 fixtures/
+    │┃  📁 fixtures/hot-reload-extension/
+    │┃  📁 fixtures/hot-reload-extension/src/
+    │┃  📁 fixtures/simple-extension/
+    ◇┃  📁 fixtures/simple-extension/src/
+    │┃  📁 fixtures/swift-extension/
+    │┃  📁 fixtures/swift-extension/src/
+    │┃  📁 fixtures/swift-extension/swift/
+    │┃  📁 fixtures/swift-extension/swift/Sources/
+    └┃  📁 fixtures/swift-extension/swift/Sources/SwiftAPI/
+     ┃
+     ┃ ↑↓ navigate  ⏎/tab select  esc close
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -115,10 +70,10 @@ test('autocomplete navigation with down/up keys', async () => {
 
   await session.press('tab')
   await session.press('tab')
-  await session.type('src/')
+  await session.type('s')
 
   await session.text({
-    waitFor: (text) => text.includes('📁 apis'),
+    waitFor: (text) => text.includes('📁'),
   })
 
   await session.press('down')
@@ -129,29 +84,29 @@ test('autocomplete navigation with down/up keys', async () => {
     "
 
 
-       ┌────────────────────────────────────────────────────────────┐
-       │ 📁 apis                                                    │
-    ◇  │ 📁 components                                              │
-    │  │ 📁 examples                                                │
-    │  │ 📁 extensions                                              │
-    ◇  │ 📁 hooks                                                   │
-    │  │ 📁 internal                                                │
-    │  │ 📁 store-api                                               │
-    │  │ 📁 utils                                                   │
-    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
-    ◆  └────────────────────────────────────────────────────────────┘
-    ┃  src/
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
     │  Enter file path...
     │
-    │  Choose exactly one file
-    │
-    └
-
-
+    │┃
+    │┃ Filter: s
+    ◆┃
+    │┃  📁 fixtures/
+    │┃  📁 fixtures/hot-reload-extension/
+    │┃  📁 fixtures/hot-reload-extension/src/
+    │┃  📁 fixtures/simple-extension/
+    ◇┃  📁 fixtures/simple-extension/src/
+    │┃  📁 fixtures/swift-extension/
+    │┃  📁 fixtures/swift-extension/src/
+    │┃  📁 fixtures/swift-extension/swift/
+    │┃  📁 fixtures/swift-extension/swift/Sources/
+    └┃  📁 fixtures/swift-extension/swift/Sources/SwiftAPI/
+     ┃
+     ┃ ↑↓ navigate  ⏎/tab select  esc close
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -164,52 +119,102 @@ test('autocomplete navigation with down/up keys', async () => {
     "
 
 
-       ┌────────────────────────────────────────────────────────────┐
-       │ 📁 apis                                                    │
-    ◇  │ 📁 components                                              │
-    │  │ 📁 examples                                                │
-    │  │ 📁 extensions                                              │
-    ◇  │ 📁 hooks                                                   │
-    │  │ 📁 internal                                                │
-    │  │ 📁 store-api                                               │
-    │  │ 📁 utils                                                   │
-    │  │ ↑↓ navigate  ⏎ open folder  → select folder  esc close     │
-    ◆  └────────────────────────────────────────────────────────────┘
-    ┃  src/
-    ┃
-    ┃  Choose a folder for output
-    ┃
-    ◇  Select Single File
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◇  Select Files
     │  Enter file path...
     │
-    │  Choose exactly one file
-    │
-    └
-
-
+    │┃
+    │┃ Filter: s
+    ◆┃
+    │┃  📁 fixtures/
+    │┃  📁 fixtures/hot-reload-extension/
+    │┃  📁 fixtures/hot-reload-extension/src/
+    │┃  📁 fixtures/simple-extension/
+    ◇┃  📁 fixtures/simple-extension/src/
+    │┃  📁 fixtures/swift-extension/
+    │┃  📁 fixtures/swift-extension/src/
+    │┃  📁 fixtures/swift-extension/swift/
+    │┃  📁 fixtures/swift-extension/swift/Sources/
+    └┃  📁 fixtures/swift-extension/swift/Sources/SwiftAPI/
+     ┃
+     ┃ ↑↓ navigate  ⏎/tab select  esc close
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
 }, 10000)
 
-test('escape closes autocomplete', async () => {
+test('file picker shows only files, not folders', async () => {
+  await session.text({
+    waitFor: (text) => text.includes('Select Files'),
+  })
+
+  // Navigate to file picker (canChooseFiles=true, canChooseDirectories=false)
+  await session.press('tab') // to Select Files field
+
+  await session.type('t')
+
+  const snapshot = await session.text({
+    waitFor: (text) => text.includes('Filter:') && text.includes('📄'),
+  })
+  
+  // Should show files (📄) not folders (📁)
+  expect(snapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+
+    ◇  Your Name
+    │  John Doe
+    │
+    ◆  Select Files
+    │  t
+    │
+    │┃
+    │┃ Filter: t
+    ◇┃
+    │┃  📄 AGENTS.md
+    │┃  📄 CONTRIBUTING.md
+    │┃  📄 ghostty-opentui/AGENTS.md
+    │┃  📄 ghostty-opentui/CHANGELOG.md
+    ◇┃  📄 ghostty-opentui/LICENSE
+    │┃  📄 ghostty-opentui/README.md
+    │┃  📄 ghostty-opentui/TESTING.md
+    │┃  📄 ghostty-opentui/build.zig
+    │┃  📄 ghostty-opentui/build.zig.zon
+    └┃  📄 ghostty-opentui/bun.lock
+     ┃
+     ┃ ↑↓ navigate  ⏎/tab select  esc close
+
+
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+  `)
+  expect(snapshot).toContain('📄')
+  expect(snapshot).not.toContain('📁')
+}, 10000)
+
+test('escape closes autocomplete and form stays visible', async () => {
   await session.text({
     waitFor: (text) => text.includes('Select Files'),
   })
 
   await session.press('tab')
   await session.press('tab')
-  await session.type('./')
+  await session.type('s')
 
   await session.text({
-    waitFor: (text) => text.includes('📁'),
+    waitFor: (text) => text.includes('Filter:'),
   })
 
   await session.press('esc')
 
   const afterEsc = await session.text({
-    waitFor: (text) => !text.includes('📁'),
+    waitFor: (text) => text.includes('Select Folder') && !text.includes('Filter:'),
   })
   expect(afterEsc).toMatchInlineSnapshot(`
     "
@@ -226,10 +231,10 @@ test('escape closes autocomplete', async () => {
     │  Choose one or more files to upload
     │
     ◆  Select Folder
-    ┃  ./
-    ┃
-    ┃  Choose a folder for output
-    ┃
+    │  s
+    │
+    │  Choose a folder for output
+    │
     ◇  Select Single File
     │  Enter file path...
     │
