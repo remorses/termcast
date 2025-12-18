@@ -10,7 +10,7 @@ termcast supports three ways to run extensions: dev mode, compiled, and installe
 | Compiled | Bundled with app | `{extensionPath}/.termcast-bundle/data.db` |
 | Store | `~/.termcast/store/{extensionName}` | `{extensionPath}/.termcast-bundle/data.db` |
 
-The database path is determined by `extensionPath` in state. 
+The database path is determined by `extensionPath` in state. `extensionPath` must always be set before accessing LocalStorage - there is no fallback. 
 
 ## Dev Mode
 
