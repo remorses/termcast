@@ -23,8 +23,6 @@ export interface RunCommandOptions {
   bundledPath?: string
   Component?: (props: LaunchProps) => any
   push: (element: React.ReactNode) => void
-  // For dev mode, adds cache busting query param
-  cacheBustParam?: string
 }
 
 export async function runCommand(options: RunCommandOptions): Promise<void> {
@@ -35,7 +33,6 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
     bundledPath,
     Component: BuiltInComponent,
     push,
-    cacheBustParam,
   } = options
 
   // Check if command has required preferences that are missing
@@ -93,9 +90,10 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
   if (BuiltInComponent) {
     CommandComponent = BuiltInComponent
   } else if (bundledPath) {
-    const importPath = cacheBustParam
-      ? `${bundledPath}?rebuild=${cacheBustParam}`
-      : bundledPath
+    const state = useStore.getState()
+    const devRebuildCount = state.devRebuildCount + 1
+    useStore.setState({ devRebuildCount })
+    const importPath = `${bundledPath}?rebuild=${devRebuildCount}`
     // logger.log(`importing ${importPath}`)
     const module = await import(importPath)
     CommandComponent = module.default

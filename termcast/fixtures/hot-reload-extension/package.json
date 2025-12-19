@@ -13,6 +13,12 @@
       "title": "Detail View",
       "description": "Shows a detail view with a marker",
       "mode": "view"
+    },
+    {
+      "name": "placeholder",
+      "title": "Placeholder",
+      "description": "Placeholder command to prevent auto-run",
+      "mode": "view"
     }
   ]
 }

@@ -34,7 +34,7 @@ test('form basic navigation and input', async () => {
 
     ■  Form Component Demo                                           █
     │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
+    │  keys or Tab to navigate between fields.                       ▀
     │
     ◇  Username
     │  Enter your username
@@ -66,7 +66,6 @@ test('form basic navigation and input', async () => {
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -76,6 +75,7 @@ test('form basic navigation and input', async () => {
     │
     │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -105,7 +105,7 @@ test('password field always shows asterisks and submits real value', async () =>
 
     ▪  Form Component Demo                                           █
     │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
+    │  keys or Tab to navigate between fields.                       ▀
     │
     ◇  Username
     │  Enter your username
@@ -113,7 +113,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◆  Password
-    │  *********
+    │  **********
     │  Must be at least 8 characters
     │
     ◇  Biography
@@ -137,7 +137,6 @@ test('password field always shows asterisks and submits real value', async () =>
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -147,6 +146,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -162,7 +162,7 @@ test('password field always shows asterisks and submits real value', async () =>
 
     ▪  Form Component Demo                                           █
     │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
+    │  keys or Tab to navigate between fields.                       ▀
     │
     ◇  Username
     │  Enter your username
@@ -170,7 +170,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  *********
+    │  **********
     │  Must be at least 8 characters
     │
     ◆  Biography
@@ -194,7 +194,6 @@ test('password field always shows asterisks and submits real value', async () =>
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -204,6 +203,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -224,7 +224,7 @@ test('password field always shows asterisks and submits real value', async () =>
 
     ▪  Form Component Demo                                           █
     │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
+    │  keys or Tab to navigate between fields.                       ▀
     │
     ◇  Username
     │  Enter your username
@@ -232,7 +232,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  *********
+    │  **********
     │  Must be at least 8 characters
     │
     ◆┃
@@ -256,7 +256,6 @@ test('password field always shows asterisks and submits real value', async () =>
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -266,6 +265,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -290,7 +290,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  *********
+    │  **********
     │  Must be at least 8 characters
     │
     ◆  Biography
@@ -314,7 +314,6 @@ test('password field always shows asterisks and submits real value', async () =>
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -324,6 +323,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
 
     ┌─────────────────────────────────────────────────────────────────┐
     │c✓rFormsSubmitteda- Alliform data hasibeen captured successfully │
@@ -364,9 +364,9 @@ test('form date picker selection with space and enter', async () => {
     │  Must be at least 8 characters
     │
     ◇  Biography
-    │  Tell us about yourself...                                     █
+    │  Tell us about yourself...                                     ▄
     │                                                                █
-    │
+    │                                                                █
     │
     │
     │  Maximum 500 characters
@@ -384,7 +384,6 @@ test('form date picker selection with space and enter', async () => {
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -398,6 +397,7 @@ test('form date picker selection with space and enter', async () => {
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
+    │
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -421,9 +421,9 @@ test('form date picker selection with space and enter', async () => {
     │  Must be at least 8 characters
     │
     ◇  Biography
-    │  Tell us about yourself...                                     █
+    │  Tell us about yourself...                                     ▄
     │                                                                █
-    │
+    │                                                                █
     │
     │
     │  Maximum 500 characters
@@ -441,7 +441,6 @@ test('form date picker selection with space and enter', async () => {
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -455,6 +454,7 @@ test('form date picker selection with space and enter', async () => {
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
+    │
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -479,9 +479,9 @@ test('form date picker selection with space and enter', async () => {
     │  Must be at least 8 characters
     │
     ◇  Biography
-    │  Tell us about yourself...                                     █
+    │  Tell us about yourself...                                     ▄
     │                                                                █
-    │
+    │                                                                █
     │
     │
     │  Maximum 500 characters
@@ -499,7 +499,6 @@ test('form date picker selection with space and enter', async () => {
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -513,6 +512,7 @@ test('form date picker selection with space and enter', async () => {
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
+    │
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -553,9 +553,9 @@ test('form dropdown navigation', async () => {
     │  Must be at least 8 characters
     │
     ◇  Biography
-    │  Tell us about yourself...                                     █
+    │  Tell us about yourself...                                     ▄
     │                                                                █
-    │
+    │                                                                █
     │
     │
     │  Maximum 500 characters
@@ -573,7 +573,6 @@ test('form dropdown navigation', async () => {
     │  ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -587,6 +586,7 @@ test('form dropdown navigation', async () => {
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
+    │
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -610,9 +610,9 @@ test('form dropdown navigation', async () => {
     │  Must be at least 8 characters
     │
     ◇  Biography
-    │  Tell us about yourself...                                     █
+    │  Tell us about yourself...                                     ▄
     │                                                                █
-    │
+    │                                                                █
     │
     │
     │  Maximum 500 characters
@@ -630,7 +630,6 @@ test('form dropdown navigation', async () => {
     │› ○ Canada
     │  ○ Mexico
     │  Europe
-    │  ○ United Kingdom
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -644,6 +643,7 @@ test('form dropdown navigation', async () => {
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
+    │
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -669,9 +669,9 @@ test('form dropdown navigation', async () => {
     │  Must be at least 8 characters
     │
     ◇  Biography
-    │  Tell us about yourself...                                     █
+    │  Tell us about yourself...                                     ▄
     │                                                                █
-    │
+    │                                                                █
     │
     │
     │  Maximum 500 characters
@@ -684,7 +684,6 @@ test('form dropdown navigation', async () => {
     ◆  Country
     │  United States
     │
-    │  ○ Canada
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
@@ -703,6 +702,7 @@ test('form dropdown navigation', async () => {
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
+    │
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -726,9 +726,9 @@ test('form dropdown navigation', async () => {
     │  Must be at least 8 characters
     │
     ◇  Biography
-    │  Tell us about yourself...                                     █
+    │  Tell us about yourself...                                     ▄
     │                                                                █
-    │
+    │                                                                █
     │
     │
     │  Maximum 500 characters
@@ -741,7 +741,6 @@ test('form dropdown navigation', async () => {
     ◆  Country
     │  France
     │
-    │  ○ Canada
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
@@ -760,6 +759,7 @@ test('form dropdown navigation', async () => {
     │   15 16 17 18 19 20 21
     │   22 23 24 25 26 27 28
     │   29 30 31
+    │
 
 
      ctrl ↵ submit   tab navigate   ^k actions"

@@ -29,7 +29,6 @@ function ExtensionCommandsList({
   const { packageJson } = getCommandsWithFiles({
     packageJsonPath: path.join(extensionPath, 'package.json'),
   })
-  const devRebuildCount = useStore((state) => state.devRebuildCount)
 
   const visibleCommands = commands.filter((cmd) => cmd.mode !== 'menu-bar')
 
@@ -53,7 +52,6 @@ function ExtensionCommandsList({
         bundledPath: command.bundledPath,
         Component: command.Component,
         push,
-        cacheBustParam: String(devRebuildCount),
       })
     } catch (error: any) {
       await showToast({
@@ -216,6 +214,7 @@ export async function startCompiledExtension({
     devElement: (
       <ExtensionCommandsList extensionPath={extensionPath} commands={commands} />
     ),
+    devRebuildCount: 1,
   })
 
   function App(): any {
@@ -256,6 +255,8 @@ export async function triggerRebuild({
       ),
       devRebuildCount: state.devRebuildCount + 1,
       navigationStack: [], // Reset navigation so NavigationProvider re-initializes with new devElement
+      dialogStack: [], // Clear any open dialogs/toasts on rebuild
+      toast: null,
     })
   } catch (error: any) {
     await showToast({

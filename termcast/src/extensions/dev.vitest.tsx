@@ -237,13 +237,15 @@ test('hot reload updates TUI when source file changes', async () => {
   try {
     // Wait for the extension to load
     await hotReloadSession.text({
-      waitFor: (text) => /Hot Reload Test/i.test(text),
-      timeout: 10000,
+      waitFor: (text) => /Hot Reload Test/i.test(text) && /Detail View/i.test(text),
+      timeout: 5000,
     })
+    await hotReloadSession.waitIdle()
 
     // Run the Detail View command
     await hotReloadSession.press('enter')
     await hotReloadSession.press('enter')
+    await hotReloadSession.waitIdle()
 
     // Wait for the detail view to show
     await hotReloadSession.text({
@@ -261,12 +263,14 @@ test('hot reload updates TUI when source file changes', async () => {
     // Wait for rebuild - navigation resets to commands list
     await hotReloadSession.text({
       waitFor: (text) => /Hot Reload Test/i.test(text) && /Detail View/i.test(text),
-      timeout: 15000,
+      timeout: 5000,
     })
+    await hotReloadSession.waitIdle()
 
     // Run the command again to see updated content
     await hotReloadSession.press('enter')
     await hotReloadSession.press('enter')
+    await hotReloadSession.waitIdle()
 
     // Wait for the updated content
     await hotReloadSession.text({

@@ -52,7 +52,6 @@ test('synonyms extension shows preferences form on first launch', async () => {
     │  ○ OpenAI Compatible
     │  ○ Anthropic
     │  ○ Fireworks.ai
-    │  ○ Groq
     │  Select the LLM provider you want to use
     │
     ◇  OpenAI API Key
@@ -65,6 +64,7 @@ test('synonyms extension shows preferences form on first launch', async () => {
     │  Model name for OpenAI
     │
     ◇  OpenAI Compatible URL
+    │
     │
 
 
@@ -101,7 +101,6 @@ test('synonyms extension preferences form can be navigated', async () => {
     │  ○ OpenAI Compatible
     │  ○ Anthropic
     │  ○ Fireworks.ai
-    │  ○ Groq
     │  Select the LLM provider you want to use
     │
     ◇  OpenAI API Key
@@ -114,6 +113,7 @@ test('synonyms extension preferences form can be navigated', async () => {
     │  Model name for OpenAI
     │
     ◇  OpenAI Compatible URL
+    │
     │
 
 
@@ -138,7 +138,6 @@ test('synonyms extension preferences form can be navigated', async () => {
     │  ○ OpenAI Compatible
     │  ○ Anthropic
     │  ○ Fireworks.ai
-    │  ○ Groq
     │  Select the LLM provider you want to use
     │
     ◇  OpenAI API Key
@@ -151,6 +150,7 @@ test('synonyms extension preferences form can be navigated', async () => {
     │  Model name for OpenAI
     │
     ◇  OpenAI Compatible URL
+    │
     │
 
 
