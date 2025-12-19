@@ -147,7 +147,7 @@ test('list with detail view display and navigation', async () => {
      bulbasaur #001
      ivysaur #002                         │ charmander                        ▲
     ›charmander #004                      │                                   █
-     charmeleon #005                      │ Illustration
+     c┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
      s┃                                                                          ┃
      w┃                                                                    esc   ┃
       ┃                                                                          ┃
@@ -165,7 +165,8 @@ test('list with detail view display and navigation', async () => {
       ┃                                                                          ┃
       ┃                                                                          ┃
       ┃   ↵ select   ↑↓ navigate                                                 ┃
-     ↵┃                                                                          ┃"
+     ↵┃                                                                          ┃
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   `)
 
   await session.press('enter')

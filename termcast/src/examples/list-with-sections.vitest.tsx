@@ -418,7 +418,7 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›Apple Red and sweet                            Fresh [Popular]  ▀
+    ›┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
      ┃
@@ -446,7 +446,7 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›Apple Red and sweet                            Fresh [Popular]  ▀
+    ›┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
      ┃

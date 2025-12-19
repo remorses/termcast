@@ -288,7 +288,7 @@ test('navigation with actions panel', async () => {
 
      Items
     ›First Item Navigate to first detail
-     Second Item Navigate to second detail
+     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
      ┃
@@ -321,7 +321,7 @@ test('navigation with actions panel', async () => {
 
      Items
     ›First Item Navigate to first detail
-     Second Item Navigate to second detail
+     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
      ┃
@@ -432,7 +432,7 @@ test('navigation with actions panel', async () => {
 
      Details
     ›This is the detail view for Second Item Press Enter to go back
-
+     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
      ┃

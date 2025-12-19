@@ -41,7 +41,7 @@ test('autocomplete shows flat file list in dialog', async () => {
     │
     ◇  Select Files
     │  Enter file path...
-    │
+    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: s
     ◆┃
@@ -57,7 +57,7 @@ test('autocomplete shows flat file list in dialog', async () => {
     └┃  📁 fixtures/simple-extension/src/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
-
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
@@ -91,7 +91,7 @@ test('autocomplete navigation with down/up keys', async () => {
     │
     ◇  Select Files
     │  Enter file path...
-    │
+    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: s
     ◆┃
@@ -107,7 +107,7 @@ test('autocomplete navigation with down/up keys', async () => {
     └┃  📁 fixtures/simple-extension/src/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
-
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
@@ -126,7 +126,7 @@ test('autocomplete navigation with down/up keys', async () => {
     │
     ◇  Select Files
     │  Enter file path...
-    │
+    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: s
     ◆┃
@@ -142,7 +142,7 @@ test('autocomplete navigation with down/up keys', async () => {
     └┃  📁 fixtures/simple-extension/src/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
-
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
@@ -174,7 +174,7 @@ test('file picker shows only files, not folders', async () => {
     │
     ◆  Select Files
     │  t
-    │
+    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: t
     ◇┃
@@ -190,7 +190,7 @@ test('file picker shows only files, not folders', async () => {
     └┃  📄 extensions/synonyms/bun.lock
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
-
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
      ctrl ↵ submit   tab navigate   ^k actions"
   `)

@@ -134,7 +134,7 @@ test('grid navigation and display', async () => {
 
      Fruits                                                          ▲
         Apple                                                        █
-     🍌 Banana                                                       █
+     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
      ┃
@@ -501,7 +501,7 @@ test('grid mouse interaction', async () => {
 
                                                                      ▲
      Animals
-     🐕 Dog
+     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
      ┃

@@ -111,7 +111,7 @@ test('typing opens autocomplete dialog with file list', async () => {
 
 
 
-    ◇  Your Name
+    ◇┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: s
     ◇┃
@@ -127,7 +127,7 @@ test('typing opens autocomplete dialog with file list', async () => {
     ◇┃  📁 fixtures/simple-extension/src/
     │┃
     │┃ ↑↓ navigate  ⏎/tab select  esc close
-    │  Choose exactly one file
+    │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │
     └
 

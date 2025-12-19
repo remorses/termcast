@@ -64,7 +64,7 @@ test('list with dropdown navigation', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
@@ -82,7 +82,7 @@ test('list with dropdown navigation', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-     ↵ select  ↑↓ navigate  ^k actions"
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   `)
 
   const afterCtrlPSnapshot = await session.text({
@@ -96,7 +96,7 @@ test('list with dropdown navigation', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
@@ -114,7 +114,7 @@ test('list with dropdown navigation', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-     ↵ select  ↑↓ navigate  ^k actions"
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   `)
 
   await session.press('down')
@@ -126,7 +126,7 @@ test('list with dropdown navigation', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
@@ -144,7 +144,7 @@ test('list with dropdown navigation', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-     ↵ select  ↑↓ navigate  ^k actions"
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   `)
 
   await session.press('down')
@@ -156,7 +156,7 @@ test('list with dropdown navigation', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
@@ -174,7 +174,7 @@ test('list with dropdown navigation', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-     ↵ select  ↑↓ navigate  ^k actions"
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   `)
 
   await session.press('enter')
@@ -233,7 +233,7 @@ test('list with dropdown search and filter', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
@@ -251,7 +251,7 @@ test('list with dropdown search and filter', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-     ↵ select  ↑↓ navigate  ^k actions"
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   `)
 
   await session.text({
@@ -273,7 +273,7 @@ test('list with dropdown search and filter', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
@@ -284,7 +284,7 @@ test('list with dropdown search and filter', async () => {
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
     ┃                                                                  ┃
-    ┃   Non-Alcoholic                                                  ┃
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ┃
      Apple Juice Juice
 
 

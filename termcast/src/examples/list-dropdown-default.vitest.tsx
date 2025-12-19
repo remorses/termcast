@@ -76,7 +76,7 @@ test('dropdown opens and shows items', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-
+      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
      S┃                                                                          ┃
       ┃   Filter by category                                               esc   ┃
     ›F┃                                                                          ┃
@@ -90,7 +90,7 @@ test('dropdown opens and shows items', async () => {
       ┃                                                                          ┃
       ┃   ↵ select   ↑↓ navigate                                                 ┃
       ┃                                                                          ┃
-
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 
@@ -111,7 +111,7 @@ test('dropdown opens and shows items', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-
+      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
      S┃                                                                          ┃
       ┃   Filter by category                                               esc   ┃
     ›F┃                                                                          ┃
@@ -125,7 +125,7 @@ test('dropdown opens and shows items', async () => {
       ┃                                                                          ┃
       ┃   ↵ select   ↑↓ navigate                                                 ┃
       ┃                                                                          ┃
-
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 
@@ -189,7 +189,7 @@ test('clicking dropdown opens it', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-
+      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
      S┃                                                                          ┃
       ┃   Filter by category                                               esc   ┃
     ›F┃                                                                          ┃
@@ -203,7 +203,7 @@ test('clicking dropdown opens it', async () => {
       ┃                                                                          ┃
       ┃   ↵ select   ↑↓ navigate                                                 ┃
       ┃                                                                          ┃
-
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 
