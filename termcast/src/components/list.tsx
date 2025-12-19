@@ -739,8 +739,15 @@ export const List: ListType = (props) => {
   // Wrapper function that updates search text
   const setInternalSearchText = (value: string) => {
     setInternalSearchTextRaw(value)
-    // Reset selection when search changes - this is expected UX behavior
-    setSelectedIndex(0)
+    // TODO: use flushSync when available to force descendants to update visibility
+    // before querying. For now, we compute visibility inline with the new search value.
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      .sort((a, b) => a.index - b.index)
+
+    if (items.length > 0 && items[0]) {
+      setSelectedIndex(items[0].index)
+    }
   }
 
   const listContextValue = useMemo<ListContextValue>(
@@ -771,11 +778,10 @@ export const List: ListType = (props) => {
     if (selectedItemId !== undefined) {
       const items = Object.values(descendantsContext.map.current)
         .filter((item) => item.index !== -1)
-        .sort((a, b) => a.index - b.index)
 
-      const foundIndex = items.findIndex((item) => item.props?.id === selectedItemId)
-      if (foundIndex !== -1) {
-        setSelectedIndex(foundIndex)
+      const foundItem = items.find((item) => item.props?.id === selectedItemId)
+      if (foundItem) {
+        setSelectedIndex(foundItem.index)
       }
     }
   }, [selectedItemId])
@@ -788,7 +794,7 @@ export const List: ListType = (props) => {
       .filter((item) => item.index !== -1)
       .sort((a, b) => a.index - b.index)
 
-    const currentItem = items[selectedIndex]
+    const currentItem = items.find((item) => item.index === selectedIndex)
     const selectedId = currentItem?.props?.id ?? null
     onSelectionChange(selectedId)
   }, [selectedIndex])
@@ -810,21 +816,34 @@ export const List: ListType = (props) => {
   }
 
   const move = (direction: -1 | 1) => {
+    // Get all visible items
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
       .sort((a, b) => a.index - b.index)
 
     if (items.length === 0) return
 
-    // Calculate next position with wrap-around
-    let nextIndex = selectedIndex + direction
-    if (nextIndex < 0) nextIndex = items.length - 1
-    if (nextIndex >= items.length) nextIndex = 0
+    // Find currently selected item's position in visible items
+    let currentVisibleIndex = items.findIndex(
+      (item) => item.index === selectedIndex,
+    )
+    if (currentVisibleIndex === -1) {
+      // If current selection is not visible, select first visible item
+      if (items[0]) {
+        setSelectedIndex(items[0].index)
+      }
+      return
+    }
 
-    const nextItem = items[nextIndex]
+    // Calculate next visible index
+    let nextVisibleIndex = currentVisibleIndex + direction
+    if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
+    if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
+
+    const nextItem = items[nextVisibleIndex]
     if (nextItem) {
       scrollToItem(nextItem)
-      setSelectedIndex(nextIndex)
+      setSelectedIndex(nextItem.index)
     }
   }
 
@@ -840,11 +859,11 @@ export const List: ListType = (props) => {
       return
     }
 
-    // Get current item by selectedIndex
+    // Get current item by selectedIndex (which is a descendant index)
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1)
       .sort((a, b) => a.index - b.index)
-    const currentItem = items[selectedIndex]
+    const currentItem = items.find((item) => item.index === selectedIndex)
 
     // Handle Ctrl+K to show actions (always show sheet)
     if (evt.name === 'k' && evt.ctrl) {
