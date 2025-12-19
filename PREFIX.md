@@ -120,6 +120,8 @@ if you cannot port a real implementation for some raycast APIs and instead simul
 
 NEVER add zustand state setter methods. instead use useStore.setState to set state.
 
+NEVER do useStore((state) => ({something: state.currentCommandName})). it will trigger an infinite render loop. instead only return scalar values and not objects in zustand state selectors
+
 you can use zustand state from @state.tsx also outside of React using `useStore.getState()`
 
 NEVER do useStore((state) => ({something: state.currentCommandName})). it will trigger an infinite render loop. instead only return scalar values and not objects in zustand state selectors
