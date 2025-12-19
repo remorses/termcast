@@ -43,6 +43,7 @@ test('synonyms extension shows preferences form on first launch', async () => {
 
 
      synonyms Preferences ────────────────────────────────────────────────
+
     ◇  LLM Provider                                                      ▀
     │  Select...
     │
@@ -64,7 +65,6 @@ test('synonyms extension shows preferences form on first launch', async () => {
     │  Model name for OpenAI
     │
     ◇  OpenAI Compatible URL
-    │
     │
 
 
@@ -92,6 +92,7 @@ test('synonyms extension preferences form can be navigated', async () => {
 
 
      synonyms Preferences ────────────────────────────────────────────────
+
     ◇  LLM Provider                                                      ▀
     │  Select...
     │
@@ -114,7 +115,6 @@ test('synonyms extension preferences form can be navigated', async () => {
     │
     ◇  OpenAI Compatible URL
     │
-    │
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -129,6 +129,7 @@ test('synonyms extension preferences form can be navigated', async () => {
 
 
      synonyms Preferences ────────────────────────────────────────────────
+
     ◆  LLM Provider                                                      ▀
     │  Select...
     │
@@ -150,7 +151,6 @@ test('synonyms extension preferences form can be navigated', async () => {
     │  Model name for OpenAI
     │
     ◇  OpenAI Compatible URL
-    │
     │
 
 

@@ -92,6 +92,7 @@ test('selecting command with arguments shows arguments form', async () => {
 
 
      With Arguments ───────────────────────────────────────
+
     ■  With Arguments                                      ▀
     │  Enter the arguments to run this command.
     │
@@ -100,7 +101,6 @@ test('selecting command with arguments shows arguments form', async () => {
     │
     ◇  Secret key
     │  Secret key
-    ◇  Category
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -136,6 +136,7 @@ test('can fill arguments and run command', async () => {
 
 
      With Arguments ───────────────────────────────────────
+
     ■  With Arguments                                      ▀
     │  Enter the arguments to run this command.
     │
@@ -144,7 +145,6 @@ test('can fill arguments and run command', async () => {
     │
     ◇  Secret key
     │  Secret key
-    ◇  Category
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
