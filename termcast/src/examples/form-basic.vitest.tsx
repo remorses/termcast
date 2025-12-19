@@ -33,9 +33,9 @@ test('form basic navigation and input', async () => {
 
 
     ■  Form Component Demo                                           █
-    ┃  This demonstrates all available form input types. Use arrow   █
-    ┃  keys or Tab to navigate between fields.
-    ┃
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
+    │
     ◇  Username
     │  Enter your username
     │
@@ -113,9 +113,9 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◆  Password
-    ┃  *********
-    ┃  Must be at least 8 characters
-    ┃
+    │  *********
+    │  Must be at least 8 characters
+    │
     ◇  Biography
     │  Tell us about yourself...
     │
@@ -174,13 +174,13 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Must be at least 8 characters
     │
     ◆  Biography
-    ┃  Tell us about yourself...
-    ┃
-    ┃
-    ┃
-    ┃
-    ┃  Maximum 500 characters
-    ┃
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
     ◇  Email Preferences
     │  ○ Subscribe to newsletter
     │
@@ -222,53 +222,53 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-     ▪  Form Component Demo                                           █
-     │  This demonstrates all available form input types. Use arrow   █
-     │  keys or Tab to navigate between fields.
-     │
-     ◇  Username
-     │  Enter your username
-     │
-     │  Required field
-     │
-     ◇  Password
-     │  *********
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Submit Form                                         ⌃RETURN    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-     │  Americas
-     │  ○ United States
-     │  ○ Canada
-     │  ○ Mexico
-     │  Europe
-     │  ○ United Kingdom
-     │  ↑↓ to see more options
-     │
-     │  Your country of residence
-     │
-     ◇  Date of Birth
-     │
-     │   ←       2025        →
-     │   ←     December      →
-     │
+    ▪  Form Component Demo                                           █
+    │  This demonstrates all available form input types. Use arrow   █
+    │  keys or Tab to navigate between fields.
+    │
+    ◇  Username
+    │  Enter your username
+    │
+    │  Required field
+    │
+    ◇  Password
+    │  *********
+    │  Must be at least 8 characters
+    │
+    ◆┃
+    │┃                                                            esc
+    │┃
+    │┃   Search actions...
+    │┃
+    │┃  ›Submit Form                                         ⌃RETURN
+    │┃
+    │┃
+    ◇┃
+    │┃
+    │┃
+    │┃
+    │┃
+    ◇┃
+    │┃
+    │┃
+    │┃   ↵ select   ↑↓ navigate
+    │┃
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
+    ◇  Date of Birth
+    │
+    │   ←       2025        →
+    │   ←     December      →
+    │
 
 
-      ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   ↑↓ navigate   ^k actions"
   `)
   
   await session.press('enter')
@@ -294,13 +294,13 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Must be at least 8 characters
     │
     ◆  Biography
-    ┃  Tell us about yourself...
-    ┃
-    ┃
-    ┃
-    ┃
-    ┃  Maximum 500 characters
-    ┃
+    │  Tell us about yourself...
+    │
+    │
+    │
+    │
+    │  Maximum 500 characters
+    │
     ◇  Email Preferences
     │  ○ Subscribe to newsletter
     │
@@ -354,10 +354,6 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
     ◇  Username
     │  Enter your username
     │
@@ -367,8 +363,8 @@ test('form date picker selection with space and enter', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography
-    │  Tell us about yourself...
+    ◇  Biography                                                     █
+    │  Tell us about yourself...                                     █
     │
     │
     │
@@ -381,23 +377,27 @@ test('form date picker selection with space and enter', async () => {
     │  Receive weekly updates
     │
     ◆  Country
-    ┃  Select your country
-    ┃
-    ┃  Americas
-    ┃› ○ United States
-    ┃  ○ Canada
-    ┃  ○ Mexico
-    ┃  Europe
-    ┃  ○ United Kingdom
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Your country of residence
-    ┃
+    │  Select your country
+    │
+    │  Americas
+    │› ○ United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
     ◇  Date of Birth
     │
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -411,10 +411,6 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
     ◇  Username
     │  Enter your username
     │
@@ -424,8 +420,8 @@ test('form date picker selection with space and enter', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography
-    │  Tell us about yourself...
+    ◇  Biography                                                     █
+    │  Tell us about yourself...                                     █
     │
     │
     │
@@ -438,23 +434,27 @@ test('form date picker selection with space and enter', async () => {
     │  Receive weekly updates
     │
     ◆  Country
-    ┃  United States
-    ┃
-    ┃  Americas
-    ┃› ● United States
-    ┃  ○ Canada
-    ┃  ○ Mexico
-    ┃  Europe
-    ┃  ○ United Kingdom
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Your country of residence
-    ┃
+    │  United States
+    │
+    │  Americas
+    │› ● United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
     ◇  Date of Birth
     │
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -469,10 +469,6 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
     ◇  Username
     │  Enter your username
     │
@@ -482,8 +478,8 @@ test('form date picker selection with space and enter', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography
-    │  Tell us about yourself...
+    ◇  Biography                                                     █
+    │  Tell us about yourself...                                     █
     │
     │
     │
@@ -496,23 +492,27 @@ test('form date picker selection with space and enter', async () => {
     │  Receive weekly updates
     │
     ◆  Country
-    ┃  United States
-    ┃
-    ┃  Americas
-    ┃› ● United States
-    ┃  ○ Canada
-    ┃  ○ Mexico
-    ┃  Europe
-    ┃  ○ United Kingdom
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Your country of residence
-    ┃
+    │  United States
+    │
+    │  Americas
+    │› ● United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
     ◇  Date of Birth
     │
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -543,10 +543,6 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
     ◇  Username
     │  Enter your username
     │
@@ -556,8 +552,8 @@ test('form dropdown navigation', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography
-    │  Tell us about yourself...
+    ◇  Biography                                                     █
+    │  Tell us about yourself...                                     █
     │
     │
     │
@@ -570,23 +566,27 @@ test('form dropdown navigation', async () => {
     │  Receive weekly updates
     │
     ◆  Country
-    ┃  United States
-    ┃
-    ┃  Americas
-    ┃› ● United States
-    ┃  ○ Canada
-    ┃  ○ Mexico
-    ┃  Europe
-    ┃  ○ United Kingdom
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Your country of residence
-    ┃
+    │  United States
+    │
+    │  Americas
+    │› ● United States
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
     ◇  Date of Birth
     │
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -600,10 +600,6 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
     ◇  Username
     │  Enter your username
     │
@@ -613,8 +609,8 @@ test('form dropdown navigation', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography
-    │  Tell us about yourself...
+    ◇  Biography                                                     █
+    │  Tell us about yourself...                                     █
     │
     │
     │
@@ -627,23 +623,27 @@ test('form dropdown navigation', async () => {
     │  Receive weekly updates
     │
     ◆  Country
-    ┃  United States
-    ┃
-    ┃  Americas
-    ┃  ● United States
-    ┃› ○ Canada
-    ┃  ○ Mexico
-    ┃  Europe
-    ┃  ○ United Kingdom
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Your country of residence
-    ┃
+    │  United States
+    │
+    │  Americas
+    │  ● United States
+    │› ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
     ◇  Date of Birth
     │
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -659,10 +659,6 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
     ◇  Username
     │  Enter your username
     │
@@ -672,8 +668,8 @@ test('form dropdown navigation', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography
-    │  Tell us about yourself...
+    ◇  Biography                                                     █
+    │  Tell us about yourself...                                     █
     │
     │
     │
@@ -686,23 +682,27 @@ test('form dropdown navigation', async () => {
     │  Receive weekly updates
     │
     ◆  Country
-    ┃  United States
-    ┃
-    ┃  Americas
-    ┃  ○ Canada
-    ┃  ○ Mexico
-    ┃  Europe
-    ┃  ○ United Kingdom
-    ┃› ○ France
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Your country of residence
-    ┃
+    │  United States
+    │
+    │  Americas
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │› ○ France
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
     ◇  Date of Birth
     │
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -716,10 +716,6 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
     ◇  Username
     │  Enter your username
     │
@@ -729,8 +725,8 @@ test('form dropdown navigation', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography
-    │  Tell us about yourself...
+    ◇  Biography                                                     █
+    │  Tell us about yourself...                                     █
     │
     │
     │
@@ -743,23 +739,27 @@ test('form dropdown navigation', async () => {
     │  Receive weekly updates
     │
     ◆  Country
-    ┃  France
-    ┃
-    ┃  Americas
-    ┃  ○ Canada
-    ┃  ○ Mexico
-    ┃  Europe
-    ┃  ○ United Kingdom
-    ┃› ● France
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Your country of residence
-    ┃
+    │  France
+    │
+    │  Americas
+    │  ○ Canada
+    │  ○ Mexico
+    │  Europe
+    │  ○ United Kingdom
+    │› ● France
+    │  ↑↓ to see more options
+    │
+    │  Your country of residence
+    │
     ◇  Date of Birth
     │
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
+    │    8  9 10 11 12 13 14
+    │   15 16 17 18 19 20 21
 
 
      ctrl ↵ submit   ↑↓ navigate   ^k actions"
@@ -787,9 +787,9 @@ test('form scrolls with mouse wheel', async () => {
 
 
     ■  Form Component Demo                                           ▀
-    ┃  This demonstrates all available form input types. Use arrow
-    ┃  keys or Tab to navigate between fields.
-    ┃
+    │  This demonstrates all available form input types. Use arrow
+    │  keys or Tab to navigate between fields.
+    │
     ◇  Username
     │  Enter your username
     │
@@ -813,9 +813,9 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
-    ┃  This demonstrates all available form input types. Use arrow   ▄
-    ┃  keys or Tab to navigate between fields.
-    ┃
+    │  This demonstrates all available form input types. Use arrow   ▄
+    │  keys or Tab to navigate between fields.
+    │
     ◇  Username
     │  Enter your username
     │
@@ -841,9 +841,9 @@ test('form scrolls with mouse wheel', async () => {
 
 
     ■  Form Component Demo                                           ▀
-    ┃  This demonstrates all available form input types. Use arrow
-    ┃  keys or Tab to navigate between fields.
-    ┃
+    │  This demonstrates all available form input types. Use arrow
+    │  keys or Tab to navigate between fields.
+    │
     ◇  Username
     │  Enter your username
     │

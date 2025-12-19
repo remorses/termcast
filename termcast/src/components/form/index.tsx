@@ -117,7 +117,7 @@ function FormFooter(): any {
       </text>
       <text fg={Theme.textMuted}> submit</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'   '}↑↓
+        {'   '}tab
       </text>
       <text fg={Theme.textMuted}> navigate</text>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
@@ -194,6 +194,14 @@ export const Form: FormType = ((props) => {
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useFormFieldDescendants()
 
+  // Helper to get sorted field IDs
+  const getFieldIds = () => {
+    return Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.id)
+      .sort((a, b) => a.index - b.index)
+      .map((item) => item.props!.id)
+  }
+
   const scrollToField = (fieldId: string) => {
     const scrollBox = scrollBoxRef.current
     if (!scrollBox) return
@@ -223,20 +231,37 @@ export const Form: FormType = ((props) => {
     }
   }
 
+  // Focus first field helper
+  const focusFirstField = () => {
+    const fieldIds = getFieldIds()
+    if (fieldIds.length > 0) {
+      logger.log(`focusing first field:`, fieldIds[0])
+      setFocusedField(fieldIds[0])
+      return true
+    }
+    return false
+  }
+
+  // Focus last field helper  
+  const focusLastField = () => {
+    const fieldIds = getFieldIds()
+    if (fieldIds.length > 0) {
+      logger.log(`focusing last field:`, fieldIds[fieldIds.length - 1])
+      setFocusedField(fieldIds[fieldIds.length - 1])
+      return true
+    }
+    return false
+  }
+
   // Auto-focus first field when descendants become available
   // Runs on every render until a field is focused (handles async loading)
   useEffect(() => {
-    // Skip if there's already a focused field
     if (focusedField) return
 
-    const descendants = Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1 && item.props?.id)
-      .sort((a, b) => a.index - b.index)
-
-    if (descendants.length > 0) {
-      const firstId = descendants[0].props!.id
-      logger.log(`auto-focusing first field:`, firstId)
-      setFocusedFieldRaw(firstId)
+    const fieldIds = getFieldIds()
+    if (fieldIds.length > 0) {
+      logger.log(`auto-focusing first field:`, fieldIds[0])
+      setFocusedFieldRaw(fieldIds[0])
     }
   })
 
@@ -244,10 +269,43 @@ export const Form: FormType = ((props) => {
   const inFocus = useIsInFocus()
   const dialog = useDialog()
 
-  // Handle action keys and page scrolling
+  // Handle action keys, tab navigation, and page scrolling
   useKeyboard((evt) => {
     // Only handle keyboard events when form is in focus
     if (!inFocus) return
+
+    // Tab navigation at Form level - handles case when no field is focused
+    // or navigates between fields
+    if (evt.name === 'tab') {
+      if (!focusedField) {
+        // No field focused yet - focus first or last based on shift
+        if (evt.shift) {
+          focusLastField()
+        } else {
+          focusFirstField()
+        }
+      } else {
+        // A field is focused - navigate to next/previous
+        const fieldIds = getFieldIds()
+        const currentIndex = fieldIds.indexOf(focusedField)
+        if (evt.shift) {
+          // Shift+Tab - go to previous
+          if (currentIndex > 0) {
+            setFocusedField(fieldIds[currentIndex - 1])
+          } else {
+            setFocusedField(fieldIds[fieldIds.length - 1])
+          }
+        } else {
+          // Tab - go to next
+          if (currentIndex < fieldIds.length - 1) {
+            setFocusedField(fieldIds[currentIndex + 1])
+          } else {
+            setFocusedField(fieldIds[0])
+          }
+        }
+      }
+      return
+    }
 
     // Page up/down scrolling
     if (evt.name === 'pageup' || evt.name === 'pagedown') {

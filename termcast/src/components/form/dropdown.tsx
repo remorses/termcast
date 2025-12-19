@@ -6,7 +6,7 @@ import React, {
   useRef,
   useLayoutEffect,
 } from 'react'
-import { BoxRenderable } from '@opentui/core'
+import { BoxRenderable, ScrollBoxRenderable } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import {
   useFormContext,
@@ -62,6 +62,7 @@ interface FormDropdownItemDescendant {
   title: string
   icon?: string
   section?: string // Track which section this item belongs to
+  elementRef?: BoxRenderable | null
 }
 
 const {
@@ -73,13 +74,12 @@ const {
 // Context for dropdown state
 interface FormDropdownContextValue {
   focusedIndex: number
-  offset: number
-  itemsPerPage: number
   isFocused: boolean
   handleSelect: (descendantId: string) => void
   field: DropdownFieldType
   props: DropdownProps
   descendantsContext: DescendantContextType<FormDropdownItemDescendant>
+  scrollBoxRef: React.RefObject<ScrollBoxRenderable | null>
 }
 
 // Separate context for section information
@@ -91,21 +91,20 @@ const SectionContext = createContext<SectionContextValue>({
   currentSection: undefined,
 })
 
-const itemsPerPage = 4
 const FormDropdownContext = createContext<FormDropdownContextValue>({
   focusedIndex: 0,
-  offset: 0,
-  itemsPerPage,
   isFocused: false,
   handleSelect: () => {},
   descendantsContext: {} as any,
   field: {} as DropdownFieldType,
   props: {} as DropdownProps,
+  scrollBoxRef: { current: null },
 })
 
 const DropdownItem = (props: DropdownItemProps) => {
   const context = useContext(FormDropdownContext)
   const sectionContext = useContext(SectionContext)
+  const elementRef = useRef<BoxRenderable | null>(null)
 
   // Register as descendant
   const descendant = useFormDropdownDescendant({
@@ -113,15 +112,8 @@ const DropdownItem = (props: DropdownItemProps) => {
     title: props.title,
     icon: props.icon,
     section: sectionContext.currentSection,
+    elementRef: elementRef.current,
   })
-
-  // Hide items that are outside the visible range
-  if (
-    descendant.index < context.offset ||
-    descendant.index >= context.offset + context.itemsPerPage
-  ) {
-    return null
-  }
 
   const isFocused = descendant.index === context.focusedIndex
 
@@ -144,54 +136,34 @@ const DropdownItem = (props: DropdownItemProps) => {
   })()
 
   return (
-    <WithLeftBorder
-      key={props.value}
-      isFocused={context.isFocused}
-      paddingLeft={0}
-      paddingBottom={0}
-    >
-      <text
-        fg={
-          context.isFocused && isFocused
-            ? Theme.accent
-            : context.isFocused
-              ? Theme.text
-              : Theme.textMuted
-        }
-        onMouseDown={() => {
-          context.handleSelect(descendant.descendantId)
-        }}
+    <box ref={elementRef} key={props.value}>
+      <WithLeftBorder
+        isFocused={context.isFocused}
+        paddingLeft={0}
+        paddingBottom={0}
       >
-        {context.isFocused && isFocused ? '› ' : '  '}
-        {isSelected ? '●' : '○'} {props.title}
-      </text>
-    </WithLeftBorder>
+        <text
+          fg={
+            context.isFocused && isFocused
+              ? Theme.accent
+              : context.isFocused
+                ? Theme.text
+                : Theme.textMuted
+          }
+          onMouseDown={() => {
+            context.handleSelect(descendant.descendantId)
+          }}
+        >
+          {context.isFocused && isFocused ? '› ' : '  '}
+          {isSelected ? '●' : '○'} {props.title}
+        </text>
+      </WithLeftBorder>
+    </box>
   )
 }
 
 const DropdownSection = (props: DropdownSectionProps) => {
   const parentContext = useContext(FormDropdownContext)
-  const [isVisible, setIsVisible] = useState(false)
-
-  // Update visibility when offset changes
-  useLayoutEffect(() => {
-    if (!props.title) {
-      setIsVisible(true)
-      return
-    }
-
-    const items = Object.values(parentContext.descendantsContext.map.current)
-    logger.log('DropdownSection: items', items)
-    const hasVisibleItems = items.some((item) => {
-      return (
-        item.props?.section === props.title &&
-        item.index >= parentContext.offset &&
-        item.index < parentContext.offset + parentContext.itemsPerPage
-      )
-    })
-
-    setIsVisible(hasVisibleItems)
-  }, [parentContext.offset, props.title, parentContext.itemsPerPage])
 
   // Create section context value
   const sectionContextValue = useMemo(
@@ -204,7 +176,7 @@ const DropdownSection = (props: DropdownSectionProps) => {
   return (
     <SectionContext.Provider value={sectionContextValue}>
       <box flexDirection='column'>
-        {props.title && isVisible && (
+        {props.title && (
           <WithLeftBorder
             paddingTop={0}
             paddingBottom={0}
@@ -235,9 +207,9 @@ const DropdownContent = ({
   const { focusedField, setFocusedField } = useFocusContext()
   const isFocused = focusedField === props.id
   const [focusedIndex, setFocusedIndex] = useState(0)
-  const [offset, setOffset] = useState(0)
 
   const elementRef = useRef<BoxRenderable>(null)
+  const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
 
   const typeAheadTextRef = useRef('')
   const typeAheadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -249,11 +221,26 @@ const DropdownContent = ({
   })
 
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
-  const [itemsCount, setItemsCount] = useState(0)
 
   const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(
     props.id,
   )
+
+  const scrollToItem = (item: { props?: FormDropdownItemDescendant }) => {
+    const scrollBox = scrollBoxRef.current
+    const itemElementRef = item.props?.elementRef
+    if (!scrollBox || !itemElementRef) return
+
+    const contentY = scrollBox.content?.y || 0
+    const viewportHeight = scrollBox.viewport?.height || 5
+
+    // Calculate item position relative to content
+    const itemTop = itemElementRef.y - contentY
+
+    // Scroll so the top of the item is centered in the viewport
+    const targetScrollTop = itemTop - viewportHeight / 2
+    scrollBox.scrollTo(Math.max(0, targetScrollTop))
+  }
 
   // Helper to get value for a descendantId
   const getValueForDescendantId = (
@@ -301,46 +288,26 @@ const DropdownContent = ({
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
 
-    const items = Object.values(descendantsContext.map.current).filter(
-      (item) => item.index !== -1,
-    )
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1)
+      .sort((a, b) => a.index - b.index)
     const itemCount = items.length
 
     if (itemCount > 0) {
       if (evt.name === 'down') {
-        setFocusedIndex((prev) => {
-          const nextIndex = (prev + 1) % itemCount
-
-          // Update offset only when the focused item is at the last position and there are more items
-          const visibleEnd = offset + itemsPerPage - 1
-          if (
-            prev === visibleEnd &&
-            nextIndex < itemCount &&
-            nextIndex > prev
-          ) {
-            // Scroll down by one when at the last visible item
-            setOffset(offset + 1)
-          } else if (nextIndex < prev) {
-            // Wrapped to beginning
-            setOffset(0)
-          }
-
-          return nextIndex
-        })
+        const nextIndex = (focusedIndex + 1) % itemCount
+        setFocusedIndex(nextIndex)
+        const nextItem = items[nextIndex]
+        if (nextItem) {
+          scrollToItem(nextItem)
+        }
       } else if (evt.name === 'up') {
-        setFocusedIndex((prev) => {
-          const nextIndex = (prev - 1 + itemCount) % itemCount
-
-          // Update offset if we're going above the visible range
-          if (nextIndex < offset) {
-            setOffset(Math.max(0, nextIndex))
-          } else if (nextIndex >= offset + itemsPerPage) {
-            // Wrapped to end
-            setOffset(Math.max(0, itemCount - itemsPerPage))
-          }
-
-          return nextIndex
-        })
+        const nextIndex = (focusedIndex - 1 + itemCount) % itemCount
+        setFocusedIndex(nextIndex)
+        const nextItem = items[nextIndex]
+        if (nextItem) {
+          scrollToItem(nextItem)
+        }
       } else if (evt.name === 'return' || evt.name === 'space') {
         // Toggle selection of current focused item
         const entries = Object.entries(descendantsContext.map.current)
@@ -380,42 +347,23 @@ const DropdownContent = ({
       typeAheadTextRef.current += evt.name.toLowerCase()
       const searchText = typeAheadTextRef.current
 
-      const sortedItems = items.sort((a, b) => a.index - b.index)
       const matchingItem =
-        sortedItems.find((item) => {
+        items.find((item) => {
           return item.props?.title?.toLowerCase().startsWith(searchText)
         }) ||
-        sortedItems.find((item) => {
+        items.find((item) => {
           return item.props?.title?.toLowerCase().includes(searchText)
         })
 
       if (matchingItem) {
         setFocusedIndex(matchingItem.index)
-        if (matchingItem.index < offset) {
-          setOffset(matchingItem.index)
-        } else if (matchingItem.index >= offset + itemsPerPage) {
-          setOffset(Math.max(0, matchingItem.index - itemsPerPage + 1))
-        }
+        scrollToItem(matchingItem)
       }
 
       typeAheadTimeoutRef.current = setTimeout(() => {
         typeAheadTextRef.current = ''
       }, 300)
     }
-  })
-
-  // Update active item count when descendants change
-  useLayoutEffect(() => {
-    let itemCount = 0
-    const entries = Object.entries(descendantsContext.map.current)
-
-    entries.forEach(([id, item]) => {
-      if (item.index !== -1) {
-        itemCount++
-      }
-    })
-
-    setItemsCount(itemCount)
   })
 
   // Initialize selected titles from field value only once when descendants are loaded
@@ -449,12 +397,11 @@ const DropdownContent = ({
   const contextValue: FormDropdownContextValue = {
     focusedIndex,
     descendantsContext,
-    offset,
-    itemsPerPage,
     isFocused,
     handleSelect,
     field,
     props,
+    scrollBoxRef,
   }
 
   return (
@@ -485,13 +432,18 @@ const DropdownContent = ({
             </text>
           </WithLeftBorder>
 
-          {props.children}
+          <scrollbox
+            ref={scrollBoxRef}
+            maxHeight={6}
+            style={{
+              scrollbarOptions: {
+                visible: false,
+              },
+            }}
+          >
+            {props.children}
+          </scrollbox>
 
-          {itemsCount > itemsPerPage && (
-            <WithLeftBorder isFocused={isFocused}>
-              <text fg={Theme.textMuted}>↑↓ to see more options</text>
-            </WithLeftBorder>
-          )}
           {(fieldState.error || props.error) && (
             <WithLeftBorder isFocused={isFocused}>
               <text fg={Theme.error}>

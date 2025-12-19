@@ -238,6 +238,13 @@ const Dropdown: DropdownType = (props) => {
     if (evt.name === 'down') {
       move(1)
     }
+    // Tab and shift+tab for navigation
+    if (evt.name === 'tab' && !evt.shift) {
+      move(1)
+    }
+    if (evt.name === 'tab' && evt.shift) {
+      move(-1)
+    }
     if (evt.name === 'return') {
       const items = Object.values(descendantsContext.map.current)
         .filter((item: any) => item.index !== -1)
