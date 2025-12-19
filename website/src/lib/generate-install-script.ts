@@ -1,9 +1,20 @@
-import figlet from 'figlet'
+import { Font } from '@ascii-kit/font'
+import fs from 'node:fs'
+import path from 'node:path'
 
-export function generateInstallScript(githubRepo: string): string {
+const fontPath = path.join(
+  import.meta.dirname,
+  '../../node_modules/@ascii-kit/fonts-flf/dist/thick.flf',
+)
+const fontData = fs.readFileSync(fontPath, 'utf-8')
+const font = new Font(fontData)
+
+export async function generateInstallScript(
+  githubRepo: string,
+): Promise<string> {
   const binaryName = githubRepo.split('/')[1]
   const installDirName = `.${binaryName}`
-  const logo = figlet.textSync(binaryName, { font: 'Small Slant' })
+  const logo = await font.text(binaryName)
   const logoLines = logo.split('\n')
   const docsUrl = `https://github.com/${githubRepo}`
 

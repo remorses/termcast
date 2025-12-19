@@ -3,7 +3,7 @@ import { generateInstallScript } from '../lib/generate-install-script'
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const { repo } = params
-  const script = generateInstallScript(`remorses/${repo}`)
+  const script = await generateInstallScript(`remorses/${repo}`)
 
   return new Response(script, {
     headers: {

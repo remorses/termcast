@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs } from 'react-router'
 import { generateInstallScript } from '../lib/generate-install-script'
 
 export async function loader({}: LoaderFunctionArgs) {
-  const script = generateInstallScript('remorses/termcast')
+  const script = await generateInstallScript('remorses/termcast')
 
   return new Response(script, {
     headers: {
