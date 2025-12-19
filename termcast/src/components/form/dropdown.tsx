@@ -434,8 +434,15 @@ const DropdownContent = ({
 
           <scrollbox
             ref={scrollBoxRef}
-            maxHeight={6}
+            maxHeight={5}
+            flexShrink={1}
             style={{
+              rootOptions: {
+                flexShrink: 1,
+              },
+              viewportOptions: {
+                flexShrink: 1,
+              },
               scrollbarOptions: {
                 visible: false,
               },
