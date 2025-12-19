@@ -79,7 +79,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -134,7 +134,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -189,7 +189,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -247,7 +247,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('enter')
@@ -302,7 +302,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -365,7 +365,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -423,7 +423,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -478,7 +478,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('up')
@@ -533,7 +533,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -588,7 +588,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -651,7 +651,7 @@ test('form dropdown with default value', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -706,7 +706,7 @@ test('form dropdown with default value', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -766,7 +766,7 @@ test('form dropdown with default value', async () => {
     │    "priority": ""
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -830,7 +830,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('enter')
@@ -885,6 +885,6 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)

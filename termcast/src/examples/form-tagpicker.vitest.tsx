@@ -42,8 +42,8 @@ test('form tagpicker shows inline options', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -51,8 +51,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -62,8 +62,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -76,7 +76,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -97,8 +97,8 @@ test('form tagpicker shows inline options', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -106,8 +106,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -117,8 +117,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -131,7 +131,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -152,8 +152,8 @@ test('form tagpicker shows inline options', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -161,8 +161,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -172,8 +172,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -186,7 +186,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -210,8 +210,8 @@ test('form tagpicker shows inline options', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -219,8 +219,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -230,8 +230,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -244,7 +244,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('enter')
@@ -265,8 +265,8 @@ test('form tagpicker shows inline options', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -274,8 +274,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -285,8 +285,8 @@ test('form tagpicker shows inline options', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -299,7 +299,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 15000)
 
@@ -328,8 +328,8 @@ test('form tagpicker keyboard navigation', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -337,8 +337,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -348,8 +348,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -362,7 +362,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -386,8 +386,8 @@ test('form tagpicker keyboard navigation', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -395,8 +395,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -406,8 +406,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -420,7 +420,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('down')
@@ -441,8 +441,8 @@ test('form tagpicker keyboard navigation', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -450,8 +450,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -461,8 +461,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -475,7 +475,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('up')
@@ -496,8 +496,8 @@ test('form tagpicker keyboard navigation', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -505,8 +505,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -516,8 +516,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -530,7 +530,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -551,8 +551,8 @@ test('form tagpicker keyboard navigation', async () => {
 
 
     ■  TagPicker Component Demo
-    ┃  Test tag picker with multiple selection support
-    ┃
+    │  Test tag picker with multiple selection support
+    │
     ◇  Favorite Sport
     │  Choose your favorite sport...
     │
@@ -560,8 +560,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
-    │  ↑↓ to see more options
-    │
+    │  ○ Golf
+    │  ○ Swimming
     │  Select your favorite sport from the list
     │
     ◇  Country
@@ -571,8 +571,8 @@ test('form tagpicker keyboard navigation', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -585,7 +585,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 15000)
 
@@ -617,16 +617,16 @@ test('form tagpicker with default value', async () => {
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    ┃  Choose your favorite sport...
-    ┃
-    ┃› ○ Basketball
-    ┃  ○ Football
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
+    │  Choose your favorite sport...
+    │
+    │› ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ○ Golf
+    │  ○ Swimming
+    │  Select your favorite sport from the list
+    │
     ◇  Country
     │  Germany
     │
@@ -634,8 +634,8 @@ test('form tagpicker with default value', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -648,7 +648,7 @@ test('form tagpicker with default value', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('space')
@@ -672,16 +672,16 @@ test('form tagpicker with default value', async () => {
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    ┃  Basketball
-    ┃
-    ┃› ● Basketball
-    ┃  ○ Football
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
+    │  Basketball
+    │
+    │› ● Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ○ Golf
+    │  ○ Swimming
+    │  Select your favorite sport from the list
+    │
     ◇  Country
     │  Germany
     │
@@ -689,8 +689,8 @@ test('form tagpicker with default value', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    └
+    │  ○ Poland
+    └  ○ Russia
 
 
 
@@ -703,7 +703,7 @@ test('form tagpicker with default value', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('esc')
@@ -728,16 +728,16 @@ test('form tagpicker with default value', async () => {
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    ┃  Choose your favorite sport...
-    ┃
-    ┃› ○ Basketball
-    ┃  ○ Football
-    ┃  ○ Tennis
-    ┃  ○ Baseball
-    ┃  ↑↓ to see more options
-    ┃
-    ┃  Select your favorite sport from the list
-    ┃
+    │  Choose your favorite sport...
+    │
+    │› ○ Basketball
+    │  ○ Football
+    │  ○ Tennis
+    │  ○ Baseball
+    │  ○ Golf
+    │  ○ Swimming
+    │  Select your favorite sport from the list
+    │
     ◇  Country
     │  Germany
     │
@@ -745,8 +745,8 @@ test('form tagpicker with default value', async () => {
     │  ○ India
     │  ○ Netherlands
     │  ○ Norway
-    │  ↑↓ to see more options
-    │
+    │  ○ Poland
+    │  ○ Russia
     ▪  Submitted Data
     │  {
     │    "sports": [],
@@ -763,6 +763,6 @@ test('form tagpicker with default value', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 15000)

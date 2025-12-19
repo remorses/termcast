@@ -279,7 +279,7 @@ test('list with dropdown search and filter', async () => {
     ┃                                                                  ┃
     ┃   wine                                                           ┃
     ┃                                                                  ┃
-    ┃   Wine                                                           ┃
+    ┃  ›Wine                                                           ┃
     ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
@@ -308,12 +308,12 @@ test('list with dropdown search and filter', async () => {
      Search Beers ───────────────────────────────────────────────────
 
 
-     Search...                                                 Beer ▾
+     Search...                                                 Wine ▾
 
-    ›Augustiner Helles Beer
-     Camden Hells Beer
-     Leffe Blonde Beer
-     Sierra Nevada IPA Beer
+    ›Chateau Margaux Wine
+     Pinot Noir Wine
+
+
 
 
 
@@ -339,15 +339,12 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-    Search Beers ───────────────────────────────────────────────────
+     Search Beers ───────────────────────────────────────────────────
 
 
-    pinot                                                     Beer ▾
+     pinot                                                     Wine ▾
 
-
-
-
-
+    ›Pinot Noir Wine
 
 
 
@@ -359,6 +356,9 @@ test('list with dropdown search and filter', async () => {
 
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 10000)

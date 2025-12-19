@@ -45,21 +45,21 @@ test('autocomplete shows flat file list in dialog', async () => {
     │┃
     │┃ Filter: s
     ◆┃
+    │┃  📁 extensions/
+    │┃  📁 extensions/synonyms/
+    │┃  📁 extensions/synonyms/assets/
+    │┃  📁 extensions/synonyms/metadata/
+    ◇┃  📁 extensions/synonyms/src/
     │┃  📁 fixtures/
     │┃  📁 fixtures/hot-reload-extension/
     │┃  📁 fixtures/hot-reload-extension/src/
     │┃  📁 fixtures/simple-extension/
-    ◇┃  📁 fixtures/simple-extension/src/
-    │┃  📁 fixtures/swift-extension/
-    │┃  📁 fixtures/swift-extension/src/
-    │┃  📁 fixtures/swift-extension/swift/
-    │┃  📁 fixtures/swift-extension/swift/Sources/
-    └┃  📁 fixtures/swift-extension/swift/Sources/SwiftAPI/
+    └┃  📁 fixtures/simple-extension/src/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -95,21 +95,21 @@ test('autocomplete navigation with down/up keys', async () => {
     │┃
     │┃ Filter: s
     ◆┃
+    │┃  📁 extensions/
+    │┃  📁 extensions/synonyms/
+    │┃  📁 extensions/synonyms/assets/
+    │┃  📁 extensions/synonyms/metadata/
+    ◇┃  📁 extensions/synonyms/src/
     │┃  📁 fixtures/
     │┃  📁 fixtures/hot-reload-extension/
     │┃  📁 fixtures/hot-reload-extension/src/
     │┃  📁 fixtures/simple-extension/
-    ◇┃  📁 fixtures/simple-extension/src/
-    │┃  📁 fixtures/swift-extension/
-    │┃  📁 fixtures/swift-extension/src/
-    │┃  📁 fixtures/swift-extension/swift/
-    │┃  📁 fixtures/swift-extension/swift/Sources/
-    └┃  📁 fixtures/swift-extension/swift/Sources/SwiftAPI/
+    └┃  📁 fixtures/simple-extension/src/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.press('up')
@@ -130,21 +130,21 @@ test('autocomplete navigation with down/up keys', async () => {
     │┃
     │┃ Filter: s
     ◆┃
+    │┃  📁 extensions/
+    │┃  📁 extensions/synonyms/
+    │┃  📁 extensions/synonyms/assets/
+    │┃  📁 extensions/synonyms/metadata/
+    ◇┃  📁 extensions/synonyms/src/
     │┃  📁 fixtures/
     │┃  📁 fixtures/hot-reload-extension/
     │┃  📁 fixtures/hot-reload-extension/src/
     │┃  📁 fixtures/simple-extension/
-    ◇┃  📁 fixtures/simple-extension/src/
-    │┃  📁 fixtures/swift-extension/
-    │┃  📁 fixtures/swift-extension/src/
-    │┃  📁 fixtures/swift-extension/swift/
-    │┃  📁 fixtures/swift-extension/swift/Sources/
-    └┃  📁 fixtures/swift-extension/swift/Sources/SwiftAPI/
+    └┃  📁 fixtures/simple-extension/src/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -178,21 +178,21 @@ test('file picker shows only files, not folders', async () => {
     │┃
     │┃ Filter: t
     ◇┃
-    │┃  📄 AGENTS.md
-    │┃  📄 CONTRIBUTING.md
-    │┃  📄 ghostty-opentui/AGENTS.md
-    │┃  📄 ghostty-opentui/CHANGELOG.md
-    ◇┃  📄 ghostty-opentui/LICENSE
-    │┃  📄 ghostty-opentui/README.md
-    │┃  📄 ghostty-opentui/TESTING.md
-    │┃  📄 ghostty-opentui/build.zig
-    │┃  📄 ghostty-opentui/build.zig.zon
-    └┃  📄 ghostty-opentui/bun.lock
+    │┃  📄 ARCHITECTURE.md
+    │┃  📄 EXTENSIONS.md
+    │┃  📄 OAUTH_SETUP.md
+    │┃  📄 RAYCAST_SCROLLING.md
+    ◇┃  📄 TESTING_RAYCAST_EXTENSIONS.md
+    │┃  📄 bunfig.toml
+    │┃  📄 extensions/synonyms/CHANGELOG.md
+    │┃  📄 extensions/synonyms/README.md
+    │┃  📄 extensions/synonyms/assets/image.png
+    └┃  📄 extensions/synonyms/bun.lock
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
   expect(snapshot).toContain('📄')
   expect(snapshot).not.toContain('📁')
@@ -245,6 +245,6 @@ test('escape closes autocomplete and form stays visible', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)

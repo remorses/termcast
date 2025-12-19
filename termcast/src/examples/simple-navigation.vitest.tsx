@@ -95,29 +95,27 @@ test('navigation between main and detail views', async () => {
     "
 
 
-      Navigation Example ─────────────────────────────────────────────
+     Detail: Second Item ────────────────────────────────────────────
 
-      Main view
+     Detail view - Press ESC to go back
 
-      Items
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Open Details                                                   ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+     Details
+    ›This is the detail view for Second Item Press Enter to go back
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Press Enter again to select "Open Details" action
@@ -377,29 +375,29 @@ test('navigation with actions panel', async () => {
     "
 
 
-      Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-      Main view
+     Main view
 
-      Items
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Open Details                                                   ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     ┃
+     ┃                                                            esc
+     ┃
+     ┃   Search actions...
+     ┃
+     ┃  ›Open Details
+     ┃   Copy Title
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃"
   `)
 
   // Navigate down in actions panel
@@ -410,29 +408,29 @@ test('navigation with actions panel', async () => {
     "
 
 
-      Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-      Main view
+     Main view
 
-      Items
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃   Open Details                                                   ┃
-    ┃  ›Copy Title                                                     ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+     Items
+    ›First Item Navigate to first detail
+     Second Item Navigate to second detail
+     ┃
+     ┃                                                            esc
+     ┃
+     ┃   Search actions...
+     ┃
+     ┃   Open Details
+     ┃  ›Copy Title
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃"
   `)
 
   // Select the Copy Title action
@@ -598,13 +596,11 @@ test('search functionality in main and detail views', async () => {
     "
 
 
-    Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-    second
+     second
 
-    Second Item Navigate to second detail
-
-
+    ›Second Item Navigate to second detail
 
 
 
@@ -618,7 +614,9 @@ test('search functionality in main and detail views', async () => {
 
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search

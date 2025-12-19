@@ -43,15 +43,15 @@ test('synonyms extension shows preferences form on first launch', async () => {
 
 
      synonyms Preferences ────────────────────────────────────────────────
-    ◆  LLM Provider                                                      ▀
+    ◇  LLM Provider                                                      ▀
     │  Select...
     │
-    │› ○ Raycast AI
+    │  ○ Raycast AI
     │  ○ OpenAI
     │  ○ OpenAI Compatible
     │  ○ Anthropic
-    │  ↑↓ to see more options
-    │
+    │  ○ Fireworks.ai
+    │  ○ Groq
     │  Select the LLM provider you want to use
     │
     ◇  OpenAI API Key
@@ -68,7 +68,7 @@ test('synonyms extension shows preferences form on first launch', async () => {
     │
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 60000)
 
@@ -92,15 +92,15 @@ test('synonyms extension preferences form can be navigated', async () => {
 
 
      synonyms Preferences ────────────────────────────────────────────────
-    ◆  LLM Provider                                                      ▀
+    ◇  LLM Provider                                                      ▀
     │  Select...
     │
     │  ○ Raycast AI
     │  ○ OpenAI
-    │› ○ OpenAI Compatible
+    │  ○ OpenAI Compatible
     │  ○ Anthropic
-    │  ↑↓ to see more options
-    │
+    │  ○ Fireworks.ai
+    │  ○ Groq
     │  Select the LLM provider you want to use
     │
     ◇  OpenAI API Key
@@ -117,7 +117,7 @@ test('synonyms extension preferences form can be navigated', async () => {
     │
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Press tab to move to next field
@@ -129,18 +129,18 @@ test('synonyms extension preferences form can be navigated', async () => {
 
 
      synonyms Preferences ────────────────────────────────────────────────
-    ◇  LLM Provider                                                      ▀
+    ◆  LLM Provider                                                      ▀
     │  Select...
     │
-    │  ○ Raycast AI
+    │› ○ Raycast AI
     │  ○ OpenAI
     │  ○ OpenAI Compatible
     │  ○ Anthropic
-    │  ↑↓ to see more options
-    │
+    │  ○ Fireworks.ai
+    │  ○ Groq
     │  Select the LLM provider you want to use
     │
-    ◆  OpenAI API Key
+    ◇  OpenAI API Key
     │
     │  API Key for OpenAI
     │
@@ -154,6 +154,6 @@ test('synonyms extension preferences form can be navigated', async () => {
     │
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 60000)

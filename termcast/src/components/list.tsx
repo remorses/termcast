@@ -381,7 +381,14 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
   // Wrapper function that updates search text
   const setSearchText = (value: string) => {
     setSearchTextRaw(value)
-    setSelectedIndex(0) // Reset selection when search changes
+    // TODO: use flushSync when available to force descendants to update visibility
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      .sort((a, b) => a.index - b.index)
+
+    if (items.length > 0 && items[0]) {
+      setSelectedIndex(items[0].index)
+    }
   }
 
 

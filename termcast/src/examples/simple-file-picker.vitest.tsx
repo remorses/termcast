@@ -76,7 +76,7 @@ test('file picker shows form fields', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -115,16 +115,16 @@ test('typing opens autocomplete dialog with file list', async () => {
     │┃
     │┃ Filter: s
     ◇┃
+    │┃  📁 extensions/
+    │┃  📁 extensions/synonyms/
+    │┃  📁 extensions/synonyms/assets/
+    │┃  📁 extensions/synonyms/metadata/
+    ◆┃  📁 extensions/synonyms/src/
     │┃  📁 fixtures/
     │┃  📁 fixtures/hot-reload-extension/
     │┃  📁 fixtures/hot-reload-extension/src/
     │┃  📁 fixtures/simple-extension/
-    ◆┃  📁 fixtures/simple-extension/src/
-    │┃  📁 fixtures/swift-extension/
-    │┃  📁 fixtures/swift-extension/src/
-    │┃  📁 fixtures/swift-extension/swift/
-    │┃  📁 fixtures/swift-extension/swift/Sources/
-    ◇┃  📁 fixtures/swift-extension/swift/Sources/SwiftAPI/
+    ◇┃  📁 fixtures/simple-extension/src/
     │┃
     │┃ ↑↓ navigate  ⏎/tab select  esc close
     │  Choose exactly one file
@@ -144,7 +144,7 @@ test('typing opens autocomplete dialog with file list', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 15000)
 
@@ -220,7 +220,7 @@ test('escape closes autocomplete without going back', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 15000)
 
@@ -275,7 +275,7 @@ test('selecting first item with enter adds it to the list', async () => {
     │  Enter file path...
     │
     │  Selected files:
-    │  • fixtures
+    │  • extensions
     │
     │  Choose a folder for output
     │
@@ -297,6 +297,6 @@ test('selecting first item with enter adds it to the list', async () => {
 
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 15000)

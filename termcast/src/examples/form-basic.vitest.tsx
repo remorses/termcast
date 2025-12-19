@@ -67,8 +67,6 @@ test('form basic navigation and input', async () => {
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -76,9 +74,11 @@ test('form basic navigation and input', async () => {
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -138,8 +138,6 @@ test('password field always shows asterisks and submits real value', async () =>
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -147,9 +145,11 @@ test('password field always shows asterisks and submits real value', async () =>
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Tab away - password should now show asterisks
@@ -195,8 +195,6 @@ test('password field always shows asterisks and submits real value', async () =>
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -204,9 +202,11 @@ test('password field always shows asterisks and submits real value', async () =>
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Submit form and check password value is real text not asterisks
@@ -257,8 +257,6 @@ test('password field always shows asterisks and submits real value', async () =>
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -266,9 +264,11 @@ test('password field always shows asterisks and submits real value', async () =>
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
   
   await session.press('enter')
@@ -281,7 +281,7 @@ test('password field always shows asterisks and submits real value', async () =>
 
 
     ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow
+    │  This demonstrates all available form input types. Use arrow   ▀
     │  keys or Tab to navigate between fields.
     │
     ◇  Username
@@ -315,8 +315,6 @@ test('password field always shows asterisks and submits real value', async () =>
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -324,9 +322,11 @@ test('password field always shows asterisks and submits real value', async () =>
     │   ←       2025        →
     │   ←     December      →
     │
+    │   Mo Tu We Th Fr Sa Su
+    │    1  2  3  4  5  6  7
 
     ┌─────────────────────────────────────────────────────────────────┐
-    │c✓rFormsSubmitted↓-nAllgform dataahasobeen captured successfully │
+    │c✓rFormsSubmitteda- Alliform data hasibeen captured successfully │
     └─────────────────────────────────────────────────────────────────┘"
   `)
   
@@ -363,9 +363,9 @@ test('form date picker selection with space and enter', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography                                                     █
+    ◇  Biography
     │  Tell us about yourself...                                     █
-    │
+    │                                                                █
     │
     │
     │
@@ -385,8 +385,6 @@ test('form date picker selection with space and enter', async () => {
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -398,9 +396,11 @@ test('form date picker selection with space and enter', async () => {
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30 31
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Select current date with space - should show "Selected:" text
@@ -420,9 +420,9 @@ test('form date picker selection with space and enter', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography                                                     █
+    ◇  Biography
     │  Tell us about yourself...                                     █
-    │
+    │                                                                █
     │
     │
     │
@@ -442,8 +442,6 @@ test('form date picker selection with space and enter', async () => {
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -455,9 +453,11 @@ test('form date picker selection with space and enter', async () => {
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30 31
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Navigate to a different day and select with enter
@@ -478,9 +478,9 @@ test('form date picker selection with space and enter', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography                                                     █
+    ◇  Biography
     │  Tell us about yourself...                                     █
-    │
+    │                                                                █
     │
     │
     │
@@ -500,8 +500,6 @@ test('form date picker selection with space and enter', async () => {
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -513,9 +511,11 @@ test('form date picker selection with space and enter', async () => {
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30 31
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -552,9 +552,9 @@ test('form dropdown navigation', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography                                                     █
+    ◇  Biography
     │  Tell us about yourself...                                     █
-    │
+    │                                                                █
     │
     │
     │
@@ -574,8 +574,6 @@ test('form dropdown navigation', async () => {
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -587,9 +585,11 @@ test('form dropdown navigation', async () => {
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30 31
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Navigate down in dropdown
@@ -609,9 +609,9 @@ test('form dropdown navigation', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography                                                     █
+    ◇  Biography
     │  Tell us about yourself...                                     █
-    │
+    │                                                                █
     │
     │
     │
@@ -631,8 +631,6 @@ test('form dropdown navigation', async () => {
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
-    │  ↑↓ to see more options
-    │
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -644,9 +642,11 @@ test('form dropdown navigation', async () => {
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30 31
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Navigate to Europe section
@@ -668,9 +668,9 @@ test('form dropdown navigation', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography                                                     █
+    ◇  Biography
     │  Tell us about yourself...                                     █
-    │
+    │                                                                █
     │
     │
     │
@@ -684,14 +684,12 @@ test('form dropdown navigation', async () => {
     ◆  Country
     │  United States
     │
-    │  Americas
     │  ○ Canada
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
     │› ○ France
-    │  ↑↓ to see more options
-    │
+    │  ○ Germany
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -703,9 +701,11 @@ test('form dropdown navigation', async () => {
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30 31
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Select France
@@ -725,9 +725,9 @@ test('form dropdown navigation', async () => {
     │  Enter secure password
     │  Must be at least 8 characters
     │
-    ◇  Biography                                                     █
+    ◇  Biography
     │  Tell us about yourself...                                     █
-    │
+    │                                                                █
     │
     │
     │
@@ -741,14 +741,12 @@ test('form dropdown navigation', async () => {
     ◆  Country
     │  France
     │
-    │  Americas
     │  ○ Canada
     │  ○ Mexico
     │  Europe
     │  ○ United Kingdom
     │› ● France
-    │  ↑↓ to see more options
-    │
+    │  ○ Germany
     │  Your country of residence
     │
     ◇  Date of Birth
@@ -760,9 +758,11 @@ test('form dropdown navigation', async () => {
     │    1  2  3  4  5  6  7
     │    8  9 10 11 12 13 14
     │   15 16 17 18 19 20 21
+    │   22 23 24 25 26 27 28
+    │   29 30 31
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
 
@@ -802,7 +802,7 @@ test('form scrolls with mouse wheel', async () => {
     ◇  Biography
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.scrollDown(5)
@@ -829,7 +829,7 @@ test('form scrolls with mouse wheel', async () => {
     │  Tell us about yourself...
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   await session.scrollUp(3)
@@ -856,6 +856,6 @@ test('form scrolls with mouse wheel', async () => {
     ◇  Biography
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)

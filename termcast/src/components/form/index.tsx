@@ -242,7 +242,7 @@ export const Form: FormType = ((props) => {
     return false
   }
 
-  // Focus last field helper  
+  // Focus last field helper
   const focusLastField = () => {
     const fieldIds = getFieldIds()
     if (fieldIds.length > 0) {
@@ -376,13 +376,14 @@ export const Form: FormType = ((props) => {
                     style={{
                       flexShrink: 0,
                       flexDirection: 'row',
+                      paddingBottom: 1,
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       gap: 3,
                       maxWidth: FORM_MAX_WIDTH,
                     }}
                   >
-                    <box overflow='hidden'>
+                    <box overflow='hidden' >
                       <LoadingBar
                         title={navigationTitle || ''}
                         isLoading={isLoading || navigationPending}

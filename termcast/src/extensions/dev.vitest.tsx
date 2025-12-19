@@ -38,8 +38,7 @@ test('dev command shows extension commands list', async () => {
     ›List Items Displays a simple list with some ite view  ▀
      Search Items Search and filter through a list o view
      Google Oauth                                    view
-     usePromise Demo Shows how to use the usePromise view
-                                                           ▼
+     usePromise Demo Shows how to use the usePromise view  ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -68,11 +67,10 @@ test('selecting command with arguments shows arguments form', async () => {
 
      Search commands...
 
-     Search Items Search and filter through a list o view  ▲
-     Google Oauth                                    view
-     usePromise Demo Shows how to use the usePromise view  ▄
+     usePromise Demo Shows how to use the usePromise view  ▲
      Show State Shows the current application state  view
     ›With Arguments Demonstrates command arguments ( view
+     Quick Action Copies current timestamp to cli no-view  ▄
                                                            ▼
 
 
@@ -93,19 +91,19 @@ test('selecting command with arguments shows arguments form', async () => {
     "
 
 
-    ■  With Arguments                                      █
-    ┃  Enter the arguments to run this command.            ▀
-    ┃
+     With Arguments ───────────────────────────────────────
+    ■  With Arguments                                      ▀
+    │  Enter the arguments to run this command.
+    │
     ◇  Search query
     │  Search query
     │
     ◇  Secret key
     │  Secret key
     ◇  Category
-    │  Category
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 30000)
 
@@ -137,19 +135,19 @@ test('can fill arguments and run command', async () => {
     "
 
 
-    ■  With Arguments                                      █
-    ┃  Enter the arguments to run this command.            ▀
-    ┃
+     With Arguments ───────────────────────────────────────
+    ■  With Arguments                                      ▀
+    │  Enter the arguments to run this command.
+    │
     ◇  Search query
     │  Search query
     │
     ◇  Secret key
     │  Secret key
     ◇  Category
-    │  Category
 
 
-     ctrl ↵ submit   ↑↓ navigate   ^k actions"
+     ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
   // Submit the form with Alt+Enter (opens action panel), then Enter (selects submit)
@@ -171,9 +169,9 @@ test('can fill arguments and run command', async () => {
      Search...
 
      Received Arguments
-    ›♣ Search Query (empty)
-     ♣ Secret Key (empty)
-     ♣ Category (empty)
+    ›▼ Search Query (empty)
+     ▼ Secret Key (empty)
+     ▼ Category (empty)
 
 
 
@@ -208,14 +206,15 @@ test('can run simple view command without arguments', async () => {
      Search...
 
      Items                                                 ▲
-    ›♠ First Item This is the first item                   █
-     ♠ Second Item This is the second item
-     ♠ Third Item This is the third item
-     ♠ Fourth Item This is the fourth item
-                                                           ▼
+    ›▲ First Item This is the first item                   █
+     ▲ Second Item This is the second item
+     ▲ Third Item This is the third item
+     ▲ Fourth Item This is the fourth item                 ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ select┌────────────────────────────────────┐
+             │ ✓ Copied to Clipboard - First Item │
+             └────────────────────────────────────┘"
   `)
 }, 30000)
 

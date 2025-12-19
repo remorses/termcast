@@ -122,7 +122,14 @@ const Dropdown: DropdownType = (props) => {
   const setSearchText = (text: string) => {
     inputRef.current?.setText(text)
     setSearchTextState(text)
-    setSelected(0)
+    // TODO: use flushSync when available to force descendants to update visibility
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item: any) => item.index !== -1 && !item.props?.hidden)
+      .sort((a: any, b: any) => a.index - b.index)
+
+    if (items.length > 0 && items[0]) {
+      setSelected(items[0].index)
+    }
   }
 
   const scrollToItem = (item: { props?: DropdownItemDescendant }) => {
@@ -167,9 +174,16 @@ const Dropdown: DropdownType = (props) => {
   const handleSearchTextChange = (text: string) => {
     if (!inFocus) return
 
-    // Update state for context and reset selection
+    // Update state for context
     setSearchTextState(text)
-    setSelected(0)
+    // TODO: use flushSync when available to force descendants to update visibility
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item: any) => item.index !== -1 && !item.props?.hidden)
+      .sort((a: any, b: any) => a.index - b.index)
+
+    if (items.length > 0 && items[0]) {
+      setSelected(items[0].index)
+    }
 
     if (onSearchTextChange) {
       if (throttle) {
@@ -250,7 +264,7 @@ const Dropdown: DropdownType = (props) => {
         .filter((item: any) => item.index !== -1)
         .sort((a: any, b: any) => a.index - b.index)
 
-      const currentItem = items[selected]
+      const currentItem = items.find((item) => item.index === selected)
       if (currentItem?.props) {
         selectItem((currentItem.props as DropdownItemDescendant).value)
       }

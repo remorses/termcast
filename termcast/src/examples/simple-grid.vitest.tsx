@@ -39,19 +39,19 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›? Apple                                                         █
-     ? Banana                                                        █
-     ? Cherry
+    ›🍎 Apple                                                        █
+     🍌 Banana                                                       █
+     🍒 Cherry
 
      Animals
-     ? Dog
-     ? Cat
-     ? Rabbit
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
 
      Others
-     ? House
-     ? Car
-     ? Rocket                                                        ▼
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -70,19 +70,19 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     ? Apple                                                         █
-    ›? Banana                                                        █
-     ? Cherry
+     🍎 Apple                                                        █
+    ›🍌 Banana                                                       █
+     🍒 Cherry
 
      Animals
-     ? Dog
-     ? Cat
-     ? Rabbit
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
 
      Others
-     ? House
-     ? Car
-     ? Rocket                                                        ▼
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -102,19 +102,19 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     ? Apple                                                         █
-     ? Banana                                                        █
-     ? Cherry
+     🍎 Apple                                                        █
+     🍌 Banana                                                       █
+     🍒 Cherry
 
      Animals
-    ›? Dog
-     ? Cat
-     ? Rabbit
+    ›🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
 
      Others
-     ? House
-     ? Car
-     ? Rocket                                                        ▼
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -128,29 +128,29 @@ test('grid navigation and display', async () => {
     "
 
 
-      Simple Grid Example ────────────────────────────────────────────
+     Simple Grid Example ────────────────────────────────────────────
 
-      Search items...
+     Search items...
 
-      Fruits                                                          ▲
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Show Details                                                   ┃
-    ┃   Copy Emoji                                               ⌃C    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+     Fruits                                                          ▲
+        Apple                                                        █
+     🍌 Banana                                                       █
+     ┃
+     ┃                                                            esc
+     ┃
+    ›┃   Search actions...
+     ┃
+     ┃  ›Show Details
+     ┃   Copy Emoji                                               ⌃C
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃"
   `)
 
   // Close actions with escape
@@ -166,19 +166,19 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     ? Apple                                                         █
-     ? Banana                                                        █
-     ? Cherry
+     🍎 Apple                                                        █
+     🍌 Banana                                                       █
+     🍒 Cherry
 
      Animals
-    ›? Dog
-     ? Cat
-     ? Rabbit
+    ›🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
 
      Others
-     ? House
-     ? Car
-     ? Rocket                                                        ▼
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -205,27 +205,27 @@ test('grid search functionality', async () => {
     "
 
 
-    Simple Grid Example ────────────────────────────────────────────
+     Simple Grid Example ────────────────────────────────────────────
 
-    cat
+     cat
 
-    ? Cat
-
-
-
-
-
-
-
-
-
-
-
-
-
+    ›🍎 Apple
+     🍌 Banana
+     🍒 Cherry
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
+     🏠 House
+     🚗 Car
+     🚀 Rocket
+     ⭐ Star
+     🌙 Moon
+     ☀ Sun
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search and search for "space"
@@ -243,27 +243,27 @@ test('grid search functionality', async () => {
     "
 
 
-    Simple Grid Example ────────────────────────────────────────────
+     Simple Grid Example ────────────────────────────────────────────
 
-    space
+     space
 
-    ? Rocket
-    ? Star
-    ? Moon
-    ? Sun
-
-
-
-
-
-
-
-
-
-
+    ›🍎 Apple
+     🍌 Banana
+     🍒 Cherry
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
+     🏠 House
+     🚗 Car
+     🚀 Rocket
+     ⭐ Star
+     🌙 Moon
+     ☀ Sun
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search completely
@@ -283,19 +283,19 @@ test('grid search functionality', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›? Apple                                                         █
-     ? Banana                                                        █
-     ? Cherry
+    ›🍎 Apple                                                        █
+     🍌 Banana                                                       █
+     🍒 Cherry
 
      Animals
-     ? Dog
-     ? Cat
-     ? Rabbit
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
 
      Others
-     ? House
-     ? Car
-     ? Rocket                                                        ▼
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -313,27 +313,27 @@ test('grid search functionality', async () => {
     "
 
 
-    Simple Grid Example ────────────────────────────────────────────
+     Simple Grid Example ────────────────────────────────────────────
 
-    xyz123
+     xyz123
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    ›🍎 Apple
+     🍌 Banana
+     🍒 Cherry
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
+     🏠 House
+     🚗 Car
+     🚀 Rocket
+     ⭐ Star
+     🌙 Moon
+     ☀ Sun
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -353,29 +353,27 @@ test('grid item selection and actions', async () => {
     "
 
 
-      Simple Grid Example ────────────────────────────────────────────
+     Simple Grid Example ────────────────────────────────────────────
 
-      Search items...
+     Search items...
 
-      Fruits                                                          ▲
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Show Details                                                   ┃
-    ┃   Copy Emoji                                               ⌃C    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+     Fruits                                                          ▲
+    ›🍎 Apple                                                        █
+     🍌 Banana                                                       █
+     🍒 Cherry
+
+     Animals
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
+
+     Others
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate down in actions
@@ -386,29 +384,27 @@ test('grid item selection and actions', async () => {
     "
 
 
-      Simple Grid Example ────────────────────────────────────────────
+     Simple Grid Example ────────────────────────────────────────────
 
-      Search items...
+     Search items...
 
-      Fruits                                                          ▲
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃   Show Details                                                   ┃
-    ┃  ›Copy Emoji                                               ⌃C    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+     Fruits                                                          ▲
+     🍎 Apple                                                        █
+    ›🍌 Banana                                                       █
+     🍒 Cherry
+
+     Animals
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
+
+     Others
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Select "Copy Emoji" action
@@ -424,19 +420,19 @@ test('grid item selection and actions', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›? Apple                                                         █
-     ? Banana                                                        █
-     ? Cherry
+     🍎 Apple                                                        █
+    ›🍌 Banana                                                       █
+     🍒 Cherry
 
      Animals
-     ? Dog
-     ? Cat
-     ? Rabbit
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
 
      Others
-     ? House
-     ? Car
-     ? Rocket                                                        ▼
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -464,19 +460,19 @@ test('grid mouse interaction', async () => {
      Search items...
 
      Fruits                                                          ▲
-     ? Apple                                                         █
-     ? Banana                                                        █
-     ? Cherry
+     🍎 Apple                                                        █
+     🍌 Banana                                                       █
+     🍒 Cherry
 
      Animals
-    ›? Dog
-     ? Cat
-     ? Rabbit
+    ›🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
 
      Others
-     ? House
-     ? Car
-     ? Rocket                                                        ▼
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
 
 
      ↵ select  ↑↓ navigate  ^k actions"
@@ -499,29 +495,29 @@ test('grid mouse interaction', async () => {
     "
 
 
-      Simple Grid Example ────────────────────────────────────────────
+     Simple Grid Example ────────────────────────────────────────────
 
-      Search items...
+     Search items...
 
-      ? Apple                                                         ▲
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Show Details                                                   ┃
-    ┃   Copy Emoji                                               ⌃C    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+                                                                     ▲
+     Animals
+     🐕 Dog
+     ┃
+     ┃                                                            esc
+     ┃
+     ┃   Search actions...
+     ┃
+     ┃  ›Show Details
+     ┃   Copy Emoji                                               ⌃C
+    ›┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃"
   `)
 
   // Click on "Apple" to go back to first section

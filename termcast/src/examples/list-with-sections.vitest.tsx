@@ -173,13 +173,11 @@ test('list with sections search functionality', async () => {
     "
 
 
-     Simple List Example ────────────────────────────────────────────
+    Simple List Example ────────────────────────────────────────────
 
-     ban
+    ban
 
-    ›Banana Yellow and nutritious                               Ripe
-
-
+    Banana Yellow and nutritious                               Ripe
 
 
 
@@ -188,7 +186,9 @@ test('list with sections search functionality', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+
+
+    ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search and type "let" to search for Lettuce
@@ -527,8 +527,8 @@ test('filtering selects first visible item and navigation works', async () => {
 
     ora
 
-    Orange Citrus and juicy                                   Fresh
-    Carrot Orange and crunchy                             [Healthy]
+    Orange Citrus and juicy                                  Fresh
+    Carrot Orange and crunchy                            [Healthy]
 
 
 
