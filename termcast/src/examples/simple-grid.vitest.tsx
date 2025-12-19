@@ -520,6 +520,17 @@ test('grid mouse interaction', async () => {
      ┃"
   `)
 
+  // Close the actions panel first
+  await session.press('esc')
+
+  // Navigate back up to make Apple visible
+  await session.press('up')
+  await session.press('up')
+  await session.press('up')
+  await session.press('up')
+  await session.press('up')
+  await session.press('up')
+
   // Click on "Apple" to go back to first section
   await session.click('Apple', { first: true })
 
@@ -528,28 +539,26 @@ test('grid mouse interaction', async () => {
     "
 
 
-      Simple Grid Example ────────────────────────────────────────────
+     Simple Grid Example ────────────────────────────────────────────
 
-      Search items...
+     Search items...
 
-      ? Apple                                                         ▲
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Show Details                                                   ┃
-    ┃   Copy Emoji                                               ⌃C    ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
+     Fruits                                                          ▲
+    ›🍎 Apple                                                        █
+     🍌 Banana                                                       █
+     🍒 Cherry
+
+     Animals
+     🐕 Dog
+     🐱 Cat
+     🐰 Rabbit
+
+     Others
+     🏠 House
+     🚗 Car
+     🚀 Rocket                                                       ▼
+
+
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
