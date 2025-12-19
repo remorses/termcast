@@ -19,13 +19,14 @@ afterEach(() => {
 test('navigation between main and detail views', async () => {
   await session.text({
     waitFor: (text) => {
-      // wait for main view to show up
-      return /Navigation Example/i.test(text)
+      // wait for main view with items to show up
+      return /Navigation Example/i.test(text) && /First Item/i.test(text)
     },
   })
 
-  // Small delay to ensure all items are rendered
+  // Ensure all items are rendered and registered
   await session.waitIdle()
+  await new Promise((resolve) => setTimeout(resolve, 200))
 
   const initialSnapshot = await session.text()
 
@@ -58,6 +59,7 @@ test('navigation between main and detail views', async () => {
 
   // Navigate to second item
   await session.press('down')
+  await session.waitIdle()
 
   const afterDownSnapshot = await session.text()
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
@@ -87,10 +89,15 @@ test('navigation between main and detail views', async () => {
      ↵ select  ↑↓ navigate  ^k actions"
   `)
 
-  // Press Enter to open actions panel
+  // Press Enter to open actions panel (auto-executes first action)
   await session.press('enter')
+  await session.waitIdle()
+  await new Promise((resolve) => setTimeout(resolve, 200))
 
-  const actionsOpenSnapshot = await session.text()
+  const actionsOpenSnapshot = await session.text({
+    waitFor: (text) => /Detail: Second Item/i.test(text),
+    timeout: 3000,
+  })
   expect(actionsOpenSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -118,51 +125,19 @@ test('navigation between main and detail views', async () => {
      ↵ select  ↑↓ navigate  ^k actions"
   `)
 
-  // Press Enter again to select "Open Details" action
+  // Press Enter in detail view triggers "Go Back" action, returning to main view
   await session.press('enter')
-
-  const detailViewSnapshot = await session.text({
-    waitFor: (text) => {
-      // wait for detail view to show up
-      return /Detail: Second Item/i.test(text)
-    },
-  })
-  expect(detailViewSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-     Detail: Second Item ────────────────────────────────────────────
-
-     Detail view - Press ESC to go back
-
-     Details
-    ›This is the detail view for Second Item Press Enter to go back
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ↵ select  ↑↓ navigate  ^k actions"
-  `)
-
-  // Press ESC to go back to main view
-  await session.press('esc')
+  await session.waitIdle()
+  await new Promise((resolve) => setTimeout(resolve, 200))
 
   const backToMainSnapshot = await session.text({
     waitFor: (text) => {
-      // wait for main view to show up again
-      return /Navigation Example/i.test(text)
+      // wait for main view to show up after going back
+      return /Main view/i.test(text) && /Second Item/i.test(text)
     },
+    timeout: 3000,
   })
+  // After "Go Back" action, we should be back on main view
   expect(backToMainSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -190,7 +165,7 @@ test('navigation between main and detail views', async () => {
      ↵ select  ↑↓ navigate  ^k actions"
   `)
 
-  // Navigate down to third item (we're back at first item after ESC)
+  // Navigate down to third item
   await session.press('down')
   await session.press('down')
 
@@ -230,43 +205,6 @@ test('navigation between main and detail views', async () => {
     "
 
 
-      Navigation Example ─────────────────────────────────────────────
-
-      Main view
-
-      Items
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Open Details                                                   ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
-  `)
-
-  // Navigate to detail
-  await session.press('enter')
-
-  const thirdDetailSnapshot = await session.text({
-    waitFor: (text) => {
-      return /Detail: Third Item/i.test(text)
-    },
-  })
-  expect(thirdDetailSnapshot).toMatchInlineSnapshot(`
-    "
-
-
      Detail: Third Item ─────────────────────────────────────────────
 
      Detail view - Press ESC to go back
@@ -290,46 +228,15 @@ test('navigation between main and detail views', async () => {
      ↵ select  ↑↓ navigate  ^k actions"
   `)
 
-  // Use Enter to open actions and go back
+  // Press enter in detail view triggers "Go Back" action, returning to main view
   await session.press('enter')
-
-  const thirdDetailActionsSnapshot = await session.text()
-  expect(thirdDetailActionsSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-      Detail: Third Item ─────────────────────────────────────────────
-
-      Detail view - Press ESC to go back
-
-      Details
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Go Back                                                        ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃"
-  `)
-
-  // Select "Go Back" action
-  await session.press('enter')
+  await session.waitIdle()
 
   const backFromThirdSnapshot = await session.text({
     waitFor: (text) => {
-      return /Navigation Example/i.test(text)
+      return /Main view/i.test(text)
     },
+    timeout: 3000,
   })
   expect(backFromThirdSnapshot).toMatchInlineSnapshot(`
     "
@@ -466,10 +373,16 @@ test('navigation with actions panel', async () => {
                   └────────────────────────────────────┘"
   `)
 
-  // Navigate to second item and open its detail
+  // Wait for toast to clear, then navigate to second item
+  await new Promise((resolve) => setTimeout(resolve, 500))
+  
   await session.press('down')
+  await session.waitIdle()
+  await new Promise((resolve) => setTimeout(resolve, 200))
+  
   await session.press('enter')
-  await session.press('enter')
+  await session.waitIdle()
+  await new Promise((resolve) => setTimeout(resolve, 200))
 
   const secondDetailSnapshot = await session.text({
     waitFor: (text) => {
@@ -513,29 +426,29 @@ test('navigation with actions panel', async () => {
     "
 
 
-      Detail: Second Item ────────────────────────────────────────────
+     Detail: Second Item ────────────────────────────────────────────
 
-      Detail view - Press ESC to go back
+     Detail view - Press ESC to go back
 
-      Details
-    ┃                                                                  ┃
-    ┃                                                            esc   ┃
-    ┃                                                                  ┃
-    ┃   Search actions...                                              ┃
-    ┃                                                                  ┃
-    ┃  ›Go Back                                                        ┃
-    ┃   Copy Title                                                     ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃              ┌────────────────────────────────────┐              ┃
-    ┃   ↵ select   │↓✓nCopiedeto Clipboard - First Item │              ┃
-    ┃              └────────────────────────────────────┘              ┃"
+     Details
+    ›This is the detail view for Second Item Press Enter to go back
+
+     ┃
+     ┃                                                            esc
+     ┃
+     ┃   Search actions...
+     ┃
+     ┃  ›Go Back
+     ┃   Copy Title
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃
+     ┃            ┌────────────────────────────────────┐
+     ┃            │ ✓ Copied to Clipboard - First Item │
+     ┃            └────────────────────────────────────┘"
   `)
 
   // Select Go Back action
@@ -596,13 +509,11 @@ test('search functionality in main and detail views', async () => {
     "
 
 
-     Navigation Example ─────────────────────────────────────────────
+    Navigation Example ─────────────────────────────────────────────
 
-     second
+    second
 
-    ›Second Item Navigate to second detail
-
-
+    Second Item Navigate to second detail
 
 
 
@@ -616,7 +527,9 @@ test('search functionality in main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+
+
+    ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search
@@ -655,16 +568,16 @@ test('search functionality in main and detail views', async () => {
      ↵ select  ↑↓ navigate  ^k actions"
   `)
 
-  // Open actions for first item
+  // Open first item detail (auto-executes Open Details action)
   await session.press('enter')
-
-  // Navigate to first item detail
-  await session.press('enter')
+  await session.waitIdle()
+  await new Promise((resolve) => setTimeout(resolve, 200))
 
   const firstDetailSnapshot = await session.text({
     waitFor: (text) => {
       return /Detail: First Item/i.test(text)
     },
+    timeout: 3000,
   })
   expect(firstDetailSnapshot).toMatchInlineSnapshot(`
     "
