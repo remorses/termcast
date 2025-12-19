@@ -668,6 +668,7 @@ const ActionPanel: ActionPanelType = (props) => {
 
     const allActions = Object.values(descendantsContext.map.current)
       .filter((item: any) => item.index !== -1)
+      // .sort((a: any, b: any) => a.index - b.index)
       .map((item: any) => item.props as ActionDescendant)
 
     if (allActions[0]) {
