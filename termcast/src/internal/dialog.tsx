@@ -13,11 +13,11 @@ import { ToastOverlay } from 'termcast/src/apis/toast'
 import { NavigationContext } from 'termcast/src/internal/navigation'
 
 const Border = {
-  topLeft: '',
-  topRight: '',
+  topLeft: '┏',
+  topRight: '┓',
   bottomLeft: '',
   bottomRight: '',
-  horizontal: '',
+  horizontal: '━',
   vertical: '┃',
   topT: '+',
   bottomT: '+',
@@ -108,7 +108,7 @@ export function Dialog({
       onMouseDown={handleBackdropClick}
     >
       <box
-        border={false}
+        border
         customBorderChars={Border}
         width={76}
         maxWidth={dimensions.width - 2}
