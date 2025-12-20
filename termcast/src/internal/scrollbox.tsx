@@ -1,15 +1,8 @@
 import React from 'react'
 import Theme from '../theme'
 import { MacOSScrollAccel } from '@opentui/core'
+import { ScrollBoxProps } from '@opentui/react'
 
-interface ScrollBoxProps {
-  children?: React.ReactNode
-  focused?: boolean
-  flexGrow?: number
-  flexShrink?: number
-  style?: any
-  ref?: React.Ref<any>
-}
 
 export function ScrollBox({
   children,
@@ -36,6 +29,7 @@ export function ScrollBox({
           flexGrow: 1,
           flexShrink: 1,
           paddingRight: 1,
+
           ...(style?.viewportOptions || {}),
         },
         contentOptions: {
