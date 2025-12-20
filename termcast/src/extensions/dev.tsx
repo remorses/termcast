@@ -11,7 +11,12 @@ import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
 import { getCommandsWithFiles, CommandWithFile } from '../package-json'
 import { buildExtensionCommands } from '../build'
-import { runCommand, clearCommandArguments } from '../utils/run-command'
+import {
+  runCommand,
+  clearCommandArguments,
+  parseExtensionArgs,
+  handleHelpFlag,
+} from '../utils/run-command'
 
 interface BundledCommand extends CommandWithFile {
   bundledPath: string
@@ -21,9 +26,11 @@ interface BundledCommand extends CommandWithFile {
 function ExtensionCommandsList({
   extensionPath,
   commands,
+  skipArgv,
 }: {
   extensionPath: string
   commands: BundledCommand[]
+  skipArgv?: number
 }): any {
   const { push } = useNavigation()
   const { packageJson } = getCommandsWithFiles({
@@ -62,8 +69,27 @@ function ExtensionCommandsList({
     }
   }
 
-  // Auto-run single command
+  // Auto-run command from CLI arg or single command
   React.useLayoutEffect(() => {
+    // Only parse argv on initial load (when skipArgv is provided), not on rebuilds
+    if (skipArgv != null) {
+      const { commandName } = parseExtensionArgs({ skipArgv })
+
+      if (commandName) {
+        const command = visibleCommands.find((cmd) => cmd.name === commandName)
+        if (command) {
+          handleCommandSelect(command)
+        } else {
+          showToast({
+            style: Toast.Style.Failure,
+            title: 'Command not found',
+            message: `No command named "${commandName}"`,
+          })
+        }
+        return
+      }
+    }
+
     if (visibleCommands.length === 1) {
       handleCommandSelect(visibleCommands[0])
     }
@@ -136,8 +162,10 @@ function ExtensionCommandsList({
 
 export async function startDevMode({
   extensionPath,
+  skipArgv = 0,
 }: {
   extensionPath: string
+  skipArgv?: number
 }): Promise<void> {
   const resolvedPath = path.resolve(extensionPath)
 
@@ -160,13 +188,24 @@ export async function startDevMode({
     target: 'bun',
   })
 
+  // Handle --help before rendering
+  handleHelpFlag({
+    extensionName: packageJson.title || packageJson.name,
+    commands: commands.map((cmd) => ({
+      name: cmd.name,
+      title: cmd.title,
+      description: cmd.description,
+    })),
+    skipArgv,
+  })
+
   // Reset state and set extension information
   useStore.setState({
     ...useStore.getInitialState(),
     extensionPath: resolvedPath,
     extensionPackageJson: packageJson,
     devElement: (
-      <ExtensionCommandsList extensionPath={resolvedPath} commands={commands} />
+      <ExtensionCommandsList extensionPath={resolvedPath} commands={commands} skipArgv={skipArgv} />
     ),
     devRebuildCount: 1,
   })
@@ -185,6 +224,7 @@ export async function startDevMode({
 export async function startCompiledExtension({
   extensionPath,
   compiledCommands,
+  skipArgv = 0,
 }: {
   extensionPath: string
   compiledCommands: Array<{
@@ -192,6 +232,7 @@ export async function startCompiledExtension({
     bundledPath: string
     Component: (props: any) => any
   }>
+  skipArgv?: number
 }): Promise<void> {
   const packageJsonPath = path.join(extensionPath, 'package.json')
   const { packageJson, commands: commandsMetadata } = getCommandsWithFiles({
@@ -207,12 +248,23 @@ export async function startCompiledExtension({
     }
   })
 
+  // Handle --help before rendering
+  handleHelpFlag({
+    extensionName: packageJson.title || packageJson.name,
+    commands: commands.map((cmd) => ({
+      name: cmd.name,
+      title: cmd.title,
+      description: cmd.description,
+    })),
+    skipArgv,
+  })
+
   useStore.setState({
     ...useStore.getInitialState(),
     extensionPath,
     extensionPackageJson: packageJson,
     devElement: (
-      <ExtensionCommandsList extensionPath={extensionPath} commands={commands} />
+      <ExtensionCommandsList extensionPath={extensionPath} commands={commands} skipArgv={skipArgv} />
     ),
     devRebuildCount: 1,
   })

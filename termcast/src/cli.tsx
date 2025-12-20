@@ -67,13 +67,22 @@ checkForUpdates()
 
 cli
   .command('dev [path]', 'Run the extension in the current working directory')
-  .action(async (extensionPath, options) => {
+  .action(async (rawExtensionPath, options) => {
     try {
-      extensionPath = path.resolve(extensionPath || process.cwd())
+      // Check if the provided arg looks like a path (contains / or . or is existing dir)
+      const looksLikePath = rawExtensionPath && (
+        rawExtensionPath.includes('/') ||
+        rawExtensionPath.startsWith('.') ||
+        fs.existsSync(rawExtensionPath)
+      )
+      const extensionPath = path.resolve(looksLikePath ? rawExtensionPath : process.cwd())
       let isBuilding = false
 
       // Start dev mode with initial render
-      await startDevMode({ extensionPath })
+      // Skip args up to and including "dev" subcommand, plus path if it looks like one
+      const devIndex = process.argv.findIndex((arg) => arg === 'dev')
+      const skipArgv = devIndex - 1 + (looksLikePath ? 1 : 0)
+      await startDevMode({ extensionPath, skipArgv })
 
       logger.log(`dev mode started`)
       // Only watch if running in a TTY (interactive terminal)

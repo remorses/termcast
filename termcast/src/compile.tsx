@@ -54,6 +54,7 @@ ${commandsArray}
   await startCompiledExtension({
     extensionPath: ${JSON.stringify(extensionPath)},
     compiledCommands,
+    skipArgv: 0,
   });
 }
 

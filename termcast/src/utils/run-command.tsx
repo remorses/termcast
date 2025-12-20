@@ -1,4 +1,5 @@
 import React from 'react'
+import { cac } from 'cac'
 import { useStore } from 'termcast/src/state'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { LocalStorage } from 'termcast/src/apis/localstorage'
@@ -7,6 +8,74 @@ import { ExtensionPreferences } from 'termcast/src/components/extension-preferen
 import type { RaycastArgument, RaycastPackageJson } from 'termcast/src/package-json'
 import type { LaunchProps } from 'termcast/src/apis/environment'
 import { logger } from '../logger'
+
+export interface CommandInfo {
+  name: string
+  title: string
+  description?: string
+}
+
+export interface ParsedExtensionArgs {
+  commandName?: string
+  showHelp: boolean
+}
+
+/**
+ * Parse CLI args to extract command name and help flag.
+ * @param skipArgv - Number of subcommand args to skip (e.g. 1 for "dev" in "termcast dev")
+ */
+export function parseExtensionArgs({ skipArgv = 0 }: { skipArgv?: number } = {}): ParsedExtensionArgs {
+  // Build argv for cac: keep first 2 (binary + script), skip subcommand args, keep the rest
+  const argv = [
+    process.argv[0],
+    process.argv[1],
+    ...process.argv.slice(2 + skipArgv),
+  ]
+  const parsed = cac().parse(argv, { run: false })
+  return {
+    commandName: parsed.args[0] as string | undefined,
+    showHelp: Boolean(parsed.options.help || parsed.options.h),
+  }
+}
+
+function printExtensionHelp({
+  extensionName,
+  commands,
+}: {
+  extensionName: string
+  commands: CommandInfo[]
+}): void {
+  console.log(`\n${extensionName}\n`)
+  console.log('Usage: <binary> [command]\n')
+  console.log('Commands:')
+  for (const cmd of commands) {
+    const desc = cmd.description ? `  ${cmd.description}` : ''
+    console.log(`  ${cmd.name.padEnd(20)} ${cmd.title}${desc}`)
+  }
+  console.log('\nOptions:')
+  console.log('  --help, -h          Show this help message')
+  console.log()
+}
+
+/**
+ * Check for --help flag and print help if found. Call before rendering.
+ * Exits process if help is shown.
+ */
+export function handleHelpFlag({
+  extensionName,
+  commands,
+  skipArgv = 0,
+}: {
+  extensionName: string
+  commands: CommandInfo[]
+  skipArgv?: number
+}): void {
+  const { showHelp } = parseExtensionArgs({ skipArgv })
+  if (showHelp) {
+    printExtensionHelp({ extensionName, commands })
+    process.exit(0)
+  }
+}
 
 export interface RunnableCommand {
   name: string
