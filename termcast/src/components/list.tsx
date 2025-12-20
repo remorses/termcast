@@ -1619,8 +1619,75 @@ const ListSection = (props: SectionProps) => {
 
 List.Section = ListSection
 List.Dropdown = ListDropdown
-List.EmptyView = (props) => {
-  return null
+List.EmptyView = (props: EmptyViewProps) => {
+  const dialog = useDialog()
+  const inFocus = useIsInFocus()
+
+  // Handle keyboard for actions
+  useKeyboard((evt) => {
+    if (!inFocus) return
+
+    // Handle Ctrl+K to show actions
+    if (evt.name === 'k' && evt.ctrl && props.actions) {
+      dialog.push(props.actions, 'bottom-right')
+      return
+    }
+
+    // Handle Enter to execute first action
+    if (evt.name === 'return' && props.actions) {
+      useStore.setState({ shouldAutoExecuteFirstAction: true })
+      dialog.push(props.actions, 'bottom-right')
+    }
+  })
+
+  // Get icon string from ImageLike
+  const getIconString = (icon: Image.ImageLike): string | null => {
+    if (typeof icon === 'string') {
+      return getIconEmoji(icon)
+    }
+    if (icon && typeof icon === 'object' && 'source' in icon) {
+      // For { source: string } or { source: { light, dark } } objects
+      const source = icon.source
+      if (typeof source === 'string') {
+        return getIconEmoji(source)
+      }
+    }
+    return null
+  }
+
+  const iconEmoji = props.icon ? getIconString(props.icon) : null
+
+  return (
+    <box
+      style={{
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexGrow: 1,
+        paddingTop: 2,
+        paddingBottom: 2,
+        paddingLeft: 2,
+        paddingRight: 2,
+        gap: 1,
+      }}
+    >
+      {iconEmoji && (
+        <text fg={Theme.textMuted} style={{ marginBottom: 1 }}>
+          {iconEmoji}
+        </text>
+      )}
+      {props.title && (
+        <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+          {props.title}
+        </text>
+      )}
+      {props.description && (
+        <text fg={Theme.textMuted} wrapMode='word'>
+          {props.description}
+        </text>
+      )}
+    </box>
+  )
 }
 
 export default List
