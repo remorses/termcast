@@ -5,10 +5,30 @@ This document describes how to test extensions from the Raycast store to verify 
 ## Overview
 
 The workflow involves:
-1. Downloading an extension from the Raycast store
-2. Installing its dependencies
-3. Running it in dev mode
-4. Creating a vitest test file to automate testing
+1. Finding an extension using `raycast-search`
+2. Downloading the extension from the Raycast store
+3. Installing its dependencies
+4. Running it in dev mode
+5. Creating a vitest test file to automate testing
+
+## Finding Extensions
+
+**Do not use gitchamber on the raycast/extensions repo** - it's too large and will timeout.
+
+Instead, use the `raycast-search` command to find extensions:
+
+```bash
+cd termcast
+bun run src/cli.tsx raycast-search <query>
+```
+
+This searches the Raycast store API and shows matching extensions with their names, download counts, and commands.
+
+**Example:**
+```bash
+bun run src/cli.tsx raycast-search messages
+bun run src/cli.tsx raycast-search notion --limit 5
+```
 
 ## Step 1: Download the Extension
 

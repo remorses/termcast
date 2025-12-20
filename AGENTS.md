@@ -2,6 +2,8 @@
 
 NOTICE: AGENTS.md is generated using `bun agents.md` and should NEVER be manually updated. only update PREFIX.md
 
+ALWAYS use bun to install dependencies
+
 ---
 
 # termcast specific rules
@@ -118,7 +120,11 @@ if you cannot port a real implementation for some raycast APIs and instead simul
 
 NEVER add zustand state setter methods. instead use useStore.setState to set state.
 
+NEVER do useStore((state) => ({something: state.currentCommandName})). it will trigger an infinite render loop. instead only return scalar values and not objects in zustand state selectors
+
 you can use zustand state from @state.tsx also outside of React using `useStore.getState()`
+
+NEVER do useStore((state) => ({something: state.currentCommandName})). it will trigger an infinite render loop. instead only return scalar values and not objects in zustand state selectors
 
 zustand already merges new partial state with the previous state. NEVER DO `useStore.setState({ ...useStore.getInitialState(), ... })` unless for resetting state
 
@@ -319,7 +325,7 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 ## important reminders
 
 - never update snapshots yourself. if you want to test something you must read the snapshots yourself after running the tests
-- NEVER run examples files with commands like `bun src/examlpes/something.tsx`! This is very important. this will hang the command and give you no information and break the current claude code terminal! instead use vitest tests
+- if you run examples use a short timeout. these will hang the process but you will still be able to see the initial output in case you need that. using vitest tests is preferred because you can set cold and rows precisely and see the output after some input keys via tomatchinlinesnapshot
 
 ## Hooks
 
@@ -463,7 +469,7 @@ termcast supports three ways to run extensions: dev mode, compiled, and installe
 | Compiled | Bundled with app | `{extensionPath}/.termcast-bundle/data.db` |
 | Store | `~/.termcast/store/{extensionName}` | `{extensionPath}/.termcast-bundle/data.db` |
 
-The database path is determined by `extensionPath` in state. If not set, falls back to `~/.termcast/.termcast-bundle/data.db`.
+The database path is determined by `extensionPath` in state. `extensionPath` must always be set before accessing LocalStorage - there is no fallback. 
 
 ## Dev Mode
 
@@ -499,6 +505,10 @@ Preferences are stored in SQLite with keys:
 - Command-level: `preferences.{extensionName}.{commandName}`
 
 The `ExtensionPreferences` component loads preference definitions from `package.json` at the extension path.
+
+## logs
+
+logs that happen during extension execution are output in a local app.log file, in the cwd where the extension was run
 
 
 ## opentui
@@ -941,6 +951,9 @@ tracking uncontrolled inputs via React state means that you will need to add use
 using React state in these cases is only necessary if you have to show the input value during render. if that is not the case you can just use `inputRef.current.value` instead and set the value via `inputRef.current.value = something`
 
 # testing
+
+.toMatchInlineSnapshot is the preferred way to write tests. leave them empty the first time, update them with -u. check git diff for the test file every time you update them with -u
+
 
 do not create dumb tests that test nothing. do not write tests if there is not already a test file or describe block for that function or module.
 

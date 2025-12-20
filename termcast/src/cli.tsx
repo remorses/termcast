@@ -6,6 +6,7 @@ import * as watcher from '@parcel/watcher'
 import { buildExtensionCommands } from './build'
 import { logger } from './logger'
 import { installExtension } from './utils'
+import { searchStoreListings } from './store-api/search'
 import './globals'
 import { startDevMode, triggerRebuild } from './extensions/dev'
 import { compileExtension } from './compile'
@@ -358,6 +359,40 @@ cli
       process.exit(0)
     } catch (error) {
       console.error('Error downloading PR:', error)
+      process.exit(1)
+    }
+  })
+
+cli
+  .command('raycast-search <query>', 'Search for extensions in the Raycast store')
+  .option('-n, --limit <number>', 'Number of results to show', { default: '10' })
+  .action(async (query: string, options: { limit: string }) => {
+    try {
+      const limit = parseInt(options.limit, 10)
+      const result = await searchStoreListings({ query, perPage: limit })
+
+      if (result.data.length === 0) {
+        console.log(`No extensions found for "${query}"`)
+        process.exit(0)
+      }
+
+      console.log(`Found ${result.data.length} extensions for "${query}":\n`)
+
+      for (const ext of result.data) {
+        const downloads = ext.download_count.toLocaleString()
+        const commands = ext.commands.map((c) => c.name).join(', ')
+        console.log(`  ${ext.name}`)
+        console.log(`    Path: extensions/${ext.relative_path.replace('extensions/', '')}`)
+        console.log(`    Downloads: ${downloads}`)
+        console.log(`    Commands: ${commands || 'none'}`)
+        console.log(`    Description: ${ext.description.slice(0, 100)}${ext.description.length > 100 ? '...' : ''}`)
+        console.log()
+      }
+
+      console.log(`Download with: termcast download <extension-name>`)
+      process.exit(0)
+    } catch (error: any) {
+      console.error('Search failed:', error.message)
       process.exit(1)
     }
   })

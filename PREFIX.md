@@ -325,7 +325,7 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 ## important reminders
 
 - never update snapshots yourself. if you want to test something you must read the snapshots yourself after running the tests
-- NEVER run examples files with commands like `bun src/examlpes/something.tsx`! This is very important. this will hang the command and give you no information and break the current claude code terminal! instead use vitest tests
+- if you run examples use a short timeout. these will hang the process but you will still be able to see the initial output in case you need that. using vitest tests is preferred because you can set cold and rows precisely and see the output after some input keys via tomatchinlinesnapshot
 
 ## Hooks
 
