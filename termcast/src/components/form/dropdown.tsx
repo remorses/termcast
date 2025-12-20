@@ -450,6 +450,7 @@ const DropdownContent = ({
           >
             {props.children}
           </scrollbox>
+          <WithLeftBorder children={<box />} isFocused={isFocused} />
 
           {(fieldState.error || props.error) && (
             <WithLeftBorder isFocused={isFocused}>
