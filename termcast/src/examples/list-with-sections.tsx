@@ -14,6 +14,7 @@ function SimpleListExample() {
   const { push } = useNavigation()
   return (
     <List
+      // isLoading
       navigationTitle='Simple List Example'
       searchBarPlaceholder='Search items...'
       onSelectionChange={(id) => {

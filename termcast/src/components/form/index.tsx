@@ -369,29 +369,6 @@ export const Form: FormType = ((props) => {
           <FocusContext.Provider value={{ focusedField, setFocusedField }}>
             <box flexDirection='row' flexGrow={1} justifyContent='center'>
               <box flexGrow={0} flexDirection='column'>
-                {/* Navigation header with title, loading bar, and accessory */}
-                {(navigationTitle || searchBarAccessory) && (
-                  <box
-                    border={false}
-                    style={{
-                      flexShrink: 0,
-                      flexDirection: 'row',
-                      paddingBottom: 1,
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      gap: 3,
-                      maxWidth: FORM_MAX_WIDTH,
-                    }}
-                  >
-                    <box overflow='hidden' >
-                      <LoadingBar
-                        title={navigationTitle || ''}
-                        isLoading={isLoading || navigationPending}
-                      />
-                    </box>
-                    {searchBarAccessory}
-                  </box>
-                )}
                 <ScrollBox
                   ref={scrollBoxRef}
                   flexGrow={1}
@@ -404,6 +381,28 @@ export const Form: FormType = ((props) => {
                     },
                   }}
                 >
+                  {/* Navigation header with title, loading bar, and accessory */}
+
+                  <box
+                    border={false}
+                    style={{
+                      flexShrink: 0,
+                      flexDirection: 'row',
+                      paddingBottom: 1,
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: 3,
+                    }}
+                  >
+                    <box overflow='hidden'>
+                      <LoadingBar
+                        title={navigationTitle || ''}
+                        isLoading={isLoading || navigationPending}
+                      />
+                    </box>
+                    {searchBarAccessory}
+                  </box>
+
                   <FormFieldDescendantsProvider value={descendantsContext}>
                     {props.children}
                     <FormEnd />

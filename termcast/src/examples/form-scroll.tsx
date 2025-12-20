@@ -6,6 +6,8 @@ export function FormScrollExample(): any {
   return (
     <box flexDirection='column' flexGrow={1}>
       <Form
+        // isLoading
+        // navigationTitle='something'
         actions={
           <ActionPanel>
             <Action.SubmitForm title='Submit' onSubmit={() => {}} />

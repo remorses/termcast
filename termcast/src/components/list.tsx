@@ -923,6 +923,9 @@ export const List: ListType = (props) => {
               style={{
                 paddingBottom: 0,
                 flexShrink: 0,
+                paddingLeft: 1,
+                paddingRight: 1,
+                overflow: 'hidden',
               }}
             >
               <LoadingBar

@@ -127,10 +127,11 @@ export function LoadingBar(props: LoadingBarProps): any {
       style={{
         flexDirection: 'row',
         flexGrow: 1,
-        paddingLeft: 1,
-        paddingRight: 1,
+        // paddingLeft: 1,
+        // paddingRight: 1,
       }}
     >
+
       {characters.map((char, index) => (
         <text key={index} fg={getCharacterColor(index)} flexShrink={0}>
           {char}
