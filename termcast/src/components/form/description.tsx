@@ -4,6 +4,7 @@ import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { useFormNavigation } from './use-form-navigation'
+import { LoadingText } from 'termcast/src/components/loading-text'
 
 export interface DescriptionProps {
   id?: string
@@ -45,9 +46,12 @@ export const Description = (props: DescriptionProps): any => {
           customCharacter={{ focused: '■', unfocused: '▪︎' }}
           isFocused={isFocused}
         >
-          <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+          <LoadingText
+            isLoading={isFocused && focusContext.isLoading}
+            color={isFocused ? Theme.primary : Theme.text}
+          >
             {props.title}
-          </text>
+          </LoadingText>
         </WithLeftBorder>
       )}
       <WithLeftBorder isFocused={isFocused}>

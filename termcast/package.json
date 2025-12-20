@@ -38,6 +38,7 @@
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
     "cheerio": "^1.1.2",
+    "colord": "^2.9.3",
     "google-auth-library": "^10.3.0",
     "jszip": "^3.10.1",
     "nanoid": "^5.1.5",

@@ -72,10 +72,11 @@ export const useFormScrollContext = () => {
   return useContext(FormScrollContext)
 }
 
-// Context for managing focused field
+// Context for managing focused field and loading state
 interface FocusContextValue {
   focusedField: string | null
   setFocusedField: (id: string | null) => void
+  isLoading: boolean
 }
 
 const FocusContext = createContext<FocusContextValue | null>(null)
@@ -366,7 +367,7 @@ export const Form: FormType = ((props) => {
     <FormProvider {...methods}>
       <FormSubmitContext.Provider value={submitContextValue}>
         <FormScrollContext.Provider value={scrollContextValue}>
-          <FocusContext.Provider value={{ focusedField, setFocusedField }}>
+          <FocusContext.Provider value={{ focusedField, setFocusedField, isLoading: isLoading || false }}>
             <box flexDirection='row' flexGrow={1} justifyContent='center'>
               <box flexGrow={0} flexDirection='column'>
                 <ScrollBox
@@ -376,6 +377,7 @@ export const Form: FormType = ((props) => {
                     rootOptions: {
                       maxWidth: FORM_MAX_WIDTH,
                     },
+
                     contentOptions: {
                       justifyContent: 'center',
                     },
@@ -383,7 +385,7 @@ export const Form: FormType = ((props) => {
                 >
                   {/* Navigation header with title, loading bar, and accessory */}
 
-                  <box
+                  {/*<box
                     border={false}
                     style={{
                       flexShrink: 0,
@@ -401,12 +403,14 @@ export const Form: FormType = ((props) => {
                       />
                     </box>
                     {searchBarAccessory}
-                  </box>
+                  </box>*/}
 
-                  <FormFieldDescendantsProvider value={descendantsContext}>
-                    {props.children}
-                    <FormEnd />
-                  </FormFieldDescendantsProvider>
+                  <box>
+                    <FormFieldDescendantsProvider value={descendantsContext}>
+                      {props.children}
+                      <FormEnd />
+                    </FormFieldDescendantsProvider>
+                  </box>
                 </ScrollBox>
                 <FormFooter />
               </box>

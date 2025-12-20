@@ -9,6 +9,7 @@ import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { LoadingText } from 'termcast/src/components/loading-text'
 
 export interface CheckboxProps extends FormItemProps<boolean> {
   label: string
@@ -18,7 +19,8 @@ export type CheckboxRef = FormItemRef
 
 export const Checkbox = (props: CheckboxProps): any => {
   const { control, setValue, getValues } = useFormContext()
-  const { focusedField, setFocusedField } = useFocusContext()
+  const focusContext = useFocusContext()
+  const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
 
@@ -58,8 +60,7 @@ export const Checkbox = (props: CheckboxProps): any => {
         return (
           <box ref={elementRef} flexDirection='column'>
             <WithLeftBorder withDiamond isFocused={isFocused}>
-              <text
-                fg={isFocused ? Theme.primary : Theme.text}
+              <box
                 onMouseDown={() => {
                   // Always focus the field when clicked
                   if (!isFocused) {
@@ -69,8 +70,13 @@ export const Checkbox = (props: CheckboxProps): any => {
                   handleToggle()
                 }}
               >
-                {props.title}
-              </text>
+                <LoadingText
+                  isLoading={isFocused && focusContext.isLoading}
+                  color={isFocused ? Theme.primary : Theme.text}
+                >
+                  {props.title || ''}
+                </LoadingText>
+              </box>
             </WithLeftBorder>
             <WithLeftBorder isFocused={isFocused}>
               <text

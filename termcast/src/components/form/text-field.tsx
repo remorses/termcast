@@ -7,6 +7,7 @@ import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 import { createTextareaFormRef } from './form-ref'
+import { LoadingText } from 'termcast/src/components/loading-text'
 
 export interface TextFieldProps extends FormItemProps<string> {
   placeholder?: string
@@ -16,7 +17,8 @@ export type TextFieldRef = FormItemRef
 
 export const TextField = (props: TextFieldProps): any => {
   const { register, formState } = useFormContext()
-  const { focusedField, setFocusedField } = useFocusContext()
+  const focusContext = useFocusContext()
+  const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
 
   const elementRef = useRef<BoxRenderable>(null)
@@ -60,14 +62,18 @@ export const TextField = (props: TextFieldProps): any => {
   return (
     <box ref={elementRef} flexDirection="column">
       <WithLeftBorder withDiamond isFocused={isFocused}>
-        <text
-          fg={isFocused ? Theme.primary : Theme.text}
+        <box
           onMouseDown={() => {
             setFocusedField(props.id)
           }}
         >
-          {props.title}
-        </text>
+          <LoadingText
+            isLoading={isFocused && focusContext.isLoading}
+            color={isFocused ? Theme.primary : Theme.text}
+          >
+            {props.title || ''}
+          </LoadingText>
+        </box>
       </WithLeftBorder>
       <WithLeftBorder isFocused={isFocused}>
         <textarea

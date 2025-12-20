@@ -10,6 +10,7 @@ import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { FileAutocompleteDialog } from './file-autocomplete'
 import { useFormNavigationHelpers } from './use-form-navigation'
 import { useDialog } from 'termcast/src/internal/dialog'
+import { LoadingText } from 'termcast/src/components/loading-text'
 
 export interface FilePickerProps extends FormItemProps<string[]> {
   /**
@@ -53,6 +54,7 @@ const FilePickerField = ({
   props,
   isFocused,
   setFocusedField,
+  isFormLoading,
 }: {
   field: any
   fieldState: any
@@ -60,6 +62,7 @@ const FilePickerField = ({
   props: FilePickerProps
   isFocused: boolean
   setFocusedField: (id: string) => void
+  isFormLoading: boolean
 }): any => {
   const isInFocus = useIsInFocus()
   const inputRef = React.useRef<TextareaRenderable>(null)
@@ -138,14 +141,18 @@ const FilePickerField = ({
   return (
     <box flexDirection='column'>
       <WithLeftBorder withDiamond isFocused={isFocused}>
-        <text
-          fg={isFocused ? Theme.primary : Theme.text}
+        <box
           onMouseDown={() => {
             setFocusedField(props.id)
           }}
         >
-          {props.title || 'File Path'}
-        </text>
+          <LoadingText
+            isLoading={isFocused && isFormLoading}
+            color={isFocused ? Theme.primary : Theme.text}
+          >
+            {props.title || 'File Path'}
+          </LoadingText>
+        </box>
       </WithLeftBorder>
       <WithLeftBorder isFocused={isFocused}>
         <box flexDirection='column'>
@@ -197,7 +204,8 @@ const FilePickerField = ({
 
 export const FilePicker = (props: FilePickerProps): any => {
   const { control } = useFormContext()
-  const { focusedField, setFocusedField } = useFocusContext()
+  const focusContext = useFocusContext()
+  const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
 
@@ -237,6 +245,7 @@ export const FilePicker = (props: FilePickerProps): any => {
               props={props}
               isFocused={isFocused}
               setFocusedField={setFocusedField}
+              isFormLoading={focusContext.isLoading}
             />
           </box>
         ) as React.ReactElement

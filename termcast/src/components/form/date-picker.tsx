@@ -9,6 +9,7 @@ import { WithLeftBorder } from './with-left-border'
 import { DatePickerWidget } from 'termcast/src/internal/date-picker-widget'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useFormNavigationHelpers } from './use-form-navigation'
+import { LoadingText } from 'termcast/src/components/loading-text'
 
 export enum DatePickerType {
   Date = 'date',
@@ -30,7 +31,8 @@ interface DatePickerComponentType {
 
 const DatePickerComponent = (props: DatePickerProps): any => {
   const { control } = useFormContext()
-  const { focusedField, setFocusedField } = useFocusContext()
+  const focusContext = useFocusContext()
+  const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
 
@@ -66,14 +68,18 @@ const DatePickerComponent = (props: DatePickerProps): any => {
         return (
           <box ref={elementRef} flexDirection='column'>
             <WithLeftBorder withDiamond isFocused={isFocused}>
-              <text
-                fg={isFocused ? Theme.primary : Theme.text}
+              <box
                 onMouseDown={() => {
                   setFocusedField(props.id)
                 }}
               >
-                {props.title}
-              </text>
+                <LoadingText
+                  isLoading={isFocused && focusContext.isLoading}
+                  color={isFocused ? Theme.primary : Theme.text}
+                >
+                  {props.title || ''}
+                </LoadingText>
+              </box>
             </WithLeftBorder>
             <WithLeftBorder isFocused={isFocused}>
               <DatePickerWidget

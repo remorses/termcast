@@ -25,6 +25,7 @@ import {
 import { WithLeftBorder } from './with-left-border'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useFormNavigationHelpers } from './use-form-navigation'
+import { LoadingText } from 'termcast/src/components/loading-text'
 
 export interface DropdownProps extends FormItemProps<string | string[]> {
   placeholder?: string
@@ -204,7 +205,8 @@ const DropdownContent = ({
 }: DropdownContentProps) => {
   const descendantsContext = useFormDropdownDescendants()
   const isInFocus = useIsInFocus()
-  const { focusedField, setFocusedField } = useFocusContext()
+  const focusContext = useFocusContext()
+  const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
   const [focusedIndex, setFocusedIndex] = useState(0)
 
@@ -409,14 +411,18 @@ const DropdownContent = ({
       <FormDropdownContext.Provider value={contextValue}>
         <box ref={elementRef} flexDirection='column'>
           <WithLeftBorder withDiamond isFocused={isFocused}>
-            <text
-              fg={isFocused ? Theme.primary : Theme.text}
+            <box
               onMouseDown={() => {
                 setFocusedField(props.id)
               }}
             >
-              {props.title}
-            </text>
+              <LoadingText
+                isLoading={isFocused && focusContext.isLoading}
+                color={isFocused ? Theme.primary : Theme.text}
+              >
+                {props.title || ''}
+              </LoadingText>
+            </box>
           </WithLeftBorder>
           <WithLeftBorder isFocused={isFocused}>
             <text

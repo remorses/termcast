@@ -6,6 +6,7 @@ import { FormItemProps, FormItemRef } from './types'
 import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
+import { LoadingText } from 'termcast/src/components/loading-text'
 
 export interface PasswordFieldProps extends FormItemProps<string> {
   placeholder?: string
@@ -15,7 +16,8 @@ export type PasswordFieldRef = FormItemRef
 
 export const PasswordField = (props: PasswordFieldProps): any => {
   const { control } = useFormContext()
-  const { focusedField, setFocusedField } = useFocusContext()
+  const focusContext = useFocusContext()
+  const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
   const elementRef = useRef<BoxRenderable>(null)
   const realValueRef = useRef(props.defaultValue || props.value || '')
@@ -39,14 +41,18 @@ export const PasswordField = (props: PasswordFieldProps): any => {
         return (
           <box ref={elementRef} flexDirection="column">
             <WithLeftBorder withDiamond isFocused={isFocused}>
-              <text
-                fg={isFocused ? Theme.primary : Theme.text}
+              <box
                 onMouseDown={() => {
                   setFocusedField(props.id)
                 }}
               >
-                {props.title}
-              </text>
+                <LoadingText
+                  isLoading={isFocused && focusContext.isLoading}
+                  color={isFocused ? Theme.primary : Theme.text}
+                >
+                  {props.title || ''}
+                </LoadingText>
+              </box>
             </WithLeftBorder>
             <WithLeftBorder isFocused={isFocused}>
               <input
