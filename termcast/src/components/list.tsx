@@ -1681,12 +1681,12 @@ List.EmptyView = (props: EmptyViewProps) => {
       )}
       {props.title && (
         <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-          {props.title}
+          {props.title?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
         </text>
       )}
       {props.description && (
         <text fg={Theme.textMuted} wrapMode='word'>
-          {props.description}
+          {props.description?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
         </text>
       )}
     </box>
