@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.26
+
+### Patch Changes
+
+- Add `bin` field to package.json for global CLI installation via `npm i -g termcast`
+
 ## 1.3.25
 
 ### Patch Changes
