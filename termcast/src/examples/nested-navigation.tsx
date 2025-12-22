@@ -116,5 +116,9 @@ function App(): any {
   )
 }
 
-const renderer = await createCliRenderer()
+const renderer = await createCliRenderer({
+  onDestroy: () => {
+    process.exit(0)
+  },
+})
 createRoot(renderer).render(<App />)

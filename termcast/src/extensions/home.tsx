@@ -186,7 +186,11 @@ function ExtensionsList({
 export async function runHomeCommand(): Promise<void> {
   logger.log(`preparing to render the home command component`)
 
-  const renderer = await createCliRenderer()
+  const renderer = await createCliRenderer({
+    onDestroy: () => {
+      process.exit(0)
+    },
+  })
   createRoot(renderer).render(
     <TermcastProvider>
       <Home />

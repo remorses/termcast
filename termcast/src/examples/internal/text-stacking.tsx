@@ -88,5 +88,9 @@ function TextStackingExample() {
   )
 }
 
-const renderer = await createCliRenderer()
+const renderer = await createCliRenderer({
+  onDestroy: () => {
+    process.exit(0)
+  },
+})
 createRoot(renderer).render(<TextStackingExample />)

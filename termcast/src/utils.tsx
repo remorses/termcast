@@ -14,7 +14,11 @@ import {
 import { logger } from './logger'
 
 export async function renderWithProviders(element: ReactNode): Promise<void> {
-  const renderer = await createCliRenderer()
+  const renderer = await createCliRenderer({
+    onDestroy: () => {
+      process.exit(0)
+    },
+  })
   createRoot(renderer).render(<TermcastProvider>{element}</TermcastProvider>)
 }
 

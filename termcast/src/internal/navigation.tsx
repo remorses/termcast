@@ -8,7 +8,7 @@ import React, {
   startTransition,
   useTransition,
 } from 'react'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, useRenderer } from '@opentui/react'
 import { CommonProps } from 'termcast/src/utils'
 import { useStore, type NavigationStackItem } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
@@ -117,18 +117,24 @@ export function NavigationProvider(props: NavigationProviderProps): any {
   )
 
   const inFocus = useIsInFocus()
+  const renderer = useRenderer()
 
-  // Handle ESC key to pop navigation
+  // Handle ESC key to pop navigation or exit
   useKeyboard((evt) => {
     if (!inFocus) return
-    if (evt.name === 'escape' && stack.length > 1) {
-      logger.log(
-        'popping navigation',
-        stack.length - 1,
-        'stack:',
-        stack.map((item) => (item.element as any).type.name),
-      )
-      pop()
+    if (evt.name === 'escape') {
+      if (stack.length > 1) {
+        logger.log(
+          'popping navigation',
+          stack.length - 1,
+          'stack:',
+          stack.map((item) => (item.element as any).type.name),
+        )
+        pop()
+      } else {
+        // At root with no dialogs - exit the CLI
+        renderer.destroy()
+      }
     }
   })
 

@@ -217,7 +217,11 @@ export async function startDevMode({
     return <TermcastProvider key={String(devRebuildCount)}>{devElement}</TermcastProvider>
   }
 
-  const renderer = await createCliRenderer()
+  const renderer = await createCliRenderer({
+    onDestroy: () => {
+      process.exit(0)
+    },
+  })
   createRoot(renderer).render(<App />)
 }
 
@@ -274,7 +278,11 @@ export async function startCompiledExtension({
     return <TermcastProvider>{devElement}</TermcastProvider>
   }
 
-  const renderer = await createCliRenderer()
+  const renderer = await createCliRenderer({
+    onDestroy: () => {
+      process.exit(0)
+    },
+  })
   createRoot(renderer).render(<App />)
 }
 
