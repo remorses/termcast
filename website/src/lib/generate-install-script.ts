@@ -2,9 +2,10 @@ import { Font } from '@ascii-kit/font'
 import fs from 'node:fs'
 import path from 'node:path'
 
+const fontsFlfPkg = require.resolve('@ascii-kit/fonts-flf/package.json')
 const fontPath = path.join(
-  import.meta.dirname,
-  '../../node_modules/@ascii-kit/fonts-flf/dist/thick.flf',
+  path.dirname(fontsFlfPkg),
+  './dist/thick.flf',
 )
 const fontData = fs.readFileSync(fontPath, 'utf-8')
 const font = new Font(fontData)
@@ -223,11 +224,11 @@ download_with_progress() {
     {
         local length=0
         local bytes=0
-        
+
         while IFS=" " read -r -a line; do
             [ "\${#line[@]}" -lt 2 ] && continue
             local tag="\${line[0]} \${line[1]}"
-            
+
             if [ "$tag" = "0000: content-length:" ]; then
                 length="\${line[2]}"
                 length=$(echo "$length" | tr -d '\\r')
@@ -251,7 +252,7 @@ download_with_progress() {
 download_and_install() {
     print_message info "\\n\${MUTED}Installing \${NC}${binaryName} \${MUTED}version: \${NC}$specific_version"
     mkdir -p ${binaryName}tmp && cd ${binaryName}tmp
-    
+
     if [[ "$os" == "windows" ]] || ! download_with_progress "$url" "$filename"; then
         # Fallback to standard curl on Windows or if custom progress fails
         curl -# -L -o "$filename" "$url"
@@ -262,7 +263,7 @@ download_and_install() {
     else
         unzip -q "$filename"
     fi
-    
+
     mv "${binaryName}-$target" "$INSTALL_DIR/${binaryName}"
     chmod 755 "\${INSTALL_DIR}/${binaryName}"
     cd .. && rm -rf ${binaryName}tmp
