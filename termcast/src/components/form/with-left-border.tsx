@@ -7,7 +7,7 @@ const spinnerFrames = [
   { char: ' ', color: Theme.accent },
   { char: '·', color: Theme.accent },
   { char: '•', color: colord(Theme.accent).lighten(0.1).toHex() },
-  { char: '●', color: colord(Theme.accent).lighten(0.2).toHex() },
+  // { char: '●', color: colord(Theme.accent).lighten(0.2).toHex() },
 ]
 
 function Spinner(): any {
