@@ -1,16 +1,6 @@
 import { Font } from '@ascii-kit/font'
-import { createRequire } from 'node:module'
-import fs from 'node:fs'
-import path from 'node:path'
+import fontData from '@ascii-kit/fonts-flf/dist/thick.flf?raw'
 
-const require = createRequire(import.meta.url)
-
-const fontsFlfPkg = require.resolve('@ascii-kit/fonts-flf/package.json')
-const fontPath = path.join(
-  path.dirname(fontsFlfPkg),
-  './dist/thick.flf',
-)
-const fontData = fs.readFileSync(fontPath, 'utf-8')
 const font = new Font(fontData)
 
 export async function generateInstallScript(
