@@ -13,7 +13,6 @@ import { getStoredExtensions } from '../utils'
 import Store from './store'
 import { ExtensionPreferences } from '../components/extension-preferences'
 import { runCommand, clearCommandArguments } from '../utils/run-command'
-import { initializeDatabase } from '../apis/localstorage'
 import '../globals'
 
 interface ExtensionCommand {

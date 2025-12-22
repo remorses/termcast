@@ -189,7 +189,7 @@ export interface ItemProps extends ActionsInterface, CommonProps {
 export interface DetailProps extends CommonProps {
   isLoading?: boolean
   markdown?: string
-  metadata?: ReactElement<MetadataProps> | null
+  metadata?: ReactNode
 }
 
 export interface MetadataProps extends CommonProps {
