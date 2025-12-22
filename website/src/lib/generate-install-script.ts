@@ -1,6 +1,9 @@
 import { Font } from '@ascii-kit/font'
+import { createRequire } from 'node:module'
 import fs from 'node:fs'
 import path from 'node:path'
+
+const require = createRequire(import.meta.url)
 
 const fontsFlfPkg = require.resolve('@ascii-kit/fonts-flf/package.json')
 const fontPath = path.join(
