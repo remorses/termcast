@@ -129,9 +129,8 @@ if [ -z "$requested_version" ]; then
     url="https://github.com/${githubRepo}/releases/latest/download/$filename"
     specific_version=$(curl -s https://api.github.com/repos/${githubRepo}/releases/latest | sed -n 's/.*"tag_name": *"${binaryName}@\\([^"]*\\)".*/\\1/p')
 
-    if [[ $? -ne 0 || -z "$specific_version" ]]; then
-        echo -e "\${RED}Failed to fetch version information\${NC}"
-        exit 1
+    if [[ -z "$specific_version" ]]; then
+        specific_version="latest"
     fi
 else
     url="https://github.com/${githubRepo}/releases/download/${binaryName}@\${requested_version}/$filename"
@@ -154,17 +153,8 @@ print_message() {
 
 check_version() {
     if command -v ${binaryName} >/dev/null 2>&1; then
-        ${binaryName}_path=$(which ${binaryName})
-
-        installed_version=$(${binaryName} --version 2>/dev/null | head -1 || echo "0.0.0")
-        installed_version=$(echo $installed_version | sed 's/[^0-9.]//g')
-
-        if [[ "$installed_version" != "$specific_version" ]]; then
-            print_message info "\${MUTED}Installed version: \${NC}$installed_version"
-        else
-            print_message info "\${MUTED}Version \${NC}$specific_version\${MUTED} already installed\${NC}"
-            exit 0
-        fi
+        installed_version=$(${binaryName} --version 2>/dev/null | head -1 || echo "unknown")
+        print_message info "\${MUTED}Updating from: \${NC}$installed_version"
     fi
 }
 
