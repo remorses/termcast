@@ -69,6 +69,58 @@ describe('buildExtensionCommands', () => {
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/show-state.tsx",
             "exists": true,
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/show-state.js"
+          },
+          {
+            "name": "with-arguments",
+            "title": "With Arguments",
+            "subtitle": "Command with arguments",
+            "description": "Demonstrates command arguments (text, password, dropdown)",
+            "mode": "view",
+            "arguments": [
+              {
+                "name": "query",
+                "type": "text",
+                "placeholder": "Search query",
+                "required": true
+              },
+              {
+                "name": "secretKey",
+                "type": "password",
+                "placeholder": "Secret key"
+              },
+              {
+                "name": "category",
+                "type": "dropdown",
+                "placeholder": "Category",
+                "data": [
+                  {
+                    "title": "Work",
+                    "value": "work"
+                  },
+                  {
+                    "title": "Personal",
+                    "value": "personal"
+                  },
+                  {
+                    "title": "Other",
+                    "value": "other"
+                  }
+                ]
+              }
+            ],
+            "filePath": "/BASE_PATH/fixtures/simple-extension/src/with-arguments.tsx",
+            "exists": true,
+            "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/with-arguments.js"
+          },
+          {
+            "name": "quick-action",
+            "title": "Quick Action",
+            "subtitle": "No-view command",
+            "description": "Copies current timestamp to clipboard without showing a view",
+            "mode": "no-view",
+            "filePath": "/BASE_PATH/fixtures/simple-extension/src/quick-action.tsx",
+            "exists": true,
+            "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/quick-action.js"
           }
         ],
         "bundleDir": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle"

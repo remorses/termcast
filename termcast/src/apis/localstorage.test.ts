@@ -1,20 +1,28 @@
-import { describe, test, expect, beforeEach, afterAll } from 'bun:test'
+import { describe, test, expect, beforeEach, beforeAll, afterAll } from 'bun:test'
 import { LocalStorage } from './localstorage'
+import { useStore } from '../state'
 import * as os from 'os'
 import * as path from 'path'
 import * as fs from 'fs'
 
 describe('LocalStorage', () => {
+  const testExtensionPath = path.join(os.tmpdir(), 'termcast-localstorage-test')
+
+  beforeAll(() => {
+    // Set up extensionPath required by LocalStorage
+    useStore.setState({ extensionPath: testExtensionPath })
+  })
+
   beforeEach(async () => {
     await LocalStorage.clear()
   })
 
   afterAll(() => {
-    // Optional: Clean up test database after all tests
-    // const dbPath = path.join(os.homedir(), '.termcast.db')
-    // if (fs.existsSync(dbPath)) {
-    //     fs.unlinkSync(dbPath)
-    // }
+    // Clean up test database after all tests
+    const dbDir = path.join(testExtensionPath, '.termcast-bundle')
+    if (fs.existsSync(dbDir)) {
+      fs.rmSync(dbDir, { recursive: true })
+    }
   })
 
   describe('setItem and getItem', () => {
