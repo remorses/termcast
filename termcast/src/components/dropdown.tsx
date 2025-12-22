@@ -303,6 +303,7 @@ const Dropdown: DropdownType = (props) => {
                 <textarea
                   ref={inputRef}
                   height={1}
+                  wrapMode='none'
                   keyBindings={[
                     { name: 'return', action: 'submit' },
                     { name: 'linefeed', action: 'submit' },

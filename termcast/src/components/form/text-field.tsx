@@ -83,6 +83,7 @@ export const TextField = (props: TextFieldProps): any => {
             { name: 'return', action: 'submit' },
             { name: 'linefeed', action: 'submit' },
           ]}
+          wrapMode='none'
           initialValue={props.defaultValue || props.value || ''}
           onContentChange={handleContentChange}
           placeholder={props.placeholder}

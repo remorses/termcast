@@ -90,6 +90,7 @@ function RHFCustomRefExample() {
         <textarea
           ref={handleUsernameRef}
           height={1}
+          wrapMode='none'
           placeholder="Enter username..."
           onContentChange={onUsernameChange}
           onMouseDown={() => {
@@ -114,6 +115,7 @@ function RHFCustomRefExample() {
         <textarea
           ref={handleMessageRef}
           height={2}
+          wrapMode='none'
           placeholder="Enter message..."
           onContentChange={onMessageChange}
           onMouseDown={() => {

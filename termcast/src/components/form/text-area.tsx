@@ -79,6 +79,7 @@ export const TextArea = (props: TextAreaProps): any => {
         <box flexGrow={1}>
           <textarea
             ref={handleRef}
+            wrapMode='none'
             initialValue={props.defaultValue || props.value || ''}
             onContentChange={handleContentChange}
             minHeight={4}

@@ -130,6 +130,7 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
             <textarea
               ref={inputRef}
               height={1}
+              wrapMode='none'
               keyBindings={[
                 { name: 'return', action: 'submit' },
                 { name: 'linefeed', action: 'submit' },
