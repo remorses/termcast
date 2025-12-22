@@ -7,10 +7,10 @@ termcast supports three ways to run extensions: dev mode, compiled, and installe
 | Mode | Extension Path | SQLite Database |
 |------|----------------|-----------------|
 | Dev | Local folder (e.g. `~/my-extension`) | `{extensionPath}/.termcast-bundle/data.db` |
-| Compiled | Bundled with app | `{extensionPath}/.termcast-bundle/data.db` |
+| Compiled | N/A (embedded in binary) | `~/.termcast/{extensionName}/data.db` |
 | Store | `~/.termcast/store/{extensionName}` | `{extensionPath}/.termcast-bundle/data.db` |
 
-The database path is determined by `extensionPath` in state. `extensionPath` must always be set before accessing LocalStorage - there is no fallback. 
+For dev and store modes, the database path is determined by `extensionPath` in state. For compiled mode, no filesystem path exists - data is stored in user's home directory. 
 
 ## Dev Mode
 
@@ -24,12 +24,13 @@ Entry: `startDevMode({ extensionPath })`
 
 ## Compiled Mode
 
-Entry: `startCompiledExtension({ extensionPath, compiledCommands })`
+Entry: `startCompiledExtension({ packageJson, compiledCommands })`
 
 1. Commands are pre-compiled and passed as `Component` functions
-2. Reads `package.json` from `extensionPath`
-3. Sets state: `extensionPath`, `extensionPackageJson`
+2. `packageJson` is embedded directly into the binary at compile time (no filesystem reads)
+3. Sets state: `extensionPackageJson` (no `extensionPath` needed)
 4. No build step needed - components are already bundled
+5. Binary is fully portable - no hardcoded paths
 
 ## Store Mode
 

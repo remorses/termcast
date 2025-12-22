@@ -219,8 +219,14 @@ export async function launchCommand(options: LaunchOptions): Promise<void> {
   const state = useStore.getState()
   const { extensionPath, extensionPackageJson, navigationStack, devRebuildCount } = state
 
-  if (!extensionPath || !extensionPackageJson) {
+  if (!extensionPackageJson) {
     throw new Error('No extension loaded')
+  }
+
+  // launchCommand requires filesystem access to import the command module
+  // For compiled extensions, the commands are pre-bundled and this function won't work
+  if (!extensionPath) {
+    throw new Error('launchCommand is not supported in compiled extensions - commands must be accessed through the main extension entry point')
   }
 
   const commandDef = extensionPackageJson.commands?.find(

@@ -28,10 +28,10 @@ const raycastAliasPlugin: BunPlugin = {
 }
 
 export function generateEntryCode({
-  extensionPath,
+  packageJson,
   commands,
 }: {
-  extensionPath: string
+  packageJson: import('./package-json').RaycastPackageJson
   commands: Array<{ name: string; bundledPath: string }>
 }): string {
   const commandImports = commands
@@ -61,7 +61,7 @@ ${commandsArray}
   const { startCompiledExtension } = await import('termcast/src/extensions/dev');
 
   await startCompiledExtension({
-    extensionPath: ${JSON.stringify(extensionPath)},
+    packageJson: ${JSON.stringify(packageJson)},
     compiledCommands,
     skipArgv: 0,
   });
@@ -183,7 +183,7 @@ export async function compileExtension({
   fs.writeFileSync(path.join(bundleDir, '.gitignore'), '*\n')
 
   const entryCode = generateEntryCode({
-    extensionPath: resolvedPath,
+    packageJson,
     commands: existingCommands.map((cmd) => ({
       name: cmd.name,
       bundledPath: cmd.filePath,

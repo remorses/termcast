@@ -1,10 +1,7 @@
 import React from 'react'
-import { createRoot } from '@opentui/react'
-import { createCliRenderer } from '@opentui/core'
-import List from 'termcast'
+import List, { renderWithProviders } from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
-import { TermcastProvider } from 'termcast/src/internal/providers'
 
 function ThirdLevel({ path }: { path: string[] }): any {
   const { pop } = useNavigation()
@@ -108,17 +105,4 @@ function FirstLevel(): any {
   )
 }
 
-function App(): any {
-  return (
-    <TermcastProvider>
-      <FirstLevel />
-    </TermcastProvider>
-  )
-}
-
-const renderer = await createCliRenderer({
-  onDestroy: () => {
-    process.exit(0)
-  },
-})
-createRoot(renderer).render(<App />)
+await renderWithProviders(<FirstLevel />)

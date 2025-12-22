@@ -9,7 +9,7 @@ import { useNavigation } from 'termcast/src/internal/navigation'
 import { TermcastProvider } from 'termcast/src/internal/providers'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
-import { getCommandsWithFiles, CommandWithFile } from '../package-json'
+import { getCommandsWithFiles, CommandWithFile, RaycastPackageJson } from '../package-json'
 import { buildExtensionCommands } from '../build'
 import {
   runCommand,
@@ -24,18 +24,15 @@ interface BundledCommand extends CommandWithFile {
 }
 
 function ExtensionCommandsList({
-  extensionPath,
+  packageJson,
   commands,
   skipArgv,
 }: {
-  extensionPath: string
+  packageJson: RaycastPackageJson
   commands: BundledCommand[]
   skipArgv?: number
 }): any {
   const { push } = useNavigation()
-  const { packageJson } = getCommandsWithFiles({
-    packageJsonPath: path.join(extensionPath, 'package.json'),
-  })
 
   const visibleCommands = commands.filter((cmd) => cmd.mode !== 'menu-bar')
 
@@ -205,7 +202,7 @@ export async function startDevMode({
     extensionPath: resolvedPath,
     extensionPackageJson: packageJson,
     devElement: (
-      <ExtensionCommandsList extensionPath={resolvedPath} commands={commands} skipArgv={skipArgv} />
+      <ExtensionCommandsList packageJson={packageJson} commands={commands} skipArgv={skipArgv} />
     ),
     devRebuildCount: 1,
   })
@@ -226,27 +223,30 @@ export async function startDevMode({
 }
 
 export async function startCompiledExtension({
-  extensionPath,
+  packageJson,
   compiledCommands,
   skipArgv = 0,
 }: {
-  extensionPath: string
+  packageJson: RaycastPackageJson
   compiledCommands: Array<{
     name: string
-    bundledPath: string
     Component: (props: any) => any
   }>
   skipArgv?: number
 }): Promise<void> {
-  const packageJsonPath = path.join(extensionPath, 'package.json')
-  const { packageJson, commands: commandsMetadata } = getCommandsWithFiles({
-    packageJsonPath,
-  })
+  // Build command metadata from packageJson.commands
+  const commandsMetadata = (packageJson.commands || []).map((cmd) => ({
+    ...cmd,
+    filePath: '',
+    exists: true,
+  }))
 
   const commands: BundledCommand[] = compiledCommands.map((compiled) => {
     const metadata = commandsMetadata.find((cmd) => cmd.name === compiled.name)
     return {
       ...metadata!,
+      filePath: '',
+      exists: true,
       bundledPath: '',
       Component: compiled.Component,
     }
@@ -265,10 +265,10 @@ export async function startCompiledExtension({
 
   useStore.setState({
     ...useStore.getInitialState(),
-    extensionPath,
+    extensionPath: '', // No filesystem path for compiled extensions
     extensionPackageJson: packageJson,
     devElement: (
-      <ExtensionCommandsList extensionPath={extensionPath} commands={commands} skipArgv={skipArgv} />
+      <ExtensionCommandsList packageJson={packageJson} commands={commands} skipArgv={skipArgv} />
     ),
     devRebuildCount: 1,
   })
@@ -309,7 +309,7 @@ export async function triggerRebuild({
       extensionPackageJson: packageJson,
       devElement: (
         <ExtensionCommandsList
-          extensionPath={extensionPath}
+          packageJson={packageJson}
           commands={commands}
         />
       ),

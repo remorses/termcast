@@ -1,12 +1,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import React from 'react'
-import { createRoot } from '@opentui/react'
-import { createCliRenderer } from '@opentui/core'
-import { List, logger, useStore } from 'termcast'
+import { List, logger, useStore, renderWithProviders } from 'termcast'
 import { Action, ActionPanel } from 'termcast'
 import { useNavigation } from 'termcast/src/internal/navigation'
-import { TermcastProvider } from 'termcast/src/internal/providers'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
 import { getStoredExtensions } from '../utils'
@@ -185,17 +182,7 @@ function ExtensionsList({
 
 export async function runHomeCommand(): Promise<void> {
   logger.log(`preparing to render the home command component`)
-
-  const renderer = await createCliRenderer({
-    onDestroy: () => {
-      process.exit(0)
-    },
-  })
-  createRoot(renderer).render(
-    <TermcastProvider>
-      <Home />
-    </TermcastProvider>,
-  )
+  await renderWithProviders(<Home />)
   logger.log(`rendered home command component`)
 }
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.27
+
+### Patch Changes
+
+- Fix compiled binaries to be fully portable by embedding `packageJson` directly instead of hardcoding `extensionPath`
+- `startCompiledExtension` now accepts `packageJson` parameter instead of reading from filesystem
+- LocalStorage and Cache now use `~/.termcast/compiled/{extensionName}/` for compiled extensions
+- `launchCommand` provides clear error message for compiled extensions (not supported)
+
 ## 1.3.26
 
 ### Patch Changes

@@ -6,34 +6,42 @@ import { logger } from '../logger'
 import { useStore } from '../state'
 
 function getCurrentDatabasePath(): string {
-  const extensionPath = useStore.getState().extensionPath
+  const { extensionPath, extensionPackageJson } = useStore.getState()
 
+  // For filesystem-based extensions (dev mode, store mode), use the extension directory
   if (extensionPath) {
-    // Use same shared database as localstorage
     return path.join(extensionPath, '.termcast-bundle', 'data.db')
-  } else {
-    return path.join(os.homedir(), '.termcast', '.termcast-bundle', 'data.db')
   }
+
+  // For compiled extensions, use a directory in user's home based on extension name
+  if (extensionPackageJson?.name) {
+    return path.join(os.homedir(), '.termcast', 'compiled', extensionPackageJson.name, 'data.db')
+  }
+
+  // Fallback for unknown context
+  return path.join(os.homedir(), '.termcast', '.termcast-bundle', 'data.db')
 }
 
 function getCurrentCacheDir(namespace?: string): string {
-  const extensionPath = useStore.getState().extensionPath
+  const { extensionPath, extensionPackageJson } = useStore.getState()
 
+  // For filesystem-based extensions (dev mode, store mode), use the extension directory
   if (extensionPath) {
     return namespace
       ? path.join(extensionPath, '.termcast-bundle', 'cache', namespace)
       : path.join(extensionPath, '.termcast-bundle', 'cache')
-  } else {
-    return namespace
-      ? path.join(
-          os.homedir(),
-          '.termcast',
-          '.termcast-bundle',
-          'cache',
-          namespace,
-        )
-      : path.join(os.homedir(), '.termcast', '.termcast-bundle', 'cache')
   }
+
+  // For compiled extensions, use a directory in user's home based on extension name
+  if (extensionPackageJson?.name) {
+    const baseDir = path.join(os.homedir(), '.termcast', 'compiled', extensionPackageJson.name, 'cache')
+    return namespace ? path.join(baseDir, namespace) : baseDir
+  }
+
+  // Fallback for unknown context
+  return namespace
+    ? path.join(os.homedir(), '.termcast', '.termcast-bundle', 'cache', namespace)
+    : path.join(os.homedir(), '.termcast', '.termcast-bundle', 'cache')
 }
 
 export class Cache {

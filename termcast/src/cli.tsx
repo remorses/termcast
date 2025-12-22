@@ -226,6 +226,7 @@ cli
 
       console.log(`\nRelease complete: ${result.tag}`)
       console.log(`Uploaded ${result.uploadedFiles.length} binaries`)
+      process.exit(0)
     } catch (error: any) {
       console.error('Release failed:', error.message)
       process.exit(1)

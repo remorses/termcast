@@ -9,15 +9,22 @@ let db: Database | null = null
 let currentDbPath: string | null = null
 
 function getCurrentDatabasePath(): string {
-  const extensionPath = useStore.getState().extensionPath
+  const { extensionPath, extensionPackageJson } = useStore.getState()
 
-  if (!extensionPath) {
-    throw new Error(
-      'extensionPath not set - cannot access LocalStorage before extension is initialized',
-    )
+  // For filesystem-based extensions (dev mode, store mode), use the extension directory
+  if (extensionPath) {
+    return path.join(extensionPath, '.termcast-bundle', 'data.db')
   }
-  // Use .termcast-bundle directory inside extension path
-  return path.join(extensionPath, '.termcast-bundle', 'data.db')
+
+  // For compiled extensions, use a directory in user's home based on extension name
+  if (extensionPackageJson?.name) {
+    const homeDir = os.homedir()
+    return path.join(homeDir, '.termcast', 'compiled', extensionPackageJson.name, 'data.db')
+  }
+
+  throw new Error(
+    'Cannot access LocalStorage - extension not initialized (no extensionPath or extensionPackageJson)',
+  )
 }
 
 function getDatabase(): Database {
