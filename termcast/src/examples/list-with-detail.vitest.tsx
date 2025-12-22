@@ -24,7 +24,7 @@ test('list with detail view display and navigation', async () => {
         text.includes('›bulbasaur') &&
         text.includes('Grass / Poison') &&
         text.includes('Height: 0.7m') &&
-        text.includes('↵ select')
+        /↵.*navigate/i.test(text)
       )
     },
   })
@@ -47,18 +47,18 @@ test('list with detail view display and navigation', async () => {
                                           │
                                           │ Characteristics
                                           │ - Height: 0.7m
-                                          │ - Weight: 6.9kg
+                                          │ - ───────────────
                                           │
-                                          │ Abilities
-                                          │ - Chlorophyll
-                                          │ - Overgrow
-                                          │ ─────────────────────────────────
+                                          │ Characteristics:
+                                          │ Height:
+                                          │ 0.7m
                                           │
-                                          │ Types:
-                                          │
-                                          │ Grass:
                                           │ ─────────────────
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+                                          │ Weight:
+                                          │ 6.9kg
+                                          │
+     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                          │ Abilities:                        ▼"
   `)
 
   await session.press('down')
@@ -94,8 +94,8 @@ test('list with detail view display and navigation', async () => {
                                           │ Types:
                                           │
                                           │ Grass:
-                                          │ ─────────────────
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                          │                                   ▼"
   `)
 
   await session.press('down')
@@ -129,8 +129,8 @@ test('list with detail view display and navigation', async () => {
                                           │ Types:
                                           │
                                           │ Fire:
-                                          │ ─────────────────
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                          │                                   ▼"
   `)
 
   await session.press(['ctrl', 'k'])
@@ -164,8 +164,8 @@ test('list with detail view display and navigation', async () => {
       ┃                                                                          ┃
       ┃                                                                          ┃
       ┃                                                                          ┃
-      ┃   ↵ select   ↑↓ navigate                                                 ┃
-     ↵┃                                                                          ┃
+     ↵┃   ↵ select   ↑↓ navigate                                                 ┃
+      ┃                                                                          ┃
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   `)
 
@@ -205,7 +205,7 @@ test('list with detail view display and navigation', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 
   await session.press(['ctrl', 'k'])
@@ -244,8 +244,8 @@ test('list with detail view display and navigation', async () => {
                                           │ Types:
                                           │
                                           │ Fire:
-                                          │ ─────────────────
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                          │                                   ▼"
   `)
 }, 15000)
 
@@ -267,32 +267,32 @@ test('list detail view search functionality', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+    Pokemon List ─────────────────────────────────────────────────────────────
 
-     char
+    char
 
-    ›charmander #004
-     charmeleon #005                      │ charmander                        ▲
-                                          │                                   █
-                                          │ Illustration
-                                          │
-                                          │ Types
-                                          │ Fire
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 0.6m
-                                          │ - Weight: 8.5kg
-                                          │
-                                          │ Abilities
-                                          │ - Blaze
-                                          │ - Solar Power
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Fire:
-                                          │ ─────────────────
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+    charmander #004
+    charmeleon #005                      │ bulbasaur                         ▲
+                                         │                                   ▀
+                                         │ Illustration
+                                         │
+                                         │ Types
+                                         │ Grass / Poison
+                                         │
+                                         │ Characteristics
+                                         │ - Height: 0.7m
+                                         │ - Weight: 6.9kg
+                                         │
+                                         │ Abilities
+                                         │ - Chlorophyll
+                                         │ - Overgrow
+                                         │ ─────────────────────────────────
+                                         │
+                                         │ Types:
+                                         │
+                                         │ Grass:
+    ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                         │                                   ▼"
   `)
 
   await session.press('backspace')
@@ -335,8 +335,8 @@ test('list detail view search functionality', async () => {
                                          │ Types:
                                          │
                                          │ Water:
-                                         │ ─────────────────
-    ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+    ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                         │                                   ▼"
   `)
 
   await session.press('down')
@@ -370,8 +370,8 @@ test('list detail view search functionality', async () => {
                                          │ Types:
                                          │
                                          │ Water:
-                                         │ ─────────────────
-    ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+    ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                         │                                   ▼"
   `)
 }, 10000)
 
@@ -417,8 +417,8 @@ test('list detail metadata rendering', async () => {
                                           │ Types:
                                           │
                                           │ Grass:
-                                          │ ─────────────────
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                          │                                   ▼"
   `)
 
   await session.press('down')
@@ -459,8 +459,8 @@ test('list detail metadata rendering', async () => {
                                           │ Types:
                                           │
                                           │ Water:
-                                          │ ─────────────────
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
+                                          │                                   ▼"
   `)
 }, 10000)
 
@@ -522,7 +522,7 @@ test('list with detail layout consistency - short vs long detail content', async
                                           │
                                           │
                                           │
-     ↵ select  ↑↓ navigate  ^k actions    │"
+       ↑↓ navigate  ^k actions            │"
   `)
   expect(longDetailSnapshot).toMatchInlineSnapshot(`
     "
@@ -548,7 +548,7 @@ test('list with detail layout consistency - short vs long detail content', async
                                           │ have enough text to cause
                                           │ vertical overflow in the detail
                                           │ panel scrollbox.
-     ↵ select  ↑↓ navigate  ^k actions    │                                   ▼"
+       ↑↓ navigate  ^k actions            │                                   ▼"
   `)
 
   // Extract the LINE NUMBER (vertical position) of list items to verify no layout shift

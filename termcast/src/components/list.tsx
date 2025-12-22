@@ -22,6 +22,7 @@ import { useStore } from 'termcast/src/state'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useNavigationPending } from 'termcast/src/internal/navigation'
+import { Offscreen } from 'termcast/src/internal/offscreen'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 import { Color, resolveColor } from 'termcast/src/colors'
@@ -68,6 +69,8 @@ interface ActionsInterface {
 }
 
 function ListFooter(): any {
+  const firstActionTitle = useStore((s) => s.firstActionTitle)
+
   return (
     <box
       border={false}
@@ -80,10 +83,14 @@ function ListFooter(): any {
         flexDirection: 'row',
       }}
     >
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        ↵
-      </text>
-      <text fg={Theme.textMuted}> select</text>
+      {firstActionTitle && (
+        <>
+          <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+            ↵
+          </text>
+          <text fg={Theme.textMuted}> {firstActionTitle.toLowerCase()}</text>
+        </>
+      )}
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
         {'  '}↑↓
       </text>
@@ -694,6 +701,7 @@ export const List: ListType = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
+  const [currentItemActions, setCurrentItemActions] = useState<ReactNode>(null)
   const inputRef = useRef<TextareaRenderable>(null)
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useListDescendants()
@@ -793,18 +801,29 @@ export const List: ListType = (props) => {
     }
   }, [selectedItemId])
 
-  // Call onSelectionChange when selection changes
+  // Call onSelectionChange when selection changes and track current item's actions
   useEffect(() => {
-    if (!onSelectionChange) return
-
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1)
       .sort((a, b) => a.index - b.index)
 
     const currentItem = items.find((item) => item.index === selectedIndex)
-    const selectedId = currentItem?.props?.id ?? null
-    onSelectionChange(selectedId)
-  }, [selectedIndex])
+
+    // Track current item's actions for footer display
+    const actions = currentItem?.props?.actions ?? props.actions ?? null
+    setCurrentItemActions(actions)
+
+    // Clear first action title when there are no actions
+    if (!actions) {
+      useStore.setState({ firstActionTitle: '' })
+    }
+
+    // Call onSelectionChange callback if provided
+    if (onSelectionChange) {
+      const selectedId = currentItem?.props?.id ?? null
+      onSelectionChange(selectedId)
+    }
+  }, [selectedIndex, props.actions])
 
   const scrollToItem = (item: { props?: ListItemDescendant }) => {
     const scrollBox = scrollBoxRef.current
@@ -1006,6 +1025,11 @@ export const List: ListType = (props) => {
 
               {/* Footer with keyboard shortcuts or toast */}
               <ListFooter />
+
+              {/* Render current item's actions offscreen to collect first action title */}
+              {currentItemActions && (
+                <Offscreen>{currentItemActions}</Offscreen>
+              )}
             </box>
 
             {/* Detail panel on the right */}

@@ -54,7 +54,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate to second item
@@ -86,7 +86,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
   // Press Enter to open actions panel (auto-executes first action)
@@ -122,7 +122,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ go back  ↑↓ navigate  ^k actions"
   `)
 
   // Press Enter in detail view triggers "Go Back" action, returning to main view
@@ -162,7 +162,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate down to third item
@@ -194,7 +194,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
   // Open action panel for third item
@@ -225,7 +225,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ go back  ↑↓ navigate  ^k actions"
   `)
 
   // Press enter in detail view triggers "Go Back" action, returning to main view
@@ -262,7 +262,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ open details  ↑↓ navigate  ^k actions"
   `)
 }, 15000)
 
@@ -368,7 +368,7 @@ test('navigation with actions panel', async () => {
 
 
 
-     ↵ select  ↑↓ ┌────────────────────────────────────┐
+     ↵ open detail┌────────────────────────────────────┐
                   │ ✓ Copied to Clipboard - First Item │
                   └────────────────────────────────────┘"
   `)
@@ -413,7 +413,7 @@ test('navigation with actions panel', async () => {
 
 
 
-     ↵ select  ↑↓ ┌────────────────────────────────────┐
+     ↵ go back  ↑↓┌────────────────────────────────────┐
                   │ ✓ Copied to Clipboard - First Item │
                   └────────────────────────────────────┘"
   `)
@@ -483,7 +483,7 @@ test('navigation with actions panel', async () => {
 
 
 
-     ↵ select  ↑↓ ┌────────────────────────────────────┐
+     ↵ open detail┌────────────────────────────────────┐
                   │ ✓ Copied to Clipboard - First Item │
                   └────────────────────────────────────┘"
   `)
@@ -529,7 +529,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+    ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search
@@ -565,7 +565,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
   // Open first item detail (auto-executes Open Details action)
@@ -603,7 +603,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ go back  ↑↓ navigate  ^k actions"
   `)
 
   // Type in detail view search bar
@@ -638,7 +638,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+    ↵ go back  ↑↓ navigate  ^k actions"
   `)
 
   // Press ESC to go back
@@ -673,6 +673,6 @@ test('search functionality in main and detail views', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ open details  ↑↓ navigate  ^k actions"
   `)
 }, 10000)

@@ -56,7 +56,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show selected fruit  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -99,7 +99,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show selected fruit  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -134,7 +134,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show selected fruit  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('enter')
@@ -169,7 +169,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show selected fruit  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -212,7 +212,7 @@ test('clicking dropdown opens it', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show selected fruit  ↑↓ navigate  ^k actions"
   `)
 
   await session.click('Orange', { first: true })
@@ -247,6 +247,6 @@ test('clicking dropdown opens it', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show selected fruit  ↑↓ navigate  ^k actions"
   `)
 }, 10000)

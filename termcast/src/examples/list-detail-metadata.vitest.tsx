@@ -47,7 +47,7 @@ test('list detail metadata label renders title and text in column layout', async
                                           │ john@example.com
                                           │ ─────────────────
                                           │
-     ↵ select  ↑↓ navigate  ^k actions    │ Status:                           ▼"
+       ↑↓ navigate  ^k actions            │ Status:                           ▼"
   `)
 }, 10000)
 
@@ -83,6 +83,6 @@ test('list detail metadata navigation shows different metadata', async () => {
                                           │ $99.99
                                           │
                                           │
-     ↵ select  ↑↓ navigate  ^k actions    │"
+       ↑↓ navigate  ^k actions            │"
   `)
 }, 10000)

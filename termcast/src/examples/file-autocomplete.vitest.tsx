@@ -46,15 +46,15 @@ test('autocomplete shows flat file list in dialog', async () => {
     │┃ Filter: s
     ◆┃
     │┃  📁 extensions/
-    │┃  📁 extensions/synonyms/
-    │┃  📁 extensions/synonyms/assets/
-    │┃  📁 extensions/synonyms/metadata/
-    ◇┃  📁 extensions/synonyms/src/
-    │┃  📁 fixtures/
-    │┃  📁 fixtures/hot-reload-extension/
-    │┃  📁 fixtures/hot-reload-extension/src/
-    │┃  📁 fixtures/simple-extension/
-    └┃  📁 fixtures/simple-extension/src/
+    │┃  📁 extensions/messages/
+    │┃  📁 extensions/messages/assets/
+    │┃  📁 extensions/messages/metadata/
+    ◇┃  📁 extensions/messages/src/
+    │┃  📁 extensions/messages/src/api/
+    │┃  📁 extensions/messages/src/components/
+    │┃  📁 extensions/messages/src/hooks/
+    │┃  📁 extensions/messages/src/tools/
+    └┃  📁 extensions/messages/swift/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -96,15 +96,15 @@ test('autocomplete navigation with down/up keys', async () => {
     │┃ Filter: s
     ◆┃
     │┃  📁 extensions/
-    │┃  📁 extensions/synonyms/
-    │┃  📁 extensions/synonyms/assets/
-    │┃  📁 extensions/synonyms/metadata/
-    ◇┃  📁 extensions/synonyms/src/
-    │┃  📁 fixtures/
-    │┃  📁 fixtures/hot-reload-extension/
-    │┃  📁 fixtures/hot-reload-extension/src/
-    │┃  📁 fixtures/simple-extension/
-    └┃  📁 fixtures/simple-extension/src/
+    │┃  📁 extensions/messages/
+    │┃  📁 extensions/messages/assets/
+    │┃  📁 extensions/messages/metadata/
+    ◇┃  📁 extensions/messages/src/
+    │┃  📁 extensions/messages/src/api/
+    │┃  📁 extensions/messages/src/components/
+    │┃  📁 extensions/messages/src/hooks/
+    │┃  📁 extensions/messages/src/tools/
+    └┃  📁 extensions/messages/swift/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -131,15 +131,15 @@ test('autocomplete navigation with down/up keys', async () => {
     │┃ Filter: s
     ◆┃
     │┃  📁 extensions/
-    │┃  📁 extensions/synonyms/
-    │┃  📁 extensions/synonyms/assets/
-    │┃  📁 extensions/synonyms/metadata/
-    ◇┃  📁 extensions/synonyms/src/
-    │┃  📁 fixtures/
-    │┃  📁 fixtures/hot-reload-extension/
-    │┃  📁 fixtures/hot-reload-extension/src/
-    │┃  📁 fixtures/simple-extension/
-    └┃  📁 fixtures/simple-extension/src/
+    │┃  📁 extensions/messages/
+    │┃  📁 extensions/messages/assets/
+    │┃  📁 extensions/messages/metadata/
+    ◇┃  📁 extensions/messages/src/
+    │┃  📁 extensions/messages/src/api/
+    │┃  📁 extensions/messages/src/components/
+    │┃  📁 extensions/messages/src/hooks/
+    │┃  📁 extensions/messages/src/tools/
+    └┃  📁 extensions/messages/swift/
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -184,10 +184,10 @@ test('file picker shows only files, not folders', async () => {
     │┃  📄 RAYCAST_SCROLLING.md
     ◇┃  📄 TESTING_RAYCAST_EXTENSIONS.md
     │┃  📄 bunfig.toml
-    │┃  📄 extensions/synonyms/CHANGELOG.md
-    │┃  📄 extensions/synonyms/README.md
-    │┃  📄 extensions/synonyms/assets/image.png
-    └┃  📄 extensions/synonyms/bun.lock
+    │┃  📄 extensions/messages/CHANGELOG.md
+    │┃  📄 extensions/messages/README.md
+    │┃  📄 extensions/messages/assets/apple-messages-icon.png
+    └┃  📄 extensions/messages/bun.lock
      ┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

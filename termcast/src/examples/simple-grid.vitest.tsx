@@ -39,8 +39,8 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›🍎 Apple                                                        █
-     🍌 Banana                                                       █
+    ›🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -54,7 +54,7 @@ test('grid navigation and display', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate down
@@ -70,8 +70,8 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     🍎 Apple                                                        █
-    ›🍌 Banana                                                       █
+    ›🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -85,7 +85,7 @@ test('grid navigation and display', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate right to Animals section
@@ -102,8 +102,8 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     🍎 Apple                                                        █
-     🍌 Banana                                                       █
+     🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -117,7 +117,7 @@ test('grid navigation and display', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Open actions with ctrl+k
@@ -133,7 +133,7 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-        Apple                                                        █
+        Apple                                                        ▀
      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
@@ -166,8 +166,8 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     🍎 Apple                                                        █
-     🍌 Banana                                                       █
+     🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -181,7 +181,7 @@ test('grid navigation and display', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 }, 15000)
 
@@ -209,8 +209,8 @@ test('grid search functionality', async () => {
 
      cat
 
-    ›🍎 Apple
-     🍌 Banana
+    ›🍎 Apple                                                        ▲
+     🍌 Banana                                                       █
      🍒 Cherry
      🐕 Dog
      🐱 Cat
@@ -222,10 +222,10 @@ test('grid search functionality', async () => {
      🌙 Moon
      ☀ Sun
 
+                                                                     ▼
 
 
-
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search and search for "space"
@@ -247,8 +247,8 @@ test('grid search functionality', async () => {
 
      space
 
-    ›🍎 Apple
-     🍌 Banana
+    ›🍎 Apple                                                        ▲
+     🍌 Banana                                                       █
      🍒 Cherry
      🐕 Dog
      🐱 Cat
@@ -260,10 +260,10 @@ test('grid search functionality', async () => {
      🌙 Moon
      ☀ Sun
 
+                                                                     ▼
 
 
-
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search completely
@@ -283,8 +283,8 @@ test('grid search functionality', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›🍎 Apple                                                        █
-     🍌 Banana                                                       █
+    ›🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -298,7 +298,7 @@ test('grid search functionality', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Search for something that doesn't exist
@@ -317,8 +317,8 @@ test('grid search functionality', async () => {
 
      xyz123
 
-    ›🍎 Apple
-     🍌 Banana
+    ›🍎 Apple                                                        ▲
+     🍌 Banana                                                       █
      🍒 Cherry
      🐕 Dog
      🐱 Cat
@@ -330,10 +330,10 @@ test('grid search functionality', async () => {
      🌙 Moon
      ☀ Sun
 
+                                                                     ▼
 
 
-
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -358,8 +358,8 @@ test('grid item selection and actions', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›🍎 Apple                                                        █
-     🍌 Banana                                                       █
+    ›🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -373,7 +373,7 @@ test('grid item selection and actions', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate down in actions
@@ -389,8 +389,8 @@ test('grid item selection and actions', async () => {
      Search items...
 
      Fruits                                                          ▲
-     🍎 Apple                                                        █
-    ›🍌 Banana                                                       █
+     🍎 Apple                                                        ▀
+    ›🍌 Banana
      🍒 Cherry
 
      Animals
@@ -404,7 +404,7 @@ test('grid item selection and actions', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Select "Copy Emoji" action
@@ -420,8 +420,8 @@ test('grid item selection and actions', async () => {
      Search items...
 
      Fruits                                                          ▲
-     🍎 Apple                                                        █
-    ›🍌 Banana                                                       █
+     🍎 Apple                                                        ▀
+    ›🍌 Banana
      🍒 Cherry
 
      Animals
@@ -435,7 +435,7 @@ test('grid item selection and actions', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -460,8 +460,8 @@ test('grid mouse interaction', async () => {
      Search items...
 
      Fruits                                                          ▲
-     🍎 Apple                                                        █
-     🍌 Banana                                                       █
+     🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -475,7 +475,7 @@ test('grid mouse interaction', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate down to make "Star" visible (it's below Rocket in Others section)
@@ -499,17 +499,17 @@ test('grid mouse interaction', async () => {
 
      Search items...
 
-                                                                     ▲
-     Animals
+        Cat                                                          ▲
+        Rabbit
      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ┃
      ┃                                                            esc
      ┃
      ┃   Search actions...
-     ┃
+    ›┃
      ┃  ›Show Details
      ┃   Copy Emoji                                               ⌃C
-    ›┃
+     ┃
      ┃
      ┃
      ┃
@@ -544,8 +544,8 @@ test('grid mouse interaction', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›🍎 Apple                                                        █
-     🍌 Banana                                                       █
+    ›🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -559,6 +559,6 @@ test('grid mouse interaction', async () => {
      🚀 Rocket                                                       ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ show details  ↑↓ navigate  ^k actions"
   `)
 }, 10000)

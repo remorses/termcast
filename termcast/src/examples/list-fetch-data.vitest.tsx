@@ -53,7 +53,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
 
@@ -84,7 +84,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -114,6 +114,6 @@ test('list shows initial items after fetch', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 10000)

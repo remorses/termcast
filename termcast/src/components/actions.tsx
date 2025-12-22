@@ -22,6 +22,7 @@ import { Dropdown } from 'termcast/src/components/dropdown'
 import { ExtensionPreferences } from 'termcast/src/components/extension-preferences'
 import { useStore } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { useIsOffscreen } from 'termcast/src/internal/offscreen'
 import { CommonProps } from 'termcast/src/utils'
 import type {
   KeyboardShortcut,
@@ -183,7 +184,7 @@ const Action: ActionType = (props) => {
 
   const isDestructive = props.style === ActionStyle.Destructive
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title}
@@ -213,7 +214,7 @@ Action.Push = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title}
@@ -246,7 +247,7 @@ Action.CopyToClipboard = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title}
@@ -273,7 +274,7 @@ Action.OpenInBrowser = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title}
@@ -301,7 +302,7 @@ Action.Open = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title}
@@ -331,7 +332,7 @@ Action.Paste = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title}
@@ -358,7 +359,7 @@ Action.ShowInFinder = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title || 'Show in Finder'}
@@ -385,7 +386,7 @@ Action.OpenWith = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title || `Open with ${props.application}`}
@@ -416,7 +417,7 @@ Action.Trash = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title || 'Move to Trash'}
@@ -451,7 +452,7 @@ Action.SubmitForm = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title || 'Submit'}
@@ -483,7 +484,7 @@ Action.CreateSnippet = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title || 'Create Snippet'}
@@ -513,7 +514,7 @@ Action.CreateQuicklink = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title || 'Create Quicklink'}
@@ -543,7 +544,7 @@ Action.ToggleQuickLook = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title || 'Quick Look'}
@@ -555,8 +556,6 @@ Action.ToggleQuickLook = (props) => {
 }
 
 Action.PickDate = (props) => {
-  const dialog = useDialog()
-
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Pick Date',
@@ -573,7 +572,7 @@ Action.PickDate = (props) => {
     },
   })
 
-  // Render as Dropdown.Item
+  // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
       title={props.title || 'Pick Date'}
@@ -636,6 +635,7 @@ const ActionPanel: ActionPanelType = (props) => {
   const dialog = useDialog()
   const { push } = useNavigation()
   const inFocus = useIsInFocus()
+  const isOffscreen = useIsOffscreen()
   const descendantsContext = useActionDescendants()
 
   // Get extension and command info for configure actions
@@ -655,28 +655,33 @@ const ActionPanel: ActionPanelType = (props) => {
     [],
   )
 
-  // prevent showing actions if no dialog is shown
-  if (!dialog.stack.length) return null
-  // if (!inFocus) return
-
   // Auto-execute first action if flag is set (triggered by enter/ctrl+enter)
+  // Also report first action title when rendered offscreen
   useLayoutEffect(() => {
+    const allActions = Object.values(descendantsContext.map.current)
+      .filter((item: any) => item.index !== -1)
+      .map((item: any) => item.props as ActionDescendant)
+
+    // When offscreen, just report first action title for footer display
+    if (isOffscreen) {
+      useStore.setState({ firstActionTitle: allActions[0]?.title ?? '' })
+      return
+    }
+
     const shouldExecute = useStore.getState().shouldAutoExecuteFirstAction
     useStore.setState({ shouldAutoExecuteFirstAction: false })
 
     if (!shouldExecute) return
-
-    const allActions = Object.values(descendantsContext.map.current)
-      .filter((item: any) => item.index !== -1)
-      // .sort((a: any, b: any) => a.index - b.index)
-      .map((item: any) => item.props as ActionDescendant)
 
     if (allActions[0]) {
       logger.log(`Auto-executing first action: ${allActions[0].title}`)
       dialog.clear()
       allActions[0].execute()
     }
-  }, [descendantsContext.map, dialog])
+  }, [descendantsContext.map, dialog, isOffscreen])
+
+  // prevent showing actions if no dialog is shown (must be after hooks)
+  if (!dialog.stack.length && !isOffscreen) return null
 
   // ActionPanel renders as Dropdown with children
   return (

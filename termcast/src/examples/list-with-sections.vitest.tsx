@@ -45,8 +45,11 @@ test('list with sections navigation', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
+
+  // Verify first action title is shown in footer when item has actions (Apple has "View Details")
+  expect(initialSnapshot.toLowerCase()).toContain('↵ view details')
 
   // Add small delay to ensure all items have registered
   await new Promise((resolve) => setTimeout(resolve, 100))
@@ -73,7 +76,7 @@ test('list with sections navigation', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -98,8 +101,11 @@ test('list with sections navigation', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
+
+  // Verify footer doesn't show action when item has no actions (Orange has no actions)
+  expect(secondDownSnapshot.toLowerCase()).not.toContain('↵ view details')
 
   await session.press('enter')
 
@@ -123,7 +129,7 @@ test('list with sections navigation', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   // Go back to list with Escape
@@ -149,7 +155,7 @@ test('list with sections navigation', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 })
 
@@ -188,7 +194,7 @@ test('list with sections search functionality', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search and type "let" to search for Lettuce
@@ -222,7 +228,7 @@ test('list with sections search functionality', async () => {
 
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+    ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search to show all items again
@@ -250,7 +256,7 @@ test('list with sections search functionality', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Search for "bread"
@@ -281,7 +287,7 @@ test('list with sections search functionality', async () => {
 
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+    ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Select the bread item
@@ -341,7 +347,7 @@ test('list click functionality', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Click on "Apple" item
@@ -367,7 +373,7 @@ test('list click functionality', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Click on "Grape" item (visible in initial view)
@@ -393,7 +399,7 @@ test('list click functionality', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -484,7 +490,7 @@ test('list actions panel with ctrl+k', async () => {
                                                                      ▼
 
 
-     ↵ sel┌─────────────────────────────────────────────────────┐
+     ↵ vie┌─────────────────────────────────────────────────────┐
           │ ✓ Added to Cart - Apple has been added to your cart │
           └─────────────────────────────────────────────────────┘"
   `)
@@ -538,7 +544,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-    ↵ select  ↑↓ navigate  ^k actions"
+    ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Press down - move function corrects invalid selection to first visible, then moves
@@ -564,7 +570,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   // Press down again
@@ -590,7 +596,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Press down to wrap back
@@ -616,7 +622,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -647,7 +653,7 @@ test('list scrollbox scrolling with sections', async () => {
                                                                      ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate down through Fruits section
@@ -678,7 +684,7 @@ test('list scrollbox scrolling with sections', async () => {
      Lettuce Green and fresh                                         ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   // Continue to Vegetables section
@@ -706,7 +712,7 @@ test('list scrollbox scrolling with sections', async () => {
      Bell Pepper Colorful and crunchy                       [Fresh]  ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   // Navigate to the last items
@@ -736,7 +742,7 @@ test('list scrollbox scrolling with sections', async () => {
     ›Bread Freshly baked                                Today [New]  ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Navigate back up to top
@@ -764,6 +770,6 @@ test('list scrollbox scrolling with sections', async () => {
     ›Bread Freshly baked                                Today [New]  ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 }, 15000)

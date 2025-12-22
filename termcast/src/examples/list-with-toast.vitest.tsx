@@ -43,7 +43,7 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-     ↵ select  ↑↓ naviga┌─────────────────────────┐
+       ↑↓ navigate  ^k a┌─────────────────────────┐
                         │ ✓ Selected - First Item │
                         └─────────────────────────┘"
   `)
@@ -71,7 +71,7 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-     ↵ select  ↑↓ navig┌──────────────────────────┐
+       ↑↓ navigate  ^k ┌──────────────────────────┐
                        │ ✓ Selected - Second Item │
                        └──────────────────────────┘"
   `)
@@ -99,7 +99,7 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-     ↵ select  ↑↓ naviga┌─────────────────────────┐
+       ↑↓ navigate  ^k a┌─────────────────────────┐
                         │ ✓ Selected - Third Item │
                         └─────────────────────────┘"
   `)
@@ -127,7 +127,7 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-     ↵ select  ↑↓ navig┌──────────────────────────┐
+       ↑↓ navigate  ^k ┌──────────────────────────┐
                        │ ✓ Selected - Second Item │
                        └──────────────────────────┘"
   `)

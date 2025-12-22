@@ -16,6 +16,7 @@ import {
 import { Theme } from 'termcast/src/theme'
 import { logger } from 'termcast/src/logger'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { useIsOffscreen } from 'termcast/src/internal/offscreen'
 import { CommonProps } from 'termcast/src/utils'
 import { createDescendants } from 'termcast/src/descendants'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
@@ -107,6 +108,7 @@ const Dropdown: DropdownType = (props) => {
     throttle,
   } = props
 
+  const isOffscreen = useIsOffscreen()
   const [selected, setSelected] = useState(0)
   const [searchText, setSearchTextState] = useState('')
   const [currentValue, setCurrentValue] = useState<string | undefined>(
@@ -271,6 +273,17 @@ const Dropdown: DropdownType = (props) => {
     }
   })
 
+  // When offscreen, just render children to collect descendants without UI
+  if (isOffscreen) {
+    return (
+      <DropdownDescendantsProvider value={descendantsContext}>
+        <DropdownContext.Provider value={contextValue}>
+          {children}
+        </DropdownContext.Provider>
+      </DropdownDescendantsProvider>
+    )
+  }
+
   return (
     <DropdownDescendantsProvider value={descendantsContext}>
       <DropdownContext.Provider value={contextValue}>
@@ -434,7 +447,11 @@ function ItemOption(props: {
 const DropdownItem: (props: DropdownItemProps) => any = (props) => {
   const context = useContext(DropdownContext)
   const elementRef = useRef<{ y: number; height: number } | null>(null)
+  const isOffscreen = useIsOffscreen()
   if (!context) return null
+  
+  // Don't render UI when offscreen (used for collecting action descendants)
+  if (isOffscreen) return null
 
   const { searchText, filtering, currentSection, selectedIndex, currentValue } =
     context

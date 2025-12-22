@@ -52,7 +52,7 @@ test('list with dropdown navigation', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press(['ctrl', 'p'])
@@ -208,7 +208,7 @@ test('list with dropdown navigation', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -291,7 +291,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press('enter')
@@ -325,7 +325,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.type('pinot')
@@ -359,6 +359,6 @@ test('list with dropdown search and filter', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 10000)

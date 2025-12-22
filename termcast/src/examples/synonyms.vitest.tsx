@@ -42,8 +42,6 @@ test('synonyms extension shows preferences form on first launch', async () => {
     "
 
 
-     synonyms Preferences ────────────────────────────────────────────────
-
     ◇  LLM Provider                                                      ▀
     │  Select...
     │
@@ -52,6 +50,7 @@ test('synonyms extension shows preferences form on first launch', async () => {
     │  ○ OpenAI Compatible
     │  ○ Anthropic
     │  ○ Fireworks.ai
+    │
     │  Select the LLM provider you want to use
     │
     ◇  OpenAI API Key
@@ -66,6 +65,7 @@ test('synonyms extension shows preferences form on first launch', async () => {
     ◇  OpenAI Compatible URL
     │
     │
+    │  Base URL for OpenAI compatible provider
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -91,8 +91,6 @@ test('synonyms extension preferences form can be navigated', async () => {
     "
 
 
-     synonyms Preferences ────────────────────────────────────────────────
-
     ◇  LLM Provider                                                      ▀
     │  Select...
     │
@@ -101,6 +99,7 @@ test('synonyms extension preferences form can be navigated', async () => {
     │  ○ OpenAI Compatible
     │  ○ Anthropic
     │  ○ Fireworks.ai
+    │
     │  Select the LLM provider you want to use
     │
     ◇  OpenAI API Key
@@ -115,6 +114,7 @@ test('synonyms extension preferences form can be navigated', async () => {
     ◇  OpenAI Compatible URL
     │
     │
+    │  Base URL for OpenAI compatible provider
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -128,8 +128,6 @@ test('synonyms extension preferences form can be navigated', async () => {
     "
 
 
-     synonyms Preferences ────────────────────────────────────────────────
-
     ◆  LLM Provider                                                      ▀
     │  Select...
     │
@@ -138,6 +136,7 @@ test('synonyms extension preferences form can be navigated', async () => {
     │  ○ OpenAI Compatible
     │  ○ Anthropic
     │  ○ Fireworks.ai
+    │
     │  Select the LLM provider you want to use
     │
     ◇  OpenAI API Key
@@ -152,6 +151,7 @@ test('synonyms extension preferences form can be navigated', async () => {
     ◇  OpenAI Compatible URL
     │
     │
+    │  Base URL for OpenAI compatible provider
 
 
      ctrl ↵ submit   tab navigate   ^k actions"

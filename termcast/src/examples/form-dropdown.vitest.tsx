@@ -38,7 +38,6 @@ test('form dropdown shows inline options', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -51,6 +50,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -61,6 +61,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -71,9 +72,8 @@ test('form dropdown shows inline options', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -93,7 +93,6 @@ test('form dropdown shows inline options', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -106,6 +105,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -116,6 +116,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -126,9 +127,8 @@ test('form dropdown shows inline options', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -148,7 +148,6 @@ test('form dropdown shows inline options', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -161,6 +160,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -171,6 +171,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -181,9 +182,8 @@ test('form dropdown shows inline options', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -206,7 +206,6 @@ test('form dropdown shows inline options', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -219,6 +218,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -229,6 +229,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -239,9 +240,8 @@ test('form dropdown shows inline options', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -261,7 +261,6 @@ test('form dropdown shows inline options', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -274,6 +273,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -284,6 +284,7 @@ test('form dropdown shows inline options', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -294,9 +295,8 @@ test('form dropdown shows inline options', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -324,7 +324,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -337,6 +336,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -347,6 +347,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -357,9 +358,8 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -382,7 +382,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -395,6 +394,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -405,6 +405,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -415,9 +416,8 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -437,7 +437,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -450,6 +449,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -460,6 +460,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -470,9 +471,8 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -492,7 +492,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -505,6 +504,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -515,6 +515,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -525,9 +526,8 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -547,7 +547,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -560,6 +559,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -570,6 +570,7 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -580,9 +581,8 @@ test('form dropdown keyboard navigation', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -610,7 +610,6 @@ test('form dropdown with default value', async () => {
 
 
 
-
     ▪  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -623,6 +622,7 @@ test('form dropdown with default value', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -633,6 +633,7 @@ test('form dropdown with default value', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -643,9 +644,8 @@ test('form dropdown with default value', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -665,7 +665,6 @@ test('form dropdown with default value', async () => {
 
 
 
-
     ▪  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -678,6 +677,7 @@ test('form dropdown with default value', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -688,6 +688,7 @@ test('form dropdown with default value', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -698,9 +699,8 @@ test('form dropdown with default value', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -721,18 +721,19 @@ test('form dropdown with default value', async () => {
     "
 
 
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    │  Rust, TypeScript
-    │
-    │  Frontend
-    │› ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
+    ▪  Dropdown Component Demo                                       █
+    │  Test dropdown with sections, multiple selection, and more     █
+    │  features                                                      █
+    │                                                                █
+    ◆  Programming Languages                                         █
+    │  Rust, TypeScript                                              █
+    │                                                                █
+    │  Frontend                                                      █
+    │› ● TypeScript                                                  █
+    │  ○ JavaScript                                                  █
+    │  ○ React                                                       ▀
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -743,6 +744,7 @@ test('form dropdown with default value', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -753,6 +755,7 @@ test('form dropdown with default value', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     ▪  Submitted Data
     │  {
     │    "languages": [
@@ -761,9 +764,6 @@ test('form dropdown with default value', async () => {
     │    ],
     │    "theme": "dracula",
     │    "priority": ""
-    │  }
-    │
-    └
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -789,7 +789,6 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -802,6 +801,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -812,6 +812,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -822,9 +823,8 @@ test('selecting second-to-last visible item should not scroll', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 
@@ -844,7 +844,6 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-
     ■  Dropdown Component Demo
     │  Test dropdown with sections, multiple selection, and more
     │  features
@@ -857,6 +856,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
     │  ○ JavaScript
     │  ○ React
     │  ○ Vue
+    │
     │  Choose your preferred programming languages
     │
     ◇  Editor Theme
@@ -867,6 +867,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
     │  ○ One Dark
     │  ○ Nord
     │  ○ GitHub Light
+    │
     │  Select your preferred editor color theme
     │
     ◇  Task Priority
@@ -877,9 +878,8 @@ test('selecting second-to-last visible item should not scroll', async () => {
     │  ○ Medium
     │  ○ Low
 
+    │
     └
-
-
 
 
 

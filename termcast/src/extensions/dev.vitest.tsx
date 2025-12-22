@@ -41,7 +41,7 @@ test('dev command shows extension commands list', async () => {
      usePromise Demo Shows how to use the usePromise view  ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ run command  ↑↓ navigate  ^k actions"
   `)
 }, 30000)
 
@@ -74,7 +74,7 @@ test('selecting command with arguments shows arguments form', async () => {
                                                            ▼
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ run command  ↑↓ navigate  ^k actions"
   `)
 
   // Select the command to show arguments form (enter opens action panel, enter again runs)
@@ -91,9 +91,7 @@ test('selecting command with arguments shows arguments form', async () => {
     "
 
 
-     With Arguments ───────────────────────────────────────
-
-    ■  With Arguments                                      ▀
+    ■  With Arguments                                      █
     │  Enter the arguments to run this command.
     │
     ◇  Search query
@@ -101,6 +99,8 @@ test('selecting command with arguments shows arguments form', async () => {
     │
     ◇  Secret key
     │  Secret key
+    ◇  Category
+    │  Category
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -135,9 +135,7 @@ test('can fill arguments and run command', async () => {
     "
 
 
-     With Arguments ───────────────────────────────────────
-
-    ■  With Arguments                                      ▀
+    ■  With Arguments                                      █
     │  Enter the arguments to run this command.
     │
     ◇  Search query
@@ -145,6 +143,8 @@ test('can fill arguments and run command', async () => {
     │
     ◇  Secret key
     │  Secret key
+    ◇  Category
+    │  Category
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -175,7 +175,7 @@ test('can fill arguments and run command', async () => {
 
 
 
-     ↵ select  ┌─────────────────────────────────┐
+     ↵ copy val┌─────────────────────────────────┐
                │ ✓ Copied to Clipboard - (empty) │
                └─────────────────────────────────┘"
   `)
@@ -212,9 +212,7 @@ test('can run simple view command without arguments', async () => {
      ▲ Fourth Item This is the fourth item                 ▼
 
 
-     ↵ select┌────────────────────────────────────┐
-             │ ✓ Copied to Clipboard - First Item │
-             └────────────────────────────────────┘"
+     ↵ copy item title  ↑↓ navigate  ^k actions"
   `)
 }, 30000)
 

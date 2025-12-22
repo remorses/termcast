@@ -71,6 +71,6 @@ test('Store extension - searching for spiceblow shows Database', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 30000)

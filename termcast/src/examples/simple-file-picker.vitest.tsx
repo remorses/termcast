@@ -116,15 +116,15 @@ test('typing opens autocomplete dialog with file list', async () => {
     │┃ Filter: s
     ◇┃
     │┃  📁 extensions/
-    │┃  📁 extensions/synonyms/
-    │┃  📁 extensions/synonyms/assets/
-    │┃  📁 extensions/synonyms/metadata/
-    ◆┃  📁 extensions/synonyms/src/
-    │┃  📁 fixtures/
-    │┃  📁 fixtures/hot-reload-extension/
-    │┃  📁 fixtures/hot-reload-extension/src/
-    │┃  📁 fixtures/simple-extension/
-    ◇┃  📁 fixtures/simple-extension/src/
+    │┃  📁 extensions/messages/
+    │┃  📁 extensions/messages/assets/
+    │┃  📁 extensions/messages/metadata/
+    ◆┃  📁 extensions/messages/src/
+    │┃  📁 extensions/messages/src/api/
+    │┃  📁 extensions/messages/src/components/
+    │┃  📁 extensions/messages/src/hooks/
+    │┃  📁 extensions/messages/src/tools/
+    ◇┃  📁 extensions/messages/swift/
     │┃
     │┃ ↑↓ navigate  ⏎/tab select  esc close
     │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -283,8 +283,8 @@ test('selecting first item with enter adds it to the list', async () => {
     │  Enter file path...
     │
     │  Choose exactly one file
+    │
     └
-
 
 
 

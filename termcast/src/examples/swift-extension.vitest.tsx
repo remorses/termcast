@@ -81,8 +81,8 @@ test('swift extension dev mode shows command list', async () => {
      Search commands...
 
      Commands
-    ›List Items Displays a simple list with some items          view
-     Swift List Displays a list of items returned by a Swift fu view
+    ›List Items Displays a simple list with some items         view
+     Swift List Displays a list of items returned by a Swift f view
 
 
 
@@ -96,7 +96,7 @@ test('swift extension dev mode shows command list', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+     ↵ run command  ↑↓ navigate  ^k actions"
   `)
 }, 60000)
 
@@ -143,6 +143,6 @@ test('swift extension runs Swift List command and shows items', async () => {
 
 
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 60000)

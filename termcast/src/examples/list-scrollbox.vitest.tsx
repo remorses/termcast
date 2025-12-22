@@ -35,7 +35,7 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
     ›▲ Item 1 Description for item 1             ▲
                                                  ▼
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -56,7 +56,7 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
     ›● Item 6 Description for item 6             ▲
                                                  ▼
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -75,7 +75,7 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
     ›■ Item 9 Description for item 9             ▲
                                                  ▼
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press('up')
@@ -98,7 +98,7 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
     ›■ Item 2 Description for item 2             ▲
                                                  ▼
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 15000)
 
@@ -121,7 +121,7 @@ test('list scrollbox scrolls with mouse wheel', async () => {
     ›▲ Item 1 Description for item 1             ▲
                                                  ▼
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.scrollDown(3)
@@ -139,7 +139,7 @@ test('list scrollbox scrolls with mouse wheel', async () => {
     ■ Item 2 Description for item 2             ▲
                                                 ▼
 
-    ↵ select  ↑↓ navigate  ^k actions"
+      ↑↓ navigate  ^k actions"
   `)
 
   await session.scrollUp(2)
@@ -157,6 +157,6 @@ test('list scrollbox scrolls with mouse wheel', async () => {
     ›▲ Item 1 Description for item 1             ▲
                                                  ▼
 
-     ↵ select  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 }, 15000)

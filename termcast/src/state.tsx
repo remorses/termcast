@@ -32,6 +32,8 @@ interface AppState {
   googleIdToken?: string
   // Actions state - when true, auto-execute first action instead of showing sheet
   shouldAutoExecuteFirstAction: boolean
+  // First action title for footer display (set by offscreen ActionPanel)
+  firstActionTitle: string
 }
 
 export const useStore = create<AppState>(() => ({
@@ -52,4 +54,5 @@ export const useStore = create<AppState>(() => ({
   googleIdToken: undefined,
   // Actions state
   shouldAutoExecuteFirstAction: false,
+  firstActionTitle: '',
 }))
