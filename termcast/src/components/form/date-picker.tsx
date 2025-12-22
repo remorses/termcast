@@ -67,7 +67,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
       render={({ field, fieldState, formState }) => {
         return (
           <box ref={elementRef} flexDirection='column'>
-            <WithLeftBorder withDiamond isFocused={isFocused}>
+            <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
               <box
                 onMouseDown={() => {
                   setFocusedField(props.id)

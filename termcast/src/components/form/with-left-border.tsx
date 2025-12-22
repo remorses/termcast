@@ -2,11 +2,33 @@ import React from 'react'
 import { TextAttributes } from '@opentui/core'
 import { Theme } from 'termcast/src/theme'
 
+const pieSpinnerFrames = ['◔', '◑', '◕', '●']
+
+function PieSpinner({ color }: { color: string }): any {
+  const [index, setIndex] = React.useState(0)
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((i) => (i + 1) % pieSpinnerFrames.length)
+    }, 250)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  return (
+    <text flexShrink={0} fg={color}>
+      <b>{pieSpinnerFrames[index]}</b>
+    </text>
+  )
+}
+
 interface WithLeftBorderProps {
   children: React.ReactNode
   withDiamond?: boolean
   customCharacter?: { focused: string; unfocused: string }
   isFocused: boolean
+  isLoading?: boolean
   paddingBottom?: number
   paddingLeft?: number
   paddingTop?: number
@@ -18,21 +40,23 @@ export const WithLeftBorder = ({
   withDiamond,
   customCharacter,
   isFocused,
+  isLoading,
   paddingBottom = 1,
   paddingLeft = 2,
   paddingTop = 0,
 }: WithLeftBorderProps): any => {
   if (withDiamond || customCharacter) {
     const chars = customCharacter || { focused: '◆', unfocused: '◇' }
+    const color = isFocused ? Theme.accent : Theme.text
     return (
       <box flexDirection='row'>
-        <text
-          key={String(isFocused)}
-          flexShrink={0}
-          fg={isFocused ? Theme.accent : Theme.text}
-        >
-          <b>{isFocused ? chars.focused : chars.unfocused}</b>
-        </text>
+        {isFocused && isLoading ? (
+          <PieSpinner color={color} />
+        ) : (
+          <text key={String(isFocused)} flexShrink={0} fg={color}>
+            <b>{isFocused ? chars.focused : chars.unfocused}</b>
+          </text>
+        )}
         <box flexShrink={0} flexGrow={1} paddingLeft={paddingLeft}>
           {children}
         </box>

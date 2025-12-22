@@ -45,6 +45,7 @@ export const Description = (props: DescriptionProps): any => {
         <WithLeftBorder
           customCharacter={{ focused: '■', unfocused: '▪︎' }}
           isFocused={isFocused}
+          isLoading={focusContext.isLoading}
         >
           <LoadingText
             isLoading={isFocused && focusContext.isLoading}

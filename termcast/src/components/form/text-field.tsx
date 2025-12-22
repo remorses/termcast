@@ -61,7 +61,7 @@ export const TextField = (props: TextFieldProps): any => {
 
   return (
     <box ref={elementRef} flexDirection="column">
-      <WithLeftBorder withDiamond isFocused={isFocused}>
+      <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
         <box
           onMouseDown={() => {
             setFocusedField(props.id)

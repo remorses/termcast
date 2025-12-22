@@ -140,7 +140,7 @@ const FilePickerField = ({
 
   return (
     <box flexDirection='column'>
-      <WithLeftBorder withDiamond isFocused={isFocused}>
+      <WithLeftBorder withDiamond isFocused={isFocused} isLoading={isFormLoading}>
         <box
           onMouseDown={() => {
             setFocusedField(props.id)
