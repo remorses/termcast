@@ -46,7 +46,8 @@
     },
     "termcast": {
       "name": "termcast",
-      "version": "1.3.25",
+      "version": "1.3.26",
+      "bin": "./dist/cli.js",
       "dependencies": {
         "@opentui/core": "0.1.61",
         "@opentui/react": "0.1.61",
@@ -99,6 +100,7 @@
       "name": "website",
       "dependencies": {
         "@ascii-kit/font": "^0.0.6",
+        "@ascii-kit/fonts-flf": "^0.0.6",
         "@radix-ui/react-slot": "^1.2.3",
         "@react-router/fs-routes": "^7.8.2",
         "@react-router/node": "^7.8.2",
@@ -155,6 +157,8 @@
     "@apm-js-collab/tracing-hooks": ["@apm-js-collab/tracing-hooks@0.3.1", "", { "dependencies": { "@apm-js-collab/code-transformer": "^0.8.0", "debug": "^4.4.1", "module-details-from-path": "^1.0.4" } }, "sha512-Vu1CbmPURlN5fTboVuKMoJjbO5qcq9fA5YXpskx3dXe/zTBvjODFoerw+69rVBlRLrJpwPqSDqEuJDEKIrTldw=="],
 
     "@ascii-kit/font": ["@ascii-kit/font@0.0.6", "", {}, "sha512-K4VqlXwn42XDjt5DgA7DIwKGRnyKfcj1Zeslg1WSsrQi3ay+qLO/EMQHjU/nR+XWO2im0CYUPnAOQ7loy+5sJw=="],
+
+    "@ascii-kit/fonts-flf": ["@ascii-kit/fonts-flf@0.0.6", "", {}, "sha512-HugByvxX7vJrxZdiT9ojnqw79tmnVNgcUZ0S1VJZwBkqNKBSXhdkHVYeUp1oXZ6SfSY77uHpQSQZ7yTxgAUdAg=="],
 
     "@azure/abort-controller": ["@azure/abort-controller@1.1.0", "", { "dependencies": { "tslib": "^2.2.0" } }, "sha512-TrRLIoSQVzfAJX9H1JeFjzAoDGcoK1IYX1UImfceTZpsyYfWr09Ss1aHW1y5TrrR3iq6RZLBwJ3E24uwPhwahw=="],
 
