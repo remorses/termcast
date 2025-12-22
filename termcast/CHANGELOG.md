@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.24
+
+### Patch Changes
+
+- Add `wrapMode='none'` to all textarea elements to prevent text wrapping
+- Add animated loading spinner to form input fields when loading
+  - Pulsing dot animation with varying size and brightness
+  - Shows on focused field when `isLoading` is true
+  - New `isLoading` prop on `WithLeftBorder` component
+
 ## 1.3.23
 
 ### Patch Changes
