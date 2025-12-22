@@ -25,8 +25,6 @@ ORANGE='\\033[38;2;255;192;0m'
 BOLD='\\033[1m'
 NC='\\033[0m' # No Color
 
-requested_version=\${VERSION:-}
-
 raw_os=$(uname -s)
 os=$(echo "$raw_os" | tr '[:upper:]' '[:lower:]')
 case "$raw_os" in
@@ -119,17 +117,7 @@ fi
 INSTALL_DIR=$HOME/${installDirName}/bin
 mkdir -p "$INSTALL_DIR"
 
-if [ -z "$requested_version" ]; then
-    url="https://github.com/${githubRepo}/releases/latest/download/$filename"
-    specific_version=$(curl -s https://api.github.com/repos/${githubRepo}/releases/latest | sed -n 's/.*"tag_name": *"${binaryName}@\\([^"]*\\)".*/\\1/p')
-
-    if [[ -z "$specific_version" ]]; then
-        specific_version="latest"
-    fi
-else
-    url="https://github.com/${githubRepo}/releases/download/${binaryName}@\${requested_version}/$filename"
-    specific_version=$requested_version
-fi
+url="https://github.com/${githubRepo}/releases/latest/download/$filename"
 
 print_message() {
     local level=$1
@@ -143,13 +131,6 @@ print_message() {
     esac
 
     echo -e "\${color}\${message}\${NC}"
-}
-
-check_version() {
-    if command -v ${binaryName} >/dev/null 2>&1; then
-        installed_version=$(${binaryName} --version 2>/dev/null | head -1 || echo "unknown")
-        print_message info "\${MUTED}Updating from: \${NC}$installed_version"
-    fi
 }
 
 unbuffered_sed() {
@@ -243,7 +224,7 @@ download_with_progress() {
 }
 
 download_and_install() {
-    print_message info "\\n\${MUTED}Installing \${NC}${binaryName} \${MUTED}version: \${NC}$specific_version"
+    print_message info "\\n\${MUTED}Installing \${NC}${binaryName}"
     mkdir -p ${binaryName}tmp && cd ${binaryName}tmp
 
     if [[ "$os" == "windows" ]] || ! download_with_progress "$url" "$filename"; then
@@ -262,7 +243,6 @@ download_and_install() {
     cd .. && rm -rf ${binaryName}tmp
 }
 
-check_version
 download_and_install
 
 add_to_path() {

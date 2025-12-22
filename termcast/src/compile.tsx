@@ -15,6 +15,15 @@ const raycastAliasPlugin: BunPlugin = {
     build.onResolve({ filter: /^termcast/ }, (args) => ({
       path: require.resolve(args.path),
     }))
+    build.onResolve({ filter: /^react$/ }, () => ({
+      path: require.resolve('react'),
+    }))
+    build.onResolve({ filter: /^react\/jsx-runtime$/ }, () => ({
+      path: require.resolve('react/jsx-runtime'),
+    }))
+    build.onResolve({ filter: /^react\/jsx-dev-runtime$/ }, () => ({
+      path: require.resolve('react/jsx-dev-runtime'),
+    }))
   },
 }
 
@@ -186,8 +195,12 @@ export async function compileExtension({
   fs.writeFileSync(tempEntryPath, entryCode)
 
   const bunTarget = target ? targetToString(target) : 'bun'
+  const distDir = path.join(resolvedPath, 'dist')
+  if (!fs.existsSync(distDir)) {
+    fs.mkdirSync(distDir, { recursive: true })
+  }
   const defaultOutfile =
-    outfile || path.join(resolvedPath, packageJson.name || 'extension')
+    outfile || path.join(distDir, packageJson.name || 'extension')
 
   try {
     const result = await Bun.build({
