@@ -61,8 +61,6 @@
         "jszip": "^3.10.1",
         "nanoid": "^5.1.5",
         "node-diff3": "^3.2.0",
-        "react": "^19.2.0",
-        "react-dom": "^19.2.0",
         "react-hook-form": "^7.62.0",
         "string-dedent": "^3.0.2",
         "zustand": "^5.0.8",
@@ -75,8 +73,12 @@
         "@xterm/addon-serialize": "^0.13.0",
         "@xterm/headless": "^5.5.0",
         "bun-pty": "^0.4.2",
+        "react": "^19.2.0",
         "tuistory": "workspace:*",
         "vitest": "^4.0.16",
+      },
+      "peerDependencies": {
+        "react": "*",
       },
     },
     "tuistory": {

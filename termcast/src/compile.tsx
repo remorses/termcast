@@ -86,7 +86,12 @@ export function targetToString(target: CompileTarget): string {
 }
 
 export function targetToFileSuffix(target: CompileTarget): string {
-  const os = target.os === 'win32' ? 'windows' : target.os === 'darwin' ? 'darwin' : 'linux'
+  const os =
+    target.os === 'win32'
+      ? 'windows'
+      : target.os === 'darwin'
+        ? 'darwin'
+        : 'linux'
   const ext = target.os === 'win32' ? '.exe' : ''
   const parts = [os, target.arch]
   if (target.abi) {
@@ -194,7 +199,10 @@ export async function compileExtension({
       compile: {
         outfile: defaultOutfile,
       },
-      define: { 'process.env.VERSION': JSON.stringify(version || '') },
+      define: {
+        'process.env.VERSION': JSON.stringify(version || ''),
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      },
       plugins: [raycastAliasPlugin, swiftLoaderPlugin],
       throw: false,
     } as Parameters<typeof Bun.build>[0])
@@ -203,7 +211,9 @@ export async function compileExtension({
       const errorDetails = result.logs.map((log: any) => {
         const parts = [log.message || String(log)]
         if (log.position) {
-          parts.push(`  at ${log.position.file}:${log.position.line}:${log.position.column}`)
+          parts.push(
+            `  at ${log.position.file}:${log.position.line}:${log.position.column}`,
+          )
         }
         if (log.notes) {
           for (const note of log.notes) {
@@ -216,10 +226,15 @@ export async function compileExtension({
         return parts.join('\n')
       })
       logger.log('Compile errors:', JSON.stringify(result.logs, null, 2))
-      throw new Error(`Compile failed: ${errorDetails.join('\n\n') || 'Unknown error'}`)
+      throw new Error(
+        `Compile failed: ${errorDetails.join('\n\n') || 'Unknown error'}`,
+      )
     }
 
-    logger.log('Build outputs:', result.outputs?.map((o) => o.path))
+    logger.log(
+      'Build outputs:',
+      result.outputs?.map((o) => o.path),
+    )
 
     if (!fs.existsSync(defaultOutfile)) {
       throw new Error(
