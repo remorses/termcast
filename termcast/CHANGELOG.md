@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.25
+
+### Patch Changes
+
+- Add `--version` / `-v` flag support to compiled binaries
+- Embed VERSION env var during compile using release tag
+
 ## 1.3.24
 
 ### Patch Changes

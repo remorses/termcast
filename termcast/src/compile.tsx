@@ -127,6 +127,7 @@ export interface CompileOptions {
   outfile?: string
   minify?: boolean
   target?: CompileTarget
+  version?: string
 }
 
 export interface CompileResult {
@@ -139,6 +140,7 @@ export async function compileExtension({
   outfile,
   minify = false,
   target,
+  version,
 }: CompileOptions): Promise<CompileResult> {
   const resolvedPath = path.resolve(extensionPath)
 
@@ -192,6 +194,7 @@ export async function compileExtension({
       compile: {
         outfile: defaultOutfile,
       },
+      define: { 'process.env.VERSION': JSON.stringify(version || '') },
       plugins: [raycastAliasPlugin, swiftLoaderPlugin],
       throw: false,
     } as Parameters<typeof Bun.build>[0])

@@ -18,6 +18,7 @@ export interface CommandInfo {
 export interface ParsedExtensionArgs {
   commandName?: string
   showHelp: boolean
+  showVersion: boolean
 }
 
 /**
@@ -35,6 +36,7 @@ export function parseExtensionArgs({ skipArgv = 0 }: { skipArgv?: number } = {})
   return {
     commandName: parsed.args[0] as string | undefined,
     showHelp: Boolean(parsed.options.help || parsed.options.h),
+    showVersion: Boolean(parsed.options.version || parsed.options.v),
   }
 }
 
@@ -54,12 +56,13 @@ function printExtensionHelp({
   }
   console.log('\nOptions:')
   console.log('  --help, -h          Show this help message')
+  console.log('  --version, -v       Show version')
   console.log()
 }
 
 /**
- * Check for --help flag and print help if found. Call before rendering.
- * Exits process if help is shown.
+ * Check for --help and --version flags. Call before rendering.
+ * Exits process if help or version is shown.
  */
 export function handleHelpFlag({
   extensionName,
@@ -70,7 +73,11 @@ export function handleHelpFlag({
   commands: CommandInfo[]
   skipArgv?: number
 }): void {
-  const { showHelp } = parseExtensionArgs({ skipArgv })
+  const { showHelp, showVersion } = parseExtensionArgs({ skipArgv })
+  if (showVersion) {
+    console.log(process.env.VERSION || 'unknown')
+    process.exit(0)
+  }
   if (showHelp) {
     printExtensionHelp({ extensionName, commands })
     process.exit(0)

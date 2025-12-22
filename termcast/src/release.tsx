@@ -99,6 +99,7 @@ export async function releaseExtension({
         outfile,
         minify: true,
         target,
+        version: tag,
       })
 
       console.log(`  ✓ ${path.basename(result.outfile)}`)
