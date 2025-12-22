@@ -480,19 +480,19 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›Apple Red and sweet                            Fresh [Popular]  ▀
-     Banana Yellow and nutritious                              Ripe
-     Orange Citrus and juicy                                  Fresh
-     Grape Sweet clusters                                [Seasonal]
+    ›Apple Red and sweet                            Fresh [Popular]  █
+     Banana Yellow and nutritious                              Ripe  █
+     Orange Citrus and juicy                                  Fresh  █
+     Grape Sweet clusters                                [Seasonal]  █
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
 
-
-     ↵ vie┌─────────────────────────────────────────────────────┐
-          │ ✓ Added to Cart - Apple has been added to your cart │
-          └─────────────────────────────────────────────────────┘"
+     Vegetables                                                      ▼
+                  ┌─────────────────────────────────────┐
+                  │ ✓ Added to Cart                     │
+                  │   Apple has been added to your cart │
+                  └─────────────────────────────────────┘"
   `)
 }, 10000)
 

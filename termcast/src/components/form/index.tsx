@@ -102,17 +102,10 @@ export const useFormSubmit = () => {
 }
 
 function FormFooter(): any {
-  return (
-    <box
-      border={false}
-      style={{
-        paddingLeft: 1,
-        paddingRight: 1,
-        paddingTop: 1,
-        marginTop: 1,
-        flexDirection: 'row',
-      }}
-    >
+  const hasToast = useStore((s) => s.toast !== null)
+
+  const content = hasToast ? null : (
+    <>
       <text fg={Theme.text} attributes={TextAttributes.BOLD}>
         ctrl ↵
       </text>
@@ -125,6 +118,22 @@ function FormFooter(): any {
         {'   '}^k
       </text>
       <text fg={Theme.textMuted}> actions</text>
+    </>
+  )
+
+  return (
+    <box
+      border={false}
+      height={1}
+      style={{
+        paddingLeft: 1,
+        paddingRight: 1,
+        paddingTop: 1,
+        marginTop: 1,
+        flexDirection: 'row',
+      }}
+    >
+      {content}
     </box>
   )
 }

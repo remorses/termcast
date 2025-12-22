@@ -19,7 +19,7 @@ export interface ReleaseOptions {
 
 export interface ReleaseResult {
   success: boolean
-  version: string
+  tag: string
   uploadedFiles: string[]
 }
 
@@ -33,45 +33,37 @@ export async function releaseExtension({
     throw new Error(`Extension path does not exist: ${resolvedPath}`)
   }
 
-  const packageJsonPath = path.join(resolvedPath, 'package.json')
-  if (!fs.existsSync(packageJsonPath)) {
-    throw new Error(`No package.json found at: ${packageJsonPath}`)
-  }
-
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
-  const name = packageJson.name
-  const version = packageJson.version
-
-  if (!name) {
-    throw new Error('package.json must have a name field')
-  }
-  if (!version) {
-    throw new Error('package.json must have a version field')
-  }
-
-  const tag = `${name}@${version}`
-  console.log(`Preparing release ${tag}...`)
-
-  // Check if release already exists
+  // Get repo name from git remote
+  let repoName: string
   try {
-    const checkResult = execSync(`gh release view "${tag}" --json tagName`, {
+    const remoteUrl = execSync('git config --get remote.origin.url', {
       cwd: resolvedPath,
       encoding: 'utf-8',
-      stdio: ['pipe', 'pipe', 'pipe'],
-    })
-    if (checkResult.includes(tag)) {
-      throw new Error(`Release ${tag} already exists. Bump the version in package.json first.`)
+    }).trim()
+    // Handle both HTTPS and SSH URLs:
+    // https://github.com/user/repo.git -> repo
+    // git@github.com:user/repo.git -> repo
+    const match = remoteUrl.match(/\/([^/]+?)(?:\.git)?$/) || remoteUrl.match(/:([^/]+?)(?:\.git)?$/)
+    if (!match) {
+      throw new Error(`Could not parse repo name from remote URL: ${remoteUrl}`)
     }
+    repoName = match[1].replace(/\.git$/, '')
   } catch (error: any) {
-    if (error.message?.includes('already exists')) {
-      throw error
-    }
-    const stderr = error.stderr?.toString() || ''
-    const isNotFound = stderr.includes('release not found') || stderr.includes('Not Found')
-    if (!isNotFound) {
-      throw new Error(`Failed to check release status: ${stderr || error.message}`)
-    }
+    throw new Error(`Failed to get git remote: ${error.message}`)
   }
+
+  // Generate date-based tag with hour and minute
+  const now = new Date()
+  const dateTag = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0'),
+    String(now.getHours()).padStart(2, '0'),
+    String(now.getMinutes()).padStart(2, '0'),
+  ].join('')
+
+  const tag = `${repoName}@${dateTag}`
+  console.log(`Preparing release ${tag}...`)
 
   // Install dependencies for all platforms
   console.log('Installing dependencies for all platforms...')
@@ -92,13 +84,14 @@ export async function releaseExtension({
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true })
   }
+  fs.writeFileSync(path.join(outputDir, '.gitignore'), '*\n')
 
   // Compile for all targets in parallel
   console.log(`Compiling for ${targets.length} targets in parallel...`)
   const compileResults = await Promise.all(
     targets.map(async (target) => {
       const suffix = targetToFileSuffix(target)
-      const binaryName = `${name}-${suffix}`
+      const binaryName = `${repoName}-${suffix}`
       const outfile = path.join(outputDir, binaryName)
 
       const result = await compileExtension({
@@ -111,7 +104,7 @@ export async function releaseExtension({
       console.log(`  ✓ ${path.basename(result.outfile)}`)
 
       const archiveExt = getArchiveExtension(target)
-      const archiveName = `${name}-${suffix}${archiveExt}`
+      const archiveName = `${repoName}-${suffix}${archiveExt}`
       const archivePath = path.join(outputDir, archiveName)
 
       if (archiveExt === '.tar.gz') {
@@ -130,7 +123,7 @@ export async function releaseExtension({
   // Create GitHub release
   console.log(`\nCreating GitHub release ${tag}...`)
   try {
-    execSync(`gh release create "${tag}" --title "${tag}" --notes "Release ${version}"`, {
+    execSync(`gh release create "${tag}" --title "${tag}" --notes "Release ${tag}"`, {
       cwd: resolvedPath,
       stdio: 'inherit',
     })
@@ -158,7 +151,7 @@ export async function releaseExtension({
 
   return {
     success: true,
-    version,
+    tag,
     uploadedFiles: compileResults,
   }
 }

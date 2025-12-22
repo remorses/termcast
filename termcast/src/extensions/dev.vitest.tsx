@@ -174,10 +174,10 @@ test('can fill arguments and run command', async () => {
      ▼ Category (empty)
 
 
-
-     ↵ copy val┌─────────────────────────────────┐
-               │ ✓ Copied to Clipboard - (empty) │
-               └─────────────────────────────────┘"
+                    ┌───────────────────────┐
+                    │ ✓ Copied to Clipboard │
+                    │   (empty)             │
+                    └───────────────────────┘"
   `)
 }, 30000)
 
@@ -207,12 +207,14 @@ test('can run simple view command without arguments', async () => {
 
      Items                                                 ▲
     ›▲ First Item This is the first item                   █
-     ▲ Second Item This is the second item
-     ▲ Third Item This is the third item
-     ▲ Fourth Item This is the fourth item                 ▼
-
-
-     ↵ copy item title  ↑↓ navigate  ^k actions"
+     ▲ Second Item This is the second item                 █
+     ▲ Third Item This is the third item                   ▀
+     ▲ Fourth Item This is the fourth item
+     ▲ Fifth Item This is the fifth item                   ▼
+                    ┌───────────────────────┐
+                    │ ✓ Copied to Clipboard │
+                    │   First Item          │
+                    └───────────────────────┘"
   `)
 }, 30000)
 

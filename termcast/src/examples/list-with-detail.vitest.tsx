@@ -47,18 +47,18 @@ test('list with detail view display and navigation', async () => {
                                           │
                                           │ Characteristics
                                           │ - Height: 0.7m
-                                          │ - ───────────────
+                                          │ - Weight: 6.9kg
                                           │
-                                          │ Characteristics:
-                                          │ Height:
-                                          │ 0.7m
+                                          │ Abilities
+                                          │ - Chlorophyll
+                                          │ - Overgrow
+                                          │ ─────────────────────────────────
                                           │
-                                          │ ─────────────────
-                                          │ Weight:
-                                          │ 6.9kg
+                                          │ Types:
                                           │
+                                          │ Grass:
      ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                          │ Abilities:                        ▼"
+                                          │                                   ▼"
   `)
 
   await session.press('down')

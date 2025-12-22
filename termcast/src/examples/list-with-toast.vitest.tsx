@@ -42,10 +42,10 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-
-       ↑↓ navigate  ^k a┌─────────────────────────┐
-                        │ ✓ Selected - First Item │
-                        └─────────────────────────┘"
+                             ┌──────────────┐
+                             │ ✓ Selected   │
+                             │   First Item │
+                             └──────────────┘"
   `)
 
   await session.press('down')
@@ -70,10 +70,10 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-
-       ↑↓ navigate  ^k ┌──────────────────────────┐
-                       │ ✓ Selected - Second Item │
-                       └──────────────────────────┘"
+                             ┌───────────────┐
+                             │ ✓ Selected    │
+                             │   Second Item │
+                             └───────────────┘"
   `)
 
   await session.press('down')
@@ -98,10 +98,10 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-
-       ↑↓ navigate  ^k a┌─────────────────────────┐
-                        │ ✓ Selected - Third Item │
-                        └─────────────────────────┘"
+                             ┌──────────────┐
+                             │ ✓ Selected   │
+                             │   Third Item │
+                             └──────────────┘"
   `)
 
   await session.press('up')
@@ -126,9 +126,9 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-
-       ↑↓ navigate  ^k ┌──────────────────────────┐
-                       │ ✓ Selected - Second Item │
-                       └──────────────────────────┘"
+                             ┌───────────────┐
+                             │ ✓ Selected    │
+                             │   Second Item │
+                             └───────────────┘"
   `)
 }, 10000)

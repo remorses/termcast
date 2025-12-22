@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Theme } from 'termcast/src/theme'
 import { TextAttributes } from '@opentui/core'
-import { logger } from 'termcast/src/logger'
 import { useStore } from 'termcast/src/state'
 import { useKeyboard, useTerminalDimensions } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
@@ -121,14 +120,13 @@ export class Toast {
   }
 }
 
-interface ToastContentProps {
+export interface ToastContentProps {
   toast: Toast
   onHide: () => void
 }
 
-function ToastContent({ toast, onHide }: ToastContentProps): any {
+export function ToastContent({ toast, onHide }: ToastContentProps): any {
   const [, forceUpdate] = useState(0)
-  const dimensions = useTerminalDimensions()
   const inFocus = useIsInFocus()
 
   useEffect(() => {
@@ -203,78 +201,55 @@ function ToastContent({ toast, onHide }: ToastContentProps): any {
   const icon =
     toast.style === Toast.Style.Animated ? getIcon()[animationFrame] : getIcon()
 
-  const wrapText = (text: string, maxWidth: number): string[] => {
-    if (!text) return []
-
-    const words = text.split(' ')
-    const lines: string[] = []
-    let currentLine = ''
-
-    for (const word of words) {
-      const testLine = currentLine ? `${currentLine} ${word}` : word
-      if (testLine.length <= maxWidth) {
-        currentLine = testLine
-      } else {
-        if (currentLine) {
-          lines.push(currentLine)
-        }
-        currentLine = word
-      }
-    }
-
-    if (currentLine) {
-      lines.push(currentLine)
-    }
-
-    return lines.slice(0, 3)
-  }
-
-  const iconLength = 2
-  const titleLength = toast.title.length
-  const actionsLength = (() => {
-    let length = 0
-    if (toast.primaryAction) {
-      length += toast.primaryAction.title.length + 4
-    }
-    if (toast.secondaryAction) {
-      length += toast.secondaryAction.title.length + 4
-    }
-    return length
-  })()
-
-  const availableWidth =
-    dimensions.width - iconLength - titleLength - actionsLength - 8
-  const messageLines = toast.message
-    ? wrapText(toast.message, Math.max(20, availableWidth))
-    : []
-
   return (
     <box
       borderColor={Theme.border}
+      backgroundColor={Theme.background}
       paddingLeft={1}
       paddingRight={1}
       flexDirection='column'
     >
       <box flexDirection='row' alignItems='center'>
-        <text fg={getIconColor()}>{icon} </text>
-        <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={getIconColor()}>
+          {icon}{' '}
+        </text>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
           {toast.title}
         </text>
-        {messageLines.length > 0 && (
-          <text fg={Theme.textMuted}> - {messageLines[0]}</text>
-        )}
         {toast.primaryAction && (
-          <text fg={Theme.primary}> [{toast.primaryAction.title} ↵]</text>
+          <box
+            flexShrink={0}
+            onMouseDown={() => {
+              toast.primaryAction?.onAction(toast)
+            }}
+          >
+            <text fg={Theme.primary}>
+              {' '}
+              [{toast.primaryAction.title} ↵]
+            </text>
+          </box>
         )}
         {toast.secondaryAction && (
-          <text fg={Theme.textMuted}> [{toast.secondaryAction.title} ⇥]</text>
+          <box
+            flexShrink={0}
+            onMouseDown={() => {
+              toast.secondaryAction?.onAction(toast)
+            }}
+          >
+            <text fg={Theme.textMuted}>
+              {' '}
+              [{toast.secondaryAction.title} ⇥]
+            </text>
+          </box>
         )}
       </box>
-      {messageLines.slice(1).map((line, index) => (
-        <box key={index} paddingLeft={iconLength + titleLength + 3}>
-          <text fg={Theme.textMuted}>{line}</text>
+      {toast.message && (
+        <box paddingLeft={2}>
+          <text flexShrink={0} fg={Theme.textMuted}>
+            {toast.message}
+          </text>
         </box>
-      ))}
+      )}
     </box>
   )
 }
@@ -291,9 +266,9 @@ export function ToastOverlay(): any {
     <box
       position='absolute'
       left={0}
-      top={dimensions.height - 3}
+      bottom={0}
       width={dimensions.width}
-      height={3}
+      maxHeight={10}
       justifyContent='flex-end'
       alignItems='center'
     >

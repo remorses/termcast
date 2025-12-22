@@ -222,7 +222,7 @@ cli
         single: options.single,
       })
 
-      console.log(`\nRelease complete: v${result.version}`)
+      console.log(`\nRelease complete: ${result.tag}`)
       console.log(`Uploaded ${result.uploadedFiles.length} binaries`)
     } catch (error: any) {
       console.error('Release failed:', error.message)
@@ -409,14 +409,17 @@ cli
 cli
   .command('download <extensionName>', 'Download extension from Raycast extensions repo')
   .option('-o, --output <path>', 'Output directory', { default: '.' })
-  .action(async (extensionName: string, options: { output: string }) => {
+  .option('--no-dir', 'Put files directly in output directory instead of creating extension subdirectory')
+  .action(async (extensionName: string, options: { output: string; dir: boolean }) => {
     try {
       const destPath = path.resolve(options.output)
-      const extensionDir = path.join(destPath, extensionName)
+      // When --no-dir is passed, dir is false; put files directly in destPath
+      const extensionDir = options.dir ? path.join(destPath, extensionName) : destPath
+      const tempCloneDir = path.join(destPath, `.tmp-${extensionName}-${Date.now()}`)
 
       console.log(`Downloading extension '${extensionName}' from raycast/extensions...`)
 
-      if (fs.existsSync(extensionDir)) {
+      if (options.dir && fs.existsSync(extensionDir)) {
         console.log(`Removing existing directory: ${extensionDir}`)
         fs.rmSync(extensionDir, { recursive: true, force: true })
       }
@@ -424,7 +427,8 @@ cli
       fs.mkdirSync(destPath, { recursive: true })
 
       const repoUrl = 'https://github.com/raycast/extensions.git'
-      const cloneCmd = `git clone -n --depth=1 --filter=tree:0 "${repoUrl}" "${extensionName}"`
+      const cloneDirName = path.basename(tempCloneDir)
+      const cloneCmd = `git clone -n --depth=1 --filter=tree:0 "${repoUrl}" "${cloneDirName}"`
       console.log(`Running: ${cloneCmd}`)
       try {
         execSync(cloneCmd, {
@@ -440,11 +444,12 @@ cli
       console.log(`Running: ${sparseCmd}`)
       try {
         execSync(sparseCmd, {
-          cwd: extensionDir,
+          cwd: tempCloneDir,
           stdio: 'inherit',
         })
       } catch (error) {
         console.error(`Failed to set sparse-checkout`)
+        fs.rmSync(tempCloneDir, { recursive: true, force: true })
         process.exit(1)
       }
 
@@ -452,22 +457,27 @@ cli
       console.log(`Running: ${checkoutCmd}`)
       try {
         execSync(checkoutCmd, {
-          cwd: extensionDir,
+          cwd: tempCloneDir,
           stdio: 'inherit',
         })
       } catch (error) {
         console.error(`Failed to checkout files`)
+        fs.rmSync(tempCloneDir, { recursive: true, force: true })
         process.exit(1)
       }
 
-      const extensionPath = path.join(extensionDir, 'extensions', extensionName)
+      const extensionPath = path.join(tempCloneDir, 'extensions', extensionName)
 
       if (!fs.existsSync(extensionPath)) {
         console.error(`Extension '${extensionName}' not found in raycast/extensions repo`)
-        fs.rmSync(extensionDir, { recursive: true, force: true })
+        fs.rmSync(tempCloneDir, { recursive: true, force: true })
         process.exit(1)
       }
 
+      // Move files to final destination
+      if (options.dir) {
+        fs.mkdirSync(extensionDir, { recursive: true })
+      }
       const filesToMove = fs.readdirSync(extensionPath)
       for (const file of filesToMove) {
         const src = path.join(extensionPath, file)
@@ -475,8 +485,8 @@ cli
         fs.renameSync(src, dest)
       }
 
-      fs.rmSync(path.join(extensionDir, 'extensions'), { recursive: true, force: true })
-      fs.rmSync(path.join(extensionDir, '.git'), { recursive: true, force: true })
+      // Clean up temp clone directory
+      fs.rmSync(tempCloneDir, { recursive: true, force: true })
 
       console.log(`\nInstalling dependencies...`)
       execSync('npm install', {

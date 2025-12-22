@@ -204,6 +204,7 @@ export async function buildExtensionCommands({
   if (!fs.existsSync(bundleDir)) {
     fs.mkdirSync(bundleDir, { recursive: true })
   }
+  fs.writeFileSync(path.join(bundleDir, '.gitignore'), '*\n')
 
   const commandsData = getCommandsWithFiles({
     packageJsonPath: path.join(resolvedPath, 'package.json'),

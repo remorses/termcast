@@ -4,7 +4,8 @@
   "scripts": {
     "format": "prettier --write .",
     "agents.md": "agentsdotmd ./PREFIX.md ./termcast/EXTENSIONS.md opentui.md core.md tmux.md github.md typescript.md github.md react.md vitest.md changelog.md docs-writing.md cac.md zod.md ./termcast/RAYCAST_SCROLLING.md",
-    "release": "cd termcast && bun run release"
+    "release": "cd termcast && bun run release",
+    "e2e": "cd termcast && bun e2e"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",

@@ -113,7 +113,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◆  Password
-    │  *********
+    │  **********
     │  Must be at least 8 characters
     │
     ◇  Biography
@@ -170,7 +170,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  *********
+    │  **********
     │  Must be at least 8 characters
     │
     ◆  Biography
@@ -232,7 +232,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  *********
+    │  **********
     │  Must be at least 8 characters
     │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     ◆┃
@@ -290,7 +290,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  *********
+    │  **********
     │  Must be at least 8 characters
     │
     ◆  Biography
@@ -324,10 +324,10 @@ test('password field always shows asterisks and submits real value', async () =>
     │
     │   Mo Tu We Th Fr Sa Su
     │    1  2  3  4  5  6  7
-
-    ┌─────────────────────────────────────────────────────────────────┐
-    │c✓rFormsSubmitteda- Alliform data hasibeen captured successfully │
-    └─────────────────────────────────────────────────────────────────┘"
+            ┌────────────────────────────────────────────────┐
+            │ ✓ Form Submitted                               │
+            │   All form data has been captured successfully │
+            └────────────────────────────────────────────────┘"
   `)
   
   // The toast "Form Submitted" in afterEnterSnapshot proves the form was submitted

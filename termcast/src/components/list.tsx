@@ -70,19 +70,10 @@ interface ActionsInterface {
 
 function ListFooter(): any {
   const firstActionTitle = useStore((s) => s.firstActionTitle)
+  const hasToast = useStore((s) => s.toast !== null)
 
-  return (
-    <box
-      border={false}
-      style={{
-        paddingLeft: 1,
-        flexShrink: 0,
-        paddingRight: 1,
-        paddingTop: 1,
-        marginTop: 1,
-        flexDirection: 'row',
-      }}
-    >
+  const content = hasToast ? null : (
+    <>
       {firstActionTitle && (
         <>
           <text fg={Theme.text} attributes={TextAttributes.BOLD}>
@@ -99,6 +90,23 @@ function ListFooter(): any {
         {'  '}^k
       </text>
       <text fg={Theme.textMuted}> actions</text>
+    </>
+  )
+
+  return (
+    <box
+      border={false}
+      height={1}
+      style={{
+        paddingLeft: 1,
+        flexShrink: 0,
+        paddingRight: 1,
+        paddingTop: 1,
+        marginTop: 1,
+        flexDirection: 'row',
+      }}
+    >
+      {content}
     </box>
   )
 }
@@ -515,27 +523,42 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
           )}
         </box>
 
-        <box
-          border={false}
-          style={{
-            paddingRight: 2,
-            paddingLeft: 3,
-            paddingBottom: 1,
-            paddingTop: 1,
-            flexDirection: 'row',
-          }}
-        >
-          <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-            ↵
-          </text>
-          <text fg={Theme.textMuted}> select</text>
-          <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-            {'   '}↑↓
-          </text>
-          <text fg={Theme.textMuted}> navigate</text>
-        </box>
+        <DropdownFooter />
       </box>
     </DropdownDescendantsProvider>
+  )
+}
+
+function DropdownFooter(): any {
+  const hasToast = useStore((s) => s.toast !== null)
+
+  const content = hasToast ? null : (
+    <>
+      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+        ↵
+      </text>
+      <text fg={Theme.textMuted}> select</text>
+      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+        {'   '}↑↓
+      </text>
+      <text fg={Theme.textMuted}> navigate</text>
+    </>
+  )
+
+  return (
+    <box
+      border={false}
+      height={1}
+      style={{
+        paddingRight: 2,
+        paddingLeft: 3,
+        paddingBottom: 1,
+        paddingTop: 1,
+        flexDirection: 'row',
+      }}
+    >
+      {content}
+    </box>
   )
 }
 

@@ -43,6 +43,7 @@ test('file picker shows form fields', async () => {
 
 
 
+
     ◆  Your Name
     │  John Doe
     │
@@ -111,23 +112,24 @@ test('typing opens autocomplete dialog with file list', async () => {
 
 
 
-    ◇┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    │┃
-    │┃ Filter: s
+     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     ◇┃
-    │┃  📁 extensions/
+    │┃ Filter: s
+    │┃
+    ◇┃  📁 extensions/
     │┃  📁 extensions/messages/
     │┃  📁 extensions/messages/assets/
     │┃  📁 extensions/messages/metadata/
-    ◆┃  📁 extensions/messages/src/
-    │┃  📁 extensions/messages/src/api/
+    │┃  📁 extensions/messages/src/
+    ◆┃  📁 extensions/messages/src/api/
     │┃  📁 extensions/messages/src/components/
     │┃  📁 extensions/messages/src/hooks/
     │┃  📁 extensions/messages/src/tools/
-    ◇┃  📁 extensions/messages/swift/
-    │┃
+    │┃  📁 extensions/messages/swift/
+    ◇┃
     │┃ ↑↓ navigate  ⏎/tab select  esc close
     │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │  Choose exactly one file
     │
     └
 
@@ -173,6 +175,7 @@ test('escape closes autocomplete without going back', async () => {
   })
   expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
     "
+
 
 
 
@@ -285,6 +288,7 @@ test('selecting first item with enter adds it to the list', async () => {
     │  Choose exactly one file
     │
     └
+
 
 
 

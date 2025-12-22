@@ -367,10 +367,10 @@ test('navigation with actions panel', async () => {
 
 
 
-
-     ↵ open detail┌────────────────────────────────────┐
-                  │ ✓ Copied to Clipboard - First Item │
-                  └────────────────────────────────────┘"
+                         ┌───────────────────────┐
+                         │ ✓ Copied to Clipboard │
+                         │   First Item          │
+                         └───────────────────────┘"
   `)
 
   // Wait for toast to clear, then navigate to second item
@@ -412,10 +412,10 @@ test('navigation with actions panel', async () => {
 
 
 
-
-     ↵ go back  ↑↓┌────────────────────────────────────┐
-                  │ ✓ Copied to Clipboard - First Item │
-                  └────────────────────────────────────┘"
+                         ┌───────────────────────┐
+                         │ ✓ Copied to Clipboard │
+                         │   First Item          │
+                         └───────────────────────┘"
   `)
 
   // Open actions panel in detail view
@@ -445,10 +445,10 @@ test('navigation with actions panel', async () => {
      ┃
      ┃
      ┃
-     ┃
-     ┃            ┌────────────────────────────────────┐
-     ┃            │ ✓ Copied to Clipboard - First Item │
-     ┃            └────────────────────────────────────┘"
+     ┃                   ┌───────────────────────┐
+     ┃                   │ ✓ Copied to Clipboard │
+     ┃                   │   First Item          │
+     ┃                   └───────────────────────┘"
   `)
 
   // Select Go Back action
@@ -482,10 +482,10 @@ test('navigation with actions panel', async () => {
 
 
 
-
-     ↵ open detail┌────────────────────────────────────┐
-                  │ ✓ Copied to Clipboard - First Item │
-                  └────────────────────────────────────┘"
+                         ┌───────────────────────┐
+                         │ ✓ Copied to Clipboard │
+                         │   First Item          │
+                         └───────────────────────┘"
   `)
 }, 15000)
 
