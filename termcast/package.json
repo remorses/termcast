@@ -13,6 +13,7 @@
     "test": "bun test && bun e2e",
     "e2e": "vitest -u"
   },
+  "bin": "./dist/cli.js",
   "exports": {
     ".": {
       "bun": "./src/index.tsx",
