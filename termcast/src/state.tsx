@@ -16,6 +16,7 @@ export interface NavigationStackItem {
 
 interface AppState {
   toast: ReactNode | null
+  toastWithPrimaryAction: boolean
   dialogStack: DialogStackItem[]
   navigationStack: NavigationStackItem[]
   // Dev mode state
@@ -42,6 +43,7 @@ interface AppState {
 
 export const useStore = create<AppState>(() => ({
   toast: null,
+  toastWithPrimaryAction: false,
   dialogStack: [],
   // Navigation state
   navigationStack: [],

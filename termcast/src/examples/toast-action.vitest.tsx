@@ -80,3 +80,43 @@ test('pressing enter triggers primary action on toast', async () => {
 
   expect(afterEnter).toContain('Undone')
 }, 30000)
+
+test('pressing escape hides the toast', async () => {
+  await session.text({
+    waitFor: (text) => text.includes('[Undo ↵]'),
+  })
+
+  const beforeEsc = await session.text()
+  expect(beforeEsc).toContain('[Undo')
+
+  await session.press('escape')
+  await new Promise((r) => setTimeout(r, 300))
+
+  const afterEsc = await session.text()
+  expect(afterEsc).toMatchInlineSnapshot(`
+    "
+
+
+     Toast Action Test ──────────────────────────────────────────────
+
+     Search...
+
+    ›Show Toast with Action
+     Other Item
+
+
+
+
+
+
+
+
+
+
+       ↑↓ navigate  ^k actions"
+  `)
+
+  expect(afterEsc).not.toContain('[Undo')
+  // Verify list is still visible (ESC didn't exit the app)
+  expect(afterEsc).toContain('Toast Action Test')
+}, 30000)

@@ -289,11 +289,12 @@ export function showToastInternal(toast: Toast): void {
       <ToastContent
         toast={toast}
         onHide={() => {
-          useStore.setState({ toast: null })
+          useStore.setState({ toast: null, toastWithPrimaryAction: false })
           currentToastInstance = null
         }}
       />
     ),
+    toastWithPrimaryAction: Boolean(toast.primaryAction),
   })
 }
 
