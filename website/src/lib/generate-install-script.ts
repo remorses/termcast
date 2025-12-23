@@ -8,6 +8,8 @@ IMPORTANT! all bash runtime variables like ${something} should be written as \${
 because code is inside a js template literal where ${something} is replaced in the js code and not by bash in the script itself
 
 try to use $something instead which does not have this problem
+
+think very hard on the usage of \ escape sequences. we are in js template literal
 */
 export async function generateInstallScript(
   githubRepo: string,
@@ -231,7 +233,11 @@ download_with_progress() {
 
 download_and_install() {
     print_message info "\\n\${MUTED}Installing \${NC}${binaryName}"
-    mkdir -p ${binaryName}tmp && cd ${binaryName}tmp
+    local tmp_install_dir="${binaryName}tmp_$$"
+    mkdir -p "$tmp_install_dir" && cd "$tmp_install_dir"
+
+    # Ensure cleanup on exit (success or failure)
+    trap "cd .. 2>/dev/null; rm -rf \\"$tmp_install_dir\\"" EXIT
 
     if [[ "$os" == "windows" ]] || ! download_with_progress "$url" "$filename"; then
         # Fallback to standard curl on Windows or if custom progress fails
@@ -251,7 +257,6 @@ download_and_install() {
     fi
     mv "${binaryName}-$target$ext" "$INSTALL_DIR/${binaryName}$ext"
     chmod 755 "\${INSTALL_DIR}/${binaryName}$ext"
-    cd .. && rm -rf ${binaryName}tmp
 }
 
 download_and_install
