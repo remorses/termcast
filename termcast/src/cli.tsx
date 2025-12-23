@@ -182,6 +182,7 @@ cli
         extensionSourcePath: extensionPath,
       })
       console.log(`\nExtension installed to store as '${extensionName}'`)
+      process.exit(0)
     } catch (error: any) {
       console.error('Build failed:', error.message)
       process.exit(1)
@@ -205,6 +206,7 @@ cli
 
       console.log(`\nExecutable created: ${result.outfile}`)
       console.log(`Run it with: ${result.outfile}`)
+      process.exit(0)
     } catch (error: any) {
       console.error('Compile failed:', error.message)
       process.exit(1)
