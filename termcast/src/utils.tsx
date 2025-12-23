@@ -28,9 +28,10 @@ export type CommonProps = {
 
 export interface Application {
   name: string
-  localizedName?: string
   path: string
   bundleId?: string
+  localizedName?: string
+  windowsAppId?: string
 }
 
 export type PathLike = string | Buffer | { href: string; toString(): string }
@@ -80,41 +81,137 @@ export async function getDefaultApplication(
 }
 
 export async function getFrontmostApplication(): Promise<Application> {
-  // TODO: Implement system call to get frontmost application
-  // For now, return Terminal as default
-  const frontmostApp: Application = {
-    name: 'Terminal',
-    localizedName: 'Terminal',
-    path: '/System/Applications/Utilities/Terminal.app',
-    bundleId: 'com.apple.Terminal',
+  if (process.platform !== 'darwin') {
+    throw new Error('getFrontmostApplication is only supported on macOS')
   }
-  return Promise.resolve(frontmostApp)
+
+  const { execSync } = await import('node:child_process')
+
+  // Get frontmost app bundle ID
+  const bundleId = execSync(
+    `osascript -e 'tell application "System Events" to get bundle identifier of first application process whose frontmost is true'`,
+    { encoding: 'utf-8' },
+  ).trim()
+
+  // Get app path from bundle ID
+  const path = execSync(
+    `mdfind "kMDItemCFBundleIdentifier == '${bundleId}'" | head -1`,
+    { encoding: 'utf-8' },
+  ).trim()
+
+  // Get app name from path
+  const name = path.split('/').pop()?.replace('.app', '') || bundleId
+
+  return {
+    name,
+    localizedName: name,
+    path,
+    bundleId,
+  }
 }
 
 export async function showInFinder(path: PathLike): Promise<void> {
-  // TODO: Implement system call to show file in Finder
   const pathStr = typeof path === 'string' ? path : path.toString()
-  console.log(`[showInFinder] Would open: ${pathStr}`)
-  return Promise.resolve()
+
+  if (process.platform !== 'darwin') {
+    // On non-macOS, just open the parent directory
+    const { dirname } = await import('node:path')
+    return open(dirname(pathStr))
+  }
+
+  const { spawn } = await import('node:child_process')
+
+  return new Promise((resolve, reject) => {
+    // -R reveals the file in Finder
+    const child = spawn('open', ['-R', pathStr], { stdio: 'ignore' })
+    child.on('error', reject)
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve()
+      } else {
+        reject(new Error(`showInFinder failed with code ${code}`))
+      }
+    })
+  })
 }
 
 export async function trash(path: PathLike | PathLike[]): Promise<void> {
-  // TODO: Implement system call to move files to trash
   const paths = Array.isArray(path) ? path : [path]
   const pathStrs = paths.map((p) => (typeof p === 'string' ? p : p.toString()))
-  console.log(`[trash] Would trash: ${pathStrs.join(', ')}`)
-  return Promise.resolve()
+
+  if (process.platform === 'darwin') {
+    const { execSync } = await import('node:child_process')
+
+    for (const filePath of pathStrs) {
+      // Use osascript to move to trash via Finder (proper macOS trash behavior)
+      execSync(
+        `osascript -e 'tell application "Finder" to delete POSIX file "${filePath}"'`,
+        { stdio: 'ignore' },
+      )
+    }
+  } else if (process.platform === 'win32') {
+    // Windows: use PowerShell to move to recycle bin
+    const { execSync } = await import('node:child_process')
+
+    for (const filePath of pathStrs) {
+      execSync(
+        `powershell -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile('${filePath}', 'OnlyErrorDialogs', 'SendToRecycleBin')"`,
+        { stdio: 'ignore' },
+      )
+    }
+  } else {
+    // Linux: try trash-cli, fall back to gio trash
+    const { execSync, spawnSync } = await import('node:child_process')
+
+    // Check if trash-cli is available
+    const hasTrashCli = spawnSync('which', ['trash-put']).status === 0
+    const hasGio = spawnSync('which', ['gio']).status === 0
+
+    for (const filePath of pathStrs) {
+      if (hasTrashCli) {
+        execSync(`trash-put "${filePath}"`, { stdio: 'ignore' })
+      } else if (hasGio) {
+        execSync(`gio trash "${filePath}"`, { stdio: 'ignore' })
+      } else {
+        throw new Error(
+          'No trash utility found. Install trash-cli or gio.',
+        )
+      }
+    }
+  }
 }
 
 export async function open(
   target: string,
   application?: Application | string,
 ): Promise<void> {
-  // TODO: Implement system call to open file/URL with application
+  const { spawn } = await import('node:child_process')
   const appName =
     typeof application === 'string' ? application : application?.name
-  console.log(`[open] Would open ${target}${appName ? ` with ${appName}` : ''}`)
-  return Promise.resolve()
+
+  return new Promise((resolve, reject) => {
+    let cmd: string
+    let args: string[]
+
+    if (process.platform === 'darwin') {
+      // macOS
+      cmd = 'open'
+      args = appName ? ['-a', appName, target] : [target]
+    } else if (process.platform === 'win32') {
+      // Windows
+      cmd = 'cmd'
+      args = ['/c', 'start', '', target]
+    } else {
+      // Linux and others
+      cmd = 'xdg-open'
+      args = [target]
+    }
+
+    const child = spawn(cmd, args, { stdio: 'ignore', detached: true })
+    child.unref()
+    child.on('error', reject)
+    child.on('spawn', () => resolve())
+  })
 }
 
 export function captureException(exception: unknown): void {

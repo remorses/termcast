@@ -17,9 +17,15 @@ afterEach(() => {
 })
 
 test('pressing enter triggers primary action on toast', async () => {
-  // Wait for the toast with action to appear
+  // Wait for list to load
   await session.text({
-    waitFor: (text) => text.includes('[Undo ↵]'),
+    waitFor: (text) => text.includes('Show Toast with Action'),
+  })
+
+  // Press enter to trigger the action and show toast
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('[Undo'),
   })
 
   const beforeEnter = await session.text()
@@ -32,9 +38,9 @@ test('pressing enter triggers primary action on toast', async () => {
      Search...
 
     ›Show Toast with Action
+     Form with Toast
+     Form with Delayed Toast Action
      Other Item
-
-
 
 
 
@@ -51,7 +57,9 @@ test('pressing enter triggers primary action on toast', async () => {
 
   // Press Enter to trigger the primary action
   await session.press('enter')
-  await new Promise((r) => setTimeout(r, 300))
+  await session.text({
+    waitFor: (text) => text.includes('Undone'),
+  })
 
   const afterEnter = await session.text()
   expect(afterEnter).toMatchInlineSnapshot(`
@@ -63,9 +71,9 @@ test('pressing enter triggers primary action on toast', async () => {
      Search...
 
     ›Show Toast with Action
+     Form with Toast
+     Form with Delayed Toast Action
      Other Item
-
-
 
 
 
@@ -82,8 +90,15 @@ test('pressing enter triggers primary action on toast', async () => {
 }, 30000)
 
 test('pressing escape hides the toast', async () => {
+  // Wait for list to load
   await session.text({
-    waitFor: (text) => text.includes('[Undo ↵]'),
+    waitFor: (text) => text.includes('Show Toast with Action'),
+  })
+
+  // Press enter to show toast
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('[Undo'),
   })
 
   const beforeEsc = await session.text()
@@ -102,7 +117,119 @@ test('pressing escape hides the toast', async () => {
      Search...
 
     ›Show Toast with Action
+     Form with Toast
+     Form with Delayed Toast Action
      Other Item
+
+
+
+
+
+
+
+
+     ↵ show toast  ↑↓ navigate  ^k actions"
+  `)
+
+  expect(afterEsc).not.toContain('[Undo')
+  // Verify list is still visible (ESC didn't exit the app)
+  expect(afterEsc).toContain('Toast Action Test')
+}, 30000)
+
+test('form toast: pressing enter triggers primary action (navigation)', async () => {
+  // Wait for list to load
+  await session.text({
+    waitFor: (text) => text.includes('Form with Toast'),
+  })
+
+  // Navigate to Form with Toast item
+  await session.press('down')
+  await new Promise((r) => setTimeout(r, 100))
+
+  // Open form via enter (triggers action)
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('Name') && text.includes('Enter your name'),
+  })
+
+  const formView = await session.text()
+  expect(formView).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+    ◆  Name
+    │  Enter your name
+    │
+    └
+
+
+
+
+
+
+
+     ctrl ↵ submit   tab navigate   ^k actions"
+  `)
+
+  // Type a name
+  await session.type('John')
+  await new Promise((r) => setTimeout(r, 100))
+
+  // Submit the form via action panel (ctrl+k then enter)
+  await session.press(['ctrl', 'k'])
+  await session.waitIdle()
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('[View Details'),
+  })
+
+  const toastShown = await session.text()
+  expect(toastShown).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+    ◆  Name
+    │  John
+    │
+    └
+
+
+
+
+
+                   ┌───────────────────────────────────┐
+                   │ ✓ Form Submitted [View Details ↵] │
+                   │   Hello, John!                    │
+                   └───────────────────────────────────┘"
+  `)
+
+  // Press Enter to trigger primary action (navigate to detail view)
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('Welcome, John!'),
+  })
+
+  const detailView = await session.text()
+  expect(detailView).toMatchInlineSnapshot(`
+    "
+
+
+     Form Submitted ─────────────────────────────────────────────────
+
+     Search...
+
+    ›Welcome, John! Form submission successful
+
 
 
 
@@ -115,8 +242,159 @@ test('pressing escape hides the toast', async () => {
 
        ↑↓ navigate  ^k actions"
   `)
+}, 30000)
 
-  expect(afterEsc).not.toContain('[Undo')
-  // Verify list is still visible (ESC didn't exit the app)
-  expect(afterEsc).toContain('Toast Action Test')
+test('form toast: pressing escape closes toast but stays on form', async () => {
+  // Wait for list to load
+  await session.text({
+    waitFor: (text) => text.includes('Form with Toast'),
+  })
+
+  // Navigate to Form with Toast item
+  await session.press('down')
+  await new Promise((r) => setTimeout(r, 100))
+
+  // Open form
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('Name') && text.includes('Enter your name'),
+  })
+
+  // Type a name
+  await session.type('Jane')
+  await new Promise((r) => setTimeout(r, 100))
+
+  // Submit the form via action panel (ctrl+k then enter)
+  await session.press(['ctrl', 'k'])
+  await session.waitIdle()
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('[View Details'),
+  })
+
+  const toastShown = await session.text()
+  expect(toastShown).toContain('[View Details')
+
+  // Press Escape to close toast
+  await session.press('escape')
+  await new Promise((r) => setTimeout(r, 300))
+
+  const afterEsc = await session.text()
+  expect(afterEsc).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+    ◆  Name
+    │  Jane
+    │
+    └
+
+
+
+
+
+
+
+     ctrl ↵ submit   tab navigate   ^k actions"
+  `)
+
+  // Toast should be closed
+  expect(afterEsc).not.toContain('[View Details')
+  // Should still be on the form (Name field visible)
+  expect(afterEsc).toContain('Name')
+}, 30000)
+
+test('delayed toast action: primaryAction set after toast shown works with enter', async () => {
+  // Wait for list to load
+  await session.text({
+    waitFor: (text) => text.includes('Delayed Toast Action'),
+  })
+
+  // Navigate to delayed toast action item
+  await session.press('down')
+  await session.press('down')
+  await new Promise((r) => setTimeout(r, 100))
+
+  // Open form
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('Name') && text.includes('Enter your name'),
+  })
+
+  // Type a name
+  await session.type('Test')
+  await new Promise((r) => setTimeout(r, 100))
+
+  // Submit the form
+  await session.press(['ctrl', 'k'])
+  await session.waitIdle()
+  await session.press('enter')
+
+  // Wait for delayed toast to show with primaryAction (set after 500ms delay)
+  await session.text({
+    waitFor: (text) => text.includes('[Open'),
+    timeout: 3000,
+  })
+
+  const toastWithAction = await session.text()
+  expect(toastWithAction).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+    ◆  Name
+    │  Test
+    │
+    └
+
+
+
+
+
+                            ┌─────────────────┐
+                            │ ✓ Done [Open ↵] │
+                            │   Hello, Test!  │
+                            └─────────────────┘"
+  `)
+
+  // Press Enter to trigger primary action - this should work even though
+  // primaryAction was set AFTER the toast was shown
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => text.includes('Opened!'),
+  })
+
+  const afterAction = await session.text()
+  expect(afterAction).toMatchInlineSnapshot(`
+    "
+
+
+
+
+
+
+
+    ◆  Name
+    │  Test
+    │
+    └
+
+
+
+
+
+                    ┌─────────────────────────────────┐
+                    │ ✓ Opened!                       │
+                    │   Action triggered successfully │
+                    └─────────────────────────────────┘"
+  `)
 }, 30000)

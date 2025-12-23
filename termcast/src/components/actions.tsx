@@ -530,17 +530,29 @@ Action.ToggleQuickLook = (props) => {
   useActionDescendant({
     title: props.title || 'Quick Look',
     shortcut: props.shortcut || { key: 'space' },
-    execute: () => {
-      // TODO: Implement Quick Look using macOS qlmanage command
-      if (props.path) {
-        logger.log(`Quick Look: ${props.path}`)
+    execute: async () => {
+      if (!props.path) {
+        props.onToggle?.()
+        return
       }
-      props.onToggle?.()
-      showToast({
-        title: 'Quick Look',
-        message: 'Quick Look not yet implemented',
-        style: Toast.Style.Failure,
+
+      if (process.platform !== 'darwin') {
+        showToast({
+          title: 'Quick Look',
+          message: 'Quick Look is only supported on macOS',
+          style: Toast.Style.Failure,
+        })
+        return
+      }
+
+      const { spawn } = await import('node:child_process')
+      // qlmanage -p opens Quick Look preview
+      const child = spawn('qlmanage', ['-p', props.path], {
+        stdio: 'ignore',
+        detached: true,
       })
+      child.unref()
+      props.onToggle?.()
     },
   })
 

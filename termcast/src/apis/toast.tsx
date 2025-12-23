@@ -82,6 +82,8 @@ export class Toast {
 
   set primaryAction(action: Toast.ActionOptions | undefined) {
     this.options.primaryAction = action
+    // Update store to reflect that toast now has a primary action (for focus management)
+    useStore.setState({ toastWithPrimaryAction: Boolean(action) })
     this.update()
   }
 
@@ -145,8 +147,10 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
     if (evt.name === 'escape') {
       onHide()
     } else if (toast.primaryAction && evt.name === 'return') {
+      onHide()
       toast.primaryAction.onAction(toast)
     } else if (toast.secondaryAction && evt.name === 'tab') {
+      onHide()
       toast.secondaryAction.onAction(toast)
     }
   })

@@ -681,6 +681,16 @@ function MiscellaneousExample(): any {
         />
 
         <List.Item
+          title='Quick Look'
+          subtitle='Preview a file with Quick Look (macOS)'
+          actions={
+            <ActionPanel>
+              <Action.ToggleQuickLook title='Quick Look' path='package.json' />
+            </ActionPanel>
+          }
+        />
+
+        <List.Item
           title='Open File or URL'
           subtitle='Open with default or specific app'
           actions={
