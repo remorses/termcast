@@ -235,7 +235,7 @@ download_and_install() {
     if [ "$os" = "linux" ]; then
         tar -xzf "$filename"
     else
-        unzip -q "$filename"
+        unzip -o -q "$filename"
     fi
 
     local ext=""; [ "$os" = "windows" ] && ext=".exe"
