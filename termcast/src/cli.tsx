@@ -64,8 +64,8 @@ async function checkForUpdates() {
   }
 }
 
-// Check for updates when CLI starts
-checkForUpdates()
+// TODO: re-enable auto-update check once install script temp dir issue is fixed
+// checkForUpdates()
 
 cli
   .command('dev [path]', 'Run the extension in the current working directory')
@@ -96,15 +96,54 @@ cli
       console.log('\nWatching for file changes...')
 
       // Watch entire extension directory using @parcel/watcher
-      const ignoredPatterns = [
-        '**/node_modules/**',
-        '**/.termcast-bundle/**',
-        '**/.git/**',
-        '**/.build/**',  // Swift build output
-        '**/*.log',
-        '**/dist/**',
-        '**/build/**',
+      // Single source of truth for ignored patterns
+      const IGNORED_DIRS = [
+        'node_modules',
+        '.termcast-bundle',
+        '.git',
+        '.build', // Swift build output
+        '.cache',
+        'tmp',
+        '.tmp',
+        'dist',
+        'build',
       ]
+      const IGNORED_EXTENSIONS = ['.log', '.db', '.sqlite']
+
+      // Glob patterns for @parcel/watcher (matched against relative paths using micromatch)
+      const ignoredPatterns = [
+        ...IGNORED_DIRS.map((dir) => `**/${dir}/**`),
+        ...IGNORED_EXTENSIONS.map((ext) => `**/*${ext}`),
+        // SQLite creates .db-wal and .db-shm alongside .db
+        '**/*.db-*',
+        '**/*.sqlite-*',
+      ]
+
+      // Backup filter for files that should never trigger rebuild
+      // This catches cases where @parcel/watcher ignore doesn't work as expected
+      const shouldIgnoreFile = (filePath: string): boolean => {
+        const relativePath = path.relative(extensionPath, filePath)
+        // Ignore files outside the extension directory
+        if (relativePath.startsWith('..')) {
+          return true
+        }
+        // Check if path contains any ignored directory
+        const hasIgnoredDir = IGNORED_DIRS.some(
+          (dir) => relativePath.includes(`/${dir}/`) || relativePath.startsWith(`${dir}/`),
+        )
+        if (hasIgnoredDir) {
+          return true
+        }
+        // Check if file has ignored extension
+        if (IGNORED_EXTENSIONS.some((ext) => relativePath.endsWith(ext))) {
+          return true
+        }
+        // Also catch .db-* and .sqlite-* patterns
+        if (/\.db-|\.sqlite-/.test(relativePath)) {
+          return true
+        }
+        return false
+      }
 
       const rebuild = async (filePath: string) => {
         if (isBuilding) {
@@ -132,12 +171,15 @@ cli
             logger.error('Watcher error:', err)
             return
           }
-          // Trigger rebuild for any event (create, update, delete)
-          if (events.length > 0) {
-            rebuild(events[0].path)
+
+          // Filter out events for files that should be ignored
+          const relevantEvents = events.filter((event) => !shouldIgnoreFile(event.path))
+
+          if (relevantEvents.length > 0) {
+            rebuild(relevantEvents[0].path)
           }
         },
-        { ignore: ignoredPatterns }
+        { ignore: ignoredPatterns },
       )
 
       // Clean up watcher on exit signals
@@ -236,7 +278,7 @@ cli
   })
 
 cli
-  .command('raycast pr <prNumber>', 'Download extension from a GitHub PR in Raycast extensions repo. To test it with Termcast')
+  .command('raycast-pr <prNumber>', 'Download extension from a GitHub PR in Raycast extensions repo. To test it with Termcast')
   .action(async (prNumber: string) => {
     try {
       // Parse PR number from URL if provided
@@ -256,9 +298,20 @@ cli
       )
 
       if (!prResponse.ok) {
-        console.error(
-          `Failed to fetch PR #${parsedPrNumber}: ${prResponse.statusText}`,
-        )
+        if (prResponse.status === 403) {
+          const rateLimitRemaining = prResponse.headers.get('x-ratelimit-remaining')
+          if (rateLimitRemaining === '0') {
+            const resetTime = prResponse.headers.get('x-ratelimit-reset')
+            const resetDate = resetTime ? new Date(parseInt(resetTime) * 1000).toLocaleTimeString() : 'soon'
+            console.error(`GitHub API rate limit exceeded. Resets at ${resetDate}`)
+          } else {
+            console.error(`Access forbidden for PR #${parsedPrNumber}`)
+          }
+        } else if (prResponse.status === 404) {
+          console.error(`PR #${parsedPrNumber} not found`)
+        } else {
+          console.error(`Failed to fetch PR #${parsedPrNumber}: ${prResponse.status} ${prResponse.statusText}`)
+        }
         process.exit(1)
       }
 
@@ -378,7 +431,7 @@ cli
   })
 
 cli
-  .command('raycast pr-diff <prNumber>', 'Show the diff of a PR in Raycast extensions repo')
+  .command('raycast-pr-diff <prNumber>', 'Show the diff of a PR in Raycast extensions repo')
   .action(async (prNumber: string) => {
     try {
       // Parse PR number from URL if provided
@@ -403,7 +456,20 @@ cli
       )
 
       if (!response.ok) {
-        console.error(`Failed to fetch PR #${parsedPrNumber}: ${response.statusText}`)
+        if (response.status === 403) {
+          const rateLimitRemaining = response.headers.get('x-ratelimit-remaining')
+          if (rateLimitRemaining === '0') {
+            const resetTime = response.headers.get('x-ratelimit-reset')
+            const resetDate = resetTime ? new Date(parseInt(resetTime) * 1000).toLocaleTimeString() : 'soon'
+            console.error(`GitHub API rate limit exceeded. Resets at ${resetDate}`)
+          } else {
+            console.error(`Access forbidden for PR #${parsedPrNumber}`)
+          }
+        } else if (response.status === 404) {
+          console.error(`PR #${parsedPrNumber} not found`)
+        } else {
+          console.error(`Failed to fetch PR #${parsedPrNumber}: ${response.status} ${response.statusText}`)
+        }
         process.exit(1)
       }
 
@@ -417,7 +483,7 @@ cli
   })
 
 cli
-  .command('raycast search <query>', 'Search for extensions in the Raycast store')
+  .command('raycast-search <query>', 'Search for extensions in the Raycast store')
   .option('-n, --limit <number>', 'Number of results to show', { default: '10' })
   .action(async (query: string, options: { limit: string }) => {
     try {
@@ -442,7 +508,7 @@ cli
         console.log()
       }
 
-      console.log(`Download with: termcast raycast download <extension-name>`)
+      console.log(`Download with: termcast raycast-download <extension-name>`)
       process.exit(0)
     } catch (error: any) {
       console.error('Search failed:', error.message)
@@ -451,7 +517,7 @@ cli
   })
 
 cli
-  .command('raycast download <extensionName>', 'Download extension from Raycast extensions repo')
+  .command('raycast-download <extensionName>', 'Download extension from Raycast extensions repo')
   .option('-o, --output <path>', 'Output directory', { default: '.' })
   .option('--no-dir', 'Put files directly in output directory instead of creating extension subdirectory')
   .action(async (extensionName: string, options: { output: string; dir: boolean }) => {
