@@ -6,8 +6,8 @@ export const Theme = {
   textMuted: '#999999',
 
   // Background colors
-  background: '#000000',
-  backgroundPanel: '#1E1E1E', // Dark gray panel background
+  background: '#181818',
+  backgroundPanel: '#181818', // Darker gray panel background
 
   // Primary/accent colors
   primary: '#FFC000', // Bright golden orange

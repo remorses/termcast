@@ -418,7 +418,7 @@ export function TermcastProvider(props: ProvidersProps): any {
           }}
         >
           <DialogProvider>
-            <box padding={2}>
+            <box backgroundColor={Theme.background} padding={2}>
               {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
               <NavigationProvider overlay={<DialogOverlay />}>
                 {props.children}

@@ -291,6 +291,13 @@ then run `bun test -u` to update the snapshots
 
 read back the inline snapshots and make sure they are what you expect
 
+after validating snapshots are correct, add 1-2 `expect(text).toContain('keyword')` assertions to verify key behavior. use shortest unique string, no whitespace. example:
+
+```tsx
+expect(beforeEnter).toContain('[Undo')
+expect(afterEnter).toContain('Undone')
+```
+
 > notice that await driver.text() already waits for the pty to render so no need to add `waitIdle` everywhere. only add one if the test seems flaky
 
 make sure to pass an adeguate timeout in the test, passing a number as second arg of test

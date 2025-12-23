@@ -208,8 +208,11 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
       paddingLeft={1}
       paddingRight={1}
       flexDirection='column'
+      maxWidth={80}
+      maxHeight={10}
+      overflow='hidden'
     >
-      <box flexDirection='row' alignItems='center'>
+      <box flexDirection='row' alignItems='center' flexShrink={0} overflow='hidden'>
         <text flexShrink={0} fg={getIconColor()}>
           {icon}{' '}
         </text>
@@ -244,7 +247,7 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
         )}
       </box>
       {toast.message && (
-        <box paddingLeft={2}>
+        <box paddingLeft={2} maxHeight={6} overflow='hidden'>
           <text flexShrink={0} fg={Theme.textMuted}>
             {toast.message}
           </text>

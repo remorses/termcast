@@ -12,19 +12,6 @@ import { logger } from '../logger'
 import { ToastOverlay } from 'termcast/src/apis/toast'
 import { NavigationContext } from 'termcast/src/internal/navigation'
 
-const Border = {
-  topLeft: '┏',
-  topRight: '┓',
-  bottomLeft: '',
-  bottomRight: '',
-  horizontal: '━',
-  vertical: '┃',
-  topT: '+',
-  bottomT: '+',
-  leftT: '+',
-  rightT: '+',
-  cross: '+',
-}
 
 export type { DialogPosition } from 'termcast/src/state'
 
@@ -109,7 +96,7 @@ export function Dialog({
     >
       <box
         border
-        customBorderChars={Border}
+        // customBorderChars={Border}
         width={76}
         maxWidth={dimensions.width - 2}
         backgroundColor={Theme.backgroundPanel}
@@ -146,7 +133,7 @@ export function DialogProvider(props: DialogProviderProps): any {
   return (
     <>
       <InFocus inFocus={!dialogStack?.length}>{props.children}</InFocus>
-      <InFocus inFocus={false}>
+      <InFocus inFocus={!dialogStack?.length}>
         <ToastOverlay />
       </InFocus>
     </>

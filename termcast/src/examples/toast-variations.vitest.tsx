@@ -29,20 +29,6 @@ test('toast variations display correctly', async () => {
 
      Search...
 
-    ›Simple Success"
-  `)
-
-  // Simple Failure
-  await session.press('down')
-  const simpleFailure = await session.text()
-  expect(simpleFailure).toMatchInlineSnapshot(`
-    "
-
-
-     Toast Variations ─────────────────────────────────────────────────────────
-
-     Search...
-
     ›Simple Success
      Simple Failure
      With Short Message
@@ -64,6 +50,42 @@ test('toast variations display correctly', async () => {
 
     ┌──────────────────────────────────────────────────────────────────────────┐
     │ ✓ Success                                                                │
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
+  `)
+
+  // Simple Failure
+  await session.press('down')
+  const simpleFailure = await session.text()
+  expect(simpleFailure).toMatchInlineSnapshot(`
+    "
+
+
+     Toast Variations ─────────────────────────────────────────────────────────
+
+     Search...
+
+     Simple Success
+    ›Simple Failure
+     With Short Message
+     With Long Message
+     With Super Long Message
+     With Primary Action
+     With Both Actions
+     Long Title with Actions
+     Animated Loading
+     Error with Retry
+
+
+
+
+
+
+
+
+
+    ┌──────────────────────────────────────────────────────────────────────────┐
+    │ ✗ Error                                                                  │
     └──────────────────────────────────────────────────────────────────────────┘
      ↵ select  ↑↓ navigate  ^k actions"
   `)
