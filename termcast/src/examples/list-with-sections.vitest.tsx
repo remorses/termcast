@@ -161,13 +161,11 @@ test('list with sections search functionality', async () => {
     "
 
 
-    Simple List Example ────────────────────────────────────────────
+     Simple List Example ────────────────────────────────────────────
 
-    ban
+     ban
 
-    Banana Yellow and nutritious                               Ripe
-
-
+    ›Banana Yellow and nutritious                               Ripe
 
 
 
@@ -177,7 +175,9 @@ test('list with sections search functionality', async () => {
 
 
 
-    ↵ view details  ↑↓ navigate  ^k actions"
+
+
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search and type "let" to search for Lettuce
@@ -413,19 +413,19 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-     ┃   Search actions...
-     ┃
-     ┃  ›View Details
-     ┃   Add to Cart
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃"
+    ›┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+     │   Search actions...
+     │
+     │  ›View Details
+     │   Add to Cart
+     │
+     │
+     │
+     │
+     │"
   `)
 
   // Navigate down to second action
@@ -441,19 +441,19 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-     ┃   Search actions...
-     ┃
-     ┃   View Details
-     ┃  ›Add to Cart
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃"
+    ›┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+     │   Search actions...
+     │
+     │   View Details
+     │  ›Add to Cart
+     │
+     │
+     │
+     │
+     │"
   `)
 
   // Trigger the second action (Add to Cart)

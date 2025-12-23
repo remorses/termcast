@@ -213,9 +213,10 @@ test('can run simple view command without arguments', async () => {
      ▲ Third Item This is the third item
      ▲ Fourth Item This is the fourth item
      ▲ Fifth Item This is the fifth item                   ▼
-
-
-     ↵ copy item title  ↑↓ navigate  ^k actions"
+                    ┌───────────────────────┐
+                    │ ✓ Copied to Clipboard │
+                    │   First Item          │
+                    └───────────────────────┘"
   `)
 }, 30000)
 

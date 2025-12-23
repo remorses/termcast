@@ -41,23 +41,23 @@ test('autocomplete shows flat file list in dialog', async () => {
     │  John Doe
     │
     ◇  Select Files
-    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    │┃
-    │┃ Filter: s
-    │┃
-    ◆┃  📁 extensions/
-    │┃  📁 extensions/messages/
-    │┃  📁 extensions/messages/assets/
-    │┃  📁 extensions/messages/metadata/
-    │┃  📁 extensions/messages/src/
-    ◇┃  📁 extensions/messages/src/api/
-    │┃  📁 extensions/messages/src/components/
-    │┃  📁 extensions/messages/src/hooks/
-    │┃  📁 extensions/messages/src/tools/
-    │┃  📁 extensions/messages/swift/
-    └┃
-     ┃ ↑↓ navigate  ⏎/tab select  esc close
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │┌──────────────────────────────────────────────────────────────────
+    ││
+    ││ Filter: s
+    ││
+    ◆│  📁 extensions/
+    ││  📁 extensions/messages/
+    ││  📁 extensions/messages/assets/
+    ││  📁 extensions/messages/metadata/
+    ││  📁 extensions/messages/src/
+    ◇│  📁 extensions/messages/src/api/
+    ││  📁 extensions/messages/src/components/
+    ││  📁 extensions/messages/src/hooks/
+    ││  📁 extensions/messages/src/tools/
+    ││  📁 extensions/messages/swift/
+    └│
+     │ ↑↓ navigate  ⏎/tab select  esc close
+     └──────────────────────────────────────────────────────────────────
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -92,23 +92,23 @@ test('autocomplete navigation with down/up keys', async () => {
     │  John Doe
     │
     ◇  Select Files
-    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    │┃
-    │┃ Filter: s
-    │┃
-    ◆┃  📁 extensions/
-    │┃  📁 extensions/messages/
-    │┃  📁 extensions/messages/assets/
-    │┃  📁 extensions/messages/metadata/
-    │┃  📁 extensions/messages/src/
-    ◇┃  📁 extensions/messages/src/api/
-    │┃  📁 extensions/messages/src/components/
-    │┃  📁 extensions/messages/src/hooks/
-    │┃  📁 extensions/messages/src/tools/
-    │┃  📁 extensions/messages/swift/
-    └┃
-     ┃ ↑↓ navigate  ⏎/tab select  esc close
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │┌──────────────────────────────────────────────────────────────────
+    ││
+    ││ Filter: s
+    ││
+    ◆│  📁 extensions/
+    ││  📁 extensions/messages/
+    ││  📁 extensions/messages/assets/
+    ││  📁 extensions/messages/metadata/
+    ││  📁 extensions/messages/src/
+    ◇│  📁 extensions/messages/src/api/
+    ││  📁 extensions/messages/src/components/
+    ││  📁 extensions/messages/src/hooks/
+    ││  📁 extensions/messages/src/tools/
+    ││  📁 extensions/messages/swift/
+    └│
+     │ ↑↓ navigate  ⏎/tab select  esc close
+     └──────────────────────────────────────────────────────────────────
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -128,23 +128,23 @@ test('autocomplete navigation with down/up keys', async () => {
     │  John Doe
     │
     ◇  Select Files
-    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    │┃
-    │┃ Filter: s
-    │┃
-    ◆┃  📁 extensions/
-    │┃  📁 extensions/messages/
-    │┃  📁 extensions/messages/assets/
-    │┃  📁 extensions/messages/metadata/
-    │┃  📁 extensions/messages/src/
-    ◇┃  📁 extensions/messages/src/api/
-    │┃  📁 extensions/messages/src/components/
-    │┃  📁 extensions/messages/src/hooks/
-    │┃  📁 extensions/messages/src/tools/
-    │┃  📁 extensions/messages/swift/
-    └┃
-     ┃ ↑↓ navigate  ⏎/tab select  esc close
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │┌──────────────────────────────────────────────────────────────────
+    ││
+    ││ Filter: s
+    ││
+    ◆│  📁 extensions/
+    ││  📁 extensions/messages/
+    ││  📁 extensions/messages/assets/
+    ││  📁 extensions/messages/metadata/
+    ││  📁 extensions/messages/src/
+    ◇│  📁 extensions/messages/src/api/
+    ││  📁 extensions/messages/src/components/
+    ││  📁 extensions/messages/src/hooks/
+    ││  📁 extensions/messages/src/tools/
+    ││  📁 extensions/messages/swift/
+    └│
+     │ ↑↓ navigate  ⏎/tab select  esc close
+     └──────────────────────────────────────────────────────────────────
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -177,23 +177,23 @@ test('file picker shows only files, not folders', async () => {
     │  John Doe
     │
     ◆  Select Files
-    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    │┃
-    │┃ Filter: t
-    │┃
-    ◇┃  📄 ARCHITECTURE.md
-    │┃  📄 EXTENSIONS.md
-    │┃  📄 OAUTH_SETUP.md
-    │┃  📄 RAYCAST_SCROLLING.md
-    │┃  📄 TESTING_RAYCAST_EXTENSIONS.md
-    ◇┃  📄 bunfig.toml
-    │┃  📄 extensions/messages/CHANGELOG.md
-    │┃  📄 extensions/messages/README.md
-    │┃  📄 extensions/messages/assets/apple-messages-icon.png
-    │┃  📄 extensions/messages/bun.lock
-    └┃
-     ┃ ↑↓ navigate  ⏎/tab select  esc close
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │┌──────────────────────────────────────────────────────────────────
+    ││
+    ││ Filter: t
+    ││
+    ◇│  📄 ARCHITECTURE.md
+    ││  📄 EXTENSIONS.md
+    ││  📄 OAUTH_SETUP.md
+    ││  📄 RAYCAST_SCROLLING.md
+    ││  📄 TESTING_RAYCAST_EXTENSIONS.md
+    ◇│  📄 bunfig.toml
+    ││  📄 extensions/messages/CHANGELOG.md
+    ││  📄 extensions/messages/README.md
+    ││  📄 extensions/messages/assets/apple-messages-icon.png
+    ││  📄 extensions/messages/bun.lock
+    └│
+     │ ↑↓ navigate  ⏎/tab select  esc close
+     └──────────────────────────────────────────────────────────────────
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
@@ -231,12 +231,12 @@ test('escape closes autocomplete and form stays visible', async () => {
     │  John Doe
     │
     ◇  Select Files
-    │  s
+    │  Enter file path...
     │
     │  Choose one or more files to upload
     │
     ◆  Select Folder
-    │  Enter file path...
+    │  s
     │
     │  Choose a folder for output
     │

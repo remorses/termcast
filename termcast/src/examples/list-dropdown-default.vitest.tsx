@@ -77,20 +77,20 @@ test('dropdown opens and shows items', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-     S┃                                                                          ┃
-      ┃   Filter by category                                               esc   ┃
-    ›F┃                                                                          ┃
-     S┃   Select category...                                                     ┃
-     V┃                                                                          ┃
-     C┃  ›Apple                                                                  ┃
-      ┃   Banana                                                                 ┃
-      ┃   Orange                                                                 ┃
-      ┃   Grape                                                                  ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃   ↵ select   ↑↓ navigate                                                 ┃
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      ┌──────────────────────────────────────────────────────────────────────────┐
+     S│                                                                          │
+      │   Filter by category                                               esc   │
+    ›F│                                                                          │
+     S│   Select category...                                                     │
+     V│                                                                          │
+     C│  ›Apple                                                                  │
+      │   Banana                                                                 │
+      │   Orange                                                                 │
+      │   Grape                                                                  │
+      │                                                                          │
+      │                                                                          │
+      │   ↵ select   ↑↓ navigate                                                 │
+      └──────────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -113,20 +113,20 @@ test('dropdown opens and shows items', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-     S┃                                                                          ┃
-      ┃   Filter by category                                               esc   ┃
-    ›F┃                                                                          ┃
-     S┃   Select category...                                                     ┃
-     V┃                                                                          ┃
-     C┃   Apple                                                                  ┃
-      ┃  ›Banana                                                                 ┃
-      ┃   Orange                                                                 ┃
-      ┃   Grape                                                                  ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃   ↵ select   ↑↓ navigate                                                 ┃
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      ┌──────────────────────────────────────────────────────────────────────────┐
+     S│                                                                          │
+      │   Filter by category                                               esc   │
+    ›F│                                                                          │
+     S│   Select category...                                                     │
+     V│                                                                          │
+     C│   Apple                                                                  │
+      │  ›Banana                                                                 │
+      │   Orange                                                                 │
+      │   Grape                                                                  │
+      │                                                                          │
+      │                                                                          │
+      │   ↵ select   ↑↓ navigate                                                 │
+      └──────────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -193,20 +193,20 @@ test('clicking dropdown opens it', async () => {
 
      Dropdown Default Value Example ───────────────────────────────────────────
 
-      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-     S┃                                                                          ┃
-      ┃   Filter by category                                               esc   ┃
-    ›F┃                                                                          ┃
-     S┃   Select category...                                                     ┃
-     V┃                                                                          ┃
-     C┃  ›Apple                                                                  ┃
-      ┃   Banana                                                                 ┃
-      ┃   Orange                                                                 ┃
-      ┃   Grape                                                                  ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃   ↵ select   ↑↓ navigate                                                 ┃
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      ┌──────────────────────────────────────────────────────────────────────────┐
+     S│                                                                          │
+      │   Filter by category                                               esc   │
+    ›F│                                                                          │
+     S│   Select category...                                                     │
+     V│                                                                          │
+     C│  ›Apple                                                                  │
+      │   Banana                                                                 │
+      │   Orange                                                                 │
+      │   Grape                                                                  │
+      │                                                                          │
+      │                                                                          │
+      │   ↵ select   ↑↓ navigate                                                 │
+      └──────────────────────────────────────────────────────────────────────────┘
 
 
 

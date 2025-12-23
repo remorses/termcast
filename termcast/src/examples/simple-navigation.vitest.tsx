@@ -295,23 +295,23 @@ test('navigation with actions panel', async () => {
 
      Items
     ›First Item Navigate to first detail
-     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-     ┃   Search actions...
-     ┃
-     ┃  ›Open Details
-     ┃   Copy Title
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃"
+     ┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+     │   Search actions...
+     │
+     │  ›Open Details
+     │   Copy Title
+     │
+     │
+     │
+     │
+     │
+     │
+     │
+     │
+     │"
   `)
 
   // Navigate down in actions panel
@@ -328,23 +328,23 @@ test('navigation with actions panel', async () => {
 
      Items
     ›First Item Navigate to first detail
-     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-     ┃   Search actions...
-     ┃
-     ┃  ›Open Details
-     ┃   Copy Title
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃"
+     ┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+     │   Search actions...
+     │
+     │   Open Details
+     │  ›Copy Title
+     │
+     │
+     │
+     │
+     │
+     │
+     │
+     │
+     │"
   `)
 
   // Select the Copy Title action
@@ -439,23 +439,23 @@ test('navigation with actions panel', async () => {
 
      Details
     ›This is the detail view for Second Item Press Enter to go back
-     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-     ┃   Search actions...
-     ┃
-     ┃  ›Go Back
-     ┃   Copy Title
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃                   ┌───────────────────────┐
-     ┃                   │ ✓ Copied to Clipboard │
-     ┃                   │   First Item          │
-     ┃                   └───────────────────────┘"
+     ┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+     │   Search actions...
+     │
+     │  ›Go Back
+     │   Copy Title
+     │
+     │
+     │
+     │
+     │
+     │                   ┌───────────────────────┐
+     │                   │ ✓ Copied to Clipboard │
+     │                   │   First Item          │
+     │                   └───────────────────────┘"
   `)
 
   // Select Go Back action
@@ -516,13 +516,11 @@ test('search functionality in main and detail views', async () => {
     "
 
 
-     Navigation Example ─────────────────────────────────────────────
+    Navigation Example ─────────────────────────────────────────────
 
-     second
+    second
 
-    ›Second Item Navigate to second detail
-
-
+    Second Item Navigate to second detail
 
 
 
@@ -537,7 +535,9 @@ test('search functionality in main and detail views', async () => {
 
 
 
-     ↵ open details  ↑↓ navigate  ^k actions"
+
+
+    ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search
