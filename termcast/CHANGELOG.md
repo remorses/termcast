@@ -7,6 +7,8 @@
 - Set `extensionPath` for compiled extensions to `~/.termcast/compiled/{name}/`
 - Validate repo name matches package.json name in release command
 - Fix Windows archive naming (use `.zip` not `.exe.zip`)
+- Fix `getPreferenceValues()` not working at module scope in compiled extensions
+- Fix preferences form not loading for compiled extensions
 
 ## 1.3.27
 

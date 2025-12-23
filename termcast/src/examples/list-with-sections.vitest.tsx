@@ -94,8 +94,8 @@ test('list with sections navigation', async () => {
 
      Fruits                                                          ▲
      Apple Red and sweet                            Fresh [Popular]  ▀
-    ›Banana Yellow and nutritious                              Ripe
-     Orange Citrus and juicy                                  Fresh
+     Banana Yellow and nutritious                              Ripe
+    ›Orange Citrus and juicy                                  Fresh
      Grape Sweet clusters                                [Seasonal]
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
@@ -104,7 +104,7 @@ test('list with sections navigation', async () => {
      Vegetables                                                      ▼
 
 
-     ↵ view details  ↑↓ navigate  ^k actions"
+       ↑↓ navigate  ^k actions"
   `)
 
   // Verify footer doesn't show action when item has no actions (Orange has no actions)
@@ -308,20 +308,20 @@ test('list with sections search functionality', async () => {
 
 
 
+    Banana
+
+    A yellow tropical fruit that's nutritious and energy-rich.
+
+    Benefits
+    - High in potassium
+    - Natural energy booster
+    - Aids digestion
 
 
 
 
 
-
-
-
-
-
-
-
-
-    esc go back"
+     esc go back"
   `)
 }, 10000)
 

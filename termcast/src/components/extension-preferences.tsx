@@ -52,9 +52,12 @@ export function ExtensionPreferences({
 
         let packageJson: RaycastPackageJson
 
-        if (extensionPath && extensionPackageJson?.name === extensionName) {
-          // Dev mode - use package.json from state or read from extensionPath
+        if (extensionPackageJson?.name === extensionName) {
+          // Dev mode or compiled extension - use package.json from state
           packageJson = extensionPackageJson
+        } else if (extensionPath && fs.existsSync(path.join(extensionPath, 'package.json'))) {
+          // Dev mode with extensionPath - read from disk
+          packageJson = JSON.parse(fs.readFileSync(path.join(extensionPath, 'package.json'), 'utf-8'))
         } else {
           // Store extension - read from store directory
           const storeDir = getStoreDirectory()

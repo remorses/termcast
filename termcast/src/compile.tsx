@@ -52,6 +52,20 @@ export function generateEntryCode({
 
   return `
 async function main() {
+  // Set state BEFORE importing commands so module-scope code (e.g. getPreferenceValues) can access extensionPackageJson
+  const { useStore } = await import('termcast');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  
+  const packageJson = ${JSON.stringify(packageJson)};
+  const compiledExtensionPath = path.join(os.homedir(), '.termcast', 'compiled', packageJson.name);
+  
+  useStore.setState({
+    extensionPath: compiledExtensionPath,
+    extensionPackageJson: packageJson,
+  });
+
+  // Now import commands - module-scope code can access state
 ${commandImports}
 
   const compiledCommands = [
@@ -61,7 +75,7 @@ ${commandsArray}
   const { startCompiledExtension } = await import('termcast/src/extensions/dev');
 
   await startCompiledExtension({
-    packageJson: ${JSON.stringify(packageJson)},
+    packageJson,
     compiledCommands,
     skipArgv: 0,
   });
