@@ -99,6 +99,7 @@ export interface RunCommandOptions {
   bundledPath?: string
   Component?: (props: LaunchProps) => any
   push: (element: React.ReactNode) => void
+  replace?: (element: React.ReactNode) => void
 }
 
 export async function runCommand(options: RunCommandOptions): Promise<void> {
@@ -109,6 +110,7 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
     bundledPath,
     Component: BuiltInComponent,
     push,
+    replace,
   } = options
 
   // Check if command has required preferences that are missing
@@ -120,8 +122,8 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
   })
 
   if (!prefsCheck.hasRequiredPreferences) {
-    // TODO: Use replace instead of push to avoid stacking navigation
     // Redirect to preferences with onSubmit to run command after
+    // Use replace in onSubmit so the command replaces the preferences screen
     push(
       <ExtensionPreferences
         extensionName={extensionName}
@@ -131,7 +133,7 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
             : undefined
         }
         onSubmit={() => {
-          runCommand(options)
+          runCommand({ ...options, push: replace || push })
         }}
       />,
     )
@@ -144,13 +146,14 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
   const needsArguments = commandArgs.length > 0 && !currentArgs
 
   if (needsArguments) {
+    // Use replace in onSubmit so the command replaces the arguments screen
     push(
       <CommandArguments
         arguments={commandArgs}
         commandTitle={command.title}
         onSubmit={(args) => {
           useStore.setState({ currentCommandArguments: args })
-          runCommand(options)
+          runCommand({ ...options, push: replace || push })
         }}
       />,
     )

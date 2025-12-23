@@ -45,13 +45,11 @@ function ExtensionsList({
   allCommands: ExtensionCommand[]
   initialSearchQuery?: string
 }): any {
-  const { push } = useNavigation()
+  const { push, replace } = useNavigation()
   const [searchText, setSearchText] = React.useState(initialSearchQuery)
 
   const handleCommandSelect = async (item: ExtensionCommand) => {
     clearCommandArguments()
-
-
 
     try {
       await runCommand({
@@ -61,6 +59,7 @@ function ExtensionsList({
         bundledPath: item.bundledPath,
         Component: item.Component,
         push,
+        replace,
       })
     } catch (error: any) {
       await showToast({

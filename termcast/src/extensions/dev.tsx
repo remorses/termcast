@@ -57,6 +57,7 @@ function ExtensionCommandsList({
         bundledPath: command.bundledPath,
         Component: command.Component,
         push: useReplace ? replace : push,
+        replace,
       })
     } catch (error: any) {
       await showToast({
