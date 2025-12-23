@@ -230,7 +230,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  **********
+    │  ****************
     │  Must be at least 8 characters
     │┌──────────────────────────────────────────────────────────────────
     ◆│
@@ -288,7 +288,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  **********
+    │  ****************
     │  Must be at least 8 characters
     │
     ◆  Biography
