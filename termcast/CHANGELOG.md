@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.28
+
+### Patch Changes
+
+- Set `extensionPath` for compiled extensions to `~/.termcast/compiled/{name}/`
+- Validate repo name matches package.json name in release command
+- Fix Windows archive naming (use `.zip` not `.exe.zip`)
+
 ## 1.3.27
 
 ### Patch Changes

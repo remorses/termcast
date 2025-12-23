@@ -33,6 +33,18 @@ export async function releaseExtension({
     throw new Error(`Extension path does not exist: ${resolvedPath}`)
   }
 
+  // Read package.json to get extension name
+  const packageJsonPath = path.join(resolvedPath, 'package.json')
+  if (!fs.existsSync(packageJsonPath)) {
+    throw new Error(`package.json not found at ${packageJsonPath}`)
+  }
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
+  const extensionName = packageJson.name
+
+  if (!extensionName) {
+    throw new Error(`package.json must have a "name" field`)
+  }
+
   // Get repo name from git remote
   let repoName: string
   try {
@@ -50,6 +62,16 @@ export async function releaseExtension({
     repoName = match[1].replace(/\.git$/, '')
   } catch (error: any) {
     throw new Error(`Failed to get git remote: ${error.message}`)
+  }
+
+  // Validate that repo name matches package.json name
+  // This ensures the install script and runtime use the same directory
+  if (repoName !== extensionName) {
+    throw new Error(
+      `Repository name "${repoName}" does not match package.json name "${extensionName}".\n` +
+      `These must match for the install script and runtime to use the same directory.\n` +
+      `Either rename your repository or update the "name" field in package.json.`
+    )
   }
 
   // Generate date-based tag with hour and minute
@@ -105,7 +127,7 @@ export async function releaseExtension({
       console.log(`  ✓ ${path.basename(result.outfile)}`)
 
       const archiveExt = getArchiveExtension(target)
-      const archiveName = `${repoName}-${suffix}${archiveExt}`
+      const archiveName = `${repoName}-${suffix.replace(/\.exe$/, '')}${archiveExt}`
       const archivePath = path.join(outputDir, archiveName)
 
       if (archiveExt === '.tar.gz') {

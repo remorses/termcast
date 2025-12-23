@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import os from 'node:os'
 import React from 'react'
 import { createRoot } from '@opentui/react'
 import { createCliRenderer } from '@opentui/core'
@@ -263,9 +264,13 @@ export async function startCompiledExtension({
     skipArgv,
   })
 
+  // For compiled extensions, use ~/.termcast/compiled/{name} as extensionPath
+  // This is where data.db and cache will be stored
+  const compiledExtensionPath = path.join(os.homedir(), '.termcast', 'compiled', packageJson.name)
+
   useStore.setState({
     ...useStore.getInitialState(),
-    extensionPath: '', // No filesystem path for compiled extensions
+    extensionPath: compiledExtensionPath,
     extensionPackageJson: packageJson,
     devElement: (
       <ExtensionCommandsList packageJson={packageJson} commands={commands} skipArgv={skipArgv} />

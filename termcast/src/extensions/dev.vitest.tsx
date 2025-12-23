@@ -35,10 +35,11 @@ test('dev command shows extension commands list', async () => {
      Search commands...
 
      Commands                                              ▲
-    ›List Items Displays a simple list with some ite view  ▀
+    ›List Items Displays a simple list with some ite view  █
      Search Items Search and filter through a list o view
      Google Oauth                                    view
-     usePromise Demo Shows how to use the usePromise view  ▼
+     usePromise Demo Shows how to use the usePromise view
+     Show State Shows the current application state  view  ▼
 
 
      ↵ run command  ↑↓ navigate  ^k actions"
@@ -67,10 +68,11 @@ test('selecting command with arguments shows arguments form', async () => {
 
      Search commands...
 
-     usePromise Demo Shows how to use the usePromise view  ▲
+     Google Oauth                                    view  ▲
+     usePromise Demo Shows how to use the usePromise view
      Show State Shows the current application state  view
     ›With Arguments Demonstrates command arguments ( view
-     Quick Action Copies current timestamp to cli no-view  ▄
+     Quick Action Copies current timestamp to cli no-view  █
                                                            ▼
 
 
@@ -208,13 +210,12 @@ test('can run simple view command without arguments', async () => {
      Items                                                 ▲
     ›▲ First Item This is the first item                   █
      ▲ Second Item This is the second item                 █
-     ▲ Third Item This is the third item                   ▀
+     ▲ Third Item This is the third item
      ▲ Fourth Item This is the fourth item
      ▲ Fifth Item This is the fifth item                   ▼
-                    ┌───────────────────────┐
-                    │ ✓ Copied to Clipboard │
-                    │   First Item          │
-                    └───────────────────────┘"
+
+
+     ↵ copy item title  ↑↓ navigate  ^k actions"
   `)
 }, 30000)
 

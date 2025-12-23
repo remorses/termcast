@@ -17,17 +17,21 @@ export interface NavigationStackItem {
 interface AppState {
   toast: ReactNode | null
   dialogStack: DialogStackItem[]
-  // Navigation state
   navigationStack: NavigationStackItem[]
   // Dev mode state
   devElement: ReactNode | null
+  // used to bust cache in bun after imports. incremented on each file change
   devRebuildCount: number
   // Extension and command state
+  // TODO this should always be available. for compiled extensions it should be homedir/.termcast/extension-name
+  // there we should put data, cache, etc. the logic should be same exact as dev command extensions. simply changes the extension path
+  // in this same folder we should also put the binary executable, which will be added in PATH. inside a bin folder
   extensionPath: string | null
+  // TODO extensionPackageJson should be always defined. even for dev extensions or compiled extensions.
+  // it is ok to fail in functions that need it. if examples without package.json need to use this field we should move them to actual extensions inside fixtures then
   extensionPackageJson: RaycastPackageJson | null
   currentCommandName: string | null
   currentCommandArguments: Record<string, string> | null
-  // OAuth state
   googleAccessToken?: string
   googleIdToken?: string
   // Actions state - when true, auto-execute first action instead of showing sheet

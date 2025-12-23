@@ -1,6 +1,5 @@
 import { Database } from 'bun:sqlite'
 import * as path from 'path'
-import * as os from 'os'
 import * as fs from 'fs'
 import { logger } from '../logger'
 import { useStore } from '../state'
@@ -9,22 +8,13 @@ let db: Database | null = null
 let currentDbPath: string | null = null
 
 function getCurrentDatabasePath(): string {
-  const { extensionPath, extensionPackageJson } = useStore.getState()
+  const { extensionPath } = useStore.getState()
 
-  // For filesystem-based extensions (dev mode, store mode), use the extension directory
-  if (extensionPath) {
-    return path.join(extensionPath, '.termcast-bundle', 'data.db')
+  if (!extensionPath) {
+    throw new Error('Cannot access LocalStorage - extensionPath not set')
   }
 
-  // For compiled extensions, use a directory in user's home based on extension name
-  if (extensionPackageJson?.name) {
-    const homeDir = os.homedir()
-    return path.join(homeDir, '.termcast', 'compiled', extensionPackageJson.name, 'data.db')
-  }
-
-  throw new Error(
-    'Cannot access LocalStorage - extension not initialized (no extensionPath or extensionPackageJson)',
-  )
+  return path.join(extensionPath, '.termcast-bundle', 'data.db')
 }
 
 function getDatabase(): Database {

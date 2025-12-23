@@ -7,7 +7,7 @@ export async function generateInstallScript(
   githubRepo: string,
 ): Promise<string> {
   const binaryName = githubRepo.split('/')[1]
-  const installDirName = `.${binaryName}`
+  const installDirName = `.termcast/compiled/${binaryName}`
   const logo = await font.text(binaryName)
   const logoLines = logo.split('\n')
   const docsUrl = `https://github.com/${githubRepo}`
@@ -238,8 +238,9 @@ download_and_install() {
         unzip -q "$filename"
     fi
 
-    mv "${binaryName}-$target" "$INSTALL_DIR/${binaryName}"
-    chmod 755 "\${INSTALL_DIR}/${binaryName}"
+    local ext=""; [ "$os" = "windows" ] && ext=".exe"
+    mv "${binaryName}-$target$ext" "$INSTALL_DIR/${binaryName}$ext"
+    chmod 755 "\${INSTALL_DIR}/${binaryName}$ext"
     cd .. && rm -rf ${binaryName}tmp
 }
 
