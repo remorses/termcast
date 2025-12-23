@@ -33,11 +33,11 @@ function ExtensionCommandsList({
   commands: BundledCommand[]
   skipArgv?: number
 }): any {
-  const { push } = useNavigation()
+  const { push, replace } = useNavigation()
 
   const visibleCommands = commands.filter((cmd) => cmd.mode !== 'menu-bar')
 
-  const handleCommandSelect = async (command: BundledCommand) => {
+  const handleCommandSelect = async (command: BundledCommand, useReplace = false) => {
     clearCommandArguments()
 
     if (!command.bundledPath && !command.Component) {
@@ -56,7 +56,7 @@ function ExtensionCommandsList({
         packageJson,
         bundledPath: command.bundledPath,
         Component: command.Component,
-        push,
+        push: useReplace ? replace : push,
       })
     } catch (error: any) {
       await showToast({
@@ -76,7 +76,8 @@ function ExtensionCommandsList({
       if (commandName) {
         const command = visibleCommands.find((cmd) => cmd.name === commandName)
         if (command) {
-          handleCommandSelect(command)
+          // Use replace so ESC at root exits instead of going back to command list
+          handleCommandSelect(command, true)
         } else {
           showToast({
             style: Toast.Style.Failure,
@@ -89,7 +90,8 @@ function ExtensionCommandsList({
     }
 
     if (visibleCommands.length === 1) {
-      handleCommandSelect(visibleCommands[0])
+      // Use replace so ESC at root exits instead of going back to command list
+      handleCommandSelect(visibleCommands[0], true)
     }
   }, [])
 

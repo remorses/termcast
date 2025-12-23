@@ -16,6 +16,7 @@ import { logger } from '../logger'
 
 interface Navigation {
   push: (element: ReactNode, onPop?: () => void) => void
+  replace: (element: ReactNode, onPop?: () => void) => void
   pop: () => void
   popToRoot: () => void
 }
@@ -67,6 +68,30 @@ export function NavigationProvider(props: NavigationProviderProps): any {
     })
   }, [])
 
+  const replace = useCallback((element: any, onPop?: () => void) => {
+    if (!element) {
+      throw new Error(`cannot replace with falsy value ${element}`)
+    }
+
+    logger.log(
+      'replacing',
+      (element as any)?.type?.name || (element as any)?.type,
+    )
+
+    const currentStack = useStore.getState().navigationStack
+    const newStack =
+      currentStack.length > 0
+        ? [...currentStack.slice(0, -1), { element, onPop }]
+        : [{ element, onPop }]
+
+    startNavigationTransition(() => {
+      useStore.setState({
+        navigationStack: newStack,
+        dialogStack: [],
+      })
+    })
+  }, [])
+
   const pop = useCallback(() => {
     const currentStack = useStore.getState().navigationStack
     if (currentStack.length <= 1) return
@@ -101,10 +126,11 @@ export function NavigationProvider(props: NavigationProviderProps): any {
   const navigation = React.useMemo(
     () => ({
       push,
+      replace,
       pop,
       popToRoot,
     }),
-    [push, pop, popToRoot],
+    [push, replace, pop, popToRoot],
   )
 
   const value = React.useMemo(
