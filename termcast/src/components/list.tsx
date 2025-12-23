@@ -76,20 +76,20 @@ function ListFooter(): any {
     <>
       {firstActionTitle && (
         <>
-          <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+          <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
             ↵
           </text>
-          <text fg={Theme.textMuted}> {firstActionTitle.toLowerCase()}</text>
+          <text flexShrink={0} fg={Theme.textMuted}> {firstActionTitle.toLowerCase()}</text>
         </>
       )}
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+      <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
         {'  '}↑↓
       </text>
-      <text fg={Theme.textMuted}> navigate</text>
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+      <text flexShrink={0} fg={Theme.textMuted}> navigate</text>
+      <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
         {'  '}^k
       </text>
-      <text fg={Theme.textMuted}> actions</text>
+      <text flexShrink={0} fg={Theme.textMuted}> actions</text>
     </>
   )
 
@@ -472,8 +472,8 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 justifyContent: 'space-between',
               }}
             >
-              <text attributes={TextAttributes.BOLD}>{props.tooltip}</text>
-              <text fg={Theme.textMuted}>esc</text>
+              <text flexShrink={0} attributes={TextAttributes.BOLD}>{props.tooltip}</text>
+              <text flexShrink={0} fg={Theme.textMuted}>esc</text>
             </box>
             <box style={{ paddingTop: 1, paddingBottom: 1 }}>
               <textarea
@@ -518,7 +518,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
           </box>
           {props.isLoading && (
             <box style={{ paddingLeft: 1 }}>
-              <text fg={Theme.textMuted}>Loading...</text>
+              <text flexShrink={0} fg={Theme.textMuted}>Loading...</text>
             </box>
           )}
         </box>
@@ -534,14 +534,14 @@ function DropdownFooter(): any {
 
   const content = hasToast ? null : (
     <>
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+      <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
         ↵
       </text>
-      <text fg={Theme.textMuted}> select</text>
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+      <text flexShrink={0} fg={Theme.textMuted}> select</text>
+      <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
         {'   '}↑↓
       </text>
-      <text fg={Theme.textMuted}> navigate</text>
+      <text flexShrink={0} fg={Theme.textMuted}> navigate</text>
     </>
   )
 
@@ -592,6 +592,7 @@ function ListItemRow(props: {
           accessoryElements.push(
             <text
               key={`text-${textValue}`}
+              flexShrink={0}
               fg={active ? Theme.background : resolveColor(textColor) || Theme.info}
               wrapMode="none"
             >
@@ -611,6 +612,7 @@ function ListItemRow(props: {
           accessoryElements.push(
             <text
               key={`tag-${tagValue}`}
+              flexShrink={0}
               fg={active ? Theme.background : resolveColor(tagColor) || Theme.warning}
               wrapMode="none"
             >
@@ -633,6 +635,7 @@ function ListItemRow(props: {
           accessoryElements.push(
             <text
               key={`date-${dateValue.getTime()}`}
+              flexShrink={0}
               fg={active ? Theme.background : resolveColor(dateColor) || Theme.success}
               wrapMode="none"
             >
@@ -670,9 +673,10 @@ function ListItemRow(props: {
     >
       <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1, overflow: 'hidden', gap: 1 }}>
         <box style={{ flexDirection: 'row', flexShrink: 0 }}>
-          <text fg={active ? Theme.background : Theme.text} attributes={active ? TextAttributes.BOLD : undefined} selectable={false} wrapMode="none">{active ? '›' : ' '}</text>
-          {icon && <text fg={active ? Theme.background : iconColor || Theme.text} selectable={false} wrapMode="none">{getIconEmoji(icon)} </text>}
+          <text flexShrink={0} fg={active ? Theme.background : Theme.text} attributes={active ? TextAttributes.BOLD : undefined} selectable={false} wrapMode="none">{active ? '›' : ' '}</text>
+          {icon && <text flexShrink={0} fg={active ? Theme.background : iconColor || Theme.text} selectable={false} wrapMode="none">{getIconEmoji(icon)} </text>}
           <text
+            flexShrink={0}
             fg={active ? Theme.background : Theme.text}
             attributes={active ? TextAttributes.BOLD : undefined}
             selectable={false}
@@ -683,6 +687,7 @@ function ListItemRow(props: {
         </box>
         {subtitle && (
           <text
+            flexShrink={0}
             fg={active ? Theme.background : Theme.textMuted}
             selectable={false}
             wrapMode="none"
@@ -695,7 +700,7 @@ function ListItemRow(props: {
         <box style={{ flexDirection: 'row', flexShrink: 0 }}>
           {accessoryElements.map((elem, i) => (
             <box key={i} style={{ flexDirection: 'row' }}>
-              {i > 0 && <text> </text>}
+              {i > 0 && <text flexShrink={0}> </text>}
               {elem}
             </box>
           ))}
@@ -1221,7 +1226,7 @@ const ListItemDetail: ListItemDetailType = (props) => {
     <box style={{ flexDirection: 'column', flexGrow: 1 }}>
       {isLoading && (
         <box style={{ paddingBottom: 1 }}>
-          <text fg={Theme.textMuted}>Loading...</text>
+          <text flexShrink={0} fg={Theme.textMuted}>Loading...</text>
         </box>
       )}
 
@@ -1271,8 +1276,8 @@ const ListItemDetailMetadata = (props: MetadataProps) => {
 const ListItemDetailMetadataLabel = (props: { title: string; text?: string; icon?: Image.ImageLike }) => {
   return (
     <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
-      <text fg={Theme.textMuted}>{props.title}:</text>
-      {props.text && <text fg={Theme.text}>{props.text}</text>}
+      <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
+      {props.text && <text flexShrink={0} fg={Theme.text}>{props.text}</text>}
     </box>
   )
 }
@@ -1280,7 +1285,7 @@ const ListItemDetailMetadataLabel = (props: { title: string; text?: string; icon
 const ListItemDetailMetadataSeparator = () => {
   return (
     <box style={{ paddingBottom: 0.5 }}>
-      <text fg={Theme.border}>─────────────────</text>
+      <text flexShrink={0} fg={Theme.border}>─────────────────</text>
     </box>
   )
 }
@@ -1288,8 +1293,8 @@ const ListItemDetailMetadataSeparator = () => {
 const ListItemDetailMetadataLink = (props: { title: string; target: string; text: string }) => {
   return (
     <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
-      <text fg={Theme.textMuted}>{props.title}:</text>
-      <text fg={Theme.link}>{props.text}</text>
+      <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
+      <text flexShrink={0} fg={Theme.link}>{props.text}</text>
     </box>
   )
 }
@@ -1297,7 +1302,7 @@ const ListItemDetailMetadataLink = (props: { title: string; target: string; text
 const ListItemDetailMetadataTagList = (props: { title: string; children: ReactNode }) => {
   return (
     <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
-      <text fg={Theme.textMuted}>{props.title}:</text>
+      <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
       <box style={{ flexDirection: 'row', paddingLeft: 1 }}>
         {props.children}
       </box>
@@ -1308,7 +1313,7 @@ const ListItemDetailMetadataTagList = (props: { title: string; children: ReactNo
 const ListItemDetailMetadataTagListItem = (props: { text?: string; color?: Color.ColorLike; icon?: Image.ImageLike; onAction?: () => void }) => {
   return (
     <box style={{ paddingRight: 1 }}>
-      <text fg={resolveColor(props.color) || Theme.accent}>[{props.text}]</text>
+      <text flexShrink={0} fg={resolveColor(props.color) || Theme.accent}>[{props.text}]</text>
     </box>
   )
 }
@@ -1455,12 +1460,14 @@ const ListDropdown: ListDropdownType = (props) => {
         >
           {/*<text >^p </text>*/}
           <text
+            flexShrink={0}
             fg={isHovered ? Theme.text : Theme.textMuted}
             selectable={false}
           >
             {displayValue}
           </text>
           <text
+            flexShrink={0}
             fg={isHovered ? Theme.text : Theme.textMuted}
             selectable={false}
           >
@@ -1552,11 +1559,12 @@ ListDropdown.Item = (props) => {
       >
         <box style={{ flexDirection: 'row' }}>
           {isActive && (
-            <text fg={Theme.background} selectable={false}>
+            <text flexShrink={0} fg={Theme.background} selectable={false}>
               ›{''}
             </text>
           )}
           <text
+            flexShrink={0}
             fg={
               isActive
                 ? Theme.background
@@ -1605,7 +1613,7 @@ ListDropdown.Section = (props) => {
       {/* Render section title if we're in the dialog and not searching */}
       {showTitle && (
         <box style={{ paddingTop: 1, paddingLeft: 1 }}>
-          <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
+          <text flexShrink={0} fg={Theme.accent} attributes={TextAttributes.BOLD}>
             {props.title}
           </text>
         </box>
@@ -1659,7 +1667,7 @@ const ListSection = (props: SectionProps) => {
             paddingLeft: 1,
           }}
         >
-          <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
+          <text flexShrink={0} fg={Theme.accent} attributes={TextAttributes.BOLD}>
             {props.title}
           </text>
         </box>
@@ -1724,17 +1732,17 @@ List.EmptyView = (props: EmptyViewProps) => {
       }}
     >
       {iconEmoji && (
-        <text fg={Theme.textMuted} style={{ marginBottom: 1 }}>
+        <text flexShrink={0} fg={Theme.textMuted} style={{ marginBottom: 1 }}>
           {iconEmoji}
         </text>
       )}
       {props.title && (
-        <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
           {props.title?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
         </text>
       )}
       {props.description && (
-        <text fg={Theme.textMuted} wrapMode='word'>
+        <text flexShrink={0} fg={Theme.textMuted} wrapMode='word'>
           {props.description?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
         </text>
       )}
