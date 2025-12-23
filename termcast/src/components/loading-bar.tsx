@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import { BoxRenderable } from '@opentui/core'
-import {} from '@opentui/react'
 import { Theme } from 'termcast/src/theme'
-import { logger } from 'termcast/src/logger'
+import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
 
 interface LoadingBarProps {
   title: string
@@ -12,12 +11,11 @@ interface LoadingBarProps {
 
 export function LoadingBar(props: LoadingBarProps): any {
   let { title, isLoading = false, barLength: propBarLength } = props
-  const [position, setPosition] = useState(0)
   const [calculatedBarLength, setCalculatedBarLength] = useState(
     propBarLength || 0,
   )
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<BoxRenderable>(null)
+  const tick = useAnimationTick(isLoading ? TICK_DIVISORS.LOADING_BAR : 0)
 
   // Calculate bar length based on container width
   useLayoutEffect(() => {
@@ -73,26 +71,8 @@ export function LoadingBar(props: LoadingBarProps): any {
   ]
 
   const waveWidth = waveColors.length
-
-  useEffect(() => {
-    if (isLoading) {
-      intervalRef.current = setInterval(() => {
-        setPosition((prev) => (prev + 1) % (characters.length + waveWidth))
-      }, 10)
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-        intervalRef.current = null
-      }
-      setPosition(0)
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-      }
-    }
-  }, [isLoading, characters.length, waveWidth])
+  const totalAnimLength = characters.length + waveWidth
+  const position = isLoading ? tick % totalAnimLength : 0
 
   // Calculate color for each character
   const getCharacterColor = (index: number): string => {

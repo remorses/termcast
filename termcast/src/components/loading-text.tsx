@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import { colord } from 'colord'
+import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
 
 interface LoadingTextProps {
   children: string
@@ -21,8 +22,7 @@ function generateWaveColors(baseColor: string): string[] {
 
 export function LoadingText(props: LoadingTextProps): any {
   const { children, isLoading = false, color = '#FFC000' } = props
-  const [position, setPosition] = useState(0)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const tick = useAnimationTick(isLoading ? TICK_DIVISORS.LOADING_TEXT : 0)
 
   const characters = children.split('')
   const waveColors = generateWaveColors(color)
@@ -30,26 +30,7 @@ export function LoadingText(props: LoadingTextProps): any {
   // Add padding at the end to create a delay before the next loop
   const endPadding = 10
   const totalLength = characters.length + waveWidth + endPadding
-
-  useEffect(() => {
-    if (isLoading) {
-      intervalRef.current = setInterval(() => {
-        setPosition((prev) => (prev + 1) % totalLength)
-      }, 30)
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-        intervalRef.current = null
-      }
-      setPosition(0)
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-      }
-    }
-  }, [isLoading, totalLength])
+  const position = isLoading ? tick % totalLength : 0
 
   const getCharacterColor = (index: number): string => {
     if (!isLoading) {

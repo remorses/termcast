@@ -1,7 +1,7 @@
 import React from 'react'
-import { TextAttributes } from '@opentui/core'
 import { Theme } from 'termcast/src/theme'
 import { colord } from 'colord'
+import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
 
 const spinnerFrames = [
   { char: ' ', color: Theme.accent },
@@ -11,18 +11,8 @@ const spinnerFrames = [
 ]
 
 function Spinner(): any {
-  const [index, setIndex] = React.useState(0)
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((i) => (i + 1) % spinnerFrames.length)
-    }, 200)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
-
-  const frame = spinnerFrames[index]
+  const tick = useAnimationTick(TICK_DIVISORS.SPINNER)
+  const frame = spinnerFrames[tick % spinnerFrames.length]
   return (
     <text flexShrink={0} fg={frame.color}>
       <b>{frame.char}</b>
