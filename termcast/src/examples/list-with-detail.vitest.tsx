@@ -59,7 +59,7 @@ test('list with detail view display and navigation', async () => {
                                           │ Grass:
                                           │ ─────────────────
                                           │                                   ▼
-     ↵toggle detail ↑↓ navigate ^kactions"
+     ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -97,7 +97,7 @@ test('list with detail view display and navigation', async () => {
                                           │ Grass:
                                           │ ─────────────────
                                           │                                   ▼
-     ↵toggle detail ↑↓ navigate ^kactions"
+     ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -133,7 +133,7 @@ test('list with detail view display and navigation', async () => {
                                           │ Fire:
                                           │ ─────────────────
                                           │                                   ▼
-     ↵toggle detail ↑↓ navigate ^kactions"
+     ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 
   await session.press(['ctrl', 'k'])
@@ -250,7 +250,7 @@ test('list with detail view display and navigation', async () => {
                                           │ Fire:
                                           │ ─────────────────
                                           │                                   ▼
-     ↵toggle detail ↑↓ navigate ^kactions"
+     ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 }, 15000)
 
@@ -298,7 +298,7 @@ test('list detail view search functionality', async () => {
                                           │ Fire:
                                           │ ─────────────────
                                           │                                   ▼
-     ↵toggle detail ↑↓ navigate ^kactions"
+     ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('backspace')
@@ -343,7 +343,7 @@ test('list detail view search functionality', async () => {
                                          │ Water:
                                          │ ─────────────────
                                          │                                   ▼
-    ↵toggle detail ↑↓ navigate ^kactions"
+    ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -379,7 +379,7 @@ test('list detail view search functionality', async () => {
                                          │ Water:
                                          │ ─────────────────
                                          │                                   ▼
-    ↵toggle detail ↑↓ navigate ^kactions"
+    ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 
@@ -427,7 +427,7 @@ test('list detail metadata rendering', async () => {
                                           │ Grass:
                                           │ ─────────────────
                                           │                                   ▼
-     ↵toggle detail ↑↓ navigate ^kactions"
+     ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -470,7 +470,7 @@ test('list detail metadata rendering', async () => {
                                           │ Water:
                                           │ ─────────────────
                                           │                                   ▼
-     ↵toggle detail ↑↓ navigate ^kactions"
+     ↵ toggle detail  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
 

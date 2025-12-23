@@ -161,13 +161,11 @@ test('list with sections search functionality', async () => {
     "
 
 
-     Simple List Example ────────────────────────────────────────────
+    Simple List Example ────────────────────────────────────────────
 
-     ban
+    ban
 
-    ›Banana Yellow and nutritious                               Ripe
-
-
+    Banana Yellow and nutritious                               Ripe
 
 
 
@@ -177,7 +175,9 @@ test('list with sections search functionality', async () => {
 
 
 
-     ↵ view details  ↑↓ navigate  ^k actions"
+
+
+    ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search and type "let" to search for Lettuce
@@ -513,7 +513,6 @@ test('filtering selects first visible item and navigation works', async () => {
       return /ora/.test(text) && /Orange/.test(text)
     },
   })
-  // TODO: first visible item should be selected immediately, pending flushSync support
   expect(afterFilterSnapshot).toMatchInlineSnapshot(`
     "
 
