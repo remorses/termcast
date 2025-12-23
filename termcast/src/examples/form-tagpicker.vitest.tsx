@@ -594,6 +594,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 15000)
@@ -622,13 +623,13 @@ test('form tagpicker with default value', async () => {
 
 
 
-    ■  TagPicker Component Demo
+    ▪  TagPicker Component Demo
     │  Test tag picker with multiple selection support
     │
-    ◇  Favorite Sport
+    ◆  Favorite Sport
     │  Choose your favorite sport...
     │
-    │  ○ Basketball
+    │› ○ Basketball
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
@@ -682,9 +683,9 @@ test('form tagpicker with default value', async () => {
     │  Test tag picker with multiple selection support
     │
     ◆  Favorite Sport
-    │  Choose your favorite sport...
+    │  Basketball
     │
-    │› ○ Basketball
+    │› ● Basketball
     │  ○ Football
     │  ○ Tennis
     │  ○ Baseball
@@ -767,6 +768,7 @@ test('form tagpicker with default value', async () => {
     │  }
     │
     └
+
 
 
 

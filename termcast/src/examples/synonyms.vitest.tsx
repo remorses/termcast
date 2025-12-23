@@ -42,7 +42,7 @@ test('synonyms extension shows preferences form on first launch', async () => {
     "
 
 
-    ▀  LLM Provider
+    ◇  LLM Provider                                                      ▀
     │  Select...
     │
     │  ○ Raycast AI

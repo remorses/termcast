@@ -230,28 +230,28 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  **********
+    │  ****************
     │  Must be at least 8 characters
-    │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    ◆┃
-    │┃                                                            esc
-    │┃
-    │┃   Search actions...
-    │┃
-    │┃  ›Submit Form                                         ⌃RETURN
-    │┃
-    │┃
-    ◇┃
-    │┃
-    │┃
-    │┃
-    │┃
-    ◇┃
-    │┃
-    │┃
-    │┃   ↵ select   ↑↓ navigate
-    │┃
-    │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │┌──────────────────────────────────────────────────────────────────
+    ◆│
+    ││                                                            esc
+    ││
+    ││   Search actions...
+    ││
+    ││  ›Submit Form                                         ⌃RETURN
+    ││
+    ││
+    ◇│
+    ││
+    ││
+    ││
+    ││
+    ◇│
+    ││
+    ││
+    ││   ↵ select   ↑↓ navigate
+    ││
+    │└──────────────────────────────────────────────────────────────────
     │  ○ Mexico
     │  Europe
     │
@@ -288,7 +288,7 @@ test('password field always shows asterisks and submits real value', async () =>
     │  Required field
     │
     ◇  Password
-    │  **********
+    │  ****************
     │  Must be at least 8 characters
     │
     ◆  Biography

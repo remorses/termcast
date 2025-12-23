@@ -150,26 +150,26 @@ test('list with detail view display and navigation', async () => {
      bulbasaur #001
      ivysaur #002                         │ charmander                        ▲
     ›charmander #004                      │                                   █
-     c┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-     s┃                                                                          ┃
-     w┃                                                                    esc   ┃
-      ┃                                                                          ┃
-      ┃   Search actions...                                                      ┃
-      ┃                                                                          ┃
-      ┃  ›Toggle Detail                                                          ┃
-      ┃   View on Pokemon.com                                                    ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃                                                                          ┃
-      ┃   ↵ select   ↑↓ navigate                                                 ┃
-      ┃                                                                          ┃
-     ↵━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+     c┌──────────────────────────────────────────────────────────────────────────┐
+     s│                                                                          │
+     w│                                                                    esc   │
+      │                                                                          │
+      │   Search actions...                                                      │
+      │                                                                          │
+      │  ›Toggle Detail                                                          │
+      │   View on Pokemon.com                                                    │
+      │                                                                          │
+      │                                                                          │
+      │                                                                          │
+      │                                                                          │
+      │                                                                          │
+      │                                                                          │
+      │                                                                          │
+      │                                                                          │
+      │                                                                          │
+      │   ↵ select   ↑↓ navigate                                                 │
+      │                                                                          │
+     ↵└──────────────────────────────────────────────────────────────────────────┘"
   `)
 
   await session.press('enter')
@@ -272,33 +272,33 @@ test('list detail view search functionality', async () => {
     "
 
 
-    Pokemon List ─────────────────────────────────────────────────────────────
+     Pokemon List ─────────────────────────────────────────────────────────────
 
-    char
+     char
 
-    charmander #004
-    charmeleon #005                      │                                   ▲
-                                         │ ───────────────────────────────── █
-                                         │                                   █
-                                         │ Types:
-                                         │
-                                         │ Grass:
-                                         │ ─────────────────
-                                         │
-                                         │ Poison:
-                                         │ ─────────────────
-                                         │
-                                         │ Characteristics:
-                                         │ Height:
-                                         │ 0.7m
-                                         │
-                                         │ ─────────────────
-                                         │ Weight:
-                                         │ 6.9kg
-                                         │
-                                         │ ─────────────────
-                                         │ Abilities:                        ▼
-    ↵toggle detail ↑↓ navigate ^kactions"
+    ›charmander #004
+     charmeleon #005                      │                                   ▲
+                                          │ ───────────────────────────────── █
+                                          │                                   █
+                                          │ Types:                            █
+                                          │                                   ▀
+                                          │ Fire:
+                                          │ ─────────────────
+                                          │
+                                          │ Characteristics:
+                                          │ Height:
+                                          │ 0.6m
+                                          │
+                                          │ ─────────────────
+                                          │ Weight:
+                                          │ 8.5kg
+                                          │
+                                          │ ─────────────────
+                                          │ Abilities:
+                                          │
+                                          │ Blaze:
+                                          │ Main Series                       ▼
+     ↵toggle detail ↑↓ navigate ^kactions"
   `)
 
   await session.press('backspace')

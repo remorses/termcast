@@ -413,19 +413,19 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-     ┃   Search actions...
-     ┃
-     ┃  ›View Details
-     ┃   Add to Cart
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃"
+    ›┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+     │   Search actions...
+     │
+     │  ›View Details
+     │   Add to Cart
+     │
+     │
+     │
+     │
+     │"
   `)
 
   // Navigate down to second action
@@ -441,19 +441,19 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-     ┃   Search actions...
-     ┃
-     ┃   View Details
-     ┃  ›Add to Cart
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃"
+    ›┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+     │   Search actions...
+     │
+     │   View Details
+     │  ›Add to Cart
+     │
+     │
+     │
+     │
+     │"
   `)
 
   // Trigger the second action (Add to Cart)

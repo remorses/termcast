@@ -137,23 +137,23 @@ test('grid navigation and display', async () => {
 
      Fruits                                                          ▲
         Apple                                                        ▀
-     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-    ›┃   Search actions...
-     ┃
-     ┃  ›Show Details
-     ┃   Copy Emoji                                               ⌃C
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃"
+     ┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+    ›│   Search actions...
+     │
+     │  ›Show Details
+     │   Copy Emoji                                               ⌃C
+     │
+     │
+     │
+     │
+     │
+     │
+     │
+     │
+     │"
   `)
 
   // Close actions with escape
@@ -513,23 +513,23 @@ test('grid mouse interaction', async () => {
 
         Cat                                                          ▲
         Rabbit
-     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ┃
-     ┃                                                            esc
-     ┃
-     ┃   Search actions...
-    ›┃
-     ┃  ›Show Details
-     ┃   Copy Emoji                                               ⌃C
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃
-     ┃"
+     ┌──────────────────────────────────────────────────────────────────
+     │
+     │                                                            esc
+     │
+     │   Search actions...
+    ›│
+     │  ›Show Details
+     │   Copy Emoji                                               ⌃C
+     │
+     │
+     │
+     │
+     │
+     │
+     │
+     │
+     │"
   `)
 
   // Close the actions panel first

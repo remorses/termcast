@@ -74,7 +74,7 @@ test('list detail metadata navigation shows different metadata', async () => {
      Search...
 
      Item with Metadata
-    ›Another Item                         │
+    ›Another Item                         │ Info
                                           │ ──────────────────────────────────
                                           │
                                           │ Count:

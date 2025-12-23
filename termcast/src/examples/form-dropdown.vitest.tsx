@@ -597,6 +597,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 }, 10000)
@@ -742,11 +743,11 @@ test('form dropdown with default value', async () => {
     │  Frontend                                                      █
     │› ● TypeScript                                                  █
     │  ○ JavaScript                                                  █
-    │  ○ React                                                       ▀
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
+    │  ○ React                                                       █
+    │  ○ Vue                                                         █
+    │                                                                █
+    │  Choose your preferred programming languages                   █
+    │                                                                ▀
     ◇  Editor Theme
     │  Dracula
     │
@@ -775,6 +776,7 @@ test('form dropdown with default value', async () => {
     │    ],
     │    "theme": "dracula",
     │    "priority": ""
+    │  }
 
 
      ctrl ↵ submit   tab navigate   ^k actions"
