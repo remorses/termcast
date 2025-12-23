@@ -79,6 +79,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
@@ -134,6 +135,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
@@ -184,6 +186,7 @@ test('form dropdown shows inline options', async () => {
 
     │
     └
+
 
 
 
@@ -247,6 +250,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
@@ -297,6 +301,7 @@ test('form dropdown shows inline options', async () => {
 
     │
     └
+
 
 
 
@@ -365,6 +370,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
@@ -418,6 +424,7 @@ test('form dropdown keyboard navigation', async () => {
 
     │
     └
+
 
 
 
@@ -478,6 +485,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
@@ -528,6 +536,7 @@ test('form dropdown keyboard navigation', async () => {
 
     │
     └
+
 
 
 
@@ -651,6 +660,7 @@ test('form dropdown with default value', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
@@ -701,6 +711,7 @@ test('form dropdown with default value', async () => {
 
     │
     └
+
 
 
 
@@ -830,6 +841,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
+
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
@@ -880,6 +892,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
     │
     └
+
 
 
 

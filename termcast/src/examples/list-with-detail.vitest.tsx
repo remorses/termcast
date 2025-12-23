@@ -57,8 +57,9 @@ test('list with detail view display and navigation', async () => {
                                           │ Types:
                                           │
                                           │ Grass:
-     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                          │                                   ▼"
+                                          │ ─────────────────
+                                          │                                   ▼
+     ↵toggle detail ↑↓ navigate ^kactions"
   `)
 
   await session.press('down')
@@ -94,8 +95,9 @@ test('list with detail view display and navigation', async () => {
                                           │ Types:
                                           │
                                           │ Grass:
-     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                          │                                   ▼"
+                                          │ ─────────────────
+                                          │                                   ▼
+     ↵toggle detail ↑↓ navigate ^kactions"
   `)
 
   await session.press('down')
@@ -129,8 +131,9 @@ test('list with detail view display and navigation', async () => {
                                           │ Types:
                                           │
                                           │ Fire:
-     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                          │                                   ▼"
+                                          │ ─────────────────
+                                          │                                   ▼
+     ↵toggle detail ↑↓ navigate ^kactions"
   `)
 
   await session.press(['ctrl', 'k'])
@@ -164,9 +167,9 @@ test('list with detail view display and navigation', async () => {
       ┃                                                                          ┃
       ┃                                                                          ┃
       ┃                                                                          ┃
-     ↵┃   ↵ select   ↑↓ navigate                                                 ┃
+      ┃   ↵ select   ↑↓ navigate                                                 ┃
       ┃                                                                          ┃
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+     ↵━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   `)
 
   await session.press('enter')
@@ -190,6 +193,7 @@ test('list with detail view display and navigation', async () => {
      charmeleon #005                                                      Fire
      squirtle #007                                                       Water
      wartortle #008                                                      Water
+
 
 
 
@@ -244,8 +248,9 @@ test('list with detail view display and navigation', async () => {
                                           │ Types:
                                           │
                                           │ Fire:
-     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                          │                                   ▼"
+                                          │ ─────────────────
+                                          │                                   ▼
+     ↵toggle detail ↑↓ navigate ^kactions"
   `)
 }, 15000)
 
@@ -272,27 +277,28 @@ test('list detail view search functionality', async () => {
     char
 
     charmander #004
-    charmeleon #005                      │ bulbasaur                         ▲
-                                         │                                   ▀
-                                         │ Illustration
-                                         │
-                                         │ Types
-                                         │ Grass / Poison
-                                         │
-                                         │ Characteristics
-                                         │ - Height: 0.7m
-                                         │ - Weight: 6.9kg
-                                         │
-                                         │ Abilities
-                                         │ - Chlorophyll
-                                         │ - Overgrow
-                                         │ ─────────────────────────────────
-                                         │
+    charmeleon #005                      │                                   ▲
+                                         │ ───────────────────────────────── █
+                                         │                                   █
                                          │ Types:
                                          │
                                          │ Grass:
-    ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                         │                                   ▼"
+                                         │ ─────────────────
+                                         │
+                                         │ Poison:
+                                         │ ─────────────────
+                                         │
+                                         │ Characteristics:
+                                         │ Height:
+                                         │ 0.7m
+                                         │
+                                         │ ─────────────────
+                                         │ Weight:
+                                         │ 6.9kg
+                                         │
+                                         │ ─────────────────
+                                         │ Abilities:                        ▼
+    ↵toggle detail ↑↓ navigate ^kactions"
   `)
 
   await session.press('backspace')
@@ -335,8 +341,9 @@ test('list detail view search functionality', async () => {
                                          │ Types:
                                          │
                                          │ Water:
-    ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                         │                                   ▼"
+                                         │ ─────────────────
+                                         │                                   ▼
+    ↵toggle detail ↑↓ navigate ^kactions"
   `)
 
   await session.press('down')
@@ -370,8 +377,9 @@ test('list detail view search functionality', async () => {
                                          │ Types:
                                          │
                                          │ Water:
-    ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                         │                                   ▼"
+                                         │ ─────────────────
+                                         │                                   ▼
+    ↵toggle detail ↑↓ navigate ^kactions"
   `)
 }, 10000)
 
@@ -417,8 +425,9 @@ test('list detail metadata rendering', async () => {
                                           │ Types:
                                           │
                                           │ Grass:
-     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                          │                                   ▼"
+                                          │ ─────────────────
+                                          │                                   ▼
+     ↵toggle detail ↑↓ navigate ^kactions"
   `)
 
   await session.press('down')
@@ -459,8 +468,9 @@ test('list detail metadata rendering', async () => {
                                           │ Types:
                                           │
                                           │ Water:
-     ↵toggle detail ↑↓ navigate ^kactions │ ─────────────────
-                                          │                                   ▼"
+                                          │ ─────────────────
+                                          │                                   ▼
+     ↵toggle detail ↑↓ navigate ^kactions"
   `)
 }, 10000)
 
@@ -522,7 +532,8 @@ test('list with detail layout consistency - short vs long detail content', async
                                           │
                                           │
                                           │
-       ↑↓ navigate  ^k actions            │"
+                                          │
+       ↑↓ navigate  ^k actions"
   `)
   expect(longDetailSnapshot).toMatchInlineSnapshot(`
     "
@@ -548,7 +559,8 @@ test('list with detail layout consistency - short vs long detail content', async
                                           │ have enough text to cause
                                           │ vertical overflow in the detail
                                           │ panel scrollbox.
-       ↑↓ navigate  ^k actions            │                                   ▼"
+                                          │                                   ▼
+       ↑↓ navigate  ^k actions"
   `)
 
   // Extract the LINE NUMBER (vertical position) of list items to verify no layout shift

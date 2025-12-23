@@ -29,6 +29,20 @@ test('toast variations display correctly', async () => {
 
      Search...
 
+    ›Simple Success"
+  `)
+
+  // Simple Failure
+  await session.press('down')
+  const simpleFailure = await session.text()
+  expect(simpleFailure).toMatchInlineSnapshot(`
+    "
+
+
+     Toast Variations ─────────────────────────────────────────────────────────
+
+     Search...
+
     ›Simple Success
      Simple Failure
      With Short Message
@@ -50,42 +64,8 @@ test('toast variations display correctly', async () => {
 
     ┌──────────────────────────────────────────────────────────────────────────┐
     │ ✓ Success                                                                │
-    └──────────────────────────────────────────────────────────────────────────┘"
-  `)
-
-  // Simple Failure
-  await session.press('down')
-  const simpleFailure = await session.text()
-  expect(simpleFailure).toMatchInlineSnapshot(`
-    "
-
-
-     Toast Variations ─────────────────────────────────────────────────────────
-
-     Search...
-
-     Simple Success
-    ›Simple Failure
-     With Short Message
-     With Long Message
-     With Super Long Message
-     With Primary Action
-     With Both Actions
-     Long Title with Actions
-     Animated Loading
-     Error with Retry
-
-
-
-
-
-
-
-
-
-    ┌──────────────────────────────────────────────────────────────────────────┐
-    │ ✗ Error                                                                  │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // With Short Message
@@ -120,7 +100,8 @@ test('toast variations display correctly', async () => {
     ┌──────────────────────────────────────────────────────────────────────────┐
     │ ✓ Copied                                                                 │
     │   Text copied to clipboard                                               │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // With Long Message
@@ -155,7 +136,8 @@ test('toast variations display correctly', async () => {
     │   This is a very long error message that should wrap to multiple lines   │
     │   when displayed in the toast component. It contains detailed            │
     │   information about what went wrong during the operation.                │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // With Super Long Message
@@ -190,7 +172,8 @@ test('toast variations display correctly', async () => {
     │   aliquip ex ea commodo consequat. Duis aute irure dolor in              │
     │   reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla    │
     │   pariatur.                                                              │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // With Primary Action
@@ -225,7 +208,8 @@ test('toast variations display correctly', async () => {
     ┌──────────────────────────────────────────────────────────────────────────┐
     │ ✓ File Deleted [Undo ↵]                                                  │
     │   document.pdf was moved to trash                                        │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // With Both Actions
@@ -260,7 +244,8 @@ test('toast variations display correctly', async () => {
     ┌──────────────────────────────────────────────────────────────────────────┐
     │ ✓ Update Available [Install ↵] [Later ⇥]                                 │
     │   Version 2.0 is ready to install                                        │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Long Title with Actions
@@ -295,7 +280,8 @@ test('toast variations display correctly', async () => {
     ┌──────────────────────────────────────────────────────────────────────────┐
     │ ✓ Operation Completed Successfully [View Results ↵] [Dismiss ⇥]          │
     │   All files have been processed                                          │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Animated Loading
@@ -330,7 +316,8 @@ test('toast variations display correctly', async () => {
     ┌──────────────────────────────────────────────────────────────────────────┐
     │ ⣽ Processing                                                             │
     │   Please wait while we process your request...                           │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 
   // Error with Retry
@@ -365,6 +352,7 @@ test('toast variations display correctly', async () => {
     │ ✗ Connection Failed [Retry ↵]                                            │
     │   Unable to connect to the server. Please check your internet            │
     │   connection and try again.                                              │
-    └──────────────────────────────────────────────────────────────────────────┘"
+    └──────────────────────────────────────────────────────────────────────────┘
+     ↵ select  ↑↓ navigate  ^k actions"
   `)
 }, 30000)

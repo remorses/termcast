@@ -52,6 +52,7 @@ test('list with dropdown navigation', async () => {
 
 
 
+
        ↑↓ navigate  ^k actions"
   `)
 
@@ -64,25 +65,26 @@ test('list with dropdown navigation', async () => {
 
      Search Beers ───────────────────────────────────────────────────
 
-    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃                                                                  ┃
-    ┃   Select Drink Type                                        esc   ┃
-    ┃                                                                  ┃
-    ┃   Search...                                                      ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   Alcoholic Beverages                                            ┃
-    ┃  ›Beer                                                           ┃
-    ┃   Wine                                                           ┃
-    ┃                                                                  ┃
-    ┃   Non-Alcoholic                                                  ┃
-    ┃   Soda                                                           ┃
-    ┃   Juice                                                          ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+     Search...                                                 Beer ▾
+
+    ›Augustiner Helles Beer
+     Camden Hells Beer
+     Leffe Blonde Beer
+     Sierra Nevada IPA Beer
+     Chateau Margaux Wine
+     Pinot Noir Wine
+     Coca Cola Soda
+     Sprite Soda
+     Orange Juice Juice
+     Apple Juice Juice
+
+
+
+
+
+
+       ↑↓ navigate  ^k actions"
   `)
 
   const afterCtrlPSnapshot = await session.text({
@@ -113,8 +115,9 @@ test('list with dropdown navigation', async () => {
     ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -143,8 +146,9 @@ test('list with dropdown navigation', async () => {
     ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press('down')
@@ -173,8 +177,9 @@ test('list with dropdown navigation', async () => {
     ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.press('enter')
@@ -195,6 +200,7 @@ test('list with dropdown navigation', async () => {
 
     ›Coca Cola Soda
      Sprite Soda
+
 
 
 
@@ -235,23 +241,24 @@ test('list with dropdown search and filter', async () => {
 
     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃                                                                  ┃
-    ┃   Select Drink Type                                        esc   ┃
-    ┃                                                                  ┃
-    ┃   Search...                                                      ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   Alcoholic Beverages                                            ┃
-    ┃  ›Beer                                                           ┃
-    ┃   Wine                                                           ┃
-    ┃                                                                  ┃
-    ┃   Non-Alcoholic                                                  ┃
-    ┃   Soda                                                           ┃
-    ┃   Juice                                                          ┃
-    ┃                                                                  ┃
-    ┃                                                                  ┃
-    ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    ┃   Select Drink Type                                        esc
+    ›Augustiner Helles Beer
+     Camden Hells Beer
+     Leffe Blonde Beer
+     Sierra Nevada IPA Beer
+     Chateau Margaux Wine
+     Pinot Noir Wine
+     Coca Cola Soda
+     Sprite Soda
+     Orange Juice Juice
+     Apple Juice Juice
+
+
+
+
+
+
+       ↑↓ navigate  ^k actions"
   `)
 
   await session.text({
@@ -277,19 +284,20 @@ test('list with dropdown search and filter', async () => {
     ┃                                                                  ┃
     ┃   Select Drink Type                                        esc   ┃
     ┃                                                                  ┃
-    ┃   wine                                                           ┃
+    ┃   Search...                                                      ┃
     ┃                                                                  ┃
-    ┃  ›Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃   Alcoholic Beverages                                            ┃
+    ┃  ›Beer                                                           ┃
+    ┃   Wine                                                           ┃
+    ┃                                                                  ┃
+    ┃   Non-Alcoholic                                                  ┃
+    ┃   Soda                                                           ┃
+    ┃   Juice                                                          ┃
     ┃                                                                  ┃
     ┃                                                                  ┃
     ┃   ↵ select   ↑↓ navigate                                         ┃
-    ┃                                                                  ┃
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ┃
-     Apple Juice Juice
-
-
-
-
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
        ↑↓ navigate  ^k actions"
   `)
@@ -308,11 +316,12 @@ test('list with dropdown search and filter', async () => {
      Search Beers ───────────────────────────────────────────────────
 
 
-     Search...                                                 Wine ▾
+     Search...                                                 Beer ▾
 
-    ›Chateau Margaux Wine
-     Pinot Noir Wine
-
+    ›Augustiner Helles Beer
+     Camden Hells Beer
+     Leffe Blonde Beer
+     Sierra Nevada IPA Beer
 
 
 
@@ -339,13 +348,10 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
+    Search Beers ───────────────────────────────────────────────────
 
 
-     pinot                                                     Wine ▾
-
-    ›Pinot Noir Wine
-
+    pinot                                                     Beer ▾
 
 
 
@@ -359,6 +365,10 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate  ^k actions"
+
+
+
+
+      ↑↓ navigate  ^k actions"
   `)
 }, 10000)

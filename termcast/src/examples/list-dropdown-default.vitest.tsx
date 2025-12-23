@@ -56,6 +56,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
+
      ↵ show selected fruit  ↑↓ navigate  ^k actions"
   `)
 }, 10000)
@@ -89,8 +90,9 @@ test('dropdown opens and shows items', async () => {
       ┃                                                                          ┃
       ┃                                                                          ┃
       ┃   ↵ select   ↑↓ navigate                                                 ┃
-      ┃                                                                          ┃
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
 
 
 
@@ -124,8 +126,9 @@ test('dropdown opens and shows items', async () => {
       ┃                                                                          ┃
       ┃                                                                          ┃
       ┃   ↵ select   ↑↓ navigate                                                 ┃
-      ┃                                                                          ┃
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
 
 
 
@@ -153,6 +156,7 @@ test('dropdown opens and shows items', async () => {
      Second Item The dropdown should default to first item
      Vegetables
      Carrot With another dropdown
+
 
 
 
@@ -202,8 +206,9 @@ test('clicking dropdown opens it', async () => {
       ┃                                                                          ┃
       ┃                                                                          ┃
       ┃   ↵ select   ↑↓ navigate                                                 ┃
-      ┃                                                                          ┃
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
 
 
 
@@ -231,6 +236,7 @@ test('clicking dropdown opens it', async () => {
      Second Item The dropdown should default to first item
      Vegetables
      Carrot With another dropdown
+
 
 
 

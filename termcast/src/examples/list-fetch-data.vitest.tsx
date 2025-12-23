@@ -53,6 +53,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
+
        ↑↓ navigate  ^k actions"
   `)
 
@@ -84,6 +85,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
+
        ↑↓ navigate  ^k actions"
   `)
 
@@ -106,6 +108,7 @@ test('list shows initial items after fetch', async () => {
      Illustrations
     ›Welcome Banner Category: Illustrations
      Hero Image Category: Illustrations
+
 
 
 

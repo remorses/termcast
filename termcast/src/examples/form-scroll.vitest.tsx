@@ -50,10 +50,10 @@ test(
       "
 
 
-      ▪  Form Scroll Test                                    ▀
+      ■  Form Scroll Test                                    ▀
       │  Test scrolling behavior when navigating with Tab
       │
-      ◆  Field 1
+      ◇  Field 1
       │  First field
       │
       ◇  Field 2

@@ -51,7 +51,8 @@ test('grid navigation and display', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -70,8 +71,8 @@ test('grid navigation and display', async () => {
      Search items...
 
      Fruits                                                          ▲
-     🍎 Apple                                                        ▀
-    ›🍌 Banana
+    ›🍎 Apple                                                        ▀
+     🍌 Banana
      🍒 Cherry
 
      Animals
@@ -82,7 +83,8 @@ test('grid navigation and display', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -114,7 +116,8 @@ test('grid navigation and display', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -178,7 +181,8 @@ test('grid navigation and display', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -211,7 +215,7 @@ test('grid search functionality', async () => {
 
     ›🍎 Apple                                                        ▲
      🍌 Banana                                                       █
-     🍒 Cherry
+     🍒 Cherry                                                       ▀
      🐕 Dog
      🐱 Cat
      🐰 Rabbit
@@ -222,7 +226,8 @@ test('grid search functionality', async () => {
      🌙 Moon
      ☀ Sun
 
-                                                                     ▼
+
+                                   📭                                ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -249,7 +254,7 @@ test('grid search functionality', async () => {
 
     ›🍎 Apple                                                        ▲
      🍌 Banana                                                       █
-     🍒 Cherry
+     🍒 Cherry                                                       ▀
      🐕 Dog
      🐱 Cat
      🐰 Rabbit
@@ -260,7 +265,8 @@ test('grid search functionality', async () => {
      🌙 Moon
      ☀ Sun
 
-                                                                     ▼
+
+                                   📭                                ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -295,7 +301,8 @@ test('grid search functionality', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -319,7 +326,7 @@ test('grid search functionality', async () => {
 
     ›🍎 Apple                                                        ▲
      🍌 Banana                                                       █
-     🍒 Cherry
+     🍒 Cherry                                                       ▀
      🐕 Dog
      🐱 Cat
      🐰 Rabbit
@@ -330,7 +337,8 @@ test('grid search functionality', async () => {
      🌙 Moon
      ☀ Sun
 
-                                                                     ▼
+
+                                   📭                                ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -370,7 +378,8 @@ test('grid item selection and actions', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -401,7 +410,8 @@ test('grid item selection and actions', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -432,7 +442,8 @@ test('grid item selection and actions', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -472,7 +483,8 @@ test('grid mouse interaction', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"
@@ -556,7 +568,8 @@ test('grid mouse interaction', async () => {
      Others
      🏠 House
      🚗 Car
-     🚀 Rocket                                                       ▼
+     🚀 Rocket
+     ⭐ Star                                                         ▼
 
 
      ↵ show details  ↑↓ navigate  ^k actions"

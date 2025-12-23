@@ -54,6 +54,7 @@ test('navigation between main and detail views', async () => {
 
 
 
+
      ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
@@ -74,6 +75,7 @@ test('navigation between main and detail views', async () => {
      First Item Navigate to first detail
     ›Second Item Navigate to second detail
      Third Item Navigate to third detail
+
 
 
 
@@ -108,6 +110,7 @@ test('navigation between main and detail views', async () => {
 
      Details
     ›This is the detail view for Second Item Press Enter to go back
+
 
 
 
@@ -162,6 +165,7 @@ test('navigation between main and detail views', async () => {
 
 
 
+
      ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
@@ -182,6 +186,7 @@ test('navigation between main and detail views', async () => {
      First Item Navigate to first detail
      Second Item Navigate to second detail
     ›Third Item Navigate to third detail
+
 
 
 
@@ -225,6 +230,7 @@ test('navigation between main and detail views', async () => {
 
 
 
+
      ↵ go back  ↑↓ navigate  ^k actions"
   `)
 
@@ -250,6 +256,7 @@ test('navigation between main and detail views', async () => {
     ›First Item Navigate to first detail
      Second Item Navigate to second detail
      Third Item Navigate to third detail
+
 
 
 
@@ -327,8 +334,8 @@ test('navigation with actions panel', async () => {
      ┃
      ┃   Search actions...
      ┃
-     ┃   Open Details
-     ┃  ›Copy Title
+     ┃  ›Open Details
+     ┃   Copy Title
      ┃
      ┃
      ┃
@@ -509,13 +516,11 @@ test('search functionality in main and detail views', async () => {
     "
 
 
-    Navigation Example ─────────────────────────────────────────────
+     Navigation Example ─────────────────────────────────────────────
 
-    second
+     second
 
-    Second Item Navigate to second detail
-
-
+    ›Second Item Navigate to second detail
 
 
 
@@ -529,7 +534,10 @@ test('search functionality in main and detail views', async () => {
 
 
 
-    ↵ open details  ↑↓ navigate  ^k actions"
+
+
+
+     ↵ open details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search
@@ -553,6 +561,7 @@ test('search functionality in main and detail views', async () => {
     ›First Item Navigate to first detail
      Second Item Navigate to second detail
      Third Item Navigate to third detail
+
 
 
 
@@ -603,6 +612,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
+
      ↵ go back  ↑↓ navigate  ^k actions"
   `)
 
@@ -621,6 +631,7 @@ test('search functionality in main and detail views', async () => {
     Detail: First Item ─────────────────────────────────────────────
 
     test
+
 
 
 
@@ -661,6 +672,7 @@ test('search functionality in main and detail views', async () => {
     ›First Item Navigate to first detail
      Second Item Navigate to second detail
      Third Item Navigate to third detail
+
 
 
 

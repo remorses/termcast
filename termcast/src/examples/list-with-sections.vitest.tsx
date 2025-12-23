@@ -42,7 +42,8 @@ test('list with sections navigation', async () => {
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
      ↵ view details  ↑↓ navigate  ^k actions"
@@ -73,7 +74,8 @@ test('list with sections navigation', async () => {
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
      ↵ view details  ↑↓ navigate  ^k actions"
@@ -92,16 +94,17 @@ test('list with sections navigation', async () => {
 
      Fruits                                                          ▲
      Apple Red and sweet                            Fresh [Popular]  ▀
-     Banana Yellow and nutritious                              Ripe
-    ›Orange Citrus and juicy                                  Fresh
+    ›Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
      Grape Sweet clusters                                [Seasonal]
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
-       ↑↓ navigate  ^k actions"
+     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Verify footer doesn't show action when item has no actions (Orange has no actions)
@@ -126,7 +129,8 @@ test('list with sections navigation', async () => {
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
        ↑↓ navigate  ^k actions"
@@ -179,13 +183,11 @@ test('list with sections search functionality', async () => {
     "
 
 
-     Simple List Example ────────────────────────────────────────────
+    Simple List Example ────────────────────────────────────────────
 
-     ban
+    ban
 
-    ›Banana Yellow and nutritious                               Ripe
-
-
+    Banana Yellow and nutritious                               Ripe
 
 
 
@@ -194,7 +196,10 @@ test('list with sections search functionality', async () => {
 
 
 
-     ↵ view details  ↑↓ navigate  ^k actions"
+
+
+
+    ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
   // Clear search and type "let" to search for Lettuce
@@ -218,6 +223,7 @@ test('list with sections search functionality', async () => {
     let
 
     Lettuce Green and fresh
+
 
 
 
@@ -253,7 +259,8 @@ test('list with sections search functionality', async () => {
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
      ↵ view details  ↑↓ navigate  ^k actions"
@@ -287,6 +294,7 @@ test('list with sections search functionality', async () => {
 
 
 
+
     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
@@ -300,20 +308,20 @@ test('list with sections search functionality', async () => {
 
 
 
-    Banana
-
-    A yellow tropical fruit that's nutritious and energy-rich.
-
-    Benefits
-    - High in potassium
-    - Natural energy booster
-    - Aids digestion
 
 
 
 
 
-     esc go back"
+
+
+
+
+
+
+
+
+    esc go back"
   `)
 }, 10000)
 
@@ -344,7 +352,8 @@ test('list click functionality', async () => {
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
      ↵ view details  ↑↓ navigate  ^k actions"
@@ -370,7 +379,8 @@ test('list click functionality', async () => {
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
      ↵ view details  ↑↓ navigate  ^k actions"
@@ -396,7 +406,8 @@ test('list click functionality', async () => {
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
        ↑↓ navigate  ^k actions"
@@ -480,10 +491,10 @@ test('list actions panel with ctrl+k', async () => {
      Search items...
 
      Fruits                                                          ▲
-    ›Apple Red and sweet                            Fresh [Popular]  █
-     Banana Yellow and nutritious                              Ripe  █
-     Orange Citrus and juicy                                  Fresh  █
-     Grape Sweet clusters                                [Seasonal]  █
+    ›Apple Red and sweet                            Fresh [Popular]  ▀
+     Banana Yellow and nutritious                              Ripe
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
@@ -544,6 +555,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
+
     ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
@@ -561,6 +573,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
     ›Orange Citrus and juicy                                   Fresh
      Carrot Orange and crunchy                             [Healthy]
+
 
 
 
@@ -596,6 +609,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
+
      ↵ view details  ↑↓ navigate  ^k actions"
   `)
 
@@ -613,6 +627,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
     ›Orange Citrus and juicy                                   Fresh
      Carrot Orange and crunchy                             [Healthy]
+
 
 
 
@@ -650,7 +665,8 @@ test('list scrollbox scrolling with sections', async () => {
      Mango Tropical delight                                Imported
      Pineapple Sweet and tangy
      Strawberry Red and sweet                             [Popular]
-                                                                     ▼
+
+     Vegetables                                                      ▼
 
 
      ↵ view details  ↑↓ navigate  ^k actions"
@@ -673,10 +689,11 @@ test('list scrollbox scrolling with sections', async () => {
 
      Search items...
 
-     Orange Citrus and juicy                                  Fresh  ▲
-     Grape Sweet clusters                                [Seasonal]
+     Banana Yellow and nutritious                              Ripe  ▲
+     Orange Citrus and juicy                                  Fresh
+     Grape Sweet clusters                                [Seasonal]  ▄
      Mango Tropical delight                                Imported
-     Pineapple Sweet and tangy                                       ▀
+     Pineapple Sweet and tangy
     ›Strawberry Red and sweet                             [Popular]
 
      Vegetables
@@ -701,7 +718,8 @@ test('list scrollbox scrolling with sections', async () => {
 
      Search items...
 
-                                                                     ▲
+     Strawberry Red and sweet                             [Popular]  ▲
+
      Vegetables
      Carrot Orange and crunchy                            [Healthy]
      Lettuce Green and fresh
@@ -731,7 +749,8 @@ test('list scrollbox scrolling with sections', async () => {
 
      Search items...
 
-     Carrot Orange and crunchy                            [Healthy]  ▲
+     Vegetables                                                      ▲
+     Carrot Orange and crunchy                            [Healthy]
      Lettuce Green and fresh
      Broccoli Green florets                               [Healthy]
      Spinach Leafy greens                                   Organic
@@ -759,7 +778,8 @@ test('list scrollbox scrolling with sections', async () => {
 
      Search items...
 
-     Carrot Orange and crunchy                            [Healthy]  ▲
+     Vegetables                                                      ▲
+     Carrot Orange and crunchy                            [Healthy]
      Lettuce Green and fresh
      Broccoli Green florets                               [Healthy]
      Spinach Leafy greens                                   Organic

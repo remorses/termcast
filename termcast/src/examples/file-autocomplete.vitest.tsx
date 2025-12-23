@@ -36,28 +36,29 @@ test('autocomplete shows flat file list in dialog', async () => {
 
 
 
+
     ◇  Your Name
     │  John Doe
     │
     ◇  Select Files
-    │  Enter file path...
     │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: s
-    ◆┃
-    │┃  📁 extensions/
+    │┃
+    ◆┃  📁 extensions/
     │┃  📁 extensions/messages/
     │┃  📁 extensions/messages/assets/
     │┃  📁 extensions/messages/metadata/
-    ◇┃  📁 extensions/messages/src/
-    │┃  📁 extensions/messages/src/api/
+    │┃  📁 extensions/messages/src/
+    ◇┃  📁 extensions/messages/src/api/
     │┃  📁 extensions/messages/src/components/
     │┃  📁 extensions/messages/src/hooks/
     │┃  📁 extensions/messages/src/tools/
-    └┃  📁 extensions/messages/swift/
-     ┃
+    │┃  📁 extensions/messages/swift/
+    └┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
@@ -86,28 +87,29 @@ test('autocomplete navigation with down/up keys', async () => {
 
 
 
+
     ◇  Your Name
     │  John Doe
     │
     ◇  Select Files
-    │  Enter file path...
     │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: s
-    ◆┃
-    │┃  📁 extensions/
+    │┃
+    ◆┃  📁 extensions/
     │┃  📁 extensions/messages/
     │┃  📁 extensions/messages/assets/
     │┃  📁 extensions/messages/metadata/
-    ◇┃  📁 extensions/messages/src/
-    │┃  📁 extensions/messages/src/api/
+    │┃  📁 extensions/messages/src/
+    ◇┃  📁 extensions/messages/src/api/
     │┃  📁 extensions/messages/src/components/
     │┃  📁 extensions/messages/src/hooks/
     │┃  📁 extensions/messages/src/tools/
-    └┃  📁 extensions/messages/swift/
-     ┃
+    │┃  📁 extensions/messages/swift/
+    └┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
@@ -121,28 +123,29 @@ test('autocomplete navigation with down/up keys', async () => {
 
 
 
+
     ◇  Your Name
     │  John Doe
     │
     ◇  Select Files
-    │  Enter file path...
     │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: s
-    ◆┃
-    │┃  📁 extensions/
+    │┃
+    ◆┃  📁 extensions/
     │┃  📁 extensions/messages/
     │┃  📁 extensions/messages/assets/
     │┃  📁 extensions/messages/metadata/
-    ◇┃  📁 extensions/messages/src/
-    │┃  📁 extensions/messages/src/api/
+    │┃  📁 extensions/messages/src/
+    ◇┃  📁 extensions/messages/src/api/
     │┃  📁 extensions/messages/src/components/
     │┃  📁 extensions/messages/src/hooks/
     │┃  📁 extensions/messages/src/tools/
-    └┃  📁 extensions/messages/swift/
-     ┃
+    │┃  📁 extensions/messages/swift/
+    └┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
@@ -169,28 +172,29 @@ test('file picker shows only files, not folders', async () => {
 
 
 
+
     ◇  Your Name
     │  John Doe
     │
     ◆  Select Files
-    │  t
     │┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     │┃
     │┃ Filter: t
-    ◇┃
-    │┃  📄 ARCHITECTURE.md
+    │┃
+    ◇┃  📄 ARCHITECTURE.md
     │┃  📄 EXTENSIONS.md
     │┃  📄 OAUTH_SETUP.md
     │┃  📄 RAYCAST_SCROLLING.md
-    ◇┃  📄 TESTING_RAYCAST_EXTENSIONS.md
-    │┃  📄 bunfig.toml
+    │┃  📄 TESTING_RAYCAST_EXTENSIONS.md
+    ◇┃  📄 bunfig.toml
     │┃  📄 extensions/messages/CHANGELOG.md
     │┃  📄 extensions/messages/README.md
     │┃  📄 extensions/messages/assets/apple-messages-icon.png
-    └┃  📄 extensions/messages/bun.lock
-     ┃
+    │┃  📄 extensions/messages/bun.lock
+    └┃
      ┃ ↑↓ navigate  ⏎/tab select  esc close
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
@@ -222,16 +226,17 @@ test('escape closes autocomplete and form stays visible', async () => {
 
 
 
+
     ◇  Your Name
     │  John Doe
     │
     ◇  Select Files
-    │  Enter file path...
+    │  s
     │
     │  Choose one or more files to upload
     │
     ◆  Select Folder
-    │  s
+    │  Enter file path...
     │
     │  Choose a folder for output
     │

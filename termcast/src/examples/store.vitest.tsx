@@ -50,7 +50,7 @@ test('Store extension - searching for spiceblow shows Database', async () => {
 
      spiceblow
 
-    ›Spiceblow - Sql Database Management Search, update, insert and delete row
+    ›Spiceblow - Sql Database Management Search, update, insert and delete ro
 
 
 
@@ -65,10 +65,11 @@ test('Store extension - searching for spiceblow shows Database', async () => {
 
 
 
-
-
-
-
+                                                  ions in Raycast
+     Translate.ge Raycast plugin for translating georgian words to english
+     Language Tool - Spell & Grammar Checker Raycast extension that provides i
+     Search Lightning Nodes A Raycast extension for searching Lightning Nodes
+     Wemo Control your Wemo devices from Raycast
 
 
        ↑↓ navigate  ^k actions"
