@@ -131,8 +131,11 @@ test('list scrollbox scrolls with mouse wheel', async () => {
 
   await session.scrollDown(3)
 
-  const afterScrollDownSnapshot = await session.text()
-  expect(afterScrollDownSnapshot).not.toEqual(initialSnapshot)
+  // Wait for scroll to take effect (Item 3 should appear after scrolling)
+  const afterScrollDownSnapshot = await session.text({
+    waitFor: (text) => text.includes('Item 3') && !text.includes('›▲ Item 1'),
+    timeout: 5000,
+  })
   expect(afterScrollDownSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -150,8 +153,11 @@ test('list scrollbox scrolls with mouse wheel', async () => {
 
   await session.scrollUp(2)
 
-  const afterScrollUpSnapshot = await session.text()
-  expect(afterScrollUpSnapshot).not.toEqual(afterScrollDownSnapshot)
+  // Wait for scroll to take effect
+  const afterScrollUpSnapshot = await session.text({
+    waitFor: (text) => text !== afterScrollDownSnapshot,
+    timeout: 5000,
+  })
   expect(afterScrollUpSnapshot).toMatchInlineSnapshot(`
     "
 

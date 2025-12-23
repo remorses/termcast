@@ -41,8 +41,11 @@ test('simple scrollbox navigation and scrolling', async () => {
   // Scroll down to see more items
   await session.scrollDown(3)
 
-  const afterScrollDownSnapshot = await session.text()
-  expect(afterScrollDownSnapshot).not.toEqual(initialText)
+  // Wait for Item 4 to appear (proves scroll happened)
+  const afterScrollDownSnapshot = await session.text({
+    waitFor: (text) => text.includes('Item 4'),
+    timeout: 5000,
+  })
   expect(afterScrollDownSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -72,8 +75,11 @@ test('simple scrollbox navigation and scrolling', async () => {
   // Scroll back up
   await session.scrollUp(2)
 
-  const afterScrollUpSnapshot = await session.text()
-  expect(afterScrollUpSnapshot).not.toEqual(afterScrollDownSnapshot)
+  // Wait for scrollbar to move back up (proves scroll happened)
+  const afterScrollUpSnapshot = await session.text({
+    waitFor: (text) => text !== afterScrollDownSnapshot,
+    timeout: 5000,
+  })
   expect(afterScrollUpSnapshot).toMatchInlineSnapshot(`
     "
 
