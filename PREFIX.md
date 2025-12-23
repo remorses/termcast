@@ -264,6 +264,8 @@ for example `bun e2e src/examples/form-dropdown.vitest.tsx`
 
 these tests are for ensuring the examples work correctly
 
+important: when esc is pressed when there is no navigation stack or toast it will exit the process of the tui. make sure to not do this in tests
+
 ## fixing bugs in termcast
 
 when you are trying to fix an issue identify first the issue in an existing .vitest.tsx test file. by looking if the existing snapshots already exhibit the issue. if not add a new test case for the issue.
