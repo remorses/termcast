@@ -2,7 +2,13 @@ import { Font } from '@ascii-kit/font'
 import fontData from '@ascii-kit/fonts-flf/dist/thick.flf?raw'
 
 const font = new Font(fontData)
+/*
+IMPORTANT! all bash runtime variables like ${something} should be written as \${something} in this file!
 
+because code is inside a js template literal where ${something} is replaced in the js code and not by bash in the script itself
+
+try to use $something instead which does not have this problem
+*/
 export async function generateInstallScript(
   githubRepo: string,
 ): Promise<string> {
@@ -239,6 +245,10 @@ download_and_install() {
     fi
 
     local ext=""; [ "$os" = "windows" ] && ext=".exe"
+    if ! mkdir -p "$INSTALL_DIR"; then
+        print_message error "Failed to create install directory: $INSTALL_DIR"
+        exit 1
+    fi
     mv "${binaryName}-$target$ext" "$INSTALL_DIR/${binaryName}$ext"
     chmod 755 "\${INSTALL_DIR}/${binaryName}$ext"
     cd .. && rm -rf ${binaryName}tmp
