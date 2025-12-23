@@ -210,9 +210,7 @@ test('password field always shows asterisks and submits real value', async () =>
   `)
 
   // Submit form and check password value is real text not asterisks
-  // escape to exit textarea, ctrl+k opens action panel, enter to submit
-  await session.press('escape')
-  await session.waitIdle()
+  // ctrl+k opens action panel, enter to submit
   await session.press(['ctrl', 'k'])
   await session.waitIdle()
   

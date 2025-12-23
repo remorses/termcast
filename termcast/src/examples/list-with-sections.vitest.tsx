@@ -112,6 +112,7 @@ test('list with sections navigation', async () => {
 
   await session.press('enter')
 
+  // Enter on Orange does nothing since it has no primary action
   const afterEnterSnapshot = await session.text()
   expect(afterEnterSnapshot).toMatchInlineSnapshot(`
     "
@@ -136,31 +137,8 @@ test('list with sections navigation', async () => {
        ↑↓ navigate  ^k actions"
   `)
 
-  // Go back to list with Escape
-  await session.press('esc')
-
-  const afterEscapeSnapshot = await session.text()
-  expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-     Simple List Example ────────────────────────────────────────────
-
-     Search items...
-
-     Fruits                                                          ▲
-     Apple Red and sweet                            Fresh [Popular]  ▀
-     Banana Yellow and nutritious                              Ripe
-    ›Orange Citrus and juicy                                  Fresh
-     Grape Sweet clusters                                [Seasonal]
-     Mango Tropical delight                                Imported
-     Pineapple Sweet and tangy
-     Strawberry Red and sweet                             [Popular]
-                                                                     ▼
-
-
-       ↑↓ navigate  ^k actions"
-  `)
+  // Note: Not pressing escape since that would exit the app at root level
+  // and Orange item has no action to go back from anyway
 })
 
 test('list with sections search functionality', async () => {

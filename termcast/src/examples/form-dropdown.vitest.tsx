@@ -545,10 +545,10 @@ test('form dropdown keyboard navigation', async () => {
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
-  await session.press('esc')
-
-  const afterEscapeSnapshot = await session.text()
-  expect(afterEscapeSnapshot).toMatchInlineSnapshot(`
+  // Note: not pressing escape here since that would exit the app at root level
+  // The inline dropdown doesn't need escape to close - it stays visible
+  const afterNavigationSnapshot = await session.text()
+  expect(afterNavigationSnapshot).toMatchInlineSnapshot(`
     "
 
 
@@ -720,7 +720,7 @@ test('form dropdown with default value', async () => {
      ctrl ↵ submit   tab navigate   ^k actions"
   `)
 
-  await session.press('esc')
+  // Submit with alt+enter directly - no need to press esc first
   await session.press(['alt', 'enter'])
 
   const afterSubmitSnapshot = await session.text({
