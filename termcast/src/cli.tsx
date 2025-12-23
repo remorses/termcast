@@ -236,7 +236,7 @@ cli
   })
 
 cli
-  .command('pr <prNumber>', 'Download extension from a GitHub PR in Raycast extensions repo. To test it with Termcast')
+  .command('raycast pr <prNumber>', 'Download extension from a GitHub PR in Raycast extensions repo. To test it with Termcast')
   .action(async (prNumber: string) => {
     try {
       // Parse PR number from URL if provided
@@ -378,7 +378,46 @@ cli
   })
 
 cli
-  .command('raycast-search <query>', 'Search for extensions in the Raycast store')
+  .command('raycast pr-diff <prNumber>', 'Show the diff of a PR in Raycast extensions repo')
+  .action(async (prNumber: string) => {
+    try {
+      // Parse PR number from URL if provided
+      let parsedPrNumber = prNumber
+      const urlMatch = prNumber.match(
+        /github\.com\/raycast\/extensions\/pull\/(\d+)/,
+      )
+      if (urlMatch) {
+        parsedPrNumber = urlMatch[1]
+      }
+
+      console.error(`Fetching diff for PR #${parsedPrNumber}...`)
+
+      // Fetch diff directly from GitHub API
+      const response = await fetch(
+        `https://api.github.com/repos/raycast/extensions/pulls/${parsedPrNumber}`,
+        {
+          headers: {
+            Accept: 'application/vnd.github.v3.diff',
+          },
+        },
+      )
+
+      if (!response.ok) {
+        console.error(`Failed to fetch PR #${parsedPrNumber}: ${response.statusText}`)
+        process.exit(1)
+      }
+
+      const diff = await response.text()
+      console.log(diff)
+      process.exit(0)
+    } catch (error) {
+      console.error('Error fetching PR diff:', error)
+      process.exit(1)
+    }
+  })
+
+cli
+  .command('raycast search <query>', 'Search for extensions in the Raycast store')
   .option('-n, --limit <number>', 'Number of results to show', { default: '10' })
   .action(async (query: string, options: { limit: string }) => {
     try {
@@ -403,7 +442,7 @@ cli
         console.log()
       }
 
-      console.log(`Download with: termcast download <extension-name>`)
+      console.log(`Download with: termcast raycast download <extension-name>`)
       process.exit(0)
     } catch (error: any) {
       console.error('Search failed:', error.message)
@@ -412,7 +451,7 @@ cli
   })
 
 cli
-  .command('download <extensionName>', 'Download extension from Raycast extensions repo')
+  .command('raycast download <extensionName>', 'Download extension from Raycast extensions repo')
   .option('-o, --output <path>', 'Output directory', { default: '.' })
   .option('--no-dir', 'Put files directly in output directory instead of creating extension subdirectory')
   .action(async (extensionName: string, options: { output: string; dir: boolean }) => {

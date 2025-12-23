@@ -32,18 +32,18 @@ bun run src/cli.tsx raycast-search notion --limit 5
 
 ## Step 1: Download the Extension
 
-Use the `termcast download` command to download an extension from the raycast/extensions repository:
+Use the `termcast raycast download` command to download an extension from the raycast/extensions repository:
 
 ```bash
 cd termcast
-bun run src/cli.tsx download <extension-name> -o extensions
+bun run src/cli.tsx raycast download <extension-name> -o extensions
 ```
 
 This downloads the extension source code into `extensions/<extension-name>/`.
 
 **Example:**
 ```bash
-bun run src/cli.tsx download synonyms -o extensions
+bun run src/cli.tsx raycast download synonyms -o extensions
 ```
 
 ## Step 2: Install Dependencies
@@ -207,7 +207,7 @@ See `src/examples/synonyms.vitest.tsx` for a complete example that:
 
 ```bash
 # Download
-bun run src/cli.tsx download synonyms -o extensions
+bun run src/cli.tsx raycast download synonyms -o extensions
 
 # Test
 bun e2e src/examples/synonyms.vitest.tsx -u
