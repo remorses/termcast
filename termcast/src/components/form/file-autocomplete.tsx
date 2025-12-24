@@ -1,71 +1,84 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Theme } from 'termcast/src/theme'
-import { TextareaRenderable } from '@opentui/core'
-import { listAllFiles } from '../../utils/file-system'
+import { searchFiles, parsePath } from '../../utils/file-system'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { createStore, useStore } from 'zustand'
+
+interface FileAutocompleteState {
+  filter: string
+}
+
+/**
+ * Creates a local zustand store for sharing state between FilePicker and FileAutocompleteDialog.
+ * This is necessary because dialog.push() freezes props at creation time - props won't update.
+ * Using zustand allows the dialog to subscribe to state changes reactively.
+ */
+export function createFileAutocompleteStore() {
+  return createStore<FileAutocompleteState>(() => ({
+    filter: '',
+  }))
+}
+
+export type FileAutocompleteStore = ReturnType<typeof createFileAutocompleteStore>
 
 export interface FileAutocompleteDialogProps {
+  /**
+   * NOTE: Do not pass frequently-changing values as props here.
+   * dialog.push() freezes props at creation time - they won't update.
+   * Use the `store` prop for reactive state instead.
+   */
+  store: FileAutocompleteStore
   onSelect: (path: string) => void
   onClose: () => void
-  inputRef: React.RefObject<TextareaRenderable | null>
+  onNavigate: (path: string) => void
   canChooseFiles?: boolean
   canChooseDirectories?: boolean
   initialDirectory?: string
 }
 
-function fuzzyMatch(text: string, query: string): boolean {
-  if (!query) return true
-  const lowerText = text.toLowerCase()
-  const lowerQuery = query.toLowerCase()
-  
-  let queryIndex = 0
-  for (let i = 0; i < lowerText.length && queryIndex < lowerQuery.length; i++) {
-    if (lowerText[i] === lowerQuery[queryIndex]) {
-      queryIndex++
-    }
-  }
-  return queryIndex === lowerQuery.length
-}
-
 export const FileAutocompleteDialog = ({
+  store,
   onSelect,
   onClose,
-  inputRef,
+  onNavigate,
   canChooseFiles = true,
   canChooseDirectories = false,
   initialDirectory,
 }: FileAutocompleteDialogProps): any => {
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [filter, setFilter] = useState(() => inputRef.current?.plainText || '')
   const isInFocus = useIsInFocus()
+  
+  // Subscribe to filter from zustand store (reactive)
+  const filter = useStore(store, (s) => s.filter)
+  
+  // Reset selection when filter changes
+  const prevFilterRef = React.useRef(filter)
+  if (prevFilterRef.current !== filter) {
+    prevFilterRef.current = filter
+    setSelectedIndex(0)
+  }
 
-  const { data: allFiles = [], isLoading } = useQuery({
-    queryKey: ['file-list', initialDirectory, canChooseFiles, canChooseDirectories],
+  // Parse the filter to extract base path and prefix
+  const { basePath, prefix } = parsePath(filter || initialDirectory || '.')
+
+  const { data: files = [], isLoading } = useQuery({
+    queryKey: ['file-search', basePath, prefix, canChooseFiles],
     queryFn: async () => {
-      // Always include directories in the listing, filter afterwards
-      const files = await listAllFiles({
-        basePath: initialDirectory || '.',
-        maxDepth: 4,
-        maxFiles: 500,
-        includeDirectories: true,
-      })
+      const items = await searchFiles(basePath, prefix)
       
-      // Filter based on canChooseFiles/canChooseDirectories
-      return files.filter((f) => {
-        const isDir = f.endsWith('/')
-        if (isDir) {
-          return canChooseDirectories
+      // Always show directories for navigation, filter files based on canChooseFiles
+      return items.filter((item) => {
+        if (item.isDirectory) {
+          return true
         }
         return canChooseFiles
       })
     },
   })
 
-  // Filter files based on current input
-  const filteredFiles = allFiles.filter((file) => fuzzyMatch(file, filter))
-  const visibleFiles = filteredFiles.slice(0, 10)
+  const visibleFiles = files.slice(0, 10)
 
   useKeyboard((evt) => {
     if (!isInFocus) return
@@ -77,22 +90,21 @@ export const FileAutocompleteDialog = ({
     } else if (evt.name === 'return' || evt.name === 'tab') {
       const selected = visibleFiles[selectedIndex]
       if (selected) {
-        const path = selected.endsWith('/') ? selected.slice(0, -1) : selected
-        inputRef.current?.setText(path)
-        onSelect(path)
-        onClose()
+        if (selected.isDirectory) {
+          if (canChooseDirectories) {
+            // Select directory
+            onSelect(selected.path)
+            onClose()
+          } else {
+            // Navigate into directory
+            onNavigate(selected.path + '/')
+          }
+        } else {
+          // Select file
+          onSelect(selected.path)
+          onClose()
+        }
       }
-    } else if (evt.name === 'backspace') {
-      if (filter.length > 0) {
-        const newFilter = filter.slice(0, -1)
-        setFilter(newFilter)
-        setSelectedIndex(0)
-      }
-    } else if (evt.name && evt.name.length === 1 && !evt.ctrl && !evt.meta) {
-      // Single character input
-      const newFilter = filter + evt.name
-      setFilter(newFilter)
-      setSelectedIndex(0)
     }
   })
 
@@ -111,16 +123,15 @@ export const FileAutocompleteDialog = ({
         <text fg={Theme.textMuted}>No files found</text>
       ) : (
         <>
-          {visibleFiles.map((file, index) => {
-            const isDir = file.endsWith('/')
-            const icon = isDir ? '📁 ' : '📄 '
+          {visibleFiles.map((item, index) => {
+            const icon = item.isDirectory ? '📁 ' : '📄 '
             return (
               <text
-                key={file}
+                key={item.path}
                 fg={index === selectedIndex ? Theme.background : Theme.text}
                 bg={index === selectedIndex ? Theme.primary : Theme.backgroundPanel}
               >
-                {' '}{icon}{file}
+                {' '}{icon}{item.name}{item.isDirectory ? '/' : ''}
               </text>
             )
           })}

@@ -465,3 +465,8 @@ to publish termcast
 - push with tags (never trigger release with gh workflow run)
 - release script should publish the npm version. and also the binary in gh releases. 
 - see gh ci for in progress script and make sure they are successful
+
+
+## navigation push() limitation: props will not sync
+
+when rendering an element with push the props passed will not be dynamic. instead if you need the child pushed element to react on parent state changes you must  use zustand state. if this state is local you can create the zustand state inside useMemo() or `const [store] = useState(() => create<StateType>({}))` and pass it down via props.

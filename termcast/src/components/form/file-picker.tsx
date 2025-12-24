@@ -7,7 +7,7 @@ import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
-import { FileAutocompleteDialog } from './file-autocomplete'
+import { FileAutocompleteDialog, createFileAutocompleteStore } from './file-autocomplete'
 import { useFormNavigationHelpers } from './use-form-navigation'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { LoadingText } from 'termcast/src/components/loading-text'
@@ -67,29 +67,35 @@ const FilePickerField = ({
   const isInFocus = useIsInFocus()
   const inputRef = React.useRef<TextareaRenderable>(null)
   const dialog = useDialog()
+  
+  // Create store once for sharing state with dialog
+  const [store] = React.useState(() => createFileAutocompleteStore())
 
   const showAutocomplete = () => {
     if (dialog.stack.length > 0) return
 
-    const handleSelect = (path: string) => {
-      const currentFiles = field.value || []
-      const newFiles =
-        props.allowMultipleSelection !== false ? [...currentFiles, path] : [path]
-      field.onChange(newFiles)
-      if (props.onChange) {
-        props.onChange(newFiles)
-      }
-      inputRef.current?.setText('')
-      dialog.clear()
-    }
-
     dialog.push(
       <FileAutocompleteDialog
-        onSelect={handleSelect}
+        store={store}
+        onSelect={(path) => {
+          const currentFiles = field.value || []
+          const newFiles =
+            props.allowMultipleSelection !== false ? [...currentFiles, path] : [path]
+          field.onChange(newFiles)
+          if (props.onChange) {
+            props.onChange(newFiles)
+          }
+          inputRef.current?.setText('')
+          store.setState({ filter: '' })
+          dialog.clear()
+        }}
+        onNavigate={(path) => {
+          inputRef.current?.setText(path)
+          store.setState({ filter: path })
+        }}
         onClose={() => {
           dialog.clear()
         }}
-        inputRef={inputRef}
         canChooseFiles={props.canChooseFiles}
         canChooseDirectories={props.canChooseDirectories}
         initialDirectory={props.initialDirectory}
@@ -100,6 +106,7 @@ const FilePickerField = ({
   // Handle Enter key and left arrow for removing last file
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
+    if (dialog.stack.length > 0) return // Let autocomplete handle keys
 
     // Left arrow removes last selected file when input is empty
     if (evt.name === 'left') {
@@ -132,6 +139,7 @@ const FilePickerField = ({
           props.onChange(newFiles)
         }
         inputRef.current?.setText('')
+        store.setState({ filter: '' })
       }
     }
   })
@@ -170,6 +178,7 @@ const FilePickerField = ({
             onMouseDown={() => setFocusedField(props.id)}
             onContentChange={() => {
               const value = inputRef.current?.plainText || ''
+              store.setState({ filter: value })
               if (value && isFocused) {
                 showAutocomplete()
               }
