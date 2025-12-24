@@ -5,6 +5,9 @@ import { searchFiles, parsePath } from '../../utils/file-system'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { createStore, useStore } from 'zustand'
+import os from 'os'
+
+const homedir = os.homedir()
 
 interface FileAutocompleteState {
   filter: string
@@ -61,7 +64,10 @@ export const FileAutocompleteDialog = ({
   }
 
   // Parse the filter to extract base path and prefix
-  const { basePath, prefix } = parsePath(filter || initialDirectory || '.')
+  // When filter is empty, use initialDirectory with empty prefix to show all files
+  const { basePath, prefix } = filter
+    ? parsePath(filter)
+    : { basePath: initialDirectory || '.', prefix: '' }
 
   const { data: files = [], isLoading } = useQuery({
     queryKey: ['file-search', basePath, prefix, canChooseFiles],
@@ -111,10 +117,12 @@ export const FileAutocompleteDialog = ({
   const hintText = '↑↓ navigate  ⏎/tab select  esc close'
 
   return (
-    <box flexDirection='column' paddingLeft={1} paddingRight={1}>
+    <box flexDirection='column' paddingLeft={1} paddingRight={1} overflow='hidden'>
       <box flexDirection='row'>
-        <text fg={Theme.textMuted}>Filter: </text>
-        <text fg={Theme.primary}>{filter || '(type to filter)'}</text>
+        <text fg={Theme.textMuted} wrapMode='none'>Filter: </text>
+        <text fg={Theme.primary} wrapMode='none'>
+          {filter ? filter.replace(homedir, '~') : '(type to filter)'}
+        </text>
       </box>
       <box height={1} />
       {isLoading ? (
@@ -124,12 +132,13 @@ export const FileAutocompleteDialog = ({
       ) : (
         <>
           {visibleFiles.map((item, index) => {
-            const icon = item.isDirectory ? '📁 ' : '📄 '
+            const icon = item.isDirectory ? '▫ ' : '▪ '
             return (
               <text
                 key={item.path}
                 fg={index === selectedIndex ? Theme.background : Theme.text}
                 bg={index === selectedIndex ? Theme.primary : Theme.backgroundPanel}
+                wrapMode='none'
               >
                 {' '}{icon}{item.name}{item.isDirectory ? '/' : ''}
               </text>
@@ -138,7 +147,7 @@ export const FileAutocompleteDialog = ({
         </>
       )}
       <box height={1} />
-      <text fg={Theme.textMuted}>{hintText}</text>
+      <text fg={Theme.textMuted} wrapMode='none'>{hintText}</text>
     </box>
   )
 }
