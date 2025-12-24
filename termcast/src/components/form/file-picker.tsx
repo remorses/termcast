@@ -67,7 +67,7 @@ const FilePickerField = ({
   const isInFocus = useIsInFocus()
   const inputRef = React.useRef<TextareaRenderable>(null)
   const dialog = useDialog()
-  
+
   // Create store once for sharing state with dialog
   const [store] = React.useState(() => createFileAutocompleteStore())
 
@@ -175,6 +175,7 @@ const FilePickerField = ({
             initialValue=""
             placeholder={props.placeholder || 'Enter file path...'}
             focused={isFocused}
+            showCursor={dialog.stack.length === 0}
             onMouseDown={() => setFocusedField(props.id)}
             onContentChange={() => {
               const value = inputRef.current?.plainText || ''
