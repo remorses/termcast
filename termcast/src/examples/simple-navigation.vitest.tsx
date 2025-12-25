@@ -45,12 +45,12 @@ test('navigation between main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -79,12 +79,12 @@ test('navigation between main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -115,12 +115,12 @@ test('navigation between main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ go back    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -159,12 +159,12 @@ test('navigation between main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -193,12 +193,12 @@ test('navigation between main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -224,12 +224,12 @@ test('navigation between main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ go back    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -265,12 +265,12 @@ test('navigation between main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -299,8 +299,6 @@ test('navigation with actions panel', async () => {
 
 
 
-
-
       ┌────────────────────────────────────────────────────────────────┐
       │                                                          esc   │
       │                                                                │
@@ -312,6 +310,8 @@ test('navigation with actions panel', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       └────────────────────────────────────────────────────────────────┘
+
+
 
 
 
@@ -332,8 +332,6 @@ test('navigation with actions panel', async () => {
 
 
 
-
-
       ┌────────────────────────────────────────────────────────────────┐
       │                                                          esc   │
       │                                                                │
@@ -345,6 +343,8 @@ test('navigation with actions panel', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       └────────────────────────────────────────────────────────────────┘
+
+
 
 
 
@@ -372,13 +372,13 @@ test('navigation with actions panel', async () => {
        Third Item Navigate to third detail
 
 
-
-                               No items found
-
-
-
                              ✓ Copied to Clipboard
                                    First Item
+
+
+
+
+
 
 
 
@@ -416,12 +416,12 @@ test('navigation with actions panel', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ go back    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -442,8 +442,6 @@ test('navigation with actions panel', async () => {
 
 
 
-
-
       ┌────────────────────────────────────────────────────────────────┐
       │                                                          esc   │
       │                                                                │
@@ -455,6 +453,8 @@ test('navigation with actions panel', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       └────────────────────────────────────────────────────────────────┘
+
+
 
 
 
@@ -488,12 +488,12 @@ test('navigation with actions panel', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -527,15 +527,15 @@ test('search functionality in main and detail views', async () => {
 
        second
 
-      ›Second Item Navigate to second detail
-
-
-                               No items found
-
-
+       Second Item Navigate to second detail
 
 
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -572,12 +572,12 @@ test('search functionality in main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -610,12 +610,12 @@ test('search functionality in main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ go back    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -686,12 +686,12 @@ test('search functionality in main and detail views', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↵ open details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 

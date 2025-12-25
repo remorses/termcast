@@ -41,12 +41,12 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
 
 
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+
+
 
 
 
@@ -78,12 +78,12 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -115,12 +115,12 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -152,12 +152,12 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
 
                                          ✗ Error
         This is a very long error message that should wrap to multiple lines when
@@ -189,7 +189,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
+       ↵ select    ↑↓ navigate    ^k actions
 
 
 
@@ -226,12 +226,12 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -263,12 +263,12 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -300,12 +300,12 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -337,12 +337,12 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-                                    No items found
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -374,12 +374,12 @@ test('toast variations display correctly', async () => {
       ›Error with Retry
 
 
-                                    No items found
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
                               ✗ Connection Failed [Retry ↵]

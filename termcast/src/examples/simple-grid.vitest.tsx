@@ -72,8 +72,8 @@ test('grid navigation and display', async () => {
        Search items...
 
        Fruits                                                          ▲
-      ›🍎 Apple                                                        ▀
-       🍌 Banana
+       🍎 Apple                                                        ▀
+      ›🍌 Banana
        🍒 Cherry
 
        Animals
@@ -108,10 +108,10 @@ test('grid navigation and display', async () => {
        Fruits                                                          ▲
        🍎 Apple                                                        ▀
        🍌 Banana
-      ›🍒 Cherry
+       🍒 Cherry
 
        Animals
-       🐕 Dog
+      ›🐕 Dog
        🐱 Cat
        🐰 Rabbit
 
@@ -174,10 +174,10 @@ test('grid navigation and display', async () => {
        Fruits                                                          ▲
        🍎 Apple                                                        ▀
        🍌 Banana
-      ›🍒 Cherry
+       🍒 Cherry
 
        Animals
-       🐕 Dog
+      ›🐕 Dog
        🐱 Cat
        🐰 Rabbit
 
@@ -218,7 +218,7 @@ test('grid search functionality', async () => {
        cat
 
       ›🍎 Apple                                                        ▲
-       🍌 Banana                                                       ▀
+       🍌 Banana                                                       █
        🍒 Cherry
        🐕 Dog
        🐱 Cat
@@ -258,7 +258,7 @@ test('grid search functionality', async () => {
        space
 
       ›🍎 Apple                                                        ▲
-       🍌 Banana                                                       ▀
+       🍌 Banana                                                       █
        🍒 Cherry
        🐕 Dog
        🐱 Cat
@@ -332,7 +332,7 @@ test('grid search functionality', async () => {
        xyz123
 
       ›🍎 Apple                                                        ▲
-       🍌 Banana                                                       ▀
+       🍌 Banana                                                       █
        🍒 Cherry
        🐕 Dog
        🐱 Cat

@@ -86,7 +86,6 @@ test('swift extension dev mode shows command list', async () => {
 
 
 
-                               No items found
 
 
 
@@ -97,6 +96,7 @@ test('swift extension dev mode shows command list', async () => {
 
 
 
+       ↵ run command    ↑↓ navigate    ^k actions
 
     "
   `)
@@ -136,12 +136,12 @@ test('swift extension runs Swift List command and shows items', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 

@@ -53,12 +53,12 @@ test('Store extension - searching for spiceblow shows Database', async () => {
       ›Spiceblow - Sql Database Management Search, update, insert and delete row
 
 
-                                    No items found
-
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 

@@ -71,8 +71,8 @@ test('selecting command with arguments shows arguments form', async () => {
 
        usePromise Demo Shows how to use the usePromise view  ▲
        Show State Shows the current application state  view
-      ›With Arguments Demonstrates command arguments ( view  ▀
-       Quick Action Copies current timestamp to cli no-view
+      ›With Arguments Demonstrates command arguments ( view
+       Quick Action Copies current timestamp to cli no-view  ▄
                                                              ▼
 
 
@@ -174,15 +174,15 @@ test('can fill arguments and run command', async () => {
 
        Search...
 
-       Received Arguments                                    ▲
-      ›▼ Search Query (empty)                                █
-       ▼ Secret Key (empty)                                  █
+       Received Arguments
+      ›▼ Search Query (empty)
+       ▼ Secret Key (empty)
        ▼ Category (empty)
 
-                                                             ▼
 
                         ✓ Copied to Clipboard
                                 (empty)
+
     "
   `)
 }, 30000)
@@ -214,7 +214,7 @@ test('can run simple view command without arguments', async () => {
        Items                                                 ▲
       ›▲ First Item This is the first item                   █
        ▲ Second Item This is the second item                 █
-       ▲ Third Item This is the third item
+       ▲ Third Item This is the third item                   ▀
        ▲ Fourth Item This is the fourth item
        ▲ Fifth Item This is the fifth item                   ▼
 
