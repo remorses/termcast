@@ -336,7 +336,7 @@ export const Form: FormType = ((props) => {
 
     if (evt.name === 'k' && evt.ctrl && props.actions) {
       // Ctrl+K shows actions (always show sheet)
-      dialog.push(
+      dialog.pushActions(
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
         </FormSubmitContext.Provider>,
@@ -345,7 +345,7 @@ export const Form: FormType = ((props) => {
     } else if (evt.name === 'return' && evt.ctrl && props.actions) {
       // Ctrl+Return executes first action directly
       useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.push(
+      dialog.pushActions(
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
         </FormSubmitContext.Provider>,
@@ -354,7 +354,7 @@ export const Form: FormType = ((props) => {
     } else if (evt.name === 'return' && evt.meta && props.actions) {
       // Cmd+Return also executes first action directly
       useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.push(
+      dialog.pushActions(
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
         </FormSubmitContext.Provider>,

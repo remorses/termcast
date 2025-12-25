@@ -210,7 +210,7 @@ Action.Push = (props) => {
       props.onPush?.()
       // Push the target to dialog if needed
       if (props.target) {
-        dialog.push(props.target, 'center')
+        dialog.push({ element: props.target, position: 'center' })
       }
     },
   })
@@ -693,8 +693,9 @@ const ActionPanel: ActionPanelType = (props) => {
     }
   }, [descendantsContext.map, dialog, isOffscreen])
 
-  // prevent showing actions if no dialog is shown (must be after hooks)
-  if (!dialog.stack.length && !isOffscreen) return null
+  // prevent showing actions if we're not inside an actions dialog (must be after hooks)
+  const lastStackItem = dialog.stack[dialog.stack.length - 1]
+  if (lastStackItem?.type !== 'actions' && !isOffscreen) return null
 
   // ActionPanel renders as Dropdown with children
   return (
@@ -752,7 +753,7 @@ const ActionPanel: ActionPanelType = (props) => {
               title="Change Theme..."
               onAction={() => {
                 dialog.clear()
-                dialog.push(<ThemePicker />)
+                dialog.push({ element: <ThemePicker /> })
               }}
             />
           </ActionPanel.Section>

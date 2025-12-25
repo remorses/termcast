@@ -7,10 +7,12 @@ export const toastPrimaryActionKey = { ctrl: true, name: 't' } as const
 export const toastSecondaryActionKey = { ctrl: true, name: 'g' } as const
 
 export type DialogPosition = 'center' | 'top-right' | 'bottom-right'
+export type DialogStackItemType = 'actions' | undefined
 
 export interface DialogStackItem {
   element: ReactNode
   position?: DialogPosition
+  type?: DialogStackItemType
 }
 
 export interface NavigationStackItem {

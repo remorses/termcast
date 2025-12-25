@@ -929,11 +929,11 @@ export const List: ListType = (props) => {
     if (evt.name === 'k' && evt.ctrl) {
       // Show current item's actions if available
       if (currentItem?.props?.actions) {
-        dialog.push(currentItem.props.actions, 'center')
+        dialog.pushActions(currentItem.props.actions)
       }
       // Otherwise show List's own actions
       else if (props.actions) {
-        dialog.push(props.actions, 'center')
+        dialog.pushActions(props.actions)
       }
       return
     }
@@ -946,7 +946,7 @@ export const List: ListType = (props) => {
 
       if (currentItem.props.actions) {
         useStore.setState({ shouldAutoExecuteFirstAction: true })
-        dialog.push(currentItem.props.actions, 'center')
+        dialog.pushActions(currentItem.props.actions)
       }
     }
   })
@@ -1217,7 +1217,7 @@ const ListItem: ListItemType = (props) => {
     if (listContext && index !== -1) {
       // If clicking on already selected item, show actions (like pressing Enter)
       if (isActive && props.actions) {
-        dialog.push(props.actions, 'center')
+        dialog.pushActions(props.actions)
       } else if (listContext.setSelectedIndex) {
         // Otherwise just select the item
         listContext.setSelectedIndex(index)
@@ -1443,37 +1443,39 @@ const ListDropdown: ListDropdownType = (props) => {
   useEffect(() => {
     if (isDropdownOpen && !dialog.stack.length) {
       // Pass the children to the dialog to render them there
-      dialog.push(
-        <ListDropdownDialog
-          {...props}
-          value={dropdownState.value}
-          onChange={(newValue) => {
-            // Find the title for this value
-            let title = newValue
-            for (const item of Object.values(descendantsContext.map.current)) {
-              const itemProps = item.props as DropdownItemDescendant
-              if (itemProps.value === newValue) {
-                title = itemProps.title
-                break
+      dialog.push({
+        element: (
+          <ListDropdownDialog
+            {...props}
+            value={dropdownState.value}
+            onChange={(newValue) => {
+              // Find the title for this value
+              let title = newValue
+              for (const item of Object.values(descendantsContext.map.current)) {
+                const itemProps = item.props as DropdownItemDescendant
+                if (itemProps.value === newValue) {
+                  title = itemProps.title
+                  break
+                }
               }
-            }
-            setDropdownState({ value: newValue, title })
-            setIsDropdownOpen(false)
-            dialog.clear()
-            if (props.onChange) {
-              props.onChange(newValue)
-            }
-            // TODO: Handle storeValue to persist the value
-          }}
-          onCancel={() => {
-            setIsDropdownOpen(false)
-            dialog.clear()
-          }}
-        >
-          {props.children}
-        </ListDropdownDialog>,
-        'top-right',
-      )
+              setDropdownState({ value: newValue, title })
+              setIsDropdownOpen(false)
+              dialog.clear()
+              if (props.onChange) {
+                props.onChange(newValue)
+              }
+              // TODO: Handle storeValue to persist the value
+            }}
+            onCancel={() => {
+              setIsDropdownOpen(false)
+              dialog.clear()
+            }}
+          >
+            {props.children}
+          </ListDropdownDialog>
+        ),
+        position: 'top-right',
+      })
     }
   }, [isDropdownOpen, props.children])
 
@@ -1736,14 +1738,14 @@ List.EmptyView = (props: EmptyViewProps) => {
 
     // Handle Ctrl+K to show actions
     if (evt.name === 'k' && evt.ctrl && props.actions) {
-      dialog.push(props.actions, 'center')
+      dialog.pushActions(props.actions)
       return
     }
 
     // Handle Enter to execute first action
     if (evt.name === 'return' && props.actions) {
       useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.push(props.actions, 'center')
+      dialog.pushActions(props.actions)
     }
   })
 

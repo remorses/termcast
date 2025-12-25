@@ -156,11 +156,22 @@ export function DialogOverlay(): any {
 export function useDialog() {
   const dialogStack = useStore((state) => state.dialogStack)
 
-  const pushDialog = (element: ReactNode, position?: DialogPosition) => {
+  const pushDialog = (args: {
+    element: ReactNode
+    position?: DialogPosition
+    type?: 'actions'
+  }) => {
     const state = useStore.getState()
     useStore.setState({
-      dialogStack: [...state.dialogStack, { element, position }],
+      dialogStack: [
+        ...state.dialogStack,
+        { element: args.element, position: args.position, type: args.type },
+      ],
     })
+  }
+
+  const pushActions = (element: ReactNode, position: DialogPosition='center') => {
+    pushDialog({ element, position, type: 'actions' })
   }
 
   const clearDialogs = () => {
@@ -173,6 +184,7 @@ export function useDialog() {
 
   return {
     push: pushDialog,
+    pushActions,
     clear: clearDialogs,
     replace: replaceDialog,
     stack: dialogStack,

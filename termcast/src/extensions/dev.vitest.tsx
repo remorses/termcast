@@ -37,12 +37,12 @@ test('dev command shows extension commands list', async () => {
        Commands                                              ▲
       ›List Items Displays a simple list with some ite view  ▀
        Search Items Search and filter through a list o view
-       Google Oauth                                    view
-       usePromise Demo Shows how to use the usePromise view  ▼
+       Google Oauth                                    view  ▼
 
 
        ↵ run command    ↑↓ navigate    ^k actions
 
+       Settings
     "
   `)
 }, 30000)
@@ -71,13 +71,13 @@ test('selecting command with arguments shows arguments form', async () => {
 
        usePromise Demo Shows how to use the usePromise view  ▲
        Show State Shows the current application state  view
-      ›With Arguments Demonstrates command arguments ( view
-       Quick Action Copies current timestamp to cli no-view  ▄
-                                                             ▼
+      ›With Arguments Demonstrates command arguments ( view  ▀
+       Quick Action Copies current timestamp to cli no-view  ▼
 
 
        ↵ run command    ↑↓ navigate    ^k actions
 
+       Settings
     "
   `)
 
@@ -95,7 +95,9 @@ test('selecting command with arguments shows arguments form', async () => {
     "
 
 
-      ■  With Arguments                                      █
+
+
+      ■  With Arguments                                      ▀
       │  Enter the arguments to run this command.
       │
       ◇  Search query
@@ -103,8 +105,6 @@ test('selecting command with arguments shows arguments form', async () => {
       │
       ◇  Secret key
       │  Secret key
-      ◇  Category
-      │  Category
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -140,7 +140,9 @@ test('can fill arguments and run command', async () => {
     "
 
 
-      ■  With Arguments                                      █
+
+
+      ■  With Arguments                                      ▀
       │  Enter the arguments to run this command.
       │
       ◇  Search query
@@ -148,8 +150,6 @@ test('can fill arguments and run command', async () => {
       │
       ◇  Secret key
       │  Secret key
-      ◇  Category
-      │  Category
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -180,9 +180,9 @@ test('can fill arguments and run command', async () => {
        ▼ Category (empty)
 
 
+
                         ✓ Copied to Clipboard
                                 (empty)
-
     "
   `)
 }, 30000)
@@ -213,10 +213,10 @@ test('can run simple view command without arguments', async () => {
 
        Items                                                 ▲
       ›▲ First Item This is the first item                   █
-       ▲ Second Item This is the second item                 █
-       ▲ Third Item This is the third item                   ▀
-       ▲ Fourth Item This is the fourth item
-       ▲ Fifth Item This is the fifth item                   ▼
+       ▲ Second Item This is the second item                 ▀
+       ▲ Third Item This is the third item
+       ▲ Fourth Item This is the fourth item                 ▼
+
 
                         ✓ Copied to Clipboard
                               First Item

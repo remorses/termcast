@@ -123,19 +123,7 @@ const Dropdown: DropdownType = (props) => {
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useDropdownDescendants()
 
-  // Update textarea and reset selection - single source of truth is the ref
-  const setSearchText = (text: string) => {
-    inputRef.current?.setText(text)
-    setSearchTextState(text)
-    // TODO: use flushSync when available to force descendants to update visibility
-    const items = Object.values(descendantsContext.map.current)
-      .filter((item: any) => item.index !== -1 && !item.props?.hidden)
-      .sort((a: any, b: any) => a.index - b.index)
 
-    if (items.length > 0 && items[0]) {
-      setSelected(items[0].index)
-    }
-  }
 
   const scrollToItem = (item: { props?: DropdownItemDescendant }) => {
     const scrollBox = scrollBoxRef.current
@@ -457,7 +445,7 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
   const elementRef = useRef<{ y: number; height: number } | null>(null)
   const isOffscreen = useIsOffscreen()
   if (!context) return null
-  
+
   // Don't render UI when offscreen (used for collecting action descendants)
   if (isOffscreen) return null
 
@@ -530,6 +518,7 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
 
 const DropdownSection: (props: DropdownSectionProps) => any = (props) => {
   const parentContext = useContext(DropdownContext)
+  const isOffscreen = useIsOffscreen()
   if (!parentContext) return null
 
   // Create new context with section title
@@ -540,6 +529,15 @@ const DropdownSection: (props: DropdownSectionProps) => any = (props) => {
     }),
     [parentContext, props.title],
   )
+
+  // When offscreen, just render children without section title UI
+  if (isOffscreen) {
+    return (
+      <DropdownContext.Provider value={sectionContextValue}>
+        {props.children}
+      </DropdownContext.Provider>
+    )
+  }
 
   return (
     <>

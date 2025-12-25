@@ -74,33 +74,35 @@ const FilePickerField = ({
   const showAutocomplete = () => {
     if (dialog.stack.length > 0) return
 
-    dialog.push(
-      <FileAutocompleteDialog
-        store={store}
-        onSelect={(path) => {
-          const currentFiles = field.value || []
-          const newFiles =
-            props.allowMultipleSelection !== false ? [...currentFiles, path] : [path]
-          field.onChange(newFiles)
-          if (props.onChange) {
-            props.onChange(newFiles)
-          }
-          inputRef.current?.setText('')
-          store.setState({ filter: '' })
-          dialog.clear()
-        }}
-        onNavigate={(path) => {
-          inputRef.current?.setText(path)
-          store.setState({ filter: path })
-        }}
-        onClose={() => {
-          dialog.clear()
-        }}
-        canChooseFiles={props.canChooseFiles}
-        canChooseDirectories={props.canChooseDirectories}
-        initialDirectory={props.initialDirectory}
-      />
-    )
+    dialog.push({
+      element: (
+        <FileAutocompleteDialog
+          store={store}
+          onSelect={(path) => {
+            const currentFiles = field.value || []
+            const newFiles =
+              props.allowMultipleSelection !== false ? [...currentFiles, path] : [path]
+            field.onChange(newFiles)
+            if (props.onChange) {
+              props.onChange(newFiles)
+            }
+            inputRef.current?.setText('')
+            store.setState({ filter: '' })
+            dialog.clear()
+          }}
+          onNavigate={(path) => {
+            inputRef.current?.setText(path)
+            store.setState({ filter: path })
+          }}
+          onClose={() => {
+            dialog.clear()
+          }}
+          canChooseFiles={props.canChooseFiles}
+          canChooseDirectories={props.canChooseDirectories}
+          initialDirectory={props.initialDirectory}
+        />
+      ),
+    })
   }
 
   // Handle Enter key and left arrow for removing last file

@@ -279,11 +279,11 @@ const Detail: DetailType = (props) => {
 
     if (evt.name === 'k' && evt.ctrl && actions) {
       // Ctrl+K shows actions (always show sheet)
-      dialog.push(actions, 'center')
+      dialog.pushActions(actions)
     } else if (evt.name === 'return' && actions) {
       // Enter executes first action directly
       useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.push(actions, 'center')
+      dialog.pushActions(actions)
     }
   })
 
