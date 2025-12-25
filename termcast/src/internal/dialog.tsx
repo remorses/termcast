@@ -7,7 +7,6 @@ import { useStore, type DialogPosition } from 'termcast/src/state'
 import { ToastOverlay } from 'termcast/src/apis/toast'
 import { NavigationContext } from 'termcast/src/internal/navigation'
 
-
 export type { DialogPosition } from 'termcast/src/state'
 
 interface DialogProps extends CommonProps {
@@ -66,10 +65,12 @@ export function Dialog({
     <box
       border={false}
       flexGrow={1}
+      left={-2}
       alignItems={positionStyles.alignItems}
       justifyContent={positionStyles.justifyContent}
       padding={positionStyles.padding}
-      // backgroundColor={'#00000044'}      onMouseDown={handleBackdropClick}
+      backgroundColor={Theme.background}
+      onMouseDown={handleBackdropClick}
     >
       <box
         border
@@ -77,7 +78,7 @@ export function Dialog({
         maxWidth='95%'
         backgroundColor={Theme.backgroundPanel}
         borderColor={Theme.border}
-        paddingTop={1}
+        // paddingTop={1}
         onMouseDown={handleDialogClick}
       >
         {children}
@@ -92,7 +93,9 @@ interface DialogProviderProps {
 
 export function DialogProvider(props: DialogProviderProps): any {
   const dialogStack = useStore((state) => state.dialogStack)
-  const toastWithPrimaryAction = useStore((state) => state.toastWithPrimaryAction)
+  const toastWithPrimaryAction = useStore(
+    (state) => state.toastWithPrimaryAction,
+  )
   const inFocus = useIsInFocus()
 
   useKeyboard((evt) => {
@@ -107,16 +110,13 @@ export function DialogProvider(props: DialogProviderProps): any {
     }
   })
 
-
   // Children lose focus when there's a dialog or an actionable toast
   const childrenInFocus = !dialogStack?.length && !toastWithPrimaryAction
 
   return (
     <>
       <InFocus inFocus={childrenInFocus}>{props.children}</InFocus>
-      <InFocus inFocus={!dialogStack?.length}>
-        <ToastOverlay />
-      </InFocus>
+
     </>
   )
 }

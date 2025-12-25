@@ -12,7 +12,7 @@ import { CommonProps } from 'termcast/src/utils'
 import { Cache } from 'termcast/src/apis/cache'
 import { logger } from 'termcast/src/logger'
 import { Theme } from 'termcast/src/theme'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, useTerminalDimensions } from '@opentui/react'
 import { TextAttributes } from '@opentui/core'
 import { useStore } from 'termcast/src/state'
 import * as fs from 'fs'
@@ -20,6 +20,8 @@ import * as path from 'path'
 import { exec } from 'child_process'
 import dedent from 'string-dedent'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
+import { ToastOverlay } from '../apis/toast'
+import { InFocus } from './focus-context'
 
 // Initialize error handlers at module load time
 initializeErrorHandlers()
@@ -415,12 +417,19 @@ export function TermcastProvider(props: ProvidersProps): any {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
           }}
         >
-          <box height={'100%'} alignItems='center' justifyContent='center' backgroundColor={Theme.background}>
-            <box padding={2} flexGrow={1}>
+          <box
+            minHeight={'100%'}
+            justifyContent='flex-start'
+            backgroundColor={Theme.background}
+          >
+            <box padding={2}>
               <DialogProvider>
+                <InFocus inFocus>
+                  <ToastOverlay />
+                </InFocus>
                 {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
                 <NavigationProvider overlay={<DialogOverlay />}>
-                  {props.children}
+                  <box>{props.children}</box>
                 </NavigationProvider>
               </DialogProvider>
             </box>
