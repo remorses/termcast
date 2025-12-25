@@ -59,7 +59,11 @@ test('list with dropdown navigation', async () => {
 
   await session.press(['ctrl', 'p'])
 
-  const immediatelyAfterCtrlPSnapshot = await session.text()
+  const immediatelyAfterCtrlPSnapshot = await session.text({
+    waitFor: (text) => {
+      return /select drink type/i.test(text)
+    },
+  })
   expect(immediatelyAfterCtrlPSnapshot).toMatchInlineSnapshot(`
     "
 

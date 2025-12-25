@@ -1091,12 +1091,17 @@ export const List: ListType = (props) => {
 
 
 function DefaultEmptyView(): any {
-  // Use the reactive hook to get notified when descendants change
-  const descendantsMap = useListDescendantsRerender()
+  // Subscribe to descendant changes and get live map ref
+  const { map } = useListDescendantsRerender()
+  const [hasVisibleItems, setHasVisibleItems] = useState(true)
 
-  const hasVisibleItems = Object.values(descendantsMap)
-    .filter((item) => item.index !== -1 && item.props?.visible !== false)
-    .length > 0
+  // Check visibility in useLayoutEffect to read latest props from live map
+  // (map.current is populated after items' useLayoutEffect runs)
+  useLayoutEffect(() => {
+    const items = Object.values(map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+    setHasVisibleItems(items.length > 0)
+  })
 
   if (hasVisibleItems) return null
 

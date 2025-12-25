@@ -135,13 +135,17 @@ export function createDescendants<T = any>() {
 
   /**
    * Opt-in to re-renders when the set of descendant IDs changes.
-   * Returns the committed map of descendants, readable during render.
-   * Only triggers re-render when descendants are added/removed, not on prop changes.
+   * Returns both the committed map and the live map ref.
    *
-   * Note: Returns a stable copy of the map from the last commit, not the live map
-   * which is cleared on every render cycle.
+   * - `committedMap`: Stable copy from last updateSnapshot, safe to read during render
+   * - `map`: Live ref, only read in useLayoutEffect (cleared during render by reset())
+   *
+   * Use the live `map` in useLayoutEffect to get the latest props (e.g., visible).
    */
-  function useDescendantsRerender(): DescendantMap<T> {
+  function useDescendantsRerender(): {
+    committedMap: DescendantMap<T>
+    map: React.RefObject<DescendantMap<T>>
+  } {
     const context = React.useContext(DescendantContext)
     if (!context) {
       throw new Error(
@@ -155,9 +159,10 @@ export function createDescendants<T = any>() {
       context.getSnapshot, // server snapshot
     )
 
-    // Return the committed map (stable copy from last updateSnapshot)
-    // We can't return map.current because it's cleared by reset() on every render
-    return context.committedMap
+    return {
+      committedMap: context.committedMap,
+      map: context.map,
+    }
   }
 
   return { DescendantsProvider, useDescendants, useDescendant, useDescendantsRerender }
