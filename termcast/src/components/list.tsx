@@ -79,7 +79,7 @@ function ListFooter(): any {
           <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
             ↵
           </text>
-          <text flexShrink={0} fg={Theme.textMuted}>{' '}{firstActionTitle.toLowerCase()}</text>
+          <text flexShrink={0} fg={Theme.textMuted}>{firstActionTitle.toLowerCase()}</text>
         </box>
       )}
       <box style={{ flexDirection: 'row', gap: 1 }}>
