@@ -2,6 +2,10 @@ import { create } from 'zustand'
 import { type ReactNode } from 'react'
 import type { RaycastPackageJson } from './package-json'
 
+// Toast action keyboard shortcuts (ctrl+t for primary, ctrl+g for secondary)
+export const toastPrimaryActionKey = { ctrl: true, name: 't' } as const
+export const toastSecondaryActionKey = { ctrl: true, name: 'g' } as const
+
 export type DialogPosition = 'center' | 'top-right' | 'bottom-right'
 
 export interface DialogStackItem {

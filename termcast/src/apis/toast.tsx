@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Theme } from 'termcast/src/theme'
 import { TextAttributes } from '@opentui/core'
-import { useStore } from 'termcast/src/state'
+import { useStore, toastPrimaryActionKey, toastSecondaryActionKey } from 'termcast/src/state'
 import { useKeyboard, useTerminalDimensions } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
@@ -146,10 +146,10 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
 
     if (evt.name === 'escape') {
       onHide()
-    } else if (toast.primaryAction && evt.name === 'return') {
+    } else if (toast.primaryAction && evt.ctrl && evt.name === toastPrimaryActionKey.name) {
       onHide()
       toast.primaryAction.onAction(toast)
-    } else if (toast.secondaryAction && evt.name === 'tab') {
+    } else if (toast.secondaryAction && evt.ctrl && evt.name === toastSecondaryActionKey.name) {
       onHide()
       toast.secondaryAction.onAction(toast)
     }
@@ -224,31 +224,35 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
         {toast.primaryAction && (
           <box
             flexShrink={0}
+            flexDirection='row'
             onMouseDown={() => {
               toast.primaryAction?.onAction(toast)
             }}
           >
-            <text fg={Theme.primary}>
+            <text fg={Theme.primary} attributes={TextAttributes.BOLD}>
               {' '}
-              [{toast.primaryAction.title} ↵]
+              [{toast.primaryAction.title}
             </text>
+            <text fg={Theme.primary}> ctrl t]</text>
           </box>
         )}
         {toast.secondaryAction && (
           <box
             flexShrink={0}
+            flexDirection='row'
             onMouseDown={() => {
               toast.secondaryAction?.onAction(toast)
             }}
           >
-            <text fg={Theme.textMuted}>
+            <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
               {' '}
-              [{toast.secondaryAction.title} ⇥]
+              [{toast.secondaryAction.title}
             </text>
+            <text fg={Theme.textMuted}> ctrl g]</text>
           </box>
         )}
       </box>
-      <box paddingLeft={2} maxHeight={6} overflow='hidden'>
+      <box paddingLeft={2} maxHeight={1} overflow='hidden'>
         <text flexShrink={0} fg={Theme.textMuted}>
           {toast.message || ' '}
         </text>

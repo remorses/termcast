@@ -41,7 +41,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-
+       ↵ select    ↑↓ navigate    ^k actions
 
 
 
@@ -159,10 +159,10 @@ test('toast variations display correctly', async () => {
 
 
 
+
+
                                          ✗ Error
         This is a very long error message that should wrap to multiple lines when
-        displayed in the toast component. It contains detailed information about
-        what went wrong during the operation.
     "
   `)
 
@@ -194,12 +194,12 @@ test('toast variations display correctly', async () => {
 
 
 
+
+
+
+
                                         ✗ Warning
        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-       consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-       cillum dolore eu fugiat nulla pariatur.
     "
   `)
 
@@ -235,7 +235,7 @@ test('toast variations display correctly', async () => {
 
 
 
-                                 ✓ File Deleted [Undo ↵]
+                              ✓ File Deleted [Undo ctrl t]
                               document.pdf was moved to trash
     "
   `)
@@ -272,7 +272,7 @@ test('toast variations display correctly', async () => {
 
 
 
-                        ✓ Update Available [Install ↵] [Later ⇥]
+                   ✓ Update Available [Install ctrl t] [Later ctrl g]
                               Version 2.0 is ready to install
     "
   `)
@@ -309,7 +309,7 @@ test('toast variations display correctly', async () => {
 
 
 
-             ✓ Operation Completed Successfully [View Results ↵] [Dismiss ⇥]
+        ✓ Operation Completed Successfully [View Results ctrl t] [Dismiss ctrl g]
                                All files have been processed
     "
   `)
@@ -382,9 +382,9 @@ test('toast variations display correctly', async () => {
 
 
 
-                              ✗ Connection Failed [Retry ↵]
+
+                           ✗ Connection Failed [Retry ctrl t]
         Unable to connect to the server. Please check your internet connection and
-        try again.
     "
   `)
 }, 30000)

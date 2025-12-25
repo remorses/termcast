@@ -93,9 +93,6 @@ interface DialogProviderProps {
 
 export function DialogProvider(props: DialogProviderProps): any {
   const dialogStack = useStore((state) => state.dialogStack)
-  const toastWithPrimaryAction = useStore(
-    (state) => state.toastWithPrimaryAction,
-  )
   const inFocus = useIsInFocus()
 
   useKeyboard((evt) => {
@@ -110,8 +107,8 @@ export function DialogProvider(props: DialogProviderProps): any {
     }
   })
 
-  // Children lose focus when there's a dialog or an actionable toast
-  const childrenInFocus = !dialogStack?.length && !toastWithPrimaryAction
+  // Children lose focus only when there's a dialog (toast uses unique shortcuts so no focus stealing needed)
+  const childrenInFocus = !dialogStack?.length
 
   return (
     <>

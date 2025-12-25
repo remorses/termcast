@@ -42,7 +42,7 @@ test('pressing enter triggers primary action on toast', async () => {
        Form with Delayed Toast Action
        Other Item
 
-                            ✓ File Deleted [Undo ↵]
+                         ✓ File Deleted [Undo ctrl t]
                          document.pdf was moved to trash
 
 
@@ -55,8 +55,8 @@ test('pressing enter triggers primary action on toast', async () => {
 
   expect(beforeEnter).toContain('[Undo')
 
-  // Press Enter to trigger the primary action
-  await session.press('enter')
+  // Press Ctrl+T to trigger the primary action
+  await session.press(['ctrl', 't'])
   await session.text({
     waitFor: (text) => text.includes('Undone'),
   })
@@ -200,7 +200,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       │
       └
 
-                       ✓ Form Submitted [View Details ↵]
+                    ✓ Form Submitted [View Details ctrl t]
                                   Hello, John!
 
 
@@ -215,8 +215,8 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
   `)
 
-  // Press Enter to trigger primary action (navigate to detail view)
-  await session.press('enter')
+  // Press Ctrl+T to trigger primary action (navigate to detail view)
+  await session.press(['ctrl', 't'])
   await session.text({
     waitFor: (text) => text.includes('Welcome, John!'),
   })
@@ -355,7 +355,7 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       │
       └
 
-                                ✓ Done [Open ↵]
+                             ✓ Done [Open ctrl t]
                                   Hello, Test!
 
 
@@ -370,9 +370,9 @@ test('delayed toast action: primaryAction set after toast shown works with enter
     "
   `)
 
-  // Press Enter to trigger primary action - this should work even though
+  // Press Ctrl+T to trigger primary action - this should work even though
   // primaryAction was set AFTER the toast was shown
-  await session.press('enter')
+  await session.press(['ctrl', 't'])
   await session.text({
     waitFor: (text) => text.includes('Opened!'),
   })

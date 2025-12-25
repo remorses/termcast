@@ -153,6 +153,9 @@ export function NavigationProvider(props: NavigationProviderProps): any {
   useKeyboard((evt) => {
     if (!inFocus) return
     if (evt.name === 'escape') {
+      // If there's a toast visible, let toast handle escape first
+      if (useStore.getState().toast) return
+
       if (stack.length > 1) {
         logger.log(
           'popping navigation',
