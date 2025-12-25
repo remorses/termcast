@@ -1,0 +1,255 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "defs": {
+    "background100": "#0A0A0A",
+    "background200": "#000000",
+    "gray100": "#1A1A1A",
+    "gray200": "#1F1F1F",
+    "gray300": "#292929",
+    "gray400": "#2E2E2E",
+    "gray500": "#454545",
+    "gray600": "#878787",
+    "gray700": "#8F8F8F",
+    "gray1000": "#EDEDED",
+    "blue700": "#0070F3",
+    "blue1000": "#EBF8FF",
+    "red700": "#E5484D",
+    "red1000": "#FDECED",
+    "amber700": "#FFB224",
+    "amber1000": "#FDF4DC",
+    "green700": "#46A758",
+    "green1000": "#E6F9E9",
+    "teal700": "#12A594",
+    "teal900": "#0AC7AC",
+    "cyan": "#50E3C2",
+    "lightBackground": "#FFFFFF",
+    "lightGray100": "#FAFAFA",
+    "lightGray200": "#EAEAEA",
+    "lightGray600": "#666666",
+    "lightGray1000": "#171717",
+    "darkForeground": "#EDEDED",
+    "darkConstant": "#47A8FF",
+    "darkString": "#00CA50",
+    "darkComment": "#A1A1A1",
+    "darkKeyword": "#FF4D8D",
+    "darkParameter": "#FF9300",
+    "darkFunction": "#C472FB",
+    "darkNumber": "#FFFFFF",
+    "darkDiffDeleted": "#F32E40",
+    "darkDiffInserted": "#00952D",
+    "darkHighlight": "#002F62",
+    "lightForeground": "#171717",
+    "lightConstant": "#005FF2",
+    "lightString": "#107D32",
+    "lightComment": "#666666",
+    "lightKeyword": "#C41562",
+    "lightParameter": "#AA4D00",
+    "lightFunction": "#7D00CC",
+    "lightNumber": "#111111",
+    "lightDiffDeleted": "#E2162A",
+    "lightDiffInserted": "#009432",
+    "lightHighlight": "#DFEFFF"
+  },
+  "theme": {
+    "primary": {
+      "dark": "blue700",
+      "light": "blue700"
+    },
+    "secondary": {
+      "dark": "darkConstant",
+      "light": "lightConstant"
+    },
+    "accent": {
+      "dark": "darkFunction",
+      "light": "lightFunction"
+    },
+    "error": {
+      "dark": "red700",
+      "light": "#DC3545"
+    },
+    "warning": {
+      "dark": "darkParameter",
+      "light": "lightParameter"
+    },
+    "success": {
+      "dark": "darkString",
+      "light": "lightString"
+    },
+    "info": {
+      "dark": "darkConstant",
+      "light": "lightConstant"
+    },
+    "text": {
+      "dark": "darkForeground",
+      "light": "lightForeground"
+    },
+    "textMuted": {
+      "dark": "darkComment",
+      "light": "lightComment"
+    },
+    "background": {
+      "dark": "background200",
+      "light": "lightBackground"
+    },
+    "backgroundPanel": {
+      "dark": "background200",
+      "light": "lightGray100"
+    },
+    "backgroundElement": {
+      "dark": "gray200",
+      "light": "lightGray200"
+    },
+    "border": {
+      "dark": "gray100",
+      "light": "lightGray200"
+    },
+    "borderActive": {
+      "dark": "gray500",
+      "light": "#999999"
+    },
+    "borderSubtle": {
+      "dark": "#111111",
+      "light": "#EAEAEA"
+    },
+    "diffAdded": {
+      "dark": "darkDiffInserted",
+      "light": "lightDiffInserted"
+    },
+    "diffRemoved": {
+      "dark": "darkDiffDeleted",
+      "light": "lightDiffDeleted"
+    },
+    "diffContext": {
+      "dark": "darkComment",
+      "light": "lightComment"
+    },
+    "diffHunkHeader": {
+      "dark": "darkComment",
+      "light": "lightComment"
+    },
+    "diffHighlightAdded": {
+      "dark": "darkDiffInserted",
+      "light": "lightDiffInserted"
+    },
+    "diffHighlightRemoved": {
+      "dark": "darkDiffDeleted",
+      "light": "lightDiffDeleted"
+    },
+    "diffAddedBg": {
+      "dark": "#041208",
+      "light": "#E6F9E9"
+    },
+    "diffRemovedBg": {
+      "dark": "#1A0809",
+      "light": "#FDECED"
+    },
+    "diffContextBg": {
+      "dark": "background200",
+      "light": "lightBackground"
+    },
+    "diffLineNumber": {
+      "dark": "darkComment",
+      "light": "lightComment"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#06180C",
+      "light": "#D6F5D6"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#200A0B",
+      "light": "#FFE5E5"
+    },
+    "markdownText": {
+      "dark": "darkForeground",
+      "light": "lightForeground"
+    },
+    "markdownHeading": {
+      "dark": "darkFunction",
+      "light": "lightFunction"
+    },
+    "markdownLink": {
+      "dark": "darkString",
+      "light": "lightString"
+    },
+    "markdownLinkText": {
+      "dark": "teal900",
+      "light": "teal700"
+    },
+    "markdownCode": {
+      "dark": "darkString",
+      "light": "lightString"
+    },
+    "markdownBlockQuote": {
+      "dark": "darkComment",
+      "light": "lightComment"
+    },
+    "markdownEmph": {
+      "dark": "darkParameter",
+      "light": "lightParameter"
+    },
+    "markdownStrong": {
+      "dark": "darkKeyword",
+      "light": "lightKeyword"
+    },
+    "markdownHorizontalRule": {
+      "dark": "gray500",
+      "light": "#999999"
+    },
+    "markdownListItem": {
+      "dark": "darkForeground",
+      "light": "lightForeground"
+    },
+    "markdownListEnumeration": {
+      "dark": "darkConstant",
+      "light": "lightConstant"
+    },
+    "markdownImage": {
+      "dark": "teal900",
+      "light": "teal700"
+    },
+    "markdownImageText": {
+      "dark": "cyan",
+      "light": "teal700"
+    },
+    "markdownCodeBlock": {
+      "dark": "darkForeground",
+      "light": "lightForeground"
+    },
+    "syntaxComment": {
+      "dark": "darkComment",
+      "light": "lightComment"
+    },
+    "syntaxKeyword": {
+      "dark": "darkKeyword",
+      "light": "lightKeyword"
+    },
+    "syntaxFunction": {
+      "dark": "darkFunction",
+      "light": "lightFunction"
+    },
+    "syntaxVariable": {
+      "dark": "darkConstant",
+      "light": "lightConstant"
+    },
+    "syntaxString": {
+      "dark": "darkString",
+      "light": "lightString"
+    },
+    "syntaxNumber": {
+      "dark": "darkNumber",
+      "light": "lightNumber"
+    },
+    "syntaxType": {
+      "dark": "darkParameter",
+      "light": "lightParameter"
+    },
+    "syntaxOperator": {
+      "dark": "darkKeyword",
+      "light": "lightKeyword"
+    },
+    "syntaxPunctuation": {
+      "dark": "darkForeground",
+      "light": "lightForeground"
+    }
+  }
+}
