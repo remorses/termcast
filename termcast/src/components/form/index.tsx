@@ -376,8 +376,19 @@ export const Form: FormType = ((props) => {
     <FormProvider {...methods}>
       <FormSubmitContext.Provider value={submitContextValue}>
         <FormScrollContext.Provider value={scrollContextValue}>
-          <FocusContext.Provider value={{ focusedField, setFocusedField, isLoading: isLoading || false }}>
-            <box flexDirection='row' flexGrow={1} justifyContent='center'>
+          <FocusContext.Provider
+            value={{
+              focusedField,
+              setFocusedField,
+              isLoading: isLoading || false,
+            }}
+          >
+            <box
+              flexDirection='row'
+              flexGrow={1}
+              paddingTop={2}
+              justifyContent='center'
+            >
               <box flexGrow={0} flexDirection='column'>
                 <ScrollBox
                   ref={scrollBoxRef}
