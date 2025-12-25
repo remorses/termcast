@@ -354,6 +354,7 @@ const {
   useDescendants: useListDescendants,
   useDescendant: useListItemDescendant,
   useDescendantsRerender: useListDescendantsRerender,
+  useDescendantsMap: useListDescendantsMap,
 } = createDescendants<ListItemDescendant>()
 
 // Create descendants for Dropdown items
@@ -1091,12 +1092,18 @@ export const List: ListType = (props) => {
 
 
 function DefaultEmptyView(): any {
-  // Subscribe to descendant changes and get live map ref
-  const { map } = useListDescendantsRerender()
+  // Subscribe to re-render when items are added/removed
+  void useListDescendantsRerender()
+  // Get live map ref for reading in useLayoutEffect
+  const map = useListDescendantsMap()
   const [hasVisibleItems, setHasVisibleItems] = useState(true)
 
-  // Check visibility in useLayoutEffect to read latest props from live map
-  // (map.current is populated after items' useLayoutEffect runs)
+  // We must check visibility in useLayoutEffect because:
+  // 1. map.current is cleared by reset() during render, so it's empty if read during render
+  // 2. committedMap is stale - it's a snapshot from the previous render cycle and doesn't
+  //    reflect prop changes like 'visible' (only tracks which items exist, not their props)
+  // 3. Items register in their own useLayoutEffect, so map.current is only populated after
+  //    all items' layout effects have run
   useLayoutEffect(() => {
     const items = Object.values(map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
