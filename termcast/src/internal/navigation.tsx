@@ -27,9 +27,9 @@ interface NavigationContextType {
   isPending: boolean
 }
 
-export const NavigationContext = createContext<NavigationContextType | undefined>(
-  undefined,
-)
+export const NavigationContext = createContext<
+  NavigationContextType | undefined
+>(undefined)
 
 interface NavigationProviderProps extends CommonProps {
   children: ReactNode
@@ -64,6 +64,8 @@ export function NavigationProvider(props: NavigationProviderProps): any {
       useStore.setState({
         navigationStack: [...currentStack, { element, onPop }],
         dialogStack: [],
+        toast: null,
+        toastWithPrimaryAction: false,
       })
     })
   }, [])
@@ -88,6 +90,8 @@ export function NavigationProvider(props: NavigationProviderProps): any {
       useStore.setState({
         navigationStack: newStack,
         dialogStack: [],
+        toast: null,
+        toastWithPrimaryAction: false,
       })
     })
   }, [])
