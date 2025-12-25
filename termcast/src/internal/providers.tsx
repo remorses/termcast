@@ -295,9 +295,7 @@ function ErrorDisplay({
             currentFocusableIndex++
             if (currentFocusableIndex === focusedIndex) {
               const filePathWithLine = `${line.file}:${line.line}`
-              const { Clipboard } = await import(
-                'termcast/src/apis/clipboard'
-              )
+              const { Clipboard } = await import('termcast/src/apis/clipboard')
               await Clipboard.copy(filePathWithLine)
               logger.log(`📋 Copied to clipboard: ${filePathWithLine}`)
               break
@@ -343,8 +341,8 @@ function ErrorDisplay({
         marginTop={1}
       >
         <text>
-          {focusedIndex === 0 ? '▶ ' : '  '}📝 Press Enter or click to report
-          on GitHub
+          {focusedIndex === 0 ? '▶ ' : '  '}📝 Press Enter or click to report on
+          GitHub
         </text>
       </box>
 
@@ -417,14 +415,16 @@ export function TermcastProvider(props: ProvidersProps): any {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
           }}
         >
-          <DialogProvider>
-            <box backgroundColor={Theme.background} padding={2}>
-              {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
-              <NavigationProvider overlay={<DialogOverlay />}>
-                {props.children}
-              </NavigationProvider>
+          <box height={'100%'} justifyContent='center' backgroundColor={Theme.background}>
+            <box padding={2}>
+              <DialogProvider>
+                {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
+                <NavigationProvider overlay={<DialogOverlay />}>
+                  {props.children}
+                </NavigationProvider>
+              </DialogProvider>
             </box>
-          </DialogProvider>
+          </box>
         </PersistQueryClientProvider>
       </Suspense>
     </ErrorBoundary>

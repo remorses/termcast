@@ -30,7 +30,7 @@ function SimpleScrollBoxDemo(): any {
         </text>
       </box>
 
-      <ScrollBox focused flexGrow={1} flexShrink={1}>
+      <ScrollBox focused flexShrink={1}>
         {Array.from({ length: 30 }, (_, i) => (
           <box
             key={i}

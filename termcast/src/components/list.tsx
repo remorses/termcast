@@ -1036,7 +1036,7 @@ export const List: ListType = (props) => {
               <ScrollBox
                 ref={scrollBoxRef}
                 focused={false}
-                flexGrow={1}
+                // flexGrow={1}
                 flexShrink={1}
                 style={{
                   rootOptions: {
@@ -1232,7 +1232,7 @@ const ListItemDetail: ListItemDetailType = (props) => {
 
       <ScrollBox
         focused={false}
-        flexGrow={1}
+        // flexGrow={1}
         flexShrink={1}
         style={{
           rootOptions: {

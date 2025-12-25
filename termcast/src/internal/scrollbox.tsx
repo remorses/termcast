@@ -34,6 +34,7 @@ export function ScrollBox({
         },
         contentOptions: {
           flexShrink: 0,
+          minHeight: 0, // let the scrollbox shrink with content
           ...(style?.contentOptions || {}),
         },
         scrollbarOptions: {

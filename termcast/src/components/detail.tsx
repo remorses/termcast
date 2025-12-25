@@ -290,7 +290,7 @@ const Detail: DetailType = (props) => {
   const content = (
     <ScrollBox
       focused={true}
-      flexGrow={1}
+      // flexGrow={1}
       flexShrink={1}
       style={{
         rootOptions: {

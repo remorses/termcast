@@ -381,7 +381,7 @@ export const Form: FormType = ((props) => {
               <box flexGrow={0} flexDirection='column'>
                 <ScrollBox
                   ref={scrollBoxRef}
-                  flexGrow={1}
+                  // flexGrow={1}
                   style={{
                     rootOptions: {
                       maxWidth: FORM_MAX_WIDTH,
