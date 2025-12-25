@@ -282,26 +282,26 @@ test('list detail view search functionality', async () => {
 
        char
 
-       charmander #004
-       charmeleon #005                      │ bulbasaur                         ▲
-                                            │                                   ▀
+      ›charmander #004
+       charmeleon #005                      │ charmander                        ▲
+                                            │                                   █
                                             │ Illustration
        ↵ toggle        ↑↓ navigate ^k action│
          detail                             │ Types
-                                            │ Grass / Poison
+                                            │ Fire
                                             │
                                             │ Characteristics
-                                            │ - Height: 0.7m
-                                            │ - Weight: 6.9kg
+                                            │ - Height: 0.6m
+                                            │ - Weight: 8.5kg
                                             │
                                             │ Abilities
-                                            │ - Chlorophyll
-                                            │ - Overgrow
+                                            │ - Blaze
+                                            │ - Solar Power
                                             │ ─────────────────────────────────
                                             │
                                             │ Types:
                                             │
-                                            │ Grass:
+                                            │ Fire:
                                             │ ─────────────────
                                             │                                   ▼
 

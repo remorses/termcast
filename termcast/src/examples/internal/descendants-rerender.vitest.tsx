@@ -70,7 +70,7 @@ test(
         Items: 3 | [a] add | [d] delete | [r] reset counts
 
         Parent with hook - renders: 3
-        Item count (from hook): 2
+        Item count (from hook): 3
         [0] Apple (without hook, renders: 7)
         [1] Banana (without hook, renders: 8)
         [2] Cherry (without hook, renders: 9)
@@ -119,7 +119,7 @@ test(
 
 
         Parent without hook - renders: 2
-        Independent child with hook - renders: 3, items: 2
+        Independent child with hook - renders: 3, items: 3
         [0]eApplen(withoutwhook,trenders:r7)ders: 2
         [1] Banana (without hook, renders: 8)
         [2] Cherry (without hook, renders: 9)
@@ -168,9 +168,9 @@ test(
         Items: 3 | [a] add | [d] delete | [r] reset counts
 
         Parent without hook - renders: 2
-        [0] Apple (with hook, renders: 7, total: 2)
-        [1] Banana (with hook, renders: 8, total: 2)
-        [2] Cherry (with hook, renders: 9, total: 2)
+        [0] Apple (with hook, renders: 7, total: 3)
+        [1] Banana (with hook, renders: 8, total: 3)
+        [2] Cherry (with hook, renders: 9, total: 3)
 
         ┌──────────────────────────────────────────────────────────────────────────┐
         │                                                                          │
