@@ -125,9 +125,11 @@ export class Toast {
 export interface ToastContentProps {
   toast: Toast
   onHide: () => void
+  /** Override the icon color (used by HUD for white styling) */
+  iconColor?: string
 }
 
-export function ToastContent({ toast, onHide }: ToastContentProps): any {
+export function ToastContent({ toast, onHide, iconColor: iconColorOverride }: ToastContentProps): any {
   const [, forceUpdate] = useState(0)
   const inFocus = useIsInFocus()
 
@@ -215,7 +217,7 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
       overflow='hidden'
     >
       <box flexDirection='row' alignItems='center' flexShrink={0} overflow='hidden'>
-        <text flexShrink={0} fg={getIconColor()}>
+        <text flexShrink={0} fg={iconColorOverride || getIconColor()}>
           {icon}{' '}
         </text>
         <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
