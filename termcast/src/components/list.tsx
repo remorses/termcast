@@ -73,30 +73,33 @@ function ListFooter(): any {
   const hasToast = useStore((s) => s.toast !== null)
 
   const content = hasToast ? null : (
-    <>
+    <box style={{ flexDirection: 'row', gap: 4 }}>
       {firstActionTitle && (
-        <>
+        <box style={{ flexDirection: 'row', gap: 1 }}>
           <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
             ↵
           </text>
-          <text flexShrink={0} fg={Theme.textMuted}> {firstActionTitle.toLowerCase()}</text>
-        </>
+          <text flexShrink={0} fg={Theme.textMuted}>{' '}{firstActionTitle.toLowerCase()}</text>
+        </box>
       )}
-      <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'  '}↑↓
-      </text>
-      <text flexShrink={0} fg={Theme.textMuted}> navigate</text>
-      <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'  '}^k
-      </text>
-      <text flexShrink={0} fg={Theme.textMuted}> actions</text>
-    </>
+      <box style={{ flexDirection: 'row', gap: 1 }}>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          ↑↓
+        </text>
+        <text flexShrink={0} fg={Theme.textMuted}>navigate</text>
+      </box>
+      <box style={{ flexDirection: 'row', gap: 1 }}>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          ^k
+        </text>
+        <text flexShrink={0} fg={Theme.textMuted}>actions</text>
+      </box>
+    </box>
   )
 
   return (
     <box
       border={false}
-      height={1}
       style={{
         paddingLeft: 1,
         flexShrink: 0,
