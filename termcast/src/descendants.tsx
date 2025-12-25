@@ -7,9 +7,16 @@ type DescendantMap<T> = { [id: string]: { index: number; props?: T } }
 
 export interface DescendantContextType<T> {
   getIndexForId: (id: string, props?: T) => number
-  // IMPORTANT! map is not reactive, it cannot be used in render, only in useEffect or useLayoutEffect or other event handlers like useKeyboard
+  // IMPORTANT! map is not reactive by default. Use useDescendantsRerender() to opt-in to reactivity.
+  // Without that hook, map can only be read in useEffect/useLayoutEffect or event handlers like useKeyboard
   map: React.RefObject<DescendantMap<T>>
   reset: () => void
+  // For useSyncExternalStore - opt-in reactivity
+  subscribe: (callback: () => void) => () => void
+  getSnapshot: () => string
+  updateSnapshot: () => void
+  // Committed map - stable copy for useDescendantsRerender (map.current is cleared on every render)
+  committedMap: DescendantMap<T>
 }
 
 const randomId = () => Math.random().toString(36).slice(2, 11)
@@ -26,6 +33,11 @@ export function createDescendants<T = any>() {
     // On every re-render of children, reset the count
     props.value.reset()
 
+    // Update snapshot after all children have registered (runs after children's useLayoutEffect)
+    React.useLayoutEffect(() => {
+      props.value.updateSnapshot()
+    })
+
     return (
       <DescendantContext.Provider value={props.value}>
         {props.children}
@@ -37,30 +49,71 @@ export function createDescendants<T = any>() {
     const indexCounter = React.useRef<number>(0)
     const map = React.useRef<DescendantMap<T>>({})
 
+    // For useSyncExternalStore - opt-in reactivity
+    const listeners = React.useRef(new Set<() => void>())
+    const snapshotRef = React.useRef('')
+    const prevSnapshotRef = React.useRef('')
+    // Committed map - stable copy of map.current updated only when snapshot changes
+    // This is what useDescendantsRerender returns, since map.current is cleared on every render
+    const committedMapRef = React.useRef<DescendantMap<T>>({})
+
     const reset = () => {
+      // Save previous snapshot before clearing
+      prevSnapshotRef.current = snapshotRef.current
       indexCounter.current = 0
       map.current = {}
     }
 
     const getIndexForId = (id: string, props?: T) => {
-      if (!map.current[id])
+      if (!map.current[id]) {
         map.current[id] = {
           index: indexCounter.current++,
         }
+      }
       map.current[id].props = props
       return map.current[id].index
     }
 
-    // React.useEffect(() => {
-    //   return () => {
-    //     reset()
-    //   }
-    // }, [])
+    // Must be stable (memoized) for useSyncExternalStore
+    const subscribe = React.useCallback((callback: () => void) => {
+      listeners.current.add(callback)
+      return () => {
+        listeners.current.delete(callback)
+      }
+    }, [])
+
+    // Must be stable for useSyncExternalStore
+    const getSnapshot = React.useCallback(() => snapshotRef.current, [])
+
+    // Called by provider after all children have registered
+    const updateSnapshot = React.useCallback(() => {
+      const newSnapshot = Object.keys(map.current).sort().join(',')
+      snapshotRef.current = newSnapshot
+      // Always update committed map so useDescendantsRerender returns fresh data
+      // (map.current is cleared by reset() on every render)
+      committedMapRef.current = { ...map.current }
+      // Only notify if there are listeners AND snapshot changed
+      if (listeners.current.size > 0 && newSnapshot !== prevSnapshotRef.current) {
+        listeners.current.forEach((cb) => {
+          cb()
+        })
+      }
+    }, [])
 
     // Do NOT memoize context value, so that we bypass React.memo on any children
     // We NEED them to re-render, in case stable children were re-ordered
     // (this creates a new object every render, so children reading the context MUST re-render)
-    return { getIndexForId, map, reset }
+    return {
+      getIndexForId,
+      map,
+      reset,
+      subscribe,
+      getSnapshot,
+      updateSnapshot,
+      get committedMap() {
+        return committedMapRef.current
+      },
+    }
   }
 
   /**
@@ -80,7 +133,34 @@ export function createDescendants<T = any>() {
     return { descendantId, index }
   }
 
-  return { DescendantsProvider, useDescendants, useDescendant }
+  /**
+   * Opt-in to re-renders when the set of descendant IDs changes.
+   * Returns the committed map of descendants, readable during render.
+   * Only triggers re-render when descendants are added/removed, not on prop changes.
+   *
+   * Note: Returns a stable copy of the map from the last commit, not the live map
+   * which is cleared on every render cycle.
+   */
+  function useDescendantsRerender(): DescendantMap<T> {
+    const context = React.useContext(DescendantContext)
+    if (!context) {
+      throw new Error(
+        'useDescendantsRerender must be used within a DescendantsProvider',
+      )
+    }
+
+    React.useSyncExternalStore(
+      context.subscribe,
+      context.getSnapshot,
+      context.getSnapshot, // server snapshot
+    )
+
+    // Return the committed map (stable copy from last updateSnapshot)
+    // We can't return map.current because it's cleared by reset() on every render
+    return context.committedMap
+  }
+
+  return { DescendantsProvider, useDescendants, useDescendant, useDescendantsRerender }
 }
 
 // EXAMPLE
