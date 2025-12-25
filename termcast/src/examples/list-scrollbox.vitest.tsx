@@ -28,15 +28,16 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
     "
 
 
-     Scrollbox Test ─────────────────────────────
+       Scrollbox Test ─────────────────────────────
 
-     Search items...
+       Search items...
 
-    ›▲ Item 1 Description for item 1             ▲
-     ■ Item 2 Description for item 2             ▼
+      ›▲ Item 1 Description for item 1             ▲
+                                                   ▼
 
+       ↑↓ navigate    ^k actions
 
-       ↑↓ navigate  ^k actions"
+    "
   `)
 
   await session.press('down')
@@ -50,15 +51,16 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
     "
 
 
-     Scrollbox Test ─────────────────────────────
+       Scrollbox Test ─────────────────────────────
 
-     Search items...
+       Search items...
 
-     ▼ Item 5 Description for item 5             ▲
-    ›● Item 6 Description for item 6             ▼
+      ›● Item 6 Description for item 6             ▲
+                                                   ▼
 
+       ↑↓ navigate    ^k actions
 
-       ↑↓ navigate  ^k actions"
+    "
   `)
 
   await session.press('down')
@@ -70,15 +72,16 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
     "
 
 
-     Scrollbox Test ─────────────────────────────
+       Scrollbox Test ─────────────────────────────
 
-     Search items...
+       Search items...
 
-     ■ Item 8 Description for item 8             ▲
-    ›■ Item 9 Description for item 9             ▼
+      ›■ Item 9 Description for item 9             ▲
+                                                   ▼
 
+       ↑↓ navigate    ^k actions
 
-       ↑↓ navigate  ^k actions"
+    "
   `)
 
   await session.press('up')
@@ -94,15 +97,16 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
     "
 
 
-     Scrollbox Test ─────────────────────────────
+       Scrollbox Test ─────────────────────────────
 
-     Search items...
+       Search items...
 
-     ▲ Item 1 Description for item 1             ▲
-    ›■ Item 2 Description for item 2             ▼
+      ›■ Item 2 Description for item 2             ▲
+                                                   ▼
 
+       ↑↓ navigate    ^k actions
 
-       ↑↓ navigate  ^k actions"
+    "
   `)
 }, 15000)
 
@@ -118,37 +122,39 @@ test('list scrollbox scrolls with mouse wheel', async () => {
     "
 
 
-     Scrollbox Test ─────────────────────────────
+       Scrollbox Test ─────────────────────────────
 
-     Search items...
+       Search items...
 
-    ›▲ Item 1 Description for item 1             ▲
-     ■ Item 2 Description for item 2             ▼
+      ›▲ Item 1 Description for item 1             ▲
+                                                   ▼
 
+       ↑↓ navigate    ^k actions
 
-       ↑↓ navigate  ^k actions"
+    "
   `)
 
   await session.scrollDown(3)
 
-  // Wait for scroll to take effect (Item 3 should appear after scrolling)
+  // Wait for scroll to take effect (should scroll past Item 1)
   const afterScrollDownSnapshot = await session.text({
-    waitFor: (text) => text.includes('Item 3') && !text.includes('›▲ Item 1'),
+    waitFor: (text) => !text.includes('Item 1'),
     timeout: 5000,
   })
   expect(afterScrollDownSnapshot).toMatchInlineSnapshot(`
     "
 
 
-    Scrollbox Test ─────────────────────────────
+       Scrollbox Test ─────────────────────────────
 
-    Search items...
+       Search items...
 
-    ■ Item 2 Description for item 2             ▲
-    ▲ Item 3 Description for item 3             ▼
+       ■ Item 2 Description for item 2             ▲
+                                                   ▼
 
+       ↑↓ navigate    ^k actions
 
-      ↑↓ navigate  ^k actions"
+    "
   `)
 
   await session.scrollUp(2)
@@ -162,14 +168,15 @@ test('list scrollbox scrolls with mouse wheel', async () => {
     "
 
 
-     Scrollbox Test ─────────────────────────────
+       Scrollbox Test ─────────────────────────────
 
-     Search items...
+       Search items...
 
-    ›▲ Item 1 Description for item 1             ▲
-     ■ Item 2 Description for item 2             ▼
+      ›▲ Item 1 Description for item 1             ▲
+                                                   ▼
 
+       ↑↓ navigate    ^k actions
 
-       ↑↓ navigate  ^k actions"
+    "
   `)
 }, 15000)

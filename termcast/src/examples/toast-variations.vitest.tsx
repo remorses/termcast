@@ -23,36 +23,36 @@ test('toast variations display correctly', async () => {
   })
   expect(simpleSuccess).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-      ›Simple Success                                                               
-       Simple Failure                                                               
-       With Short Message                                                           
-       With Long Message                                                            
-       With Super Long Message                                                      
-       With Primary Action                                                          
-       With Both Actions                                                            
-       Long Title with Actions                                                      
-       Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✓ Success                                                                      
-                                                                                    
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+      ›Simple Success
+       Simple Failure
+       With Short Message
+       With Long Message
+       With Super Long Message
+       With Primary Action
+       With Both Actions
+       Long Title with Actions
+       Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+
+
+                                        ✓ Success
+
+    "
   `)
 
   // Simple Failure
@@ -60,36 +60,36 @@ test('toast variations display correctly', async () => {
   const simpleFailure = await session.text()
   expect(simpleFailure).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-      ›Simple Failure                                                               
-       With Short Message                                                           
-       With Long Message                                                            
-       With Super Long Message                                                      
-       With Primary Action                                                          
-       With Both Actions                                                            
-       Long Title with Actions                                                      
-       Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✗ Error                                                                        
-                                                                                    
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+      ›Simple Failure
+       With Short Message
+       With Long Message
+       With Super Long Message
+       With Primary Action
+       With Both Actions
+       Long Title with Actions
+       Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+
+
+                                         ✗ Error
+
+    "
   `)
 
   // With Short Message
@@ -97,36 +97,36 @@ test('toast variations display correctly', async () => {
   const shortMessage = await session.text()
   expect(shortMessage).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-       Simple Failure                                                               
-      ›With Short Message                                                           
-       With Long Message                                                            
-       With Super Long Message                                                      
-       With Primary Action                                                          
-       With Both Actions                                                            
-       Long Title with Actions                                                      
-       Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✓ Copied                                                                       
-       Text copied to clipboard                                                     
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+       Simple Failure
+      ›With Short Message
+       With Long Message
+       With Super Long Message
+       With Primary Action
+       With Both Actions
+       Long Title with Actions
+       Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+
+
+                                        ✓ Copied
+                                 Text copied to clipboard
+    "
   `)
 
   // With Long Message
@@ -134,36 +134,36 @@ test('toast variations display correctly', async () => {
   const longMessage = await session.text()
   expect(longMessage).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-       Simple Failure                                                               
-       With Short Message                                                           
-      ›With Long Message                                                            
-       With Super Long Message                                                      
-       With Primary Action                                                          
-       With Both Actions                                                            
-       Long Title with Actions                                                      
-       Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✗ Error                                                                        
-       This is a very long error message that should wrap to multiple lines when    
-       displayed in the toast component. It contains detailed information about     
-       what went wrong during the operation.                                        
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+       Simple Failure
+       With Short Message
+      ›With Long Message
+       With Super Long Message
+       With Primary Action
+       With Both Actions
+       Long Title with Actions
+       Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+                                         ✗ Error
+        This is a very long error message that should wrap to multiple lines when
+        displayed in the toast component. It contains detailed information about
+        what went wrong during the operation.
+    "
   `)
 
   // With Super Long Message
@@ -171,36 +171,36 @@ test('toast variations display correctly', async () => {
   const superLongMessage = await session.text()
   expect(superLongMessage).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-       Simple Failure                                                               
-       With Short Message                                                           
-       With Long Message                                                            
-      ›With Super Long Message                                                      
-       With Primary Action                                                          
-       With Both Actions                                                            
-       Long Title with Actions                                                      
-       Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✗ Warning                                                                      
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod      
-       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo     
-       consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse    
-       cillum dolore eu fugiat nulla pariatur.                                      
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+       Simple Failure
+       With Short Message
+       With Long Message
+      ›With Super Long Message
+       With Primary Action
+       With Both Actions
+       Long Title with Actions
+       Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+                                        ✗ Warning
+       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+       consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+       cillum dolore eu fugiat nulla pariatur.
+    "
   `)
 
   // With Primary Action
@@ -208,36 +208,36 @@ test('toast variations display correctly', async () => {
   const primaryAction = await session.text()
   expect(primaryAction).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-       Simple Failure                                                               
-       With Short Message                                                           
-       With Long Message                                                            
-       With Super Long Message                                                      
-      ›With Primary Action                                                          
-       With Both Actions                                                            
-       Long Title with Actions                                                      
-       Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✓ File Deleted [Undo ↵]                                                        
-       document.pdf was moved to trash                                              
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+       Simple Failure
+       With Short Message
+       With Long Message
+       With Super Long Message
+      ›With Primary Action
+       With Both Actions
+       Long Title with Actions
+       Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+
+
+                                 ✓ File Deleted [Undo ↵]
+                              document.pdf was moved to trash
+    "
   `)
 
   // With Both Actions
@@ -245,36 +245,36 @@ test('toast variations display correctly', async () => {
   const bothActions = await session.text()
   expect(bothActions).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-       Simple Failure                                                               
-       With Short Message                                                           
-       With Long Message                                                            
-       With Super Long Message                                                      
-       With Primary Action                                                          
-      ›With Both Actions                                                            
-       Long Title with Actions                                                      
-       Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✓ Update Available [Install ↵] [Later ⇥]                                       
-       Version 2.0 is ready to install                                              
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+       Simple Failure
+       With Short Message
+       With Long Message
+       With Super Long Message
+       With Primary Action
+      ›With Both Actions
+       Long Title with Actions
+       Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+
+
+                        ✓ Update Available [Install ↵] [Later ⇥]
+                              Version 2.0 is ready to install
+    "
   `)
 
   // Long Title with Actions
@@ -282,36 +282,36 @@ test('toast variations display correctly', async () => {
   const longTitleActions = await session.text()
   expect(longTitleActions).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-       Simple Failure                                                               
-       With Short Message                                                           
-       With Long Message                                                            
-       With Super Long Message                                                      
-       With Primary Action                                                          
-       With Both Actions                                                            
-      ›Long Title with Actions                                                      
-       Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✓ Operation Completed Successfully [View Results ↵] [Dismiss ⇥]                
-       All files have been processed                                                
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+       Simple Failure
+       With Short Message
+       With Long Message
+       With Super Long Message
+       With Primary Action
+       With Both Actions
+      ›Long Title with Actions
+       Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+
+
+             ✓ Operation Completed Successfully [View Results ↵] [Dismiss ⇥]
+                               All files have been processed
+    "
   `)
 
   // Animated Loading
@@ -319,36 +319,36 @@ test('toast variations display correctly', async () => {
   const animatedLoading = await session.text()
   expect(animatedLoading).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-       Simple Failure                                                               
-       With Short Message                                                           
-       With Long Message                                                            
-       With Super Long Message                                                      
-       With Primary Action                                                          
-       With Both Actions                                                            
-       Long Title with Actions                                                      
-      ›Animated Loading                                                             
-       Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ⣽ Processing                                                                   
-       Please wait while we process your request...                                 
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+       Simple Failure
+       With Short Message
+       With Long Message
+       With Super Long Message
+       With Primary Action
+       With Both Actions
+       Long Title with Actions
+      ›Animated Loading
+       Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+
+
+                                      ⣽ Processing
+                       Please wait while we process your request...
+    "
   `)
 
   // Error with Retry
@@ -356,35 +356,35 @@ test('toast variations display correctly', async () => {
   const errorRetry = await session.text()
   expect(errorRetry).toMatchInlineSnapshot(`
     "
-                                                                                    
-                                                                                    
-       Toast Variations ─────────────────────────────────────────────────────────   
-                                                                                    
-       Search...                                                                    
-                                                                                    
-       Simple Success                                                               
-       Simple Failure                                                               
-       With Short Message                                                           
-       With Long Message                                                            
-       With Super Long Message                                                      
-       With Primary Action                                                          
-       With Both Actions                                                            
-       Long Title with Actions                                                      
-       Animated Loading                                                             
-      ›Error with Retry                                                             
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-                                                                                    
-     ✗ Connection Failed [Retry ↵]                                                  
-       Unable to connect to the server. Please check your internet connection and   
-       try again.                                                                   
-                                                                                    "
+
+
+       Toast Variations ─────────────────────────────────────────────────────────
+
+       Search...
+
+       Simple Success
+       Simple Failure
+       With Short Message
+       With Long Message
+       With Super Long Message
+       With Primary Action
+       With Both Actions
+       Long Title with Actions
+       Animated Loading
+      ›Error with Retry
+
+
+                                    No items found
+
+
+
+
+       ↵ select    ↑↓ navigate    ^k actions
+
+
+                              ✗ Connection Failed [Retry ↵]
+        Unable to connect to the server. Please check your internet connection and
+        try again.
+    "
   `)
 }, 30000)

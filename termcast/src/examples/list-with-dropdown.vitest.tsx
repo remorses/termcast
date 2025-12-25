@@ -32,28 +32,29 @@ test('list with dropdown navigation', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
+       Search Beers ───────────────────────────────────────────────────
 
 
-     Search...                                                 Beer ▾
+       Search...                                                 Beer ▾
 
-    ›Augustiner Helles Beer
-     Camden Hells Beer
-     Leffe Blonde Beer
-     Sierra Nevada IPA Beer
-     Chateau Margaux Wine
-     Pinot Noir Wine
-     Coca Cola Soda
-     Sprite Soda
-     Orange Juice Juice
-     Apple Juice Juice
-
-
+      ›Augustiner Helles Beer                                          ▲
+       Camden Hells Beer                                               █
+       Leffe Blonde Beer                                               █
+       Sierra Nevada IPA Beer                                          █
+       Chateau Margaux Wine                                            ▀
+       Pinot Noir Wine
+       Coca Cola Soda
+       Sprite Soda
+       Orange Juice Juice
+       Apple Juice Juice
 
 
+                               No items found                          ▼
 
 
-       ↑↓ navigate  ^k actions"
+       ↑↓ navigate    ^k actions
+
+    "
   `)
 
   await session.press(['ctrl', 'p'])
@@ -63,28 +64,29 @@ test('list with dropdown navigation', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
 
-    ┌──────────────────────────────────────────────────────────────────┐
-    │                                                                  │
-    │   Select Drink Type                                        esc   │
-    │                                                                  │
-    │   Search...                                                      │
-    │                                                                  │
-    │                                                                  │
-    │   Alcoholic Beverages                                            │
-    │  ›Beer                                                           │
-    │   Wine                                                           │
-    │                                                                  │
-    │   Non-Alcoholic                                                  │
-    │   Soda                                                           │
-    │   Juice                                                          │
-    │                                                                  │
-    │                                                                  │
-    │   ↵ select   ↑↓ navigate                                         │
-    └──────────────────────────────────────────────────────────────────┘
 
-       ↑↓ navigate  ^k actions"
+         ┌─────────────────────────────────────────────────────────────┐
+         │   Select Drink Type                                  esc    │
+         │                                                             │
+         │   Search...                                                 │
+         │                                                             │
+         │                                                             │
+         │   Alcoholic Beverages                                       │
+         │  ›Beer                                                      │
+         │   Wine                                                      │
+         │                                                             │
+         │   Non-Alcoholic                                             │
+         │   Soda                                                      │
+         │   Juice                                                     │
+         │                                                             │
+         │                                                             │
+         │   ↵ select   ↑↓ navigate                                    │
+         └─────────────────────────────────────────────────────────────┘
+
+
+
+    "
   `)
 
   const afterCtrlPSnapshot = await session.text({
@@ -96,28 +98,29 @@ test('list with dropdown navigation', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
 
-    ┌──────────────────────────────────────────────────────────────────┐
-    │                                                                  │
-    │   Select Drink Type                                        esc   │
-    │                                                                  │
-    │   Search...                                                      │
-    │                                                                  │
-    │                                                                  │
-    │   Alcoholic Beverages                                            │
-    │  ›Beer                                                           │
-    │   Wine                                                           │
-    │                                                                  │
-    │   Non-Alcoholic                                                  │
-    │   Soda                                                           │
-    │   Juice                                                          │
-    │                                                                  │
-    │                                                                  │
-    │   ↵ select   ↑↓ navigate                                         │
-    └──────────────────────────────────────────────────────────────────┘
 
-       ↑↓ navigate  ^k actions"
+         ┌─────────────────────────────────────────────────────────────┐
+         │   Select Drink Type                                  esc    │
+         │                                                             │
+         │   Search...                                                 │
+         │                                                             │
+         │                                                             │
+         │   Alcoholic Beverages                                       │
+         │  ›Beer                                                      │
+         │   Wine                                                      │
+         │                                                             │
+         │   Non-Alcoholic                                             │
+         │   Soda                                                      │
+         │   Juice                                                     │
+         │                                                             │
+         │                                                             │
+         │   ↵ select   ↑↓ navigate                                    │
+         └─────────────────────────────────────────────────────────────┘
+
+
+
+    "
   `)
 
   await session.press('down')
@@ -127,28 +130,29 @@ test('list with dropdown navigation', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
 
-    ┌──────────────────────────────────────────────────────────────────┐
-    │                                                                  │
-    │   Select Drink Type                                        esc   │
-    │                                                                  │
-    │   Search...                                                      │
-    │                                                                  │
-    │                                                                  │
-    │   Alcoholic Beverages                                            │
-    │   Beer                                                           │
-    │  ›Wine                                                           │
-    │                                                                  │
-    │   Non-Alcoholic                                                  │
-    │   Soda                                                           │
-    │   Juice                                                          │
-    │                                                                  │
-    │                                                                  │
-    │   ↵ select   ↑↓ navigate                                         │
-    └──────────────────────────────────────────────────────────────────┘
 
-       ↑↓ navigate  ^k actions"
+         ┌─────────────────────────────────────────────────────────────┐
+         │   Select Drink Type                                  esc    │
+         │                                                             │
+         │   Search...                                                 │
+         │                                                             │
+         │                                                             │
+         │   Alcoholic Beverages                                       │
+         │   Beer                                                      │
+         │  ›Wine                                                      │
+         │                                                             │
+         │   Non-Alcoholic                                             │
+         │   Soda                                                      │
+         │   Juice                                                     │
+         │                                                             │
+         │                                                             │
+         │   ↵ select   ↑↓ navigate                                    │
+         └─────────────────────────────────────────────────────────────┘
+
+
+
+    "
   `)
 
   await session.press('down')
@@ -158,28 +162,29 @@ test('list with dropdown navigation', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
 
-    ┌──────────────────────────────────────────────────────────────────┐
-    │                                                                  │
-    │   Select Drink Type                                        esc   │
-    │                                                                  │
-    │   Search...                                                      │
-    │                                                                  │
-    │                                                                  │
-    │   Alcoholic Beverages                                            │
-    │   Beer                                                           │
-    │   Wine                                                           │
-    │                                                                  │
-    │   Non-Alcoholic                                                  │
-    │  ›Soda                                                           │
-    │   Juice                                                          │
-    │                                                                  │
-    │                                                                  │
-    │   ↵ select   ↑↓ navigate                                         │
-    └──────────────────────────────────────────────────────────────────┘
 
-       ↑↓ navigate  ^k actions"
+         ┌─────────────────────────────────────────────────────────────┐
+         │   Select Drink Type                                  esc    │
+         │                                                             │
+         │   Search...                                                 │
+         │                                                             │
+         │                                                             │
+         │   Alcoholic Beverages                                       │
+         │   Beer                                                      │
+         │   Wine                                                      │
+         │                                                             │
+         │   Non-Alcoholic                                             │
+         │  ›Soda                                                      │
+         │   Juice                                                     │
+         │                                                             │
+         │                                                             │
+         │   ↵ select   ↑↓ navigate                                    │
+         └─────────────────────────────────────────────────────────────┘
+
+
+
+    "
   `)
 
   await session.press('enter')
@@ -193,28 +198,29 @@ test('list with dropdown navigation', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
+       Search Beers ───────────────────────────────────────────────────
 
 
-     Search...                                                 Soda ▾
+       Search...                                                 Soda ▾
 
-    ›Coca Cola Soda
-     Sprite Soda
-
-
+      ›Coca Cola Soda
+       Sprite Soda
 
 
-
-
+                               No items found
 
 
 
 
+       ↑↓ navigate    ^k actions
 
 
 
 
-       ↑↓ navigate  ^k actions"
+
+
+
+    "
   `)
 }, 10000)
 
@@ -237,28 +243,29 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
 
-    ┌──────────────────────────────────────────────────────────────────┐
-    │                                                                  │
-    │   Select Drink Type                                        esc   │
-    │                                                                  │
-    │   Search...                                                      │
-    │                                                                  │
-    │                                                                  │
-    │   Alcoholic Beverages                                            │
-    │  ›Beer                                                           │
-    │   Wine                                                           │
-    │                                                                  │
-    │   Non-Alcoholic                                                  │
-    │   Soda                                                           │
-    │   Juice                                                          │
-    │                                                                  │
-    │                                                                  │
-    │   ↵ select   ↑↓ navigate                                         │
-    └──────────────────────────────────────────────────────────────────┘
 
-       ↑↓ navigate  ^k actions"
+         ┌─────────────────────────────────────────────────────────────┐
+         │   Select Drink Type                                  esc    │
+         │                                                             │
+         │   Search...                                                 │
+         │                                                             │
+         │                                                             │
+         │   Alcoholic Beverages                                       │
+         │  ›Beer                                                      │
+         │   Wine                                                      │
+         │                                                             │
+         │   Non-Alcoholic                                             │
+         │   Soda                                                      │
+         │   Juice                                                     │
+         │                                                             │
+         │                                                             │
+         │   ↵ select   ↑↓ navigate                                    │
+         └─────────────────────────────────────────────────────────────┘
+
+
+
+    "
   `)
 
   await session.text({
@@ -278,28 +285,29 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
 
-    ┌──────────────────────────────────────────────────────────────────┐
-    │                                                                  │
-    │   Select Drink Type                                        esc   │
-    │                                                                  │
-    │   wine                                                           │
-    │                                                                  │
-    │  ›Wine                                                           │
-    │                                                                  │
-    │                                                                  │
-    │   ↵ select   ↑↓ navigate                                         │
-    └──────────────────────────────────────────────────────────────────┘
-     Orange Juice Juice
-     Apple Juice Juice
+
+         ┌─────────────────────────────────────────────────────────────┐
+         │   Select Drink Type                                  esc    │
+         │                                                             │
+         │   wine                                                      │
+         │                                                             │
+         │  ›Wine                                                      │
+         │                                                             │
+         │                                                             │
+         │   ↵ select   ↑↓ navigate                                    │
+         └─────────────────────────────────────────────────────────────┘
 
 
 
 
 
 
-       ↑↓ navigate  ^k actions"
+
+
+
+
+    "
   `)
 
   await session.press('enter')
@@ -313,28 +321,29 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
+       Search Beers ───────────────────────────────────────────────────
 
 
-     Search...                                                 Wine ▾
+       Search...                                                 Wine ▾
 
-    ›Chateau Margaux Wine
-     Pinot Noir Wine
-
-
+      ›Chateau Margaux Wine
+       Pinot Noir Wine
 
 
-
-
+                               No items found
 
 
 
 
+       ↑↓ navigate    ^k actions
 
 
 
 
-       ↑↓ navigate  ^k actions"
+
+
+
+    "
   `)
 
   await session.type('pinot')
@@ -348,27 +357,28 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-     Search Beers ───────────────────────────────────────────────────
+       Search Beers ───────────────────────────────────────────────────
 
 
-     pinot                                                     Wine ▾
+       pinot                                                     Wine ▾
 
-    ›Pinot Noir Wine
-
-
+      ›Pinot Noir Wine
 
 
-
-
+                               No items found
 
 
 
 
+       ↑↓ navigate    ^k actions
 
 
 
 
 
-       ↑↓ navigate  ^k actions"
+
+
+
+    "
   `)
 }, 10000)

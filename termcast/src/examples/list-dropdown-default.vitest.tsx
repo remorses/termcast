@@ -31,33 +31,34 @@ test('dropdown defaults to first item when no value is provided', async () => {
     "
 
 
-     Dropdown Default Value Example ───────────────────────────────────────────
+       Dropdown Default Value Example ───────────────────────────────────────────
 
 
-     Search...                                                          Apple ▾
+       Search...                                                          Apple ▾
 
-    ›First Item This list has a dropdown
-     Second Item The dropdown should default to first item
-     Vegetables
-     Carrot With another dropdown
-
-
-
+      ›First Item This list has a dropdown
+       Second Item The dropdown should default to first item
+       Vegetables
+       Carrot With another dropdown
 
 
 
-
+                                    No items found
 
 
 
 
-
+       ↵ show selected fruit    ↑↓ navigate    ^k actions
 
 
 
 
 
-     ↵ show selected fruit  ↑↓ navigate  ^k actions"
+
+
+
+
+    "
   `)
 }, 10000)
 
@@ -75,23 +76,21 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-     Dropdown Default Value Example ───────────────────────────────────────────
 
-      ┌──────────────────────────────────────────────────────────────────────────┐
-     S│                                                                          │
-      │   Filter by category                                               esc   │
-    ›F│                                                                          │
-     S│   Select category...                                                     │
-     V│                                                                          │
-     C│  ›Apple                                                                  │
-      │   Banana                                                                 │
-      │   Orange                                                                 │
-      │   Grape                                                                  │
-      │                                                                          │
-      │                                                                          │
-      │   ↵ select   ↑↓ navigate                                                 │
-      └──────────────────────────────────────────────────────────────────────────┘
 
+          ┌──────────────────────────────────────────────────────────────────────┐
+          │   Filter by category                                           esc   │
+          │                                                                      │
+          │   Select category...                                                 │
+          │                                                                      │
+          │  ›Apple                                                              │
+          │   Banana                                                             │
+          │   Orange                                                             │
+          │   Grape                                                              │
+          │                                                                      │
+          │                                                                      │
+          │   ↵ select   ↑↓ navigate                                             │
+          └──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -101,7 +100,10 @@ test('dropdown opens and shows items', async () => {
 
 
 
-     ↵ show selected fruit  ↑↓ navigate  ^k actions"
+
+
+
+    "
   `)
 
   await session.press('down')
@@ -111,23 +113,21 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-     Dropdown Default Value Example ───────────────────────────────────────────
 
-      ┌──────────────────────────────────────────────────────────────────────────┐
-     S│                                                                          │
-      │   Filter by category                                               esc   │
-    ›F│                                                                          │
-     S│   Select category...                                                     │
-     V│                                                                          │
-     C│   Apple                                                                  │
-      │  ›Banana                                                                 │
-      │   Orange                                                                 │
-      │   Grape                                                                  │
-      │                                                                          │
-      │                                                                          │
-      │   ↵ select   ↑↓ navigate                                                 │
-      └──────────────────────────────────────────────────────────────────────────┘
 
+          ┌──────────────────────────────────────────────────────────────────────┐
+          │   Filter by category                                           esc   │
+          │                                                                      │
+          │   Select category...                                                 │
+          │                                                                      │
+          │   Apple                                                              │
+          │  ›Banana                                                             │
+          │   Orange                                                             │
+          │   Grape                                                              │
+          │                                                                      │
+          │                                                                      │
+          │   ↵ select   ↑↓ navigate                                             │
+          └──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -137,7 +137,10 @@ test('dropdown opens and shows items', async () => {
 
 
 
-     ↵ show selected fruit  ↑↓ navigate  ^k actions"
+
+
+
+    "
   `)
 
   await session.press('enter')
@@ -147,33 +150,34 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-     Dropdown Default Value Example ───────────────────────────────────────────
+       Dropdown Default Value Example ───────────────────────────────────────────
 
 
-     Search...                                                         Banana ▾
+       Search...                                                         Banana ▾
 
-    ›First Item This list has a dropdown
-     Second Item The dropdown should default to first item
-     Vegetables
-     Carrot With another dropdown
-
-
-
+      ›First Item This list has a dropdown
+       Second Item The dropdown should default to first item
+       Vegetables
+       Carrot With another dropdown
 
 
 
-
+                                    No items found
 
 
 
 
-
+       ↵ show selected fruit    ↑↓ navigate    ^k actions
 
 
 
 
 
-     ↵ show selected fruit  ↑↓ navigate  ^k actions"
+
+
+
+
+    "
   `)
 }, 10000)
 
@@ -191,23 +195,21 @@ test('clicking dropdown opens it', async () => {
     "
 
 
-     Dropdown Default Value Example ───────────────────────────────────────────
 
-      ┌──────────────────────────────────────────────────────────────────────────┐
-     S│                                                                          │
-      │   Filter by category                                               esc   │
-    ›F│                                                                          │
-     S│   Select category...                                                     │
-     V│                                                                          │
-     C│  ›Apple                                                                  │
-      │   Banana                                                                 │
-      │   Orange                                                                 │
-      │   Grape                                                                  │
-      │                                                                          │
-      │                                                                          │
-      │   ↵ select   ↑↓ navigate                                                 │
-      └──────────────────────────────────────────────────────────────────────────┘
 
+          ┌──────────────────────────────────────────────────────────────────────┐
+          │   Filter by category                                           esc   │
+          │                                                                      │
+          │   Select category...                                                 │
+          │                                                                      │
+          │  ›Apple                                                              │
+          │   Banana                                                             │
+          │   Orange                                                             │
+          │   Grape                                                              │
+          │                                                                      │
+          │                                                                      │
+          │   ↵ select   ↑↓ navigate                                             │
+          └──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -217,7 +219,10 @@ test('clicking dropdown opens it', async () => {
 
 
 
-     ↵ show selected fruit  ↑↓ navigate  ^k actions"
+
+
+
+    "
   `)
 
   await session.click('Orange', { first: true })
@@ -227,32 +232,33 @@ test('clicking dropdown opens it', async () => {
     "
 
 
-     Dropdown Default Value Example ───────────────────────────────────────────
+       Dropdown Default Value Example ───────────────────────────────────────────
 
 
-     Search...                                                         Orange ▾
+       Search...                                                         Orange ▾
 
-    ›First Item This list has a dropdown
-     Second Item The dropdown should default to first item
-     Vegetables
-     Carrot With another dropdown
-
-
-
+      ›First Item This list has a dropdown
+       Second Item The dropdown should default to first item
+       Vegetables
+       Carrot With another dropdown
 
 
 
-
+                                    No items found
 
 
 
 
-
+       ↵ show selected fruit    ↑↓ navigate    ^k actions
 
 
 
 
 
-     ↵ show selected fruit  ↑↓ navigate  ^k actions"
+
+
+
+
+    "
   `)
 }, 10000)

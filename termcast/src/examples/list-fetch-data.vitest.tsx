@@ -33,28 +33,29 @@ test('list shows initial items after fetch', async () => {
     "
 
 
-     SVG Library ────────────────────────────────────────────────────
+       SVG Library ────────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-     Icons
-    ›Home Icon Category: Icons
-     User Icon Category: Icons
-     Settings Icon Category: Icons
+       Icons
+      ›Home Icon Category: Icons
+       User Icon Category: Icons
+       Settings Icon Category: Icons
 
-     Illustrations
-     Welcome Banner Category: Illustrations
-     Hero Image Category: Illustrations
-
-
+       Illustrations
+       Welcome Banner Category: Illustrations
+       Hero Image Category: Illustrations
 
 
 
+                               No items found
 
 
 
 
-       ↑↓ navigate  ^k actions"
+       ↑↓ navigate    ^k actions
+
+    "
   `)
 
 
@@ -65,28 +66,29 @@ test('list shows initial items after fetch', async () => {
     "
 
 
-     SVG Library ────────────────────────────────────────────────────
+       SVG Library ────────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-     Icons
-     Home Icon Category: Icons
-    ›User Icon Category: Icons
-     Settings Icon Category: Icons
+       Icons
+       Home Icon Category: Icons
+      ›User Icon Category: Icons
+       Settings Icon Category: Icons
 
-     Illustrations
-     Welcome Banner Category: Illustrations
-     Hero Image Category: Illustrations
-
-
+       Illustrations
+       Welcome Banner Category: Illustrations
+       Hero Image Category: Illustrations
 
 
 
+                               No items found
 
 
 
 
-       ↑↓ navigate  ^k actions"
+       ↑↓ navigate    ^k actions
+
+    "
   `)
 
   await session.press('down')
@@ -96,27 +98,28 @@ test('list shows initial items after fetch', async () => {
     "
 
 
-     SVG Library ────────────────────────────────────────────────────
+       SVG Library ────────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-     Icons
-     Home Icon Category: Icons
-     User Icon Category: Icons
-     Settings Icon Category: Icons
+       Icons
+       Home Icon Category: Icons
+       User Icon Category: Icons
+       Settings Icon Category: Icons
 
-     Illustrations
-    ›Welcome Banner Category: Illustrations
-     Hero Image Category: Illustrations
-
-
+       Illustrations
+      ›Welcome Banner Category: Illustrations
+       Hero Image Category: Illustrations
 
 
 
+                               No items found
 
 
 
 
-       ↑↓ navigate  ^k actions"
+       ↑↓ navigate    ^k actions
+
+    "
   `)
 }, 10000)

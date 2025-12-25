@@ -34,53 +34,54 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
 
-
-
-
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
-
+      │
+      └
 
 
 
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+
+
+
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   await session.press('space')
@@ -90,53 +91,54 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   await session.press('down')
@@ -146,53 +148,54 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   await session.press('down')
@@ -205,53 +208,54 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   await session.press('enter')
@@ -261,53 +265,54 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 }, 10000)
 
@@ -325,53 +330,54 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   await session.press('down')
@@ -384,53 +390,54 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   await session.press('down')
@@ -440,53 +447,54 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   await session.press('up')
@@ -496,53 +504,54 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   // Note: not pressing escape here since that would exit the app at root level
@@ -552,53 +561,54 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 }, 10000)
 
@@ -616,53 +626,54 @@ test('form dropdown with default value', async () => {
     "
 
 
+      ▪  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◆  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │› ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │› ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   await session.press('space')
@@ -672,53 +683,54 @@ test('form dropdown with default value', async () => {
     "
 
 
+      ▪  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◆  Programming Languages
+      │  Rust
+      │
+      │  Frontend
+      │› ○ TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ▪  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◆  Programming Languages
-    │  Rust
-    │
-    │  Frontend
-    │› ○ TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   // Submit with alt+enter directly - no need to press esc first
@@ -733,53 +745,54 @@ test('form dropdown with default value', async () => {
     "
 
 
-    ▪  Dropdown Component Demo                                       █
-    │  Test dropdown with sections, multiple selection, and more     █
-    │  features                                                      █
-    │                                                                █
-    ◆  Programming Languages                                         █
-    │  Rust, TypeScript                                              █
-    │                                                                █
-    │  Frontend                                                      █
-    │› ● TypeScript                                                  █
-    │  ○ JavaScript                                                  █
-    │  ○ React                                                       █
-    │  ○ Vue                                                         █
-    │                                                                █
-    │  Choose your preferred programming languages                   █
-    │                                                                ▀
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  Rust, TypeScript                                              █
+      │                                                                █
+      │  Frontend                                                      █
+      │› ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │                                                                █
+      │  Choose your preferred programming languages                   █
+      │                                                                ▀
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
 
-    │
-    ▪  Submitted Data
-    │  {
-    │    "languages": [
-    │      "rust",
-    │      "typescript"
-    │    ],
-    │    "theme": "dracula",
-    │    "priority": ""
-    │  }
+      │
+      ▪  Submitted Data
+      │  {
+      │    "languages": [
+      │      "rust",
+      │      "typescript"
+      │    ],
+      │    "theme": "dracula",
+      │    "priority": ""
+      │  }
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 }, 10000)
 
@@ -798,53 +811,54 @@ test('selecting second-to-last visible item should not scroll', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   await session.press('enter')
@@ -854,52 +868,53 @@ test('selecting second-to-last visible item should not scroll', async () => {
     "
 
 
+      ■  Dropdown Component Demo
+      │  Test dropdown with sections, multiple selection, and more
+      │  features
+      │
+      ◇  Programming Languages
+      │  TypeScript, Rust
+      │
+      │  Frontend
+      │  ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
+      ◇  Editor Theme
+      │  Dracula
+      │
+      │  ○ Monokai
+      │  ● Dracula
+      │  ○ One Dark
+      │  ○ Nord
+      │  ○ GitHub Light
+      │
+      │  Select your preferred editor color theme
+      │
+      ◇  Task Priority
+      │  Select priority level
+      │
+      │  ○ Critical
+      │  ○ High
+      │  ○ Medium
+      │  ○ Low
+
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
-    ■  Dropdown Component Demo
-    │  Test dropdown with sections, multiple selection, and more
-    │  features
-    │
-    ◇  Programming Languages
-    │  TypeScript, Rust
-    │
-    │  Frontend
-    │  ● TypeScript
-    │  ○ JavaScript
-    │  ○ React
-    │  ○ Vue
-    │
-    │  Choose your preferred programming languages
-    │
-    ◇  Editor Theme
-    │  Dracula
-    │
-    │  ○ Monokai
-    │  ● Dracula
-    │  ○ One Dark
-    │  ○ Nord
-    │  ○ GitHub Light
-    │
-    │  Select your preferred editor color theme
-    │
-    ◇  Task Priority
-    │  Select priority level
-    │
-    │  ○ Critical
-    │  ○ High
-    │  ○ Medium
-    │  ○ Low
-
-    │
-    └
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 }, 10000)

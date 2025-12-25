@@ -30,18 +30,19 @@ test(
       "
 
 
-      ■  Form Scroll Test                                    ▀
-      │  Test scrolling behavior when navigating with Tab
-      │
-      ◇  Field 1
-      │  First field
-      │
-      ◇  Field 2
-      │  Second field
-      │
+        ■  Form Scroll Test                                    ▀
+        │  Test scrolling behavior when navigating with Tab
+        │
+        ◇  Field 1
+        │  First field
+        │
+        ◇  Field 2
+        │  Second field
+        │
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press('tab')
@@ -50,18 +51,19 @@ test(
       "
 
 
-      ▪  Form Scroll Test                                    ▀
-      │  Test scrolling behavior when navigating with Tab
-      │
-      ◆  Field 1
-      │  First field
-      │
-      ◇  Field 2
-      │  Second field
-      │
+        ▪  Form Scroll Test                                    ▀
+        │  Test scrolling behavior when navigating with Tab
+        │
+        ◆  Field 1
+        │  First field
+        │
+        ◇  Field 2
+        │  Second field
+        │
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press('tab')
@@ -70,18 +72,19 @@ test(
       "
 
 
-      │
-      ◇  Field 1                                             ▀
-      │  First field
-      │
-      ◆  Field 2
-      │  Second field
-      │
-      ◇  Field 3
-      │  Third field
+        │
+        ◇  Field 1                                             ▀
+        │  First field
+        │
+        ◆  Field 2
+        │  Second field
+        │
+        ◇  Field 3
+        │  Third field
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press('tab')
@@ -90,18 +93,19 @@ test(
       "
 
 
-      │
-      ◇  Field 2
-      │  Second field                                        ▀
-      │
-      ◆  Field 3
-      │  Third field
-      │
-      ◇  Field 4
-      │  Fourth field
+        │
+        ◇  Field 2
+        │  Second field                                        ▀
+        │
+        ◆  Field 3
+        │  Third field
+        │
+        ◇  Field 4
+        │  Fourth field
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press('tab')
@@ -110,18 +114,19 @@ test(
       "
 
 
-      │
-      ◇  Field 3
-      │  Third field
-      │                                                      ▄
-      ◆  Field 4
-      │  Fourth field
-      │
-      ◇  Field 5
-      │  Fifth field
+        │
+        ◇  Field 3
+        │  Third field
+        │                                                      ▄
+        ◆  Field 4
+        │  Fourth field
+        │
+        ◇  Field 5
+        │  Fifth field
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press('tab')
@@ -130,18 +135,19 @@ test(
       "
 
 
-      │
-      ◇  Field 4
-      │  Fourth field
-      │
-      ◆  Field 5
-      │  Fifth field                                         ▀
-      │
-      ◇  Field 6
-      │  Sixth field
+        │
+        ◇  Field 4
+        │  Fourth field
+        │
+        ◆  Field 5
+        │  Fifth field                                         ▀
+        │
+        ◇  Field 6
+        │  Sixth field
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press('tab')
@@ -150,18 +156,19 @@ test(
       "
 
 
-      │
-      ◇  Field 5
-      │  Fifth field
-      │
-      ◆  Field 6
-      │  Sixth field
-      │                                                      ▄
-      ◇  Field 7
-      │  Seventh field
+        │
+        ◇  Field 5
+        │  Fifth field
+        │
+        ◆  Field 6
+        │  Sixth field
+        │                                                      ▄
+        ◇  Field 7
+        │  Seventh field
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press('tab')
@@ -170,18 +177,19 @@ test(
       "
 
 
-      │
-      ◇  Field 6
-      │  Sixth field
-      │
-      ◆  Field 7
-      │  Seventh field
-      │
-      ◇  Field 8                                             ▄
-      │  Eighth field
+        │
+        ◇  Field 6
+        │  Sixth field
+        │
+        ◆  Field 7
+        │  Seventh field
+        │
+        ◇  Field 8                                             ▄
+        │  Eighth field
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press(['shift', 'tab'])
@@ -190,18 +198,19 @@ test(
       "
 
 
-      │
-      ◇  Field 5
-      │  Fifth field
-      │
-      ◆  Field 6
-      │  Sixth field
-      │                                                      ▄
-      ◇  Field 7
-      │  Seventh field
+        │
+        ◇  Field 5
+        │  Fifth field
+        │
+        ◆  Field 6
+        │  Sixth field
+        │                                                      ▄
+        ◇  Field 7
+        │  Seventh field
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
 
     await session.press(['shift', 'tab'])
@@ -210,18 +219,19 @@ test(
       "
 
 
-      │
-      ◇  Field 4
-      │  Fourth field
-      │
-      ◆  Field 5
-      │  Fifth field                                         ▀
-      │
-      ◇  Field 6
-      │  Sixth field
+        │
+        ◇  Field 4
+        │  Fourth field
+        │
+        ◆  Field 5
+        │  Fifth field                                         ▀
+        │
+        ◇  Field 6
+        │  Sixth field
 
 
-       ctrl ↵ submit   tab navigate   ^k actions"
+         ctrl ↵ submit   tab navigate   ^k actions
+      "
     `)
   },
   30000,

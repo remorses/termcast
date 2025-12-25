@@ -33,24 +33,24 @@ test('pressing enter triggers primary action on toast', async () => {
     "
 
 
-     Toast Action Test ──────────────────────────────────────────────
+       Toast Action Test ──────────────────────────────────────────────
 
-     Search...
+       Search...
 
-    ›Show Toast with Action
-     Form with Toast
-     Form with Delayed Toast Action
-     Other Item
-
-
+      ›Show Toast with Action
+       Form with Toast
+       Form with Delayed Toast Action
+       Other Item
 
 
+                               No items found
 
 
-                   ┌───────────────────────────────────┐
-                   │ ✓ File Deleted [Undo ↵]           │
-                   │   document.pdf was moved to trash │
-                   └───────────────────────────────────┘"
+
+                            ✓ File Deleted [Undo ↵]
+                         document.pdf was moved to trash
+
+    "
   `)
 
   expect(beforeEnter).toContain('[Undo')
@@ -66,24 +66,24 @@ test('pressing enter triggers primary action on toast', async () => {
     "
 
 
-     Toast Action Test ──────────────────────────────────────────────
+       Toast Action Test ──────────────────────────────────────────────
 
-     Search...
+       Search...
 
-    ›Show Toast with Action
-     Form with Toast
-     Form with Delayed Toast Action
-     Other Item
-
-
+      ›Show Toast with Action
+       Form with Toast
+       Form with Delayed Toast Action
+       Other Item
 
 
+                               No items found
 
 
-                            ┌─────────────────┐
-                            │ ✓ Undone        │
-                            │   File restored │
-                            └─────────────────┘"
+
+                                   ✓ Undone
+                                  File restored
+
+    "
   `)
 
   expect(afterEnter).toContain('Undone')
@@ -112,23 +112,24 @@ test('pressing escape hides the toast', async () => {
     "
 
 
-     Toast Action Test ──────────────────────────────────────────────
+       Toast Action Test ──────────────────────────────────────────────
 
-     Search...
+       Search...
 
-    ›Show Toast with Action
-     Form with Toast
-     Form with Delayed Toast Action
-     Other Item
-
-
+      ›Show Toast with Action
+       Form with Toast
+       Form with Delayed Toast Action
+       Other Item
 
 
-
+                               No items found
 
 
 
-     ↵ show toast  ↑↓ navigate  ^k actions"
+
+       ↵ show toast    ↑↓ navigate    ^k actions
+
+    "
   `)
 
   expect(afterEsc).not.toContain('[Undo')
@@ -157,23 +158,24 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
 
 
+      ◆  Name
+      │  Enter your name
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
 
-    ◆  Name
-    │  Enter your name
-    │
-    └
 
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   // Type a name
@@ -193,24 +195,24 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
 
 
+      ◆  Name
+      │  John
+      │
+      └
+
+                       ✓ Form Submitted [View Details ↵]
+                                  Hello, John!
 
 
 
 
 
-    ◆  Name
-    │  John
-    │
-    └
 
 
 
 
 
-                   ┌───────────────────────────────────┐
-                   │ ✓ Form Submitted [View Details ↵] │
-                   │   Hello, John!                    │
-                   └───────────────────────────────────┘"
+    "
   `)
 
   // Press Enter to trigger primary action (navigate to detail view)
@@ -224,23 +226,24 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
 
 
-     Form Submitted ─────────────────────────────────────────────────
+       Form Submitted ─────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-    ›Welcome, John! Form submission successful
-
-
+      ›Welcome, John! Form submission successful
 
 
-
+                               No items found
 
 
 
 
+       ↑↓ navigate    ^k actions
 
 
-       ↑↓ navigate  ^k actions"
+
+
+    "
   `)
 }, 30000)
 
@@ -284,23 +287,24 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
     "
 
 
+      ◆  Name
+      │  Jane
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
 
 
-    ◆  Name
-    │  Jane
-    │
-    └
 
 
 
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 
   // Toast should be closed
@@ -346,24 +350,24 @@ test('delayed toast action: primaryAction set after toast shown works with enter
     "
 
 
+      ◆  Name
+      │  Test
+      │
+      └
+
+                                ✓ Done [Open ↵]
+                                  Hello, Test!
 
 
 
 
 
-    ◆  Name
-    │  Test
-    │
-    └
 
 
 
 
 
-                            ┌─────────────────┐
-                            │ ✓ Done [Open ↵] │
-                            │   Hello, Test!  │
-                            └─────────────────┘"
+    "
   `)
 
   // Press Enter to trigger primary action - this should work even though
@@ -378,23 +382,23 @@ test('delayed toast action: primaryAction set after toast shown works with enter
     "
 
 
+      ◆  Name
+      │  Test
+      │
+      └
+
+                                   ✓ Opened!
+                          Action triggered successfully
 
 
 
 
 
-    ◆  Name
-    │  Test
-    │
-    └
 
 
 
 
 
-                    ┌─────────────────────────────────┐
-                    │ ✓ Opened!                       │
-                    │   Action triggered successfully │
-                    └─────────────────────────────────┘"
+    "
   `)
 }, 30000)

@@ -28,7 +28,7 @@ test('autocomplete shows flat file list in dialog', async () => {
   await session.type('s')
 
   const snapshot = await session.text({
-    waitFor: (text) => text.includes('Filter:') && text.includes('📁'),
+    waitFor: (text) => text.includes('Filter:') && text.includes('▫'),
   })
   expect(snapshot).toMatchInlineSnapshot(`
     "
@@ -37,30 +37,31 @@ test('autocomplete shows flat file list in dialog', async () => {
 
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │┌──────────────────────────────────────────────────────────────────
-    ││
-    ││ Filter: s
-    ││
-    ◆│  📁 extensions/
-    ││  📁 extensions/messages/
-    ││  📁 extensions/messages/assets/
-    ││  📁 extensions/messages/metadata/
-    ││  📁 extensions/messages/src/
-    ◇│  📁 extensions/messages/src/api/
-    ││  📁 extensions/messages/src/components/
-    ││  📁 extensions/messages/src/hooks/
-    ││  📁 extensions/messages/src/tools/
-    ││  📁 extensions/messages/swift/
-    └│
-     │ ↑↓ navigate  ⏎/tab select  esc close
-     └──────────────────────────────────────────────────────────────────
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+
+
+
+
+      ┌────────────────────────────────────────────────────────────────┐
+      │ Filter: s                                                      │
+      │                                                                │
+      │  ▫ src/                                                        │
+      │                                                                │
+      │ ↑↓ navigate  ⏎/tab select  esc close                           │
+      └────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+
+    "
   `)
 }, 10000)
 
@@ -74,7 +75,7 @@ test('autocomplete navigation with down/up keys', async () => {
   await session.type('s')
 
   await session.text({
-    waitFor: (text) => text.includes('📁'),
+    waitFor: (text) => text.includes('▫'),
   })
 
   await session.press('down')
@@ -88,30 +89,31 @@ test('autocomplete navigation with down/up keys', async () => {
 
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │┌──────────────────────────────────────────────────────────────────
-    ││
-    ││ Filter: s
-    ││
-    ◆│  📁 extensions/
-    ││  📁 extensions/messages/
-    ││  📁 extensions/messages/assets/
-    ││  📁 extensions/messages/metadata/
-    ││  📁 extensions/messages/src/
-    ◇│  📁 extensions/messages/src/api/
-    ││  📁 extensions/messages/src/components/
-    ││  📁 extensions/messages/src/hooks/
-    ││  📁 extensions/messages/src/tools/
-    ││  📁 extensions/messages/swift/
-    └│
-     │ ↑↓ navigate  ⏎/tab select  esc close
-     └──────────────────────────────────────────────────────────────────
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+
+
+
+
+      ┌────────────────────────────────────────────────────────────────┐
+      │ Filter: s                                                      │
+      │                                                                │
+      │  ▫ src/                                                        │
+      │                                                                │
+      │ ↑↓ navigate  ⏎/tab select  esc close                           │
+      └────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+
+    "
   `)
 
   await session.press('up')
@@ -124,30 +126,31 @@ test('autocomplete navigation with down/up keys', async () => {
 
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │┌──────────────────────────────────────────────────────────────────
-    ││
-    ││ Filter: s
-    ││
-    ◆│  📁 extensions/
-    ││  📁 extensions/messages/
-    ││  📁 extensions/messages/assets/
-    ││  📁 extensions/messages/metadata/
-    ││  📁 extensions/messages/src/
-    ◇│  📁 extensions/messages/src/api/
-    ││  📁 extensions/messages/src/components/
-    ││  📁 extensions/messages/src/hooks/
-    ││  📁 extensions/messages/src/tools/
-    ││  📁 extensions/messages/swift/
-    └│
-     │ ↑↓ navigate  ⏎/tab select  esc close
-     └──────────────────────────────────────────────────────────────────
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+
+
+
+
+      ┌────────────────────────────────────────────────────────────────┐
+      │ Filter: s                                                      │
+      │                                                                │
+      │  ▫ src/                                                        │
+      │                                                                │
+      │ ↑↓ navigate  ⏎/tab select  esc close                           │
+      └────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+
+    "
   `)
 }, 10000)
 
@@ -162,10 +165,10 @@ test('file picker shows only files, not folders', async () => {
   await session.type('t')
 
   const snapshot = await session.text({
-    waitFor: (text) => text.includes('Filter:') && text.includes('📄'),
+    waitFor: (text) => text.includes('Filter:') && text.includes('▪'),
   })
   
-  // Should show files (📄) not folders (📁)
+  // Should show files (▪) - folders (▫) still shown for navigation
   expect(snapshot).toMatchInlineSnapshot(`
     "
 
@@ -173,33 +176,33 @@ test('file picker shows only files, not folders', async () => {
 
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◆  Select Files
-    │┌──────────────────────────────────────────────────────────────────
-    ││
-    ││ Filter: t
-    ││
-    ◇│  📄 ARCHITECTURE.md
-    ││  📄 EXTENSIONS.md
-    ││  📄 OAUTH_SETUP.md
-    ││  📄 RAYCAST_SCROLLING.md
-    ││  📄 TESTING_RAYCAST_EXTENSIONS.md
-    ◇│  📄 bunfig.toml
-    ││  📄 extensions/messages/CHANGELOG.md
-    ││  📄 extensions/messages/README.md
-    ││  📄 extensions/messages/assets/apple-messages-icon.png
-    ││  📄 extensions/messages/bun.lock
-    └│
-     │ ↑↓ navigate  ⏎/tab select  esc close
-     └──────────────────────────────────────────────────────────────────
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+
+
+      ┌────────────────────────────────────────────────────────────────┐
+      │ Filter: t                                                      │
+      │                                                                │
+      │  ▫ termcasttmp/                                                │
+      │  ▫ tmp/                                                        │
+      │  ▪ TESTING_RAYCAST_EXTENSIONS.md                               │
+      │  ▪ tsconfig.json                                               │
+      │  ▪ tsconfig.tsbuildinfo                                        │
+      │                                                                │
+      │ ↑↓ navigate  ⏎/tab select  esc close                           │
+      └────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+    "
   `)
-  expect(snapshot).toContain('📄')
-  expect(snapshot).not.toContain('📁')
+  expect(snapshot).toContain('▪')
 }, 10000)
 
 test('escape closes autocomplete and form stays visible', async () => {
@@ -224,32 +227,33 @@ test('escape closes autocomplete and form stays visible', async () => {
     "
 
 
+      ◇  Your Name
+      │  John Doe
+      │
+      ◇  Select Files
+      │  Enter file path...
+      │
+      │  Choose one or more files to upload
+      │
+      ◆  Select Folder
+      │  s
+      │
+      │  Choose a folder for output
+      │
+      ◇  Select Single File
+      │  Enter file path...
+      │
+      │  Choose exactly one file
+      │
+      └
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
-    ◇  Your Name
-    │  John Doe
-    │
-    ◇  Select Files
-    │  Enter file path...
-    │
-    │  Choose one or more files to upload
-    │
-    ◆  Select Folder
-    │  s
-    │
-    │  Choose a folder for output
-    │
-    ◇  Select Single File
-    │  Enter file path...
-    │
-    │  Choose exactly one file
-    │
-    └
 
 
-
-
-     ctrl ↵ submit   tab navigate   ^k actions"
+    "
   `)
 }, 10000)

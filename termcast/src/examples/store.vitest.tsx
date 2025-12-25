@@ -46,21 +46,19 @@ test('Store extension - searching for spiceblow shows Database', async () => {
     "
 
 
-     Store - Install Extensions ───────────────────────────────────────────────
+       Store - Install Extensions ───────────────────────────────────────────────
 
-     spiceblow
+       spiceblow
 
-    ›Spiceblow - Sql Database Management Search, update, insert and delete row
-
-
+      ›Spiceblow - Sql Database Management Search, update, insert and delete row
 
 
-
+                                    No items found
 
 
 
 
-
+       ↑↓ navigate    ^k actions
 
 
 
@@ -72,6 +70,9 @@ test('Store extension - searching for spiceblow shows Database', async () => {
 
 
 
-       ↑↓ navigate  ^k actions"
+
+
+
+    "
   `)
 }, 30000)

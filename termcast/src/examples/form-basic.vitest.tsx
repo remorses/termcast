@@ -32,53 +32,54 @@ test('form basic navigation and input', async () => {
     "
 
 
-    ■  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...
-    │
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
+      ■  Form Component Demo                                           █
+      │  This demonstrates all available form input types. Use arrow   █
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...
+      │
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◇  Country
+      │  Select your country
+      │
+      │  Americas
+      │  ○ United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 }, 10000)
 
@@ -103,53 +104,54 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◆  Password
-    │  **********
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...
-    │
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
+      ▪  Form Component Demo                                           █
+      │  This demonstrates all available form input types. Use arrow   █
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◆  Password
+      │  **********
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...
+      │
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◇  Country
+      │  Select your country
+      │
+      │  Americas
+      │  ○ United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   // Tab away - password should now show asterisks
@@ -160,53 +162,54 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  **********
-    │  Must be at least 8 characters
-    │
-    ◆  Biography
-    │  Tell us about yourself...
-    │
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
+      ▪  Form Component Demo                                           █
+      │  This demonstrates all available form input types. Use arrow   █
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  **********
+      │  Must be at least 8 characters
+      │
+      ◆  Biography
+      │  Tell us about yourself...
+      │
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◇  Country
+      │  Select your country
+      │
+      │  Americas
+      │  ○ United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   // Submit form and check password value is real text not asterisks
@@ -220,53 +223,54 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   █
-    │  keys or Tab to navigate between fields.
-    │
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  **********
-    │  Must be at least 8 characters
-    │┌──────────────────────────────────────────────────────────────────
-    ◆│
-    ││                                                            esc
-    ││
-    ││   Search actions...
-    ││
-    ││  ›Submit Form                                         ⌃RETURN
-    ││
-    ││
-    ◇│
-    ││
-    ││
-    ││
-    ││
-    ◇│
-    ││
-    ││
-    ││   ↵ select   ↑↓ navigate
-    ││
-    │└──────────────────────────────────────────────────────────────────
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ┌────────────────────────────────────────────────────────────────┐
+      │                                                          esc   │
+      │                                                                │
+      │   Search actions...                                            │
+      │                                                                │
+      │  ›Submit Form                                       ⌃RETURN    │
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │
+      │                                                                │
+      └────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    "
   `)
   
   await session.press('enter')
@@ -278,54 +282,54 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
-    ▪  Form Component Demo                                           █
-    │  This demonstrates all available form input types. Use arrow   ▀
-    │  keys or Tab to navigate between fields.
-    │
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  **********
-    │  Must be at least 8 characters
-    │
-    ◆  Biography
-    │  Tell us about yourself...
-    │
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◇  Country
-    │  Select your country
-    │
-    │  Americas
-    │  ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-            ┌────────────────────────────────────────────────┐
-            │ ✓ Form Submitted                               │
-            │   All form data has been captured successfully │
-            └────────────────────────────────────────────────┘"
+      ▪  Form Component Demo                                           █
+      │  This demonstrates all available form input types. Use arrow   ▀
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  **********
+      │  Must be at least 8 characters
+      │
+      ◆  Biography
+      │  Tell us about yourself...
+      │
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◇  Country
+      │  Select your country
+      │
+      │  Americas
+      │  ○ United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
+
+                               ✓ Form Submitted
+                  All form data has been captured successfully
+    "
   `)
   
   // The toast "Form Submitted" in afterEnterSnapshot proves the form was submitted
@@ -352,53 +356,54 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  Select your country
-    │
-    │  Americas
-    │› ○ United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◆  Country
+      │  Select your country
+      │
+      │  Americas
+      │› ○ United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
+      │    8  9 10 11 12 13 14
+      │   15 16 17 18 19 20 21
+      │   22 23 24 25 26 27 28
+      │   29 30 31
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   // Select current date with space - should show "Selected:" text
@@ -409,53 +414,54 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  United States
-    │
-    │  Americas
-    │› ● United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◆  Country
+      │  United States
+      │
+      │  Americas
+      │› ● United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
+      │    8  9 10 11 12 13 14
+      │   15 16 17 18 19 20 21
+      │   22 23 24 25 26 27 28
+      │   29 30 31
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   // Navigate to a different day and select with enter
@@ -467,53 +473,54 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  United States
-    │
-    │  Americas
-    │› ● United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◆  Country
+      │  United States
+      │
+      │  Americas
+      │› ● United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
+      │    8  9 10 11 12 13 14
+      │   15 16 17 18 19 20 21
+      │   22 23 24 25 26 27 28
+      │   29 30 31
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 }, 10000)
 
@@ -541,53 +548,54 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  United States
-    │
-    │  Americas
-    │› ● United States
-    │  ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◆  Country
+      │  United States
+      │
+      │  Americas
+      │› ● United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
+      │    8  9 10 11 12 13 14
+      │   15 16 17 18 19 20 21
+      │   22 23 24 25 26 27 28
+      │   29 30 31
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   // Navigate down in dropdown
@@ -598,53 +606,54 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  United States
-    │
-    │  Americas
-    │  ● United States
-    │› ○ Canada
-    │  ○ Mexico
-    │  Europe
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◆  Country
+      │  United States
+      │
+      │  Americas
+      │  ● United States
+      │› ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
+      │    8  9 10 11 12 13 14
+      │   15 16 17 18 19 20 21
+      │   22 23 24 25 26 27 28
+      │   29 30 31
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   // Navigate to Europe section
@@ -657,53 +666,54 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  United States
-    │
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │› ○ France
-    │  ○ Germany
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◆  Country
+      │  United States
+      │
+      │  ○ Mexico
+      │  Europe
+      │  ○ United Kingdom
+      │› ○ France
+      │  ○ Germany
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
+      │    8  9 10 11 12 13 14
+      │   15 16 17 18 19 20 21
+      │   22 23 24 25 26 27 28
+      │   29 30 31
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   // Select France
@@ -714,53 +724,54 @@ test('form dropdown navigation', async () => {
     "
 
 
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...                                     █
-    │                                                                █
-    │
-    │
-    │
-    │  Maximum 500 characters
-    │
-    ◇  Email Preferences
-    │  ○ Subscribe to newsletter
-    │
-    │  Receive weekly updates
-    │
-    ◆  Country
-    │  France
-    │
-    │  ○ Mexico
-    │  Europe
-    │  ○ United Kingdom
-    │› ● France
-    │  ○ Germany
-    │
-    │  Your country of residence
-    │
-    ◇  Date of Birth
-    │
-    │   ←       2025        →
-    │   ←     December      →
-    │
-    │   Mo Tu We Th Fr Sa Su
-    │    1  2  3  4  5  6  7
-    │    8  9 10 11 12 13 14
-    │   15 16 17 18 19 20 21
-    │   22 23 24 25 26 27 28
-    │   29 30 31
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │
+      │
+      │
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◆  Country
+      │  France
+      │
+      │  ○ Mexico
+      │  Europe
+      │  ○ United Kingdom
+      │› ● France
+      │  ○ Germany
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
+      │   Mo Tu We Th Fr Sa Su
+      │    1  2  3  4  5  6  7
+      │    8  9 10 11 12 13 14
+      │   15 16 17 18 19 20 21
+      │   22 23 24 25 26 27 28
+      │   29 30 31
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 }, 10000)
 
@@ -784,23 +795,24 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
-    ■  Form Component Demo                                           ▀
-    │  This demonstrates all available form input types. Use arrow
-    │  keys or Tab to navigate between fields.
-    │
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
+      ■  Form Component Demo                                           ▀
+      │  This demonstrates all available form input types. Use arrow
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   await session.scrollDown(5)
@@ -811,23 +823,24 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
-    │  This demonstrates all available form input types. Use arrow   ▄
-    │  keys or Tab to navigate between fields.
-    │
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
-    │  Tell us about yourself...
+      │  This demonstrates all available form input types. Use arrow   ▄
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   await session.scrollUp(3)
@@ -838,22 +851,23 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
-    ■  Form Component Demo                                           ▀
-    │  This demonstrates all available form input types. Use arrow
-    │  keys or Tab to navigate between fields.
-    │
-    ◇  Username
-    │  Enter your username
-    │
-    │  Required field
-    │
-    ◇  Password
-    │  Enter secure password
-    │  Must be at least 8 characters
-    │
-    ◇  Biography
+      ■  Form Component Demo                                           ▀
+      │  This demonstrates all available form input types. Use arrow
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+       ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 }, 10000)

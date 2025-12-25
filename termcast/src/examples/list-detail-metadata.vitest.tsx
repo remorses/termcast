@@ -32,23 +32,24 @@ test('list detail metadata label renders title and text in column layout', async
     "
 
 
-     Metadata Test ────────────────────────────────────────────────────────────
+       Metadata Test ────────────────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-    ›Item with Metadata
-     Another Item                         │                                   ▲
-                                          │ ───────────────────────────────── █
-                                          │                                   ▀
-                                          │ Name:
-                                          │ John Doe
-                                          │
-                                          │ Email:
-                                          │ john@example.com
-                                          │ ─────────────────
-                                          │
-                                          │ Status:                           ▼
-       ↑↓ navigate  ^k actions"
+      ›Item with Metadata
+       Another Item                         │                                   ▲
+                                            │ ───────────────────────────────── █
+                                            │                                   ▀
+                 No items found             │ Name:
+                                            │ John Doe
+                                            │
+                                            │ Email:
+                                            │ john@example.com
+                                            │ ─────────────────
+                                            │
+       ↑↓ navigate    ^k actions            │ Status:                           ▼
+
+    "
   `)
 }, 10000)
 
@@ -69,22 +70,23 @@ test('list detail metadata navigation shows different metadata', async () => {
     "
 
 
-     Metadata Test ────────────────────────────────────────────────────────────
+       Metadata Test ────────────────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-     Item with Metadata
-    ›Another Item                         │ Info
-                                          │ ──────────────────────────────────
-                                          │
-                                          │ Count:
-                                          │ 42
-                                          │
-                                          │ Price:
-                                          │ $99.99
-                                          │
-                                          │
-                                          │
-       ↑↓ navigate  ^k actions"
+       Item with Metadata
+      ›Another Item                         │ Info
+                                            │ ──────────────────────────────────
+                                            │
+                 No items found             │ Count:
+                                            │ 42
+                                            │
+                                            │ Price:
+                                            │ $99.99
+       ↑↓ navigate    ^k actions            │
+
+
+
+    "
   `)
 }, 10000)

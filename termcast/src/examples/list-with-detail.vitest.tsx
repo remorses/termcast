@@ -33,33 +33,34 @@ test('list with detail view display and navigation', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
+       Search Pokemon...
 
-    ›bulbasaur #001
-     ivysaur #002                         │ bulbasaur                         ▲
-     charmander #004                      │                                   ▀
-     charmeleon #005                      │ Illustration
-     squirtle #007                        │
-     wartortle #008                       │ Types
-                                          │ Grass / Poison
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 0.7m
-                                          │ - Weight: 6.9kg
-                                          │
-                                          │ Abilities
-                                          │ - Chlorophyll
-                                          │ - Overgrow
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Grass:
-                                          │ ─────────────────
-                                          │                                   ▼
-     ↵ toggle detail  ↑↓ navigate  ^k actions"
+      ›bulbasaur #001
+       ivysaur #002                         │ bulbasaur                         ▲
+       charmander #004                      │                                   ▀
+       charmeleon #005                      │ Illustration
+       squirtle #007                        │
+       wartortle #008                       │ Types
+                                            │ Grass / Poison
+                                            │
+                 No items found             │ Characteristics
+                                            │ - Height: 0.7m
+                                            │ - Weight: 6.9kg
+                                            │
+                                            │ Abilities
+       ↵ toggle        ↑↓ navigate ^k action│ - Chlorophyll
+         detail                             │ - Overgrow
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Grass:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 
   await session.press('down')
@@ -71,33 +72,34 @@ test('list with detail view display and navigation', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
+       Search Pokemon...
 
-     bulbasaur #001
-    ›ivysaur #002                         │ ivysaur                           ▲
-     charmander #004                      │                                   ▀
-     charmeleon #005                      │ Illustration
-     squirtle #007                        │
-     wartortle #008                       │ Types
-                                          │ Grass / Poison
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 1m
-                                          │ - Weight: 13kg
-                                          │
-                                          │ Abilities
-                                          │ - Chlorophyll
-                                          │ - Overgrow
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Grass:
-                                          │ ─────────────────
-                                          │                                   ▼
-     ↵ toggle detail  ↑↓ navigate  ^k actions"
+       bulbasaur #001
+      ›ivysaur #002                         │ ivysaur                           ▲
+       charmander #004                      │                                   ▀
+       charmeleon #005                      │ Illustration
+       squirtle #007                        │
+       wartortle #008                       │ Types
+                                            │ Grass / Poison
+                                            │
+                 No items found             │ Characteristics
+                                            │ - Height: 1m
+                                            │ - Weight: 13kg
+                                            │
+                                            │ Abilities
+       ↵ toggle        ↑↓ navigate ^k action│ - Chlorophyll
+         detail                             │ - Overgrow
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Grass:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 
   await session.press('down')
@@ -107,33 +109,34 @@ test('list with detail view display and navigation', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
+       Search Pokemon...
 
-     bulbasaur #001
-     ivysaur #002                         │ charmander                        ▲
-    ›charmander #004                      │                                   █
-     charmeleon #005                      │ Illustration
-     squirtle #007                        │
-     wartortle #008                       │ Types
-                                          │ Fire
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 0.6m
-                                          │ - Weight: 8.5kg
-                                          │
-                                          │ Abilities
-                                          │ - Blaze
-                                          │ - Solar Power
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Fire:
-                                          │ ─────────────────
-                                          │                                   ▼
-     ↵ toggle detail  ↑↓ navigate  ^k actions"
+       bulbasaur #001
+       ivysaur #002                         │ charmander                        ▲
+      ›charmander #004                      │                                   █
+       charmeleon #005                      │ Illustration
+       squirtle #007                        │
+       wartortle #008                       │ Types
+                                            │ Fire
+                                            │
+                 No items found             │ Characteristics
+                                            │ - Height: 0.6m
+                                            │ - Weight: 8.5kg
+                                            │
+                                            │ Abilities
+       ↵ toggle        ↑↓ navigate ^k action│ - Blaze
+         detail                             │ - Solar Power
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Fire:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 
   await session.press(['ctrl', 'k'])
@@ -143,33 +146,34 @@ test('list with detail view display and navigation', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
 
-     bulbasaur #001
-     ivysaur #002                         │ charmander                        ▲
-    ›charmander #004                      │                                   █
-     c┌──────────────────────────────────────────────────────────────────────────┐
-     s│                                                                          │
-     w│                                                                    esc   │
+
+
+
+
+
+
+
+
+      ┌──────────────────────────────────────────────────────────────────────────┐
+      │                                                                    esc   │
       │                                                                          │
       │   Search actions...                                                      │
       │                                                                          │
       │  ›Toggle Detail                                                          │
       │   View on Pokemon.com                                                    │
       │                                                                          │
-      │                                                                          │
-      │                                                                          │
-      │                                                                          │
-      │                                                                          │
-      │                                                                          │
-      │                                                                          │
-      │                                                                          │
-      │                                                                          │
       │   ↵ select   ↑↓ navigate                                                 │
       │                                                                          │
-     ↵└──────────────────────────────────────────────────────────────────────────┘"
+      └──────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+    "
   `)
 
   await session.press('enter')
@@ -183,33 +187,34 @@ test('list with detail view display and navigation', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
+       Search Pokemon...
 
-     bulbasaur #001                                             Grass / Poison
-     ivysaur #002                                               Grass / Poison
-    ›charmander #004                                                      Fire
-     charmeleon #005                                                      Fire
-     squirtle #007                                                       Water
-     wartortle #008                                                      Water
-
-
+       bulbasaur #001                                             Grass / Poison
+       ivysaur #002                                               Grass / Poison
+      ›charmander #004                                                      Fire
+       charmeleon #005                                                      Fire
+       squirtle #007                                                       Water
+       wartortle #008                                                      Water
 
 
-
+                                    No items found
 
 
 
 
-
+       ↵ toggle detail    ↑↓ navigate    ^k actions
 
 
 
 
 
 
-     ↵ toggle detail  ↑↓ navigate  ^k actions"
+
+
+
+    "
   `)
 
   await session.press(['ctrl', 'k'])
@@ -224,33 +229,34 @@ test('list with detail view display and navigation', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
+       Search Pokemon...
 
-     bulbasaur #001
-     ivysaur #002                         │ charmander                        ▲
-    ›charmander #004                      │                                   █
-     charmeleon #005                      │ Illustration
-     squirtle #007                        │
-     wartortle #008                       │ Types
-                                          │ Fire
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 0.6m
-                                          │ - Weight: 8.5kg
-                                          │
-                                          │ Abilities
-                                          │ - Blaze
-                                          │ - Solar Power
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Fire:
-                                          │ ─────────────────
-                                          │                                   ▼
-     ↵ toggle detail  ↑↓ navigate  ^k actions"
+       bulbasaur #001
+       ivysaur #002                         │ charmander                        ▲
+      ›charmander #004                      │                                   █
+       charmeleon #005                      │ Illustration
+       squirtle #007                        │
+       wartortle #008                       │ Types
+                                            │ Fire
+                                            │
+                 No items found             │ Characteristics
+                                            │ - Height: 0.6m
+                                            │ - Weight: 8.5kg
+                                            │
+                                            │ Abilities
+       ↵ toggle        ↑↓ navigate ^k action│ - Blaze
+         detail                             │ - Solar Power
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Fire:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 }, 15000)
 
@@ -272,33 +278,34 @@ test('list detail view search functionality', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-     char
+       char
 
-    ›charmander #004
-     charmeleon #005                      │ charmander                        ▲
-                                          │                                   █
-                                          │ Illustration
-                                          │
-                                          │ Types
-                                          │ Fire
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 0.6m
-                                          │ - Weight: 8.5kg
-                                          │
-                                          │ Abilities
-                                          │ - Blaze
-                                          │ - Solar Power
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Fire:
-                                          │ ─────────────────
-                                          │                                   ▼
-     ↵ toggle detail  ↑↓ navigate  ^k actions"
+      ›charmander #004
+       charmeleon #005                      │ charmander                        ▲
+                                            │                                   █
+                                            │ Illustration
+                 No items found             │
+                                            │ Types
+                                            │ Fire
+                                            │
+                                            │ Characteristics
+       ↵ toggle        ↑↓ navigate ^k action│ - Height: 0.6m
+         detail                             │ - Weight: 8.5kg
+                                            │
+                                            │ Abilities
+                                            │ - Blaze
+                                            │ - Solar Power
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Fire:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 
   await session.press('backspace')
@@ -317,33 +324,34 @@ test('list detail view search functionality', async () => {
     "
 
 
-    Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-    water
+       water
 
 
-                                         │ wartortle                         ▲
-                                         │                                   █
-                                         │ Illustration
-                                         │
-                                         │ Types
-                                         │ Water
-                                         │
-                                         │ Characteristics
-                                         │ - Height: 1m
-                                         │ - Weight: 22.5kg
-                                         │
-                                         │ Abilities
-                                         │ - Torrent
-                                         │ - Rain Dish
-                                         │ ─────────────────────────────────
-                                         │
-                                         │ Types:
-                                         │
-                                         │ Water:
-                                         │ ─────────────────
-                                         │                                   ▼
-    ↵ toggle detail  ↑↓ navigate  ^k actions"
+                                            │ wartortle                         ▲
+                 No items found             │                                   █
+                                            │ Illustration
+                                            │
+                                            │ Types
+                                            │ Water
+       ↵ toggle        ↑↓ navigate ^k action│
+         detail                             │ Characteristics
+                                            │ - Height: 1m
+                                            │ - Weight: 22.5kg
+                                            │
+                                            │ Abilities
+                                            │ - Torrent
+                                            │ - Rain Dish
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Water:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 
   await session.press('down')
@@ -353,33 +361,34 @@ test('list detail view search functionality', async () => {
     "
 
 
-    Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-    water
+       water
 
 
-                                         │ wartortle                         ▲
-                                         │                                   █
-                                         │ Illustration
-                                         │
-                                         │ Types
-                                         │ Water
-                                         │
-                                         │ Characteristics
-                                         │ - Height: 1m
-                                         │ - Weight: 22.5kg
-                                         │
-                                         │ Abilities
-                                         │ - Torrent
-                                         │ - Rain Dish
-                                         │ ─────────────────────────────────
-                                         │
-                                         │ Types:
-                                         │
-                                         │ Water:
-                                         │ ─────────────────
-                                         │                                   ▼
-    ↵ toggle detail  ↑↓ navigate  ^k actions"
+                                            │ wartortle                         ▲
+                 No items found             │                                   █
+                                            │ Illustration
+                                            │
+                                            │ Types
+                                            │ Water
+       ↵ toggle        ↑↓ navigate ^k action│
+         detail                             │ Characteristics
+                                            │ - Height: 1m
+                                            │ - Weight: 22.5kg
+                                            │
+                                            │ Abilities
+                                            │ - Torrent
+                                            │ - Rain Dish
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Water:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 }, 10000)
 
@@ -401,33 +410,34 @@ test('list detail metadata rendering', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
+       Search Pokemon...
 
-    ›bulbasaur #001
-     ivysaur #002                         │ bulbasaur                         ▲
-     charmander #004                      │                                   ▀
-     charmeleon #005                      │ Illustration
-     squirtle #007                        │
-     wartortle #008                       │ Types
-                                          │ Grass / Poison
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 0.7m
-                                          │ - Weight: 6.9kg
-                                          │
-                                          │ Abilities
-                                          │ - Chlorophyll
-                                          │ - Overgrow
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Grass:
-                                          │ ─────────────────
-                                          │                                   ▼
-     ↵ toggle detail  ↑↓ navigate  ^k actions"
+      ›bulbasaur #001
+       ivysaur #002                         │ bulbasaur                         ▲
+       charmander #004                      │                                   ▀
+       charmeleon #005                      │ Illustration
+       squirtle #007                        │
+       wartortle #008                       │ Types
+                                            │ Grass / Poison
+                                            │
+                 No items found             │ Characteristics
+                                            │ - Height: 0.7m
+                                            │ - Weight: 6.9kg
+                                            │
+                                            │ Abilities
+       ↵ toggle        ↑↓ navigate ^k action│ - Chlorophyll
+         detail                             │ - Overgrow
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Grass:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 
   await session.press('down')
@@ -444,33 +454,34 @@ test('list detail metadata rendering', async () => {
     "
 
 
-     Pokemon List ─────────────────────────────────────────────────────────────
+       Pokemon List ─────────────────────────────────────────────────────────────
 
-     Search Pokemon...
+       Search Pokemon...
 
-     bulbasaur #001
-     ivysaur #002                         │ squirtle                          ▲
-     charmander #004                      │                                   █
-     charmeleon #005                      │ Illustration
-    ›squirtle #007                        │
-     wartortle #008                       │ Types
-                                          │ Water
-                                          │
-                                          │ Characteristics
-                                          │ - Height: 0.5m
-                                          │ - Weight: 9kg
-                                          │
-                                          │ Abilities
-                                          │ - Torrent
-                                          │ - Rain Dish
-                                          │ ─────────────────────────────────
-                                          │
-                                          │ Types:
-                                          │
-                                          │ Water:
-                                          │ ─────────────────
-                                          │                                   ▼
-     ↵ toggle detail  ↑↓ navigate  ^k actions"
+       bulbasaur #001
+       ivysaur #002                         │ squirtle                          ▲
+       charmander #004                      │                                   █
+       charmeleon #005                      │ Illustration
+      ›squirtle #007                        │
+       wartortle #008                       │ Types
+                                            │ Water
+                                            │
+                 No items found             │ Characteristics
+                                            │ - Height: 0.5m
+                                            │ - Weight: 9kg
+                                            │
+                                            │ Abilities
+       ↵ toggle        ↑↓ navigate ^k action│ - Torrent
+         detail                             │ - Rain Dish
+                                            │ ─────────────────────────────────
+                                            │
+                                            │ Types:
+                                            │
+                                            │ Water:
+                                            │ ─────────────────
+                                            │                                   ▼
+
+    "
   `)
 }, 10000)
 
@@ -512,55 +523,57 @@ test('list with detail layout consistency - short vs long detail content', async
     "
 
 
-     Detail Length Test ───────────────────────────────────────────────────────
+       Detail Length Test ───────────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-    ›Short Detail
-     Long Detail                          │ Brief content
-     Another Item                         │
-                                          │ This is short.
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-                                          │
-       ↑↓ navigate  ^k actions"
+      ›Short Detail
+       Long Detail                          │ Brief content
+       Another Item                         │
+                                            │ This is short.
+                                            │
+                 No items found             │
+                                            │
+                                            │
+                                            │
+                                            │
+       ↑↓ navigate    ^k actions            │
+
+
+
+
+
+
+
+    "
   `)
   expect(longDetailSnapshot).toMatchInlineSnapshot(`
     "
 
 
-     Detail Length Test ───────────────────────────────────────────────────────
+       Detail Length Test ───────────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-     Short Detail
-    ›Long Detail                          │ This item has extensive detail    ▲
-     Another Item                         │ content                           ▀
-                                          │
-                                          │ Section 1
-                                          │ This is a very long description
-                                          │ that contains multiple paragraphs
-                                          │ and sections to test how the
-                                          │ layout behaves when the detail
-                                          │ panel content overflows.
-                                          │
-                                          │ Section 2
-                                          │ More content here to ensure we
-                                          │ have enough text to cause
-                                          │ vertical overflow in the detail
-                                          │ panel scrollbox.
-                                          │                                   ▼
-       ↑↓ navigate  ^k actions"
+       Short Detail
+      ›Long Detail                          │ This item has extensive detail    ▲
+       Another Item                         │ content                           ▀
+                                            │
+                                            │ Section 1
+                 No items found             │ This is a very long description
+                                            │ that contains multiple paragraphs
+                                            │ and sections to test how the
+                                            │ layout behaves when the detail
+                                            │ panel content overflows.
+       ↑↓ navigate    ^k actions            │
+                                            │ Section 2
+                                            │ More content here to ensure we
+                                            │ have enough text to cause
+                                            │ vertical overflow in the detail
+                                            │ panel scrollbox.
+                                            │                                   ▼
+
+    "
   `)
 
   // Extract the LINE NUMBER (vertical position) of list items to verify no layout shift

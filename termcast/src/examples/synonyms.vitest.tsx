@@ -42,33 +42,34 @@ test('synonyms extension shows preferences form on first launch', async () => {
     "
 
 
-    ◇  LLM Provider                                                      ▀
-    │  Select...
-    │
-    │  ○ Raycast AI
-    │  ○ OpenAI
-    │  ○ OpenAI Compatible
-    │  ○ Anthropic
-    │  ○ Fireworks.ai
-    │
-    │  Select the LLM provider you want to use
-    │
-    ◇  OpenAI API Key
-    │
-    │  API Key for OpenAI
-    │
-    ◇  OpenAI Model
-    │  gpt-4.1-mini
-    │
-    │  Model name for OpenAI
-    │
-    ◇  OpenAI Compatible URL
-    │
-    │
-    │  Base URL for OpenAI compatible provider
+         ◇  LLM Provider                                                      ▀
+         │  Select...
+         │
+         │  ○ Raycast AI
+         │  ○ OpenAI
+         │  ○ OpenAI Compatible
+         │  ○ Anthropic
+         │  ○ Fireworks.ai
+         │
+         │  Select the LLM provider you want to use
+         │
+         ◇  OpenAI API Key
+         │
+         │  API Key for OpenAI
+         │
+         ◇  OpenAI Model
+         │  gpt-4.1-mini
+         │
+         │  Model name for OpenAI
+         │
+         ◇  OpenAI Compatible URL
+         │
+         │
+         │  Base URL for OpenAI compatible provider
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+          ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 }, 60000)
 
@@ -91,33 +92,34 @@ test('synonyms extension preferences form can be navigated', async () => {
     "
 
 
-    ◇  LLM Provider                                                      ▀
-    │  Select...
-    │
-    │  ○ Raycast AI
-    │  ○ OpenAI
-    │  ○ OpenAI Compatible
-    │  ○ Anthropic
-    │  ○ Fireworks.ai
-    │
-    │  Select the LLM provider you want to use
-    │
-    ◇  OpenAI API Key
-    │
-    │  API Key for OpenAI
-    │
-    ◇  OpenAI Model
-    │  gpt-4.1-mini
-    │
-    │  Model name for OpenAI
-    │
-    ◇  OpenAI Compatible URL
-    │
-    │
-    │  Base URL for OpenAI compatible provider
+         ◇  LLM Provider                                                      ▀
+         │  Select...
+         │
+         │  ○ Raycast AI
+         │  ○ OpenAI
+         │  ○ OpenAI Compatible
+         │  ○ Anthropic
+         │  ○ Fireworks.ai
+         │
+         │  Select the LLM provider you want to use
+         │
+         ◇  OpenAI API Key
+         │
+         │  API Key for OpenAI
+         │
+         ◇  OpenAI Model
+         │  gpt-4.1-mini
+         │
+         │  Model name for OpenAI
+         │
+         ◇  OpenAI Compatible URL
+         │
+         │
+         │  Base URL for OpenAI compatible provider
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+          ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 
   // Press tab to move to next field
@@ -128,32 +130,33 @@ test('synonyms extension preferences form can be navigated', async () => {
     "
 
 
-    ◆  LLM Provider                                                      ▀
-    │  Select...
-    │
-    │› ○ Raycast AI
-    │  ○ OpenAI
-    │  ○ OpenAI Compatible
-    │  ○ Anthropic
-    │  ○ Fireworks.ai
-    │
-    │  Select the LLM provider you want to use
-    │
-    ◇  OpenAI API Key
-    │
-    │  API Key for OpenAI
-    │
-    ◇  OpenAI Model
-    │  gpt-4.1-mini
-    │
-    │  Model name for OpenAI
-    │
-    ◇  OpenAI Compatible URL
-    │
-    │
-    │  Base URL for OpenAI compatible provider
+         ◆  LLM Provider                                                      ▀
+         │  Select...
+         │
+         │› ○ Raycast AI
+         │  ○ OpenAI
+         │  ○ OpenAI Compatible
+         │  ○ Anthropic
+         │  ○ Fireworks.ai
+         │
+         │  Select the LLM provider you want to use
+         │
+         ◇  OpenAI API Key
+         │
+         │  API Key for OpenAI
+         │
+         ◇  OpenAI Model
+         │  gpt-4.1-mini
+         │
+         │  Model name for OpenAI
+         │
+         ◇  OpenAI Compatible URL
+         │
+         │
+         │  Base URL for OpenAI compatible provider
 
 
-     ctrl ↵ submit   tab navigate   ^k actions"
+          ctrl ↵ submit   tab navigate   ^k actions
+    "
   `)
 }, 60000)

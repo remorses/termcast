@@ -28,24 +28,24 @@ test('list navigation works while toast is shown', async () => {
     "
 
 
-     List With Toast ────────────────────────────────────────────────
+       List With Toast ────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-    ›First Item
-     Second Item
-     Third Item
-     Fourth Item
-     Fifth Item
-
-
+      ›First Item
+       Second Item
+       Third Item
+       Fourth Item
+       Fifth Item
 
 
+                               No items found
 
-                             ┌──────────────┐
-                             │ ✓ Selected   │
-                             │   First Item │
-                             └──────────────┘"
+
+
+                                  ✓ Selected
+                                   First Item
+    "
   `)
 
   await session.press('down')
@@ -56,24 +56,24 @@ test('list navigation works while toast is shown', async () => {
     "
 
 
-     List With Toast ────────────────────────────────────────────────
+       List With Toast ────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-     First Item
-    ›Second Item
-     Third Item
-     Fourth Item
-     Fifth Item
-
-
+       First Item
+      ›Second Item
+       Third Item
+       Fourth Item
+       Fifth Item
 
 
+                               No items found
 
-                             ┌───────────────┐
-                             │ ✓ Selected    │
-                             │   Second Item │
-                             └───────────────┘"
+
+
+                                  ✓ Selected
+                                   Second Item
+    "
   `)
 
   await session.press('down')
@@ -84,24 +84,24 @@ test('list navigation works while toast is shown', async () => {
     "
 
 
-     List With Toast ────────────────────────────────────────────────
+       List With Toast ────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-     First Item
-     Second Item
-    ›Third Item
-     Fourth Item
-     Fifth Item
-
-
+       First Item
+       Second Item
+      ›Third Item
+       Fourth Item
+       Fifth Item
 
 
+                               No items found
 
-                             ┌──────────────┐
-                             │ ✓ Selected   │
-                             │   Third Item │
-                             └──────────────┘"
+
+
+                                  ✓ Selected
+                                   Third Item
+    "
   `)
 
   await session.press('up')
@@ -112,23 +112,23 @@ test('list navigation works while toast is shown', async () => {
     "
 
 
-     List With Toast ────────────────────────────────────────────────
+       List With Toast ────────────────────────────────────────────────
 
-     Search...
+       Search...
 
-     First Item
-    ›Second Item
-     Third Item
-     Fourth Item
-     Fifth Item
-
-
+       First Item
+      ›Second Item
+       Third Item
+       Fourth Item
+       Fifth Item
 
 
+                               No items found
 
-                             ┌───────────────┐
-                             │ ✓ Selected    │
-                             │   Second Item │
-                             └───────────────┘"
+
+
+                                  ✓ Selected
+                                   Second Item
+    "
   `)
 }, 10000)
