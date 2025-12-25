@@ -209,6 +209,7 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
     <box
       paddingLeft={1}
       paddingRight={1}
+      alignItems='center' // show toast in center horizontally
       flexDirection='column'
       maxHeight={10}
       overflow='hidden'
