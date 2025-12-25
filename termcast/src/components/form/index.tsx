@@ -334,11 +334,11 @@ export const Form: FormType = ((props) => {
       return
     }
 
-    if (evt.name === 'k' && evt.ctrl && props.actions) {
-      // Ctrl+K shows actions (always show sheet)
+    if (evt.name === 'k' && evt.ctrl) {
+      // Ctrl+K shows actions (always show panel, even without actions)
       dialog.pushActions(
         <FormSubmitContext.Provider value={submitContextValue}>
-          {props.actions}
+          {props.actions || <ActionPanel />}
         </FormSubmitContext.Provider>,
         'center',
       )

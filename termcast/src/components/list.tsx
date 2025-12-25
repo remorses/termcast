@@ -27,6 +27,7 @@ import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 import { Color, resolveColor } from 'termcast/src/colors'
 import { getIconEmoji } from 'termcast/src/components/icon'
+import { ActionPanel } from 'termcast/src/components/actions'
 import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { CommonProps } from 'termcast/src/utils'
 
@@ -935,6 +936,10 @@ export const List: ListType = (props) => {
       else if (props.actions) {
         dialog.pushActions(props.actions)
       }
+      // Otherwise show empty ActionPanel (still has Settings section with Configure Extension, etc.)
+      else {
+        dialog.pushActions(<ActionPanel />)
+      }
       return
     }
 
@@ -1216,8 +1221,8 @@ const ListItem: ListItemType = (props) => {
   const handleMouseDown = () => {
     if (listContext && index !== -1) {
       // If clicking on already selected item, show actions (like pressing Enter)
-      if (isActive && props.actions) {
-        dialog.pushActions(props.actions)
+      if (isActive) {
+        dialog.pushActions(props.actions || <ActionPanel />)
       } else if (listContext.setSelectedIndex) {
         // Otherwise just select the item
         listContext.setSelectedIndex(index)
@@ -1736,9 +1741,9 @@ List.EmptyView = (props: EmptyViewProps) => {
   useKeyboard((evt) => {
     if (!inFocus) return
 
-    // Handle Ctrl+K to show actions
-    if (evt.name === 'k' && evt.ctrl && props.actions) {
-      dialog.pushActions(props.actions)
+    // Handle Ctrl+K to show actions (always show panel, even without actions)
+    if (evt.name === 'k' && evt.ctrl) {
+      dialog.pushActions(props.actions || <ActionPanel />)
       return
     }
 

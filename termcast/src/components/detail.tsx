@@ -277,9 +277,9 @@ const Detail: DetailType = (props) => {
   useKeyboard((evt) => {
     if (!inFocus) return
 
-    if (evt.name === 'k' && evt.ctrl && actions) {
-      // Ctrl+K shows actions (always show sheet)
-      dialog.pushActions(actions)
+    if (evt.name === 'k' && evt.ctrl) {
+      // Ctrl+K shows actions (always show panel, even without actions)
+      dialog.pushActions(actions || <ActionPanel />)
     } else if (evt.name === 'return' && actions) {
       // Enter executes first action directly
       useStore.setState({ shouldAutoExecuteFirstAction: true })
