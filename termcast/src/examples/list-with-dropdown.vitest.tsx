@@ -37,11 +37,11 @@ test('list with dropdown navigation', async () => {
 
        Search...                                                 Beer ▾
 
-      ›Augustiner Helles Beer                                          ▲
-       Camden Hells Beer                                               █
-       Leffe Blonde Beer                                               █
-       Sierra Nevada IPA Beer                                          █
-       Chateau Margaux Wine                                            ▀
+      ›Augustiner Helles Beer
+       Camden Hells Beer
+       Leffe Blonde Beer
+       Sierra Nevada IPA Beer
+       Chateau Margaux Wine
        Pinot Noir Wine
        Coca Cola Soda
        Sprite Soda
@@ -49,10 +49,10 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
-                               No items found                          ▼
-
-
        ↑↓ navigate    ^k actions
+
+
+
 
     "
   `)
@@ -64,25 +64,25 @@ test('list with dropdown navigation', async () => {
     "
 
 
+       Search Beers ───────────────────────────────────────────────────
 
 
-         ┌─────────────────────────────────────────────────────────────┐
-         │   Select Drink Type                                  esc    │
-         │                                                             │
-         │   Search...                                                 │
-         │                                                             │
-         │                                                             │
-         │   Alcoholic Beverages                                       │
-         │  ›Beer                                                      │
-         │   Wine                                                      │
-         │                                                             │
-         │   Non-Alcoholic                                             │
-         │   Soda                                                      │
-         │   Juice                                                     │
-         │                                                             │
-         │                                                             │
-         │   ↵ select   ↑↓ navigate                                    │
-         └─────────────────────────────────────────────────────────────┘
+       Search...                                                 Beer ▾
+
+      ›Augustiner Helles Beer
+       Camden Hells Beer
+       Leffe Blonde Beer
+       Sierra Nevada IPA Beer
+       Chateau Margaux Wine
+       Pinot Noir Wine
+       Coca Cola Soda
+       Sprite Soda
+       Orange Juice Juice
+       Apple Juice Juice
+
+
+       ↑↓ navigate    ^k actions
+
 
 
 
@@ -103,20 +103,20 @@ test('list with dropdown navigation', async () => {
          ┌─────────────────────────────────────────────────────────────┐
          │   Select Drink Type                                  esc    │
          │                                                             │
-         │   Search...                                                 │
-         │                                                             │
-         │                                                             │
-         │   Alcoholic Beverages                                       │
-         │  ›Beer                                                      │
-         │   Wine                                                      │
-         │                                                             │
-         │   Non-Alcoholic                                             │
-         │   Soda                                                      │
-         │   Juice                                                     │
-         │                                                             │
-         │                                                             │
-         │   ↵ select   ↑↓ navigate                                    │
-         └─────────────────────────────────────────────────────────────┘
+         │   iner Helles Beer
+       Camden Hells Beer
+       Leffe Blonde Beer
+       Sierra Nevada IPA Beer
+       Chateau Margaux Wine
+       Pinot Noir Wine
+       Coca Cola Soda
+       Sprite Soda
+       Orange Juice Juice
+       Apple Juice Juice
+
+
+       ↑↓ navigate    ^k actions
+
 
 
 
@@ -207,12 +207,12 @@ test('list with dropdown navigation', async () => {
        Sprite Soda
 
 
-                               No items found
-
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -330,12 +330,12 @@ test('list with dropdown search and filter', async () => {
        Pinot Noir Wine
 
 
-                               No items found
-
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -365,12 +365,12 @@ test('list with dropdown search and filter', async () => {
       ›Pinot Noir Wine
 
 
-                               No items found
-
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 

@@ -353,6 +353,7 @@ const {
   DescendantsProvider: ListDescendantsProvider,
   useDescendants: useListDescendants,
   useDescendant: useListItemDescendant,
+  useDescendantsRerender: useListDescendantsRerender,
 } = createDescendants<ListItemDescendant>()
 
 // Create descendants for Dropdown items
@@ -1088,6 +1089,36 @@ export const List: ListType = (props) => {
   )
 }
 
+
+function DefaultEmptyView(): any {
+  // Use the reactive hook to get notified when descendants change
+  const descendantsMap = useListDescendantsRerender()
+
+  const hasVisibleItems = Object.values(descendantsMap)
+    .filter((item) => item.index !== -1 && item.props?.visible !== false)
+    .length > 0
+
+  if (hasVisibleItems) return null
+
+  return (
+    <box
+      style={{
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 2,
+        paddingBottom: 2,
+        paddingLeft: 2,
+        paddingRight: 2,
+      }}
+    >
+      <text flexShrink={0} fg={Theme.textMuted}>
+        No items found
+      </text>
+    </box>
+  )
+}
+
 // Component to render list items and sections
 function ListItemsRenderer(props: { children?: ReactNode }): any {
   const { children } = props
@@ -1098,6 +1129,7 @@ function ListItemsRenderer(props: { children?: ReactNode }): any {
   return (
     <ListSectionContext.Provider value={{ searchText }}>
       {children}
+      <DefaultEmptyView />
     </ListSectionContext.Provider>
   )
 }

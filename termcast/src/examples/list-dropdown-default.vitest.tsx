@@ -43,12 +43,12 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
-                                    No items found
-
-
-
-
        ↵ show selected fruit    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -162,12 +162,12 @@ test('dropdown opens and shows items', async () => {
 
 
 
-                                    No items found
-
-
-
-
        ↵ show selected fruit    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -244,12 +244,12 @@ test('clicking dropdown opens it', async () => {
 
 
 
-                                    No items found
-
-
-
-
        ↵ show selected fruit    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 

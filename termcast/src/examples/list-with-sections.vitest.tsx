@@ -172,12 +172,12 @@ test('list with sections search functionality', async () => {
       ›Banana Yellow and nutritious                               Ripe
 
 
-                               No items found
-
-
-
-
        ↵ view details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -208,12 +208,12 @@ test('list with sections search functionality', async () => {
        Lettuce Green and fresh
 
 
-                               No items found
-
-
-
-
        ↵ view details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -271,12 +271,12 @@ test('list with sections search functionality', async () => {
        Bread Freshly baked                                 Today [New]
 
 
-                               No items found
-
-
-
-
        ↵ view details    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -485,7 +485,7 @@ test('list actions panel with ctrl+k', async () => {
       ›Apple Red and sweet                            Fresh [Popular]  █
        Banana Yellow and nutritious                              Ripe  █
        Orange Citrus and juicy                                  Fresh  █
-       Grape Sweet clusters                                [Seasonal]
+       Grape Sweet clusters                                [Seasonal]  █
        Mango Tropical delight                                Imported
        Pineapple Sweet and tangy
        Strawberry Red and sweet                             [Popular]
@@ -534,16 +534,16 @@ test('filtering selects first visible item and navigation works', async () => {
 
        ora
 
-      ›Orange Citrus and juicy                                   Fresh
+       Orange Citrus and juicy                                   Fresh
        Carrot Orange and crunchy                             [Healthy]
 
 
-                               No items found
+       ↵ view details    ↑↓ navigate    ^k actions
 
 
 
 
-       ↑↓ navigate    ^k actions
+
 
 
 
@@ -562,16 +562,16 @@ test('filtering selects first visible item and navigation works', async () => {
 
        ora
 
-       Orange Citrus and juicy                                   Fresh
-      ›Carrot Orange and crunchy                             [Healthy]
+      ›Orange Citrus and juicy                                   Fresh
+       Carrot Orange and crunchy                             [Healthy]
 
 
-                               No items found
+       ↑↓ navigate    ^k actions
 
 
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+
 
 
 
@@ -590,16 +590,16 @@ test('filtering selects first visible item and navigation works', async () => {
 
        ora
 
-      ›Orange Citrus and juicy                                   Fresh
-       Carrot Orange and crunchy                             [Healthy]
+       Orange Citrus and juicy                                   Fresh
+      ›Carrot Orange and crunchy                             [Healthy]
 
 
-                               No items found
+       ↵ view details    ↑↓ navigate    ^k actions
 
 
 
 
-       ↑↓ navigate    ^k actions
+
 
 
 
@@ -618,16 +618,16 @@ test('filtering selects first visible item and navigation works', async () => {
 
        ora
 
-       Orange Citrus and juicy                                   Fresh
-      ›Carrot Orange and crunchy                             [Healthy]
+      ›Orange Citrus and juicy                                   Fresh
+       Carrot Orange and crunchy                             [Healthy]
 
 
-                               No items found
+       ↑↓ navigate    ^k actions
 
 
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+
 
 
 
@@ -686,8 +686,8 @@ test('list scrollbox scrolling with sections', async () => {
 
        Orange Citrus and juicy                                  Fresh  ▲
        Grape Sweet clusters                                [Seasonal]
-       Mango Tropical delight                                Imported  ▄
-       Pineapple Sweet and tangy
+       Mango Tropical delight                                Imported
+       Pineapple Sweet and tangy                                       ▀
       ›Strawberry Red and sweet                             [Popular]
 
        Vegetables
@@ -718,9 +718,9 @@ test('list scrollbox scrolling with sections', async () => {
        Vegetables
        Carrot Orange and crunchy                            [Healthy]
        Lettuce Green and fresh
-      ›Broccoli Green florets                               [Healthy]  ▄
+      ›Broccoli Green florets                               [Healthy]
        Spinach Leafy greens                                   Organic
-       Tomato Red and ripe
+       Tomato Red and ripe                                             ▀
        Cucumber Cool and crisp
        Bell Pepper Colorful and crunchy                       [Fresh]  ▼
 
@@ -746,15 +746,15 @@ test('list scrollbox scrolling with sections', async () => {
 
        Search items...
 
-       Tomato Red and ripe                                             ▲
+       Carrot Orange and crunchy                            [Healthy]  ▲
+       Lettuce Green and fresh
+       Broccoli Green florets                               [Healthy]
+       Spinach Leafy greens                                   Organic
+       Tomato Red and ripe
        Cucumber Cool and crisp
        Bell Pepper Colorful and crunchy                       [Fresh]
-
-      ›Bread Freshly baked                                Today [New]
-
-
-                               No items found                          ▀
-                                                                       ▼
+                                                                       ▄
+      ›Bread Freshly baked                                Today [New]  ▼
 
 
        ↵ view details    ↑↓ navigate    ^k actions
@@ -776,15 +776,15 @@ test('list scrollbox scrolling with sections', async () => {
 
        Search items...
 
-       Tomato Red and ripe                                             ▲
+       Carrot Orange and crunchy                            [Healthy]  ▲
+       Lettuce Green and fresh
+       Broccoli Green florets                               [Healthy]
+       Spinach Leafy greens                                   Organic
+       Tomato Red and ripe
        Cucumber Cool and crisp
        Bell Pepper Colorful and crunchy                       [Fresh]
-
-      ›Bread Freshly baked                                Today [New]
-
-
-                               No items found                          ▀
-                                                                       ▼
+                                                                       ▄
+      ›Bread Freshly baked                                Today [New]  ▼
 
 
        ↵ view details    ↑↓ navigate    ^k actions

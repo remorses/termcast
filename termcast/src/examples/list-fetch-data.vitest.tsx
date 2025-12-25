@@ -48,12 +48,12 @@ test('list shows initial items after fetch', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
+
+
 
     "
   `)
@@ -81,12 +81,12 @@ test('list shows initial items after fetch', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
+
+
 
     "
   `)
@@ -113,12 +113,12 @@ test('list shows initial items after fetch', async () => {
 
 
 
-                               No items found
-
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
+
+
 
     "
   `)

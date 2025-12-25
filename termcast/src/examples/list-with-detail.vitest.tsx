@@ -45,13 +45,13 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                       │ Types
                                             │ Grass / Poison
                                             │
-                 No items found             │ Characteristics
-                                            │ - Height: 0.7m
+       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
+         detail                             │ - Height: 0.7m
                                             │ - Weight: 6.9kg
                                             │
                                             │ Abilities
-       ↵ toggle        ↑↓ navigate ^k action│ - Chlorophyll
-         detail                             │ - Overgrow
+                                            │ - Chlorophyll
+                                            │ - Overgrow
                                             │ ─────────────────────────────────
                                             │
                                             │ Types:
@@ -84,13 +84,13 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                       │ Types
                                             │ Grass / Poison
                                             │
-                 No items found             │ Characteristics
-                                            │ - Height: 1m
+       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
+         detail                             │ - Height: 1m
                                             │ - Weight: 13kg
                                             │
                                             │ Abilities
-       ↵ toggle        ↑↓ navigate ^k action│ - Chlorophyll
-         detail                             │ - Overgrow
+                                            │ - Chlorophyll
+                                            │ - Overgrow
                                             │ ─────────────────────────────────
                                             │
                                             │ Types:
@@ -121,13 +121,13 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                       │ Types
                                             │ Fire
                                             │
-                 No items found             │ Characteristics
-                                            │ - Height: 0.6m
+       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
+         detail                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
                                             │
                                             │ Abilities
-       ↵ toggle        ↑↓ navigate ^k action│ - Blaze
-         detail                             │ - Solar Power
+                                            │ - Blaze
+                                            │ - Solar Power
                                             │ ─────────────────────────────────
                                             │
                                             │ Types:
@@ -199,12 +199,12 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                                                      Water
 
 
-                                    No items found
-
-
-
-
        ↵ toggle detail    ↑↓ navigate    ^k actions
+
+
+
+
+
 
 
 
@@ -241,13 +241,13 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                       │ Types
                                             │ Fire
                                             │
-                 No items found             │ Characteristics
-                                            │ - Height: 0.6m
+       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
+         detail                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
                                             │
                                             │ Abilities
-       ↵ toggle        ↑↓ navigate ^k action│ - Blaze
-         detail                             │ - Solar Power
+                                            │ - Blaze
+                                            │ - Solar Power
                                             │ ─────────────────────────────────
                                             │
                                             │ Types:
@@ -282,26 +282,26 @@ test('list detail view search functionality', async () => {
 
        char
 
-      ›charmander #004
-       charmeleon #005                      │ charmander                        ▲
-                                            │                                   █
+       charmander #004
+       charmeleon #005                      │ bulbasaur                         ▲
+                                            │                                   ▀
                                             │ Illustration
-                 No items found             │
-                                            │ Types
-                                            │ Fire
+       ↵ toggle        ↑↓ navigate ^k action│
+         detail                             │ Types
+                                            │ Grass / Poison
                                             │
                                             │ Characteristics
-       ↵ toggle        ↑↓ navigate ^k action│ - Height: 0.6m
-         detail                             │ - Weight: 8.5kg
+                                            │ - Height: 0.7m
+                                            │ - Weight: 6.9kg
                                             │
                                             │ Abilities
-                                            │ - Blaze
-                                            │ - Solar Power
+                                            │ - Chlorophyll
+                                            │ - Overgrow
                                             │ ─────────────────────────────────
                                             │
                                             │ Types:
                                             │
-                                            │ Fire:
+                                            │ Grass:
                                             │ ─────────────────
                                             │                                   ▼
 
@@ -422,13 +422,13 @@ test('list detail metadata rendering', async () => {
        wartortle #008                       │ Types
                                             │ Grass / Poison
                                             │
-                 No items found             │ Characteristics
-                                            │ - Height: 0.7m
+       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
+         detail                             │ - Height: 0.7m
                                             │ - Weight: 6.9kg
                                             │
                                             │ Abilities
-       ↵ toggle        ↑↓ navigate ^k action│ - Chlorophyll
-         detail                             │ - Overgrow
+                                            │ - Chlorophyll
+                                            │ - Overgrow
                                             │ ─────────────────────────────────
                                             │
                                             │ Types:
@@ -466,13 +466,13 @@ test('list detail metadata rendering', async () => {
        wartortle #008                       │ Types
                                             │ Water
                                             │
-                 No items found             │ Characteristics
-                                            │ - Height: 0.5m
+       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
+         detail                             │ - Height: 0.5m
                                             │ - Weight: 9kg
                                             │
                                             │ Abilities
-       ↵ toggle        ↑↓ navigate ^k action│ - Torrent
-         detail                             │ - Rain Dish
+                                            │ - Torrent
+                                            │ - Rain Dish
                                             │ ─────────────────────────────────
                                             │
                                             │ Types:
@@ -532,12 +532,12 @@ test('list with detail layout consistency - short vs long detail content', async
        Another Item                         │
                                             │ This is short.
                                             │
-                 No items found             │
-                                            │
-                                            │
-                                            │
-                                            │
        ↑↓ navigate    ^k actions            │
+
+
+
+
+
 
 
 
@@ -560,12 +560,12 @@ test('list with detail layout consistency - short vs long detail content', async
        Another Item                         │ content                           ▀
                                             │
                                             │ Section 1
-                 No items found             │ This is a very long description
+       ↑↓ navigate    ^k actions            │ This is a very long description
                                             │ that contains multiple paragraphs
                                             │ and sections to test how the
                                             │ layout behaves when the detail
                                             │ panel content overflows.
-       ↑↓ navigate    ^k actions            │
+                                            │
                                             │ Section 2
                                             │ More content here to ensure we
                                             │ have enough text to cause

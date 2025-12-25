@@ -38,13 +38,13 @@ test('list navigation works while toast is shown', async () => {
        Fourth Item
        Fifth Item
 
-
-                               No items found
-
-
-
                                   ✓ Selected
                                    First Item
+
+
+
+
+
     "
   `)
 
@@ -66,13 +66,13 @@ test('list navigation works while toast is shown', async () => {
        Fourth Item
        Fifth Item
 
-
-                               No items found
-
-
-
                                   ✓ Selected
                                    Second Item
+
+
+
+
+
     "
   `)
 
@@ -94,13 +94,13 @@ test('list navigation works while toast is shown', async () => {
        Fourth Item
        Fifth Item
 
-
-                               No items found
-
-
-
                                   ✓ Selected
                                    Third Item
+
+
+
+
+
     "
   `)
 
@@ -122,13 +122,13 @@ test('list navigation works while toast is shown', async () => {
        Fourth Item
        Fifth Item
 
-
-                               No items found
-
-
-
                                   ✓ Selected
                                    Second Item
+
+
+
+
+
     "
   `)
 }, 10000)
