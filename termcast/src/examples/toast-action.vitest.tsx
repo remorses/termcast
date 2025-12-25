@@ -42,10 +42,10 @@ test('pressing enter triggers primary action on toast', async () => {
        Form with Delayed Toast Action
        Other Item
 
+
+
                          ✓ File Deleted [Undo ctrl t]
                          document.pdf was moved to trash
-
-
 
 
 
@@ -75,10 +75,10 @@ test('pressing enter triggers primary action on toast', async () => {
        Form with Delayed Toast Action
        Other Item
 
+
+
                                    ✓ Undone
                                   File restored
-
-
 
 
 
@@ -124,7 +124,7 @@ test('pressing escape hides the toast', async () => {
 
        ↵ show toast    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -158,6 +158,8 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
 
 
+
+
       ◆  Name
       │  Enter your name
       │
@@ -165,8 +167,6 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -195,6 +195,8 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
 
 
+
+
       ◆  Name
       │  John
       │
@@ -202,8 +204,6 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
 
                     ✓ Form Submitted [View Details ctrl t]
                                   Hello, John!
-
-
 
 
 
@@ -287,6 +287,8 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
     "
 
 
+
+
       ◆  Name
       │  Jane
       │
@@ -294,8 +296,6 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -350,6 +350,8 @@ test('delayed toast action: primaryAction set after toast shown works with enter
     "
 
 
+
+
       ◆  Name
       │  Test
       │
@@ -357,8 +359,6 @@ test('delayed toast action: primaryAction set after toast shown works with enter
 
                              ✓ Done [Open ctrl t]
                                   Hello, Test!
-
-
 
 
 
@@ -382,6 +382,8 @@ test('delayed toast action: primaryAction set after toast shown works with enter
     "
 
 
+
+
       ◆  Name
       │  Test
       │
@@ -389,8 +391,6 @@ test('delayed toast action: primaryAction set after toast shown works with enter
 
                                    ✓ Opened!
                           Action triggered successfully
-
-
 
 
 

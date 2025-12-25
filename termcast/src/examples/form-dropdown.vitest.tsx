@@ -34,6 +34,8 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -70,8 +72,6 @@ test('form dropdown shows inline options', async () => {
 
       │
       └
-
-
 
 
 
@@ -91,6 +91,8 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -130,8 +132,6 @@ test('form dropdown shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -148,6 +148,8 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -187,8 +189,6 @@ test('form dropdown shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -208,6 +208,8 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -247,8 +249,6 @@ test('form dropdown shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -265,6 +265,8 @@ test('form dropdown shows inline options', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -304,8 +306,6 @@ test('form dropdown shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -330,6 +330,8 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -369,8 +371,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -390,6 +390,8 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -429,8 +431,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -447,6 +447,8 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -486,8 +488,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -504,6 +504,8 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -543,8 +545,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -561,6 +561,8 @@ test('form dropdown keyboard navigation', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -600,8 +602,6 @@ test('form dropdown keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -624,6 +624,8 @@ test('form dropdown with default value', async () => {
   const secondDropdownFocusedSnapshot = await session.text()
   expect(secondDropdownFocusedSnapshot).toMatchInlineSnapshot(`
     "
+
+
 
 
       ▪  Dropdown Component Demo
@@ -671,8 +673,6 @@ test('form dropdown with default value', async () => {
 
 
 
-
-
     "
   `)
 
@@ -681,6 +681,8 @@ test('form dropdown with default value', async () => {
   const afterToggleMonokaiSnapshot = await session.text()
   expect(afterToggleMonokaiSnapshot).toMatchInlineSnapshot(`
     "
+
+
 
 
       ▪  Dropdown Component Demo
@@ -728,8 +730,6 @@ test('form dropdown with default value', async () => {
 
 
 
-
-
     "
   `)
 
@@ -745,6 +745,8 @@ test('form dropdown with default value', async () => {
     "
 
 
+
+
       ▪  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
@@ -753,13 +755,13 @@ test('form dropdown with default value', async () => {
       │  Rust, TypeScript                                              █
       │                                                                █
       │  Frontend                                                      █
-      │› ● TypeScript                                                  █
-      │  ○ JavaScript                                                  █
-      │  ○ React                                                       █
-      │  ○ Vue                                                         █
-      │                                                                █
-      │  Choose your preferred programming languages                   █
-      │                                                                ▀
+      │› ● TypeScript
+      │  ○ JavaScript
+      │  ○ React
+      │  ○ Vue
+      │
+      │  Choose your preferred programming languages
+      │
       ◇  Editor Theme
       │  Dracula
       │
@@ -787,8 +789,6 @@ test('form dropdown with default value', async () => {
       │      "typescript"
       │    ],
       │    "theme": "dracula",
-      │    "priority": ""
-      │  }
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -811,6 +811,8 @@ test('selecting second-to-last visible item should not scroll', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -850,8 +852,6 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -868,6 +868,8 @@ test('selecting second-to-last visible item should not scroll', async () => {
     "
 
 
+
+
       ■  Dropdown Component Demo
       │  Test dropdown with sections, multiple selection, and more
       │  features
@@ -907,8 +909,6 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 

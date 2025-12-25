@@ -37,7 +37,7 @@ test('list detail metadata label renders title and text in column layout', async
        Search...
 
       ›Item with Metadata
-       Another Item                         │                                   ▲
+       Another Item                         │ Details                           ▲
                                             │ ───────────────────────────────── █
                                             │                                   ▀
        ↑↓ navigate    ^k actions            │ Name:

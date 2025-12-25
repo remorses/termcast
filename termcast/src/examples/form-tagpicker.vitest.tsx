@@ -31,6 +31,8 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -58,8 +60,6 @@ test('form tagpicker shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -88,6 +88,8 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -115,8 +117,6 @@ test('form tagpicker shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -145,6 +145,8 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -172,8 +174,6 @@ test('form tagpicker shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -205,6 +205,8 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -232,8 +234,6 @@ test('form tagpicker shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -262,6 +262,8 @@ test('form tagpicker shows inline options', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -289,8 +291,6 @@ test('form tagpicker shows inline options', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -327,6 +327,8 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -354,8 +356,6 @@ test('form tagpicker keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -387,6 +387,8 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -414,8 +416,6 @@ test('form tagpicker keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -444,6 +444,8 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -471,8 +473,6 @@ test('form tagpicker keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -501,6 +501,8 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -528,8 +530,6 @@ test('form tagpicker keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -558,6 +558,8 @@ test('form tagpicker keyboard navigation', async () => {
     "
 
 
+
+
       ■  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
@@ -585,8 +587,6 @@ test('form tagpicker keyboard navigation', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
@@ -621,6 +621,8 @@ test('form tagpicker with default value', async () => {
   const secondTagpickerFocusedSnapshot = await session.text()
   expect(secondTagpickerFocusedSnapshot).toMatchInlineSnapshot(`
     "
+
+
 
 
       ▪  TagPicker Component Demo
@@ -668,8 +670,6 @@ test('form tagpicker with default value', async () => {
 
 
 
-
-
     "
   `)
 
@@ -678,6 +678,8 @@ test('form tagpicker with default value', async () => {
   const afterDeselectGermanySnapshot = await session.text()
   expect(afterDeselectGermanySnapshot).toMatchInlineSnapshot(`
     "
+
+
 
 
       ▪  TagPicker Component Demo
@@ -725,8 +727,6 @@ test('form tagpicker with default value', async () => {
 
 
 
-
-
     "
   `)
 
@@ -740,6 +740,8 @@ test('form tagpicker with default value', async () => {
   })
   expect(afterSubmitSnapshot).toMatchInlineSnapshot(`
     "
+
+
 
 
       ▪  TagPicker Component Demo
@@ -777,8 +779,6 @@ test('form tagpicker with default value', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 

@@ -45,7 +45,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
        ↵ show selected fruit    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -76,21 +76,21 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-
+       Dropdown Default Value Example ───────────────────────────────────────────
 
           ┌──────────────────────────────────────────────────────────────────────┐
-          │   Filter by category                                           esc   │
+       Sea│   Filter by category                                           esc   │
           │                                                                      │
-          │   Select category...                                                 │
-          │                                                                      │
-          │  ›Apple                                                              │
-          │   Banana                                                             │
+      ›Fir│   Select category...                                                 │
+       Sec│                                                                      │
+       Veg│  ›Apple                                                              │
+       Car│   Banana                                                             │
           │   Orange                                                             │
           │   Grape                                                              │
           │                                                                      │
-          │                                                                      │
+       ↵ s│                                                                      │
           │   ↵ select   ↑↓ navigate                                             │
-          └──────────────────────────────────────────────────────────────────────┘
+       Set└──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -113,21 +113,21 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-
+       Dropdown Default Value Example ───────────────────────────────────────────
 
           ┌──────────────────────────────────────────────────────────────────────┐
-          │   Filter by category                                           esc   │
+       Sea│   Filter by category                                           esc   │
           │                                                                      │
-          │   Select category...                                                 │
-          │                                                                      │
-          │   Apple                                                              │
-          │  ›Banana                                                             │
+      ›Fir│   Select category...                                                 │
+       Sec│                                                                      │
+       Veg│   Apple                                                              │
+       Car│  ›Banana                                                             │
           │   Orange                                                             │
           │   Grape                                                              │
           │                                                                      │
-          │                                                                      │
+       ↵ s│                                                                      │
           │   ↵ select   ↑↓ navigate                                             │
-          └──────────────────────────────────────────────────────────────────────┘
+       Set└──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -164,7 +164,7 @@ test('dropdown opens and shows items', async () => {
 
        ↵ show selected fruit    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -195,21 +195,21 @@ test('clicking dropdown opens it', async () => {
     "
 
 
-
+       Dropdown Default Value Example ───────────────────────────────────────────
 
           ┌──────────────────────────────────────────────────────────────────────┐
-          │   Filter by category                                           esc   │
+       Sea│   Filter by category                                           esc   │
           │                                                                      │
-          │   Select category...                                                 │
-          │                                                                      │
-          │  ›Apple                                                              │
-          │   Banana                                                             │
+      ›Fir│   Select category...                                                 │
+       Sec│                                                                      │
+       Veg│  ›Apple                                                              │
+       Car│   Banana                                                             │
           │   Orange                                                             │
           │   Grape                                                              │
           │                                                                      │
-          │                                                                      │
+       ↵ s│                                                                      │
           │   ↵ select   ↑↓ navigate                                             │
-          └──────────────────────────────────────────────────────────────────────┘
+       Set└──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -246,7 +246,7 @@ test('clicking dropdown opens it', async () => {
 
        ↵ show selected fruit    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 

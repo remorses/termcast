@@ -32,6 +32,8 @@ test('form basic navigation and input', async () => {
     "
 
 
+
+
       ■  Form Component Demo                                           █
       │  This demonstrates all available form input types. Use arrow   █
       │  keys or Tab to navigate between fields.
@@ -74,8 +76,6 @@ test('form basic navigation and input', async () => {
       │   ←       2025        →
       │   ←     December      →
       │
-      │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -102,6 +102,8 @@ test('password field always shows asterisks and submits real value', async () =>
   })
   expect(passwordTypingSnapshot).toMatchInlineSnapshot(`
     "
+
+
 
 
       ▪  Form Component Demo                                           █
@@ -146,8 +148,6 @@ test('password field always shows asterisks and submits real value', async () =>
       │   ←       2025        →
       │   ←     December      →
       │
-      │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -160,6 +160,8 @@ test('password field always shows asterisks and submits real value', async () =>
   const passwordUnfocusedSnapshot = await session.text()
   expect(passwordUnfocusedSnapshot).toMatchInlineSnapshot(`
     "
+
+
 
 
       ▪  Form Component Demo                                           █
@@ -204,8 +206,6 @@ test('password field always shows asterisks and submits real value', async () =>
       │   ←       2025        →
       │   ←     December      →
       │
-      │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -225,24 +225,23 @@ test('password field always shows asterisks and submits real value', async () =>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      ▪  Form Component Demo                                           █
+      │  This demonstrates all available form input types. Use arrow   █
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  **********
+      │  Must be at least 8 characters
+      │
+      ◆  Biography
+      │  Tell us about yourself...
+      │
+      │
       ┌────────────────────────────────────────────────────────────────┐
       │                                                          esc   │
       │                                                                │
@@ -250,26 +249,27 @@ test('password field always shows asterisks and submits real value', async () =>
       │                                                                │
       │  ›Submit Form                                       ⌃RETURN    │
       │                                                                │
+      │   Settings                                                     │
+      │   Change Theme...                                              │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       └────────────────────────────────────────────────────────────────┘
+      │  ○ United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2025        →
+      │   ←     December      →
+      │
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+       ctrl ↵ submit   tab navigate   ^k actions
     "
   `)
   
@@ -282,8 +282,10 @@ test('password field always shows asterisks and submits real value', async () =>
     "
 
 
+
+
       ▪  Form Component Demo                                           █
-      │  This demonstrates all available form input types. Use arrow   ▀
+      │  This demonstrates all available form input types. Use arrow
       │  keys or Tab to navigate between fields.
       │
       ◇  Username
@@ -324,8 +326,6 @@ test('password field always shows asterisks and submits real value', async () =>
       │   ←       2025        →
       │   ←     December      →
       │
-      │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
 
                                ✓ Form Submitted
                   All form data has been captured successfully
@@ -356,7 +356,8 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-      ◇  Username
+
+
       │  Enter your username
       │
       │  Required field
@@ -366,10 +367,10 @@ test('form date picker selection with space and enter', async () => {
       │  Must be at least 8 characters
       │
       ◇  Biography
-      │  Tell us about yourself...                                     █
+      │  Tell us about yourself...
+      │                                                                ▄
       │                                                                █
-      │
-      │
+      │                                                                ▀
       │
       │  Maximum 500 characters
       │
@@ -399,7 +400,6 @@ test('form date picker selection with space and enter', async () => {
       │    8  9 10 11 12 13 14
       │   15 16 17 18 19 20 21
       │   22 23 24 25 26 27 28
-      │   29 30 31
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -414,7 +414,8 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-      ◇  Username
+
+
       │  Enter your username
       │
       │  Required field
@@ -424,10 +425,10 @@ test('form date picker selection with space and enter', async () => {
       │  Must be at least 8 characters
       │
       ◇  Biography
-      │  Tell us about yourself...                                     █
+      │  Tell us about yourself...
+      │                                                                ▄
       │                                                                █
-      │
-      │
+      │                                                                ▀
       │
       │  Maximum 500 characters
       │
@@ -457,7 +458,6 @@ test('form date picker selection with space and enter', async () => {
       │    8  9 10 11 12 13 14
       │   15 16 17 18 19 20 21
       │   22 23 24 25 26 27 28
-      │   29 30 31
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -473,7 +473,8 @@ test('form date picker selection with space and enter', async () => {
     "
 
 
-      ◇  Username
+
+
       │  Enter your username
       │
       │  Required field
@@ -483,10 +484,10 @@ test('form date picker selection with space and enter', async () => {
       │  Must be at least 8 characters
       │
       ◇  Biography
-      │  Tell us about yourself...                                     █
+      │  Tell us about yourself...
+      │                                                                ▄
       │                                                                █
-      │
-      │
+      │                                                                ▀
       │
       │  Maximum 500 characters
       │
@@ -516,7 +517,6 @@ test('form date picker selection with space and enter', async () => {
       │    8  9 10 11 12 13 14
       │   15 16 17 18 19 20 21
       │   22 23 24 25 26 27 28
-      │   29 30 31
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -548,7 +548,8 @@ test('form dropdown navigation', async () => {
     "
 
 
-      ◇  Username
+
+
       │  Enter your username
       │
       │  Required field
@@ -558,10 +559,10 @@ test('form dropdown navigation', async () => {
       │  Must be at least 8 characters
       │
       ◇  Biography
-      │  Tell us about yourself...                                     █
+      │  Tell us about yourself...
+      │                                                                ▄
       │                                                                █
-      │
-      │
+      │                                                                ▀
       │
       │  Maximum 500 characters
       │
@@ -591,7 +592,6 @@ test('form dropdown navigation', async () => {
       │    8  9 10 11 12 13 14
       │   15 16 17 18 19 20 21
       │   22 23 24 25 26 27 28
-      │   29 30 31
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -606,7 +606,8 @@ test('form dropdown navigation', async () => {
     "
 
 
-      ◇  Username
+
+
       │  Enter your username
       │
       │  Required field
@@ -616,10 +617,10 @@ test('form dropdown navigation', async () => {
       │  Must be at least 8 characters
       │
       ◇  Biography
-      │  Tell us about yourself...                                     █
+      │  Tell us about yourself...
+      │                                                                ▄
       │                                                                █
-      │
-      │
+      │                                                                ▀
       │
       │  Maximum 500 characters
       │
@@ -649,7 +650,6 @@ test('form dropdown navigation', async () => {
       │    8  9 10 11 12 13 14
       │   15 16 17 18 19 20 21
       │   22 23 24 25 26 27 28
-      │   29 30 31
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -666,7 +666,8 @@ test('form dropdown navigation', async () => {
     "
 
 
-      ◇  Username
+
+
       │  Enter your username
       │
       │  Required field
@@ -676,10 +677,10 @@ test('form dropdown navigation', async () => {
       │  Must be at least 8 characters
       │
       ◇  Biography
-      │  Tell us about yourself...                                     █
+      │  Tell us about yourself...
+      │                                                                ▄
       │                                                                █
-      │
-      │
+      │                                                                ▀
       │
       │  Maximum 500 characters
       │
@@ -709,7 +710,6 @@ test('form dropdown navigation', async () => {
       │    8  9 10 11 12 13 14
       │   15 16 17 18 19 20 21
       │   22 23 24 25 26 27 28
-      │   29 30 31
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -724,7 +724,8 @@ test('form dropdown navigation', async () => {
     "
 
 
-      ◇  Username
+
+
       │  Enter your username
       │
       │  Required field
@@ -734,10 +735,10 @@ test('form dropdown navigation', async () => {
       │  Must be at least 8 characters
       │
       ◇  Biography
-      │  Tell us about yourself...                                     █
+      │  Tell us about yourself...
+      │                                                                ▄
       │                                                                █
-      │
-      │
+      │                                                                ▀
       │
       │  Maximum 500 characters
       │
@@ -767,7 +768,6 @@ test('form dropdown navigation', async () => {
       │    8  9 10 11 12 13 14
       │   15 16 17 18 19 20 21
       │   22 23 24 25 26 27 28
-      │   29 30 31
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -795,6 +795,8 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
+
+
       ■  Form Component Demo                                           ▀
       │  This demonstrates all available form input types. Use arrow
       │  keys or Tab to navigate between fields.
@@ -807,8 +809,6 @@ test('form scrolls with mouse wheel', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -823,7 +823,9 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
-      │  This demonstrates all available form input types. Use arrow   ▄
+
+
+      │  This demonstrates all available form input types. Use arrow   ▀
       │  keys or Tab to navigate between fields.
       │
       ◇  Username
@@ -835,8 +837,6 @@ test('form scrolls with mouse wheel', async () => {
       │  Enter secure password
       │  Must be at least 8 characters
       │
-      ◇  Biography
-      │  Tell us about yourself...
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -851,6 +851,8 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
+
+
       ■  Form Component Demo                                           ▀
       │  This demonstrates all available form input types. Use arrow
       │  keys or Tab to navigate between fields.
@@ -863,8 +865,6 @@ test('form scrolls with mouse wheel', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
 
 
        ctrl ↵ submit   tab navigate   ^k actions

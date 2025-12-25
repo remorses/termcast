@@ -101,10 +101,10 @@ function App(): any {
               <Action
                 title={`Open ${item.title} Dialog`}
                 onAction={() => {
-                  dialog.push(
-                    <DialogContent position={item.position} />,
-                    item.position,
-                  )
+                  dialog.push({
+                    element: <DialogContent position={item.position} />,
+                    position: item.position,
+                  })
                 }}
               />
               <Action

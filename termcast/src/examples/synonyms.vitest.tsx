@@ -42,6 +42,8 @@ test('synonyms extension shows preferences form on first launch', async () => {
     "
 
 
+
+
          ◇  LLM Provider                                                      ▀
          │  Select...
          │
@@ -64,8 +66,6 @@ test('synonyms extension shows preferences form on first launch', async () => {
          │
          ◇  OpenAI Compatible URL
          │
-         │
-         │  Base URL for OpenAI compatible provider
 
 
           ctrl ↵ submit   tab navigate   ^k actions
@@ -92,6 +92,8 @@ test('synonyms extension preferences form can be navigated', async () => {
     "
 
 
+
+
          ◇  LLM Provider                                                      ▀
          │  Select...
          │
@@ -114,8 +116,6 @@ test('synonyms extension preferences form can be navigated', async () => {
          │
          ◇  OpenAI Compatible URL
          │
-         │
-         │  Base URL for OpenAI compatible provider
 
 
           ctrl ↵ submit   tab navigate   ^k actions
@@ -128,6 +128,8 @@ test('synonyms extension preferences form can be navigated', async () => {
   const afterTab = await session.text()
   expect(afterTab).toMatchInlineSnapshot(`
     "
+
+
 
 
          ◆  LLM Provider                                                      ▀
@@ -152,8 +154,6 @@ test('synonyms extension preferences form can be navigated', async () => {
          │
          ◇  OpenAI Compatible URL
          │
-         │
-         │  Base URL for OpenAI compatible provider
 
 
           ctrl ↵ submit   tab navigate   ^k actions

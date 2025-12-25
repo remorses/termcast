@@ -47,7 +47,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -81,7 +81,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -117,7 +117,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ go back    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -161,7 +161,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -195,7 +195,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -226,7 +226,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ go back    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -267,7 +267,7 @@ test('navigation between main and detail views', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -296,8 +296,7 @@ test('navigation with actions panel', async () => {
     "
 
 
-
-
+       Navigation Example ─────────────────────────────────────────────
 
       ┌────────────────────────────────────────────────────────────────┐
       │                                                          esc   │
@@ -307,11 +306,12 @@ test('navigation with actions panel', async () => {
       │  ›Open Details                                                 │
       │   Copy Title                                                   │
       │                                                                │
+      │   Settings                                                     │
+      │   Change Theme...                                              │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       └────────────────────────────────────────────────────────────────┘
-
-
 
 
 
@@ -329,8 +329,7 @@ test('navigation with actions panel', async () => {
     "
 
 
-
-
+       Navigation Example ─────────────────────────────────────────────
 
       ┌────────────────────────────────────────────────────────────────┐
       │                                                          esc   │
@@ -340,11 +339,12 @@ test('navigation with actions panel', async () => {
       │   Open Details                                                 │
       │  ›Copy Title                                                   │
       │                                                                │
+      │   Settings                                                     │
+      │   Change Theme...                                              │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       └────────────────────────────────────────────────────────────────┘
-
-
 
 
 
@@ -372,10 +372,10 @@ test('navigation with actions panel', async () => {
        Third Item Navigate to third detail
 
 
+
+
                              ✓ Copied to Clipboard
                                    First Item
-
-
 
 
 
@@ -418,7 +418,7 @@ test('navigation with actions panel', async () => {
 
        ↵ go back    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -440,8 +440,7 @@ test('navigation with actions panel', async () => {
     "
 
 
-
-
+       Detail: Second Item ────────────────────────────────────────────
       ┌────────────────────────────────────────────────────────────────┐
       │                                                          esc   │
       │                                                                │
@@ -450,11 +449,12 @@ test('navigation with actions panel', async () => {
       │  ›Go Back                                                      │
       │   Copy Title                                                   │
       │                                                                │
+      │   Settings                                                     │
+      │   Change Theme...                                              │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       └────────────────────────────────────────────────────────────────┘
-
-
 
 
 
@@ -490,7 +490,7 @@ test('navigation with actions panel', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -532,7 +532,7 @@ test('search functionality in main and detail views', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -574,7 +574,7 @@ test('search functionality in main and detail views', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -612,7 +612,7 @@ test('search functionality in main and detail views', async () => {
 
        ↵ go back    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -651,7 +651,7 @@ test('search functionality in main and detail views', async () => {
 
        ↵ go back    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
@@ -688,7 +688,7 @@ test('search functionality in main and detail views', async () => {
 
        ↵ open details    ↑↓ navigate    ^k actions
 
-
+       Settings
 
 
 
