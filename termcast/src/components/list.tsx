@@ -924,11 +924,11 @@ export const List: ListType = (props) => {
     if (evt.name === 'k' && evt.ctrl) {
       // Show current item's actions if available
       if (currentItem?.props?.actions) {
-        dialog.push(currentItem.props.actions, 'bottom-right')
+        dialog.push(currentItem.props.actions, 'center')
       }
       // Otherwise show List's own actions
       else if (props.actions) {
-        dialog.push(props.actions, 'bottom-right')
+        dialog.push(props.actions, 'center')
       }
       return
     }
@@ -941,7 +941,7 @@ export const List: ListType = (props) => {
 
       if (currentItem.props.actions) {
         useStore.setState({ shouldAutoExecuteFirstAction: true })
-        dialog.push(currentItem.props.actions, 'bottom-right')
+        dialog.push(currentItem.props.actions, 'center')
       }
     }
   })
@@ -1170,7 +1170,7 @@ const ListItem: ListItemType = (props) => {
     if (listContext && index !== -1) {
       // If clicking on already selected item, show actions (like pressing Enter)
       if (isActive && props.actions) {
-        dialog.push(props.actions, 'bottom-right')
+        dialog.push(props.actions, 'center')
       } else if (listContext.setSelectedIndex) {
         // Otherwise just select the item
         listContext.setSelectedIndex(index)
@@ -1689,14 +1689,14 @@ List.EmptyView = (props: EmptyViewProps) => {
 
     // Handle Ctrl+K to show actions
     if (evt.name === 'k' && evt.ctrl && props.actions) {
-      dialog.push(props.actions, 'bottom-right')
+      dialog.push(props.actions, 'center')
       return
     }
 
     // Handle Enter to execute first action
     if (evt.name === 'return' && props.actions) {
       useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.push(props.actions, 'bottom-right')
+      dialog.push(props.actions, 'center')
     }
   })
 

@@ -340,7 +340,7 @@ export const Form: FormType = ((props) => {
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
         </FormSubmitContext.Provider>,
-        'bottom-right',
+        'center',
       )
     } else if (evt.name === 'return' && evt.ctrl && props.actions) {
       // Ctrl+Return executes first action directly
@@ -349,7 +349,7 @@ export const Form: FormType = ((props) => {
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
         </FormSubmitContext.Provider>,
-        'bottom-right',
+        'center',
       )
     } else if (evt.name === 'return' && evt.meta && props.actions) {
       // Cmd+Return also executes first action directly
@@ -358,7 +358,7 @@ export const Form: FormType = ((props) => {
         <FormSubmitContext.Provider value={submitContextValue}>
           {props.actions}
         </FormSubmitContext.Provider>,
-        'bottom-right',
+        'center',
       )
     }
   })

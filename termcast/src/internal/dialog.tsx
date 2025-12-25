@@ -1,14 +1,9 @@
-import { useKeyboard, useTerminalDimensions } from '@opentui/react'
+import { useKeyboard } from '@opentui/react'
 import React, { type ReactNode, useRef, useContext } from 'react'
 import { Theme } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
-import {
-  useStore,
-  type DialogPosition,
-  type DialogStackItem,
-} from 'termcast/src/state'
-import { logger } from '../logger'
+import { useStore, type DialogPosition } from 'termcast/src/state'
 import { ToastOverlay } from 'termcast/src/apis/toast'
 import { NavigationContext } from 'termcast/src/internal/navigation'
 
@@ -26,7 +21,6 @@ export function Dialog({
   position = 'center',
   onClickOutside,
 }: DialogProps): any {
-  const dimensions = useTerminalDimensions()
   const inFocus = useIsInFocus()
   const clickedInsideDialog = useRef(false)
 
@@ -48,30 +42,20 @@ export function Dialog({
         return {
           alignItems: 'flex-end' as const,
           justifyContent: 'flex-start' as const,
-          paddingTop: 2,
-          paddingRight: 2,
-          paddingBottom: undefined,
-          paddingLeft: undefined,
+          padding: 2,
         }
       case 'bottom-right':
-      // TODO show in center for now. easier to read
-      // return {
-      //   alignItems: 'flex-end' as const,
-      //   justifyContent: 'flex-end' as const,
-      //   paddingTop: undefined,
-      //   paddingBottom: 2,
-      //   paddingRight: 2,
-      //   paddingLeft: undefined
-      // }
+        return {
+          alignItems: 'flex-end' as const,
+          justifyContent: 'flex-end' as const,
+          padding: 2,
+        }
       case 'center':
       default:
         return {
           alignItems: 'center' as const,
-          justifyContent: 'flex-start' as const,
-          paddingTop: Math.floor(dimensions.height / 4),
-          paddingBottom: undefined,
-          paddingLeft: undefined,
-          paddingRight: undefined,
+          justifyContent: 'center' as const,
+          padding: 0,
         }
     }
   }
@@ -81,24 +65,16 @@ export function Dialog({
   return (
     <box
       border={false}
-      width={dimensions.width}
-      height={dimensions.height}
+      flexGrow={1}
       alignItems={positionStyles.alignItems}
       justifyContent={positionStyles.justifyContent}
-      position='absolute'
-      paddingTop={positionStyles.paddingTop}
-      paddingBottom={positionStyles.paddingBottom}
-      paddingLeft={positionStyles.paddingLeft}
-      paddingRight={positionStyles.paddingRight}
-      left={0}
-      top={0}
-      onMouseDown={handleBackdropClick}
+      padding={positionStyles.padding}
+      // backgroundColor={'#00000044'}      onMouseDown={handleBackdropClick}
     >
       <box
         border
-        // customBorderChars={Border}
         width={76}
-        maxWidth={dimensions.width - 2}
+        maxWidth='95%'
         backgroundColor={Theme.backgroundPanel}
         borderColor={Theme.border}
         paddingTop={1}
@@ -153,31 +129,29 @@ export function DialogOverlay(): any {
     return null
   }
 
+  // Only render the topmost dialog
+  const topIndex = dialogStack.length - 1
+  const item = dialogStack[topIndex]
+
   return (
-    <box position='absolute'>
-      {dialogStack.map((item, index) => {
-        const isLastItem = index === dialogStack.length - 1
-        return (
-          <InFocus key={'dialog' + String(index)} inFocus={isLastItem}>
-            <Dialog
-              position={item.position}
-              onClickOutside={() => {
-                if (!isLastItem) return
-                const state = useStore.getState()
-                if (state.dialogStack.length > 0) {
-                  useStore.setState({
-                    dialogStack: state.dialogStack.slice(0, -1),
-                  })
-                }
-              }}
-            >
-              <NavigationContext.Provider value={navContext}>
-                {item.element}
-              </NavigationContext.Provider>
-            </Dialog>
-          </InFocus>
-        )
-      })}
+    <box position='absolute' width='100%' height='100%' flexDirection='column'>
+      <InFocus inFocus={true}>
+        <Dialog
+          position={item.position}
+          onClickOutside={() => {
+            const state = useStore.getState()
+            if (state.dialogStack.length > 0) {
+              useStore.setState({
+                dialogStack: state.dialogStack.slice(0, -1),
+              })
+            }
+          }}
+        >
+          <NavigationContext.Provider value={navContext}>
+            {item.element}
+          </NavigationContext.Provider>
+        </Dialog>
+      </InFocus>
     </box>
   )
 }

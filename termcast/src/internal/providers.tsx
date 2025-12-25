@@ -415,8 +415,8 @@ export function TermcastProvider(props: ProvidersProps): any {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
           }}
         >
-          <box height={'100%'} justifyContent='center' backgroundColor={Theme.background}>
-            <box padding={2}>
+          <box height={'100%'} alignItems='center' justifyContent='center' backgroundColor={Theme.background}>
+            <box padding={2} flexGrow={1}>
               <DialogProvider>
                 {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
                 <NavigationProvider overlay={<DialogOverlay />}>

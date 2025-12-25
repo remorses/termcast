@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { useTerminalDimensions } from '@opentui/react'
 import { List, ActionPanel, Action, renderWithProviders } from 'termcast'
 import { Toast, ToastContent } from 'termcast/src/apis/toast'
+import { Theme } from 'termcast/src/theme'
 
 const toastVariations = [
   {
@@ -113,6 +115,7 @@ const toastVariations = [
 function ToastVariationsExample(): any {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const selectedToast = toastVariations[selectedIndex]
+  const dimensions = useTerminalDimensions()
 
   return (
     <box flexDirection="column" width="100%" height="100%">
@@ -140,7 +143,14 @@ function ToastVariationsExample(): any {
           />
         ))}
       </List>
-      <box position="absolute" bottom={0} left={0} width="100%">
+      <box
+        position="absolute"
+        bottom={-1}
+        left={-2}
+        width={dimensions.width}
+        backgroundColor={Theme.background}
+        flexDirection="column"
+      >
         <ToastContent toast={selectedToast.toast} onHide={() => {}} />
       </box>
     </box>
