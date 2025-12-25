@@ -11,7 +11,7 @@ import { NavigationProvider } from 'termcast/src/internal/navigation'
 import { CommonProps } from 'termcast/src/utils'
 import { Cache } from 'termcast/src/apis/cache'
 import { logger } from 'termcast/src/logger'
-import { Theme } from 'termcast/src/theme'
+import { Theme, initializeTheme } from 'termcast/src/theme'
 import { useKeyboard, useTerminalDimensions } from '@opentui/react'
 import { TextAttributes } from '@opentui/core'
 import { useStore } from 'termcast/src/state'
@@ -25,6 +25,9 @@ import { InFocus } from './focus-context'
 
 // Initialize error handlers at module load time
 initializeErrorHandlers()
+
+// Initialize theme from persisted storage
+initializeTheme()
 
 const queryClient = new QueryClient({
   defaultOptions: {

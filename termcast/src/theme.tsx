@@ -1,96 +1,107 @@
 import { SyntaxStyle, RGBA } from '@opentui/core'
+import { getResolvedTheme, type ResolvedTheme, defaultThemeName, themeNames } from './themes'
+import { useStore } from './state'
+import { Cache } from './apis/cache'
 
-export const Theme = {
-  // Text colors
-  text: '#FFFFFF',
-  textMuted: '#999999',
+// Global cache for theme persistence (no namespace = global storage)
+let globalCache: Cache | null = null
 
-  // Background colors
-  background: '#181818',
-  backgroundPanel: '#181818',
-  backgroundElement: '#282828',
+function getGlobalCache(): Cache {
+  if (!globalCache) {
+    globalCache = new Cache()
+  }
+  return globalCache
+}
 
-  // Primary/accent colors
-  primary: '#FFC000',
-  secondary: '#AA8000',
-  accent: '#FFC000',
+const THEME_STORAGE_KEY = 'termcast.theme'
 
-  // Semantic colors
-  info: '#FFC000',
-  success: '#FFC000',
-  warning: '#FFC000',
-  error: '#FF0000',
+export function loadPersistedTheme(): string {
+  try {
+    const stored = getGlobalCache().get(THEME_STORAGE_KEY)
+    if (stored && themeNames.includes(stored)) {
+      return stored
+    }
+  } catch {
+    // Ignore errors on load
+  }
+  return defaultThemeName
+}
 
-  // Border colors
-  border: '#333333',
-  borderActive: '#FFC000',
-  borderSubtle: '#252525',
+export function persistTheme(name: string): void {
+  try {
+    getGlobalCache().set(THEME_STORAGE_KEY, name)
+  } catch {
+    // Ignore errors on save
+  }
+}
 
-  // Diff colors
-  diffAdded: '#4fd6be',
-  diffRemoved: '#c53b53',
-  diffContext: '#999999',
-  diffHunkHeader: '#999999',
-  diffHighlightAdded: '#b8db87',
-  diffHighlightRemoved: '#e26a75',
-  diffAddedBg: '#20303b',
-  diffRemovedBg: '#37222c',
-  diffContextBg: '#181818',
-  diffLineNumber: '#333333',
-  diffAddedLineNumberBg: '#1b2b34',
-  diffRemovedLineNumberBg: '#2d1f26',
+// Initialize theme from persistence - call this on app startup
+export function initializeTheme(): void {
+  const themeName = loadPersistedTheme()
+  useStore.setState({ currentThemeName: themeName })
+}
 
-  // Markdown colors
-  markdownText: '#FFFFFF',
-  markdownHeading: '#FFC000',
-  markdownLink: '#FFC000',
-  markdownLinkText: '#FFC000',
-  markdownCode: '#FFC000',
-  markdownBlockQuote: '#999999',
-  markdownEmph: '#FFC000',
-  markdownStrong: '#FFC000',
-  markdownHorizontalRule: '#999999',
-  markdownListItem: '#FFC000',
-  markdownListEnumeration: '#FFC000',
-  markdownImage: '#FFC000',
-  markdownImageText: '#FFC000',
-  markdownCodeBlock: '#FFFFFF',
+// Cache for resolved themes to avoid recomputing
+const themeCache = new Map<string, ResolvedTheme>()
 
-  // Syntax colors
-  syntaxComment: '#999999',
-  syntaxKeyword: '#FFC000',
-  syntaxFunction: '#FFC000',
-  syntaxVariable: '#FF6666',
-  syntaxString: '#FFC000',
-  syntaxNumber: '#FFC000',
-  syntaxType: '#FFC000',
-  syntaxOperator: '#FFC000',
-  syntaxPunctuation: '#FFFFFF',
+function getCachedTheme(themeName: string): ResolvedTheme {
+  let cached = themeCache.get(themeName)
+  if (!cached) {
+    cached = getResolvedTheme(themeName)
+    themeCache.set(themeName, cached)
+  }
+  return cached
+}
 
-  // Transparent
-  transparent: undefined,
-} as const
+// Proxy-based Theme object that reads from zustand state
+export const Theme: ResolvedTheme = new Proxy({} as ResolvedTheme, {
+  get(_, prop: string) {
+    const themeName = useStore.getState().currentThemeName
+    const resolved = getCachedTheme(themeName)
+    return resolved[prop as keyof ResolvedTheme]
+  },
+})
 
-export const markdownSyntaxStyle = SyntaxStyle.fromStyles({
-  default: { fg: RGBA.fromHex(Theme.markdownText) },
-  'markup.heading.1': { fg: RGBA.fromHex(Theme.markdownHeading), bold: true },
-  'markup.heading.2': { fg: RGBA.fromHex(Theme.markdownHeading), bold: true },
-  'markup.heading.3': { fg: RGBA.fromHex(Theme.markdownHeading), bold: true },
-  'markup.heading.4': { fg: RGBA.fromHex(Theme.markdownHeading), bold: true },
-  'markup.heading.5': { fg: RGBA.fromHex(Theme.markdownHeading), bold: true },
-  'markup.heading.6': { fg: RGBA.fromHex(Theme.markdownHeading), bold: true },
-  'markup.heading': { fg: RGBA.fromHex(Theme.markdownHeading), bold: true },
-  'markup.raw.block': { fg: RGBA.fromHex(Theme.markdownCode) },
-  'markup.link.url': { fg: RGBA.fromHex(Theme.markdownLink) },
-  'markup.link.label': { fg: RGBA.fromHex(Theme.markdownLinkText) },
-  'markup.list': { fg: RGBA.fromHex(Theme.markdownListItem) },
-  'markup.list.checked': { fg: RGBA.fromHex(Theme.success) },
-  'markup.list.unchecked': { fg: RGBA.fromHex(Theme.textMuted) },
-  'markup.quote': { fg: RGBA.fromHex(Theme.markdownBlockQuote), italic: true },
-  'punctuation.special': { fg: RGBA.fromHex(Theme.syntaxPunctuation) },
-  'punctuation.delimiter': { fg: RGBA.fromHex(Theme.syntaxPunctuation) },
-  'string.escape': { fg: RGBA.fromHex(Theme.syntaxString) },
-  label: { fg: RGBA.fromHex(Theme.accent) },
+// Cache for markdown syntax styles
+const syntaxStyleCache = new Map<string, SyntaxStyle>()
+
+export function getMarkdownSyntaxStyle(): SyntaxStyle {
+  const themeName = useStore.getState().currentThemeName
+  let cached = syntaxStyleCache.get(themeName)
+  if (!cached) {
+    const t = getCachedTheme(themeName)
+    cached = SyntaxStyle.fromStyles({
+      default: { fg: RGBA.fromHex(t.markdownText) },
+      'markup.heading.1': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+      'markup.heading.2': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+      'markup.heading.3': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+      'markup.heading.4': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+      'markup.heading.5': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+      'markup.heading.6': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+      'markup.heading': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+      'markup.raw.block': { fg: RGBA.fromHex(t.markdownCode) },
+      'markup.link.url': { fg: RGBA.fromHex(t.markdownLink) },
+      'markup.link.label': { fg: RGBA.fromHex(t.markdownLinkText) },
+      'markup.list': { fg: RGBA.fromHex(t.markdownListItem) },
+      'markup.list.checked': { fg: RGBA.fromHex(t.success) },
+      'markup.list.unchecked': { fg: RGBA.fromHex(t.textMuted) },
+      'markup.quote': { fg: RGBA.fromHex(t.markdownBlockQuote), italic: true },
+      'punctuation.special': { fg: RGBA.fromHex(t.syntaxPunctuation) },
+      'punctuation.delimiter': { fg: RGBA.fromHex(t.syntaxPunctuation) },
+      'string.escape': { fg: RGBA.fromHex(t.syntaxString) },
+      label: { fg: RGBA.fromHex(t.accent) },
+    })
+    syntaxStyleCache.set(themeName, cached)
+  }
+  return cached
+}
+
+// For backward compatibility - some code imports markdownSyntaxStyle directly
+// This is a getter that returns the current theme's syntax style
+export const markdownSyntaxStyle = new Proxy({} as SyntaxStyle, {
+  get(_, prop: string) {
+    return getMarkdownSyntaxStyle()[prop as keyof SyntaxStyle]
+  },
 })
 
 export default Theme

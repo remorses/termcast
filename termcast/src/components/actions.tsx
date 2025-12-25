@@ -20,6 +20,7 @@ import { useDialog } from 'termcast/src/internal/dialog'
 import { useNavigation } from 'termcast/src/internal/navigation'
 import { Dropdown } from 'termcast/src/components/dropdown'
 import { ExtensionPreferences } from 'termcast/src/components/extension-preferences'
+import { ThemePicker } from 'termcast/src/components/theme-picker'
 import { useStore } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useIsOffscreen } from 'termcast/src/internal/offscreen'
@@ -718,38 +719,43 @@ const ActionPanel: ActionPanelType = (props) => {
           }}
         >
           {children}
-          {(hasExtensionPrefs || hasCommandPrefs) && (
-            <ActionPanel.Section title="Settings">
-              {hasExtensionPrefs && (
-                <Action
-                  title="Configure Extension..."
-                  shortcut={{ modifiers: ['cmd', 'shift'], key: ',' }}
-                  onAction={() => {
-                    dialog.clear()
-                    push(
-                      <ExtensionPreferences
-                        extensionName={extensionPackageJson!.name}
-                      />,
-                    )
-                  }}
-                />
-              )}
-              {hasCommandPrefs && (
-                <Action
-                  title="Configure Command..."
-                  onAction={() => {
-                    dialog.clear()
-                    push(
-                      <ExtensionPreferences
-                        extensionName={extensionPackageJson!.name}
-                        commandName={currentCommandName!}
-                      />,
-                    )
-                  }}
-                />
-              )}
-            </ActionPanel.Section>
-          )}
+          <ActionPanel.Section title="Settings">
+            {hasExtensionPrefs && (
+              <Action
+                title="Configure Extension..."
+                shortcut={{ modifiers: ['cmd', 'shift'], key: ',' }}
+                onAction={() => {
+                  dialog.clear()
+                  push(
+                    <ExtensionPreferences
+                      extensionName={extensionPackageJson!.name}
+                    />,
+                  )
+                }}
+              />
+            )}
+            {hasCommandPrefs && (
+              <Action
+                title="Configure Command..."
+                onAction={() => {
+                  dialog.clear()
+                  push(
+                    <ExtensionPreferences
+                      extensionName={extensionPackageJson!.name}
+                      commandName={currentCommandName!}
+                    />,
+                  )
+                }}
+              />
+            )}
+            <Action
+              title="Change Theme..."
+              onAction={() => {
+                dialog.clear()
+                dialog.push(<ThemePicker />)
+              }}
+            />
+          </ActionPanel.Section>
         </Dropdown>
       </ActionPanelContext.Provider>
     </ActionDescendantsProvider>

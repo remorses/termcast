@@ -69,7 +69,7 @@ export function Dialog({
       alignItems={positionStyles.alignItems}
       justifyContent={positionStyles.justifyContent}
       padding={positionStyles.padding}
-      backgroundColor={Theme.background}
+      // backgroundColor={Theme.background}
       onMouseDown={handleBackdropClick}
     >
       <box

@@ -43,6 +43,8 @@ interface AppState {
   shouldAutoExecuteFirstAction: boolean
   // First action title for footer display (set by offscreen ActionPanel)
   firstActionTitle: string
+  // Theme state
+  currentThemeName: string
 }
 
 export const useStore = create<AppState>(() => ({
@@ -65,4 +67,6 @@ export const useStore = create<AppState>(() => ({
   // Actions state
   shouldAutoExecuteFirstAction: false,
   firstActionTitle: '',
+  // Theme state
+  currentThemeName: 'termcast',
 }))

@@ -38,6 +38,7 @@ export interface DropdownProps extends SearchBarInterface, CommonProps {
   defaultValue?: string
   children?: ReactNode
   onChange?: (newValue: string) => void
+  onSelectionChange?: (value: string) => void
 }
 
 export interface DropdownItemProps extends CommonProps {
@@ -78,6 +79,7 @@ interface DropdownContextValue {
   setSelectedIndex?: (index: number) => void
   currentValue?: string
   onChange?: (value: string) => void
+  onSelectionChange?: (value: string) => void
   scrollBoxRef?: React.RefObject<ScrollBoxRenderable | null>
 }
 
@@ -97,6 +99,7 @@ const Dropdown: DropdownType = (props) => {
   const {
     tooltip,
     onChange,
+    onSelectionChange,
     value,
     defaultValue,
     children,
@@ -160,9 +163,10 @@ const Dropdown: DropdownType = (props) => {
       setSelectedIndex: setSelected,
       currentValue,
       onChange: (value: string) => selectItem(value),
+      onSelectionChange,
       scrollBoxRef,
     }),
-    [searchText, filtering, selected, currentValue],
+    [searchText, filtering, selected, currentValue, onSelectionChange],
   )
 
   // Update controlled value
@@ -227,6 +231,9 @@ const Dropdown: DropdownType = (props) => {
     if (nextItem) {
       setSelected(nextItem.index)
       scrollToItem(nextItem)
+      if (onSelectionChange && nextItem.props) {
+        onSelectionChange((nextItem.props as DropdownItemDescendant).value)
+      }
     }
   }
 
@@ -492,6 +499,9 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
       index !== -1
     ) {
       context.setSelectedIndex(index)
+      if (context.onSelectionChange) {
+        context.onSelectionChange(props.value)
+      }
     }
   }
 

@@ -5,8 +5,9 @@
     "outDir": "dist",
     "jsx": "react-jsx",
     "customConditions": ["bun"],
-    "jsxImportSource": "@opentui/react"
+    "jsxImportSource": "@opentui/react",
+    "resolveJsonModule": true
   },
-  "include": ["src"],
+  "include": ["src", "src/**/*.json"],
   "exclude": ["src/**/*.vitest.tsx", "src/**/*.test.tsx", "src/**/*.test.ts"]
 }
