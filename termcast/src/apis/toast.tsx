@@ -207,12 +207,9 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
 
   return (
     <box
-      borderColor={Theme.border}
-      backgroundColor={Theme.background}
       paddingLeft={1}
       paddingRight={1}
       flexDirection='column'
-      maxWidth={80}
       maxHeight={10}
       overflow='hidden'
     >
@@ -250,13 +247,11 @@ export function ToastContent({ toast, onHide }: ToastContentProps): any {
           </box>
         )}
       </box>
-      {toast.message && (
-        <box paddingLeft={2} maxHeight={6} overflow='hidden'>
-          <text flexShrink={0} fg={Theme.textMuted}>
-            {toast.message}
-          </text>
-        </box>
-      )}
+      <box paddingLeft={2} maxHeight={6} overflow='hidden'>
+        <text flexShrink={0} fg={Theme.textMuted}>
+          {toast.message || ' '}
+        </text>
+      </box>
     </box>
   )
 }
@@ -273,11 +268,11 @@ export function ToastOverlay(): any {
     <box
       position='absolute'
       left={0}
-      bottom={0}
+      bottom={1}
       width={dimensions.width}
-      maxHeight={10}
-      justifyContent='flex-end'
-      alignItems='center'
+      maxHeight={11}
+      flexDirection='column'
+      backgroundColor={Theme.background}
     >
       {toastElement}
     </box>
