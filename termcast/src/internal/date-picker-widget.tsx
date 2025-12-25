@@ -471,7 +471,7 @@ export function DatePickerWidget({
                         enableColors && isCursor
                           ? Theme.primary
                           : isValue
-                            ? Theme.selectedMuted
+                            ? Theme.secondary
                             : enableColors && isToday
                               ? Theme.backgroundPanel
                               : undefined,

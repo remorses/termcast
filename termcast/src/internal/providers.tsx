@@ -325,9 +325,9 @@ function ErrorDisplay({
         border={true}
         borderColor={
           focusedIndex === 0
-            ? Theme.highlight
+            ? Theme.borderActive
             : isHovered
-              ? Theme.highlight
+              ? Theme.borderActive
               : Theme.border
         }
         backgroundColor={
@@ -369,7 +369,7 @@ function ErrorDisplay({
               key={index}
               backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
             >
-              <text fg={isFocused ? Theme.highlight : Theme.error}>
+              <text fg={isFocused ? Theme.primary : Theme.error}>
                 {isFocused ? '▶ ' : '  '}
                 {line.text}
               </text>

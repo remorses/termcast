@@ -1341,7 +1341,7 @@ const ListItemDetailMetadataLink = (props: { title: string; target: string; text
   return (
     <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
       <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
-      <text flexShrink={0} fg={Theme.link}>{props.text}</text>
+      <text flexShrink={0} fg={Theme.markdownLink}>{props.text}</text>
     </box>
   )
 }
