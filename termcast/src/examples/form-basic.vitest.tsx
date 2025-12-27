@@ -35,7 +35,7 @@ test('form basic navigation and input', async () => {
 
 
       ■  Form Component Demo                                           █
-      │  This demonstrates all available form input types. Use arrow   █
+      │  This demonstrates all available form input types. Use arrow   ▀
       │  keys or Tab to navigate between fields.
       │
       ◇  Username
@@ -75,10 +75,10 @@ test('form basic navigation and input', async () => {
       │
       │   ←       2025        →
       │   ←     December      →
-      │
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 }, 10000)
@@ -107,7 +107,7 @@ test('password field always shows asterisks and submits real value', async () =>
 
 
       ▪  Form Component Demo                                           █
-      │  This demonstrates all available form input types. Use arrow   █
+      │  This demonstrates all available form input types. Use arrow   ▀
       │  keys or Tab to navigate between fields.
       │
       ◇  Username
@@ -116,7 +116,7 @@ test('password field always shows asterisks and submits real value', async () =>
       │  Required field
       │
       ◆  Password
-      │  **********
+      │  *********
       │  Must be at least 8 characters
       │
       ◇  Biography
@@ -147,10 +147,10 @@ test('password field always shows asterisks and submits real value', async () =>
       │
       │   ←       2025        →
       │   ←     December      →
-      │
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -165,7 +165,7 @@ test('password field always shows asterisks and submits real value', async () =>
 
 
       ▪  Form Component Demo                                           █
-      │  This demonstrates all available form input types. Use arrow   █
+      │  This demonstrates all available form input types. Use arrow   ▀
       │  keys or Tab to navigate between fields.
       │
       ◇  Username
@@ -174,7 +174,7 @@ test('password field always shows asterisks and submits real value', async () =>
       │  Required field
       │
       ◇  Password
-      │  **********
+      │  *********
       │  Must be at least 8 characters
       │
       ◆  Biography
@@ -205,10 +205,10 @@ test('password field always shows asterisks and submits real value', async () =>
       │
       │   ←       2025        →
       │   ←     December      →
-      │
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -226,7 +226,7 @@ test('password field always shows asterisks and submits real value', async () =>
 
 
       ▪  Form Component Demo                                           █
-      │  This demonstrates all available form input types. Use arrow   █
+      │  This demonstrates all available form input types. Use arrow   ▀
       │  keys or Tab to navigate between fields.
       │
       ◇  Username
@@ -235,7 +235,7 @@ test('password field always shows asterisks and submits real value', async () =>
       │  Required field
       │
       ◇  Password
-      │  **********
+      │  *********
       │  Must be at least 8 characters
       │
       ◆  Biography
@@ -266,10 +266,10 @@ test('password field always shows asterisks and submits real value', async () =>
       │
       │   ←       2025        →
       │   ←     December      →
-      │
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
   
@@ -285,22 +285,22 @@ test('password field always shows asterisks and submits real value', async () =>
 
 
       ▪  Form Component Demo                                           █
-      │  This demonstrates all available form input types. Use arrow
-      │  keys or Tab to navigate between fields.
-      │
-      ◇  Username
-      │  Enter your username
-      │
-      │  Required field
-      │
-      ◇  Password
-      │  **********
-      │  Must be at least 8 characters
-      │
-      ◆  Biography
-      │  Tell us about yourself...
-      │
-      │
+      │  This demonstrates all available form input types. Use arrow   █
+      │  keys or Tab to navigate between fields.                       █
+      │                                                                █
+      ◇  Username                                                      █
+      │  Enter your username                                           █
+      │                                                                █
+      │  Required field                                                █
+      │                                                                █
+      ◇  Password                                                      █
+      │  *********                                                     █
+      │  Must be at least 8 characters                                 █
+      │                                                                █
+      ◆  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                ▀
       │
       │
       │  Maximum 500 characters
@@ -358,7 +358,6 @@ test('form date picker selection with space and enter', async () => {
 
 
 
-      │  Enter your username
       │
       │  Required field
       │
@@ -368,11 +367,11 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Biography
       │  Tell us about yourself...
-      │                                                                ▄
-      │                                                                █
-      │                                                                ▀
       │
-      │  Maximum 500 characters
+      │
+      │
+      │                                                                █
+      │  Maximum 500 characters                                        ▀
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -402,7 +401,8 @@ test('form date picker selection with space and enter', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -416,7 +416,6 @@ test('form date picker selection with space and enter', async () => {
 
 
 
-      │  Enter your username
       │
       │  Required field
       │
@@ -426,11 +425,11 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Biography
       │  Tell us about yourself...
-      │                                                                ▄
-      │                                                                █
-      │                                                                ▀
       │
-      │  Maximum 500 characters
+      │
+      │
+      │                                                                █
+      │  Maximum 500 characters                                        ▀
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -460,7 +459,8 @@ test('form date picker selection with space and enter', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -475,7 +475,6 @@ test('form date picker selection with space and enter', async () => {
 
 
 
-      │  Enter your username
       │
       │  Required field
       │
@@ -485,11 +484,11 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Biography
       │  Tell us about yourself...
-      │                                                                ▄
-      │                                                                █
-      │                                                                ▀
       │
-      │  Maximum 500 characters
+      │
+      │
+      │                                                                █
+      │  Maximum 500 characters                                        ▀
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -519,7 +518,8 @@ test('form date picker selection with space and enter', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 }, 10000)
@@ -550,7 +550,6 @@ test('form dropdown navigation', async () => {
 
 
 
-      │  Enter your username
       │
       │  Required field
       │
@@ -560,11 +559,11 @@ test('form dropdown navigation', async () => {
       │
       ◇  Biography
       │  Tell us about yourself...
-      │                                                                ▄
-      │                                                                █
-      │                                                                ▀
       │
-      │  Maximum 500 characters
+      │
+      │
+      │                                                                █
+      │  Maximum 500 characters                                        ▀
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -594,7 +593,8 @@ test('form dropdown navigation', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -608,7 +608,6 @@ test('form dropdown navigation', async () => {
 
 
 
-      │  Enter your username
       │
       │  Required field
       │
@@ -618,11 +617,11 @@ test('form dropdown navigation', async () => {
       │
       ◇  Biography
       │  Tell us about yourself...
-      │                                                                ▄
-      │                                                                █
-      │                                                                ▀
       │
-      │  Maximum 500 characters
+      │
+      │
+      │                                                                █
+      │  Maximum 500 characters                                        ▀
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -652,7 +651,8 @@ test('form dropdown navigation', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -668,7 +668,6 @@ test('form dropdown navigation', async () => {
 
 
 
-      │  Enter your username
       │
       │  Required field
       │
@@ -678,11 +677,11 @@ test('form dropdown navigation', async () => {
       │
       ◇  Biography
       │  Tell us about yourself...
-      │                                                                ▄
-      │                                                                █
-      │                                                                ▀
       │
-      │  Maximum 500 characters
+      │
+      │
+      │                                                                █
+      │  Maximum 500 characters                                        ▀
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -712,7 +711,8 @@ test('form dropdown navigation', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -726,7 +726,6 @@ test('form dropdown navigation', async () => {
 
 
 
-      │  Enter your username
       │
       │  Required field
       │
@@ -736,11 +735,11 @@ test('form dropdown navigation', async () => {
       │
       ◇  Biography
       │  Tell us about yourself...
-      │                                                                ▄
-      │                                                                █
-      │                                                                ▀
       │
-      │  Maximum 500 characters
+      │
+      │
+      │                                                                █
+      │  Maximum 500 characters                                        ▀
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -770,7 +769,8 @@ test('form dropdown navigation', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 }, 10000)
@@ -808,10 +808,10 @@ test('form scrolls with mouse wheel', async () => {
       │
       ◇  Password
       │  Enter secure password
-      │  Must be at least 8 characters
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -836,10 +836,10 @@ test('form scrolls with mouse wheel', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -864,10 +864,10 @@ test('form scrolls with mouse wheel', async () => {
       │
       ◇  Password
       │  Enter secure password
-      │  Must be at least 8 characters
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 }, 10000)

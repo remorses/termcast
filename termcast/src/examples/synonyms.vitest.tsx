@@ -65,10 +65,10 @@ test('synonyms extension shows preferences form on first launch', async () => {
          │  Model name for OpenAI
          │
          ◇  OpenAI Compatible URL
-         │
 
 
-          ctrl ↵ submit   tab navigate   ^k actions
+          ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 }, 60000)
@@ -115,10 +115,10 @@ test('synonyms extension preferences form can be navigated', async () => {
          │  Model name for OpenAI
          │
          ◇  OpenAI Compatible URL
-         │
 
 
-          ctrl ↵ submit   tab navigate   ^k actions
+          ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 
@@ -153,10 +153,10 @@ test('synonyms extension preferences form can be navigated', async () => {
          │  Model name for OpenAI
          │
          ◇  OpenAI Compatible URL
-         │
 
 
-          ctrl ↵ submit   tab navigate   ^k actions
+          ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 }, 60000)

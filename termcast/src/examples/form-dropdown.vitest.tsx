@@ -79,8 +79,8 @@ test('form dropdown shows inline options', async () => {
 
 
 
+       ctrl ↵ submit    tab navigate    ^k actions
 
-       ctrl ↵ submit   tab navigate   ^k actions
     "
   `)
 
@@ -131,7 +131,7 @@ test('form dropdown shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -188,7 +188,7 @@ test('form dropdown shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -248,7 +248,7 @@ test('form dropdown shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -305,7 +305,7 @@ test('form dropdown shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -370,7 +370,7 @@ test('form dropdown keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -430,7 +430,7 @@ test('form dropdown keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -487,7 +487,7 @@ test('form dropdown keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -544,7 +544,7 @@ test('form dropdown keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -601,7 +601,7 @@ test('form dropdown keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -666,7 +666,7 @@ test('form dropdown with default value', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -723,7 +723,7 @@ test('form dropdown with default value', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -753,8 +753,8 @@ test('form dropdown with default value', async () => {
       │                                                                █
       ◆  Programming Languages                                         █
       │  Rust, TypeScript                                              █
-      │                                                                █
-      │  Frontend                                                      █
+      │                                                                ▀
+      │  Frontend
       │› ● TypeScript
       │  ○ JavaScript
       │  ○ React
@@ -788,10 +788,10 @@ test('form dropdown with default value', async () => {
       │      "rust",
       │      "typescript"
       │    ],
-      │    "theme": "dracula",
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
+
     "
   `)
 }, 10000)
@@ -851,7 +851,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -908,7 +908,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 

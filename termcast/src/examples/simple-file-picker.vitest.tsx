@@ -54,7 +54,6 @@ test('file picker shows form fields', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -77,6 +76,7 @@ test('file picker shows form fields', async () => {
 
 
 
+       ctrl ↵ submit    tab navigate    ^k actions
 
     "
   `)
@@ -111,6 +111,7 @@ test('typing opens autocomplete dialog with file list', async () => {
       │
       │  Choose one or more files to upload
       │
+      ◆  Select Folder
       ┌────────────────────────────────────────────────────────────────┐
       │ Filter: s                                                      │
       │                                                                │
@@ -118,13 +119,12 @@ test('typing opens autocomplete dialog with file list', async () => {
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
       └────────────────────────────────────────────────────────────────┘
-      │
       │  Choose exactly one file
       │
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -202,7 +202,7 @@ test('escape closes autocomplete without going back', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 
@@ -284,7 +284,7 @@ test('selecting first item with enter adds it to the list', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+       ctrl ↵ submit    tab navigate    ^k actions
 
 
 

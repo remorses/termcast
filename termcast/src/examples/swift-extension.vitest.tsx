@@ -88,7 +88,7 @@ test('swift extension dev mode shows command list', async () => {
 
        ↵ run command    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
