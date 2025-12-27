@@ -201,33 +201,38 @@ function DetailFooter({
     <box
       border={false}
       style={{
-        paddingLeft: 1,
-        paddingRight: 1,
+        // paddingLeft: 1,
+        // paddingRight: 1,
         paddingTop: 1,
         marginTop: 1,
+        flexShrink: 0,
         flexDirection: 'row',
       }}
     >
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        esc
-      </text>
-      <text fg={Theme.textMuted}> go back</text>
-      {hasActions && (
-        <>
-          <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-            {'   '}^k
+      <box style={{ flexDirection: 'row', gap: 4 }}>
+        <box style={{ flexDirection: 'row', gap: 1 }}>
+          <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+            esc
           </text>
-          <text fg={Theme.textMuted}> actions</text>
-        </>
-      )}
-      {hasActions && firstActionTitle && (
-        <>
-          <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-            {'   '}↵
-          </text>
-          <text fg={Theme.textMuted}> {firstActionTitle}</text>
-        </>
-      )}
+          <text flexShrink={0} fg={Theme.textMuted}>go back</text>
+        </box>
+        {hasActions && (
+          <box style={{ flexDirection: 'row', gap: 1 }}>
+            <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+              ^k
+            </text>
+            <text flexShrink={0} fg={Theme.textMuted}>actions</text>
+          </box>
+        )}
+        {hasActions && firstActionTitle && (
+          <box style={{ flexDirection: 'row', gap: 1 }}>
+            <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+              ↵
+            </text>
+            <text flexShrink={0} fg={Theme.textMuted}>{firstActionTitle}</text>
+          </box>
+        )}
+      </box>
     </box>
   )
 }
