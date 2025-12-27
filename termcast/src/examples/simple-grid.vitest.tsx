@@ -49,12 +49,12 @@ test('grid navigation and display', async () => {
        🐰 Rabbit
 
        Others
+       🏠 House
+       🚗 Car
+       🚀 Rocket                                                       ▼
 
 
-
-
-
-
+       ↵ show details    ↑↓ navigate    ^k actions
 
     "
   `)
