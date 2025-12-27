@@ -44,10 +44,14 @@ async function checkForUpdates() {
     // Compare versions
     if (latestVersion && latestVersion !== currentVersion) {
       // Run the install script in background
-      const updateProcess = spawn('bash', ['-c', 'curl -sf https://termcast.app/install | bash'], {
-        detached: true,
-        stdio: 'ignore',
-      })
+      const updateProcess = spawn(
+        'bash',
+        ['-c', 'curl -sf https://termcast.app/install | bash'],
+        {
+          detached: true,
+          stdio: 'ignore',
+        },
+      )
 
       updateProcess.on('exit', async (code) => {
         if (code === 0) {
@@ -76,12 +80,14 @@ cli
   .action(async (rawExtensionPath, options) => {
     try {
       // Check if the provided arg looks like a path (contains / or . or is existing dir)
-      const looksLikePath = rawExtensionPath && (
-        rawExtensionPath.includes('/') ||
-        rawExtensionPath.startsWith('.') ||
-        fs.existsSync(rawExtensionPath)
+      const looksLikePath =
+        rawExtensionPath &&
+        (rawExtensionPath.includes('/') ||
+          rawExtensionPath.startsWith('.') ||
+          fs.existsSync(rawExtensionPath))
+      const extensionPath = path.resolve(
+        looksLikePath ? rawExtensionPath : process.cwd(),
       )
-      const extensionPath = path.resolve(looksLikePath ? rawExtensionPath : process.cwd())
       let isBuilding = false
 
       // Start dev mode with initial render
@@ -133,7 +139,9 @@ cli
         }
         // Check if path contains any ignored directory
         const hasIgnoredDir = IGNORED_DIRS.some(
-          (dir) => relativePath.includes(`/${dir}/`) || relativePath.startsWith(`${dir}/`),
+          (dir) =>
+            relativePath.includes(`/${dir}/`) ||
+            relativePath.startsWith(`${dir}/`),
         )
         if (hasIgnoredDir) {
           return true
@@ -177,7 +185,9 @@ cli
           }
 
           // Filter out events for files that should be ignored
-          const relevantEvents = events.filter((event) => !shouldIgnoreFile(event.path))
+          const relevantEvents = events.filter(
+            (event) => !shouldIgnoreFile(event.path),
+          )
 
           if (relevantEvents.length > 0) {
             rebuild(relevantEvents[0].path)
@@ -282,7 +292,10 @@ cli
   })
 
 cli
-  .command('raycast-pr <prNumber>', 'Download extension from a GitHub PR in Raycast extensions repo. To test it with Termcast')
+  .command(
+    'raycast-pr <prNumber>',
+    'Download extension from a GitHub PR in Raycast extensions repo. To test it with Termcast',
+  )
   .action(async (prNumber: string) => {
     try {
       // Parse PR number from URL if provided
@@ -303,18 +316,26 @@ cli
 
       if (!prResponse.ok) {
         if (prResponse.status === 403) {
-          const rateLimitRemaining = prResponse.headers.get('x-ratelimit-remaining')
+          const rateLimitRemaining = prResponse.headers.get(
+            'x-ratelimit-remaining',
+          )
           if (rateLimitRemaining === '0') {
             const resetTime = prResponse.headers.get('x-ratelimit-reset')
-            const resetDate = resetTime ? new Date(parseInt(resetTime) * 1000).toLocaleTimeString() : 'soon'
-            console.error(`GitHub API rate limit exceeded. Resets at ${resetDate}`)
+            const resetDate = resetTime
+              ? new Date(parseInt(resetTime) * 1000).toLocaleTimeString()
+              : 'soon'
+            console.error(
+              `GitHub API rate limit exceeded. Resets at ${resetDate}`,
+            )
           } else {
             console.error(`Access forbidden for PR #${parsedPrNumber}`)
           }
         } else if (prResponse.status === 404) {
           console.error(`PR #${parsedPrNumber} not found`)
         } else {
-          console.error(`Failed to fetch PR #${parsedPrNumber}: ${prResponse.status} ${prResponse.statusText}`)
+          console.error(
+            `Failed to fetch PR #${parsedPrNumber}: ${prResponse.status} ${prResponse.statusText}`,
+          )
         }
         process.exit(1)
       }
@@ -435,7 +456,10 @@ cli
   })
 
 cli
-  .command('raycast-pr-diff <prNumber>', 'Show the diff of a PR in Raycast extensions repo')
+  .command(
+    'raycast-pr-diff <prNumber>',
+    'Show the diff of a PR in Raycast extensions repo',
+  )
   .action(async (prNumber: string) => {
     try {
       // Parse PR number from URL if provided
@@ -461,18 +485,26 @@ cli
 
       if (!response.ok) {
         if (response.status === 403) {
-          const rateLimitRemaining = response.headers.get('x-ratelimit-remaining')
+          const rateLimitRemaining = response.headers.get(
+            'x-ratelimit-remaining',
+          )
           if (rateLimitRemaining === '0') {
             const resetTime = response.headers.get('x-ratelimit-reset')
-            const resetDate = resetTime ? new Date(parseInt(resetTime) * 1000).toLocaleTimeString() : 'soon'
-            console.error(`GitHub API rate limit exceeded. Resets at ${resetDate}`)
+            const resetDate = resetTime
+              ? new Date(parseInt(resetTime) * 1000).toLocaleTimeString()
+              : 'soon'
+            console.error(
+              `GitHub API rate limit exceeded. Resets at ${resetDate}`,
+            )
           } else {
             console.error(`Access forbidden for PR #${parsedPrNumber}`)
           }
         } else if (response.status === 404) {
           console.error(`PR #${parsedPrNumber} not found`)
         } else {
-          console.error(`Failed to fetch PR #${parsedPrNumber}: ${response.status} ${response.statusText}`)
+          console.error(
+            `Failed to fetch PR #${parsedPrNumber}: ${response.status} ${response.statusText}`,
+          )
         }
         process.exit(1)
       }
@@ -487,8 +519,13 @@ cli
   })
 
 cli
-  .command('raycast-search <query>', 'Search for extensions in the Raycast store')
-  .option('-n, --limit <number>', 'Number of results to show', { default: '10' })
+  .command(
+    'raycast-search <query>',
+    'Search for extensions in the Raycast store',
+  )
+  .option('-n, --limit <number>', 'Number of results to show', {
+    default: '10',
+  })
   .action(async (query: string, options: { limit: string }) => {
     try {
       const limit = parseInt(options.limit, 10)
@@ -505,10 +542,14 @@ cli
         const downloads = ext.download_count.toLocaleString()
         const commands = ext.commands.map((c) => c.name).join(', ')
         console.log(`  ${ext.name}`)
-        console.log(`    Path: extensions/${ext.relative_path.replace('extensions/', '')}`)
+        console.log(
+          `    Path: extensions/${ext.relative_path.replace('extensions/', '')}`,
+        )
         console.log(`    Downloads: ${downloads}`)
         console.log(`    Commands: ${commands || 'none'}`)
-        console.log(`    Description: ${ext.description.slice(0, 100)}${ext.description.length > 100 ? '...' : ''}`)
+        console.log(
+          `    Description: ${ext.description.slice(0, 100)}${ext.description.length > 100 ? '...' : ''}`,
+        )
         console.log()
       }
 
@@ -521,101 +562,125 @@ cli
   })
 
 cli
-  .command('raycast-download <extensionName>', 'Download extension from Raycast extensions repo')
+  .command(
+    'raycast-download <extensionName>',
+    'Download extension from Raycast extensions repo',
+  )
   .option('-o, --output <path>', 'Output directory', { default: '.' })
-  .option('--no-dir', 'Put files directly in output directory instead of creating extension subdirectory')
-  .action(async (extensionName: string, options: { output: string; dir: boolean }) => {
-    try {
-      const destPath = path.resolve(options.output)
-      // When --no-dir is passed, dir is false; put files directly in destPath
-      const extensionDir = options.dir ? path.join(destPath, extensionName) : destPath
-      const tempCloneDir = path.join(destPath, `.tmp-${extensionName}-${Date.now()}`)
-
-      console.log(`Downloading extension '${extensionName}' from raycast/extensions...`)
-
-      if (options.dir && fs.existsSync(extensionDir)) {
-        console.log(`Removing existing directory: ${extensionDir}`)
-        fs.rmSync(extensionDir, { recursive: true, force: true })
-      }
-
-      fs.mkdirSync(destPath, { recursive: true })
-
-      const repoUrl = 'https://github.com/raycast/extensions.git'
-      const cloneDirName = path.basename(tempCloneDir)
-      const cloneCmd = `git clone -n --depth=1 --filter=tree:0 "${repoUrl}" "${cloneDirName}"`
-      console.log(`Running: ${cloneCmd}`)
+  .option(
+    '--no-dir',
+    'Put files directly in output directory instead of creating extension subdirectory',
+  )
+  .action(
+    async (
+      extensionName: string,
+      options: { output: string; dir: boolean },
+    ) => {
       try {
-        execSync(cloneCmd, {
-          cwd: destPath,
+        const destPath = path.resolve(options.output)
+        // When --no-dir is passed, dir is false; put files directly in destPath
+        const extensionDir = options.dir
+          ? path.join(destPath, extensionName)
+          : destPath
+        const tempCloneDir = path.join(
+          destPath,
+          `.tmp-${extensionName}-${Date.now()}`,
+        )
+
+        console.log(
+          `Downloading extension '${extensionName}' from raycast/extensions...`,
+        )
+
+        if (options.dir && fs.existsSync(extensionDir)) {
+          console.log(`Removing existing directory: ${extensionDir}`)
+          fs.rmSync(extensionDir, { recursive: true, force: true })
+        }
+
+        fs.mkdirSync(destPath, { recursive: true })
+
+        const repoUrl = 'https://github.com/raycast/extensions.git'
+        const cloneDirName = path.basename(tempCloneDir)
+        const cloneCmd = `git clone -n --depth=1 --filter=tree:0 "${repoUrl}" "${cloneDirName}"`
+        console.log(`Running: ${cloneCmd}`)
+        try {
+          execSync(cloneCmd, {
+            cwd: destPath,
+            stdio: 'inherit',
+          })
+        } catch (error) {
+          console.error(`Failed to clone repository`)
+          process.exit(1)
+        }
+
+        const sparseCmd = `git sparse-checkout set --no-cone "extensions/${extensionName}"`
+        console.log(`Running: ${sparseCmd}`)
+        try {
+          execSync(sparseCmd, {
+            cwd: tempCloneDir,
+            stdio: 'inherit',
+          })
+        } catch (error) {
+          console.error(`Failed to set sparse-checkout`)
+          fs.rmSync(tempCloneDir, { recursive: true, force: true })
+          process.exit(1)
+        }
+
+        const checkoutCmd = 'git checkout'
+        console.log(`Running: ${checkoutCmd}`)
+        try {
+          execSync(checkoutCmd, {
+            cwd: tempCloneDir,
+            stdio: 'inherit',
+          })
+        } catch (error) {
+          console.error(`Failed to checkout files`)
+          fs.rmSync(tempCloneDir, { recursive: true, force: true })
+          process.exit(1)
+        }
+
+        const extensionPath = path.join(
+          tempCloneDir,
+          'extensions',
+          extensionName,
+        )
+
+        if (!fs.existsSync(extensionPath)) {
+          console.error(
+            `Extension '${extensionName}' not found in raycast/extensions repo`,
+          )
+          fs.rmSync(tempCloneDir, { recursive: true, force: true })
+          process.exit(1)
+        }
+
+        // Move files to final destination
+        if (options.dir) {
+          fs.mkdirSync(extensionDir, { recursive: true })
+        }
+        const filesToMove = fs.readdirSync(extensionPath)
+        for (const file of filesToMove) {
+          const src = path.join(extensionPath, file)
+          const dest = path.join(extensionDir, file)
+          fs.renameSync(src, dest)
+        }
+
+        // Clean up temp clone directory
+        fs.rmSync(tempCloneDir, { recursive: true, force: true })
+
+        console.log(`\nInstalling dependencies...`)
+        execSync('npm install', {
+          cwd: extensionDir,
           stdio: 'inherit',
         })
+
+        console.log(`\n✅ Extension downloaded successfully!`)
+        console.log(`📁 Path: ${extensionDir}`)
+        process.exit(0)
       } catch (error) {
-        console.error(`Failed to clone repository`)
+        console.error('Error downloading extension:', error)
         process.exit(1)
       }
-
-      const sparseCmd = `git sparse-checkout set --no-cone "extensions/${extensionName}"`
-      console.log(`Running: ${sparseCmd}`)
-      try {
-        execSync(sparseCmd, {
-          cwd: tempCloneDir,
-          stdio: 'inherit',
-        })
-      } catch (error) {
-        console.error(`Failed to set sparse-checkout`)
-        fs.rmSync(tempCloneDir, { recursive: true, force: true })
-        process.exit(1)
-      }
-
-      const checkoutCmd = 'git checkout'
-      console.log(`Running: ${checkoutCmd}`)
-      try {
-        execSync(checkoutCmd, {
-          cwd: tempCloneDir,
-          stdio: 'inherit',
-        })
-      } catch (error) {
-        console.error(`Failed to checkout files`)
-        fs.rmSync(tempCloneDir, { recursive: true, force: true })
-        process.exit(1)
-      }
-
-      const extensionPath = path.join(tempCloneDir, 'extensions', extensionName)
-
-      if (!fs.existsSync(extensionPath)) {
-        console.error(`Extension '${extensionName}' not found in raycast/extensions repo`)
-        fs.rmSync(tempCloneDir, { recursive: true, force: true })
-        process.exit(1)
-      }
-
-      // Move files to final destination
-      if (options.dir) {
-        fs.mkdirSync(extensionDir, { recursive: true })
-      }
-      const filesToMove = fs.readdirSync(extensionPath)
-      for (const file of filesToMove) {
-        const src = path.join(extensionPath, file)
-        const dest = path.join(extensionDir, file)
-        fs.renameSync(src, dest)
-      }
-
-      // Clean up temp clone directory
-      fs.rmSync(tempCloneDir, { recursive: true, force: true })
-
-      console.log(`\nInstalling dependencies...`)
-      execSync('npm install', {
-        cwd: extensionDir,
-        stdio: 'inherit',
-      })
-
-      console.log(`\n✅ Extension downloaded successfully!`)
-      console.log(`📁 Path: ${extensionDir}`)
-      process.exit(0)
-    } catch (error) {
-      console.error('Error downloading extension:', error)
-      process.exit(1)
-    }
-  })
+    },
+  )
 
 cli.command('', 'List and run installed extensions').action(async () => {
   await runHomeCommand()

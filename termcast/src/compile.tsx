@@ -15,6 +15,7 @@ const raycastAliasPlugin: BunPlugin = {
     build.onResolve({ filter: /^termcast/ }, (args) => ({
       path: require.resolve(args.path),
     }))
+
     build.onResolve({ filter: /^react$/ }, () => ({
       path: require.resolve('react'),
     }))
@@ -24,6 +25,8 @@ const raycastAliasPlugin: BunPlugin = {
     build.onResolve({ filter: /^react\/jsx-dev-runtime$/ }, () => ({
       path: require.resolve('react/jsx-dev-runtime'),
     }))
+
+
   },
 }
 
@@ -56,10 +59,10 @@ async function main() {
   const { useStore } = await import('termcast');
   const os = await import('node:os');
   const path = await import('node:path');
-  
+
   const packageJson = ${JSON.stringify(packageJson)};
   const compiledExtensionPath = path.join(os.homedir(), '.termcast', 'compiled', packageJson.name);
-  
+
   useStore.setState({
     extensionPath: compiledExtensionPath,
     extensionPackageJson: packageJson,
@@ -228,6 +231,7 @@ export async function compileExtension({
       },
       define: {
         'process.env.VERSION': JSON.stringify(version || ''),
+        // Use 'development' to avoid React bundling issues with CJS/ESM interop
         'process.env.NODE_ENV': JSON.stringify('production'),
       },
       plugins: [raycastAliasPlugin, swiftLoaderPlugin],

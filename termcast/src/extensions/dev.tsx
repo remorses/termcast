@@ -122,7 +122,7 @@ function ExtensionCommandsList({
             }
             accessories={[
               { text: command.mode },
-              ...(command.bundledPath
+              ...(command.bundledPath || command.Component
                 ? []
                 : [
                     {
