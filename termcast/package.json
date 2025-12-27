@@ -31,6 +31,8 @@
   "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
   "license": "",
   "dependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
     "@opentui/core": "0.1.61",
     "@opentui/react": "0.1.61",
     "@parcel/watcher": "^2.5.1",
@@ -44,6 +46,7 @@
     "nanoid": "^5.1.5",
     "node-diff3": "^3.2.0",
     "react-hook-form": "^7.62.0",
+    "react-refresh": "^0.18.0",
     "string-dedent": "^3.0.2",
     "zustand": "^5.0.8"
   },

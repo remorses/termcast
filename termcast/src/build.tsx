@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
 import type { BunPlugin } from 'bun'
+import * as babel from '@babel/core'
 import { logger } from './logger'
 import { getCommandsWithFiles, CommandWithFile } from './package-json'
 import * as termcastApi from './index'
@@ -179,6 +180,61 @@ export const aliasPlugin: BunPlugin = {
   },
 }
 
+// React Refresh babel transform plugin for hot reloading
+// Transforms extension source files to inject $RefreshReg$ and $RefreshSig$ calls
+export const reactRefreshPlugin: BunPlugin = {
+  name: 'react-refresh-transform',
+  async setup(build) {
+    build.onLoad({ filter: /\.[tj]sx?$/ }, async (args) => {
+      // Skip node_modules
+      if (args.path.includes('node_modules')) {
+        return undefined
+      }
+
+      const code = await Bun.file(args.path).text()
+
+      // Check if this file has any functions (simple heuristic for React components)
+      // React Refresh babel plugin will handle the actual detection
+      if (!code.includes('function') && !code.includes('=>')) {
+        return undefined
+      }
+
+      try {
+        const result = await babel.transformAsync(code, {
+          filename: args.path,
+          presets: [
+            [
+              '@babel/preset-typescript',
+              {
+                isTSX: args.path.endsWith('.tsx') || args.path.endsWith('.jsx'),
+                allExtensions: true,
+              },
+            ],
+          ],
+          plugins: [['react-refresh/babel', { skipEnvCheck: true }]],
+          sourceMaps: 'inline',
+        })
+
+        if (!result?.code) {
+          return undefined
+        }
+
+        // After babel transform, TypeScript is converted to JavaScript but JSX remains
+        // Use 'jsx' loader for JSX files so Bun can transform the remaining JSX
+        const hasJsx = args.path.endsWith('.tsx') || args.path.endsWith('.jsx')
+        return {
+          contents: result.code,
+          loader: hasJsx ? 'jsx' : 'js',
+        }
+      } catch (error) {
+        // If babel transform fails, let Bun handle the file normally
+        logger.error('React Refresh transform failed:', error)
+        return undefined
+      }
+    })
+  },
+}
+
 interface BundledCommand extends CommandWithFile {
   bundledPath: string
 }
@@ -192,10 +248,12 @@ export async function buildExtensionCommands({
   extensionPath,
   format = 'cjs',
   target,
+  hotReload = false,
 }: {
   extensionPath: string
   format?: 'cjs' | 'esm'
   target?: 'node' | 'bun'
+  hotReload?: boolean
 }): Promise<BuildResult> {
   const resolvedPath = path.resolve(extensionPath)
   const bundleDir = path.join(resolvedPath, '.termcast-bundle')
@@ -221,13 +279,18 @@ export async function buildExtensionCommands({
 
   logger.log(`Building ${entrypoints.length} commands...`)
 
+  const plugins = [aliasPlugin, swiftLoaderPlugin]
+  if (hotReload) {
+    plugins.push(reactRefreshPlugin)
+  }
+
   const result = await Bun.build({
     entrypoints,
     outdir: bundleDir,
     target: target || (format === 'cjs' ? 'node' : 'bun'),
     format,
     // external: [],
-    plugins: [aliasPlugin, swiftLoaderPlugin],
+    plugins,
     naming: '[name].js',
     throw: false,
   })

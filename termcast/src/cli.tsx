@@ -1,5 +1,9 @@
 #!/usr/bin/env bun
 
+// CRITICAL: Import react-refresh-init FIRST before anything that imports @opentui/react
+// This ensures the devtools hook exists before the reconciler calls injectIntoDevTools()
+import './extensions/react-refresh-init'
+
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync, spawn } from 'node:child_process'

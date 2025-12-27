@@ -15,6 +15,12 @@
       "mode": "view"
     },
     {
+      "name": "list-with-navigation",
+      "title": "List With Navigation",
+      "description": "A list that pushes to detail views",
+      "mode": "view"
+    },
+    {
       "name": "placeholder",
       "title": "Placeholder",
       "description": "Placeholder command to prevent auto-run",

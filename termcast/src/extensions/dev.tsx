@@ -1,3 +1,7 @@
+// CRITICAL: Import react-refresh-init FIRST before @opentui/react!
+// This ensures the devtools hook exists and can intercept injectIntoDevTools calls
+import { RefreshRuntime, hasRefreshCapability, getRendererInternals } from './react-refresh-init'
+
 import fs from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
@@ -10,6 +14,7 @@ import { useNavigation } from 'termcast/src/internal/navigation'
 import { TermcastProvider } from 'termcast/src/internal/providers'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
+import { logger } from '../logger'
 import { getCommandsWithFiles, CommandWithFile, RaycastPackageJson } from '../package-json'
 import { buildExtensionCommands } from '../build'
 import {
@@ -182,11 +187,12 @@ export async function startDevMode({
   // Parse the package.json to get extension metadata
   const { packageJson } = getCommandsWithFiles({ packageJsonPath })
 
-  // Build and set initial devElement
+  // Build and set initial devElement with hot reload support
   const { commands } = await buildExtensionCommands({
     extensionPath: resolvedPath,
     format: 'esm',
     target: 'bun',
+    hotReload: true,
   })
 
   // Handle --help before rendering
@@ -213,9 +219,9 @@ export async function startDevMode({
 
   function App(): any {
     const devElement = useStore((state) => state.devElement)
-    const devRebuildCount = useStore((state) => state.devRebuildCount)
-
-    return <TermcastProvider key={String(devRebuildCount)}>{devElement}</TermcastProvider>
+    // REMOVED: key={devRebuildCount} - we want to preserve the React tree!
+    // React Refresh will update components in-place without remounting
+    return <TermcastProvider>{devElement}</TermcastProvider>
   }
 
   const renderer = await createCliRenderer({
@@ -304,28 +310,47 @@ export async function triggerRebuild({
       extensionPath,
       format: 'esm',
       target: 'bun',
+      hotReload: true,
     })
 
     // Re-parse package.json in case it changed
     const packageJsonPath = path.join(extensionPath, 'package.json')
     const { packageJson } = getCommandsWithFiles({ packageJsonPath })
 
-    // Update the devElement with new commands and increment rebuild count
     const state = useStore.getState()
+    const newRebuildCount = state.devRebuildCount + 1
 
+    // Re-import all command modules with cache bust
+    // This triggers $RefreshReg$ calls which register new component versions
+    // TODO maybe we can skip importing all command modules here. only the one being used instead
+    for (const cmd of commands) {
+      if (cmd.bundledPath) {
+        try {
+          await import(`${cmd.bundledPath}?v=${newRebuildCount}`)
+        } catch (err) {
+          logger.error(`Failed to reimport ${cmd.name}:`, err)
+        }
+      }
+    }
+
+    // Trigger React Refresh - this updates components in-place!
+    // The reconciler will find all fibers using updated "families"
+    // and schedule re-renders with the new implementations
+    RefreshRuntime.performReactRefresh()
+
+    // Update state WITHOUT resetting navigation/dialog stacks
     useStore.setState({
       extensionPackageJson: packageJson,
+      devRebuildCount: newRebuildCount,
       devElement: (
         <ExtensionCommandsList
           packageJson={packageJson}
           commands={commands}
         />
       ),
-      devRebuildCount: state.devRebuildCount + 1,
-      navigationStack: [], // Reset navigation so NavigationProvider re-initializes with new devElement
-      dialogStack: [], // Clear any open dialogs/toasts on rebuild
-      toast: null,
     })
+
+    // TODO show a green dot in the corner to notify HMR happened
   } catch (error: any) {
     await showToast({
       style: Toast.Style.Failure,
