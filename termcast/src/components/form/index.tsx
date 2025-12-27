@@ -105,31 +105,37 @@ function FormFooter(): any {
   const hasToast = useStore((s) => s.toast !== null)
 
   const content = hasToast ? null : (
-    <>
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        ctrl ↵
-      </text>
-      <text fg={Theme.textMuted}> submit</text>
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'   '}tab
-      </text>
-      <text fg={Theme.textMuted}> navigate</text>
-      <text fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'   '}^k
-      </text>
-      <text fg={Theme.textMuted}> actions</text>
-    </>
+    <box style={{ flexDirection: 'row', gap: 4 }}>
+      <box style={{ flexDirection: 'row', gap: 1 }}>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          ctrl ↵
+        </text>
+        <text flexShrink={0} fg={Theme.textMuted}>submit</text>
+      </box>
+      <box style={{ flexDirection: 'row', gap: 1 }}>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          tab
+        </text>
+        <text flexShrink={0} fg={Theme.textMuted}>navigate</text>
+      </box>
+      <box style={{ flexDirection: 'row', gap: 1 }}>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          ^k
+        </text>
+        <text flexShrink={0} fg={Theme.textMuted}>actions</text>
+      </box>
+    </box>
   )
 
   return (
     <box
       border={false}
-      height={1}
       style={{
         paddingLeft: 1,
         paddingRight: 1,
         paddingTop: 1,
         marginTop: 1,
+        flexShrink: 0,
         flexDirection: 'row',
       }}
     >
