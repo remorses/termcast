@@ -12,13 +12,7 @@ import { CommonProps } from 'termcast/src/utils'
 import { Cache } from 'termcast/src/apis/cache'
 import { logger } from 'termcast/src/logger'
 import { Theme, initializeTheme } from 'termcast/src/theme'
-import { useKeyboard, useTerminalDimensions } from '@opentui/react'
-import { TextAttributes } from '@opentui/core'
-import { useStore } from 'termcast/src/state'
-import * as fs from 'fs'
-import * as path from 'path'
-import { exec } from 'child_process'
-import dedent from 'string-dedent'
+import { useTerminalDimensions } from '@opentui/react'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
 import { ToastOverlay } from '../apis/toast'
 import { InFocus } from './focus-context'
@@ -80,9 +74,6 @@ class ErrorBoundaryClass extends Component<
   constructor(props: { children: ReactNode }) {
     super(props)
     this.state = { hasError: false, error: null }
-
-    this.openGitHubIssue = this.openGitHubIssue.bind(this)
-    this.getRecentLogs = this.getRecentLogs.bind(this)
   }
 
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
@@ -97,312 +88,19 @@ class ErrorBoundaryClass extends Component<
     })
   }
 
-  getRecentLogs(): string {
-    const LOG_FILE = path.join(process.cwd(), 'app.log')
-    try {
-      if (fs.existsSync(LOG_FILE)) {
-        const content = fs.readFileSync(LOG_FILE, 'utf-8')
-        const lines = content.split('\n').filter((line) => line.trim())
-        // Get last 200 lines
-        const recentLines = lines.slice(-200)
-        return recentLines.join('\n')
-      }
-    } catch (err) {
-      logger.error('Failed to read log file:', err)
-    }
-    return 'No logs available'
-  }
-
-  openGitHubIssue(): void {
-    const error = this.state.error
-    if (!error) return
-
-    const logs = this.getRecentLogs()
-
-    // Get navigation stack information for body
-    const navigationStack = useStore.getState().navigationStack
-    const navigationInfo = navigationStack
-      .map((item, index) => {
-        const element = item.element as any
-        const componentName =
-          element?.type?.displayName ||
-          element?.type?.name ||
-          element?.type ||
-          'Unknown'
-        return `${index + 1}. ${componentName}`
-      })
-      .join('\n')
-
-    // Get current extension/command info
-    const extensionPackageJson = useStore.getState().extensionPackageJson
-    const currentCommandName = useStore.getState().currentCommandName
-    const extensionPath = useStore.getState().extensionPath
-
-    const extensionName =
-      extensionPackageJson?.name ||
-      (extensionPath ? path.basename(extensionPath) : null)
-
-    let contextInfo = ''
-    let titlePrefix = ''
-
-    if (extensionName) {
-      contextInfo = `Extension: ${extensionName}`
-      titlePrefix = `\`${extensionName}\``
-      if (currentCommandName) {
-        contextInfo += ` | Command: ${currentCommandName}`
-        titlePrefix += ` > \`${currentCommandName}\``
-      }
-    }
-
-    const title = encodeURIComponent(
-      titlePrefix ? `${titlePrefix}: ${error.message}` : error.message,
-    )
-
-    const MAX_URL_LENGTH = 4096
-    const baseUrl = 'https://github.com/remorses/termcast/issues/new?title='
-    const titlePart = `${baseUrl}${title}&body=`
-
-    // Calculate how much space we have for the body
-    const availableBodyLength = MAX_URL_LENGTH - titlePart.length
-
-    // Always create a minimal body
-    const minimalBody = dedent`
-      ## Error Details
-
-      **Message:** ${error.message}
-      **Context:** ${contextInfo || 'No extension loaded'}
-      **Navigation:** \`${navigationStack
-        .map((item) => {
-          const element = item.element as any
-          return (
-            element?.type?.displayName ||
-            element?.type?.name ||
-            element?.type ||
-            'Unknown'
-          )
-        })
-        .join(' > ')}\`
-
-      ## Stack Trace
-
-      \`\`\`\`
-      ${error.stack || 'No stack trace available'}
-      \`\`\`\`
-
-      ## Environment
-
-      - Platform: ${process.platform}
-      - Node Version: ${process.version}
-      - Date: ${new Date().toISOString()}
-    `
-
-    let body = encodeURIComponent(minimalBody)
-
-    // If still too long, just truncate it
-    if (body.length > availableBodyLength) {
-      body = body.substring(0, availableBodyLength)
-    }
-
-    const url = `${titlePart}${body}`
-
-    // Open in browser
-    const openCmd =
-      process.platform === 'darwin'
-        ? 'open'
-        : process.platform === 'win32'
-          ? 'start'
-          : 'xdg-open'
-
-    exec(`${openCmd} "${url}"`, (err) => {
-      if (err) {
-        logger.error('Failed to open browser:', err)
-      }
-    })
-  }
-
   render(): any {
     if (this.state.hasError) {
-      return (
-        <ErrorDisplay
-          error={this.state.error}
-          onOpenIssue={this.openGitHubIssue}
-          getRecentLogs={this.getRecentLogs}
-        />
-      )
+      return <ErrorDisplay error={this.state.error} />
     }
 
     return this.props.children
   }
 }
 
-function ErrorDisplay({
-  error,
-  onOpenIssue,
-  getRecentLogs,
-}: {
-  error: Error | null
-  onOpenIssue: () => void
-  getRecentLogs: () => string
-}): any {
-  const [isHovered, setIsHovered] = React.useState(false)
-  const [showLogs, setShowLogs] = React.useState(false)
-  const [focusedIndex, setFocusedIndex] = React.useState(0) // 0 = issue button, 1+ = stack trace lines
-
-  // Parse stack trace to get file paths with line numbers
-  const stackLines = React.useMemo(() => {
-    if (!error?.stack) return []
-
-    const lines = error.stack.split('\n')
-    const parsedLines: Array<{ text: string; file?: string; line?: number }> =
-      []
-
-    for (const line of lines) {
-      // Match file paths with line:column format
-      // Common patterns: "at file:///path/to/file.ts:123:45" or "at /path/to/file.ts:123:45"
-      const match = line.match(
-        /at\s+(?:.*?\s+\()?(?:file:\/\/)?([^:\s]+(?:\.tsx?|\.jsx?)):(\d+)(?::\d+)?/,
-      )
-
-      if (match) {
-        parsedLines.push({
-          text: line,
-          file: match[1],
-          line: parseInt(match[2], 10),
-        })
-      } else {
-        parsedLines.push({ text: line })
-      }
-    }
-
-    return parsedLines
-  }, [error?.stack])
-
-  // Count of focusable stack lines (those with file paths)
-  const focusableStackLines = stackLines.filter((line) => line.file).length
-
-  useKeyboard(async (evt) => {
-    if (evt.name === 'down') {
-      setFocusedIndex((prev) => {
-        const maxIndex = focusableStackLines // 0 for button + focusable stack lines
-        return Math.min(prev + 1, maxIndex)
-      })
-    } else if (evt.name === 'up') {
-      setFocusedIndex((prev) => Math.max(prev - 1, 0))
-    } else if (evt.name === 'return') {
-      if (focusedIndex === 0) {
-        // Issue button is focused
-        onOpenIssue()
-      } else {
-        // Stack trace line is focused - copy file path to clipboard
-        let currentFocusableIndex = 0
-        for (const line of stackLines) {
-          if (line.file) {
-            currentFocusableIndex++
-            if (currentFocusableIndex === focusedIndex) {
-              const filePathWithLine = `${line.file}:${line.line}`
-              const { Clipboard } = await import('termcast/src/apis/clipboard')
-              await Clipboard.copy(filePathWithLine)
-              logger.log(`📋 Copied to clipboard: ${filePathWithLine}`)
-              break
-            }
-          }
-        }
-      }
-    }
-  })
-
+function ErrorDisplay({ error }: { error: Error | null }): any {
   return (
-    <box padding={2} flexDirection='column' gap={1}>
-      <text fg={Theme.error} attributes={TextAttributes.BOLD}>
-        ⚠️ An error occurred
-      </text>
-
-      <text fg={Theme.error}>
-        {error?.message || 'An unexpected error occurred'}
-      </text>
-
-      <box
-        paddingLeft={1}
-        paddingRight={1}
-        borderStyle='rounded'
-        border={true}
-        borderColor={
-          focusedIndex === 0
-            ? Theme.borderActive
-            : isHovered
-              ? Theme.borderActive
-              : Theme.border
-        }
-        backgroundColor={
-          focusedIndex === 0
-            ? Theme.backgroundPanel
-            : isHovered
-              ? Theme.backgroundPanel
-              : undefined
-        }
-        onMouseMove={() => setIsHovered(true)}
-        onMouseOut={() => setIsHovered(false)}
-        onMouseDown={onOpenIssue}
-        marginTop={1}
-      >
-        <text>
-          {focusedIndex === 0 ? '▶ ' : '  '}📝 Press Enter or click to report on
-          GitHub
-        </text>
-      </box>
-
-      <box flexDirection='column' marginTop={1}>
-        <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
-          Stack Trace:
-        </text>
-        {stackLines.map((line, index) => {
-          let currentFocusableIndex = 0
-          let isFocused = false
-
-          // Determine if this line is focused
-          if (line.file) {
-            currentFocusableIndex = stackLines
-              .slice(0, index + 1)
-              .filter((l) => l.file).length
-            isFocused = focusedIndex === currentFocusableIndex
-          }
-
-          return (
-            <box
-              key={index}
-              backgroundColor={isFocused ? Theme.backgroundPanel : undefined}
-            >
-              <text fg={isFocused ? Theme.primary : Theme.error}>
-                {isFocused ? '▶ ' : '  '}
-                {line.text}
-              </text>
-            </box>
-          )
-        })}
-      </box>
-
-      <box marginTop={1} onMouseDown={() => setShowLogs(!showLogs)}>
-        <text fg={Theme.textMuted} attributes={TextAttributes.UNDERLINE}>
-          {showLogs ? '▼' : '▶'} Toggle logs (last 200 lines)
-        </text>
-      </box>
-
-      {showLogs && (
-        <box flexDirection='column' marginTop={1}>
-          <text fg={Theme.textMuted} attributes={TextAttributes.BOLD}>
-            Recent Logs:
-          </text>
-          <box
-            padding={1}
-            borderStyle='single'
-            border={true}
-            borderColor={Theme.border}
-            maxHeight={20}
-          >
-            <text fg={Theme.textMuted}>{getRecentLogs()}</text>
-          </box>
-        </box>
-      )}
+    <box padding={2}>
+      <text fg={Theme.error} wrapMode='none'>{error?.stack}</text>
     </box>
   )
 }

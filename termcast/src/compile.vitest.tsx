@@ -218,9 +218,9 @@ test('compiled executable shows error when command throws at root scope', async 
 
 
 
-        Error: This is a test error thrown at root scope
+        Error
             at <anonymous> (fixtures/simple-extension/src/th
-            at processTicksAndRejections (native:7:39)
+            at processTicksAndRejections (unknown:7:39)
 
 
 
