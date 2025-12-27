@@ -74,12 +74,12 @@ test('form dropdown shows inline options', async () => {
       └
 
 
-
-
-
-
-
        ctrl ↵ submit    tab navigate    ^k actions
+
+
+
+
+
 
     "
   `)

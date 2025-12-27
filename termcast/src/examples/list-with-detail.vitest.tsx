@@ -48,7 +48,7 @@ test('list with detail view display and navigation', async () => {
        ↵ toggle        ↑↓ navigate ^k action│ Characteristics
          detail                             │ - Height: 0.7m
                                             │ - Weight: 6.9kg
-       Settings                             │
+                                            │
                                             │ Abilities
                                             │ - Chlorophyll
                                             │ - Overgrow
@@ -87,7 +87,7 @@ test('list with detail view display and navigation', async () => {
        ↵ toggle        ↑↓ navigate ^k action│ Characteristics
          detail                             │ - Height: 1m
                                             │ - Weight: 13kg
-       Settings                             │
+                                            │
                                             │ Abilities
                                             │ - Chlorophyll
                                             │ - Overgrow
@@ -124,7 +124,7 @@ test('list with detail view display and navigation', async () => {
        ↵ toggle        ↑↓ navigate ^k action│ Characteristics
          detail                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
-       Settings                             │
+                                            │
                                             │ Abilities
                                             │ - Blaze
                                             │ - Solar Power
@@ -201,7 +201,7 @@ test('list with detail view display and navigation', async () => {
 
        ↵ toggle detail    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -244,7 +244,7 @@ test('list with detail view display and navigation', async () => {
        ↵ toggle        ↑↓ navigate ^k action│ Characteristics
          detail                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
-       Settings                             │
+                                            │
                                             │ Abilities
                                             │ - Blaze
                                             │ - Solar Power
@@ -289,7 +289,7 @@ test('list detail view search functionality', async () => {
        ↵ toggle        ↑↓ navigate ^k action│
          detail                             │ Types
                                             │ Fire
-       Settings                             │
+                                            │
                                             │ Characteristics
                                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
@@ -338,7 +338,7 @@ test('list detail view search functionality', async () => {
        ↵ toggle        ↑↓ navigate ^k action│
          detail                             │ Characteristics
                                             │ - Height: 1m
-       Settings                             │ - Weight: 22.5kg
+                                            │ - Weight: 22.5kg
                                             │
                                             │ Abilities
                                             │ - Torrent
@@ -375,7 +375,7 @@ test('list detail view search functionality', async () => {
        ↵ toggle        ↑↓ navigate ^k action│
          detail                             │ Characteristics
                                             │ - Height: 1m
-       Settings                             │ - Weight: 22.5kg
+                                            │ - Weight: 22.5kg
                                             │
                                             │ Abilities
                                             │ - Torrent
@@ -425,7 +425,7 @@ test('list detail metadata rendering', async () => {
        ↵ toggle        ↑↓ navigate ^k action│ Characteristics
          detail                             │ - Height: 0.7m
                                             │ - Weight: 6.9kg
-       Settings                             │
+                                            │
                                             │ Abilities
                                             │ - Chlorophyll
                                             │ - Overgrow
@@ -469,7 +469,7 @@ test('list detail metadata rendering', async () => {
        ↵ toggle        ↑↓ navigate ^k action│ Characteristics
          detail                             │ - Height: 0.5m
                                             │ - Weight: 9kg
-       Settings                             │
+                                            │
                                             │ Abilities
                                             │ - Torrent
                                             │ - Rain Dish

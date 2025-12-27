@@ -45,7 +45,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
        ↵ show selected fruit    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -89,9 +89,9 @@ test('dropdown opens and shows items', async () => {
           │   Grape                                                              │
           │                                                                      │
        ↵ s│                                                                      │
-          │   ↵ select   ↑↓ navigate                                             │
-       Set└──────────────────────────────────────────────────────────────────────┘
-
+          │   ↵ select    ↑↓ navigate                                            │
+          │                                                                      │
+          └──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -126,9 +126,9 @@ test('dropdown opens and shows items', async () => {
           │   Grape                                                              │
           │                                                                      │
        ↵ s│                                                                      │
-          │   ↵ select   ↑↓ navigate                                             │
-       Set└──────────────────────────────────────────────────────────────────────┘
-
+          │   ↵ select    ↑↓ navigate                                            │
+          │                                                                      │
+          └──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -164,7 +164,7 @@ test('dropdown opens and shows items', async () => {
 
        ↵ show selected fruit    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -208,9 +208,9 @@ test('clicking dropdown opens it', async () => {
           │   Grape                                                              │
           │                                                                      │
        ↵ s│                                                                      │
-          │   ↵ select   ↑↓ navigate                                             │
-       Set└──────────────────────────────────────────────────────────────────────┘
-
+          │   ↵ select    ↑↓ navigate                                            │
+          │                                                                      │
+          └──────────────────────────────────────────────────────────────────────┘
 
 
 
@@ -246,7 +246,7 @@ test('clicking dropdown opens it', async () => {
 
        ↵ show selected fruit    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 

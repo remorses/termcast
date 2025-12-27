@@ -38,10 +38,10 @@ test(
         ◇  Field 1
         │  First field
         │
-        ◇  Field 2
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -59,10 +59,10 @@ test(
         ◆  Field 1
         │  First field
         │
-        ◇  Field 2
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -80,10 +80,10 @@ test(
         ◆  Field 2
         │  Second field
         │
-        ◇  Field 3
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -96,15 +96,15 @@ test(
 
 
         ◇  Field 2
-        │  Second field
-        │                                                      ▀
+        │  Second field                                        ▄
+        │
         ◆  Field 3
         │  Third field
         │
-        ◇  Field 4
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -118,14 +118,14 @@ test(
 
         ◇  Field 3
         │  Third field
-        │
-        ◆  Field 4                                             ▀
+        │                                                      ▄
+        ◆  Field 4
         │  Fourth field
         │
-        ◇  Field 5
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -140,13 +140,13 @@ test(
         ◇  Field 4
         │  Fourth field
         │
-        ◆  Field 5                                             ▄
+        ◆  Field 5                                             ▀
         │  Fifth field
         │
-        ◇  Field 6
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -161,13 +161,13 @@ test(
         ◇  Field 5
         │  Fifth field
         │
-        ◆  Field 6
-        │  Sixth field                                         ▄
+        ◆  Field 6                                             ▄
+        │  Sixth field
         │
-        ◇  Field 7
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -183,12 +183,12 @@ test(
         │  Sixth field
         │
         ◆  Field 7
-        │  Seventh field
-        │                                                      ▄
-        ◇  Field 8
+        │  Seventh field                                       ▄
+        │
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -203,13 +203,13 @@ test(
         ◇  Field 5
         │  Fifth field
         │
-        ◆  Field 6
-        │  Sixth field                                         ▄
+        ◆  Field 6                                             ▄
+        │  Sixth field
         │
-        ◇  Field 7
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
 
@@ -224,13 +224,13 @@ test(
         ◇  Field 4
         │  Fourth field
         │
-        ◆  Field 5                                             ▄
+        ◆  Field 5                                             ▀
         │  Fifth field
         │
-        ◇  Field 6
 
 
-         ctrl ↵ submit   tab navigate   ^k actions
+         ctrl ↵ submit    tab navigate    ^k actions
+
       "
     `)
   },

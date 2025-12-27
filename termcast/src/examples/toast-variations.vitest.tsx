@@ -41,15 +41,15 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-
-
-
-
-
-
-
-
        ↵ select    ↑↓ navigate    ^k actions
+
+
+
+
+
+
+
+
                                         ✓ Success
 
     "
@@ -80,7 +80,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -117,7 +117,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -154,7 +154,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -191,7 +191,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -228,7 +228,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -265,7 +265,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -302,7 +302,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -339,7 +339,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 
@@ -376,7 +376,7 @@ test('toast variations display correctly', async () => {
 
        ↵ select    ↑↓ navigate    ^k actions
 
-       Settings
+
 
 
 

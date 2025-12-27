@@ -85,9 +85,9 @@ test('list with dropdown navigation', async () => {
        Ap│   Juice                                                     │
          │                                                             │
          │                                                             │
-       ↑↓│   ↵ select   ↑↓ navigate                                    │
+       ↑↓│   ↵ select    ↑↓ navigate                                   │
+         │                                                             │
          └─────────────────────────────────────────────────────────────┘
-
 
 
     "
@@ -119,9 +119,9 @@ test('list with dropdown navigation', async () => {
        Ap│   Juice                                                     │
          │                                                             │
          │                                                             │
-       ↑↓│   ↵ select   ↑↓ navigate                                    │
+       ↑↓│   ↵ select    ↑↓ navigate                                   │
+         │                                                             │
          └─────────────────────────────────────────────────────────────┘
-
 
 
     "
@@ -151,9 +151,9 @@ test('list with dropdown navigation', async () => {
        Ap│   Juice                                                     │
          │                                                             │
          │                                                             │
-       ↑↓│   ↵ select   ↑↓ navigate                                    │
+       ↑↓│   ↵ select    ↑↓ navigate                                   │
+         │                                                             │
          └─────────────────────────────────────────────────────────────┘
-
 
 
     "
@@ -183,9 +183,9 @@ test('list with dropdown navigation', async () => {
        Ap│   Juice                                                     │
          │                                                             │
          │                                                             │
-       ↑↓│   ↵ select   ↑↓ navigate                                    │
+       ↑↓│   ↵ select    ↑↓ navigate                                   │
+         │                                                             │
          └─────────────────────────────────────────────────────────────┘
-
 
 
     "
@@ -264,9 +264,9 @@ test('list with dropdown search and filter', async () => {
        Ap│   Juice                                                     │
          │                                                             │
          │                                                             │
-       ↑↓│   ↵ select   ↑↓ navigate                                    │
+       ↑↓│   ↵ select    ↑↓ navigate                                   │
+         │                                                             │
          └─────────────────────────────────────────────────────────────┘
-
 
 
     "
@@ -299,9 +299,9 @@ test('list with dropdown search and filter', async () => {
        Le│  ›Wine                                                      │
        Si│                                                             │
        Ch│                                                             │
-       Pi│   ↵ select   ↑↓ navigate                                    │
-       Co└─────────────────────────────────────────────────────────────┘
-       Sprite Soda
+       Pi│   ↵ select    ↑↓ navigate                                   │
+       Co│                                                             │
+       Sp└─────────────────────────────────────────────────────────────┘
        Orange Juice Juice
        Apple Juice Juice
 
