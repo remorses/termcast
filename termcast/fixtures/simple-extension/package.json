@@ -81,6 +81,13 @@
       "subtitle": "No-view command",
       "description": "Copies current timestamp to clipboard without showing a view",
       "mode": "no-view"
+    },
+    {
+      "name": "throw-error",
+      "title": "Throw Error",
+      "subtitle": "Test error handling",
+      "description": "Command that throws an error at root scope",
+      "mode": "view"
     }
   ]
 }

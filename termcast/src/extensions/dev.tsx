@@ -26,7 +26,7 @@ import {
 
 interface BundledCommand extends CommandWithFile {
   bundledPath: string
-  Component?: (props: any) => any
+  loadComponent?: () => Promise<(props: any) => any>
 }
 
 function ExtensionCommandsList({
@@ -45,7 +45,7 @@ function ExtensionCommandsList({
   const handleCommandSelect = async (command: BundledCommand, useReplace = false) => {
     clearCommandArguments()
 
-    if (!command.bundledPath && !command.Component) {
+    if (!command.bundledPath && !command.loadComponent) {
       await showToast({
         style: Toast.Style.Failure,
         title: 'Command not built',
@@ -60,7 +60,7 @@ function ExtensionCommandsList({
         extensionName: packageJson.name,
         packageJson,
         bundledPath: command.bundledPath,
-        Component: command.Component,
+        loadComponent: command.loadComponent,
         push: useReplace ? replace : push,
         replace,
       })
@@ -122,7 +122,7 @@ function ExtensionCommandsList({
             }
             accessories={[
               { text: command.mode },
-              ...(command.bundledPath || command.Component
+              ...(command.bundledPath || command.loadComponent
                 ? []
                 : [
                     {
@@ -240,7 +240,7 @@ export async function startCompiledExtension({
   packageJson: RaycastPackageJson
   compiledCommands: Array<{
     name: string
-    Component: (props: any) => any
+    loadComponent: () => Promise<(props: any) => any>
   }>
   skipArgv?: number
 }): Promise<void> {
@@ -258,7 +258,7 @@ export async function startCompiledExtension({
       filePath: '',
       exists: true,
       bundledPath: '',
-      Component: compiled.Component,
+      loadComponent: compiled.loadComponent,
     }
   })
 

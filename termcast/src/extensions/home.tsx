@@ -18,7 +18,7 @@ interface ExtensionCommand {
   extensionDir?: string
   command: any
   bundledPath?: string
-  Component?: () => any
+  loadComponent?: () => Promise<(props: any) => any>
   packageJson?: any
 }
 
@@ -34,7 +34,7 @@ const builtinExtensions: ExtensionCommand[] = [
       mode: 'view',
       icon: 'Store',
     },
-    Component: Store,
+    loadComponent: async () => Store,
   },
 ]
 
@@ -57,7 +57,7 @@ function ExtensionsList({
         extensionName: item.extensionName,
         packageJson: item.packageJson,
         bundledPath: item.bundledPath,
-        Component: item.Component,
+        loadComponent: item.loadComponent,
         push,
         replace,
       })

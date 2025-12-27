@@ -97,7 +97,7 @@ export interface RunCommandOptions {
   extensionName: string
   packageJson?: RaycastPackageJson
   bundledPath?: string
-  Component?: (props: LaunchProps) => any
+  loadComponent?: () => Promise<(props: LaunchProps) => any>
   push: (element: React.ReactNode) => void
   replace?: (element: React.ReactNode) => void
 }
@@ -108,7 +108,7 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
     extensionName,
     packageJson,
     bundledPath,
-    Component: BuiltInComponent,
+    loadComponent,
     push,
     replace,
   } = options
@@ -118,7 +118,6 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
     command,
     extensionName,
     packageJson,
-    hasBuiltInComponent: !!BuiltInComponent,
   })
 
   if (!prefsCheck.hasRequiredPreferences) {
@@ -166,9 +165,20 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
   // Get the component/function to run
   let CommandComponent: ((props: LaunchProps) => any) | undefined
 
-  if (BuiltInComponent) {
-    CommandComponent = BuiltInComponent
+  if (loadComponent) {
+    // Lazy load the component (used by compiled extensions and built-in commands)
+    CommandComponent = await loadComponent()
+
+    if (!CommandComponent) {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: 'No default export',
+        message: `Command file ${command.name} has no default export`,
+      })
+      return
+    }
   } else if (bundledPath) {
+    // Dynamic import with cache busting (used by dev mode)
     const state = useStore.getState()
     const devRebuildCount = state.devRebuildCount + 1
     useStore.setState({ devRebuildCount })
@@ -227,18 +237,16 @@ async function checkRequiredPreferences({
   command,
   extensionName,
   packageJson,
-  hasBuiltInComponent,
 }: {
   command: RunnableCommand
   extensionName: string
   packageJson?: RaycastPackageJson
-  hasBuiltInComponent: boolean
 }): Promise<{
   hasRequiredPreferences: boolean
   requiredPreferences?: 'command' | 'extension'
 }> {
-  // Built-in commands or commands without packageJson don't have preferences
-  if (hasBuiltInComponent || !packageJson) {
+  // Commands without packageJson don't have preferences
+  if (!packageJson) {
     return { hasRequiredPreferences: true }
   }
 

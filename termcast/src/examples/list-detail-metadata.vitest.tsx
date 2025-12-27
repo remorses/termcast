@@ -40,14 +40,14 @@ test('list detail metadata label renders title and text in column layout', async
        Another Item                         │                                   ▲
                                             │ ───────────────────────────────── █
                                             │                                   ▀
-                                            │ Name:
+       ↑↓ navigate    ^k actions            │ Name:
                                             │ John Doe
                                             │
                                             │ Email:
                                             │ john@example.com
                                             │ ─────────────────
                                             │
-       ↑↓ navigate    ^k actions            │ Status:                           ▼
+                                            │ Status:                           ▼
 
     "
   `)

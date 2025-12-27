@@ -37,18 +37,12 @@ export function generateEntryCode({
   packageJson: import('./package-json').RaycastPackageJson
   commands: Array<{ name: string; bundledPath: string }>
 }): string {
-  const commandImports = commands
-    .map(
-      (cmd, i) =>
-        `  const { default: Command${i} } = await import(${JSON.stringify(cmd.bundledPath)});`,
-    )
-    .join('\n')
-
+  // Generate lazy loaders instead of importing all commands at startup
   const commandsArray = commands
     .map(
-      (cmd, i) => `    {
+      (cmd) => `    {
       name: ${JSON.stringify(cmd.name)},
-      Component: Command${i},
+      loadComponent: () => import(${JSON.stringify(cmd.bundledPath)}).then(m => m.default),
     }`,
     )
     .join(',\n')
@@ -68,9 +62,7 @@ async function main() {
     extensionPackageJson: packageJson,
   });
 
-  // Now import commands - module-scope code can access state
-${commandImports}
-
+  // Commands are lazily loaded when selected (not at startup)
   const compiledCommands = [
 ${commandsArray}
   ];

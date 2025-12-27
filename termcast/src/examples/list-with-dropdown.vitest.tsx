@@ -49,10 +49,10 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
+
+
+
        ↑↓ navigate    ^k actions
-
-
-
 
     "
   `)

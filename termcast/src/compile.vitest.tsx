@@ -180,3 +180,59 @@ test('compiled executable can navigate back', async () => {
     "
   `)
 }, 60000)
+
+test('compiled executable shows error when command throws at root scope', async () => {
+  ensureCompiled()
+
+  session = await launchTerminal({
+    command: executablePath,
+    args: [],
+    cols: 60,
+    rows: 20,
+  })
+
+  // With lazy loading, the command list should appear first
+  await session.text({
+    waitFor: (text) => /Simple Test Extension/i.test(text),
+    timeout: 10000,
+  })
+
+  // Filter to the Throw Error command
+  await session.type('throw error')
+  await session.waitIdle()
+
+  // Select and run the command
+  await session.press('enter')
+  await session.press('enter')
+
+  // Wait for error to be displayed
+  await session.text({
+    waitFor: (text) => /error/i.test(text),
+    timeout: 10000,
+  })
+
+  const errorSnapshot = await session.text()
+  expect(errorSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+       Simple Test Extension ────────────────────────────────
+
+       throw error
+
+      ›Throw Error Command that throws an error at root view
+
+                      ✗ Failed to load command
+               This is a test error thrown at root scope
+
+
+
+
+
+
+
+
+
+    "
+  `)
+}, 60000)

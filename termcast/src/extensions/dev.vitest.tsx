@@ -72,8 +72,8 @@ test('selecting command with arguments shows arguments form', async () => {
        usePromise Demo Shows how to use the usePromise view  ▲
        Show State Shows the current application state  view
       ›With Arguments Demonstrates command arguments ( view
-       Quick Action Copies current timestamp to cli no-view  ▄
-                                                             ▼
+       Quick Action Copies current timestamp to cli no-view  ▀
+       Throw Error Command that throws an error at roo view  ▼
 
 
        ↵ run command    ↑↓ navigate    ^k actions
