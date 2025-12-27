@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
 import type { BunPlugin } from 'bun'
-import * as babel from '@babel/core'
+import * as swc from '@swc/core'
 import { logger } from './logger'
 import { getCommandsWithFiles, CommandWithFile } from './package-json'
 import * as termcastApi from './index'
@@ -180,7 +180,7 @@ export const aliasPlugin: BunPlugin = {
   },
 }
 
-// React Refresh babel transform plugin for hot reloading
+// React Refresh transform plugin for hot reloading using SWC (Rust-based, ~20x faster than Babel)
 // Transforms extension source files to inject $RefreshReg$ and $RefreshSig$ calls
 export const reactRefreshPlugin: BunPlugin = {
   name: 'react-refresh-transform',
@@ -193,43 +193,40 @@ export const reactRefreshPlugin: BunPlugin = {
 
       const code = await Bun.file(args.path).text()
 
-      // Check if this file has any functions (simple heuristic for React components)
-      // React Refresh babel plugin will handle the actual detection
-      if (!code.includes('function') && !code.includes('=>')) {
+      const isTypeScript =
+        args.path.endsWith('.ts') || args.path.endsWith('.tsx')
+      const hasJsx = args.path.endsWith('.tsx') || args.path.endsWith('.jsx')
+
+      const result = await swc.transform(code, {
+        filename: args.path,
+        jsc: {
+          parser: isTypeScript
+            ? {
+                syntax: 'typescript',
+                tsx: hasJsx,
+              }
+            : {
+                syntax: 'ecmascript',
+                jsx: hasJsx,
+              },
+          transform: {
+            react: {
+              development: true,
+              refresh: true, // Built-in React Refresh support in SWC
+              runtime: 'automatic',
+            },
+          },
+        },
+        sourceMaps: 'inline',
+      })
+
+      if (!result?.code) {
         return undefined
       }
 
-      try {
-        const result = await babel.transformAsync(code, {
-          filename: args.path,
-          presets: [
-            [
-              '@babel/preset-typescript',
-              {
-                isTSX: args.path.endsWith('.tsx') || args.path.endsWith('.jsx'),
-                allExtensions: true,
-              },
-            ],
-          ],
-          plugins: [['react-refresh/babel', { skipEnvCheck: true }]],
-          sourceMaps: 'inline',
-        })
-
-        if (!result?.code) {
-          return undefined
-        }
-
-        // After babel transform, TypeScript is converted to JavaScript but JSX remains
-        // Use 'jsx' loader for JSX files so Bun can transform the remaining JSX
-        const hasJsx = args.path.endsWith('.tsx') || args.path.endsWith('.jsx')
-        return {
-          contents: result.code,
-          loader: hasJsx ? 'jsx' : 'js',
-        }
-      } catch (error) {
-        // If babel transform fails, let Bun handle the file normally
-        logger.error('React Refresh transform failed:', error)
-        return undefined
+      return {
+        contents: result.code,
+        loader: 'js', // SWC transforms JSX to JS
       }
     })
   },
