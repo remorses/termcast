@@ -233,6 +233,69 @@ test('compiled executable shows error when command throws at root scope', async 
 
 
 
+ 
     "
   `)
 }, 60000)
+
+// Test for single-command extension with root-level error
+const singleErrorFixtureDir = path.resolve(__dirname, '../fixtures/single-error-extension')
+const singleErrorDistDir = path.join(singleErrorFixtureDir, 'dist')
+const singleErrorExecutablePath = path.join(singleErrorDistDir, 'single-error-extension')
+
+function ensureSingleErrorCompiled() {
+  if (!fs.existsSync(singleErrorExecutablePath)) {
+    if (fs.existsSync(singleErrorDistDir)) {
+      fs.rmSync(singleErrorDistDir, { recursive: true, force: true })
+    }
+
+    execSync(`bun src/cli.tsx compile ${singleErrorFixtureDir}`, {
+      cwd: path.resolve(__dirname, '..'),
+      stdio: 'pipe',
+    })
+  }
+
+  if (!fs.existsSync(singleErrorExecutablePath)) {
+    throw new Error(`Compiled executable not found at ${singleErrorExecutablePath}`)
+  }
+}
+
+test('single command extension shows error when command throws at root scope', async () => {
+  ensureSingleErrorCompiled()
+
+  session = await launchTerminal({
+    command: singleErrorExecutablePath,
+    args: [],
+    cols: 60,
+    rows: 20,
+  })
+
+  // Wait for something to appear
+  await session.waitIdle()
+
+  const errorSnapshot = await session.text()
+  expect(errorSnapshot).toMatchInlineSnapshot(`
+    "
+
+                      ✗ Failed to load command
+                       Single command root error
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    "
+  `)
+}, 60000)
+

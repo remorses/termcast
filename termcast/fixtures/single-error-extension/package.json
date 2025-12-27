@@ -1,0 +1,18 @@
+{
+  "name": "single-error-extension",
+  "version": "0.0.1",
+  "title": "Single Error Extension",
+  "description": "Extension with single command that throws",
+  "icon": "command-icon.png",
+  "author": "test",
+  "categories": ["Productivity"],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "throw-error",
+      "title": "Throw Error",
+      "description": "Command that throws at root scope",
+      "mode": "view"
+    }
+  ]
+}
