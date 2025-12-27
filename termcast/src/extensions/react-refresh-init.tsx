@@ -1,13 +1,17 @@
 // This module MUST be imported before @opentui/react to ensure the devtools
 // hook exists before the reconciler tries to call injectIntoDevTools()
-import * as RefreshRuntime from 'react-refresh/runtime'
 
 // Store captured renderer internals for manual refresh triggering
 let capturedRendererInternals: any = null
+let RefreshRuntime: typeof import('react-refresh/runtime') | null = null
 
 // Initialize React Refresh BEFORE any React rendering
 // This must happen before @opentui/react is loaded
 function initializeReactRefresh() {
+  if (!RefreshRuntime) {
+    return
+  }
+
   // Inject into the global devtools hook
   // This sets up __REACT_DEVTOOLS_GLOBAL_HOOK__ which the reconciler uses
   RefreshRuntime.injectIntoGlobalHook(globalThis)
@@ -35,8 +39,12 @@ function initializeReactRefresh() {
   }
 }
 
-// Call immediately at module load time
-initializeReactRefresh()
+// Only load react-refresh in non-production
+if (process.env.NODE_ENV !== 'production') {
+  // Dynamic import to avoid bundling in production
+  RefreshRuntime = require('react-refresh/runtime')
+  initializeReactRefresh()
+}
 
 // Get captured renderer internals
 export function getRendererInternals() {
