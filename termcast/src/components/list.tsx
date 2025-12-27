@@ -539,27 +539,31 @@ function DropdownFooter(): any {
   const hasToast = useStore((s) => s.toast !== null)
 
   const content = hasToast ? null : (
-    <>
-      <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
-        ↵
-      </text>
-      <text flexShrink={0} fg={Theme.textMuted}> select</text>
-      <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
-        {'   '}↑↓
-      </text>
-      <text flexShrink={0} fg={Theme.textMuted}> navigate</text>
-    </>
+    <box style={{ flexDirection: 'row', gap: 4 }}>
+      <box style={{ flexDirection: 'row', gap: 1 }}>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          ↵
+        </text>
+        <text flexShrink={0} fg={Theme.textMuted}>select</text>
+      </box>
+      <box style={{ flexDirection: 'row', gap: 1 }}>
+        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          ↑↓
+        </text>
+        <text flexShrink={0} fg={Theme.textMuted}>navigate</text>
+      </box>
+    </box>
   )
 
   return (
     <box
       border={false}
-      height={1}
       style={{
         paddingRight: 2,
         paddingLeft: 3,
         paddingBottom: 1,
         paddingTop: 1,
+        flexShrink: 0,
         flexDirection: 'row',
       }}
     >
