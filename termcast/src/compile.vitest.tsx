@@ -216,14 +216,11 @@ test('compiled executable shows error when command throws at root scope', async 
     "
 
 
-       Simple Test Extension ────────────────────────────────
 
-       throw error
 
-      ›Throw Error Command that throws an error at root view
-
-                      ✗ Failed to load command
-               This is a test error thrown at root scope
+        Error: This is a test error thrown at root scope
+            at <anonymous> (fixtures/simple-extension/src/th
+            at processTicksAndRejections (native:7:39)
 
 
 
@@ -233,7 +230,9 @@ test('compiled executable shows error when command throws at root scope', async 
 
 
 
- 
+
+
+
     "
   `)
 }, 60000)
@@ -277,12 +276,12 @@ test('single command extension shows error when command throws at root scope', a
   expect(errorSnapshot).toMatchInlineSnapshot(`
     "
 
-                      ✗ Failed to load command
-                       Single command root error
 
 
 
-
+        Error
+            at <anonymous> (fixtures/single-error-extension/
+            at processTicksAndRejections (unknown:7:39)
 
 
 

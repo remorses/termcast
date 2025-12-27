@@ -14,6 +14,7 @@ import { useNavigation } from 'termcast/src/internal/navigation'
 import { TermcastProvider } from 'termcast/src/internal/providers'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
+import { Theme } from 'termcast/src/theme'
 import { logger } from '../logger'
 import { getCommandsWithFiles, CommandWithFile, RaycastPackageJson } from '../package-json'
 import { buildExtensionCommands } from '../build'
@@ -23,6 +24,14 @@ import {
   parseExtensionArgs,
   handleHelpFlag,
 } from '../utils/run-command'
+
+function CommandLoadError({ error }: { error: Error }): any {
+  return (
+    <box padding={2}>
+      <text fg={Theme.error} wrapMode='none'>{error.stack}</text>
+    </box>
+  )
+}
 
 interface BundledCommand extends CommandWithFile {
   bundledPath: string
@@ -39,18 +48,16 @@ function ExtensionCommandsList({
   skipArgv?: number
 }): any {
   const { push, replace } = useNavigation()
+  const [loadError, setLoadError] = React.useState<Error | null>(null)
 
   const visibleCommands = commands.filter((cmd) => cmd.mode !== 'menu-bar')
+  const isSingleCommand = visibleCommands.length === 1
 
   const handleCommandSelect = async (command: BundledCommand, useReplace = false) => {
     clearCommandArguments()
 
     if (!command.bundledPath && !command.loadComponent) {
-      await showToast({
-        style: Toast.Style.Failure,
-        title: 'Command not built',
-        message: `Command ${command.name} was not built successfully`,
-      })
+      setLoadError(new Error(`Command ${command.name} was not built successfully`))
       return
     }
 
@@ -65,11 +72,7 @@ function ExtensionCommandsList({
         replace,
       })
     } catch (error: any) {
-      await showToast({
-        style: Toast.Style.Failure,
-        title: 'Failed to load command',
-        message: error.message || String(error),
-      })
+      setLoadError(error)
     }
   }
 
@@ -95,13 +98,18 @@ function ExtensionCommandsList({
       }
     }
 
-    if (visibleCommands.length === 1) {
+    if (isSingleCommand) {
       // Use replace so ESC at root exits instead of going back to command list
       handleCommandSelect(visibleCommands[0], true)
     }
   }, [])
 
-  if (visibleCommands.length === 1) {
+  // Show error screen for single command that failed to load
+  if (loadError) {
+    return <CommandLoadError error={loadError} />
+  }
+
+  if (isSingleCommand) {
     return null
   }
 
