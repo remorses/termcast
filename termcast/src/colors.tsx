@@ -30,6 +30,7 @@ export function resolveColor(color: Color.ColorLike | undefined | null): string 
     return color
   }
   if (typeof color === 'object' && 'dark' in color) {
+    // Color.Dynamic - just use dark variant (light themes should use flat colors)
     return color.dark
   }
   return undefined

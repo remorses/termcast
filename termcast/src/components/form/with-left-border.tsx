@@ -65,7 +65,7 @@ export const WithLeftBorder = ({
       paddingLeft={paddingLeft}
       border={['left']}
       // borderStyle={isFocused ? 'heavy' : 'single'}
-      borderColor={isFocused ? Theme.accent : undefined}
+      borderColor={isFocused ? Theme.accent : Theme.text}
       flexShrink={0}
       flexDirection='row'
     >

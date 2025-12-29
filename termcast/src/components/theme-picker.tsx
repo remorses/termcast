@@ -14,7 +14,7 @@ export function ThemePicker(): any {
   const [previousTheme] = useState(currentThemeName)
 
   const handleSelectionChange = (value: string) => {
-    // Preview theme on selection change (hover/navigation)
+    // Preview theme on selection change
     useStore.setState({ currentThemeName: value })
   }
 

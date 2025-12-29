@@ -14,6 +14,7 @@ import dracula from './themes/dracula.json'
 import everforest from './themes/everforest.json'
 import flexoki from './themes/flexoki.json'
 import github from './themes/github.json'
+import githubLight from './themes/github-light.json'
 import gruvbox from './themes/gruvbox.json'
 import kanagawa from './themes/kanagawa.json'
 import material from './themes/material.json'
@@ -24,6 +25,7 @@ import nightowl from './themes/nightowl.json'
 import nord from './themes/nord.json'
 import oneDark from './themes/one-dark.json'
 import opencode from './themes/opencode.json'
+import opencodeLight from './themes/opencode-light.json'
 import orng from './themes/orng.json'
 import palenight from './themes/palenight.json'
 import rosepine from './themes/rosepine.json'
@@ -133,6 +135,7 @@ const DEFAULT_THEMES: Record<string, ThemeJson> = {
   everforest,
   flexoki,
   github,
+  'github-light': githubLight,
   gruvbox,
   kanagawa,
   material,
@@ -143,6 +146,7 @@ const DEFAULT_THEMES: Record<string, ThemeJson> = {
   nord,
   'one-dark': oneDark,
   opencode,
+  'opencode-light': opencodeLight,
   orng,
   palenight,
   rosepine,

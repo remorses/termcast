@@ -41,59 +41,39 @@ export function initializeTheme(): void {
   useStore.setState({ currentThemeName: themeName })
 }
 
-// Cache for resolved themes to avoid recomputing
-const themeCache = new Map<string, ResolvedTheme>()
-
-function getCachedTheme(themeName: string): ResolvedTheme {
-  let cached = themeCache.get(themeName)
-  if (!cached) {
-    cached = getResolvedTheme(themeName)
-    themeCache.set(themeName, cached)
-  }
-  return cached
-}
-
 // Proxy-based Theme object that reads from zustand state
 export const Theme: ResolvedTheme = new Proxy({} as ResolvedTheme, {
   get(_, prop: string) {
     const themeName = useStore.getState().currentThemeName
-    const resolved = getCachedTheme(themeName)
+    const resolved = getResolvedTheme(themeName)
     return resolved[prop as keyof ResolvedTheme]
   },
 })
 
-// Cache for markdown syntax styles
-const syntaxStyleCache = new Map<string, SyntaxStyle>()
-
 export function getMarkdownSyntaxStyle(): SyntaxStyle {
   const themeName = useStore.getState().currentThemeName
-  let cached = syntaxStyleCache.get(themeName)
-  if (!cached) {
-    const t = getCachedTheme(themeName)
-    cached = SyntaxStyle.fromStyles({
-      default: { fg: RGBA.fromHex(t.markdownText) },
-      'markup.heading.1': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-      'markup.heading.2': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-      'markup.heading.3': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-      'markup.heading.4': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-      'markup.heading.5': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-      'markup.heading.6': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-      'markup.heading': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-      'markup.raw.block': { fg: RGBA.fromHex(t.markdownCode) },
-      'markup.link.url': { fg: RGBA.fromHex(t.markdownLink) },
-      'markup.link.label': { fg: RGBA.fromHex(t.markdownLinkText) },
-      'markup.list': { fg: RGBA.fromHex(t.markdownListItem) },
-      'markup.list.checked': { fg: RGBA.fromHex(t.success) },
-      'markup.list.unchecked': { fg: RGBA.fromHex(t.textMuted) },
-      'markup.quote': { fg: RGBA.fromHex(t.markdownBlockQuote), italic: true },
-      'punctuation.special': { fg: RGBA.fromHex(t.syntaxPunctuation) },
-      'punctuation.delimiter': { fg: RGBA.fromHex(t.syntaxPunctuation) },
-      'string.escape': { fg: RGBA.fromHex(t.syntaxString) },
-      label: { fg: RGBA.fromHex(t.accent) },
-    })
-    syntaxStyleCache.set(themeName, cached)
-  }
-  return cached
+  const t = getResolvedTheme(themeName)
+  return SyntaxStyle.fromStyles({
+    default: { fg: RGBA.fromHex(t.markdownText) },
+    'markup.heading.1': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+    'markup.heading.2': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+    'markup.heading.3': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+    'markup.heading.4': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+    'markup.heading.5': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+    'markup.heading.6': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+    'markup.heading': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
+    'markup.raw.block': { fg: RGBA.fromHex(t.markdownCode) },
+    'markup.link.url': { fg: RGBA.fromHex(t.markdownLink) },
+    'markup.link.label': { fg: RGBA.fromHex(t.markdownLinkText) },
+    'markup.list': { fg: RGBA.fromHex(t.markdownListItem) },
+    'markup.list.checked': { fg: RGBA.fromHex(t.success) },
+    'markup.list.unchecked': { fg: RGBA.fromHex(t.textMuted) },
+    'markup.quote': { fg: RGBA.fromHex(t.markdownBlockQuote), italic: true },
+    'punctuation.special': { fg: RGBA.fromHex(t.syntaxPunctuation) },
+    'punctuation.delimiter': { fg: RGBA.fromHex(t.syntaxPunctuation) },
+    'string.escape': { fg: RGBA.fromHex(t.syntaxString) },
+    label: { fg: RGBA.fromHex(t.accent) },
+  })
 }
 
 // For backward compatibility - some code imports markdownSyntaxStyle directly

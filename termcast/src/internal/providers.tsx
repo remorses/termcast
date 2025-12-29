@@ -12,6 +12,7 @@ import { CommonProps } from 'termcast/src/utils'
 import { Cache } from 'termcast/src/apis/cache'
 import { logger } from 'termcast/src/logger'
 import { Theme, initializeTheme } from 'termcast/src/theme'
+import { useStore } from 'termcast/src/state'
 import { useTerminalDimensions } from '@opentui/react'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
 import { ToastOverlay } from '../apis/toast'
@@ -108,6 +109,8 @@ function ErrorDisplay({ error }: { error: Error | null }): any {
 const ErrorBoundary = ErrorBoundaryClass as any
 
 export function TermcastProvider(props: ProvidersProps): any {
+
+
   return (
     <ErrorBoundary>
       <Suspense fallback={<LoadingFallback />}>
@@ -122,6 +125,8 @@ export function TermcastProvider(props: ProvidersProps): any {
             minHeight={'100%'}
             justifyContent='flex-start'
             backgroundColor={Theme.background}
+            // borderColor={Theme.border}
+            // fg={Theme.text}
           >
             <box padding={2}>
               <DialogProvider>
