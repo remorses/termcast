@@ -98,7 +98,7 @@ export function ExtensionPreferences({
           }
         }
 
-        return { preferences: prefsToUse, savedValues }
+        return { preferences: prefsToUse, savedValues, extensionTitle: packageJson.title || extensionName }
       } catch (error) {
         logger.error(`Failed to load preferences for ${extensionName}:`, error)
         showToast({
@@ -106,13 +106,14 @@ export function ExtensionPreferences({
           title: 'Failed to load preferences',
           message: String(error),
         })
-        return { preferences: [], savedValues: {} }
+        return { preferences: [], savedValues: {}, extensionTitle: extensionName }
       }
     },
   })
 
   const preferences = data?.preferences ?? []
   const savedValues = data?.savedValues ?? {}
+  const extensionTitle = data?.extensionTitle ?? extensionName
 
   const handleSubmit = async (values: Record<string, any>) => {
     try {
@@ -144,8 +145,8 @@ export function ExtensionPreferences({
         style: Toast.Style.Success,
         title: 'Preferences saved',
         message: commandName
-          ? `Preferences for ${extensionName}/${commandName} have been saved`
-          : `Preferences for ${extensionName} have been saved`,
+          ? `Preferences for ${extensionTitle}/${commandName} have been saved`
+          : `Preferences for ${extensionTitle} have been saved`,
       })
 
       if (onSubmit) {
@@ -184,8 +185,8 @@ export function ExtensionPreferences({
         <Form.Description
           text={
             commandName
-              ? `No preferences available for ${extensionName}/${commandName}`
-              : `No preferences available for ${extensionName}`
+              ? `No preferences available for ${extensionTitle}/${commandName}`
+              : `No preferences available for ${extensionTitle}`
           }
         />
       </Form>
@@ -201,8 +202,8 @@ export function ExtensionPreferences({
       }
       navigationTitle={
         commandName
-          ? `${extensionName}/${commandName} Preferences`
-          : `${extensionName} Preferences`
+          ? `${extensionTitle}/${commandName} Preferences`
+          : `${extensionTitle} Preferences`
       }
     >
       {preferences.map((pref) => {

@@ -723,7 +723,7 @@ const ActionPanel: ActionPanelType = (props) => {
           <ActionPanel.Section title="Settings">
             {hasExtensionPrefs && (
               <Action
-                title="Configure Extension..."
+                title={`Configure ${extensionPackageJson!.title}...`}
                 shortcut={{ modifiers: ['cmd', 'shift'], key: ',' }}
                 onAction={() => {
                   dialog.clear()
