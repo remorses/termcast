@@ -1,0 +1,28 @@
+
+  ╱╱╱╱╱╱  Charm™                      v0.10.0 ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱
+  ╱╱╱╱╱╱ ▄▀▀▀▀ █▀▀▀▀▀▀▀▀▀▀▄ █   █ ▄▀▀▀▀ █   █ ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱
+  ╱╱╱╱╱╱ █     █▀▀▀▀▀▀▀▀▀▀▄ █   █ ▀▀▀▀█ █▀▀▀█ ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱
+  ╱╱╱╱╱╱ ╭────────────────────────────────────────────────────────────────────╮╱╱╱╱
+         │ Commands ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱ │
+  ~/Docum│                                                                    │
+         │ > Type to filter                                                   │
+  ◇ GPT-4│                                                                    │
+         │ New Session                                                 ctrl+n │
+  LSPs   │ Switch Session                                              ctrl+s │
+         │ Switch Model                                                       │
+  None   │ Toggle Yolo Mode                                                   │
+         │ Toggle Help                                                 ctrl+g │
+         │ Initialize Project                                                 │
+         │ Quit                                                        ctrl+c │
+         │                                                                    │
+         │ tab switch selection • ↑↓ choose • enter confirm • esc cancel      │
+         ╰────────────────────────────────────────────────────────────────────╯
+
+
+
+
+   > Ready!
+ :::
+ :::
+
+ ctrl+p commands • shift+enter newline • ctrl+c quit • ctrl+g more
