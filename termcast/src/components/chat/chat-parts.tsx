@@ -2,6 +2,7 @@
  * Chat Part Components
  *
  * Components for rendering different types of message parts.
+ * Styled like Claude Code terminal output.
  */
 
 import React, { useState } from 'react'
@@ -20,7 +21,7 @@ export interface ChatTextPartProps {
 }
 
 /**
- * Chat.TextPart - Renders text content
+ * Chat.TextPart - Renders text content (left-aligned, no prefix)
  */
 export function ChatTextPart({ part }: ChatTextPartProps): any {
   const isStreaming = part.state === 'streaming'
@@ -44,7 +45,7 @@ export interface ChatReasoningPartProps {
 }
 
 /**
- * Chat.ReasoningPart - Renders thinking/reasoning content (collapsible)
+ * Chat.ReasoningPart - Renders thinking content (Claude Code style: ✢ Thinking…)
  */
 export function ChatReasoningPart({
   part,
@@ -57,27 +58,25 @@ export function ChatReasoningPart({
     return null
   }
 
-  const previewText = part.text.slice(0, 50) + (part.text.length > 50 ? '...' : '')
+  const previewText = part.text.slice(0, 60) + (part.text.length > 60 ? '…' : '')
 
   return (
     <box flexDirection="column" width="100%">
-      <box flexDirection="row" gap={1}>
+      <box flexDirection="row">
         <text fg={Theme.textMuted} flexShrink={0}>
-          {isCollapsed ? '▸' : '▾'}
+          {isStreaming ? '✢ ' : '✢ '}
         </text>
-        <text fg={Theme.textMuted} attributes={TextAttributes.DIM}>
-          {isStreaming ? 'Thinking' : 'Thought'}
-          {isCollapsed && `: ${previewText}`}
+        <text fg={Theme.textMuted}>
+          {isStreaming ? 'Thinking…' : 'Thought'}
         </text>
       </box>
-      {!isCollapsed && (
-        <box paddingLeft={2} marginTop={1}>
-          <text fg={Theme.textMuted} wrapMode="word" attributes={TextAttributes.DIM}>
-            {part.text}
-            {isStreaming && <span fg={Theme.textMuted}>▌</span>}
-          </text>
-        </box>
-      )}
+      <box flexDirection="row" paddingLeft={2}>
+        <text fg={Theme.textMuted} flexShrink={0}>⎿  </text>
+        <text fg={Theme.textMuted} wrapMode="word" attributes={TextAttributes.DIM}>
+          {isCollapsed ? previewText : part.text}
+          {isStreaming && <span fg={Theme.textMuted}>▌</span>}
+        </text>
+      </box>
     </box>
   )
 }
@@ -87,85 +86,103 @@ export interface ChatToolPartProps {
 }
 
 /**
- * Chat.ToolPart - Renders tool call/result display
+ * Format tool input as a short string for display
+ */
+function formatToolInput(input: unknown): string {
+  if (input === undefined || input === null) {
+    return ''
+  }
+  if (typeof input === 'string') {
+    // For strings, show first 60 chars
+    return input.length > 60 ? input.slice(0, 60) + '…' : input
+  }
+  if (typeof input === 'object') {
+    // For objects, try to make a compact representation
+    try {
+      const str = JSON.stringify(input)
+      return str.length > 60 ? str.slice(0, 60) + '…' : str
+    } catch {
+      return String(input)
+    }
+  }
+  return String(input)
+}
+
+/**
+ * Format tool output for display
+ */
+function formatToolOutput(output: unknown): string {
+  if (output === undefined || output === null) {
+    return ''
+  }
+  if (typeof output === 'string') {
+    // Check if it looks like file content
+    const lines = output.split('\n')
+    if (lines.length > 3) {
+      return `${lines.slice(0, 3).join('\n')}\n… +${lines.length - 3} lines`
+    }
+    return output.length > 100 ? output.slice(0, 100) + '…' : output
+  }
+  try {
+    const str = JSON.stringify(output, null, 2)
+    return str.length > 150 ? str.slice(0, 150) + '…' : str
+  } catch {
+    return String(output)
+  }
+}
+
+/**
+ * Chat.ToolPart - Renders tool call/result (Claude Code style: ◆ ToolName(args))
  */
 export function ChatToolPart({ part }: ChatToolPartProps): any {
   const toolName = part.type.replace('tool-', '')
   const { state, input, output, errorText } = part
 
-  // Status indicator
-  const getStatusIndicator = () => {
+  // Get icon based on state
+  const getIcon = () => {
     switch (state) {
       case 'input-streaming':
-        return { icon: '◔', color: Theme.warning, text: 'preparing' }
+        return { icon: '⏺', color: Theme.warning }
       case 'input-available':
-        return { icon: '◑', color: Theme.warning, text: 'running' }
+        return { icon: '⏺', color: Theme.warning }
       case 'output-available':
-        return { icon: '◆', color: Theme.success, text: 'done' }
+        return { icon: '◆', color: Theme.text }
       case 'output-error':
-        return { icon: '✕', color: Theme.error, text: 'error' }
+        return { icon: '◆', color: Theme.error }
       default:
-        return { icon: '○', color: Theme.textMuted, text: 'pending' }
+        return { icon: '○', color: Theme.textMuted }
     }
   }
 
-  const status = getStatusIndicator()
+  const { icon, color } = getIcon()
+  const inputStr = formatToolInput(input)
 
-  // Format input/output for display
-  const formatValue = (value: unknown): string => {
-    if (value === undefined || value === null) {
-      return ''
-    }
-    if (typeof value === 'string') {
-      return value.length > 100 ? value.slice(0, 100) + '...' : value
-    }
-    try {
-      const str = JSON.stringify(value, null, 2)
-      return str.length > 200 ? str.slice(0, 200) + '...' : str
-    } catch {
-      return String(value)
-    }
-  }
+  // Format like Claude Code: ◆ ToolName(args)
+  const toolHeader = inputStr ? `${toolName}(${inputStr})` : toolName
 
   return (
-    <box flexDirection="column" width="100%" gap={1}>
-      {/* Tool header */}
-      <box flexDirection="row" gap={1}>
-        <text fg={status.color} flexShrink={0}>
-          {status.icon}
-        </text>
-        <text fg={Theme.accent} attributes={TextAttributes.BOLD} flexShrink={0}>
-          {toolName}
-        </text>
-        <text fg={Theme.textMuted} flexShrink={0}>
-          ({status.text})
-        </text>
+    <box flexDirection="column" width="100%" flexShrink={1}>
+      {/* Tool header: ◆ ToolName(args) */}
+      <box flexDirection="row" flexShrink={0}>
+        <text fg={color} flexShrink={0}>{icon} </text>
+        <text fg={Theme.text} wrapMode="word">{toolHeader}</text>
       </box>
 
-      {/* Input args */}
-      {input !== undefined && (
-        <box paddingLeft={2}>
-          <text fg={Theme.textMuted} wrapMode="word">
-            ⎿ {formatValue(input)}
-          </text>
-        </box>
-      )}
-
-      {/* Output result */}
+      {/* Output result with ⎿ prefix */}
       {state === 'output-available' && output !== undefined && (
-        <box paddingLeft={2}>
-          <text fg={Theme.text} wrapMode="word">
-            → {formatValue(output)}
+        <box flexDirection="row" paddingLeft={2} flexShrink={1}>
+          <text fg={Theme.textMuted} flexShrink={0}>⎿  </text>
+          <text fg={Theme.textMuted} wrapMode="word">
+            {formatToolOutput(output)}
           </text>
         </box>
       )}
 
-      {/* Error */}
+      {/* Error with ⎿ prefix */}
       {state === 'output-error' && errorText && (
-        <box paddingLeft={2}>
-          <text fg={Theme.error} wrapMode="word">
-            Error: {errorText}
-          </text>
+        <box flexDirection="row" paddingLeft={2} flexShrink={1}>
+          <text fg={Theme.error} flexShrink={0}>⎿  </text>
+          <text fg={Theme.error} wrapMode="word">{errorText}</text>
         </box>
       )}
     </box>

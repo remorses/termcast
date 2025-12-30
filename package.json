@@ -36,8 +36,8 @@
     "node-gyp-build"
   ],
   "dependencies": {
-    "@opentui/core": "^0.1.63",
-    "@opentui/react": "^0.1.63",
+    "@opentui/core": "^0.1.67",
+    "@opentui/react": "^0.1.67",
     "figlet": "^1.9.4",
     "ghostty-opentui": "^1.3.6"
   }

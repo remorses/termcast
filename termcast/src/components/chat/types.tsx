@@ -80,11 +80,18 @@ export interface ChatState {
   isGenerating: boolean
   abortController: AbortController
   error?: Error
+  /** Model name to display (e.g. "claude-3-opus") */
+  modelName?: string
+  /** Timestamp when generation started */
+  startTime?: number
+  /** Duration of last completed generation in seconds */
+  duration?: number
 
   setMessages: (messages: UIMessage[]) => void
   setDraftText: (text: string) => void
   setIsGenerating: (isGenerating: boolean) => void
   setError: (error: Error | undefined) => void
+  setModelName: (name: string | undefined) => void
   stop: () => void
   reset: () => void
 }

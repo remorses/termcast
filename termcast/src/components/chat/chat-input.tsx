@@ -19,16 +19,24 @@ export interface ChatInputProps {
   disabled?: boolean
   /** Whether input is focused */
   focused?: boolean
-  /** Called when user submits (Enter without Shift) */
+  /** Called when user submits (Enter) */
   onSubmit: (state: ChatSubmitState) => Promise<void>
+  /** Called after submit completes to trigger scroll */
+  onAfterSubmit?: () => void
 }
+
+// Custom key bindings: Enter submits, Shift+Enter for newline
+const chatKeyBindings = [
+  { name: 'return', action: 'submit' as const },
+  { name: 'return', shift: true, action: 'newline' as const },
+]
 
 /**
  * Chat.Input - Text input for chat messages
  *
  * Handles:
- * - Cmd/Ctrl+Enter to submit (calls onSubmit with chat state)
- * - Enter for newline (default textarea behavior)
+ * - Enter to submit (calls onSubmit with chat state)
+ * - Shift+Enter for newline
  * - Escape to stop generation
  */
 export function ChatInput({
@@ -36,6 +44,7 @@ export function ChatInput({
   disabled = false,
   focused = true,
   onSubmit,
+  onAfterSubmit,
 }: ChatInputProps): any {
   const textareaRef = useRef<TextareaRenderable>(null)
   const store = useChatStore()
@@ -77,6 +86,9 @@ export function ChatInput({
     if (textareaRef.current) {
       textareaRef.current.clear()
     }
+
+    // Trigger scroll after submit
+    onAfterSubmit?.()
 
     try {
       await onSubmit({
@@ -126,6 +138,7 @@ export function ChatInput({
         placeholder={isGenerating ? 'Generating...' : placeholder}
         focused={focused && !disabled && !isGenerating}
         onSubmit={handleSubmit}
+        keyBindings={chatKeyBindings}
         style={{
           flexGrow: 1,
           paddingLeft: 1,

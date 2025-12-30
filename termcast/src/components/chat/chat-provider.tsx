@@ -46,6 +46,9 @@ export function ChatProvider({
       isGenerating: false,
       abortController,
       error: undefined,
+      modelName: undefined,
+      startTime: undefined,
+      duration: undefined,
 
       setMessages: (messages) => {
         set({ messages })
@@ -56,7 +59,15 @@ export function ChatProvider({
       },
 
       setIsGenerating: (isGenerating) => {
-        set({ isGenerating })
+        if (isGenerating) {
+          // Starting generation - record start time
+          set({ isGenerating, startTime: Date.now(), duration: undefined })
+        } else {
+          // Ending generation - calculate duration
+          const { startTime } = get()
+          const duration = startTime ? (Date.now() - startTime) / 1000 : undefined
+          set({ isGenerating, duration })
+        }
       },
 
       setError: (error) => {
@@ -66,12 +77,18 @@ export function ChatProvider({
         }
       },
 
+      setModelName: (modelName) => {
+        set({ modelName })
+      },
+
       stop: () => {
-        const { abortController } = get()
+        const { abortController, startTime } = get()
         abortController.abort('User stopped generation')
+        const duration = startTime ? (Date.now() - startTime) / 1000 : undefined
         set({
           isGenerating: false,
           abortController: new AbortController(),
+          duration,
         })
       },
 
@@ -84,6 +101,9 @@ export function ChatProvider({
           isGenerating: false,
           abortController: new AbortController(),
           error: undefined,
+          modelName: undefined,
+          startTime: undefined,
+          duration: undefined,
         })
       },
     }))

@@ -2,6 +2,9 @@
  * Chat Message Components
  *
  * Components for rendering chat messages and their containers.
+ * Styled like Claude Code:
+ * - User messages: right-aligned, no background
+ * - Assistant messages: left-aligned, minimal styling
  */
 
 import React, { ReactNode } from 'react'
@@ -22,28 +25,19 @@ export interface ChatMessageProps {
 export function ChatMessage({ message, children }: ChatMessageProps): any {
   const isUser = message.role === 'user'
 
-  return (
-    <box
-      flexDirection="column"
-      width="100%"
-      paddingLeft={isUser ? 4 : 0}
-      paddingRight={isUser ? 0 : 4}
-    >
-      {/* Role indicator */}
-      <box flexDirection="row" gap={1} marginBottom={1}>
-        <text
-          fg={isUser ? Theme.accent : Theme.success}
-          attributes={TextAttributes.BOLD}
-          flexShrink={0}
-        >
-          {isUser ? '▸ You' : '◆ Assistant'}
-        </text>
+  if (isUser) {
+    return (
+      <box flexDirection="row" width="100%" justifyContent="flex-end">
+        <box flexDirection="column" maxWidth="70%" flexShrink={1}>
+          {children}
+        </box>
       </box>
+    )
+  }
 
-      {/* Message content */}
-      <box flexDirection="column" gap={1} paddingLeft={2}>
-        {children}
-      </box>
+  return (
+    <box flexDirection="column" width="100%" paddingLeft={1}>
+      {children}
     </box>
   )
 }
@@ -55,23 +49,15 @@ export interface ChatUserMessageProps {
 
 /**
  * Chat.UserMessage - Styled wrapper for user messages
+ * Container right-aligned, text left-aligned inside, max 70% width
  */
 export function ChatUserMessage({
   message,
   children,
 }: ChatUserMessageProps): any {
   return (
-    <box
-      flexDirection="column"
-      width="100%"
-      paddingLeft={2}
-    >
-      <box flexDirection="row" gap={1} marginBottom={1}>
-        <text fg={Theme.accent} attributes={TextAttributes.BOLD} flexShrink={0}>
-          ▸ You
-        </text>
-      </box>
-      <box flexDirection="column" paddingLeft={2}>
+    <box flexDirection="row" width="100%" justifyContent="flex-end">
+      <box flexDirection="column" maxWidth="70%" flexShrink={1}>
         {children}
       </box>
     </box>
@@ -84,26 +70,16 @@ export interface ChatAssistantMessageProps {
 }
 
 /**
- * Chat.AssistantMessage - Styled wrapper for assistant messages
+ * Chat.AssistantMessage - Styled wrapper for assistant messages (Claude Code style)
+ * No label - each part (text, tool) has its own ◆ prefix at root level
  */
 export function ChatAssistantMessage({
   message,
   children,
 }: ChatAssistantMessageProps): any {
   return (
-    <box flexDirection="column" width="100%">
-      <box flexDirection="row" gap={1} marginBottom={1}>
-        <text
-          fg={Theme.success}
-          attributes={TextAttributes.BOLD}
-          flexShrink={0}
-        >
-          ◆ Assistant
-        </text>
-      </box>
-      <box flexDirection="column" paddingLeft={2}>
-        {children}
-      </box>
+    <box flexDirection="column" width="100%" gap={1} flexShrink={1}>
+      {children}
     </box>
   )
 }
