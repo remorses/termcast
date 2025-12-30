@@ -1487,7 +1487,7 @@ const ListDropdown: ListDropdownType = (props) => {
             {props.children}
           </ListDropdownDialog>
         ),
-        position: 'top-right',
+        position: 'center',
       })
     }
   }, [isDropdownOpen, props.children])
