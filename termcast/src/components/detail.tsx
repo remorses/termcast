@@ -6,6 +6,7 @@ import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { ActionPanel, Action } from 'termcast/src/components/actions'
 import { Image } from 'termcast/src/components/list'
 import { Color, resolveColor } from 'termcast/src/colors'
+import { Footer } from 'termcast/src/components/footer'
 
 import { useDialog } from 'termcast/src/internal/dialog'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
@@ -198,18 +199,8 @@ function DetailFooter({
   firstActionTitle?: string
 }): any {
   return (
-    <box
-      border={false}
-      style={{
-        // paddingLeft: 1,
-        // paddingRight: 1,
-        paddingTop: 1,
-        marginTop: 1,
-        flexShrink: 0,
-        flexDirection: 'row',
-      }}
-    >
-      <box style={{ flexDirection: 'row', gap: 4 }}>
+    <Footer paddingLeft={0} paddingRight={0}>
+      <box style={{ flexDirection: 'row', gap: 3 }}>
         <box style={{ flexDirection: 'row', gap: 1 }}>
           <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
             esc
@@ -233,7 +224,7 @@ function DetailFooter({
           </box>
         )}
       </box>
-    </box>
+    </Footer>
   )
 }
 

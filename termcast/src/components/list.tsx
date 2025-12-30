@@ -17,6 +17,7 @@ import React, {
     useState
 } from 'react'
 import { LoadingBar } from 'termcast/src/components/loading-bar'
+import { Footer } from 'termcast/src/components/footer'
 import { createDescendants } from 'termcast/src/descendants'
 import { useStore } from 'termcast/src/state'
 import { useDialog } from 'termcast/src/internal/dialog'
@@ -74,7 +75,7 @@ function ListFooter(): any {
   const hasToast = useStore((s) => s.toast !== null)
 
   const content = hasToast ? null : (
-    <box style={{ flexDirection: 'row', gap: 4 }}>
+    <box style={{ flexDirection: 'row', gap: 3 }}>
       {firstActionTitle && (
         <box style={{ flexDirection: 'row', gap: 1 }}>
           <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
@@ -98,21 +99,7 @@ function ListFooter(): any {
     </box>
   )
 
-  return (
-    <box
-      border={false}
-      style={{
-        paddingLeft: 1,
-        flexShrink: 0,
-        paddingRight: 1,
-        paddingTop: 1,
-        marginTop: 1,
-        flexDirection: 'row',
-      }}
-    >
-      {content}
-    </box>
-  )
+  return <Footer>{content}</Footer>
 }
 
 interface NavigationChildInterface {
@@ -541,7 +528,7 @@ function DropdownFooter(): any {
   const hasToast = useStore((s) => s.toast !== null)
 
   const content = hasToast ? null : (
-    <box style={{ flexDirection: 'row', gap: 4 }}>
+    <box style={{ flexDirection: 'row', gap: 3 }}>
       <box style={{ flexDirection: 'row', gap: 1 }}>
         <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
           ↵
@@ -558,19 +545,9 @@ function DropdownFooter(): any {
   )
 
   return (
-    <box
-      border={false}
-      style={{
-        paddingRight: 2,
-        paddingLeft: 3,
-        paddingBottom: 1,
-        paddingTop: 1,
-        flexShrink: 0,
-        flexDirection: 'row',
-      }}
-    >
+    <Footer paddingLeft={3} paddingRight={2} paddingBottom={1} marginTop={0}>
       {content}
-    </box>
+    </Footer>
   )
 }
 

@@ -14,6 +14,7 @@ import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { Theme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
+import { Footer } from 'termcast/src/components/footer'
 import {
   TextAttributes,
   ScrollBoxRenderable,
@@ -105,7 +106,7 @@ function FormFooter(): any {
   const hasToast = useStore((s) => s.toast !== null)
 
   const content = hasToast ? null : (
-    <box style={{ flexDirection: 'row', gap: 4 }}>
+    <box style={{ flexDirection: 'row', gap: 3 }}>
       <box style={{ flexDirection: 'row', gap: 1 }}>
         <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
           ctrl ↵
@@ -127,21 +128,7 @@ function FormFooter(): any {
     </box>
   )
 
-  return (
-    <box
-      border={false}
-      style={{
-        paddingLeft: 1,
-        paddingRight: 1,
-        paddingTop: 1,
-        marginTop: 1,
-        flexShrink: 0,
-        flexDirection: 'row',
-      }}
-    >
-      {content}
-    </box>
-  )
+  return <Footer>{content}</Footer>
 }
 
 import type { TextFieldProps, TextFieldRef } from './text-field'

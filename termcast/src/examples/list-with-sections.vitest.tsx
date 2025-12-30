@@ -45,7 +45,7 @@ test('list with sections navigation', async () => {
                                                                        ▼
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -78,7 +78,7 @@ test('list with sections navigation', async () => {
                                                                        ▼
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -105,7 +105,7 @@ test('list with sections navigation', async () => {
                                                                        ▼
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
     "
   `)
@@ -136,7 +136,7 @@ test('list with sections navigation', async () => {
                                                                        ▼
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
     "
   `)
@@ -172,7 +172,7 @@ test('list with sections search functionality', async () => {
       ›Banana Yellow and nutritious                               Ripe
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -208,7 +208,7 @@ test('list with sections search functionality', async () => {
        Lettuce Green and fresh
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -246,7 +246,7 @@ test('list with sections search functionality', async () => {
                                                                        ▼
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -271,7 +271,7 @@ test('list with sections search functionality', async () => {
        Bread Freshly baked                                 Today [New]
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -304,7 +304,7 @@ test('list with sections search functionality', async () => {
       - Aids digestion
 
 
-      esc go back
+      esc go back                                    powered by termcast
 
 
 
@@ -343,7 +343,7 @@ test('list click functionality', async () => {
                                                                        ▼
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -371,7 +371,7 @@ test('list click functionality', async () => {
                                                                        ▼
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -399,7 +399,7 @@ test('list click functionality', async () => {
                                                                        ▼
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
     "
   `)
@@ -482,15 +482,15 @@ test('list actions panel with ctrl+k', async () => {
        > Search items...
 
        Fruits                                                          ▲
-      ›Apple Red and sweet                            Fresh [Popular]  █
-       Banana Yellow and nutritious                              Ripe  █
-       Orange Citrus and juicy                                  Fresh  █
-       Grape Sweet clusters                                [Seasonal]  █
+      ›Apple Red and sweet                            Fresh [Popular]  ▀
+       Banana Yellow and nutritious                              Ripe
+       Orange Citrus and juicy                                  Fresh
+       Grape Sweet clusters                                [Seasonal]
        Mango Tropical delight                                Imported
        Pineapple Sweet and tangy
        Strawberry Red and sweet                             [Popular]
+                                                                       ▼
 
-       Vegetables                                                      ▼
 
                                 ✓ Added to Cart
                         Apple has been added to your cart
@@ -538,7 +538,7 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -566,7 +566,7 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
 
 
@@ -594,7 +594,7 @@ test('filtering selects first visible item and navigation works', async () => {
       ›Carrot Orange and crunchy                             [Healthy]
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -622,7 +622,7 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
 
 
@@ -662,7 +662,7 @@ test('list scrollbox scrolling with sections', async () => {
                                                                        ▼
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -695,7 +695,7 @@ test('list scrollbox scrolling with sections', async () => {
        Lettuce Green and fresh                                         ▼
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
     "
   `)
@@ -725,7 +725,7 @@ test('list scrollbox scrolling with sections', async () => {
        Bell Pepper Colorful and crunchy                       [Fresh]  ▼
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
     "
   `)
@@ -757,7 +757,7 @@ test('list scrollbox scrolling with sections', async () => {
       ›Bread Freshly baked                                Today [New]  ▼
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -787,7 +787,7 @@ test('list scrollbox scrolling with sections', async () => {
       ›Bread Freshly baked                                Today [New]  ▼
 
 
-       ↵ view details    ↑↓ navigate    ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
 
     "
   `)
