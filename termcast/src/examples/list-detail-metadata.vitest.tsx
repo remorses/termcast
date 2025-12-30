@@ -34,20 +34,20 @@ test('list detail metadata label renders title and text in column layout', async
 
        Metadata Test ────────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
       ›Item with Metadata
        Another Item                         │                                   ▲
                                             │ ───────────────────────────────── █
                                             │                                   ▀
-       ↑↓ navigate    ^k actions            │ Name:
+                                            │ Name:
                                             │ John Doe
                                             │
                                             │ Email:
                                             │ john@example.com
                                             │ ─────────────────
                                             │
-                                            │ Status:                           ▼
+       ↑↓ navigate    ^k actions            │ Status:                           ▼
 
     "
   `)
@@ -72,7 +72,7 @@ test('list detail metadata navigation shows different metadata', async () => {
 
        Metadata Test ────────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Item with Metadata
       ›Another Item                         │ Info

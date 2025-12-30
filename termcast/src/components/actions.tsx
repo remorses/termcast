@@ -702,7 +702,7 @@ const ActionPanel: ActionPanelType = (props) => {
     <ActionDescendantsProvider value={descendantsContext}>
       <ActionPanelContext.Provider value={contextValue}>
         <Dropdown
-          tooltip={title}
+          tooltip={title || 'Actions'}
           placeholder='Search actions...'
           filtering
           onChange={(value) => {

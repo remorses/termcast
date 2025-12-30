@@ -241,11 +241,11 @@ test('password field always shows asterisks and submits real value', async () =>
       ◆  Biography
       │  Tell us about yourself...
       │
-      │
-      ┌────────────────────────────────────────────────────────────────┐
-      │                                                          esc   │
+      ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
-      │   Search actions...                                            │
+      │   Actions                                                esc   │
+      │                                                                │
+      │   > Search actions...                                          │
       │                                                                │
       │  ›Submit Form                                       ⌃RETURN    │
       │                                                                │
@@ -254,7 +254,7 @@ test('password field always shows asterisks and submits real value', async () =>
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
-      └────────────────────────────────────────────────────────────────┘
+      ╰────────────────────────────────────────────────────────────────╯
       │  ○ United States
       │  ○ Canada
       │  ○ Mexico

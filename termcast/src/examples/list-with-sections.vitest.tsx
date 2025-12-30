@@ -32,7 +32,7 @@ test('list with sections navigation', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
       ›Apple Red and sweet                            Fresh [Popular]  ▀
@@ -65,7 +65,7 @@ test('list with sections navigation', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
        Apple Red and sweet                            Fresh [Popular]  ▀
@@ -92,7 +92,7 @@ test('list with sections navigation', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
        Apple Red and sweet                            Fresh [Popular]  ▀
@@ -123,7 +123,7 @@ test('list with sections navigation', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
        Apple Red and sweet                            Fresh [Popular]  ▀
@@ -167,7 +167,7 @@ test('list with sections search functionality', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       ban
+       > ban
 
       ›Banana Yellow and nutritious                               Ripe
 
@@ -203,7 +203,7 @@ test('list with sections search functionality', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       let
+       > let
 
        Lettuce Green and fresh
 
@@ -233,7 +233,7 @@ test('list with sections search functionality', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
       ›Apple Red and sweet                            Fresh [Popular]  ▀
@@ -266,7 +266,7 @@ test('list with sections search functionality', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       bread
+       > bread
 
        Bread Freshly baked                                 Today [New]
 
@@ -330,7 +330,7 @@ test('list click functionality', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
        Apple Red and sweet                            Fresh [Popular]  ▀
@@ -358,7 +358,7 @@ test('list click functionality', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
       ›Apple Red and sweet                            Fresh [Popular]  ▀
@@ -386,7 +386,7 @@ test('list click functionality', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
        Apple Red and sweet                            Fresh [Popular]  ▀
@@ -423,11 +423,12 @@ test('list actions panel with ctrl+k', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
-      ┌────────────────────────────────────────────────────────────────┐
-      │                                                          esc   │
+       > Search items...
+      ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
-      │   Search actions...                                            │
+      │   Actions                                                esc   │
+      │                                                                │
+      │   > Search actions...                                          │
       │                                                                │
       │  ›View Details                                                 │
       │   Add to Cart                                                  │
@@ -437,8 +438,7 @@ test('list actions panel with ctrl+k', async () => {
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
-      └────────────────────────────────────────────────────────────────┘
-    "
+      ╰────────────────────────────────────────────────────────────────╯"
   `)
 
   // Navigate down to second action
@@ -451,11 +451,12 @@ test('list actions panel with ctrl+k', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
-      ┌────────────────────────────────────────────────────────────────┐
-      │                                                          esc   │
+       > Search items...
+      ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
-      │   Search actions...                                            │
+      │   Actions                                                esc   │
+      │                                                                │
+      │   > Search actions...                                          │
       │                                                                │
       │   View Details                                                 │
       │  ›Add to Cart                                                  │
@@ -465,8 +466,7 @@ test('list actions panel with ctrl+k', async () => {
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
-      └────────────────────────────────────────────────────────────────┘
-    "
+      ╰────────────────────────────────────────────────────────────────╯"
   `)
 
   // Trigger the second action (Add to Cart)
@@ -479,7 +479,7 @@ test('list actions panel with ctrl+k', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
       ›Apple Red and sweet                            Fresh [Popular]  █
@@ -532,7 +532,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       ora
+       > ora
 
        Orange Citrus and juicy                                   Fresh
        Carrot Orange and crunchy                             [Healthy]
@@ -560,7 +560,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       ora
+       > ora
 
       ›Orange Citrus and juicy                                   Fresh
        Carrot Orange and crunchy                             [Healthy]
@@ -588,7 +588,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       ora
+       > ora
 
        Orange Citrus and juicy                                   Fresh
       ›Carrot Orange and crunchy                             [Healthy]
@@ -616,7 +616,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       ora
+       > ora
 
       ›Orange Citrus and juicy                                   Fresh
        Carrot Orange and crunchy                             [Healthy]
@@ -649,7 +649,7 @@ test('list scrollbox scrolling with sections', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Fruits                                                          ▲
       ›Apple Red and sweet                            Fresh [Popular]  ▀
@@ -682,7 +682,7 @@ test('list scrollbox scrolling with sections', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Orange Citrus and juicy                                  Fresh  ▲
        Grape Sweet clusters                                [Seasonal]
@@ -712,7 +712,7 @@ test('list scrollbox scrolling with sections', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
                                                                        ▲
        Vegetables
@@ -744,7 +744,7 @@ test('list scrollbox scrolling with sections', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Carrot Orange and crunchy                            [Healthy]  ▲
        Lettuce Green and fresh
@@ -774,7 +774,7 @@ test('list scrollbox scrolling with sections', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       Search items...
+       > Search items...
 
        Carrot Orange and crunchy                            [Healthy]  ▲
        Lettuce Green and fresh

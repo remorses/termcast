@@ -35,7 +35,7 @@ test('list with detail view display and navigation', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       Search Pokemon...
+       > Search Pokemon...
 
       ›bulbasaur #001
        ivysaur #002                         │ bulbasaur                         ▲
@@ -74,7 +74,7 @@ test('list with detail view display and navigation', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       Search Pokemon...
+       > Search Pokemon...
 
        bulbasaur #001
       ›ivysaur #002                         │ ivysaur                           ▲
@@ -111,7 +111,7 @@ test('list with detail view display and navigation', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       Search Pokemon...
+       > Search Pokemon...
 
        bulbasaur #001
        ivysaur #002                         │ charmander                        ▲
@@ -148,16 +148,17 @@ test('list with detail view display and navigation', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       Search Pokemon...
+       > Search Pokemon...
 
        bulbasaur #001
        ivysaur #002                         │ charmander                        ▲
       ›charmander #004                      │                                   █
        charmeleon #005                      │ Illustration
-      ┌──────────────────────────────────────────────────────────────────────────┐
-      │                                                                    esc   │
+      ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
-      │   Search actions...                                                      │
+      │   Actions                                                          esc   │
+      │                                                                          │
+      │   > Search actions...                                                    │
       │                                                                          │
       │  ›Toggle Detail                                                          │
       │   View on Pokemon.com                                                    │
@@ -167,8 +168,7 @@ test('list with detail view display and navigation', async () => {
       │                                                                          │
       │   ↵ select   ↑↓ navigate                                                 │
       │                                                                          │
-      └──────────────────────────────────────────────────────────────────────────┘
-                                            │
+      ╰──────────────────────────────────────────────────────────────────────────╯
                                             │ Fire:
                                             │ ─────────────────
                                             │                                   ▼
@@ -189,7 +189,7 @@ test('list with detail view display and navigation', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       Search Pokemon...
+       > Search Pokemon...
 
        bulbasaur #001                                             Grass / Poison
        ivysaur #002                                               Grass / Poison
@@ -231,7 +231,7 @@ test('list with detail view display and navigation', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       Search Pokemon...
+       > Search Pokemon...
 
        bulbasaur #001
        ivysaur #002                         │ charmander                        ▲
@@ -280,7 +280,7 @@ test('list detail view search functionality', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       char
+       > char
 
       ›charmander #004
        charmeleon #005                      │ charmander                        ▲
@@ -326,7 +326,7 @@ test('list detail view search functionality', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       water
+       > water
 
 
                                             │ wartortle                         ▲
@@ -363,7 +363,7 @@ test('list detail view search functionality', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       water
+       > water
 
 
                                             │ wartortle                         ▲
@@ -412,7 +412,7 @@ test('list detail metadata rendering', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       Search Pokemon...
+       > Search Pokemon...
 
       ›bulbasaur #001
        ivysaur #002                         │ bulbasaur                         ▲
@@ -456,7 +456,7 @@ test('list detail metadata rendering', async () => {
 
        Pokemon List ─────────────────────────────────────────────────────────────
 
-       Search Pokemon...
+       > Search Pokemon...
 
        bulbasaur #001
        ivysaur #002                         │ squirtle                          ▲
@@ -525,7 +525,7 @@ test('list with detail layout consistency - short vs long detail content', async
 
        Detail Length Test ───────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
       ›Short Detail
        Long Detail                          │ Brief content
@@ -553,7 +553,7 @@ test('list with detail layout consistency - short vs long detail content', async
 
        Detail Length Test ───────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Short Detail
       ›Long Detail                          │ This item has extensive detail    ▲

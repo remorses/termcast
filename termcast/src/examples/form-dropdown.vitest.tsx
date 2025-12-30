@@ -74,7 +74,7 @@ test('form dropdown shows inline options', async () => {
       └
 
 
-
+       ctrl ↵ submit
 
 
 

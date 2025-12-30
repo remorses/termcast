@@ -27,7 +27,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
       ›Simple Success
        Simple Failure
@@ -41,7 +41,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+
 
 
 
@@ -64,7 +64,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
       ›Simple Failure
@@ -101,7 +101,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
        Simple Failure
@@ -138,7 +138,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
        Simple Failure
@@ -175,7 +175,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
        Simple Failure
@@ -212,7 +212,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
        Simple Failure
@@ -249,7 +249,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
        Simple Failure
@@ -286,7 +286,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
        Simple Failure
@@ -323,7 +323,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
        Simple Failure
@@ -360,7 +360,7 @@ test('toast variations display correctly', async () => {
 
        Toast Variations ─────────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Simple Success
        Simple Failure

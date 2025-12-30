@@ -30,7 +30,7 @@ test('list navigation works while toast is shown', async () => {
 
        List With Toast ────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
       ›First Item
        Second Item
@@ -58,7 +58,7 @@ test('list navigation works while toast is shown', async () => {
 
        List With Toast ────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        First Item
       ›Second Item
@@ -86,7 +86,7 @@ test('list navigation works while toast is shown', async () => {
 
        List With Toast ────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        First Item
        Second Item
@@ -114,7 +114,7 @@ test('list navigation works while toast is shown', async () => {
 
        List With Toast ────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        First Item
       ›Second Item

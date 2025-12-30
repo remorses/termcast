@@ -291,13 +291,15 @@ const Dropdown: DropdownType = (props) => {
                   justifyContent: 'space-between',
                 }}
               >
-                <text attributes={TextAttributes.BOLD}>{tooltip}</text>
+                <text fg={Theme.textMuted}>{tooltip}</text>
                 <text fg={Theme.textMuted}>esc</text>
               </box>
-              <box style={{ paddingTop: 1, paddingBottom: 1 }}>
+              <box style={{ paddingTop: 1, paddingBottom: 1, flexDirection: 'row' }}>
+                <text flexShrink={0} fg={Theme.primary}>&gt; </text>
                 <textarea
                   ref={inputRef}
                   height={1}
+                  flexGrow={1}
                   wrapMode='none'
                   keyBindings={[
                     { name: 'return', action: 'submit' },

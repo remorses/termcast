@@ -74,11 +74,12 @@ export function Dialog({
     >
       <box
         border
+        borderStyle='rounded'
         width={76}
         maxWidth='95%'
         backgroundColor={Theme.backgroundPanel}
-        borderColor={Theme.border}
-        // paddingTop={1}
+        borderColor={Theme.accent}
+        paddingTop={1}
         onMouseDown={handleDialogClick}
       >
         {children}

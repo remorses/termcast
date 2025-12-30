@@ -30,7 +30,7 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
 
        Scrollbox Test ─────────────────────────────
 
-       Search items...
+       > Search items...
 
       ›▲ Item 1 Description for item 1             ▲
                                                    ▼
@@ -53,7 +53,7 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
 
        Scrollbox Test ─────────────────────────────
 
-       Search items...
+       > Search items...
 
       ›● Item 6 Description for item 6             ▲
                                                    ▼
@@ -74,7 +74,7 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
 
        Scrollbox Test ─────────────────────────────
 
-       Search items...
+       > Search items...
 
       ›■ Item 9 Description for item 9             ▲
                                                    ▼
@@ -99,7 +99,7 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
 
        Scrollbox Test ─────────────────────────────
 
-       Search items...
+       > Search items...
 
       ›■ Item 2 Description for item 2             ▲
                                                    ▼
@@ -124,7 +124,7 @@ test('list scrollbox scrolls with mouse wheel', async () => {
 
        Scrollbox Test ─────────────────────────────
 
-       Search items...
+       > Search items...
 
       ›▲ Item 1 Description for item 1             ▲
                                                    ▼
@@ -147,7 +147,7 @@ test('list scrollbox scrolls with mouse wheel', async () => {
 
        Scrollbox Test ─────────────────────────────
 
-       Search items...
+       > Search items...
 
        ■ Item 2 Description for item 2             ▲
                                                    ▼
@@ -170,7 +170,7 @@ test('list scrollbox scrolls with mouse wheel', async () => {
 
        Scrollbox Test ─────────────────────────────
 
-       Search items...
+       > Search items...
 
       ›▲ Item 1 Description for item 1             ▲
                                                    ▼

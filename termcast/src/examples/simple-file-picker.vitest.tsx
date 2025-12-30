@@ -111,14 +111,14 @@ test('typing opens autocomplete dialog with file list', async () => {
       │
       │  Choose one or more files to upload
       │
-      ◆  Select Folder
-      ┌────────────────────────────────────────────────────────────────┐
+      ╭────────────────────────────────────────────────────────────────╮
+      │                                                                │
       │ Filter: s                                                      │
       │                                                                │
       │  ▫ src/                                                        │
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      └────────────────────────────────────────────────────────────────┘
+      ╰────────────────────────────────────────────────────────────────╯
       │  Choose exactly one file
       │
       └

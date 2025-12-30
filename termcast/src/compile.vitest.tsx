@@ -64,7 +64,7 @@ test('compile extension and run executable', async () => {
 
        Simple Test Extension ────────────────────────────────
 
-       Search commands...
+       > Search commands...
 
        Commands                                              ▲
       ›List Items Displays a simple list with some ite view  ▀
@@ -110,7 +110,7 @@ test('compiled executable can run command', async () => {
 
        List Items ───────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Items                                                 ▲
       ›▲ First Item This is the first item                   █
@@ -166,7 +166,7 @@ test('compiled executable can navigate back', async () => {
 
        List Items ───────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Items                                                 ▲
       ›▲ First Item This is the first item                   █
@@ -218,9 +218,9 @@ test('compiled executable shows error when command throws at root scope', async 
 
 
 
-        Error
+        Error: This is a test error thrown at root scope
             at <anonymous> (fixtures/simple-extension/src/th
-            at processTicksAndRejections (unknown:7:39)
+            at processTicksAndRejections (native:7:39)
 
 
 

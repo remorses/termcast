@@ -35,7 +35,7 @@ test('list shows initial items after fetch', async () => {
 
        SVG Library ────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Icons
       ›Home Icon Category: Icons
@@ -68,7 +68,7 @@ test('list shows initial items after fetch', async () => {
 
        SVG Library ────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Icons
        Home Icon Category: Icons
@@ -100,7 +100,7 @@ test('list shows initial items after fetch', async () => {
 
        SVG Library ────────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Icons
        Home Icon Category: Icons

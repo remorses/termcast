@@ -35,7 +35,7 @@ test('pressing enter triggers primary action on toast', async () => {
 
        Toast Action Test ──────────────────────────────────────────────
 
-       Search...
+       > Search...
 
       ›Show Toast with Action
        Form with Toast
@@ -68,7 +68,7 @@ test('pressing enter triggers primary action on toast', async () => {
 
        Toast Action Test ──────────────────────────────────────────────
 
-       Search...
+       > Search...
 
       ›Show Toast with Action
        Form with Toast
@@ -114,7 +114,7 @@ test('pressing escape hides the toast', async () => {
 
        Toast Action Test ──────────────────────────────────────────────
 
-       Search...
+       > Search...
 
       ›Show Toast with Action
        Form with Toast
@@ -228,7 +228,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
 
        Form Submitted ─────────────────────────────────────────────────
 
-       Search...
+       > Search...
 
       ›Welcome, John! Form submission successful
 

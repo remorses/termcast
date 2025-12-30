@@ -32,7 +32,7 @@ test('dev command shows extension commands list', async () => {
 
        Simple Test Extension ────────────────────────────────
 
-       Search commands...
+       > Search commands...
 
        Commands                                              ▲
       ›List Items Displays a simple list with some ite view  ▀
@@ -67,7 +67,7 @@ test('selecting command with arguments shows arguments form', async () => {
 
        Simple Test Extension ────────────────────────────────
 
-       Search commands...
+       > Search commands...
 
        usePromise Demo Shows how to use the usePromise view  ▲
        Show State Shows the current application state  view
@@ -172,7 +172,7 @@ test('can fill arguments and run command', async () => {
 
        Command Arguments Demo ───────────────────────────────
 
-       Search...
+       > Search...
 
        Received Arguments
       ›▼ Search Query (empty)
@@ -209,7 +209,7 @@ test('can run simple view command without arguments', async () => {
 
        List Items ───────────────────────────────────────────
 
-       Search...
+       > Search...
 
        Items                                                 ▲
       ›▲ First Item This is the first item                   █

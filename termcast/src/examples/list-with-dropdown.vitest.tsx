@@ -35,7 +35,7 @@ test('list with dropdown navigation', async () => {
        Search Beers ───────────────────────────────────────────────────
 
 
-       Search...                                                 Beer ▾
+       > Search...                                               Beer ▾
 
       ›Augustiner Helles Beer
        Camden Hells Beer
@@ -49,10 +49,10 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
-
-
-
        ↑↓ navigate    ^k actions
+
+
+
 
     "
   `)
@@ -70,25 +70,25 @@ test('list with dropdown navigation', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-         ┌─────────────────────────────────────────────────────────────┐
-       Se│   Select Drink Type                                  esc    │
-         │                                                             │
-      ›Au│   Search...                                                 │
-       Ca│                                                             │
+         ╭─────────────────────────────────────────────────────────────╮
+       > │                                                             │
+         │   Select Drink Type                                  esc    │
+      ›Au│                                                             │
+       Ca│   > Search...                                               │
        Le│                                                             │
-       Si│   Alcoholic Beverages                                       │
-       Ch│  ›Beer                                                      │
-       Pi│   Wine                                                      │
-       Co│                                                             │
-       Sp│   Non-Alcoholic                                             │
-       Or│   Soda                                                      │
-       Ap│   Juice                                                     │
+       Si│                                                             │
+       Ch│   Alcoholic Beverages                                       │
+       Pi│  ›Beer                                                      │
+       Co│   Wine                                                      │
+       Sp│                                                             │
+       Or│   Non-Alcoholic                                             │
+       Ap│   Soda                                                      │
+         │   Juice                                                     │
          │                                                             │
+       ↑↓│                                                             │
+         │   ↵ select    ↑↓ navigate                                   │
          │                                                             │
-       ↑↓│   ↵ select    ↑↓ navigate                                   │
-         │                                                             │
-         └─────────────────────────────────────────────────────────────┘
-
+         ╰─────────────────────────────────────────────────────────────╯
 
     "
   `)
@@ -104,25 +104,25 @@ test('list with dropdown navigation', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-         ┌─────────────────────────────────────────────────────────────┐
-       Se│   Select Drink Type                                  esc    │
-         │                                                             │
-      ›Au│   Search...                                                 │
-       Ca│                                                             │
+         ╭─────────────────────────────────────────────────────────────╮
+       > │                                                             │
+         │   Select Drink Type                                  esc    │
+      ›Au│                                                             │
+       Ca│   > Search...                                               │
        Le│                                                             │
-       Si│   Alcoholic Beverages                                       │
-       Ch│  ›Beer                                                      │
-       Pi│   Wine                                                      │
-       Co│                                                             │
-       Sp│   Non-Alcoholic                                             │
-       Or│   Soda                                                      │
-       Ap│   Juice                                                     │
+       Si│                                                             │
+       Ch│   Alcoholic Beverages                                       │
+       Pi│  ›Beer                                                      │
+       Co│   Wine                                                      │
+       Sp│                                                             │
+       Or│   Non-Alcoholic                                             │
+       Ap│   Soda                                                      │
+         │   Juice                                                     │
          │                                                             │
+       ↑↓│                                                             │
+         │   ↵ select    ↑↓ navigate                                   │
          │                                                             │
-       ↑↓│   ↵ select    ↑↓ navigate                                   │
-         │                                                             │
-         └─────────────────────────────────────────────────────────────┘
-
+         ╰─────────────────────────────────────────────────────────────╯
 
     "
   `)
@@ -136,25 +136,25 @@ test('list with dropdown navigation', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-         ┌─────────────────────────────────────────────────────────────┐
-       Se│   Select Drink Type                                  esc    │
-         │                                                             │
-      ›Au│   Search...                                                 │
-       Ca│                                                             │
+         ╭─────────────────────────────────────────────────────────────╮
+       > │                                                             │
+         │   Select Drink Type                                  esc    │
+      ›Au│                                                             │
+       Ca│   > Search...                                               │
        Le│                                                             │
-       Si│   Alcoholic Beverages                                       │
-       Ch│   Beer                                                      │
-       Pi│  ›Wine                                                      │
-       Co│                                                             │
-       Sp│   Non-Alcoholic                                             │
-       Or│   Soda                                                      │
-       Ap│   Juice                                                     │
+       Si│                                                             │
+       Ch│   Alcoholic Beverages                                       │
+       Pi│   Beer                                                      │
+       Co│  ›Wine                                                      │
+       Sp│                                                             │
+       Or│   Non-Alcoholic                                             │
+       Ap│   Soda                                                      │
+         │   Juice                                                     │
          │                                                             │
+       ↑↓│                                                             │
+         │   ↵ select    ↑↓ navigate                                   │
          │                                                             │
-       ↑↓│   ↵ select    ↑↓ navigate                                   │
-         │                                                             │
-         └─────────────────────────────────────────────────────────────┘
-
+         ╰─────────────────────────────────────────────────────────────╯
 
     "
   `)
@@ -168,25 +168,25 @@ test('list with dropdown navigation', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-         ┌─────────────────────────────────────────────────────────────┐
-       Se│   Select Drink Type                                  esc    │
-         │                                                             │
-      ›Au│   Search...                                                 │
-       Ca│                                                             │
+         ╭─────────────────────────────────────────────────────────────╮
+       > │                                                             │
+         │   Select Drink Type                                  esc    │
+      ›Au│                                                             │
+       Ca│   > Search...                                               │
        Le│                                                             │
-       Si│   Alcoholic Beverages                                       │
-       Ch│   Beer                                                      │
-       Pi│   Wine                                                      │
-       Co│                                                             │
-       Sp│   Non-Alcoholic                                             │
-       Or│  ›Soda                                                      │
-       Ap│   Juice                                                     │
+       Si│                                                             │
+       Ch│   Alcoholic Beverages                                       │
+       Pi│   Beer                                                      │
+       Co│   Wine                                                      │
+       Sp│                                                             │
+       Or│   Non-Alcoholic                                             │
+       Ap│  ›Soda                                                      │
+         │   Juice                                                     │
          │                                                             │
+       ↑↓│                                                             │
+         │   ↵ select    ↑↓ navigate                                   │
          │                                                             │
-       ↑↓│   ↵ select    ↑↓ navigate                                   │
-         │                                                             │
-         └─────────────────────────────────────────────────────────────┘
-
+         ╰─────────────────────────────────────────────────────────────╯
 
     "
   `)
@@ -205,7 +205,7 @@ test('list with dropdown navigation', async () => {
        Search Beers ───────────────────────────────────────────────────
 
 
-       Search...                                                 Soda ▾
+       > Search...                                               Soda ▾
 
       ›Coca Cola Soda
        Sprite Soda
@@ -249,25 +249,25 @@ test('list with dropdown search and filter', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-         ┌─────────────────────────────────────────────────────────────┐
-       Se│   Select Drink Type                                  esc    │
-         │                                                             │
-      ›Au│   Search...                                                 │
-       Ca│                                                             │
+         ╭─────────────────────────────────────────────────────────────╮
+       > │                                                             │
+         │   Select Drink Type                                  esc    │
+      ›Au│                                                             │
+       Ca│   > Search...                                               │
        Le│                                                             │
-       Si│   Alcoholic Beverages                                       │
-       Ch│  ›Beer                                                      │
-       Pi│   Wine                                                      │
-       Co│                                                             │
-       Sp│   Non-Alcoholic                                             │
-       Or│   Soda                                                      │
-       Ap│   Juice                                                     │
+       Si│                                                             │
+       Ch│   Alcoholic Beverages                                       │
+       Pi│  ›Beer                                                      │
+       Co│   Wine                                                      │
+       Sp│                                                             │
+       Or│   Non-Alcoholic                                             │
+       Ap│   Soda                                                      │
+         │   Juice                                                     │
          │                                                             │
+       ↑↓│                                                             │
+         │   ↵ select    ↑↓ navigate                                   │
          │                                                             │
-       ↑↓│   ↵ select    ↑↓ navigate                                   │
-         │                                                             │
-         └─────────────────────────────────────────────────────────────┘
-
+         ╰─────────────────────────────────────────────────────────────╯
 
     "
   `)
@@ -291,18 +291,18 @@ test('list with dropdown search and filter', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-         ┌─────────────────────────────────────────────────────────────┐
-       Se│   Select Drink Type                                  esc    │
-         │                                                             │
-      ›Au│   wine                                                      │
-       Ca│                                                             │
-       Le│  ›Wine                                                      │
-       Si│                                                             │
+         ╭─────────────────────────────────────────────────────────────╮
+       > │                                                             │
+         │   Select Drink Type                                  esc    │
+      ›Au│                                                             │
+       Ca│   > wine                                                    │
+       Le│                                                             │
+       Si│  ›Wine                                                      │
        Ch│                                                             │
-       Pi│   ↵ select    ↑↓ navigate                                   │
-       Co│                                                             │
-       Sp└─────────────────────────────────────────────────────────────┘
-       Orange Juice Juice
+       Pi│                                                             │
+       Co│   ↵ select    ↑↓ navigate                                   │
+       Sp│                                                             │
+       Or╰─────────────────────────────────────────────────────────────╯
        Apple Juice Juice
 
 
@@ -328,7 +328,7 @@ test('list with dropdown search and filter', async () => {
        Search Beers ───────────────────────────────────────────────────
 
 
-       Search...                                                 Wine ▾
+       > Search...                                               Wine ▾
 
       ›Chateau Margaux Wine
        Pinot Noir Wine
@@ -364,7 +364,7 @@ test('list with dropdown search and filter', async () => {
        Search Beers ───────────────────────────────────────────────────
 
 
-       pinot                                                     Wine ▾
+       > pinot                                                   Wine ▾
 
       ›Pinot Noir Wine
 

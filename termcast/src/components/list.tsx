@@ -478,13 +478,15 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 justifyContent: 'space-between',
               }}
             >
-              <text flexShrink={0} attributes={TextAttributes.BOLD}>{props.tooltip}</text>
+              <text flexShrink={0} fg={Theme.textMuted}>{props.tooltip}</text>
               <text flexShrink={0} fg={Theme.textMuted}>esc</text>
             </box>
-            <box style={{ paddingTop: 1, paddingBottom: 1 }}>
+            <box style={{ paddingTop: 1, paddingBottom: 1, flexDirection: 'row' }}>
+              <text flexShrink={0} fg={Theme.textMuted}>&gt; </text>
               <textarea
                 ref={inputRef}
                 height={1}
+                flexGrow={1}
                 wrapMode='none'
                 keyBindings={[
                   { name: 'return', action: 'submit' },
@@ -1014,13 +1016,15 @@ export const List: ListType = (props) => {
               <box
                 style={{
                   flexGrow: 1,
-                  flexDirection: 'column',
+                  flexDirection: 'row',
                   flexShrink: 1,
                 }}
               >
+                <text flexShrink={0} fg={Theme.textMuted}>&gt; </text>
                 <textarea
                   ref={inputRef}
                   height={1}
+                  flexGrow={1}
                   wrapMode='none'
                   keyBindings={[
                     { name: 'return', action: 'submit' },

@@ -44,14 +44,14 @@ test('autocomplete shows flat file list in dialog', async () => {
       │
       │  Choose one or more files to upload
       │
-      ◆  Select Folder
-      ┌────────────────────────────────────────────────────────────────┐
+      ╭────────────────────────────────────────────────────────────────╮
+      │                                                                │
       │ Filter: s                                                      │
       │                                                                │
       │  ▫ src/                                                        │
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      └────────────────────────────────────────────────────────────────┘
+      ╰────────────────────────────────────────────────────────────────╯
       │  Choose exactly one file
       │
       └
@@ -96,14 +96,14 @@ test('autocomplete navigation with down/up keys', async () => {
       │
       │  Choose one or more files to upload
       │
-      ◆  Select Folder
-      ┌────────────────────────────────────────────────────────────────┐
+      ╭────────────────────────────────────────────────────────────────╮
+      │                                                                │
       │ Filter: s                                                      │
       │                                                                │
       │  ▫ src/                                                        │
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      └────────────────────────────────────────────────────────────────┘
+      ╰────────────────────────────────────────────────────────────────╯
       │  Choose exactly one file
       │
       └
@@ -133,14 +133,14 @@ test('autocomplete navigation with down/up keys', async () => {
       │
       │  Choose one or more files to upload
       │
-      ◆  Select Folder
-      ┌────────────────────────────────────────────────────────────────┐
+      ╭────────────────────────────────────────────────────────────────╮
+      │                                                                │
       │ Filter: s                                                      │
       │                                                                │
       │  ▫ src/                                                        │
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      └────────────────────────────────────────────────────────────────┘
+      ╰────────────────────────────────────────────────────────────────╯
       │  Choose exactly one file
       │
       └
@@ -181,8 +181,8 @@ test('file picker shows only files, not folders', async () => {
       ◆  Select Files
       │  t
       │
-      │  Choose one or more files to upload
-      ┌────────────────────────────────────────────────────────────────┐
+      ╭────────────────────────────────────────────────────────────────╮
+      │                                                                │
       │ Filter: t                                                      │
       │                                                                │
       │  ▫ termcasttmp/                                                │
@@ -192,7 +192,7 @@ test('file picker shows only files, not folders', async () => {
       │  ▪ tsconfig.tsbuildinfo                                        │
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      └────────────────────────────────────────────────────────────────┘
+      ╰────────────────────────────────────────────────────────────────╯
       └
 
 
