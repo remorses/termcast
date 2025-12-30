@@ -124,6 +124,33 @@ export type {
 // AI
 export { AI } from 'termcast/src/apis/ai'
 
+// Chat Components
+export {
+  Chat,
+  useChatState,
+  useChatContext,
+  useChatStore,
+  uiStreamToUIMessages,
+  isTextPart,
+  isReasoningPart,
+  isToolPart,
+  isFilePart,
+  isStepStartPart,
+} from 'termcast/src/components/chat/index'
+export type {
+  UIMessage,
+  UIMessagePart,
+  TextUIPart,
+  ReasoningUIPart,
+  ToolUIPart,
+  ToolState,
+  FileUIPart,
+  ChatState,
+  ChatSubmitState,
+  UIStreamToUIMessagesOptions,
+  UIMessageChunk,
+} from 'termcast/src/components/chat/index'
+
 // Browser Extension
 export { BrowserExtension } from 'termcast/src/apis/browser-extension'
 
