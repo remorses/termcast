@@ -16,6 +16,7 @@ function DrinkDropdown(props: {
         onDrinkTypeChange(newValue)
       }}
     >
+      <List.Dropdown.Item title='All' value='all' />
       <List.Dropdown.Section title='Alcoholic Beverages'>
         {drinkTypes
           .filter((dt) => ['beer', 'wine'].includes(dt.id))

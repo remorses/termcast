@@ -1387,6 +1387,14 @@ ListItemDetailMetadataTagList.Item = ListItemDetailMetadataTagListItem as any
 
 ListItem.Detail = ListItemDetail
 
+/**
+ * A dropdown menu shown in the right-hand-side of the search bar.
+ * Open it with Ctrl+P or by clicking on it.
+ *
+ * Note: There is no built-in "All" or reset option. If you want users to be
+ * able to reset the filter, add a `List.Dropdown.Item` with title="All" and
+ * value="" (or your preferred reset value) at the top of your dropdown items.
+ */
 const ListDropdown: ListDropdownType = (props) => {
   const listContext = useContext(ListContext)
   const [isHovered, setIsHovered] = useState(false)

@@ -121,6 +121,16 @@ describe('buildExtensionCommands', () => {
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/quick-action.tsx",
             "exists": true,
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/quick-action.js"
+          },
+          {
+            "name": "throw-error",
+            "title": "Throw Error",
+            "subtitle": "Test error handling",
+            "description": "Command that throws an error at root scope",
+            "mode": "view",
+            "filePath": "/BASE_PATH/fixtures/simple-extension/src/throw-error.tsx",
+            "exists": true,
+            "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/throw-error.js"
           }
         ],
         "bundleDir": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle"
