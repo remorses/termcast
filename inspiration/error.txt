@@ -1,0 +1,74 @@
+
+◆ Some tool error
+  ⎿ API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth
+    token has expired. Please obtain a new token or refresh your existing
+    token."},"request_id":"req_011CWdTbad5aZ8nPbyMqNQNU"} · Please run /login
+
+
+✢ Thinking… (esc to interrupt · running stop hooks… 1/2)
+  ⎿  Tip: Use /permissions to pre-approve and pre-deny bash, edit, and MCP tools
+
+◆ I can output markdown for you. What content would you like me to generate? For             example:
+                                                                                   - Documentation
+  - Code examples
+  - Tables
+  - Lists
+  - Headers and formatting demos
+  - A specific topic or file from your codebase
+
+  Let me know what you'd like to see in markdown format.
+
+◆ Bash(git ls-files | head -100)
+  ⎿  .gitignore
+     .prettierrc
+     AGENTS.md
+     … +43 lines (ctrl+o to expand)
+◆ Read(README.md)
+  ⎿  Read 57 lines
+
+◆ Read(AGENTS.md)
+  ⎿  Read 508 lines
+
+◆ Read(KIMAKI_AGENTS.md)
+  ⎿  Read 11 lines
+
+◆ Read(package.json)
+  ⎿  Read 30 lines
+  Read(pnpm-workspace.yaml)
+  ⎿  Read 3 lines
+
+◆ Read(tsconfig.base.json)
+  ⎿  Read 27 lines
+
+◆ Read(discord/package.json)
+  ⎿  Read 59 lines
+
+◆ Read(discord/tsconfig.json)
+  ⎿  Read 35 lines
+
+✳ Boondoggling… (esc to interrupt · 34s · ↑ 366 tokens)
+  ⎿  Tip: Run claude --continue or claude --resume to resume a conversation
+
+⏺ Bash(git ls-files | tree --fromfile)
+  ⎿  .
+     ├── .gitignore
+     ├── .prettierrc
+     ├── .prettierrc
+     ├── .prettierrc
+     ├── .prettierrc
+     ├── .prettierrc
+     ├── .prettierrc
+     ├── .prettierrc
+     ├── .prettierrc
+     ├── .prettierrc
+     … +50 lines (ctrl+o to expand)
+
+◆ I can output markdown for you. What content would you like me to generate? For             example:
+                                                                                   - Documentation
+  - Code examples
+  - Tables
+  - Lists
+  - Headers and formatting demos
+  - A specific topic or file from your codebase
+
+  model-name · 6.8s
