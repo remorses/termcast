@@ -161,7 +161,50 @@ test('submitting message shows user and assistant messages', async () => {
   // Submit with Enter (custom keybinding)
   await session.press('return')
 
-  // Wait for the complete response - input placeholder returns when done
+  // Wait for the file listing with expandable output
+  const fileListSnapshot = await session.text({
+    waitFor: (text) => {
+      // Wait for file listing with truncation indicator
+      return /git ls-files/.test(text) && /\+\d+ lines/.test(text)
+    },
+    timeout: 10000,
+  })
+
+  expect(fileListSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+
+         ⎿  Read 4 lines
+
+         ◆ Read(src/index.ts)
+         ⎿  Read 3 lines
+
+         ◆ Read(src/utils.ts)
+         ⎿  Read 1 lines
+
+         ◆ Read(README.md)
+         ⎿  Read 3 lines
+
+         ◆ Read(tsconfig.json)
+         ⎿  Read 5 lines                                              ▄
+                                                                      ▀
+         ◆ Bash(git ls-files | head -50)
+         ⎿  .gitignore
+            .prettierrc
+            AGENTS.md
+            … +21 lines (click to expand)
+
+       ┌──────────────────────────────────────────────────────────────┐
+       │Generating...sage... (Enter to send)                          │
+       └──────────────────────────────────────────────────────────────┘
+
+                                                                ⎋ Stop
+
+    "
+  `)
+
+  // Wait for the complete response
   const assistantSnapshot = await session.text({
     waitFor: (text) => {
       // Complete when: has Bash tool, text response, and input is back to normal
@@ -178,8 +221,8 @@ test('submitting message shows user and assistant messages', async () => {
 
 
          ◆ Bash(git status)
-           ⎿  On branch main
-              nothing to commit, working tree clean
+         ⎿  On branch main
+            nothing to commit, working tree clean
 
          Based on my analysis of your codebase, I can see this is a
          TypeScript project with the following structure:
@@ -193,9 +236,9 @@ test('submitting message shows user and assistant messages', async () => {
          The project appears to be well-organized. How can I help
          you with it?
 
-         claude-sonnet-4-20250514  · 2.4s                             █
-                                                                      █
-                                                                      █
+         claude-sonnet-4-20250514  · 2.6s
+
+                                                                      ▄
 
        ┌──────────────────────────────────────────────────────────────┐
        │Type your message... (Enter to send)                          │

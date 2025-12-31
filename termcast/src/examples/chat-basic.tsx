@@ -5,7 +5,7 @@
  * Styled like Claude Code.
  */
 
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { ScrollBoxRenderable } from '@opentui/core'
 import {
   Chat,
@@ -68,10 +68,54 @@ async function* simulateAIStream(
   yield { type: 'reasoning', text: 'Let me explore the codebase to understand the project structure... I can see this is a TypeScript project with a simple structure.' }
   await sleep(150)
 
-  // Run a command
+  // Run a command with long output (file listing)
   yield {
     type: 'tool-call',
     toolCallId: 'bash_1',
+    toolName: 'Bash',
+    args: 'git ls-files | head -50',
+  }
+  await sleep(100)
+
+  // Simulate a long file listing output
+  const fileListOutput = [
+    '.gitignore',
+    '.prettierrc',
+    'AGENTS.md',
+    'README.md',
+    'package.json',
+    'tsconfig.json',
+    'src/index.ts',
+    'src/utils.ts',
+    'src/components/button.tsx',
+    'src/components/input.tsx',
+    'src/components/modal.tsx',
+    'src/components/dropdown.tsx',
+    'src/components/table.tsx',
+    'src/components/form.tsx',
+    'src/hooks/useAuth.ts',
+    'src/hooks/useData.ts',
+    'src/hooks/useForm.ts',
+    'src/lib/api.ts',
+    'src/lib/utils.ts',
+    'src/lib/constants.ts',
+    'src/styles/globals.css',
+    'src/styles/components.css',
+    'tests/index.test.ts',
+    'tests/utils.test.ts',
+  ].join('\n')
+
+  yield {
+    type: 'tool-result',
+    toolCallId: 'bash_1',
+    result: fileListOutput,
+  }
+  await sleep(50)
+
+  // Run git status
+  yield {
+    type: 'tool-call',
+    toolCallId: 'bash_2',
     toolName: 'Bash',
     args: 'git status',
   }
@@ -79,7 +123,7 @@ async function* simulateAIStream(
 
   yield {
     type: 'tool-result',
-    toolCallId: 'bash_1',
+    toolCallId: 'bash_2',
     result: 'On branch main\nnothing to commit, working tree clean',
   }
   await sleep(50)
@@ -110,7 +154,16 @@ function sleep(ms: number): Promise<void> {
 
 function ChatContent(): any {
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
+  const [viewportHeight, setViewportHeight] = useState(20)
   const store = useChatStore()
+  
+  // Ref callback to capture viewport height when scrollbox mounts
+  const scrollBoxRefCallback = (node: ScrollBoxRenderable | null) => {
+    scrollBoxRef.current = node
+    if (node?.viewport?.height) {
+      setViewportHeight(node.viewport.height)
+    }
+  }
 
   const handleSubmit = async ({ messages, setMessages }: ChatSubmitState) => {
     // Set model name when starting
@@ -149,16 +202,30 @@ function ChatContent(): any {
     }
   }
 
+  const scrollToTop = () => {
+    const scrollBox = scrollBoxRef.current
+    if (scrollBox) {
+      // Scroll to show user message at top
+      const contentHeight = scrollBox.content?.height || 0
+      const viewportHeight = scrollBox.viewport?.height || 0
+      // Scroll to position where latest content starts (near bottom of content minus viewport)
+      if (contentHeight > viewportHeight) {
+        scrollBox.scrollTo(contentHeight - viewportHeight)
+      }
+    }
+  }
+
   return (
     <>
       {/* Messages area with scrollbox */}
-      <scrollbox ref={scrollBoxRef} flexGrow={1}>
+      <scrollbox ref={scrollBoxRefCallback} flexGrow={1}>
         <Chat.Messages
           emptyContent={
             <box padding={2}>
               <text>Welcome! Type a message to start chatting.</text>
             </box>
           }
+          minAssistantHeight={viewportHeight}
         />
       </scrollbox>
 
@@ -167,7 +234,7 @@ function ChatContent(): any {
         <Chat.Input
           placeholder="Type your message... (Enter to send)"
           onSubmit={handleSubmit}
-          onAfterSubmit={scrollToBottom}
+          onAfterSubmit={scrollToTop}
         />
       </box>
 
