@@ -45,7 +45,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -79,7 +79,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -115,7 +115,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ go back    ↑↓ navigate    ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
 
 
 
@@ -159,7 +159,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -193,7 +193,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -224,7 +224,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ go back    ↑↓ navigate    ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
 
 
 
@@ -265,7 +265,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -372,9 +372,9 @@ test('navigation with actions panel', async () => {
        Third Item Navigate to third detail
 
 
+
                              ✓ Copied to Clipboard
                                    First Item
-
 
 
 
@@ -416,7 +416,7 @@ test('navigation with actions panel', async () => {
 
 
 
-       ↵ go back    ↑↓ navigate    ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
 
 
 
@@ -488,7 +488,7 @@ test('navigation with actions panel', async () => {
 
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -527,10 +527,10 @@ test('search functionality in main and detail views', async () => {
 
        > second
 
-      ›Second Item Navigate to second detail
+       Second Item Navigate to second detail
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -572,7 +572,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 
@@ -610,7 +610,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ go back    ↑↓ navigate    ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
 
 
 
@@ -649,7 +649,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ go back    ↑↓ navigate    ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
 
 
 
@@ -686,7 +686,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details    ↑↓ navigate    ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
 
 
 

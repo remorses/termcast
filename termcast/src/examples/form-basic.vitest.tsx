@@ -77,7 +77,7 @@ test('form basic navigation and input', async () => {
       │   ←     December      →
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -149,7 +149,7 @@ test('password field always shows asterisks and submits real value', async () =>
       │   ←     December      →
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -207,7 +207,7 @@ test('password field always shows asterisks and submits real value', async () =>
       │   ←     December      →
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -268,7 +268,7 @@ test('password field always shows asterisks and submits real value', async () =>
       │   ←     December      →
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -285,22 +285,22 @@ test('password field always shows asterisks and submits real value', async () =>
 
 
       ▪  Form Component Demo                                           █
-      │  This demonstrates all available form input types. Use arrow   █
-      │  keys or Tab to navigate between fields.                       █
-      │                                                                █
-      ◇  Username                                                      █
-      │  Enter your username                                           █
-      │                                                                █
-      │  Required field                                                █
-      │                                                                █
-      ◇  Password                                                      █
-      │  **********                                                    █
-      │  Must be at least 8 characters                                 █
-      │                                                                █
-      ◆  Biography                                                     █
-      │  Tell us about yourself...                                     █
-      │                                                                █
-      │                                                                ▀
+      │  This demonstrates all available form input types. Use arrow
+      │  keys or Tab to navigate between fields.
+      │
+      ◇  Username
+      │  Enter your username
+      │
+      │  Required field
+      │
+      ◇  Password
+      │  **********
+      │  Must be at least 8 characters
+      │
+      ◆  Biography
+      │  Tell us about yourself...
+      │
+      │
       │
       │
       │  Maximum 500 characters
@@ -325,7 +325,7 @@ test('password field always shows asterisks and submits real value', async () =>
       │
       │   ←       2025        →
       │   ←     December      →
-      │
+
 
                                ✓ Form Submitted
                   All form data has been captured successfully
@@ -401,7 +401,7 @@ test('form date picker selection with space and enter', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -459,7 +459,7 @@ test('form date picker selection with space and enter', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -518,7 +518,7 @@ test('form date picker selection with space and enter', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -593,7 +593,7 @@ test('form dropdown navigation', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -651,7 +651,7 @@ test('form dropdown navigation', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -711,7 +711,7 @@ test('form dropdown navigation', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -769,7 +769,7 @@ test('form dropdown navigation', async () => {
       │   22 23 24 25 26 27 28
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -810,7 +810,7 @@ test('form scrolls with mouse wheel', async () => {
       │  Enter secure password
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -838,7 +838,7 @@ test('form scrolls with mouse wheel', async () => {
       │  Must be at least 8 characters
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)
@@ -866,7 +866,7 @@ test('form scrolls with mouse wheel', async () => {
       │  Enter secure password
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
     "
   `)

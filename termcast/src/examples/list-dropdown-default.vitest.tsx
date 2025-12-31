@@ -43,7 +43,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
-       ↵ show selected fruit    ↑↓ navigate    ^k actions
+       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
 
 
@@ -77,22 +77,22 @@ test('dropdown opens and shows items', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
+      ╭──────────────────────────────────────────────────────────────────────────╮
+      │                                                                          │
+      │   Filter by category                                               esc   │
+      │                                                                          │
+      │   > Select category...                                                   │
+      │                                                                          │
+      │  ›Apple                                                                  │
+      │   Banana                                                                 │
+      │   Orange                                                                 │
+      │   Grape                                                                  │
+      │                                                                          │
+      │                                                                          │
+      │   ↵ select   ↑↓ navigate                            powered by termcast  │
+      │                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────╯
 
-          ╭──────────────────────────────────────────────────────────────────────╮
-       > S│                                                                      │
-          │   Filter by category                                           esc   │
-      ›Fir│                                                                      │
-       Sec│   > Select category...                                               │
-       Veg│                                                                      │
-       Car│  ›Apple                                                              │
-          │   Banana                                                             │
-          │   Orange                                                             │
-          │   Grape                                                              │
-       ↵ s│                                                                      │
-          │                                                                      │
-          │   ↵ select    ↑↓ navigate                                            │
-          │                                                                      │
-          ╰──────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -114,22 +114,22 @@ test('dropdown opens and shows items', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
+      ╭──────────────────────────────────────────────────────────────────────────╮
+      │                                                                          │
+      │   Filter by category                                               esc   │
+      │                                                                          │
+      │   > Select category...                                                   │
+      │                                                                          │
+      │   Apple                                                                  │
+      │  ›Banana                                                                 │
+      │   Orange                                                                 │
+      │   Grape                                                                  │
+      │                                                                          │
+      │                                                                          │
+      │   ↵ select   ↑↓ navigate                            powered by termcast  │
+      │                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────╯
 
-          ╭──────────────────────────────────────────────────────────────────────╮
-       > S│                                                                      │
-          │   Filter by category                                           esc   │
-      ›Fir│                                                                      │
-       Sec│   > Select category...                                               │
-       Veg│                                                                      │
-       Car│   Apple                                                              │
-          │  ›Banana                                                             │
-          │   Orange                                                             │
-          │   Grape                                                              │
-       ↵ s│                                                                      │
-          │                                                                      │
-          │   ↵ select    ↑↓ navigate                                            │
-          │                                                                      │
-          ╰──────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -162,7 +162,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
-       ↵ show selected fruit    ↑↓ navigate    ^k actions
+       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
 
 
@@ -196,22 +196,22 @@ test('clicking dropdown opens it', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
+      ╭──────────────────────────────────────────────────────────────────────────╮
+      │                                                                          │
+      │   Filter by category                                               esc   │
+      │                                                                          │
+      │   > Select category...                                                   │
+      │                                                                          │
+      │  ›Apple                                                                  │
+      │   Banana                                                                 │
+      │   Orange                                                                 │
+      │   Grape                                                                  │
+      │                                                                          │
+      │                                                                          │
+      │   ↵ select   ↑↓ navigate                            powered by termcast  │
+      │                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────╯
 
-          ╭──────────────────────────────────────────────────────────────────────╮
-       > S│                                                                      │
-          │   Filter by category                                           esc   │
-      ›Fir│                                                                      │
-       Sec│   > Select category...                                               │
-       Veg│                                                                      │
-       Car│  ›Apple                                                              │
-          │   Banana                                                             │
-          │   Orange                                                             │
-          │   Grape                                                              │
-       ↵ s│                                                                      │
-          │                                                                      │
-          │   ↵ select    ↑↓ navigate                                            │
-          │                                                                      │
-          ╰──────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -244,7 +244,7 @@ test('clicking dropdown opens it', async () => {
 
 
 
-       ↵ show selected fruit    ↑↓ navigate    ^k actions
+       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
 
 

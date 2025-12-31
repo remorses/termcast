@@ -48,7 +48,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
 
 
@@ -81,7 +81,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
 
 
@@ -113,7 +113,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
 
 

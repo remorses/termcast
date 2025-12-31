@@ -1,13 +1,20 @@
 import { test, expect, beforeEach, afterEach, beforeAll } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
-import { execSync } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import path from 'node:path'
 
 const extensionDir = path.resolve(__dirname, '../../extensions/synonyms')
 
 // Install dependencies before running tests
 beforeAll(() => {
-  execSync('bun install', { cwd: extensionDir, stdio: 'inherit' })
+  // Use spawnSync without shell to avoid /bin/sh issues on CI
+  const result = spawnSync('bun', ['install'], {
+    cwd: extensionDir,
+    stdio: 'inherit',
+  })
+  if (result.status !== 0) {
+    throw new Error(`bun install failed with exit code ${result.status}`)
+  }
 }, 60000)
 
 let session: Session
@@ -67,7 +74,7 @@ test('synonyms extension shows preferences form on first launch', async () => {
          ◇  OpenAI Compatible URL
 
 
-          ctrl ↵ submit    tab navigate    ^k actions
+          ctrl ↵ submit   tab navigate   ^k actions        powered by termcast
 
     "
   `)
@@ -117,7 +124,7 @@ test('synonyms extension preferences form can be navigated', async () => {
          ◇  OpenAI Compatible URL
 
 
-          ctrl ↵ submit    tab navigate    ^k actions
+          ctrl ↵ submit   tab navigate   ^k actions        powered by termcast
 
     "
   `)
@@ -155,7 +162,7 @@ test('synonyms extension preferences form can be navigated', async () => {
          ◇  OpenAI Compatible URL
 
 
-          ctrl ↵ submit    tab navigate    ^k actions
+          ctrl ↵ submit   tab navigate   ^k actions        powered by termcast
 
     "
   `)

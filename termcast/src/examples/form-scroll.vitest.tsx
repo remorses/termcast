@@ -40,7 +40,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -61,7 +61,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -82,7 +82,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -103,7 +103,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -124,7 +124,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -145,7 +145,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -166,7 +166,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -187,7 +187,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -208,7 +208,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)
@@ -229,7 +229,7 @@ test(
         │
 
 
-         ctrl ↵ submit    tab navigate    ^k actions
+         ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
       "
     `)

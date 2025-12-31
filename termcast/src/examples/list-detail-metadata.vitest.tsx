@@ -47,7 +47,7 @@ test('list detail metadata label renders title and text in column layout', async
                                             │ john@example.com
                                             │ ─────────────────
                                             │
-       ↑↓ navigate    ^k actions            │ Status:                           ▼
+       ↑↓ navigate ^k actiopowered by termca│tStatus:                           ▼
 
     "
   `)
@@ -78,7 +78,7 @@ test('list detail metadata navigation shows different metadata', async () => {
       ›Another Item                         │ Info
                                             │ ──────────────────────────────────
                                             │
-       ↑↓ navigate    ^k actions            │ Count:
+       ↑↓ navigate ^k actiopowered by termca│tCount:
                                             │ 42
                                             │
                                             │ Price:

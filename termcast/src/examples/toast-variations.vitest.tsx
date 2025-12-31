@@ -78,7 +78,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 
@@ -115,7 +115,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 
@@ -152,7 +152,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 
@@ -189,7 +189,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 
@@ -226,7 +226,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 
@@ -263,7 +263,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 
@@ -300,7 +300,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 
@@ -337,7 +337,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 
@@ -374,7 +374,7 @@ test('toast variations display correctly', async () => {
       ›Error with Retry
 
 
-       ↵ select    ↑↓ navigate    ^k actions
+       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
 
 
 

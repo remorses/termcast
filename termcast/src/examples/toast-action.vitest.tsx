@@ -42,8 +42,8 @@ test('pressing enter triggers primary action on toast', async () => {
        Form with Delayed Toast Action
        Other Item
 
-                         ✓ File Deleted [Undo ctrl t]
-                         document.pdf was moved to trash
+
+        ✓ File Deleted [Undo ctrl t]  document.pdf was moved to trash
 
 
 
@@ -75,8 +75,8 @@ test('pressing enter triggers primary action on toast', async () => {
        Form with Delayed Toast Action
        Other Item
 
-                                   ✓ Undone
-                                  File restored
+
+        ✓ Undone  File restored
 
 
 
@@ -122,7 +122,7 @@ test('pressing escape hides the toast', async () => {
        Other Item
 
 
-       ↵ show toast    ↑↓ navigate    ^k actions
+       ↵ show toast   ↑↓ navigate   ^k actions      powered by termcast
 
 
 
@@ -166,7 +166,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       └
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
 
 
@@ -202,8 +202,8 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       │
       └
 
-                    ✓ Form Submitted [View Details ctrl t]
-                                  Hello, John!
+
+        ✓ Form Submitted [View Details ctrl t]  Hello, John!
 
 
 
@@ -233,7 +233,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       ›Welcome, John! Form submission successful
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
 
 
@@ -295,7 +295,7 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
       └
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
 
 
@@ -357,8 +357,8 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       │
       └
 
-                             ✓ Done [Open ctrl t]
-                                  Hello, Test!
+
+        ✓ Done [Open ctrl t]  Hello, Test!
 
 
 
@@ -389,8 +389,8 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       │
       └
 
-                                   ✓ Opened!
-                          Action triggered successfully
+
+        ✓ Opened!  Action triggered successfully
 
 
 

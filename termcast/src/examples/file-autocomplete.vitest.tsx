@@ -57,7 +57,7 @@ test('autocomplete shows flat file list in dialog', async () => {
       └
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
 
 
@@ -109,7 +109,7 @@ test('autocomplete navigation with down/up keys', async () => {
       └
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
 
 
@@ -146,7 +146,7 @@ test('autocomplete navigation with down/up keys', async () => {
       └
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
 
 
@@ -196,7 +196,7 @@ test('file picker shows only files, not folders', async () => {
       └
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
 
 
@@ -250,7 +250,7 @@ test('escape closes autocomplete and form stays visible', async () => {
       └
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
 
 
 

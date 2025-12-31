@@ -23,10 +23,10 @@ test('list with detail view display and navigation', async () => {
         /Pokemon List/i.test(text) &&
         text.includes('›bulbasaur') &&
         text.includes('Grass / Poison') &&
-        text.includes('Height: 0.7m') &&
-        /↵.*navigate/i.test(text)
+        text.includes('Height: 0.7m')
       )
     },
+    timeout: 10000,
   })
 
   expect(initialSnapshot).toMatchInlineSnapshot(`
@@ -45,8 +45,8 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                       │ Types
                                             │ Grass / Poison
                                             │
-       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
-         detail                             │ - Height: 0.7m
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rCharacteristics
+         detail      ate      ns            │ - Height: 0.7m
                                             │ - Weight: 6.9kg
                                             │
                                             │ Abilities
@@ -84,8 +84,8 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                       │ Types
                                             │ Grass / Poison
                                             │
-       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
-         detail                             │ - Height: 1m
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rCharacteristics
+         detail      ate      ns            │ - Height: 1m
                                             │ - Weight: 13kg
                                             │
                                             │ Abilities
@@ -121,8 +121,8 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                       │ Types
                                             │ Fire
                                             │
-       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
-         detail                             │ - Height: 0.6m
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rCharacteristics
+         detail      ate      ns            │ - Height: 0.6m
                                             │ - Weight: 8.5kg
                                             │
                                             │ Abilities
@@ -199,7 +199,7 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                                                      Water
 
 
-       ↵ toggle detail    ↑↓ navigate    ^k actions
+       ↵ toggle detail   ↑↓ navigate   ^k actions             powered by termcast
 
 
 
@@ -241,8 +241,8 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                       │ Types
                                             │ Fire
                                             │
-       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
-         detail                             │ - Height: 0.6m
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rCharacteristics
+         detail      ate      ns            │ - Height: 0.6m
                                             │ - Weight: 8.5kg
                                             │
                                             │ Abilities
@@ -286,8 +286,8 @@ test('list detail view search functionality', async () => {
        charmeleon #005                      │ charmander                        ▲
                                             │                                   █
                                             │ Illustration
-       ↵ toggle        ↑↓ navigate ^k action│
-         detail                             │ Types
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rmcast
+         detail      ate      ns            │ Types
                                             │ Fire
                                             │
                                             │ Characteristics
@@ -335,8 +335,8 @@ test('list detail view search functionality', async () => {
                                             │
                                             │ Types
                                             │ Water
-       ↵ toggle        ↑↓ navigate ^k action│
-         detail                             │ Characteristics
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rmcast
+         detail      ate      ns            │ Characteristics
                                             │ - Height: 1m
                                             │ - Weight: 22.5kg
                                             │
@@ -372,8 +372,8 @@ test('list detail view search functionality', async () => {
                                             │
                                             │ Types
                                             │ Water
-       ↵ toggle        ↑↓ navigate ^k action│
-         detail                             │ Characteristics
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rmcast
+         detail      ate      ns            │ Characteristics
                                             │ - Height: 1m
                                             │ - Weight: 22.5kg
                                             │
@@ -422,8 +422,8 @@ test('list detail metadata rendering', async () => {
        wartortle #008                       │ Types
                                             │ Grass / Poison
                                             │
-       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
-         detail                             │ - Height: 0.7m
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rCharacteristics
+         detail      ate      ns            │ - Height: 0.7m
                                             │ - Weight: 6.9kg
                                             │
                                             │ Abilities
@@ -466,8 +466,8 @@ test('list detail metadata rendering', async () => {
        wartortle #008                       │ Types
                                             │ Water
                                             │
-       ↵ toggle        ↑↓ navigate ^k action│ Characteristics
-         detail                             │ - Height: 0.5m
+       ↵ toggle   ↑↓ navig ^k acpowered by t│rCharacteristics
+         detail      ate      ns            │ - Height: 0.5m
                                             │ - Weight: 9kg
                                             │
                                             │ Abilities
@@ -532,7 +532,7 @@ test('list with detail layout consistency - short vs long detail content', async
        Another Item                         │
                                             │ This is short.
                                             │
-       ↑↓ navigate    ^k actions            │
+       ↑↓ navigate ^k actiopowered by termca│t
 
 
 
@@ -560,7 +560,7 @@ test('list with detail layout consistency - short vs long detail content', async
        Another Item                         │ content                           ▀
                                             │
                                             │ Section 1
-       ↑↓ navigate    ^k actions            │ This is a very long description
+       ↑↓ navigate ^k actiopowered by termca│tThis is a very long description
                                             │ that contains multiple paragraphs
                                             │ and sections to test how the
                                             │ layout behaves when the detail

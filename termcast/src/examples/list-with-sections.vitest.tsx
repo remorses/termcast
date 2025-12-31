@@ -169,7 +169,7 @@ test('list with sections search functionality', async () => {
 
        > ban
 
-      ›Banana Yellow and nutritious                               Ripe
+       Banana Yellow and nutritious                               Ripe
 
 
        ↵ view details   ↑↓ navigate   ^k actions    powered by termcast

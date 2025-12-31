@@ -1,13 +1,20 @@
-import { test, expect, beforeEach, afterEach } from 'vitest'
+import { test, expect, beforeEach, afterEach, describe } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
 import { execSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
+import os from 'node:os'
+
+// Skip all tests on non-macOS platforms (Swift is only available on macOS)
+const isLinux = os.platform() === 'linux'
 
 const fixtureDir = path.resolve(__dirname, '../../fixtures/swift-extension')
 
 // Find binary - check debug first, then release
-function findSwiftBinary(): string {
+function findSwiftBinary(): string | null {
+  if (isLinux) {
+    return null
+  }
   const debugPath = path.join(fixtureDir, 'swift/.build/debug/SwiftAPI')
   const releasePath = path.join(fixtureDir, 'swift/.build/release/SwiftAPI')
   if (fs.existsSync(debugPath)) {
@@ -21,7 +28,7 @@ function findSwiftBinary(): string {
 
 const swiftBinary = findSwiftBinary()
 
-test('swift binary returns items correctly', () => {
+test.skipIf(isLinux)('swift binary returns items correctly', () => {
   const stdout = execSync(`${swiftBinary} getItems`, { encoding: 'utf-8' })
   expect(JSON.parse(stdout)).toMatchInlineSnapshot(`
     [
@@ -44,7 +51,7 @@ test('swift binary returns items correctly', () => {
   `)
 })
 
-test('swift binary greet function works', () => {
+test.skipIf(isLinux)('swift binary greet function works', () => {
   const stdout = execSync(`${swiftBinary} greet '"World"'`, { encoding: 'utf-8' })
   expect(JSON.parse(stdout)).toMatchInlineSnapshot(`"Hello, World! Greetings from Swift."`)
 })
@@ -52,6 +59,7 @@ test('swift binary greet function works', () => {
 let session: Session
 
 beforeEach(async () => {
+  if (isLinux) return
   session = await launchTerminal({
     command: 'bun',
     args: ['src/cli.tsx', 'dev', fixtureDir],
@@ -65,7 +73,7 @@ afterEach(() => {
   session?.close()
 })
 
-test('swift extension dev mode shows command list', async () => {
+test.skipIf(isLinux)('swift extension dev mode shows command list', async () => {
   // Wait for command list to appear
   const commandList = await session.text({
     waitFor: (text) => /Swift List/i.test(text),
@@ -81,8 +89,12 @@ test('swift extension dev mode shows command list', async () => {
        > Search commands...
 
        Commands
-      ›List Items Displays a simple list with some items         view
-       Swift List Displays a list of items returned by a Swift f view
+      ›List Items Displays a simple list with some items          view
+       Swift List Displays a list of items returned by a Swift fu view
+
+
+
+       ↵ run command   ↑↓ navigate   ^k actions     powered by termcast
 
 
 
@@ -93,16 +105,12 @@ test('swift extension dev mode shows command list', async () => {
 
 
 
-
-
-
-       ↵ run command    ↑↓ navigate    ^k actions
 
     "
   `)
 }, 60000)
 
-test('swift extension runs Swift List command and shows items', async () => {
+test.skipIf(isLinux)('swift extension runs Swift List command and shows items', async () => {
   // Wait for command list to appear
   await session.text({
     waitFor: (text) => /Swift List/i.test(text),
@@ -136,7 +144,7 @@ test('swift extension runs Swift List command and shows items', async () => {
 
 
 
-       ↑↓ navigate    ^k actions
+       ↑↓ navigate   ^k actions                     powered by termcast
 
 
 
