@@ -37,6 +37,9 @@ jobs:
       - name: Build ghostty-opentui TypeScript
         run: bun run build
         working-directory: ghostty-opentui
+      - name: Build tuistory
+        run: bun run build
+        working-directory: tuistory
       # scripts
       - run: bun run binary
         working-directory: termcast
