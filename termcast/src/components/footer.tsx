@@ -55,7 +55,7 @@ export function Footer({
           <text
             flexShrink={0}
             fg={Theme.textMuted}
-            attributes={TextAttributes.UNDERLINE}
+            attributes={TextAttributes.BOLD}
           >
             termcast
           </text>
