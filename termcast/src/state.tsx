@@ -6,6 +6,23 @@ import type { RaycastPackageJson } from './package-json'
 export const toastPrimaryActionKey = { ctrl: true, name: 't' } as const
 export const toastSecondaryActionKey = { ctrl: true, name: 'g' } as const
 
+export type ToastStyle = 'SUCCESS' | 'FAILURE' | 'ANIMATED'
+
+export interface ToastActionData {
+  title: string
+  onAction: () => void
+}
+
+export interface ToastData {
+  id: string
+  title: string
+  message?: string
+  style: ToastStyle
+  primaryAction?: ToastActionData
+  secondaryAction?: ToastActionData
+  onHide: () => void
+}
+
 export type DialogPosition = 'center' | 'top-right' | 'bottom-right'
 export type DialogStackItemType = 'actions' | undefined
 
@@ -21,7 +38,7 @@ export interface NavigationStackItem {
 }
 
 interface AppState {
-  toast: ReactNode | null
+  toast: ToastData | null
   toastWithPrimaryAction: boolean
   dialogStack: DialogStackItem[]
   navigationStack: NavigationStackItem[]

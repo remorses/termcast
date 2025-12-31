@@ -1,8 +1,21 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState, useEffect } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { useTerminalDimensions } from '@opentui/react'
+import { useTerminalDimensions, useKeyboard } from '@opentui/react'
+import { colord } from 'colord'
 import { Theme } from 'termcast/src/theme'
 import { openInBrowser } from 'termcast/src/action-utils'
+import {
+  useStore,
+  toastPrimaryActionKey,
+  toastSecondaryActionKey,
+  ToastData,
+} from 'termcast/src/state'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
+
+/** Returns white or black foreground color based on background lightness */
+function getFgForBg(bgColor: string): string {
+  return colord(bgColor).isLight() ? '#000000' : '#ffffff'
+}
 
 interface FooterProps {
   children?: ReactNode
@@ -13,7 +26,167 @@ interface FooterProps {
   marginTop?: number
 }
 
-const MIN_WIDTH_FOR_POWERED_BY = 60
+const MIN_WIDTH_FOR_POWERED_BY = 75
+
+function ToastInline({ toast }: { toast: ToastData }): any {
+  const inFocus = useIsInFocus()
+  const [animationFrame, setAnimationFrame] = useState(0)
+
+  // Keyboard handling for toast actions
+  useKeyboard((evt) => {
+    if (!inFocus) return
+
+    if (evt.name === 'escape') {
+      toast.onHide()
+    } else if (
+      toast.primaryAction &&
+      evt.ctrl &&
+      evt.name === toastPrimaryActionKey.name
+    ) {
+      toast.primaryAction.onAction()
+    } else if (
+      toast.secondaryAction &&
+      evt.ctrl &&
+      evt.name === toastSecondaryActionKey.name
+    ) {
+      toast.secondaryAction.onAction()
+    }
+  })
+
+  // Animation for animated toasts
+  useEffect(() => {
+    if (toast.style === 'ANIMATED') {
+      const interval = setInterval(() => {
+        setAnimationFrame((prev) => (prev + 1) % 8)
+      }, 100)
+      return () => clearInterval(interval)
+    }
+  }, [toast.style])
+
+  // Auto-dismiss for non-animated toasts
+  useEffect(() => {
+    if (toast.style !== 'ANIMATED') {
+      const duration = toast.style === 'FAILURE' ? 8000 : 5000
+      const timer = setTimeout(() => {
+        toast.onHide()
+      }, duration)
+      return () => clearTimeout(timer)
+    }
+  }, [toast.style, toast.onHide])
+
+  const getIcon = () => {
+    switch (toast.style) {
+      case 'SUCCESS':
+        return '✓'
+      case 'FAILURE':
+        return '✗'
+      case 'ANIMATED':
+        return '⣾⣽⣻⢿⡿⣟⣯⣷'[animationFrame]
+      default:
+        return '✓'
+    }
+  }
+
+  const getIconColor = () => {
+    switch (toast.style) {
+      case 'SUCCESS':
+        return Theme.success
+      case 'FAILURE':
+        return Theme.error
+      case 'ANIMATED':
+        return Theme.primary
+      default:
+        return Theme.success
+    }
+  }
+
+  const primaryBg = Theme.primary
+  const primaryFg = getFgForBg(primaryBg)
+  const keysBg = colord(primaryBg).darken(0.06).toHex()
+
+  const hasKeys = !!toast.primaryAction?.title || !!toast.secondaryAction?.title
+  return (
+    <box
+      flexDirection='row'
+      marginLeft={-3}
+      marginRight={-3}
+      flexGrow={1}
+      // flexGrow={1}
+      overflow='hidden'
+    >
+      {/* Title and actions container with primary background */}
+      <box
+        flexDirection='row'
+        flexShrink={0}
+        // flexGrow={1}
+        backgroundColor={colord(primaryBg).lighten(0.1).toHex()}
+        paddingLeft={3}
+        paddingRight={1}
+      >
+        <text flexShrink={0} fg={getIconColor()}>
+          {getIcon()}{' '}
+        </text>
+        <text flexShrink={0} fg={primaryFg} attributes={TextAttributes.BOLD}>
+          {toast.title}
+        </text>
+      </box>
+      {hasKeys && (
+        <box
+          backgroundColor={keysBg}
+          paddingLeft={1}
+          paddingRight={1}
+          gap={1}
+          flexDirection='row'
+          overflow='hidden'
+        >
+          {toast.primaryAction?.title && (
+            <box
+              flexShrink={0}
+              flexDirection='row'
+              onMouseDown={() => {
+                toast.primaryAction?.onAction()
+              }}
+            >
+              <text fg={primaryFg} attributes={TextAttributes.BOLD}>
+                [{toast.primaryAction.title}
+              </text>
+              <text fg={primaryFg}> ctrl t]</text>
+            </box>
+          )}
+          {toast.secondaryAction?.title && (
+            <box
+              flexShrink={0}
+              flexDirection='row'
+              onMouseDown={() => {
+                toast.secondaryAction?.onAction()
+              }}
+            >
+              <text fg={primaryFg} attributes={TextAttributes.BOLD}>
+                [{toast.secondaryAction.title}
+              </text>
+              <text fg={primaryFg}> ctrl g]</text>
+            </box>
+          )}
+        </box>
+      )}
+      <box
+        flexGrow={1}
+        backgroundColor={
+          hasKeys ? colord(primaryBg).lighten(0.1).toHex() : keysBg
+        }
+        paddingLeft={1}
+        paddingRight={1}
+        gap={1}
+        flexDirection='row'
+        overflow='hidden'
+      >
+        <text fg={primaryFg} wrapMode='none'>
+          {toast.message || ''}
+        </text>
+      </box>
+    </box>
+  )
+}
 
 export function Footer({
   children,
@@ -25,6 +198,7 @@ export function Footer({
 }: FooterProps): any {
   const { width } = useTerminalDimensions()
   const showPoweredBy = width >= MIN_WIDTH_FOR_POWERED_BY
+  const toast = useStore((state) => state.toast)
 
   return (
     <box
@@ -40,26 +214,32 @@ export function Footer({
         justifyContent: 'space-between',
       }}
     >
-      {children}
-      {showPoweredBy && (
-        <box
-          flexDirection="row"
-          gap={1}
-          onMouseDown={() => {
-            openInBrowser('https://termcast.app')
-          }}
-        >
-          <text flexShrink={0} fg={Theme.textMuted}>
-            powered by
-          </text>
-          <text
-            flexShrink={0}
-            fg={Theme.textMuted}
-            attributes={TextAttributes.BOLD}
-          >
-            termcast
-          </text>
-        </box>
+      {toast ? (
+        <ToastInline toast={toast} />
+      ) : (
+        <>
+          {children}
+          {showPoweredBy && (
+            <box
+              flexDirection='row'
+              gap={1}
+              onMouseDown={() => {
+                openInBrowser('https://termcast.app')
+              }}
+            >
+              <text flexShrink={0} fg={Theme.textMuted}>
+                powered by
+              </text>
+              <text
+                flexShrink={0}
+                fg={Theme.textMuted}
+                attributes={TextAttributes.BOLD}
+              >
+                termcast
+              </text>
+            </box>
+          )}
+        </>
       )}
     </box>
   )

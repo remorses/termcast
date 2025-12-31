@@ -87,7 +87,7 @@
     },
     "tuistory": {
       "name": "tuistory",
-      "version": "0.0.5",
+      "version": "0.0.6",
       "dependencies": {
         "ghostty-opentui": "^1.3.7",
       },

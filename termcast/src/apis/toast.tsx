@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Theme } from 'termcast/src/theme'
 import { TextAttributes } from '@opentui/core'
-import { useStore, toastPrimaryActionKey, toastSecondaryActionKey } from 'termcast/src/state'
-import { useKeyboard, useTerminalDimensions } from '@opentui/react'
+import { useStore, toastPrimaryActionKey, toastSecondaryActionKey, ToastData } from 'termcast/src/state'
+import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
 export namespace Toast {
@@ -263,43 +263,54 @@ export function ToastContent({ toast, onHide, iconColor: iconColorOverride }: To
   )
 }
 
-export function ToastOverlay(): any {
-  const dimensions = useTerminalDimensions()
-  const toastElement = useStore((state) => state.toast)
-
-  if (!toastElement) {
-    return null
-  }
-
-  return (
-    <box
-      position='absolute'
-      left={0}
-      bottom={1}
-      width={dimensions.width}
-      maxHeight={11}
-      flexDirection='column'
-      backgroundColor={Theme.background}
-    >
-      {toastElement}
-    </box>
-  )
-}
-
 let currentToastInstance: Toast | null = null
 
 export function showToastInternal(toast: Toast): void {
   currentToastInstance = toast
+
+  const onHide = () => {
+    useStore.setState({ toast: null, toastWithPrimaryAction: false })
+    currentToastInstance = null
+  }
+
+  // Set up callbacks for toast updates
+  toast._setCallbacks({
+    onUpdate: () => {
+      // Re-create toast data when toast is updated
+      const toastData: ToastData = {
+        id: toast._getId(),
+        title: toast.title,
+        message: toast.message,
+        style: toast.style,
+        primaryAction: toast.primaryAction
+          ? { title: toast.primaryAction.title, onAction: () => { onHide(); toast.primaryAction?.onAction(toast) } }
+          : undefined,
+        secondaryAction: toast.secondaryAction
+          ? { title: toast.secondaryAction.title, onAction: () => { onHide(); toast.secondaryAction?.onAction(toast) } }
+          : undefined,
+        onHide,
+      }
+      useStore.setState({ toast: toastData, toastWithPrimaryAction: Boolean(toast.primaryAction) })
+    },
+    onHide,
+  })
+
+  const toastData: ToastData = {
+    id: toast._getId(),
+    title: toast.title,
+    message: toast.message,
+    style: toast.style,
+    primaryAction: toast.primaryAction
+      ? { title: toast.primaryAction.title, onAction: () => { onHide(); toast.primaryAction?.onAction(toast) } }
+      : undefined,
+    secondaryAction: toast.secondaryAction
+      ? { title: toast.secondaryAction.title, onAction: () => { onHide(); toast.secondaryAction?.onAction(toast) } }
+      : undefined,
+    onHide,
+  }
+
   useStore.setState({
-    toast: (
-      <ToastContent
-        toast={toast}
-        onHide={() => {
-          useStore.setState({ toast: null, toastWithPrimaryAction: false })
-          currentToastInstance = null
-        }}
-      />
-    ),
+    toast: toastData,
     toastWithPrimaryAction: Boolean(toast.primaryAction),
   })
 }

@@ -14,13 +14,14 @@
     "darkStep11": "#999999",
     "darkStep12": "#FFFFFF",
     "darkSecondary": "#AA8000",
-    "darkAccent": "#FFC000",
+    "darkAccent": "#E68900",
     "darkRed": "#FF0000",
     "darkOrange": "#FFC000",
     "darkGreen": "#4fd6be",
     "darkCyan": "#56b6c2",
     "darkYellow": "#FFC000"
   },
+
   "theme": {
     "primary": {
       "dark": "darkStep9",

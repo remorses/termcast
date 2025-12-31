@@ -41,7 +41,7 @@ test('dev command shows extension commands list', async () => {
        usePromise Demo Shows how to use the usePromise view  ▼
 
 
-       ↵ run command    ↑↓ navigate    ^k actions
+       ↵ run command  ↑↓ navigate  ^k actionpowered by termcast
 
     "
   `)
@@ -76,7 +76,7 @@ test('selecting command with arguments shows arguments form', async () => {
        Throw Error Command that throws an error at roo view  ▼
 
 
-       ↵ run command    ↑↓ navigate    ^k actions
+       ↵ run command  ↑↓ navigate  ^k actionpowered by termcast
 
     "
   `)
@@ -106,7 +106,7 @@ test('selecting command with arguments shows arguments form', async () => {
       ◇  Secret key
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
     "
   `)
@@ -151,7 +151,7 @@ test('can fill arguments and run command', async () => {
       ◇  Secret key
 
 
-       ctrl ↵ submit    tab navigate    ^k actions
+       ctrl ↵ submit tab navigate  ^k actionpowered by termcast
 
     "
   `)
@@ -180,9 +180,9 @@ test('can fill arguments and run command', async () => {
        ▼ Category (empty)
 
 
+
                         ✓ Copied to Clipboard
                                 (empty)
-
     "
   `)
 }, 30000)
@@ -213,10 +213,10 @@ test('can run simple view command without arguments', async () => {
 
        Items                                                 ▲
       ›▲ First Item This is the first item                   █
-       ▲ Second Item This is the second item                 █
-       ▲ Third Item This is the third item                   ▀
-       ▲ Fourth Item This is the fourth item
-       ▲ Fifth Item This is the fifth item                   ▼
+       ▲ Second Item This is the second item                 ▀
+       ▲ Third Item This is the third item
+       ▲ Fourth Item This is the fourth item                 ▼
+
 
                         ✓ Copied to Clipboard
                               First Item

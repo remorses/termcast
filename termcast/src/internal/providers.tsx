@@ -15,7 +15,7 @@ import { Theme, initializeTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
 import { useTerminalDimensions } from '@opentui/react'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
-import { ToastOverlay } from '../apis/toast'
+
 import { InFocus } from './focus-context'
 
 // Initialize error handlers at module load time
@@ -130,9 +130,6 @@ export function TermcastProvider(props: ProvidersProps): any {
           >
             <box padding={2}>
               <DialogProvider>
-                <InFocus inFocus>
-                  <ToastOverlay />
-                </InFocus>
                 {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
                 <NavigationProvider overlay={<DialogOverlay />}>
                   <box>{props.children}</box>
