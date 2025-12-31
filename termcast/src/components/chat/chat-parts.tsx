@@ -70,7 +70,7 @@ export function ChatReasoningPart({
           {isStreaming ? 'Thinking…' : 'Thought'}
         </text>
       </box>
-      <box flexDirection="row" paddingLeft={2}>
+      <box flexDirection="row">
         <text fg={Theme.textMuted} flexShrink={0}>⎿  </text>
         <text fg={Theme.textMuted} wrapMode="word" attributes={TextAttributes.DIM}>
           {isCollapsed ? previewText : part.text}
@@ -108,35 +108,35 @@ function formatToolInput(input: unknown): string {
   return String(input)
 }
 
+const DEFAULT_VISIBLE_LINES = 3
+const EXPAND_INCREMENT = 100
+
 /**
- * Format tool output for display
+ * Parse output into lines for truncation
  */
-function formatToolOutput(output: unknown): string {
+function parseOutputLines(output: unknown): string[] {
   if (output === undefined || output === null) {
-    return ''
+    return []
   }
   if (typeof output === 'string') {
-    // Check if it looks like file content
-    const lines = output.split('\n')
-    if (lines.length > 3) {
-      return `${lines.slice(0, 3).join('\n')}\n… +${lines.length - 3} lines`
-    }
-    return output.length > 100 ? output.slice(0, 100) + '…' : output
+    return output.split('\n')
   }
   try {
     const str = JSON.stringify(output, null, 2)
-    return str.length > 150 ? str.slice(0, 150) + '…' : str
+    return str.split('\n')
   } catch {
-    return String(output)
+    return [String(output)]
   }
 }
 
 /**
  * Chat.ToolPart - Renders tool call/result (Claude Code style: ◆ ToolName(args))
+ * Supports expandable output for long results
  */
 export function ChatToolPart({ part }: ChatToolPartProps): any {
   const toolName = part.type.replace('tool-', '')
   const { state, input, output, errorText } = part
+  const [visibleLines, setVisibleLines] = useState(DEFAULT_VISIBLE_LINES)
 
   // Get icon based on state
   const getIcon = () => {
@@ -160,6 +160,19 @@ export function ChatToolPart({ part }: ChatToolPartProps): any {
   // Format like Claude Code: ◆ ToolName(args)
   const toolHeader = inputStr ? `${toolName}(${inputStr})` : toolName
 
+  // Parse output lines for truncation
+  const outputLines = parseOutputLines(output)
+  const totalLines = outputLines.length
+  const isTruncated = totalLines > visibleLines
+  const displayedLines = isTruncated 
+    ? outputLines.slice(0, visibleLines) 
+    : outputLines
+  const remainingLines = totalLines - visibleLines
+
+  const handleExpand = () => {
+    setVisibleLines((prev) => Math.min(prev + EXPAND_INCREMENT, totalLines))
+  }
+
   return (
     <box flexDirection="column" width="100%" flexShrink={1}>
       {/* Tool header: ◆ ToolName(args) */}
@@ -170,17 +183,27 @@ export function ChatToolPart({ part }: ChatToolPartProps): any {
 
       {/* Output result with ⎿ prefix */}
       {state === 'output-available' && output !== undefined && (
-        <box flexDirection="row" paddingLeft={2} flexShrink={1}>
-          <text fg={Theme.textMuted} flexShrink={0}>⎿  </text>
-          <text fg={Theme.textMuted} wrapMode="word">
-            {formatToolOutput(output)}
-          </text>
+        <box flexDirection="column" flexShrink={1}>
+          <box flexDirection="row">
+            <text fg={Theme.textMuted} flexShrink={0}>⎿  </text>
+            <text fg={Theme.textMuted} wrapMode="word">
+              {displayedLines.join('\n')}
+            </text>
+          </box>
+          {isTruncated && (
+            <box flexDirection="row" onMouseDown={handleExpand}>
+              <text fg={Theme.textMuted} flexShrink={0}>   </text>
+              <text fg={Theme.accent}>
+                … +{remainingLines} lines (click to expand)
+              </text>
+            </box>
+          )}
         </box>
       )}
 
       {/* Error with ⎿ prefix */}
       {state === 'output-error' && errorText && (
-        <box flexDirection="row" paddingLeft={2} flexShrink={1}>
+        <box flexDirection="row" flexShrink={1}>
           <text fg={Theme.error} flexShrink={0}>⎿  </text>
           <text fg={Theme.error} wrapMode="word">{errorText}</text>
         </box>
