@@ -18,7 +18,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@react-router/fs-routes": "^7.8.2",
     "@react-router/node": "^7.8.2",
-    "@sentry/node": "^10.8.0",
+    "@sentry/node": "^10.32.1",
     "@tailwindcss/typography": "^0.5.16",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
