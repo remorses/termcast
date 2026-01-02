@@ -15,5 +15,5 @@ export function getWatcher(): typeof ParcelWatcher {
     `@parcel/watcher-${process.platform}-${process.arch}${suffix}`,
   )
   _watcher = createWrapper(binding)
-  return _watcher
+  return _watcher!
 }
