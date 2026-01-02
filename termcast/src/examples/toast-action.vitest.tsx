@@ -43,7 +43,7 @@ test('pressing enter triggers primary action on toast', async () => {
        Other Item
 
 
-        ✓ File Deleted [Undo ctrl t]  document.pdf was moved to trash
+       ✓ File Deleted  [Undo ctrl t]  document.pdf was moved to trash
 
 
 
@@ -76,7 +76,7 @@ test('pressing enter triggers primary action on toast', async () => {
        Other Item
 
 
-        ✓ Undone  File restored
+       ✓ Undone  File restored
 
 
 
@@ -122,7 +122,7 @@ test('pressing escape hides the toast', async () => {
        Other Item
 
 
-       ↵ show toast   ↑↓ navigate   ^k actions      powered by termcast
+       show toast ↵   navigate ↑↓   actions ^k
 
 
 
@@ -166,7 +166,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -203,7 +203,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       └
 
 
-        ✓ Form Submitted [View Details ctrl t]  Hello, John!
+       ✓ Form Submitted  [View Details ctrl t]  Hello, John!
 
 
 
@@ -233,7 +233,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       ›Welcome, John! Form submission successful
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       navigate ↑↓   actions ^k
 
 
 
@@ -295,7 +295,7 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       submit ctrl ↵   navigate tab   actions ^k
 
 
 
@@ -358,7 +358,7 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       └
 
 
-        ✓ Done [Open ctrl t]  Hello, Test!
+       ✓ Done  [Open ctrl t]  Hello, Test!
 
 
 
@@ -390,7 +390,7 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       └
 
 
-        ✓ Opened!  Action triggered successfully
+       ✓ Opened!  Action triggered successfully
 
 
 

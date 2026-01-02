@@ -50,7 +50,7 @@ test('toast variations display correctly', async () => {
 
 
 
-                                        ✓ Success
+
 
     "
   `)
@@ -78,7 +78,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ✗ Error
 
 
 
@@ -87,7 +87,7 @@ test('toast variations display correctly', async () => {
 
 
 
-                                         ✗ Error
+
 
     "
   `)
@@ -115,7 +115,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ✓ Copied  Text copied to clipboard
 
 
 
@@ -124,8 +124,8 @@ test('toast variations display correctly', async () => {
 
 
 
-                                        ✓ Copied
-                                 Text copied to clipboard
+
+
     "
   `)
 
@@ -152,7 +152,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ✗ Error  This is a very long error message that should wrap to multiple line
 
 
 
@@ -161,8 +161,8 @@ test('toast variations display correctly', async () => {
 
 
 
-                                         ✗ Error
-        This is a very long error message that should wrap to multiple lines when
+
+
     "
   `)
 
@@ -189,7 +189,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ✗ Warning  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do e
 
 
 
@@ -198,8 +198,8 @@ test('toast variations display correctly', async () => {
 
 
 
-                                        ✗ Warning
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+
+
     "
   `)
 
@@ -226,7 +226,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ✓ File Deleted  document.pdf was moved to trash                  Undo ctrl t
 
 
 
@@ -235,8 +235,8 @@ test('toast variations display correctly', async () => {
 
 
 
-                              ✓ File Deleted [Undo ctrl t]
-                              document.pdf was moved to trash
+
+
     "
   `)
 
@@ -263,7 +263,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ✓ Update Available  Version 2.0 is ready to ins  Install ctrl t Later ctrl g
 
 
 
@@ -272,8 +272,8 @@ test('toast variations display correctly', async () => {
 
 
 
-                   ✓ Update Available [Install ctrl t] [Later ctrl g]
-                              Version 2.0 is ready to install
+
+
     "
   `)
 
@@ -300,7 +300,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ✓ Operation Completed Successfully  All   View Results ctrl t Dismiss ctrl g
 
 
 
@@ -309,8 +309,8 @@ test('toast variations display correctly', async () => {
 
 
 
-        ✓ Operation Completed Successfully [View Results ctrl t] [Dismiss ctrl g]
-                               All files have been processed
+
+
     "
   `)
 
@@ -337,7 +337,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ⣽ Processing  Please wait while we process your request...
 
 
 
@@ -346,8 +346,8 @@ test('toast variations display correctly', async () => {
 
 
 
-                                      ⣽ Processing
-                       Please wait while we process your request...
+
+
     "
   `)
 
@@ -374,7 +374,7 @@ test('toast variations display correctly', async () => {
       ›Error with Retry
 
 
-       ↵ select   ↑↓ navigate   ^k actions                    powered by termcast
+       ✗ Connection Failed  Unable to connect to the server. Please c  Retry ctrl t
 
 
 
@@ -383,8 +383,8 @@ test('toast variations display correctly', async () => {
 
 
 
-                           ✗ Connection Failed [Retry ctrl t]
-        Unable to connect to the server. Please check your internet connection and
+
+
     "
   `)
 }, 30000)

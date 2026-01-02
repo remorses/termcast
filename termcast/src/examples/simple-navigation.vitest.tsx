@@ -45,7 +45,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -79,7 +79,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -115,7 +115,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
+       ↵ go back   ↑↓ navigate   ^k actions
 
 
 
@@ -159,7 +159,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -193,7 +193,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -224,7 +224,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
+       ↵ go back   ↑↓ navigate   ^k actions
 
 
 
@@ -265,7 +265,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -373,8 +373,8 @@ test('navigation with actions panel', async () => {
 
 
 
-                             ✓ Copied to Clipboard
-                                   First Item
+       ✓ Copied to Clipboard  First Item
+
 
 
 
@@ -416,7 +416,7 @@ test('navigation with actions panel', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
+       ↵ go back   ↑↓ navigate   ^k actions
 
 
 
@@ -488,7 +488,7 @@ test('navigation with actions panel', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -527,10 +527,10 @@ test('search functionality in main and detail views', async () => {
 
        > second
 
-       Second Item Navigate to second detail
+      ›Second Item Navigate to second detail
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -572,7 +572,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -610,7 +610,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
+       ↵ go back   ↑↓ navigate   ^k actions
 
 
 
@@ -649,7 +649,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions         powered by termcast
+       ↵ go back   ↑↓ navigate   ^k actions
 
 
 
@@ -686,7 +686,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 

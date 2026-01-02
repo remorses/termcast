@@ -50,10 +50,10 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
 
 
 
+       ↑↓ navigate   ^k actions
 
     "
   `)
@@ -87,7 +87,7 @@ test('list with dropdown navigation', async () => {
       │   Juice                                                        │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                   powered by termcast │
+      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
 
@@ -121,7 +121,7 @@ test('list with dropdown navigation', async () => {
       │   Juice                                                        │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                   powered by termcast │
+      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
 
@@ -153,7 +153,7 @@ test('list with dropdown navigation', async () => {
       │   Juice                                                        │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                   powered by termcast │
+      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
 
@@ -185,7 +185,7 @@ test('list with dropdown navigation', async () => {
       │   Juice                                                        │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                   powered by termcast │
+      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
 
@@ -212,7 +212,7 @@ test('list with dropdown navigation', async () => {
        Pinot Noir Wine
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
 
 
@@ -267,7 +267,7 @@ test('list with dropdown search and filter', async () => {
       │   Juice                                                        │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                   powered by termcast │
+      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
 
@@ -305,10 +305,10 @@ test('list with dropdown search and filter', async () => {
       │  ›Wine                                                         │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                   powered by termcast │
+      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
 
 
@@ -336,7 +336,7 @@ test('list with dropdown search and filter', async () => {
        Pinot Noir Wine
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
 
 
@@ -371,7 +371,7 @@ test('list with dropdown search and filter', async () => {
       ›Pinot Noir Wine
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
 
 

@@ -45,7 +45,7 @@ test('list with sections navigation', async () => {
                                                                        ▼
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -78,7 +78,7 @@ test('list with sections navigation', async () => {
                                                                        ▼
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -105,7 +105,7 @@ test('list with sections navigation', async () => {
                                                                        ▼
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
     "
   `)
@@ -136,7 +136,7 @@ test('list with sections navigation', async () => {
                                                                        ▼
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
     "
   `)
@@ -169,10 +169,10 @@ test('list with sections search functionality', async () => {
 
        > ban
 
-       Banana Yellow and nutritious                               Ripe
+      ›Banana Yellow and nutritious                               Ripe
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
 
 
@@ -208,7 +208,7 @@ test('list with sections search functionality', async () => {
        Lettuce Green and fresh
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
 
 
@@ -246,7 +246,7 @@ test('list with sections search functionality', async () => {
                                                                        ▼
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -271,7 +271,7 @@ test('list with sections search functionality', async () => {
        Bread Freshly baked                                 Today [New]
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
 
 
@@ -304,7 +304,7 @@ test('list with sections search functionality', async () => {
       - Aids digestion
 
 
-      esc go back                                    powered by termcast
+      esc go back
 
 
 
@@ -343,7 +343,7 @@ test('list click functionality', async () => {
                                                                        ▼
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -371,7 +371,7 @@ test('list click functionality', async () => {
                                                                        ▼
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -399,7 +399,7 @@ test('list click functionality', async () => {
                                                                        ▼
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
     "
   `)
@@ -492,8 +492,8 @@ test('list actions panel with ctrl+k', async () => {
                                                                        ▼
 
 
-                                ✓ Added to Cart
-                        Apple has been added to your cart
+       ✓ Added to Cart  Apple has been added to your cart
+
     "
   `)
 }, 10000)
@@ -538,7 +538,7 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
 
 
@@ -566,7 +566,7 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
 
 
@@ -594,7 +594,7 @@ test('filtering selects first visible item and navigation works', async () => {
       ›Carrot Orange and crunchy                             [Healthy]
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
 
 
@@ -622,7 +622,7 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
 
 
@@ -662,7 +662,7 @@ test('list scrollbox scrolling with sections', async () => {
                                                                        ▼
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -695,7 +695,7 @@ test('list scrollbox scrolling with sections', async () => {
        Lettuce Green and fresh                                         ▼
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
     "
   `)
@@ -725,7 +725,7 @@ test('list scrollbox scrolling with sections', async () => {
        Bell Pepper Colorful and crunchy                       [Fresh]  ▼
 
 
-       ↑↓ navigate   ^k actions                     powered by termcast
+       ↑↓ navigate   ^k actions
 
     "
   `)
@@ -757,7 +757,7 @@ test('list scrollbox scrolling with sections', async () => {
       ›Bread Freshly baked                                Today [New]  ▼
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -787,7 +787,7 @@ test('list scrollbox scrolling with sections', async () => {
       ›Bread Freshly baked                                Today [New]  ▼
 
 
-       ↵ view details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions
 
     "
   `)

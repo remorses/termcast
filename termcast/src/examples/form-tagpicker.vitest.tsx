@@ -59,7 +59,7 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -116,7 +116,7 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -173,7 +173,7 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -233,7 +233,7 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -290,7 +290,7 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -355,7 +355,7 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -415,7 +415,7 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -472,7 +472,7 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -529,7 +529,7 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -586,7 +586,7 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -651,7 +651,7 @@ test('form tagpicker with default value', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -708,7 +708,7 @@ test('form tagpicker with default value', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -778,7 +778,7 @@ test('form tagpicker with default value', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 

@@ -54,7 +54,7 @@ test('file picker shows form fields', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -76,7 +76,7 @@ test('file picker shows form fields', async () => {
 
 
 
-                                                    powered by termcast
+
 
     "
   `)
@@ -124,7 +124,7 @@ test('typing opens autocomplete dialog with file list', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -202,7 +202,7 @@ test('escape closes autocomplete without going back', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -284,7 +284,7 @@ test('selecting first item with enter adds it to the list', async () => {
       └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 

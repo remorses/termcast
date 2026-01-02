@@ -73,11 +73,11 @@ test('form basic navigation and input', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -145,11 +145,11 @@ test('password field always shows asterisks and submits real value', async () =>
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -203,11 +203,11 @@ test('password field always shows asterisks and submits real value', async () =>
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -264,11 +264,11 @@ test('password field always shows asterisks and submits real value', async () =>
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -323,12 +323,12 @@ test('password field always shows asterisks and submits real value', async () =>
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
 
 
-                               ✓ Form Submitted
-                  All form data has been captured successfully
+       ✓ Form Submitted  All form data has been captured successfully
+
     "
   `)
   
@@ -391,17 +391,17 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
       │
       │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
-      │    8  9 10 11 12 13 14
-      │   15 16 17 18 19 20 21
-      │   22 23 24 25 26 27 28
+      │             1  2  3  4
+      │    5  6  7  8  9 10 11
+      │   12 13 14 15 16 17 18
+      │   19 20 21 22 23 24 25
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -449,17 +449,17 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
       │
       │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
-      │    8  9 10 11 12 13 14
-      │   15 16 17 18 19 20 21
-      │   22 23 24 25 26 27 28
+      │             1  2  3  4
+      │    5  6  7  8  9 10 11
+      │   12 13 14 15 16 17 18
+      │   19 20 21 22 23 24 25
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -508,17 +508,17 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
       │
       │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
-      │    8  9 10 11 12 13 14
-      │   15 16 17 18 19 20 21
-      │   22 23 24 25 26 27 28
+      │             1  2  3  4
+      │    5  6  7  8  9 10 11
+      │   12 13 14 15 16 17 18
+      │   19 20 21 22 23 24 25
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -583,17 +583,17 @@ test('form dropdown navigation', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
       │
       │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
-      │    8  9 10 11 12 13 14
-      │   15 16 17 18 19 20 21
-      │   22 23 24 25 26 27 28
+      │             1  2  3  4
+      │    5  6  7  8  9 10 11
+      │   12 13 14 15 16 17 18
+      │   19 20 21 22 23 24 25
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -641,17 +641,17 @@ test('form dropdown navigation', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
       │
       │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
-      │    8  9 10 11 12 13 14
-      │   15 16 17 18 19 20 21
-      │   22 23 24 25 26 27 28
+      │             1  2  3  4
+      │    5  6  7  8  9 10 11
+      │   12 13 14 15 16 17 18
+      │   19 20 21 22 23 24 25
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -701,17 +701,17 @@ test('form dropdown navigation', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
       │
       │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
-      │    8  9 10 11 12 13 14
-      │   15 16 17 18 19 20 21
-      │   22 23 24 25 26 27 28
+      │             1  2  3  4
+      │    5  6  7  8  9 10 11
+      │   12 13 14 15 16 17 18
+      │   19 20 21 22 23 24 25
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -759,17 +759,17 @@ test('form dropdown navigation', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2025        →
-      │   ←     December      →
+      │   ←       2026        →
+      │   ←      January      →
       │
       │   Mo Tu We Th Fr Sa Su
-      │    1  2  3  4  5  6  7
-      │    8  9 10 11 12 13 14
-      │   15 16 17 18 19 20 21
-      │   22 23 24 25 26 27 28
+      │             1  2  3  4
+      │    5  6  7  8  9 10 11
+      │   12 13 14 15 16 17 18
+      │   19 20 21 22 23 24 25
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -810,7 +810,7 @@ test('form scrolls with mouse wheel', async () => {
       │  Enter secure password
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -838,7 +838,7 @@ test('form scrolls with mouse wheel', async () => {
       │  Must be at least 8 characters
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)
@@ -866,7 +866,7 @@ test('form scrolls with mouse wheel', async () => {
       │  Enter secure password
 
 
-       ctrl ↵ submit   tab navigate   ^k actions    powered by termcast
+       ctrl ↵ submit   tab navigate   ^k actions
 
     "
   `)

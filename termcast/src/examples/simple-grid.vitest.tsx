@@ -54,7 +54,7 @@ test('grid navigation and display', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -87,7 +87,7 @@ test('grid navigation and display', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -121,7 +121,7 @@ test('grid navigation and display', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -154,7 +154,7 @@ test('grid navigation and display', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -187,7 +187,7 @@ test('grid navigation and display', async () => {
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -233,7 +233,7 @@ test('grid search functionality', async () => {
                                                                        ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -273,7 +273,7 @@ test('grid search functionality', async () => {
                                                                        ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -310,7 +310,7 @@ test('grid search functionality', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -347,7 +347,7 @@ test('grid search functionality', async () => {
                                                                        ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -389,7 +389,7 @@ test('grid item selection and actions', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -422,7 +422,7 @@ test('grid item selection and actions', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -455,7 +455,7 @@ test('grid item selection and actions', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -497,7 +497,7 @@ test('grid mouse interaction', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -539,7 +539,7 @@ test('grid mouse interaction', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -583,7 +583,7 @@ test('grid mouse interaction', async () => {
        🚀 Rocket                                                       ▼
 
 
-       ↵ show details   ↑↓ navigate   ^k actions    powered by termcast
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)

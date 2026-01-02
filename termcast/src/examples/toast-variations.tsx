@@ -1,53 +1,56 @@
-import React, { useState } from 'react'
-import { useTerminalDimensions } from '@opentui/react'
+import React, { useEffect } from 'react'
 import { List, ActionPanel, Action, renderWithProviders } from 'termcast'
-import { Toast, ToastContent } from 'termcast/src/apis/toast'
-import { Theme } from 'termcast/src/theme'
+import { Toast, showToast } from 'termcast/src/apis/toast'
 
-const toastVariations = [
+interface ToastVariation {
+  name: string
+  options: Toast.Options
+}
+
+const toastVariations: ToastVariation[] = [
   {
     name: 'Simple Success',
-    toast: new Toast({
+    options: {
       title: 'Success',
       style: Toast.Style.Success,
-    }),
+    },
   },
   {
     name: 'Simple Failure',
-    toast: new Toast({
+    options: {
       title: 'Error',
       style: Toast.Style.Failure,
-    }),
+    },
   },
   {
     name: 'With Short Message',
-    toast: new Toast({
+    options: {
       title: 'Copied',
       message: 'Text copied to clipboard',
       style: Toast.Style.Success,
-    }),
+    },
   },
   {
     name: 'With Long Message',
-    toast: new Toast({
+    options: {
       title: 'Error',
       message:
-        'This is a very long error message that should wrap to multiple lines when displayed in the toast component. It contains detailed information about what went wrong during the operation.',
+        'This is a very long error message that should wrap to multiple lines when displayed in the toast component.',
       style: Toast.Style.Failure,
-    }),
+    },
   },
   {
     name: 'With Super Long Message',
-    toast: new Toast({
+    options: {
       title: 'Warning',
       message:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       style: Toast.Style.Failure,
-    }),
+    },
   },
   {
     name: 'With Primary Action',
-    toast: new Toast({
+    options: {
       title: 'File Deleted',
       message: 'document.pdf was moved to trash',
       style: Toast.Style.Success,
@@ -55,11 +58,11 @@ const toastVariations = [
         title: 'Undo',
         onAction: () => {},
       },
-    }),
+    },
   },
   {
     name: 'With Both Actions',
-    toast: new Toast({
+    options: {
       title: 'Update Available',
       message: 'Version 2.0 is ready to install',
       style: Toast.Style.Success,
@@ -71,11 +74,11 @@ const toastVariations = [
         title: 'Later',
         onAction: () => {},
       },
-    }),
+    },
   },
   {
     name: 'Long Title with Actions',
-    toast: new Toast({
+    options: {
       title: 'Operation Completed Successfully',
       message: 'All files have been processed',
       style: Toast.Style.Success,
@@ -87,73 +90,61 @@ const toastVariations = [
         title: 'Dismiss',
         onAction: () => {},
       },
-    }),
+    },
   },
   {
     name: 'Animated Loading',
-    toast: new Toast({
+    options: {
       title: 'Processing',
       message: 'Please wait while we process your request...',
       style: Toast.Style.Animated,
-    }),
+    },
   },
   {
     name: 'Error with Retry',
-    toast: new Toast({
+    options: {
       title: 'Connection Failed',
-      message:
-        'Unable to connect to the server. Please check your internet connection and try again.',
+      message: 'Unable to connect to the server. Please check your internet connection.',
       style: Toast.Style.Failure,
       primaryAction: {
         title: 'Retry',
         onAction: () => {},
       },
-    }),
+    },
   },
 ]
 
 function ToastVariationsExample(): any {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const selectedToast = toastVariations[selectedIndex]
-  const dimensions = useTerminalDimensions()
+  // Show first toast on mount
+  useEffect(() => {
+    showToast(toastVariations[0].options)
+  }, [])
 
   return (
-    <box flexDirection="column" width="100%" height="100%">
-      <List
-        navigationTitle="Toast Variations"
-        onSelectionChange={(id) => {
-          if (id) {
-            const index = toastVariations.findIndex((v) => v.name === id)
-            if (index !== -1) {
-              setSelectedIndex(index)
-            }
+    <List
+      navigationTitle="Toast Variations"
+      onSelectionChange={(id) => {
+        if (id) {
+          const variation = toastVariations.find((v) => v.name === id)
+          if (variation) {
+            showToast(variation.options)
           }
-        }}
-      >
-        {toastVariations.map((variation) => (
-          <List.Item
-            key={variation.name}
-            id={variation.name}
-            title={variation.name}
-            actions={
-              <ActionPanel>
-                <Action title="Select" onAction={() => {}} />
-              </ActionPanel>
-            }
-          />
-        ))}
-      </List>
-      <box
-        position="absolute"
-        bottom={-1}
-        left={-2}
-        width={dimensions.width}
-        backgroundColor={Theme.background}
-        flexDirection="column"
-      >
-        <ToastContent toast={selectedToast.toast} onHide={() => {}} />
-      </box>
-    </box>
+        }
+      }}
+    >
+      {toastVariations.map((variation) => (
+        <List.Item
+          key={variation.name}
+          id={variation.name}
+          title={variation.name}
+          actions={
+            <ActionPanel>
+              <Action title="Select" onAction={() => {}} />
+            </ActionPanel>
+          }
+        />
+      ))}
+    </List>
   )
 }
 
