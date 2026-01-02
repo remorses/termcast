@@ -73,7 +73,7 @@ test('compile extension and run executable', async () => {
        usePromise Demo Shows how to use the usePromise view  ▼
 
 
-       ↵ run command  ↑↓ navigate  ^k actionpowered by termcast
+       ↵ run command   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -114,13 +114,13 @@ test('compiled executable can run command', async () => {
 
        Items                                                 ▲
       ›▲ First Item This is the first item                   █
-       ▲ Second Item This is the second item                 ▀
+       ▲ Second Item This is the second item
        ▲ Third Item This is the third item
        ▲ Fourth Item This is the fourth item                 ▼
 
 
-                        ✓ Copied to Clipboard
-                              First Item
+       ✓ Copied to Clipboard  First Item
+
     "
   `)
 }, 60000)
@@ -169,13 +169,13 @@ test('compiled executable can navigate back', async () => {
        > Search...
 
        Items                                                 ▲
-      ›▲ First Item This is the first item                   ▀
+      ›▲ First Item This is the first item                   █
        ▲ Second Item This is the second item
-       ▲ Third Item This is the third item                   ▼
+       ▲ Third Item This is the third item
+       ▲ Fourth Item This is the fourth item                 ▼
 
 
-       ↵ copy item      ↑↓ navigate ^k actionsowered by termcast
-         title
+       ↵ copy item title   ↑↓ navigate   ^k actions
 
     "
   `)
