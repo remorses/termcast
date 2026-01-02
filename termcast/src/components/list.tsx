@@ -73,6 +73,8 @@ interface ActionsInterface {
 function ListFooter(): any {
   const firstActionTitle = useStore((s) => s.firstActionTitle)
   const hasToast = useStore((s) => s.toast !== null)
+  const listContext = useContext(ListContext)
+  const isShowingDetail = listContext?.isShowingDetail ?? false
 
   const content = hasToast ? null : (
     <box style={{ flexDirection: 'row', gap: 3 }}>
@@ -99,7 +101,7 @@ function ListFooter(): any {
     </box>
   )
 
-  return <Footer>{content}</Footer>
+  return <Footer hidePoweredBy={isShowingDetail}>{content}</Footer>
 }
 
 interface NavigationChildInterface {
@@ -1026,12 +1028,12 @@ export const List: ListType = (props) => {
           {/* Main content area with optional detail view */}
           <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
             {/* List content - render children which will register themselves */}
-            <box style={{ width: isShowingDetail ? '50%' : '100%', flexGrow: isShowingDetail ? 0 : 1, flexShrink: 1, flexDirection: 'column' }}>
+            <box style={{ width: isShowingDetail ? '50%' : '100%', flexGrow: 1, flexShrink: 1, flexDirection: 'column' }}>
               {/* Scrollable list items */}
               <ScrollBox
                 ref={scrollBoxRef}
                 focused={false}
-                // flexGrow={1}
+                flexGrow={1}
                 flexShrink={1}
                 style={{
                   rootOptions: {

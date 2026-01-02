@@ -1,23 +1,18 @@
-[2025-12-14T18:10:46.184Z] Building 7 commands...
-[2025-12-14T18:10:46.192Z] Resolving @raycast/api to @termcast/cli
-[2025-12-14T18:10:46.192Z] Resolving @raycast/api to @termcast/cli
-[2025-12-14T18:10:46.192Z] Resolving @raycast/api to @termcast/cli
-[2025-12-14T18:10:46.193Z] Resolving @raycast/api to @termcast/cli
-[2025-12-14T18:10:46.193Z] Resolving @raycast/api to @termcast/cli
-[2025-12-14T18:10:46.195Z] Resolving @raycast/api to @termcast/cli
-[2025-12-14T18:10:46.200Z] ERROR: Build failed: Could not resolve: "termcast". Maybe you need to "bun install"?
-Could not resolve: "termcast". Maybe you need to "bun install"?
-Could not resolve: "termcast/src/logger". Maybe you need to "bun install"?
-Error: Build failed: Could not resolve: "termcast". Maybe you need to "bun install"?
-Could not resolve: "termcast". Maybe you need to "bun install"?
-Could not resolve: "termcast/src/logger". Maybe you need to "bun install"?
-    at buildExtensionCommands (/$bunfs/root/termcast-macos-arm64:47853:20)
-    at processTicksAndRejections (native:7:39)
-[2025-12-14T18:10:46.200Z] failed to start dev Build failed: Could not resolve: "termcast". Maybe you need to "bun install"?
-Could not resolve: "termcast". Maybe you need to "bun install"?
-Could not resolve: "termcast/src/logger". Maybe you need to "bun install"?
-Error: Build failed: Could not resolve: "termcast". Maybe you need to "bun install"?
-Could not resolve: "termcast". Maybe you need to "bun install"?
-Could not resolve: "termcast/src/logger". Maybe you need to "bun install"?
-    at buildExtensionCommands (/$bunfs/root/termcast-macos-arm64:47853:20)
-    at processTicksAndRejections (native:7:39)
+[2026-01-02T19:04:03.161Z] Building 8 commands...
+[2026-01-02T19:04:03.174Z] Resolving @raycast/api to termcast
+[2026-01-02T19:04:03.175Z] Resolving @raycast/api to termcast
+[2026-01-02T19:04:03.175Z] Resolving @raycast/api to termcast
+[2026-01-02T19:04:03.175Z] Resolving @raycast/api to termcast
+[2026-01-02T19:04:03.175Z] Resolving @raycast/api to termcast
+[2026-01-02T19:04:03.175Z] Resolving @raycast/api to termcast
+[2026-01-02T19:04:03.177Z] Resolving @raycast/api to termcast
+[2026-01-02T19:04:03.189Z] Built list-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/list-items.js
+[2026-01-02T19:04:03.189Z] Built search-items -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/search-items.js
+[2026-01-02T19:04:03.189Z] Built oauth -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/oauth.js
+[2026-01-02T19:04:03.189Z] Built use-promise-demo -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js
+[2026-01-02T19:04:03.189Z] Built show-state -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/show-state.js
+[2026-01-02T19:04:03.189Z] Built with-arguments -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/with-arguments.js
+[2026-01-02T19:04:03.189Z] Built quick-action -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/quick-action.js
+[2026-01-02T19:04:03.190Z] Built throw-error -> /Users/morse/Documents/GitHub/termcast/termcast/fixtures/simple-extension/.termcast-bundle/throw-error.js
+[2026-01-02T19:04:03.190Z] Successfully built 8 files
+[2026-01-02T19:04:03.196Z] dev mode started

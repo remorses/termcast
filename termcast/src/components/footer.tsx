@@ -24,6 +24,7 @@ interface FooterProps {
   paddingTop?: number
   paddingBottom?: number
   marginTop?: number
+  hidePoweredBy?: boolean
 }
 
 const MIN_WIDTH_FOR_POWERED_BY = 75
@@ -111,14 +112,12 @@ function ToastInline({ toast }: { toast: ToastData }): any {
       marginLeft={-3}
       marginRight={-3}
       flexGrow={1}
-      // flexGrow={1}
       overflow='hidden'
     >
-      {/* Title and actions container with primary background */}
+      {/* Title box */}
       <box
         flexDirection='row'
         flexShrink={0}
-        // flexGrow={1}
         backgroundColor={colord(primaryBg).lighten(0.1).toHex()}
         paddingLeft={3}
         paddingRight={1}
@@ -130,59 +129,57 @@ function ToastInline({ toast }: { toast: ToastData }): any {
           {toast.title}
         </text>
       </box>
-      {hasKeys && (
-        <box
-          backgroundColor={keysBg}
-          paddingLeft={1}
-          paddingRight={1}
-          gap={1}
-          flexDirection='row'
-          overflow='hidden'
-        >
-          {toast.primaryAction?.title && (
-            <box
-              flexShrink={0}
-              flexDirection='row'
-              onMouseDown={() => {
-                toast.primaryAction?.onAction()
-              }}
-            >
-              <text fg={primaryFg} attributes={TextAttributes.BOLD}>
-                [{toast.primaryAction.title}
-              </text>
-              <text fg={primaryFg}> ctrl t]</text>
-            </box>
-          )}
-          {toast.secondaryAction?.title && (
-            <box
-              flexShrink={0}
-              flexDirection='row'
-              onMouseDown={() => {
-                toast.secondaryAction?.onAction()
-              }}
-            >
-              <text fg={primaryFg} attributes={TextAttributes.BOLD}>
-                [{toast.secondaryAction.title}
-              </text>
-              <text fg={primaryFg}> ctrl g]</text>
-            </box>
-          )}
-        </box>
-      )}
+      {/* Message/description box (in the middle with keys background) */}
       <box
         flexGrow={1}
-        backgroundColor={
-          hasKeys ? colord(primaryBg).lighten(0.1).toHex() : keysBg
-        }
+        backgroundColor={keysBg}
         paddingLeft={1}
         paddingRight={1}
-        gap={1}
         flexDirection='row'
         overflow='hidden'
       >
         <text fg={primaryFg} wrapMode='none'>
           {toast.message || ''}
         </text>
+      </box>
+      {/* Keys box (right aligned, no grow) */}
+
+      <box
+        backgroundColor={keysBg}
+        paddingLeft={1}
+        paddingRight={3}
+        gap={1}
+        flexDirection='row'
+        flexShrink={0}
+      >
+        {toast.primaryAction?.title && (
+          <box
+            flexShrink={0}
+            flexDirection='row'
+            onMouseDown={() => {
+              toast.primaryAction?.onAction()
+            }}
+          >
+            <text fg={primaryFg} attributes={TextAttributes.BOLD}>
+              {toast.primaryAction.title}
+            </text>
+            <text fg={primaryFg}> ctrl t</text>
+          </box>
+        )}
+        {toast.secondaryAction?.title && (
+          <box
+            flexShrink={0}
+            flexDirection='row'
+            onMouseDown={() => {
+              toast.secondaryAction?.onAction()
+            }}
+          >
+            <text fg={primaryFg} attributes={TextAttributes.BOLD}>
+              {toast.secondaryAction.title}
+            </text>
+            <text fg={primaryFg}> ctrl g</text>
+          </box>
+        )}
       </box>
     </box>
   )
@@ -195,9 +192,10 @@ export function Footer({
   paddingTop = 1,
   paddingBottom,
   marginTop = 1,
+  hidePoweredBy = false,
 }: FooterProps): any {
   const { width } = useTerminalDimensions()
-  const showPoweredBy = width >= MIN_WIDTH_FOR_POWERED_BY
+  const showPoweredBy = !hidePoweredBy && width >= MIN_WIDTH_FOR_POWERED_BY
   const toast = useStore((state) => state.toast)
 
   return (
@@ -220,18 +218,15 @@ export function Footer({
         <>
           {children}
           {showPoweredBy && (
-            <box
-              flexDirection='row'
-              gap={1}
-              onMouseDown={() => {
-                openInBrowser('https://termcast.app')
-              }}
-            >
+            <box flexDirection='row' gap={1}>
               <text flexShrink={0} fg={Theme.textMuted}>
                 powered by
               </text>
               <text
                 flexShrink={0}
+                onMouseDown={() => {
+                  openInBrowser('https://termcast.app')
+                }}
                 fg={Theme.textMuted}
                 attributes={TextAttributes.BOLD}
               >
