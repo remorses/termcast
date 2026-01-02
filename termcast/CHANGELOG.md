@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.29
+
+### Patch Changes
+
+- Fix binary naming in release CI: binaries inside archives now include target suffix (e.g., `termcast-darwin-arm64`) to match what the install script expects
+
 ## 1.3.28
 
 ### Patch Changes

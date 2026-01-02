@@ -61,26 +61,26 @@ jobs:
         shell: bash
         run: |
           mkdir -p bins
-          cd termcast && bun build src/cli.tsx --env-file="" --compile --outfile "../bins/termcast${{ matrix.ext }}"
+          cd termcast && bun build src/cli.tsx --env-file="" --compile --outfile "../bins/termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
 
       - name: Make executable (unix)
         if: runner.os != 'Windows'
-        run: chmod +x "bins/termcast${{ matrix.ext }}"
+        run: chmod +x "bins/termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
 
       - name: Create archive (Linux)
         if: matrix.os_id == 'linux'
         run: |
           cd bins
-          tar -czvf "termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.archive_ext }}" termcast
-          rm termcast
+          tar -czvf "termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.archive_ext }}" "termcast-${{ matrix.os_id }}-${{ matrix.arch }}"
+          rm "termcast-${{ matrix.os_id }}-${{ matrix.arch }}"
 
       - name: Create archive (macOS/Windows)
         if: matrix.os_id != 'linux'
         shell: bash
         run: |
           cd bins
-          zip "termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.archive_ext }}" termcast${{ matrix.ext }}
-          rm termcast${{ matrix.ext }}
+          zip "termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.archive_ext }}" "termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
+          rm "termcast-${{ matrix.os_id }}-${{ matrix.arch }}${{ matrix.ext }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
