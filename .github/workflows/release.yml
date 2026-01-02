@@ -57,6 +57,14 @@ jobs:
       - name: Install deps
         run: bun install --verbose
 
+      - name: Install platform-specific watcher
+        run: |
+          if [ "${{ matrix.os_id }}" = "linux" ]; then
+            bun install @parcel/watcher-linux-${{ matrix.arch }}-glibc
+          else
+            bun install @parcel/watcher-${{ matrix.os_id }}-${{ matrix.arch }}
+          fi
+
       - name: Compile binary
         shell: bash
         run: |

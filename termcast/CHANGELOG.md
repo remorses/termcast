@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.30
+
+### Patch Changes
+
+- Fix `@parcel/watcher` native module bundling in compiled binaries (following opencode's approach)
+- Add lazy watcher loader that uses platform-specific bindings at runtime
+- CI now installs platform-specific watcher packages before compile
+
 ## 1.3.29
 
 ### Patch Changes

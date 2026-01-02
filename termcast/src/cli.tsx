@@ -8,7 +8,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execSync, spawn } from 'node:child_process'
 import { cac } from 'cac'
-import * as watcher from '@parcel/watcher'
+import { getWatcher } from './watcher'
 import { buildExtensionCommands } from './build'
 import { logger } from './logger'
 import { installExtension } from './utils'
@@ -176,7 +176,7 @@ cli
         }
       }
 
-      const subscription = await watcher.subscribe(
+      const subscription = await getWatcher().subscribe(
         extensionPath,
         (err, events) => {
           if (err) {
