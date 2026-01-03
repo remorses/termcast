@@ -326,7 +326,7 @@ const Dropdown: DropdownType = (props) => {
               style={{
                 rootOptions: {
                   backgroundColor: undefined,
-                  maxHeight: 10,
+                  height: 7, // Fixed height prevents layout shift when content mounts incrementally
                 },
                 scrollbarOptions: {
 
