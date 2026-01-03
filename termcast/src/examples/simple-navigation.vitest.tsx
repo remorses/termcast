@@ -527,7 +527,7 @@ test('search functionality in main and detail views', async () => {
 
        > second
 
-      ›Second Item Navigate to second detail
+       Second Item Navigate to second detail
 
 
        ↵ open details   ↑↓ navigate   ^k actions

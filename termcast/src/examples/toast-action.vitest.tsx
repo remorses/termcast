@@ -25,7 +25,7 @@ test('pressing enter triggers primary action on toast', async () => {
   // Press enter to trigger the action and show toast
   await session.press('enter')
   await session.text({
-    waitFor: (text) => text.includes('[Undo'),
+    waitFor: (text) => text.includes('Undo ctrl t'),
   })
 
   const beforeEnter = await session.text()
@@ -43,7 +43,7 @@ test('pressing enter triggers primary action on toast', async () => {
        Other Item
 
 
-       ✓ File Deleted  [Undo ctrl t]  document.pdf was moved to trash
+       ✓ File Deleted  document.pdf was moved to trash      Undo ctrl t
 
 
 
@@ -53,7 +53,7 @@ test('pressing enter triggers primary action on toast', async () => {
     "
   `)
 
-  expect(beforeEnter).toContain('[Undo')
+  expect(beforeEnter).toContain('Undo ctrl t')
 
   // Press Ctrl+T to trigger the primary action
   await session.press(['ctrl', 't'])
@@ -98,11 +98,11 @@ test('pressing escape hides the toast', async () => {
   // Press enter to show toast
   await session.press('enter')
   await session.text({
-    waitFor: (text) => text.includes('[Undo'),
+    waitFor: (text) => text.includes('Undo ctrl t'),
   })
 
   const beforeEsc = await session.text()
-  expect(beforeEsc).toContain('[Undo')
+  expect(beforeEsc).toContain('Undo ctrl t')
 
   await session.press('escape')
   await new Promise((r) => setTimeout(r, 300))
@@ -122,7 +122,7 @@ test('pressing escape hides the toast', async () => {
        Other Item
 
 
-       show toast ↵   navigate ↑↓   actions ^k
+       ↵ show toast   ↑↓ navigate   ^k actions
 
 
 
@@ -132,7 +132,7 @@ test('pressing escape hides the toast', async () => {
     "
   `)
 
-  expect(afterEsc).not.toContain('[Undo')
+  expect(afterEsc).not.toContain('Undo ctrl t')
   // Verify list is still visible (ESC didn't exit the app)
   expect(afterEsc).toContain('Toast Action Test')
 }, 30000)
@@ -187,7 +187,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
   await session.waitIdle()
   await session.press('enter')
   await session.text({
-    waitFor: (text) => text.includes('[View Details'),
+    waitFor: (text) => text.includes('View Details ctrl t'),
   })
 
   const toastShown = await session.text()
@@ -195,7 +195,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
 
 
-
+    
 
       ◆  Name
       │  John
@@ -203,7 +203,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       └
 
 
-       ✓ Form Submitted  [View Details ctrl t]  Hello, John!
+       ✓ Form Submitted  Hello, John!               View Details ctrl t
 
 
 
@@ -233,7 +233,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       ›Welcome, John! Form submission successful
 
 
-       navigate ↑↓   actions ^k
+       ↑↓ navigate   ^k actions
 
 
 
@@ -272,11 +272,11 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
   await session.waitIdle()
   await session.press('enter')
   await session.text({
-    waitFor: (text) => text.includes('[View Details'),
+    waitFor: (text) => text.includes('View Details ctrl t'),
   })
 
   const toastShown = await session.text()
-  expect(toastShown).toContain('[View Details')
+  expect(toastShown).toContain('View Details ctrl t')
 
   // Press Escape to close toast
   await session.press('escape')
@@ -295,7 +295,7 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
       └
 
 
-       submit ctrl ↵   navigate tab   actions ^k
+       ctrl ↵ submit   tab navigate   ^k actions
 
 
 
@@ -308,7 +308,7 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
   `)
 
   // Toast should be closed
-  expect(afterEsc).not.toContain('[View Details')
+  expect(afterEsc).not.toContain('View Details ctrl t')
   // Should still be on the form (Name field visible)
   expect(afterEsc).toContain('Name')
 }, 30000)
@@ -341,7 +341,7 @@ test('delayed toast action: primaryAction set after toast shown works with enter
 
   // Wait for delayed toast to show with primaryAction (set after 500ms delay)
   await session.text({
-    waitFor: (text) => text.includes('[Open'),
+    waitFor: (text) => text.includes('Open ctrl t'),
     timeout: 3000,
   })
 
@@ -358,7 +358,7 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       └
 
 
-       ✓ Done  [Open ctrl t]  Hello, Test!
+       ✓ Done  Hello, Test!                                 Open ctrl t
 
 
 

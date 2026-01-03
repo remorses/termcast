@@ -268,7 +268,7 @@ test('list with sections search functionality', async () => {
 
        > bread
 
-       Bread Freshly baked                                 Today [New]
+      ›Bread Freshly baked                                 Today [New]
 
 
        ↵ view details   ↑↓ navigate   ^k actions
@@ -294,18 +294,18 @@ test('list with sections search functionality', async () => {
 
 
 
-      Banana
+      Bread
 
-      A yellow tropical fruit that's nutritious and energy-rich.
+      Freshly baked bread from our bakery.
 
-      Benefits
-      - High in potassium
-      - Natural energy booster
-      - Aids digestion
+      Product Details
+      - Baked fresh daily
+      - Made with organic flour
+      - No preservatives
+      - Perfect for sandwiches or toast
 
 
       esc go back
-
 
 
 
