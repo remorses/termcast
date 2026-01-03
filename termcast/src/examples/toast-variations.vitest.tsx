@@ -50,7 +50,7 @@ test('toast variations display correctly', async () => {
 
 
 
-
+       ✓ Success
 
     "
   `)
@@ -152,7 +152,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✗ Error  This is a very long error message that should wrap to multiple line
+       ✗ Error  This is a very long error message that should wrap to multiple
 
 
 
@@ -189,7 +189,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✗ Warning  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do e
+       ✗ Warning  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
 
 
 
@@ -226,7 +226,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✓ File Deleted  document.pdf was moved to trash                  Undo ctrl t
+       ✓ File Deleted  document.pdf was moved to trash                Undo ctrl t
 
 
 
@@ -263,7 +263,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✓ Update Available  Version 2.0 is ready to ins  Install ctrl t Later ctrl g
+       ✓ Update Available  Version 2.0 is ready to i  Install ctrl t Later ctrl g
 
 
 
@@ -300,7 +300,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✓ Operation Completed Successfully  All   View Results ctrl t Dismiss ctrl g
+       ✓ Operation Completed Successfully  Al  View Results ctrl t Dismiss ctrl g
 
 
 
@@ -374,7 +374,7 @@ test('toast variations display correctly', async () => {
       ›Error with Retry
 
 
-       ✗ Connection Failed  Unable to connect to the server. Please c  Retry ctrl t
+       ✗ Connection Failed  Unable to connect to the server. Please  Retry ctrl t
 
 
 

@@ -296,7 +296,6 @@ test('navigation with actions panel', async () => {
     "
 
 
-       Navigation Example ─────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -309,10 +308,11 @@ test('navigation with actions panel', async () => {
       │   Settings                                                     │
       │   Change Theme...                                              │
       │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
 
 
 
@@ -329,7 +329,6 @@ test('navigation with actions panel', async () => {
     "
 
 
-       Navigation Example ─────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -342,10 +341,11 @@ test('navigation with actions panel', async () => {
       │   Settings                                                     │
       │   Change Theme...                                              │
       │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
 
 
 
@@ -439,7 +439,6 @@ test('navigation with actions panel', async () => {
   expect(detailActionsSnapshot).toMatchInlineSnapshot(`
     "
 
-
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -452,10 +451,11 @@ test('navigation with actions panel', async () => {
       │   Settings                                                     │
       │   Change Theme...                                              │
       │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
 
 
 

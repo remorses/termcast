@@ -138,7 +138,6 @@ test('grid navigation and display', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -151,10 +150,11 @@ test('grid navigation and display', async () => {
       │   Settings                                                     │
       │   Change Theme...                                              │
       │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -171,8 +171,6 @@ test('grid navigation and display', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-          Apple                                                        ▀
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -183,11 +181,13 @@ test('grid navigation and display', async () => {
       │   Settings                                                     │
       │  ›Change Theme...                                              │
       │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
-       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -523,7 +523,6 @@ test('grid mouse interaction', async () => {
 
        > Search items...
 
-          Cat                                                          ▲
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -536,10 +535,11 @@ test('grid mouse interaction', async () => {
       │   Settings                                                     │
       │   Change Theme...                                              │
       │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)

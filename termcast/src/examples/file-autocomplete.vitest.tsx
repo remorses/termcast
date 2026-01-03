@@ -185,6 +185,7 @@ test('file picker shows only files, not folders', async () => {
       │                                                                │
       │ Filter: t                                                      │
       │                                                                │
+      │  ▫ template/                                                   │
       │  ▫ termcasttmp/                                                │
       │  ▫ tmp/                                                        │
       │  ▪ TESTING_RAYCAST_EXTENSIONS.md                               │
@@ -193,7 +194,6 @@ test('file picker shows only files, not folders', async () => {
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
       ╰────────────────────────────────────────────────────────────────╯
-      └
 
 
        ctrl ↵ submit   tab navigate   ^k actions

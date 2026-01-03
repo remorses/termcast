@@ -423,7 +423,6 @@ test('list actions panel with ctrl+k', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       > Search items...
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -436,9 +435,10 @@ test('list actions panel with ctrl+k', async () => {
       │   Settings                                                     │
       │   Change Theme...                                              │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯"
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │
+      │                                                                │"
   `)
 
   // Navigate down to second action
@@ -451,7 +451,6 @@ test('list actions panel with ctrl+k', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       > Search items...
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -464,9 +463,10 @@ test('list actions panel with ctrl+k', async () => {
       │   Settings                                                     │
       │   Change Theme...                                              │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯"
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │
+      │                                                                │"
   `)
 
   // Trigger the second action (Add to Cart)

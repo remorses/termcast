@@ -153,7 +153,6 @@ test('list with detail view display and navigation', async () => {
        bulbasaur #001
        ivysaur #002                         │ charmander                        ▲
       ›charmander #004                      │                                   █
-       charmeleon #005                      │ Illustration
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Actions                                                          esc   │
@@ -166,10 +165,11 @@ test('list with detail view display and navigation', async () => {
       │   Settings                                                               │
       │   Change Theme...                                                        │
       │                                                                          │
+      │                                                                          │
+      │                                                                          │
       │   ↵ select   ↑↓ navigate                                                 │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
-                                            │ Fire:
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 

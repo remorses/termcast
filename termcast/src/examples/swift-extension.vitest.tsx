@@ -89,22 +89,22 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
        > Search commands...
 
        Commands
-      ›List Items Displays a simple list with some items          view
-       Swift List Displays a list of items returned by a Swift fu view
+      ›List Items Displays a simple list with some items         view
+       Swift List Displays a list of items returned by a Swift f view
+
+
+
+
+
+
+
+
+
+
 
 
 
        ↵ run command   ↑↓ navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
