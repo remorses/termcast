@@ -36,8 +36,8 @@
     "node-gyp-build"
   ],
   "dependencies": {
-    "@opentui/core": "^0.1.67",
-    "@opentui/react": "^0.1.67",
+    "@opentui/core": "^0.1.68",
+    "@opentui/react": "^0.1.68",
     "@parcel/watcher": "^2.5.1",
     "@parcel/watcher-darwin-arm64": "^2.5.1",
     "figlet": "^1.9.4",

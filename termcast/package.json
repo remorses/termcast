@@ -31,8 +31,8 @@
   "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
   "license": "",
   "dependencies": {
-    "@opentui/core": "0.1.67",
-    "@opentui/react": "0.1.67",
+    "@opentui/core": "0.1.68",
+    "@opentui/react": "0.1.68",
     "@parcel/watcher": "^2.5.1",
     "@swc/core": "^1.15.7",
     "@tanstack/react-query": "^5.85.5",
@@ -61,7 +61,7 @@
     "@raycast/utils": "^2.2.1",
     "@xterm/addon-serialize": "^0.13.0",
     "@xterm/headless": "^5.5.0",
-    "bun-pty": "^0.4.3",
+    "bun-pty": "^0.4.5",
     "vitest": "^4.0.16"
   }
 }
