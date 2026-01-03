@@ -1,10 +1,9 @@
 import type { LoaderFunctionArgs } from 'react-router'
 import { generateInstallScript } from '../lib/generate-install-script'
 
-// Legacy short URL for remorses repos: /r/repo -> remorses/repo
 export async function loader({ params }: LoaderFunctionArgs) {
-  const { repo } = params
-  const script = await generateInstallScript(`remorses/${repo}`)
+  const { owner, repo } = params
+  const script = await generateInstallScript(`${owner}/${repo}`)
 
   return new Response(script, {
     headers: {

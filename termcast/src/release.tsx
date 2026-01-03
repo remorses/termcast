@@ -21,6 +21,7 @@ export interface ReleaseResult {
   success: boolean
   tag: string
   uploadedFiles: string[]
+  installUrl: string
 }
 
 export async function releaseExtension({
@@ -45,7 +46,8 @@ export async function releaseExtension({
     throw new Error(`package.json must have a "name" field`)
   }
 
-  // Get repo name from git remote
+  // Get repo owner and name from git remote
+  let repoOwner: string
   let repoName: string
   try {
     const remoteUrl = execSync('git config --get remote.origin.url', {
@@ -53,13 +55,16 @@ export async function releaseExtension({
       encoding: 'utf-8',
     }).trim()
     // Handle both HTTPS and SSH URLs:
-    // https://github.com/user/repo.git -> repo
-    // git@github.com:user/repo.git -> repo
-    const match = remoteUrl.match(/\/([^/]+?)(?:\.git)?$/) || remoteUrl.match(/:([^/]+?)(?:\.git)?$/)
+    // https://github.com/user/repo.git -> user/repo
+    // git@github.com:user/repo.git -> user/repo
+    const httpsMatch = remoteUrl.match(/github\.com\/([^/]+)\/([^/]+?)(?:\.git)?$/)
+    const sshMatch = remoteUrl.match(/github\.com:([^/]+)\/([^/]+?)(?:\.git)?$/)
+    const match = httpsMatch || sshMatch
     if (!match) {
-      throw new Error(`Could not parse repo name from remote URL: ${remoteUrl}`)
+      throw new Error(`Could not parse owner/repo from remote URL: ${remoteUrl}`)
     }
-    repoName = match[1].replace(/\.git$/, '')
+    repoOwner = match[1]
+    repoName = match[2].replace(/\.git$/, '')
   } catch (error: any) {
     throw new Error(`Failed to get git remote: ${error.message}`)
   }
@@ -168,13 +173,16 @@ export async function releaseExtension({
 
 
 
+  const installUrl = `https://termcast.app/${repoOwner}/${repoName}/install`
   console.log(`\n✅ Release ${tag} published successfully!`)
   console.log(`   ${compileResults.length} binaries uploaded`)
-
+  console.log(`\nInstall script:`)
+  console.log(`   curl -sf ${installUrl} | bash`)
 
   return {
     success: true,
     tag,
     uploadedFiles: compileResults,
+    installUrl,
   }
 }
