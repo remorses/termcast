@@ -682,6 +682,90 @@ cli
     },
   )
 
+cli
+  .command('new <name>', 'Create a new termcast extension')
+  .action(async (name: string) => {
+    try {
+      const targetDir = path.resolve(name)
+
+      if (fs.existsSync(targetDir)) {
+        console.error(`Directory "${name}" already exists`)
+        process.exit(1)
+      }
+
+      console.log(`Creating new extension "${name}"...`)
+
+      // Download template from GitHub
+      const templateUrl =
+        'https://github.com/remorses/termcast/archive/refs/heads/main.zip'
+
+      console.log('Downloading template...')
+      const response = await fetch(templateUrl)
+      if (!response.ok) {
+        throw new Error(`Failed to download template: ${response.status}`)
+      }
+
+      console.log('Extracting...')
+      const JSZip = (await import('jszip')).default
+      const zip = await JSZip.loadAsync(await response.arrayBuffer())
+
+      // Find the template folder in the zip
+      const templatePrefix = 'termcast-main/termcast/template/'
+      const templateFiles = Object.keys(zip.files).filter((name) =>
+        name.startsWith(templatePrefix),
+      )
+
+      if (templateFiles.length === 0) {
+        throw new Error('Template not found in downloaded archive')
+      }
+
+      // Extract template files to target directory
+      fs.mkdirSync(targetDir, { recursive: true })
+
+      for (const filePath of templateFiles) {
+        const relativePath = filePath.slice(templatePrefix.length)
+        if (!relativePath) {
+          continue
+        }
+
+        const targetPath = path.join(targetDir, relativePath)
+        const zipEntry = zip.files[filePath]
+
+        if (zipEntry.dir) {
+          fs.mkdirSync(targetPath, { recursive: true })
+        } else {
+          fs.mkdirSync(path.dirname(targetPath), { recursive: true })
+          const content = await zipEntry.async('nodebuffer')
+          fs.writeFileSync(targetPath, content)
+        }
+      }
+
+      // Replace placeholders in package.json
+      const packageJsonPath = path.join(targetDir, 'package.json')
+      let packageJsonContent = fs.readFileSync(packageJsonPath, 'utf-8')
+      const title = name
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+      packageJsonContent = packageJsonContent
+        .replace(/\{\{name\}\}/g, name)
+        .replace(/\{\{title\}\}/g, title)
+      fs.writeFileSync(packageJsonPath, packageJsonContent)
+
+      console.log('\nInstalling dependencies...')
+      execSync('bun install', { cwd: targetDir, stdio: 'inherit' })
+
+      console.log(`\n✅ Created "${name}" successfully!`)
+      console.log(`\nNext steps:`)
+      console.log(`  cd ${name}`)
+      console.log(`  termcast dev`)
+      process.exit(0)
+    } catch (error: any) {
+      console.error('Failed to create extension:', error.message)
+      process.exit(1)
+    }
+  })
+
 cli.command('', 'List and run installed extensions').action(async () => {
   await runHomeCommand()
 })
