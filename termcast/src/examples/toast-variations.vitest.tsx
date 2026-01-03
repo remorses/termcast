@@ -41,16 +41,16 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
+
+
+
+
+
+
+
+
+
        ✓ Success
-
-
-
-
-
-
-
-
-
 
     "
   `)

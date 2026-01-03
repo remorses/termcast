@@ -205,7 +205,7 @@ test('list with sections search functionality', async () => {
 
        > let
 
-       Lettuce Green and fresh
+      ›Lettuce Green and fresh
 
 
        ↵ view details   ↑↓ navigate   ^k actions
@@ -534,11 +534,11 @@ test('filtering selects first visible item and navigation works', async () => {
 
        > ora
 
-       Orange Citrus and juicy                                   Fresh
+      ›Orange Citrus and juicy                                   Fresh
        Carrot Orange and crunchy                             [Healthy]
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions
 
 
 
@@ -562,11 +562,11 @@ test('filtering selects first visible item and navigation works', async () => {
 
        > ora
 
-      ›Orange Citrus and juicy                                   Fresh
-       Carrot Orange and crunchy                             [Healthy]
+       Orange Citrus and juicy                                   Fresh
+      ›Carrot Orange and crunchy                             [Healthy]
 
 
-       ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions
 
 
 
@@ -590,11 +590,11 @@ test('filtering selects first visible item and navigation works', async () => {
 
        > ora
 
-       Orange Citrus and juicy                                   Fresh
-      ›Carrot Orange and crunchy                             [Healthy]
+      ›Orange Citrus and juicy                                   Fresh
+       Carrot Orange and crunchy                             [Healthy]
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions
 
 
 
@@ -618,11 +618,11 @@ test('filtering selects first visible item and navigation works', async () => {
 
        > ora
 
-      ›Orange Citrus and juicy                                   Fresh
-       Carrot Orange and crunchy                             [Healthy]
+       Orange Citrus and juicy                                   Fresh
+      ›Carrot Orange and crunchy                             [Healthy]
 
 
-       ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions
 
 
 
