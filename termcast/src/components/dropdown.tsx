@@ -7,7 +7,7 @@ import React, {
   createContext,
   useContext,
 } from 'react'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, flushSync } from '@opentui/react'
 import {
   TextAttributes,
   ScrollBoxRenderable,
@@ -168,9 +168,10 @@ const Dropdown: DropdownType = (props) => {
   const handleSearchTextChange = (text: string) => {
     if (!inFocus) return
 
-    // Update state for context
-    setSearchTextState(text)
-    // TODO: use flushSync when available to force descendants to update visibility
+    // Update state for context, using flushSync to force descendants to update visibility
+    flushSync(() => {
+      setSearchTextState(text)
+    })
     const items = Object.values(descendantsContext.map.current)
       .filter((item: any) => item.index !== -1 && !item.props?.hidden)
       .sort((a: any, b: any) => a.index - b.index)

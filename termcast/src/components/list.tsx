@@ -4,7 +4,7 @@ import {
   TextAttributes,
   TextareaRenderable,
 } from '@opentui/core'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, flushSync } from '@opentui/react'
 import React, {
     ReactElement,
     ReactNode,
@@ -390,8 +390,10 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
 
   // Wrapper function that updates search text
   const setSearchText = (value: string) => {
-    setSearchTextRaw(value)
-    // TODO: use flushSync when available to force descendants to update visibility
+    // Using flushSync to force descendants to update visibility before querying
+    flushSync(() => {
+      setSearchTextRaw(value)
+    })
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
       .sort((a, b) => a.index - b.index)
@@ -773,9 +775,10 @@ export const List: ListType = (props) => {
 
   // Wrapper function that updates search text
   const setInternalSearchText = (value: string) => {
-    setInternalSearchTextRaw(value)
-    // TODO: use flushSync when available to force descendants to update visibility
-    // before querying. For now, we compute visibility inline with the new search value.
+    // Using flushSync to force descendants to update visibility before querying
+    flushSync(() => {
+      setInternalSearchTextRaw(value)
+    })
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
       .sort((a, b) => a.index - b.index)
