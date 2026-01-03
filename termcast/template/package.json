@@ -1,0 +1,26 @@
+{
+  "name": "{{name}}",
+  "version": "0.0.1",
+  "title": "{{title}}",
+  "description": "A termcast extension",
+  "author": "",
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "index",
+      "title": "Browse Items",
+      "description": "Browse and manage items",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.93.3"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.11",
+    "@types/node": "~22.13.14",
+    "@types/react": "^19.1.2",
+    "eslint": "^8.57.1",
+    "typescript": "^5.8.2"
+  }
+}
