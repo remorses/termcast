@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.32
+
+### Patch Changes
+
+- Add `@swc/wasm` fallback dependency for platforms without native SWC bindings
+
 ## 1.3.31
 
 ### Patch Changes
