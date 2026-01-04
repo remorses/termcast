@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.31
+
+### Patch Changes
+
+- Fix `bunx termcast` not finding executable by using explicit bin object format
+- Add `chmod +x` to prepublishOnly script to ensure CLI is executable
+- Pin `bun-pty` to 0.4.2 to fix tsc errors from broken TypeScript sources in 0.4.5
+- Add `node-pty` dev dependency for e2e-node.tsx
+- Fix TypeScript errors for fetch `.json()` calls returning unknown
+
 ## 1.3.30
 
 ### Patch Changes

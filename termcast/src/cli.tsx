@@ -36,7 +36,7 @@ async function checkForUpdates() {
       return
     }
 
-    const latestRelease = await response.json()
+    const latestRelease = (await response.json()) as { tag_name?: string }
     const latestVersion =
       latestRelease.tag_name?.replace('termcast@', '') ||
       latestRelease.tag_name?.replace('v', '')
@@ -340,7 +340,9 @@ cli
         process.exit(1)
       }
 
-      const prData = await prResponse.json()
+      const prData = (await prResponse.json()) as {
+        head: { user: { login: string }; ref: string; repo: { clone_url: string } }
+      }
       const prAuthor = prData.head.user.login
       const branch = prData.head.ref
       const forkUrl = prData.head.repo.clone_url
