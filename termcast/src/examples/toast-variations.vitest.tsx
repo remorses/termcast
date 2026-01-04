@@ -41,16 +41,16 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-
-
-
-
-
-
-
-
-
        ✓ Success
+
+
+
+
+
+
+
+
+
 
     "
   `)
@@ -337,7 +337,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ⣽ Processing  Please wait while we process your request...
+       ⣾ Processing  Please wait while we process your request...
 
 
 
