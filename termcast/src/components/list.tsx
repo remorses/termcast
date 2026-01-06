@@ -303,6 +303,7 @@ interface ListContextValue {
   isFiltering: boolean
   setCurrentDetail?: (detail: ReactNode) => void
   isShowingDetail?: boolean
+  customEmptyViewRef: React.MutableRefObject<boolean>
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -730,6 +731,7 @@ export const List: ListType = (props) => {
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
   const [currentItemActions, setCurrentItemActions] = useState<ReactNode>(null)
   const inputRef = useRef<TextareaRenderable>(null)
+  const customEmptyViewRef = useRef(false)
 
   // Ref callback that registers the textarea in global state for ESC handling
   const setInputRef = useCallback((node: TextareaRenderable | null) => {
@@ -820,6 +822,7 @@ export const List: ListType = (props) => {
       isFiltering: isFilteringEnabled,
       setCurrentDetail,
       isShowingDetail,
+      customEmptyViewRef,
     }),
     [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail],
   )
@@ -1108,11 +1111,12 @@ export const List: ListType = (props) => {
 
 
 // Wrapper component that only renders children when no visible items exist
-function ShowOnNoItems(props: { children: ReactNode }): any {
+function ShowOnNoItems(props: { children: ReactNode; isCustomEmptyView?: boolean }): any {
   // Subscribe to re-render when items are added/removed
   void useListDescendantsRerender()
   // Get live map ref for reading in useLayoutEffect
   const map = useListDescendantsMap()
+  const listContext = useContext(ListContext)
   const [hasVisibleItems, setHasVisibleItems] = useState(true)
 
   // We must check visibility in useLayoutEffect because:
@@ -1124,7 +1128,9 @@ function ShowOnNoItems(props: { children: ReactNode }): any {
   useLayoutEffect(() => {
     const items = Object.values(map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
-    setHasVisibleItems(items.length > 0)
+    // For default empty view, also check if custom empty view exists
+    const hasCustomEmptyView = !props.isCustomEmptyView && (listContext?.customEmptyViewRef.current ?? false)
+    setHasVisibleItems(items.length > 0 || hasCustomEmptyView)
   })
 
   if (hasVisibleItems) return null
@@ -1858,8 +1864,20 @@ function EmptyViewContent(props: EmptyViewProps): any {
 }
 
 List.EmptyView = (props: EmptyViewProps) => {
+  const listContext = useContext(ListContext)
+
+  // Register that a custom empty view exists
+  useLayoutEffect(() => {
+    if (listContext?.customEmptyViewRef) {
+      listContext.customEmptyViewRef.current = true
+      return () => {
+        listContext.customEmptyViewRef.current = false
+      }
+    }
+  }, [listContext])
+
   return (
-    <ShowOnNoItems>
+    <ShowOnNoItems isCustomEmptyView>
       <EmptyViewContent {...props} />
     </ShowOnNoItems>
   )
