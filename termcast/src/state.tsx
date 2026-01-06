@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { type ReactNode } from 'react'
+import type { TextareaRenderable } from '@opentui/core'
 import type { RaycastPackageJson } from './package-json'
 
 // Toast action keyboard shortcuts (ctrl+t for primary, ctrl+g for secondary)
@@ -64,6 +65,8 @@ interface AppState {
   firstActionTitle: string
   // Theme state
   currentThemeName: string
+  // Active search input ref - used to clear search before exiting on ESC
+  activeSearchInputRef: TextareaRenderable | null
 }
 
 export const useStore = create<AppState>(() => ({
@@ -88,4 +91,6 @@ export const useStore = create<AppState>(() => ({
   firstActionTitle: '',
   // Theme state
   currentThemeName: 'termcast',
+  // Active search input ref
+  activeSearchInputRef: null,
 }))

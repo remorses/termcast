@@ -9,6 +9,7 @@ import React, {
     ReactElement,
     ReactNode,
     createContext,
+    useCallback,
     useContext,
     useEffect,
     useLayoutEffect,
@@ -725,6 +726,22 @@ export const List: ListType = (props) => {
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
   const [currentItemActions, setCurrentItemActions] = useState<ReactNode>(null)
   const inputRef = useRef<TextareaRenderable>(null)
+
+  // Ref callback that registers the textarea in global state for ESC handling
+  const setInputRef = useCallback((node: TextareaRenderable | null) => {
+    if (node) {
+      inputRef.current = node
+      useStore.setState({ activeSearchInputRef: node })
+
+      // React 19: return cleanup function for unmount
+      return () => {
+        if (useStore.getState().activeSearchInputRef === node) {
+          useStore.setState({ activeSearchInputRef: null })
+        }
+        inputRef.current = null
+      }
+    }
+  }, [])
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useListDescendants()
   const navigationPending = useNavigationPending()
@@ -1004,7 +1021,7 @@ export const List: ListType = (props) => {
               >
                 <text flexShrink={0} fg={Theme.textMuted}>&gt; </text>
                 <textarea
-                  ref={inputRef}
+                  ref={setInputRef}
                   height={1}
                   flexGrow={1}
                   wrapMode='none'

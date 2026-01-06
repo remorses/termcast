@@ -165,7 +165,14 @@ export function NavigationProvider(props: NavigationProviderProps): any {
         )
         pop()
       } else {
-        // At root with no dialogs - exit the CLI
+        // At root - check if there's a search input with text that should be cleared first
+        const activeSearchInputRef = useStore.getState().activeSearchInputRef
+        if (activeSearchInputRef && activeSearchInputRef.plainText) {
+          // Clear the search text instead of exiting
+          activeSearchInputRef.setText('')
+          return
+        }
+        // At root with no dialogs and no search text - exit the CLI
         renderer.destroy()
       }
     }
