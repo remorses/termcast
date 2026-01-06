@@ -178,7 +178,7 @@ const ActionPanelContext = createContext<ActionPanelContextValue>({})
 const Action: ActionType = (props) => {
   // Register as descendant with execute function
   useActionDescendant({
-    title: props.title,
+    title: props.title || 'View',
     shortcut: props.shortcut,
     execute: () => props.onAction?.(),
   })
@@ -204,7 +204,7 @@ Action.Push = (props) => {
 
   // Register as descendant with execute function
   useActionDescendant({
-    title: props.title,
+    title: props.title || 'Navigate',
     shortcut: props.shortcut,
     execute: () => {
       props.onPush?.()
@@ -229,7 +229,7 @@ Action.Push = (props) => {
 Action.CopyToClipboard = (props) => {
   // Register as descendant with execute function
   useActionDescendant({
-    title: props.title,
+    title: props.title || 'Copy to clipboard',
     shortcut: props.shortcut,
     execute: () => {
       copyToClipboard(props.content, props.concealed)
@@ -262,7 +262,7 @@ Action.CopyToClipboard = (props) => {
 Action.OpenInBrowser = (props) => {
   // Register as descendant with execute function
   useActionDescendant({
-    title: props.title,
+    title: props.title || 'Open in Browser',
     shortcut: props.shortcut,
     execute: () => {
       openInBrowser(props.url)
@@ -289,7 +289,7 @@ Action.OpenInBrowser = (props) => {
 Action.Open = (props) => {
   // Register as descendant with execute function
   useActionDescendant({
-    title: props.title,
+    title: props.title || 'Open',
     shortcut: props.shortcut,
     execute: () => {
       openFile(props.target, props.application)
@@ -317,7 +317,7 @@ Action.Open = (props) => {
 Action.Paste = (props) => {
   // Register as descendant with execute function
   useActionDescendant({
-    title: props.title,
+    title: props.title || 'Paste',
     shortcut: props.shortcut,
     execute: () => {
       pasteContent(props.content)
