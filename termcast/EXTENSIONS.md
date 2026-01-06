@@ -1,6 +1,6 @@
 # Extension Execution Modes
 
-termcast supports three ways to run extensions: dev mode, compiled, and installed from store.
+termcast supports two ways to run extensions: dev mode and compiled.
 
 ## Storage Paths
 
@@ -8,9 +8,8 @@ termcast supports three ways to run extensions: dev mode, compiled, and installe
 |------|----------------|-----------------|
 | Dev | Local folder (e.g. `~/my-extension`) | `{extensionPath}/.termcast-bundle/data.db` |
 | Compiled | N/A (embedded in binary) | `~/.termcast/{extensionName}/data.db` |
-| Store | `~/.termcast/store/{extensionName}` | `{extensionPath}/.termcast-bundle/data.db` |
 
-For dev and store modes, the database path is determined by `extensionPath` in state. For compiled mode, no filesystem path exists - data is stored in user's home directory. 
+For dev mode, the database path is determined by `extensionPath` in state. For compiled mode, no filesystem path exists - data is stored in user's home directory. 
 
 ## Dev Mode
 
@@ -32,14 +31,6 @@ Entry: `startCompiledExtension({ packageJson, compiledCommands })`
 4. No build step needed - components are already bundled
 5. Binary is fully portable - no hardcoded paths
 
-## Store Mode
-
-Entry: Home list shows installed extensions from `getStoreDirectory()`
-
-1. Extensions installed to `~/.termcast/store/{extensionName}/`
-2. Each has its own `package.json` and pre-built bundle
-3. Sets `extensionPath` to the store subdirectory when running
-
 ## Preferences
 
 Preferences are stored in SQLite with keys:
@@ -51,3 +42,7 @@ The `ExtensionPreferences` component loads preference definitions from `package.
 ## logs
 
 logs that happen during extension execution are output in a local app.log file, in the cwd where the extension was run
+
+## Testing extensions
+
+See `TESTING_RAYCAST_EXTENSIONS.md` for detailed instructions on testing extensions, including how to skip tests in CI when the extension folder doesn't exist.
