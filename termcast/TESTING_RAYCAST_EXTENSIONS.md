@@ -75,22 +75,49 @@ Create a test file in `src/examples/<extension-name>.vitest.tsx` to automate tes
 
 ### Test File Structure
 
+The `extensions/` folder is gitignored, so tests must skip gracefully in CI. Use `test.skipIf` and check if the extension folder exists:
+
 ```tsx
 import { test, expect, beforeEach, afterEach, beforeAll } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
-import { execSync } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import path from 'node:path'
+import fs from 'node:fs'
 
 const extensionDir = path.resolve(__dirname, '../../extensions/<extension-name>')
 
-// Install dependencies before running tests
+// Check if extension exists (gitignored, only present locally)
+const extensionExists = fs.existsSync(extensionDir)
+
+// Install dependencies before running tests (only if extension exists)
 beforeAll(() => {
-  execSync('bun install', { cwd: extensionDir, stdio: 'inherit' })
-}, 60000)
+  if (!extensionExists) return
+
+  // Skip if already installed
+  if (fs.existsSync(path.join(extensionDir, 'node_modules', '.bin'))) {
+    return
+  }
+
+  const result = spawnSync('bun', ['install'], {
+    cwd: extensionDir,
+    stdio: 'inherit',
+    timeout: 120000,
+  })
+
+  if (result.status !== 0 || result.signal) {
+    throw new Error(
+      `bun install failed: status=${result.status}, signal=${result.signal}`,
+    )
+  }
+}, 180000)
 
 let session: Session
 
-beforeEach(async () => {
+beforeEach(async (ctx) => {
+  if (!extensionExists) {
+    ctx.skip()
+    return
+  }
   session = await launchTerminal({
     command: 'bun',
     args: ['src/cli.tsx', 'dev', extensionDir],
@@ -104,7 +131,7 @@ afterEach(() => {
   session?.close()
 })
 
-test('extension loads correctly', async () => {
+test.skipIf(!extensionExists)('extension loads correctly', async () => {
   // Wait for the extension to load
   const initialView = await session.text({
     waitFor: (text) => {
@@ -117,7 +144,7 @@ test('extension loads correctly', async () => {
   expect(initialView).toMatchInlineSnapshot()
 }, 60000)
 
-test('extension navigation works', async () => {
+test.skipIf(!extensionExists)('extension navigation works', async () => {
   // Wait for initial load
   await session.text({
     waitFor: (text) => /Some Expected Text/i.test(text),
