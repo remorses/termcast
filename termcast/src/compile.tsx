@@ -14,6 +14,7 @@ const raycastAliasPlugin: BunPlugin = {
 
     build.onResolve({ filter: /@raycast\/utils/ }, () => ({
       path: import.meta.resolve('@termcast/utils'),
+      external: true,
     }))
 
     build.onResolve({ filter: /^termcast/ }, (args) => ({

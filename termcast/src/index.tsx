@@ -97,11 +97,13 @@ export type {
 // Icons and Images
 export { Icon, getIconEmoji, getIconShape, IconComponent } from 'termcast/src/components/icon'
 export { Image, ImageMask } from 'termcast/src/components/image'
+export type { ImageType } from 'termcast/src/components/image'
 export type {
   ImageProps,
   ImageSource,
   FileIcon,
   ImageLike,
+  ImageFallback,
 } from 'termcast/src/components/image'
 
 // Alerts
