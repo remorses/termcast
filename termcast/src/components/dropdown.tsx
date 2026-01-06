@@ -15,6 +15,7 @@ import {
   TextareaRenderable,
 } from '@opentui/core'
 import { Theme } from 'termcast/src/theme'
+import { getIconValue } from 'termcast/src/components/icon'
 import { logger } from 'termcast/src/logger'
 import { useStore } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
@@ -45,7 +46,7 @@ export interface DropdownProps extends SearchBarInterface, CommonProps {
 
 export interface DropdownItemProps extends CommonProps {
   title: string
-  value: string
+  value?: string
   icon?: ReactNode
 
   keywords?: string[]
@@ -237,7 +238,9 @@ const Dropdown: DropdownType = (props) => {
 
     const nextItem = items[nextVisibleIndex]
     if (nextItem) {
-      setSelected(nextItem.index)
+      flushSync(() => {
+        setSelected(nextItem.index)
+      })
       scrollToItem(nextItem)
       if (onSelectionChange && nextItem.props) {
         onSelectionChange((nextItem.props as DropdownItemDescendant).value)
@@ -430,7 +433,7 @@ function ItemOption(props: {
             fg={props.active ? Theme.background : Theme.text}
             selectable={false}
           >
-            {String(props.icon)}{' '}
+            {getIconValue(props.icon)}{' '}
           </text>
         )}
         <text
@@ -485,9 +488,10 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
     return !searchableText.includes(needle)
   })()
 
-  // Register as descendant
+  // Register as descendant - use title as fallback for value
+  const value = props.value ?? props.title
   const { index } = useDropdownItemDescendant({
-    value: props.value,
+    value,
     title: props.title,
     hidden: shouldHide,
     elementRef: elementRef.current,
@@ -498,7 +502,7 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
 
   // Determine if active (index will be -1 if hidden)
   const isActive = index === selectedIndex && index !== -1
-  const isCurrent = props.value === currentValue
+  const isCurrent = value === currentValue
 
   // Handle mouse events
   const handleMouseMove = () => {
@@ -510,15 +514,15 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
     ) {
       context.setSelectedIndex(index)
       if (context.onSelectionChange) {
-        context.onSelectionChange(props.value)
+        context.onSelectionChange(value)
       }
     }
   }
 
   const handleMouseDown = () => {
     // Trigger selection on click
-    if (context.onChange && props.value) {
-      context.onChange(props.value)
+    if (context.onChange && value) {
+      context.onChange(value)
     }
   }
 
@@ -561,10 +565,15 @@ const DropdownSection: (props: DropdownSectionProps) => any = (props) => {
     )
   }
 
+  // Hide section titles when filtering is active and there's search text
+  // This prevents showing empty section headers when all items are filtered out
+  const hideTitle =
+    parentContext.filtering && parentContext.searchText.trim().length > 0
+
   return (
     <>
-      {/* Render section title if provided */}
-      {props.title && (
+      {/* Render section title if provided and not hidden by filtering */}
+      {props.title && !hideTitle && (
         <box style={{ paddingTop: 1, paddingLeft: 1 }}>
           <text fg={Theme.accent} attributes={TextAttributes.BOLD}>
             {props.title}

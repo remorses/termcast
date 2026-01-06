@@ -529,6 +529,75 @@ export function getIconEmoji(icon: string): string {
   return icon
 }
 
+/**
+ * Extract icon string from any icon format.
+ * Handles all Raycast icon formats:
+ * - string: direct icon name or emoji
+ * - { source: string }: image with source
+ * - { source: string, tintColor?: string }: image with tint
+ * - { source: { light, dark } }: theme-aware source
+ * - { value: ImageLike, tooltip: string }: icon with tooltip
+ * - { light: string, dark: string }: theme-aware icon directly
+ * - { fileIcon: string }: file icon
+ *
+ * Returns empty string for unhandled formats (never [object Object])
+ */
+export function getIconValue(icon: unknown): string {
+  if (!icon) {
+    return ''
+  }
+
+  if (typeof icon === 'string') {
+    return getIconEmoji(icon)
+  }
+
+  if (typeof icon !== 'object') {
+    return ''
+  }
+
+  const obj = icon as Record<string, unknown>
+
+  // Handle { value: ..., tooltip: ... } format
+  if ('value' in obj && obj.value) {
+    return getIconValue(obj.value)
+  }
+
+  // Handle { source: ... } format
+  if ('source' in obj) {
+    const source = obj.source
+    if (typeof source === 'string') {
+      return getIconEmoji(source)
+    }
+    // Handle { source: { light, dark } }
+    if (typeof source === 'object' && source !== null) {
+      const sourceObj = source as Record<string, unknown>
+      if ('light' in sourceObj && typeof sourceObj.light === 'string') {
+        return getIconEmoji(sourceObj.light)
+      }
+      if ('dark' in sourceObj && typeof sourceObj.dark === 'string') {
+        return getIconEmoji(sourceObj.dark)
+      }
+    }
+    return ''
+  }
+
+  // Handle { light, dark } directly on icon
+  if ('light' in obj && typeof obj.light === 'string') {
+    return getIconEmoji(obj.light)
+  }
+  if ('dark' in obj && typeof obj.dark === 'string') {
+    return getIconEmoji(obj.dark)
+  }
+
+  // Handle { fileIcon: string }
+  if ('fileIcon' in obj && typeof obj.fileIcon === 'string') {
+    return '📁'
+  }
+
+  // Unknown format - return empty string instead of [object Object]
+  return ''
+}
+
 interface IconProps {
   source: string
   tintColor?: string

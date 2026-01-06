@@ -278,8 +278,7 @@ Action.OpenInBrowser = (props) => {
   // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
-      title={props.title}
-      value={props.title}
+      title={props.title || 'Open in Browser'}
       icon={props.icon}
       label={formatShortcut(props.shortcut)}
     />

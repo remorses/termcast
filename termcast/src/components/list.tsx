@@ -28,7 +28,7 @@ import { Offscreen } from 'termcast/src/internal/offscreen'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 import { Color, resolveColor } from 'termcast/src/colors'
-import { getIconEmoji } from 'termcast/src/components/icon'
+import { getIconEmoji, getIconValue } from 'termcast/src/components/icon'
 import { ActionPanel } from 'termcast/src/components/actions'
 import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { CommonProps } from 'termcast/src/utils'
@@ -304,6 +304,7 @@ interface ListContextValue {
   setCurrentDetail?: (detail: ReactNode) => void
   isShowingDetail?: boolean
   customEmptyViewRef: React.MutableRefObject<boolean>
+  isLoading?: boolean
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -823,8 +824,9 @@ export const List: ListType = (props) => {
       setCurrentDetail,
       isShowingDetail,
       customEmptyViewRef,
+      isLoading,
     }),
-    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail],
+    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading],
   )
 
   // Clear detail when detail view is hidden
@@ -915,8 +917,10 @@ export const List: ListType = (props) => {
 
     const nextItem = items[nextVisibleIndex]
     if (nextItem) {
+      flushSync(() => {
+        setSelectedIndex(nextItem.index)
+      })
       scrollToItem(nextItem)
-      setSelectedIndex(nextItem.index)
     }
   }
 
@@ -1814,22 +1818,7 @@ function EmptyViewContent(props: EmptyViewProps): any {
     }
   })
 
-  // Get icon string from ImageLike
-  const getIconString = (icon: Image.ImageLike): string | null => {
-    if (typeof icon === 'string') {
-      return getIconEmoji(icon)
-    }
-    if (icon && typeof icon === 'object' && 'source' in icon) {
-      // For { source: string } or { source: { light, dark } } objects
-      const source = icon.source
-      if (typeof source === 'string') {
-        return getIconEmoji(source)
-      }
-    }
-    return null
-  }
-
-  const iconEmoji = props.icon ? getIconString(props.icon) : null
+  const iconEmoji = props.icon ? getIconValue(props.icon) || null : null
 
   return (
     <box

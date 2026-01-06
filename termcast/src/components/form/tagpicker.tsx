@@ -6,6 +6,7 @@ import {
   RefAttributes,
 } from 'react'
 import { Image } from 'termcast/src/components/list'
+import { getIconValue } from 'termcast/src/components/icon'
 import { Dropdown, DropdownProps, DropdownItemProps } from './dropdown'
 
 /**
@@ -158,7 +159,7 @@ const TagPickerItem: FunctionComponent<TagPickerItemProps> = (props): any => {
     <Dropdown.Item
       value={props.value}
       title={props.title || props.value}
-      icon={props.icon as string | undefined}
+      icon={getIconValue(props.icon) || undefined}
     />
   )
 }
