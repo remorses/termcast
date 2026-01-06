@@ -1333,10 +1333,24 @@ const ListItemDetailMetadata = (props: MetadataProps) => {
 }
 
 const ListItemDetailMetadataLabel = (props: { title: string; text?: string; icon?: Image.ImageLike }) => {
+  // Use row layout by default (key: value on same line)
+  // Fall back to column layout if value is long (would be truncated)
+  const textValue = props.text || ''
+  const isLongValue = textValue.length > 20
+
+  if (isLongValue) {
+    return (
+      <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
+        <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
+        <text flexShrink={0} fg={Theme.text}>{textValue}</text>
+      </box>
+    )
+  }
+
   return (
-    <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
-      <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
-      {props.text && <text flexShrink={0} fg={Theme.text}>{props.text}</text>}
+    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
+      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: 12 }}>{props.title}:</text>
+      <text flexShrink={0} fg={Theme.text}>{textValue || '—'}</text>
     </box>
   )
 }
@@ -1350,9 +1364,21 @@ const ListItemDetailMetadataSeparator = () => {
 }
 
 const ListItemDetailMetadataLink = (props: { title: string; target: string; text: string }) => {
+  // Use row layout by default, column layout for long values
+  const isLongValue = props.text.length > 20
+
+  if (isLongValue) {
+    return (
+      <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
+        <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
+        <text flexShrink={0} fg={Theme.markdownLink}>{props.text}</text>
+      </box>
+    )
+  }
+
   return (
-    <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
-      <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
+    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
+      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: 12 }}>{props.title}:</text>
       <text flexShrink={0} fg={Theme.markdownLink}>{props.text}</text>
     </box>
   )
@@ -1360,9 +1386,9 @@ const ListItemDetailMetadataLink = (props: { title: string; target: string; text
 
 const ListItemDetailMetadataTagList = (props: { title: string; children: ReactNode }) => {
   return (
-    <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
-      <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
-      <box style={{ flexDirection: 'row', paddingLeft: 1 }}>
+    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
+      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: 12 }}>{props.title}:</text>
+      <box style={{ flexDirection: 'row' }}>
         {props.children}
       </box>
     </box>

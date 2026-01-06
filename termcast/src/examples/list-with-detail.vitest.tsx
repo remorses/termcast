@@ -39,7 +39,7 @@ test('list with detail view display and navigation', async () => {
 
       ›bulbasaur #001
        ivysaur #002                         │ bulbasaur                         ▲
-       charmander #004                      │                                   ▀
+       charmander #004                      │                                   █
        charmeleon #005                      │ Illustration
        squirtle #007                        │
        wartortle #008                       │ Types
@@ -54,9 +54,9 @@ test('list with detail view display and navigation', async () => {
                                             │ - Overgrow
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Grass:
+                                            │ Grass:      —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -78,7 +78,7 @@ test('list with detail view display and navigation', async () => {
 
        bulbasaur #001
       ›ivysaur #002                         │ ivysaur                           ▲
-       charmander #004                      │                                   ▀
+       charmander #004                      │                                   █
        charmeleon #005                      │ Illustration
        squirtle #007                        │
        wartortle #008                       │ Types
@@ -93,9 +93,9 @@ test('list with detail view display and navigation', async () => {
                                             │ - Overgrow
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Grass:
+                                            │ Grass:      —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -130,9 +130,9 @@ test('list with detail view display and navigation', async () => {
                                             │ - Solar Power
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Fire:
+                                            │ Fire:       —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -250,9 +250,9 @@ test('list with detail view display and navigation', async () => {
                                             │ - Solar Power
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Fire:
+                                            │ Fire:       —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -299,9 +299,9 @@ test('list detail view search functionality', async () => {
                                             │ - Solar Power
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Fire:
+                                            │ Fire:       —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -345,9 +345,9 @@ test('list detail view search functionality', async () => {
                                             │ - Rain Dish
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Water:
+                                            │ Water:      —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -382,9 +382,9 @@ test('list detail view search functionality', async () => {
                                             │ - Rain Dish
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Water:
+                                            │ Water:      —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -416,7 +416,7 @@ test('list detail metadata rendering', async () => {
 
       ›bulbasaur #001
        ivysaur #002                         │ bulbasaur                         ▲
-       charmander #004                      │                                   ▀
+       charmander #004                      │                                   █
        charmeleon #005                      │ Illustration
        squirtle #007                        │
        wartortle #008                       │ Types
@@ -431,9 +431,9 @@ test('list detail metadata rendering', async () => {
                                             │ - Overgrow
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Grass:
+                                            │ Grass:      —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -475,9 +475,9 @@ test('list detail metadata rendering', async () => {
                                             │ - Rain Dish
                                             │ ─────────────────────────────────
                                             │
-                                            │ Types:
+                                            │ Types:      —
                                             │
-                                            │ Water:
+                                            │ Water:      —
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 

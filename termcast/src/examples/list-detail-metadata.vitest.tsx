@@ -16,7 +16,7 @@ afterEach(() => {
   session?.close()
 })
 
-test('list detail metadata label renders title and text in column layout', async () => {
+test('list detail metadata label renders short values in row layout (key: value)', async () => {
   const snapshot = await session.text({
     waitFor: (text) => {
       return (
@@ -36,24 +36,24 @@ test('list detail metadata label renders title and text in column layout', async
 
        > Search...
 
-      ›Item with Metadata
-       Another Item                         │                                   ▲
-                                            │ ───────────────────────────────── █
-                                            │                                   ▀
-                                            │ Name:
-                                            │ John Doe
+      ›Short Values
+       Long Values                          │
+                                            │ ──────────────────────────────────
                                             │
-                                            │ Email:
-                                            │ john@example.com
+                                            │ Name:       John Doe
+                                            │
+                                            │ Email:      john@example.com
                                             │ ─────────────────
                                             │
-       ↑↓ navigate   ^k actions             │ Status:                           ▼
+                                            │ Status:     Active
+                                            │ Website:    example.com
+       ↑↓ navigate   ^k actions             │
 
     "
   `)
 }, 10000)
 
-test('list detail metadata navigation shows different metadata', async () => {
+test('list detail metadata renders long values in column layout (key on one line, value below)', async () => {
   await session.text({
     waitFor: (text) => text.includes('Metadata Test'),
   })
@@ -62,7 +62,7 @@ test('list detail metadata navigation shows different metadata', async () => {
 
   const snapshot = await session.text({
     waitFor: (text) => {
-      return text.includes('Count') && text.includes('42')
+      return text.includes('Description') && text.includes('very long')
     },
   })
 
@@ -74,18 +74,18 @@ test('list detail metadata navigation shows different metadata', async () => {
 
        > Search...
 
-       Item with Metadata
-      ›Another Item                         │ Info
-                                            │ ──────────────────────────────────
+       Short Values
+      ›Long Values                          │ Info with Long Values             ▲
+                                            │ ───────────────────────────────── █
                                             │
-                                            │ Count:
-                                            │ 42
+                                            │ Description:
+                                            │ This is a very long description
+                                            │ that would be truncated if shown
+                                            │ inline
                                             │
-                                            │ Price:
-       ↑↓ navigate   ^k actions             │ $99.99
-
-
-
+                                            │ Path:
+                                            │ /Users/username/Documents/
+       ↑↓ navigate   ^k actions             │ Projects/my-project/src/components▼
 
     "
   `)

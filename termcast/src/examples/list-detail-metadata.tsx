@@ -11,7 +11,7 @@ const ListDetailMetadataExample = () => {
     >
       <List.Item
         id="item1"
-        title="Item with Metadata"
+        title="Short Values"
         detail={
           <List.Item.Detail
             markdown="# Details"
@@ -29,14 +29,17 @@ const ListDetailMetadataExample = () => {
       />
       <List.Item
         id="item2"
-        title="Another Item"
+        title="Long Values"
         detail={
           <List.Item.Detail
-            markdown="# Info"
+            markdown="# Info with Long Values"
             metadata={
               <List.Item.Detail.Metadata>
-                <List.Item.Detail.Metadata.Label title="Count" text="42" />
-                <List.Item.Detail.Metadata.Label title="Price" text="$99.99" />
+                <List.Item.Detail.Metadata.Label title="Description" text="This is a very long description that would be truncated if shown inline" />
+                <List.Item.Detail.Metadata.Label title="Path" text="/Users/username/Documents/Projects/my-project/src/components" />
+                <List.Item.Detail.Metadata.Separator />
+                <List.Item.Detail.Metadata.Label title="Short" text="OK" />
+                <List.Item.Detail.Metadata.Link title="URL" target="https://example.com/very/long/path/that/exceeds/limit" text="example.com/very/long/path" />
               </List.Item.Detail.Metadata>
             }
           />
