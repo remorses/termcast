@@ -7,9 +7,14 @@ test('simple scrollbox navigation and scrolling', async () => {
     args: ['src/examples/internal/simple-scrollbox.tsx'],
   })
 
+  // Wait for initial render with Item 1 visible
   await session.text({
-    waitFor: (text) => text.includes('Simple ScrollBox Demo'),
+    waitFor: (text) =>
+      text.includes('Simple ScrollBox Demo') && text.includes('Item 1'),
   })
+
+  // Wait for render to stabilize
+  await session.waitIdle()
 
   const initialText = await session.text()
   expect(initialText).toMatchInlineSnapshot(`
@@ -40,13 +45,13 @@ test('simple scrollbox navigation and scrolling', async () => {
     "
   `)
 
-  // Scroll down to see more items
-  await session.scrollDown(3)
+  // Scroll down to see more items - use more scroll events for reliability
+  await session.scrollDown(5)
 
   // Wait for Item 4 to appear (proves scroll happened)
   const afterScrollDownSnapshot = await session.text({
     waitFor: (text) => text.includes('Item 4'),
-    timeout: 5000,
+    timeout: 10000,
   })
   expect(afterScrollDownSnapshot).toMatchInlineSnapshot(`
     "
@@ -76,13 +81,13 @@ test('simple scrollbox navigation and scrolling', async () => {
     "
   `)
 
-  // Scroll back up
-  await session.scrollUp(2)
+  // Scroll back up - use more scroll events for reliability
+  await session.scrollUp(5)
 
-  // Wait for scrollbar to move back up (proves scroll happened)
+  // Wait for scroll to take effect - Item 4 should no longer be visible
   const afterScrollUpSnapshot = await session.text({
-    waitFor: (text) => text !== afterScrollDownSnapshot,
-    timeout: 5000,
+    waitFor: (text) => !text.includes('Item 4'),
+    timeout: 10000,
   })
   expect(afterScrollUpSnapshot).toMatchInlineSnapshot(`
     "

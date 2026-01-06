@@ -8,14 +8,23 @@ const extensionDir = path.resolve(__dirname, '../../extensions/synonyms')
 // Install dependencies before running tests
 beforeAll(() => {
   // Use spawnSync without shell to avoid /bin/sh issues on CI
-  const result = spawnSync('bun', ['install'], {
-    cwd: extensionDir,
-    stdio: 'inherit',
-  })
-  if (result.status !== 0) {
-    throw new Error(`bun install failed with exit code ${result.status}`)
+  // Retry up to 3 times because bun install can be flaky in CI
+  let lastError: Error | null = null
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const result = spawnSync('bun', ['install'], {
+      cwd: extensionDir,
+      stdio: 'inherit',
+      timeout: 30000,
+    })
+    if (result.status === 0) {
+      return // Success
+    }
+    lastError = new Error(
+      `bun install failed with exit code ${result.status} (attempt ${attempt}/3)`,
+    )
   }
-}, 60000)
+  throw lastError
+}, 120000)
 
 let session: Session
 
