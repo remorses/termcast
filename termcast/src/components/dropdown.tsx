@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useCallback,
   createContext,
   useContext,
 } from 'react'
@@ -15,6 +16,7 @@ import {
 } from '@opentui/core'
 import { Theme } from 'termcast/src/theme'
 import { logger } from 'termcast/src/logger'
+import { useStore } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useIsOffscreen } from 'termcast/src/internal/offscreen'
 import { CommonProps } from 'termcast/src/utils'
@@ -118,6 +120,23 @@ const Dropdown: DropdownType = (props) => {
     value || defaultValue,
   )
   const inputRef = useRef<TextareaRenderable>(null)
+
+  // Ref callback that registers the textarea in global state for ESC handling
+  const setInputRef = useCallback((node: TextareaRenderable | null) => {
+    if (!node) return
+
+    inputRef.current = node
+    useStore.setState({ activeSearchInputRef: node })
+
+    // React 19: return cleanup function for unmount
+    return () => {
+      if (useStore.getState().activeSearchInputRef === node) {
+        useStore.setState({ activeSearchInputRef: null })
+      }
+      inputRef.current = null
+    }
+  }, [])
+
   const lastSearchTextRef = useRef('')
   const throttleTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
@@ -298,7 +317,7 @@ const Dropdown: DropdownType = (props) => {
               <box style={{ paddingTop: 1, paddingBottom: 1, flexDirection: 'row' }}>
                 <text flexShrink={0} fg={Theme.primary}>&gt; </text>
                 <textarea
-                  ref={inputRef}
+                  ref={setInputRef}
                   height={1}
                   flexGrow={1}
                   wrapMode='none'

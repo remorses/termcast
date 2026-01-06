@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useCallback } from 'react'
 import { Theme } from 'termcast/src/theme'
 import { BoxRenderable, TextareaRenderable } from '@opentui/core'
 import { WithLeftBorder } from './with-left-border'
@@ -11,6 +11,7 @@ import { FileAutocompleteDialog, createFileAutocompleteStore } from './file-auto
 import { useFormNavigationHelpers } from './use-form-navigation'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { LoadingText } from 'termcast/src/components/loading-text'
+import { useStore } from 'termcast/src/state'
 
 export interface FilePickerProps extends FormItemProps<string[]> {
   /**
@@ -66,6 +67,23 @@ const FilePickerField = ({
 }): any => {
   const isInFocus = useIsInFocus()
   const inputRef = React.useRef<TextareaRenderable>(null)
+
+  // Ref callback that registers the textarea in global state for ESC handling
+  const setInputRef = useCallback((node: TextareaRenderable | null) => {
+    if (!node) return
+
+    inputRef.current = node
+    useStore.setState({ activeSearchInputRef: node })
+
+    // React 19: return cleanup function for unmount
+    return () => {
+      if (useStore.getState().activeSearchInputRef === node) {
+        useStore.setState({ activeSearchInputRef: null })
+      }
+      inputRef.current = null
+    }
+  }, [])
+
   const dialog = useDialog()
 
   // Create store once for sharing state with dialog
@@ -167,7 +185,7 @@ const FilePickerField = ({
       <WithLeftBorder isFocused={isFocused}>
         <box flexDirection='column'>
           <textarea
-            ref={inputRef}
+            ref={setInputRef}
             height={1}
             wrapMode='none'
             keyBindings={[

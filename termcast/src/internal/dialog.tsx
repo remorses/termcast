@@ -101,6 +101,13 @@ export function DialogProvider(props: DialogProviderProps): any {
     if (evt.name === 'escape') {
       const state = useStore.getState()
       if (state.dialogStack.length > 0) {
+        // Check if there's a search input with text that should be cleared first
+        const activeSearchInputRef = state.activeSearchInputRef
+        if (activeSearchInputRef && activeSearchInputRef.plainText) {
+          // Clear the search text instead of closing dialog
+          activeSearchInputRef.setText('')
+          return
+        }
         useStore.setState({
           dialogStack: state.dialogStack.slice(0, -1),
         })
