@@ -200,7 +200,7 @@ const Action: ActionType = (props) => {
 Action.Style = ActionStyle
 
 Action.Push = (props) => {
-  const dialog = useDialog()
+  const { push } = useNavigation()
 
   // Register as descendant with execute function
   useActionDescendant({
@@ -208,9 +208,9 @@ Action.Push = (props) => {
     shortcut: props.shortcut,
     execute: () => {
       props.onPush?.()
-      // Push the target to dialog if needed
+      // Push the target to navigation stack
       if (props.target) {
-        dialog.push({ element: props.target, position: 'center' })
+        push(props.target)
       }
     },
   })
