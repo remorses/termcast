@@ -1062,6 +1062,7 @@ export const List: ListType = (props) => {
                 focused={false}
                 flexGrow={1}
                 flexShrink={1}
+                minHeight={6}
                 style={{
                   rootOptions: {
                     backgroundColor: undefined,
