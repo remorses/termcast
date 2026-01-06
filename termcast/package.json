@@ -62,7 +62,7 @@
     "@types/node": "^25.0.3",
     "@xterm/addon-serialize": "^0.13.0",
     "@xterm/headless": "^5.5.0",
-    "bun-pty": "0.4.2",
+    "bun-pty": "0.4.6",
     "node-pty": "^1.1.0",
     "react": "^19.2.0",
     "tuistory": "workspace:*",
