@@ -1,4 +1,4 @@
-import { test, expect, beforeEach, afterEach, beforeAll } from 'vitest'
+import { test, expect, beforeEach, afterEach, beforeAll, describe } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
@@ -6,9 +6,16 @@ import fs from 'node:fs'
 
 const extensionDir = path.resolve(__dirname, '../../extensions/synonyms')
 
-// Install dependencies before running tests (CI pre-installs, this is for local dev)
+// The extensions folder is gitignored, so this test only runs locally
+const extensionExists = fs.existsSync(extensionDir)
+
+// Install dependencies before running tests (only if extension exists locally)
 beforeAll(() => {
-  // Skip if already installed (fast path for CI where deps are pre-installed)
+  if (!extensionExists) {
+    return // Extension folder doesn't exist (gitignored, not in CI)
+  }
+
+  // Skip if already installed
   if (fs.existsSync(path.join(extensionDir, 'node_modules', '.bin'))) {
     return
   }
@@ -28,7 +35,11 @@ beforeAll(() => {
 
 let session: Session
 
-beforeEach(async () => {
+beforeEach(async (ctx) => {
+  if (!extensionExists) {
+    ctx.skip()
+    return
+  }
   session = await launchTerminal({
     command: 'bun',
     args: ['src/cli.tsx', 'dev', extensionDir],
@@ -42,7 +53,7 @@ afterEach(() => {
   session?.close()
 })
 
-test('synonyms extension shows preferences form on first launch', async () => {
+test.skipIf(!extensionExists)('synonyms extension shows preferences form on first launch', async () => {
   // Wait for preferences form to appear (extension requires LLM provider setup)
   await session.text({
     waitFor: (text) => /LLM Provider/i.test(text),
@@ -89,7 +100,7 @@ test('synonyms extension shows preferences form on first launch', async () => {
   `)
 }, 60000)
 
-test('synonyms extension preferences form can be navigated', async () => {
+test.skipIf(!extensionExists)('synonyms extension preferences form can be navigated', async () => {
   // Wait for preferences form to appear
   await session.text({
     waitFor: (text) => /LLM Provider/i.test(text),
