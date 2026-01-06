@@ -7,7 +7,7 @@ import React, {
   useLayoutEffect,
 } from 'react'
 import { BoxRenderable, ScrollBoxRenderable } from '@opentui/core'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, flushSync } from '@opentui/react'
 import {
   useFormContext,
   Controller,
@@ -298,16 +298,20 @@ const DropdownContent = ({
     if (itemCount > 0) {
       if (evt.name === 'down') {
         const nextIndex = (focusedIndex + 1) % itemCount
-        setFocusedIndex(nextIndex)
         const nextItem = items[nextIndex]
         if (nextItem) {
+          flushSync(() => {
+            setFocusedIndex(nextIndex)
+          })
           scrollToItem(nextItem)
         }
       } else if (evt.name === 'up') {
         const nextIndex = (focusedIndex - 1 + itemCount) % itemCount
-        setFocusedIndex(nextIndex)
         const nextItem = items[nextIndex]
         if (nextItem) {
+          flushSync(() => {
+            setFocusedIndex(nextIndex)
+          })
           scrollToItem(nextItem)
         }
       } else if (evt.name === 'return' || evt.name === 'space') {
@@ -358,7 +362,9 @@ const DropdownContent = ({
         })
 
       if (matchingItem) {
-        setFocusedIndex(matchingItem.index)
+        flushSync(() => {
+          setFocusedIndex(matchingItem.index)
+        })
         scrollToItem(matchingItem)
       }
 

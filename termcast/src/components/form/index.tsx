@@ -6,7 +6,7 @@ import React, {
   useRef,
   useEffect,
 } from 'react'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, flushSync } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { ActionPanel } from 'termcast/src/components/actions'
 import { logger } from 'termcast/src/logger'
@@ -228,7 +228,9 @@ export const Form: FormType = ((props) => {
   }
 
   const setFocusedField = (id: string | null) => {
-    setFocusedFieldRaw(id)
+    flushSync(() => {
+      setFocusedFieldRaw(id)
+    })
     if (id) {
       scrollToField(id)
     }

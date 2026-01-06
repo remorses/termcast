@@ -80,6 +80,6 @@ export function useAnimationTick(divisor: number = 1): number {
 // Waves share the same speed so they animate in sync
 export const TICK_DIVISORS = {
   LOADING_BAR: 2,    // 40ms - wave animation
-  LOADING_TEXT: 2,   // 40ms - wave animation (same as bar)
+  LOADING_TEXT: 1,   // 20ms - faster wave animation for text
   SPINNER: 10,       // 200ms - pulses every 5 wave steps
 } as const

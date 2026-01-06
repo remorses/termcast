@@ -197,7 +197,10 @@ const Dropdown: DropdownType = (props) => {
       .sort((a: any, b: any) => a.index - b.index)
 
     if (items.length > 0 && items[0]) {
-      setSelected(items[0].index)
+      flushSync(() => {
+        setSelected(items[0].index)
+      })
+      scrollToItem(items[0])
     }
 
     if (onSearchTextChange) {

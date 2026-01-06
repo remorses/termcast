@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, flushSync } from '@opentui/react'
 import { createDescendants } from 'termcast/src/descendants'
 import { renderWithProviders } from 'termcast/src/utils'
 
@@ -45,7 +45,9 @@ function ScrollboxWithDescendants() {
 
     const nextItem = items[nextIndex]
     if (nextItem) {
-      setSelectedIndex(nextIndex)
+      flushSync(() => {
+        setSelectedIndex(nextIndex)
+      })
       scrollToItem(nextItem)
     }
   }

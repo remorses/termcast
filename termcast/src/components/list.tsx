@@ -18,6 +18,7 @@ import React, {
     useState
 } from 'react'
 import { LoadingBar } from 'termcast/src/components/loading-bar'
+import { LoadingText } from 'termcast/src/components/loading-text'
 import { Footer } from 'termcast/src/components/footer'
 import { createDescendants } from 'termcast/src/descendants'
 import { useStore } from 'termcast/src/state'
@@ -1576,13 +1577,19 @@ const ListDropdown: ListDropdownType = (props) => {
           }}
         >
           {/*<text >^p </text>*/}
-          <text
-            flexShrink={0}
-            fg={isHovered ? Theme.text : Theme.textMuted}
-            selectable={false}
-          >
-            {displayValue}
-          </text>
+          {listContext.isLoading ? (
+            <LoadingText isLoading color={isHovered ? Theme.text : Theme.textMuted}>
+              {displayValue || 'Loading...'}
+            </LoadingText>
+          ) : (
+            <text
+              flexShrink={0}
+              fg={isHovered ? Theme.text : Theme.textMuted}
+              selectable={false}
+            >
+              {displayValue}
+            </text>
+          )}
           <text
             flexShrink={0}
             fg={isHovered ? Theme.text : Theme.textMuted}
