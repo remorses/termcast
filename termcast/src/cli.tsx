@@ -75,139 +75,144 @@ async function checkForUpdates() {
 // TODO: re-enable auto-update check once install script temp dir issue is fixed
 // checkForUpdates()
 
-cli
-  .command('dev [path]', 'Run the extension in the current working directory')
-  .action(async (rawExtensionPath, options) => {
-    try {
-      // Check if the provided arg looks like a path (contains / or . or is existing dir)
-      const looksLikePath =
-        rawExtensionPath &&
-        (rawExtensionPath.includes('/') ||
-          rawExtensionPath.startsWith('.') ||
-          fs.existsSync(rawExtensionPath))
-      const extensionPath = path.resolve(
-        looksLikePath ? rawExtensionPath : process.cwd(),
+// Shared dev mode action used by both 'dev' and '' commands
+async function runDevAction(rawExtensionPath?: string) {
+  try {
+    // Check if the provided arg looks like a path (contains / or . or is existing dir)
+    const looksLikePath =
+      rawExtensionPath &&
+      (rawExtensionPath.includes('/') ||
+        rawExtensionPath.startsWith('.') ||
+        fs.existsSync(rawExtensionPath))
+    const extensionPath = path.resolve(
+      looksLikePath ? rawExtensionPath : process.cwd(),
+    )
+    let isBuilding = false
+
+    // Start dev mode with initial render
+    // Skip args up to and including "dev" subcommand, plus path if it looks like one
+    const devIndex = process.argv.findIndex((arg) => arg === 'dev')
+    const skipArgv = devIndex === -1 ? 0 : devIndex - 1 + (looksLikePath ? 1 : 0)
+    await startDevMode({ extensionPath, skipArgv })
+
+    logger.log(`dev mode started`)
+    // Only watch if running in a TTY (interactive terminal)
+    if (!process.stdout.isTTY) {
+      console.log('Not running in interactive terminal, watching disabled')
+      return
+    }
+
+    console.log('\nWatching for file changes...')
+
+    // Watch entire extension directory using @parcel/watcher
+    // Single source of truth for ignored patterns
+    const IGNORED_DIRS = [
+      'node_modules',
+      '.termcast-bundle',
+      '.git',
+      '.build', // Swift build output
+      '.cache',
+      'tmp',
+      '.tmp',
+      'dist',
+      'build',
+    ]
+    const IGNORED_EXTENSIONS = ['.log', '.db', '.sqlite']
+
+    // Glob patterns for @parcel/watcher (matched against relative paths using micromatch)
+    const ignoredPatterns = [
+      ...IGNORED_DIRS.map((dir) => `**/${dir}/**`),
+      ...IGNORED_EXTENSIONS.map((ext) => `**/*${ext}`),
+      // SQLite creates .db-wal and .db-shm alongside .db
+      '**/*.db-*',
+      '**/*.sqlite-*',
+    ]
+
+    // Backup filter for files that should never trigger rebuild
+    // This catches cases where @parcel/watcher ignore doesn't work as expected
+    const shouldIgnoreFile = (filePath: string): boolean => {
+      const relativePath = path.relative(extensionPath, filePath)
+      // Ignore files outside the extension directory
+      if (relativePath.startsWith('..')) {
+        return true
+      }
+      // Check if path contains any ignored directory
+      const hasIgnoredDir = IGNORED_DIRS.some(
+        (dir) =>
+          relativePath.includes(`/${dir}/`) ||
+          relativePath.startsWith(`${dir}/`),
       )
-      let isBuilding = false
+      if (hasIgnoredDir) {
+        return true
+      }
+      // Check if file has ignored extension
+      if (IGNORED_EXTENSIONS.some((ext) => relativePath.endsWith(ext))) {
+        return true
+      }
+      // Also catch .db-* and .sqlite-* patterns
+      if (/\.db-|\.sqlite-/.test(relativePath)) {
+        return true
+      }
+      return false
+    }
 
-      // Start dev mode with initial render
-      // Skip args up to and including "dev" subcommand, plus path if it looks like one
-      const devIndex = process.argv.findIndex((arg) => arg === 'dev')
-      const skipArgv = devIndex - 1 + (looksLikePath ? 1 : 0)
-      await startDevMode({ extensionPath, skipArgv })
-
-      logger.log(`dev mode started`)
-      // Only watch if running in a TTY (interactive terminal)
-      if (!process.stdout.isTTY) {
-        console.log('Not running in interactive terminal, watching disabled')
+    const rebuild = async (filePath: string) => {
+      if (isBuilding) {
+        logger.log('Build already in progress, skipping...')
         return
       }
 
-      console.log('\nWatching for file changes...')
-
-      // Watch entire extension directory using @parcel/watcher
-      // Single source of truth for ignored patterns
-      const IGNORED_DIRS = [
-        'node_modules',
-        '.termcast-bundle',
-        '.git',
-        '.build', // Swift build output
-        '.cache',
-        'tmp',
-        '.tmp',
-        'dist',
-        'build',
-      ]
-      const IGNORED_EXTENSIONS = ['.log', '.db', '.sqlite']
-
-      // Glob patterns for @parcel/watcher (matched against relative paths using micromatch)
-      const ignoredPatterns = [
-        ...IGNORED_DIRS.map((dir) => `**/${dir}/**`),
-        ...IGNORED_EXTENSIONS.map((ext) => `**/*${ext}`),
-        // SQLite creates .db-wal and .db-shm alongside .db
-        '**/*.db-*',
-        '**/*.sqlite-*',
-      ]
-
-      // Backup filter for files that should never trigger rebuild
-      // This catches cases where @parcel/watcher ignore doesn't work as expected
-      const shouldIgnoreFile = (filePath: string): boolean => {
-        const relativePath = path.relative(extensionPath, filePath)
-        // Ignore files outside the extension directory
-        if (relativePath.startsWith('..')) {
-          return true
-        }
-        // Check if path contains any ignored directory
-        const hasIgnoredDir = IGNORED_DIRS.some(
-          (dir) =>
-            relativePath.includes(`/${dir}/`) ||
-            relativePath.startsWith(`${dir}/`),
-        )
-        if (hasIgnoredDir) {
-          return true
-        }
-        // Check if file has ignored extension
-        if (IGNORED_EXTENSIONS.some((ext) => relativePath.endsWith(ext))) {
-          return true
-        }
-        // Also catch .db-* and .sqlite-* patterns
-        if (/\.db-|\.sqlite-/.test(relativePath)) {
-          return true
-        }
-        return false
+      isBuilding = true
+      logger.log('File changed, rebuilding...')
+      logger.log(filePath)
+      try {
+        await triggerRebuild({ extensionPath })
+        logger.log('Rebuild complete')
+      } catch (error: any) {
+        logger.error('Failed to trigger rebuild:', error.message)
+      } finally {
+        isBuilding = false
       }
+    }
 
-      const rebuild = async (filePath: string) => {
-        if (isBuilding) {
-          logger.log('Build already in progress, skipping...')
+    const subscription = await getWatcher().subscribe(
+      extensionPath,
+      (err, events) => {
+        if (err) {
+          logger.error('Watcher error:', err)
           return
         }
 
-        isBuilding = true
-        logger.log('File changed, rebuilding...')
-        logger.log(filePath)
-        try {
-          await triggerRebuild({ extensionPath })
-          logger.log('Rebuild complete')
-        } catch (error: any) {
-          logger.error('Failed to trigger rebuild:', error.message)
-        } finally {
-          isBuilding = false
+        // Filter out events for files that should be ignored
+        const relevantEvents = events.filter(
+          (event) => !shouldIgnoreFile(event.path),
+        )
+
+        if (relevantEvents.length > 0) {
+          rebuild(relevantEvents[0].path)
         }
-      }
+      },
+      { ignore: ignoredPatterns },
+    )
 
-      const subscription = await getWatcher().subscribe(
-        extensionPath,
-        (err, events) => {
-          if (err) {
-            logger.error('Watcher error:', err)
-            return
-          }
-
-          // Filter out events for files that should be ignored
-          const relevantEvents = events.filter(
-            (event) => !shouldIgnoreFile(event.path),
-          )
-
-          if (relevantEvents.length > 0) {
-            rebuild(relevantEvents[0].path)
-          }
-        },
-        { ignore: ignoredPatterns },
-      )
-
-      // Clean up watcher on exit signals
-      const cleanup = async () => {
-        await subscription.unsubscribe()
-        process.exit(0)
-      }
-      process.on('SIGINT', cleanup)
-      process.on('SIGTERM', cleanup)
-    } catch (e: any) {
-      console.error('Failed to start dev mode:', e?.message || e)
-      logger.error(e)
-      process.exit(1)
+    // Clean up watcher on exit signals
+    const cleanup = async () => {
+      await subscription.unsubscribe()
+      process.exit(0)
     }
+    process.on('SIGINT', cleanup)
+    process.on('SIGTERM', cleanup)
+  } catch (e: any) {
+    console.error('Failed to start dev mode:', e?.message || e)
+    logger.error(e)
+    process.exit(1)
+  }
+}
+
+cli
+  .command('dev [path]', 'Run the extension in the current working directory')
+  .action(async (rawExtensionPath) => {
+    await runDevAction(rawExtensionPath)
   })
 
 cli
@@ -768,8 +773,15 @@ cli
     }
   })
 
-cli.command('', 'List and run installed extensions').action(async () => {
-  await runHomeCommand()
+cli
+  .command('legacy-raycast-store', 'List and run installed extensions')
+  .action(async () => {
+    await runHomeCommand()
+  })
+
+// Default command (no args) is an alias for dev
+cli.command('', 'Run dev mode in current directory').action(async () => {
+  await runDevAction()
 })
 
 cli.help()
