@@ -2,7 +2,7 @@
     <br/>
     <br/>
     <h3>termcast</h3>
-    <p>Build terminal user interfaces with React and a Raycast-like API</p>
+    <p>Build terminal user interfaces with React and a Raycast APIs</p>
     <br/>
     <br/>
 </div>
