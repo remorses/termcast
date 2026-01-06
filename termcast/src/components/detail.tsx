@@ -1,16 +1,16 @@
 import React, { ReactNode, useMemo, ReactElement } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, useTerminalDimensions } from '@opentui/react'
 import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { ActionPanel, Action } from 'termcast/src/components/actions'
-import { Image } from 'termcast/src/components/list'
-import { Color, resolveColor } from 'termcast/src/colors'
 import { Footer } from 'termcast/src/components/footer'
 
 import { useDialog } from 'termcast/src/internal/dialog'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 import { useStore } from 'termcast/src/state'
+import { Metadata, MetadataContext } from 'termcast/src/components/metadata'
+import type { LabelProps, SeparatorProps, LinkProps, TagListProps, TagListItemProps, MetadataConfig } from 'termcast/src/components/metadata'
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -35,132 +35,10 @@ interface MetadataProps {
   children: ReactNode
 }
 
-interface LabelProps {
-  title: string
-  icon?: Image.ImageLike | undefined | null
-  text?:
-    | string
-    | {
-        value: string
-        color?: Color.ColorLike | null
-      }
-}
-
-interface SeparatorProps {}
-
-interface LinkProps {
-  title: string
-  target: string
-  text: string
-}
-
-interface TagListProps {
-  title: string
-  children: ReactNode
-}
-
-interface TagListItemProps {
-  icon?: Image.ImageLike | undefined | null
-  text?: string
-  color?: Color.ColorLike | undefined | null
-  onAction?: () => void
-}
-
-interface DetailType {
-  (props: DetailProps): any
-  Metadata: DetailMetadataType
-}
-
-const DetailMetadataLabel = (props: LabelProps): any => {
-  const textValue =
-    typeof props.text === 'string' ? props.text : props.text?.value
-  const textColor =
-    typeof props.text === 'object' ? props.text?.color : undefined
-
-  return (
-    <box
-      style={{
-        flexDirection: 'row',
-        paddingBottom: 1,
-      }}
-    >
-      <text fg={Theme.textMuted} style={{ minWidth: 15 }}>
-        {props.title}:
-      </text>
-      <text fg={resolveColor(textColor) || Theme.text}>{textValue || '—'}</text>
-    </box>
-  )
-}
-
-const DetailMetadataSeparator = (props: SeparatorProps): any => {
-  return (
-    <box
-      style={{
-        paddingTop: 1,
-        paddingBottom: 1,
-      }}
-    >
-      <text fg={Theme.textMuted}>{'─'.repeat(30)}</text>
-    </box>
-  )
-}
-
-const DetailMetadataLink = (props: LinkProps): any => {
-  return (
-    <box
-      style={{
-        flexDirection: 'row',
-        paddingBottom: 1,
-      }}
-    >
-      <text fg={Theme.textMuted} style={{ minWidth: 15 }}>
-        {props.title}:
-      </text>
-      <text fg={Theme.accent} attributes={TextAttributes.UNDERLINE}>
-        {props.text}
-      </text>
-    </box>
-  )
-}
-
-const DetailMetadataTagListItem = (props: TagListItemProps): any => {
-  const displayText = props.text || ''
-
-  return (
-    <text
-      fg={resolveColor(props.color) || Theme.text}
-      style={{
-        paddingRight: 1,
-        paddingLeft: props.icon ? 1 : 0,
-      }}
-    >
-      {displayText}
-    </text>
-  )
-}
-
 interface DetailMetadataTagListType {
   (props: TagListProps): any
   Item: (props: TagListItemProps) => any
 }
-
-const DetailMetadataTagList: DetailMetadataTagListType = (props) => {
-  return (
-    <box
-      style={{
-        flexDirection: 'column',
-        paddingBottom: 1,
-      }}
-    >
-      <text fg={Theme.textMuted} style={{ minWidth: 15 }}>
-        {props.title}:
-      </text>
-      <box style={{ flexDirection: 'row' }}>{props.children}</box>
-    </box>
-  )
-}
-
-DetailMetadataTagList.Item = DetailMetadataTagListItem
 
 interface DetailMetadataType {
   (props: MetadataProps): any
@@ -170,26 +48,47 @@ interface DetailMetadataType {
   TagList: DetailMetadataTagListType
 }
 
+interface DetailType {
+  (props: DetailProps): any
+  Metadata: DetailMetadataType
+}
+
 const DetailMetadata: DetailMetadataType = (props) => {
+  const { width } = useTerminalDimensions()
+
+  // Dynamic config based on terminal width
+  // Calculate maxValueLen as a function of title length:
+  // availableWidth = terminalWidth - padding(~4) - titleWidth - colon+space(2)
+  const config: MetadataConfig = {
+    maxValueLen: (titleLen: number) => {
+      const padding = 4
+      const colonSpace = 2
+      const titleWidth = Math.max(titleLen, 15) // minimum title width
+      return Math.max(10, width - padding - titleWidth - colonSpace)
+    },
+    titleMinWidth: 15,
+    paddingBottom: 1,
+    separatorWidth: Math.min(30, width - 4),
+  }
+
   return (
-    <box
-      style={{
-        flexDirection: 'column',
-        paddingTop: 1,
-      }}
-      border={['top']}
-      borderStyle='single'
-      borderColor={Theme.border}
-    >
-      {props.children}
-    </box>
+    <MetadataContext.Provider value={config}>
+      <box
+        style={{
+          flexDirection: 'column',
+          paddingTop: 1,
+        }}
+      >
+        {props.children}
+      </box>
+    </MetadataContext.Provider>
   )
 }
 
-DetailMetadata.Label = DetailMetadataLabel
-DetailMetadata.Separator = DetailMetadataSeparator
-DetailMetadata.Link = DetailMetadataLink
-DetailMetadata.TagList = DetailMetadataTagList
+DetailMetadata.Label = Metadata.Label
+DetailMetadata.Separator = Metadata.Separator
+DetailMetadata.Link = Metadata.Link
+DetailMetadata.TagList = Metadata.TagList
 
 function DetailFooter({
   hasActions,

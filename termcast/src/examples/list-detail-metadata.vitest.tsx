@@ -37,8 +37,8 @@ test('list detail metadata label renders short values in row layout (key: value)
        > Search...
 
       ›Short Values
-       Long Values                          │
-                                            │ ──────────────────────────────────
+       Long Values                          │ Details
+                                            │
                                             │
                                             │ Name:       John Doe
                                             │
@@ -76,7 +76,7 @@ test('list detail metadata renders long values in column layout (key on one line
 
        Short Values
       ›Long Values                          │ Info with Long Values             ▲
-                                            │ ───────────────────────────────── █
+                                            │                                   █
                                             │
                                             │ Description:
                                             │ This is a very long description

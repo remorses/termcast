@@ -1327,16 +1327,16 @@ const ListItemDetail: ListItemDetailType = (props) => {
           },
         }}
       >
-        <box style={{ flexDirection: 'column' }}>
+        <box gap={1} style={{ flexDirection: 'column' }}>
           {markdown && (
             <code content={markdown} filetype="markdown" syntaxStyle={markdownSyntaxStyle} drawUnstyledText={false} />
           )}
           {metadata && (
             <box
               style={{ paddingTop: 1 }}
-              border={['top']}
-              borderStyle='single'
-              borderColor={Theme.border}
+              // border={['top']}
+              // borderStyle='single'
+              // borderColor={Theme.border}
             >
               {metadata}
             </box>
@@ -1347,91 +1347,32 @@ const ListItemDetail: ListItemDetailType = (props) => {
   )
 }
 
+import { Metadata, MetadataContext } from 'termcast/src/components/metadata'
+import type { MetadataConfig } from 'termcast/src/components/metadata'
+
+// List.Item.Detail.Metadata config: smaller padding for compact list detail panel
+const listDetailMetadataConfig: MetadataConfig = {
+  maxValueLen: 20,
+  titleMinWidth: 12,
+  paddingBottom: 0.5,
+  separatorWidth: 17,
+}
+
 const ListItemDetailMetadata = (props: MetadataProps) => {
   return (
-    <box style={{ flexDirection: 'column' }}>
-      {props.children}
-    </box>
-  )
-}
-
-const ListItemDetailMetadataLabel = (props: { title: string; text?: string; icon?: Image.ImageLike }) => {
-  // Use row layout by default (key: value on same line)
-  // Fall back to column layout if value is long (would be truncated)
-  const textValue = props.text || ''
-  const isLongValue = textValue.length > 20
-
-  if (isLongValue) {
-    return (
-      <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
-        <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
-        <text flexShrink={0} fg={Theme.text}>{textValue}</text>
-      </box>
-    )
-  }
-
-  return (
-    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
-      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: 12 }}>{props.title}:</text>
-      <text flexShrink={0} fg={Theme.text}>{textValue || '—'}</text>
-    </box>
-  )
-}
-
-const ListItemDetailMetadataSeparator = () => {
-  return (
-    <box style={{ paddingBottom: 0.5 }}>
-      <text flexShrink={0} fg={Theme.border}>─────────────────</text>
-    </box>
-  )
-}
-
-const ListItemDetailMetadataLink = (props: { title: string; target: string; text: string }) => {
-  // Use row layout by default, column layout for long values
-  const isLongValue = props.text.length > 20
-
-  if (isLongValue) {
-    return (
-      <box style={{ flexDirection: 'column', paddingBottom: 0.5 }}>
-        <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
-        <text flexShrink={0} fg={Theme.markdownLink}>{props.text}</text>
-      </box>
-    )
-  }
-
-  return (
-    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
-      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: 12 }}>{props.title}:</text>
-      <text flexShrink={0} fg={Theme.markdownLink}>{props.text}</text>
-    </box>
-  )
-}
-
-const ListItemDetailMetadataTagList = (props: { title: string; children: ReactNode }) => {
-  return (
-    <box style={{ flexDirection: 'row', paddingBottom: 0.5 }}>
-      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: 12 }}>{props.title}:</text>
-      <box style={{ flexDirection: 'row' }}>
+    <MetadataContext.Provider value={listDetailMetadataConfig}>
+      <box style={{ flexDirection: 'column' }}>
         {props.children}
       </box>
-    </box>
-  )
-}
-
-const ListItemDetailMetadataTagListItem = (props: { text?: string; color?: Color.ColorLike; icon?: Image.ImageLike; onAction?: () => void }) => {
-  return (
-    <box style={{ paddingRight: 1 }}>
-      <text flexShrink={0} fg={resolveColor(props.color) || Theme.accent}>[{props.text}]</text>
-    </box>
+    </MetadataContext.Provider>
   )
 }
 
 ListItemDetail.Metadata = ListItemDetailMetadata as any
-ListItemDetailMetadata.Label = ListItemDetailMetadataLabel as any
-ListItemDetailMetadata.Separator = ListItemDetailMetadataSeparator as any
-ListItemDetailMetadata.Link = ListItemDetailMetadataLink as any
-ListItemDetailMetadata.TagList = ListItemDetailMetadataTagList as any
-ListItemDetailMetadataTagList.Item = ListItemDetailMetadataTagListItem as any
+ListItemDetailMetadata.Label = Metadata.Label as any
+ListItemDetailMetadata.Separator = Metadata.Separator as any
+ListItemDetailMetadata.Link = Metadata.Link as any
+ListItemDetailMetadata.TagList = Metadata.TagList as any
 
 ListItem.Detail = ListItemDetail
 

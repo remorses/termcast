@@ -52,11 +52,11 @@ test('list with detail view display and navigation', async () => {
                                             │ Abilities
                                             │ - Chlorophyll
                                             │ - Overgrow
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Grass:      —
+                                            │ Types
+                                            │
+                                            │ Grass
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -91,11 +91,11 @@ test('list with detail view display and navigation', async () => {
                                             │ Abilities
                                             │ - Chlorophyll
                                             │ - Overgrow
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Grass:      —
+                                            │ Types
+                                            │
+                                            │ Grass
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -128,11 +128,11 @@ test('list with detail view display and navigation', async () => {
                                             │ Abilities
                                             │ - Blaze
                                             │ - Solar Power
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Fire:       —
+                                            │ Types
+                                            │
+                                            │ Fire
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -248,11 +248,11 @@ test('list with detail view display and navigation', async () => {
                                             │ Abilities
                                             │ - Blaze
                                             │ - Solar Power
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Fire:       —
+                                            │ Types
+                                            │
+                                            │ Fire
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -297,11 +297,11 @@ test('list detail view search functionality', async () => {
                                             │ Abilities
                                             │ - Blaze
                                             │ - Solar Power
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Fire:       —
+                                            │ Types
+                                            │
+                                            │ Fire
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -343,11 +343,11 @@ test('list detail view search functionality', async () => {
                                             │ Abilities
                                             │ - Torrent
                                             │ - Rain Dish
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Water:      —
+                                            │ Types
+                                            │
+                                            │ Water
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -380,11 +380,11 @@ test('list detail view search functionality', async () => {
                                             │ Abilities
                                             │ - Torrent
                                             │ - Rain Dish
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Water:      —
+                                            │ Types
+                                            │
+                                            │ Water
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -429,11 +429,11 @@ test('list detail metadata rendering', async () => {
                                             │ Abilities
                                             │ - Chlorophyll
                                             │ - Overgrow
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Grass:      —
+                                            │ Types
+                                            │
+                                            │ Grass
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -473,11 +473,11 @@ test('list detail metadata rendering', async () => {
                                             │ Abilities
                                             │ - Torrent
                                             │ - Rain Dish
-                                            │ ─────────────────────────────────
                                             │
-                                            │ Types:      —
                                             │
-                                            │ Water:      —
+                                            │ Types
+                                            │
+                                            │ Water
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 
@@ -532,10 +532,10 @@ test('list with detail layout consistency - short vs long detail content', async
        Another Item                         │
                                             │ This is short.
                                             │
+                                            │
+                                            │
+                                            │
        ↑↓ navigate   ^k actions             │
-
-
-
 
 
 

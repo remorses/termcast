@@ -57,6 +57,7 @@ const {
   DescendantsProvider: FormFieldDescendantsProvider,
   useDescendants: useFormFieldDescendants,
   useDescendant: useFormFieldDescendant,
+  useDescendantsRerender: useFormFieldDescendantsRerender,
 } = createDescendants<FormFieldDescendant>()
 
 export { useFormFieldDescendant }
@@ -161,6 +162,40 @@ interface DatePickerComponentType {
   Type: typeof DatePickerEnum
 }
 
+// Component that handles auto-focus and field tracking - must be inside FormFieldDescendantsProvider
+function FormFieldTracker({
+  focusedField,
+  setFocusedField,
+  fieldIdsRef,
+}: {
+  focusedField: string | null
+  setFocusedField: (id: string | null) => void
+  fieldIdsRef: React.MutableRefObject<string[]>
+}): null {
+  // Subscribe to descendant changes
+  const committedMap = useFormFieldDescendantsRerender()
+
+  // Update field IDs ref whenever descendants change
+  const fieldIds = Object.values(committedMap)
+    .filter((item) => item.index !== -1 && item.props?.id)
+    .sort((a, b) => a.index - b.index)
+    .map((item) => item.props!.id)
+  
+  fieldIdsRef.current = fieldIds
+
+  // Auto-focus first field when descendants become available
+  useLayoutEffect(() => {
+    if (focusedField) return
+
+    if (fieldIds.length > 0) {
+      logger.log(`auto-focusing first field:`, fieldIds[0])
+      setFocusedField(fieldIds[0])
+    }
+  }, [committedMap, focusedField, setFocusedField])
+
+  return null
+}
+
 interface FormType {
   (props: FormProps): any
   TextField: React.ForwardRefExoticComponent<
@@ -196,14 +231,7 @@ export const Form: FormType = ((props) => {
 
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useFormFieldDescendants()
-
-  // Helper to get sorted field IDs
-  const getFieldIds = () => {
-    return Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1 && item.props?.id)
-      .sort((a, b) => a.index - b.index)
-      .map((item) => item.props!.id)
-  }
+  const fieldIdsRef = useRef<string[]>([])
 
   const scrollToField = (fieldId: string) => {
     const scrollBox = scrollBoxRef.current
@@ -236,6 +264,11 @@ export const Form: FormType = ((props) => {
     }
   }
 
+  // Helper to get sorted field IDs - uses ref updated by FormFieldTracker
+  const getFieldIds = () => {
+    return fieldIdsRef.current
+  }
+
   // Focus first field helper
   const focusFirstField = () => {
     const fieldIds = getFieldIds()
@@ -257,18 +290,6 @@ export const Form: FormType = ((props) => {
     }
     return false
   }
-
-  // Auto-focus first field when descendants become available
-  // Runs on every render until a field is focused (handles async loading)
-  useEffect(() => {
-    if (focusedField) return
-
-    const fieldIds = getFieldIds()
-    if (fieldIds.length > 0) {
-      logger.log(`auto-focusing first field:`, fieldIds[0])
-      setFocusedFieldRaw(fieldIds[0])
-    }
-  })
 
   // Get focus state and dialog
   const inFocus = useIsInFocus()
@@ -422,6 +443,11 @@ export const Form: FormType = ((props) => {
 
                   <box>
                     <FormFieldDescendantsProvider value={descendantsContext}>
+                      <FormFieldTracker
+                        focusedField={focusedField}
+                        setFocusedField={setFocusedFieldRaw}
+                        fieldIdsRef={fieldIdsRef}
+                      />
                       {props.children}
                       <FormEnd />
                     </FormFieldDescendantsProvider>
