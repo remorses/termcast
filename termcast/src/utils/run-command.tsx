@@ -5,7 +5,10 @@ import { showToast, Toast } from 'termcast/src/apis/toast'
 import { LocalStorage } from 'termcast/src/apis/localstorage'
 import { CommandArguments } from 'termcast/src/components/command-arguments'
 import { ExtensionPreferences } from 'termcast/src/components/extension-preferences'
-import type { RaycastArgument, RaycastPackageJson } from 'termcast/src/package-json'
+import type {
+  RaycastArgument,
+  RaycastPackageJson,
+} from 'termcast/src/package-json'
 import type { LaunchProps } from 'termcast/src/apis/environment'
 import { logger } from '../logger'
 
@@ -25,7 +28,9 @@ export interface ParsedExtensionArgs {
  * Parse CLI args to extract command name and help flag.
  * @param skipArgv - Number of subcommand args to skip (e.g. 1 for "dev" in "termcast dev")
  */
-export function parseExtensionArgs({ skipArgv = 0 }: { skipArgv?: number } = {}): ParsedExtensionArgs {
+export function parseExtensionArgs({
+  skipArgv = 0,
+}: { skipArgv?: number } = {}): ParsedExtensionArgs {
   // Build argv for cac: keep first 2 (binary + script), skip subcommand args, keep the rest
   const argv = [
     process.argv[0],
@@ -183,9 +188,26 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
     const devRebuildCount = state.devRebuildCount + 1
     useStore.setState({ devRebuildCount })
     const importPath = `${bundledPath}?rebuild=${devRebuildCount}`
-    // logger.log(`importing ${importPath}`)
-    const module = await import(importPath)
-    CommandComponent = module.default
+    logger.log(`importing ${importPath}`)
+    try {
+      const module = await import(importPath)
+      CommandComponent = module.default
+    } catch (error) {
+      logger.error('Failed to import command module:', {
+        importPath,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      })
+      await showToast({
+        style: Toast.Style.Failure,
+        title: 'Failed to load command',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Unknown error ' + String(error).slice(0, 300),
+      })
+      return
+    }
 
     if (!CommandComponent) {
       await showToast({
@@ -230,7 +252,9 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
   }
 
   // For view commands, push the component
+  logger.log('pushing WrappedComponent')
   push(<CommandComponent {...launchProps} />)
+  logger.log('pushed WrappedComponent')
 }
 
 async function checkRequiredPreferences({
