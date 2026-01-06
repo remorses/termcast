@@ -209,6 +209,11 @@ async function runDevAction(rawExtensionPath?: string) {
   }
 }
 
+// Default command (no args) is an alias for dev
+cli.command('', 'Run dev mode in current directory').action(async () => {
+  await runDevAction()
+})
+
 cli
   .command('dev [path]', 'Run the extension in the current working directory')
   .action(async (rawExtensionPath) => {
@@ -779,10 +784,7 @@ cli
     await runHomeCommand()
   })
 
-// Default command (no args) is an alias for dev
-cli.command('', 'Run dev mode in current directory').action(async () => {
-  await runDevAction()
-})
+
 
 cli.help()
 cli.version('0.1.0')
