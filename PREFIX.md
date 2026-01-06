@@ -446,6 +446,70 @@ After any submodule update, cd into submodules and run `git checkout main` befor
 - Do not commit submodule changes unless explicitly asked
 - Each submodule has its own AGENTS.md with package-specific guidelines
 
+## OAuth System
+
+Termcast uses an OAuth proxy hosted on termcast.app to handle OAuth for Raycast extensions. This allows extensions to authenticate with providers like GitHub, Linear, Slack, etc. without needing their own OAuth apps.
+
+### Architecture
+
+```
+Extension calls OAuthService.github()
+    ↓
+Opens browser: https://termcast.app/oauth/github/authorize
+    ↓
+termcast.app redirects to GitHub OAuth
+    ↓
+User authenticates on GitHub
+    ↓
+GitHub redirects to: https://termcast.app/oauth/github/callback
+    ↓
+termcast.app redirects to: http://localhost:8989/oauth/callback?code=XXX
+    ↓
+Termcast CLI receives code, calls: POST https://termcast.app/oauth/github/token
+    ↓
+termcast.app exchanges code for token (using client_secret stored server-side)
+    ↓
+Termcast CLI receives and stores access_token
+```
+
+### Key Files
+
+- `website/src/routes/oauth.$provider.*.tsx` - OAuth proxy routes (generic for all providers)
+- `website/src/lib/oauth-providers.ts` - Provider configuration (URLs, extra params)
+- `raycast-utils/` - Forked @raycast/utils with termcast.app URLs (branch: `termcast-oauth-proxy`)
+- `termcast/src/apis/oauth.tsx` - PKCEClient handles authorization code flow
+- `termcast/src/preload.tsx` - Redirects @raycast/utils imports to our fork
+
+### Adding a New OAuth Provider
+
+1. Add provider config to `website/src/lib/oauth-providers.ts`:
+```typescript
+export const OAUTH_PROVIDERS = {
+  // ...
+  newprovider: {
+    authorizeUrl: 'https://newprovider.com/oauth/authorize',
+    tokenUrl: 'https://newprovider.com/oauth/token',
+  },
+}
+```
+
+2. Register OAuth app with the provider, set callback URL to: `https://termcast.app/oauth/newprovider/callback`
+
+3. Set environment variables on website deployment:
+```
+NEWPROVIDER_OAUTH_CLIENT_ID=...
+NEWPROVIDER_OAUTH_CLIENT_SECRET=...
+```
+
+4. If needed, add the provider to `raycast-utils/src/oauth/OAuthService.ts`
+
+### Environment Variables
+
+The website needs these env vars for each provider:
+- `{PROVIDER}_OAUTH_CLIENT_ID` - OAuth app client ID
+- `{PROVIDER}_OAUTH_CLIENT_SECRET` - OAuth app client secret (kept server-side)
+
+Supported providers: github, linear, slack, asana, google, jira, zoom, notion, spotify, dropbox
 
 ## termcast forms
 

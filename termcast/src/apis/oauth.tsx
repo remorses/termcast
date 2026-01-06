@@ -444,11 +444,16 @@ export namespace OAuth {
                   <h1 id="status">Processing...</h1>
                   <div id="message"></div>
                   <script>
-                    // Extract tokens from URL fragment
+                    // Extract tokens from URL fragment (implicit flow) or query params (auth code flow)
                     const hash = window.location.hash.substring(1);
-                    const params = new URLSearchParams(hash);
+                    const hashParams = new URLSearchParams(hash);
+                    const queryParams = new URLSearchParams(window.location.search);
+                    
+                    // Use query params if we have a code (auth code flow), otherwise use hash (implicit flow)
+                    const params = queryParams.get('code') ? queryParams : hashParams;
 
                     const data = {
+                      code: params.get('code'),
                       access_token: params.get('access_token'),
                       id_token: params.get('id_token'),
                       expires_in: params.get('expires_in'),
@@ -458,6 +463,8 @@ export namespace OAuth {
                       error: params.get('error'),
                       error_description: params.get('error_description')
                     };
+                    
+                    console.log('OAuth callback data:', data);
 
                     // Send tokens back to our server
                     fetch('/oauth/implicit-callback', {
@@ -499,6 +506,14 @@ export namespace OAuth {
             req.on('end', () => {
               try {
                 const data = JSON.parse(body)
+                
+                logger.log('OAuth callback received data:', {
+                  hasCode: !!data.code,
+                  hasAccessToken: !!data.access_token,
+                  receivedState: data.state,
+                  expectedState: expectedState,
+                  error: data.error,
+                })
 
                 if (data.error) {
                   res.writeHead(400, {
@@ -516,6 +531,10 @@ export namespace OAuth {
 
                 // Validate state
                 if (data.state !== expectedState) {
+                  logger.error('OAuth state mismatch:', {
+                    received: data.state,
+                    expected: expectedState,
+                  })
                   res.writeHead(400, {
                     'Content-Type': 'application/json',
                   })
@@ -546,6 +565,17 @@ export namespace OAuth {
                   scope: data.scope,
                 }
 
+                // For authorization code flow, return the code for token exchange
+                if (data.code) {
+                  logger.log('Authorization code flow - returning code for token exchange')
+                  resolve({
+                    authorizationCode: data.code,
+                    state: data.state,
+                  })
+                  return
+                }
+
+                // For implicit flow, tokens come directly
                 // Store tokens in memory for later retrieval
                 this.implicitFlowTokens = tokens
 
@@ -554,9 +584,8 @@ export namespace OAuth {
                   .then(() => {
                     logger.log('Implicit flow tokens saved directly')
 
-                    // Return the tokens (authorizationCode is a dummy value for compatibility)
                     resolve({
-                      authorizationCode: 'implicit_flow_dummy_code', // Dummy code for compatibility
+                      authorizationCode: 'implicit_flow_complete',
                       accessToken: data.access_token,
                       idToken: data.id_token,
                       state: data.state,

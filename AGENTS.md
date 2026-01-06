@@ -1,3 +1,5 @@
+<!-- This AGENTS.md file is generated. Look for an agents.md package.json script to see what files to update instead. -->
+
 # Project Coding Guidelines
 
 NOTICE: AGENTS.md is generated using `bun agents.md` and should NEVER be manually updated. only update PREFIX.md
@@ -264,6 +266,8 @@ for example `bun e2e src/examples/form-dropdown.vitest.tsx`
 
 these tests are for ensuring the examples work correctly
 
+important: when esc is pressed when there is no navigation stack or toast it will exit the process of the tui. make sure to not do this in tests
+
 ## fixing bugs in termcast
 
 when you are trying to fix an issue identify first the issue in an existing .vitest.tsx test file. by looking if the existing snapshots already exhibit the issue. if not add a new test case for the issue.
@@ -290,6 +294,13 @@ run bun tsc to make sure it typechecks. if some keys you are trying to press are
 then run `bun test -u` to update the snapshots
 
 read back the inline snapshots and make sure they are what you expect
+
+after validating snapshots are correct, add 1-2 `expect(text).toContain('keyword')` assertions to verify key behavior. use shortest unique string, no whitespace. example:
+
+```tsx
+expect(beforeEnter).toContain('[Undo')
+expect(afterEnter).toContain('Undone')
+```
 
 > notice that await driver.text() already waits for the pty to render so no need to add `waitIdle` everywhere. only add one if the test seems flaky
 
@@ -437,6 +448,70 @@ After any submodule update, cd into submodules and run `git checkout main` befor
 - Do not commit submodule changes unless explicitly asked
 - Each submodule has its own AGENTS.md with package-specific guidelines
 
+## OAuth System
+
+Termcast uses an OAuth proxy hosted on termcast.app to handle OAuth for Raycast extensions. This allows extensions to authenticate with providers like GitHub, Linear, Slack, etc. without needing their own OAuth apps.
+
+### Architecture
+
+```
+Extension calls OAuthService.github()
+    ↓
+Opens browser: https://termcast.app/oauth/github/authorize
+    ↓
+termcast.app redirects to GitHub OAuth
+    ↓
+User authenticates on GitHub
+    ↓
+GitHub redirects to: https://termcast.app/oauth/github/callback
+    ↓
+termcast.app redirects to: http://localhost:8989/oauth/callback?code=XXX
+    ↓
+Termcast CLI receives code, calls: POST https://termcast.app/oauth/github/token
+    ↓
+termcast.app exchanges code for token (using client_secret stored server-side)
+    ↓
+Termcast CLI receives and stores access_token
+```
+
+### Key Files
+
+- `website/src/routes/oauth.$provider.*.tsx` - OAuth proxy routes (generic for all providers)
+- `website/src/lib/oauth-providers.ts` - Provider configuration (URLs, extra params)
+- `raycast-utils/` - Forked @raycast/utils with termcast.app URLs (branch: `termcast-oauth-proxy`)
+- `termcast/src/apis/oauth.tsx` - PKCEClient handles authorization code flow
+- `termcast/src/preload.tsx` - Redirects @raycast/utils imports to our fork
+
+### Adding a New OAuth Provider
+
+1. Add provider config to `website/src/lib/oauth-providers.ts`:
+```typescript
+export const OAUTH_PROVIDERS = {
+  // ...
+  newprovider: {
+    authorizeUrl: 'https://newprovider.com/oauth/authorize',
+    tokenUrl: 'https://newprovider.com/oauth/token',
+  },
+}
+```
+
+2. Register OAuth app with the provider, set callback URL to: `https://termcast.app/oauth/newprovider/callback`
+
+3. Set environment variables on website deployment:
+```
+NEWPROVIDER_OAUTH_CLIENT_ID=...
+NEWPROVIDER_OAUTH_CLIENT_SECRET=...
+```
+
+4. If needed, add the provider to `raycast-utils/src/oauth/OAuthService.ts`
+
+### Environment Variables
+
+The website needs these env vars for each provider:
+- `{PROVIDER}_OAUTH_CLIENT_ID` - OAuth app client ID
+- `{PROVIDER}_OAUTH_CLIENT_SECRET` - OAuth app client secret (kept server-side)
+
+Supported providers: github, linear, slack, asana, google, jira, zoom, notion, spotify, dropbox
 
 ## termcast forms
 
@@ -457,19 +532,23 @@ to publish termcast
 - release script should publish the npm version. and also the binary in gh releases. 
 - see gh ci for in progress script and make sure they are successful
 
+
+## navigation push() limitation: props will not sync
+
+when rendering an element with push the props passed will not be dynamic. instead if you need the child pushed element to react on parent state changes you must  use zustand state. if this state is local you can create the zustand state inside useMemo() or `const [store] = useState(() => create<StateType>({}))` and pass it down via props.
+
 # Extension Execution Modes
 
-termcast supports three ways to run extensions: dev mode, compiled, and installed from store.
+termcast supports two ways to run extensions: dev mode and compiled.
 
 ## Storage Paths
 
 | Mode | Extension Path | SQLite Database |
 |------|----------------|-----------------|
 | Dev | Local folder (e.g. `~/my-extension`) | `{extensionPath}/.termcast-bundle/data.db` |
-| Compiled | Bundled with app | `{extensionPath}/.termcast-bundle/data.db` |
-| Store | `~/.termcast/store/{extensionName}` | `{extensionPath}/.termcast-bundle/data.db` |
+| Compiled | N/A (embedded in binary) | `~/.termcast/{extensionName}/data.db` |
 
-The database path is determined by `extensionPath` in state. `extensionPath` must always be set before accessing LocalStorage - there is no fallback. 
+For dev mode, the database path is determined by `extensionPath` in state. For compiled mode, no filesystem path exists - data is stored in user's home directory. 
 
 ## Dev Mode
 
@@ -483,20 +562,13 @@ Entry: `startDevMode({ extensionPath })`
 
 ## Compiled Mode
 
-Entry: `startCompiledExtension({ extensionPath, compiledCommands })`
+Entry: `startCompiledExtension({ packageJson, compiledCommands })`
 
 1. Commands are pre-compiled and passed as `Component` functions
-2. Reads `package.json` from `extensionPath`
-3. Sets state: `extensionPath`, `extensionPackageJson`
+2. `packageJson` is embedded directly into the binary at compile time (no filesystem reads)
+3. Sets state: `extensionPackageJson` (no `extensionPath` needed)
 4. No build step needed - components are already bundled
-
-## Store Mode
-
-Entry: Home list shows installed extensions from `getStoreDirectory()`
-
-1. Extensions installed to `~/.termcast/store/{extensionName}/`
-2. Each has its own `package.json` and pre-built bundle
-3. Sets `extensionPath` to the store subdirectory when running
+5. Binary is fully portable - no hardcoded paths
 
 ## Preferences
 
@@ -509,6 +581,10 @@ The `ExtensionPreferences` component loads preference definitions from `package.
 ## logs
 
 logs that happen during extension execution are output in a local app.log file, in the cwd where the extension was run
+
+## Testing extensions
+
+See `TESTING_RAYCAST_EXTENSIONS.md` for detailed instructions on testing extensions, including how to skip tests in CI when the extension folder doesn't exist.
 
 
 ## opentui
@@ -701,6 +777,21 @@ gh run view <id> --log-failed | tail -n 300 # read the logs for failed steps in 
 gh run view <id> --log | tail -n 300 # read all logs for a github actions run
 ```
 
+## responding to PR reviews and comments (gh-pr-review extension)
+
+```bash
+# view reviews and get thread IDs
+gh pr-review review view 42 -R owner/repo --unresolved
+
+# reply to a review comment
+gh pr-review comments reply 42 -R owner/repo \
+  --thread-id PRRT_kwDOAAABbcdEFG12 \
+  --body "Fixed in latest commit"
+
+# resolve a thread
+gh pr-review threads resolve 42 -R owner/repo --thread-id PRRT_kwDOAAABbcdEFG12
+```
+
 ## listing, searching, reading github repos files with gitchamber
 
 you MUST use gitchamber.com to read repo files. first ALWAYS run `curl https://gitchamber.com` to read detailed usage docs. always use curl to fetch the responses of gitchamber.com
@@ -746,8 +837,6 @@ gitchamber allows you to list, search and read files in a repo. you MUST use it 
 - do not use any: you must NEVER use any. if you find yourself using `as any` or `:any`, use the @think tool to think hard if there are types you can import instead. do even a search in the project for what the type could be. any should be used as a last resort.
 
 - NEVER do `(x as any).field` or `'field' in x` before checking if the code compiles first without it. the code probably doesn't need any or the in check. even if it does not compile, use think tool first! before adding (x as any).something, ALWAYS read the .d.ts to understand the types
-
-- after any change to typescript code ALWAYS run the `pnpm typecheck` script of that package, or if there is no typecheck script run `pnpm tsc` yourself
 
 - do not declare uninitialized variables that are defined later in the flow. instead use an IIFE with returns. this way there is less state. also define the type of the variable before the iife. here is an example:
 
@@ -866,6 +955,21 @@ gh run view <id> --log-failed | tail -n 300 # read the logs for failed steps in 
 gh run view <id> --log | tail -n 300 # read all logs for a github actions run
 ```
 
+## responding to PR reviews and comments (gh-pr-review extension)
+
+```bash
+# view reviews and get thread IDs
+gh pr-review review view 42 -R owner/repo --unresolved
+
+# reply to a review comment
+gh pr-review comments reply 42 -R owner/repo \
+  --thread-id PRRT_kwDOAAABbcdEFG12 \
+  --body "Fixed in latest commit"
+
+# resolve a thread
+gh pr-review threads resolve 42 -R owner/repo --thread-id PRRT_kwDOAAABbcdEFG12
+```
+
 ## listing, searching, reading github repos files with gitchamber
 
 you MUST use gitchamber.com to read repo files. first ALWAYS run `curl https://gitchamber.com` to read detailed usage docs. always use curl to fetch the responses of gitchamber.com
@@ -930,10 +1034,6 @@ gitchamber allows you to list, search and read files in a repo. you MUST use it 
 
 zustand is the preferred way to created global React state. put it in files like state.ts or x-state.ts where x is something that describe a portion of app state in case of multiple global states or multiple apps
 
-- minimize number of props. do not use props if you can use zustand state instead. the app has global zustand state that lets you get a piece of state down from the component tree by using something like `useStore(x => x.something)` or `useLoaderData<typeof loader>()` or even useRouteLoaderData if you are deep in the react component tree
-
-- do not consider local state truthful when interacting with server. when interacting with the server with rpc or api calls never use state from the render function as input for the api call. this state can easily become stale or not get updated in the closure context. instead prefer using zustand `useStore.getState().stateValue`. notice that useLoaderData or useParams should be fine in this case.
-
 - NEVER add zustand state setter methods. instead use useStore.setState to set state. For example never add a method `setVariable` in the state type. Instead call `setState` directly
 
 - zustand already merges new partial state with the previous state. NEVER DO `useStore.setState({ ...useStore.getInitialState(), ... })` unless for resetting state
@@ -954,6 +1054,7 @@ using React state in these cases is only necessary if you have to show the input
 
 .toMatchInlineSnapshot is the preferred way to write tests. leave them empty the first time, update them with -u. check git diff for the test file every time you update them with -u
 
+never use timeouts longer than 5 seconds for expects and other statements timeouts. increase timeouts for tests if required, up to 1 minute
 
 do not create dumb tests that test nothing. do not write tests if there is not already a test file or describe block for that function or module.
 

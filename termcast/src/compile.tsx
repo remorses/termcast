@@ -12,6 +12,10 @@ const raycastAliasPlugin: BunPlugin = {
       path: require.resolve('termcast/src/index'),
     }))
 
+    build.onResolve({ filter: /@raycast\/utils/ }, () => ({
+      path: import.meta.resolve('@termcast/utils'),
+    }))
+
     build.onResolve({ filter: /^termcast/ }, (args) => ({
       path: require.resolve(args.path),
     }))

@@ -1,112 +1,145 @@
-# Google OAuth Setup Guide for Termcast
+# OAuth Setup for Termcast
 
-## The Problem
+Termcast uses an OAuth proxy hosted on `termcast.app` to handle OAuth authentication for Raycast extensions. This allows extensions to authenticate with providers like GitHub, Linear, Slack, etc. without embedding client secrets.
 
-The iOS OAuth client (ID: `561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.googleusercontent.com`) **cannot be used with the device flow**. Google returns "invalid_client" because iOS clients are not authorized for device flow endpoints.
+## How It Works
 
-## Solution Options
-
-### Option 1: Create a TV/Device OAuth Client (Recommended for CLI)
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Navigate to **APIs & Services** > **Credentials**
-3. Click **CREATE CREDENTIALS** > **OAuth client ID**
-4. Choose **"TVs and Limited Input devices"** as the application type
-5. Give it a name (e.g., "Termcast CLI")
-6. Click **Create**
-7. You'll receive:
-   - Client ID (e.g., `123456-abc.apps.googleusercontent.com`)
-   - Client Secret (e.g., `GOCSPX-...`)
-
-Then update your environment variables:
-
-```bash
-export GOOGLE_DEVICE_CLIENT_ID="your-new-client-id"
-export GOOGLE_DEVICE_CLIENT_SECRET="your-client-secret"
+```
+1. Extension calls OAuthService.github() (or other provider)
+2. Browser opens: https://termcast.app/oauth/github/authorize
+3. termcast.app redirects to GitHub's OAuth page
+4. User authenticates on GitHub
+5. GitHub redirects to: https://termcast.app/oauth/github/callback
+6. termcast.app redirects to: http://localhost:8989/oauth/callback?code=XXX
+7. Termcast CLI exchanges code via: POST https://termcast.app/oauth/github/token
+8. termcast.app exchanges code for token (client_secret stored server-side)
+9. Termcast CLI receives and stores access_token
 ```
 
-And run:
+## Supported Providers
 
-```bash
-bun src/examples/oauth-google.tsx
+| Provider | Status | Notes |
+|----------|--------|-------|
+| GitHub | Ready | Needs OAuth app registered |
+| Linear | Ready | Needs OAuth app registered |
+| Slack | Ready | Needs OAuth app registered |
+| Asana | Ready | Needs OAuth app registered |
+| Google | Config only | Uses direct URLs, needs user client ID |
+| Jira | Config only | Uses direct URLs, needs user client ID |
+| Zoom | Config only | Uses direct URLs, needs user client ID |
+| Notion | Config only | Needs OAuth app registered |
+| Spotify | Config only | Needs OAuth app registered |
+| Dropbox | Config only | Needs OAuth app registered |
+
+## Setting Up a New Provider (for termcast maintainers)
+
+### 1. Register OAuth App with Provider
+
+Go to the provider's developer console and create an OAuth app:
+
+- **GitHub**: https://github.com/settings/developers
+- **Linear**: https://linear.app/settings/api
+- **Slack**: https://api.slack.com/apps
+- etc.
+
+Set the callback URL to:
+```
+https://termcast.app/oauth/{provider}/callback
 ```
 
-### Option 2: Use Desktop App OAuth Client (Alternative)
+### 2. Add Environment Variables
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Navigate to **APIs & Services** > **Credentials**
-3. Click **CREATE CREDENTIALS** > **OAuth client ID**
-4. Choose **"Desktop app"** as the application type
-5. Give it a name (e.g., "Termcast Desktop")
-6. Click **Create**
-7. You'll receive:
-   - Client ID
-   - Client Secret
-
-Desktop clients also support the standard OAuth flow with localhost redirect.
-
-### Option 3: Use Your Existing iOS Client (With Standard Flow)
-
-Your iOS client DOES work, but only with the standard OAuth authorization code flow (not device flow):
+Add to your website deployment (e.g., Vercel):
 
 ```bash
-bun src/examples/oauth-google-ios.tsx
+GITHUB_OAUTH_CLIENT_ID=your_client_id
+GITHUB_OAUTH_CLIENT_SECRET=your_client_secret
 ```
 
-This will:
+Pattern: `{PROVIDER}_OAUTH_CLIENT_ID` and `{PROVIDER}_OAUTH_CLIENT_SECRET`
 
-- Open your browser
-- Redirect to `http://localhost:8989/oauth/callback`
-- Exchange the code for tokens
+### 3. Add Provider Config (if not already present)
 
-## Client Type Comparison
-
-| Client Type           | Device Flow | Localhost Redirect | Client Secret | Use Case             |
-| --------------------- | ----------- | ------------------ | ------------- | -------------------- |
-| iOS                   | ❌ No       | ✅ Yes             | ❌ No         | Mobile apps          |
-| TVs and Limited Input | ✅ Yes      | ❌ No              | ✅ Yes        | CLI tools, smart TVs |
-| Desktop app           | ❌ No       | ✅ Yes             | ✅ Yes        | Desktop applications |
-| Web application       | ❌ No       | ✅ Yes\*           | ✅ Yes        | Web servers          |
-
-\*Web applications require specific redirect URIs to be configured
-
-## Why This Happens
-
-Google segregates OAuth clients by type for security:
-
-- **iOS/Android clients**: For mobile apps, use custom URL schemes
-- **TV/Device clients**: For devices without keyboards, use device flow
-- **Desktop clients**: For desktop apps, use localhost redirects
-- **Web clients**: For server-side apps, use configured redirect URIs
-
-Each type has different capabilities and security models.
-
-## Quick Test
-
-Once you have the right credentials:
+Edit `website/src/lib/oauth-providers.ts`:
 
 ```typescript
-// For TV/Device client (device flow):
-const googleOAuth = OAuthService.google({
-  clientId: process.env.GOOGLE_DEVICE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_DEVICE_CLIENT_SECRET,
-  scope: 'https://www.googleapis.com/auth/userinfo.email',
-})
-
-// For iOS client (standard flow):
-const googleOAuth = new OAuthService({
-  clientId:
-    '561871153864-av1vs99717luugrbiru0qccgodhcj9nm.apps.googleusercontent.com',
-  clientSecret: undefined,
-  useDeviceFlow: false,
-  // ... rest of config
-})
+export const OAUTH_PROVIDERS = {
+  // ...
+  newprovider: {
+    authorizeUrl: 'https://newprovider.com/oauth/authorize',
+    tokenUrl: 'https://newprovider.com/oauth/token',
+    // Optional: extra params for authorization URL
+    extraAuthorizeParams: {
+      access_type: 'offline',
+    },
+  },
+}
 ```
 
-## Recommendation
+### 4. Update raycast-utils Fork (if needed)
 
-For a CLI tool like Termcast, use **"TVs and Limited Input devices"** OAuth client. It's specifically designed for terminal/CLI scenarios where:
+If the provider has a static method in OAuthService (like `OAuthService.github()`), update `raycast-utils/src/oauth/OAuthService.ts` to use termcast.app URLs:
 
-- You can't easily redirect back to the app
-- The user might be in SSH or remote terminal
-- You want a simple "go to this URL and enter this code" flow
+```typescript
+static newprovider(options) {
+  return new OAuthService({
+    authorizeUrl: options.authorizeUrl ?? "https://termcast.app/oauth/newprovider/authorize",
+    tokenUrl: options.tokenUrl ?? "https://termcast.app/oauth/newprovider/token",
+    refreshTokenUrl: options.refreshTokenUrl ?? "https://termcast.app/oauth/newprovider/refresh-token",
+    // ...
+  })
+}
+```
+
+## Architecture
+
+### Website OAuth Routes
+
+Generic routes that work for any provider:
+
+- `GET /oauth/:provider/authorize` - Redirects to provider's OAuth page
+- `GET /oauth/:provider/callback` - Receives code, redirects to localhost
+- `POST /oauth/:provider/token` - Exchanges code for tokens (holds client_secret)
+- `POST /oauth/:provider/refresh-token` - Refreshes expired tokens
+
+### Termcast CLI
+
+- `src/apis/oauth.tsx` - PKCEClient handles authorization code flow
+- `src/preload.tsx` - Redirects `@raycast/utils` imports to our fork
+
+### Forked raycast-utils
+
+The `raycast-utils/` submodule (branch: `termcast-oauth-proxy`) contains a fork of `@raycast/utils` with OAuth URLs changed from `{provider}.oauth.raycast.com` to `termcast.app/oauth/{provider}`.
+
+## Troubleshooting
+
+### "OAuth not configured for provider"
+
+The website doesn't have the environment variables set. Add `{PROVIDER}_OAUTH_CLIENT_ID` and `{PROVIDER}_OAUTH_CLIENT_SECRET`.
+
+### "Unknown OAuth provider"
+
+The provider isn't in `oauth-providers.ts`. Add the provider configuration.
+
+### Callback shows "Not Found"
+
+The callback URL might be misconfigured. Ensure the OAuth app's callback URL is exactly:
+```
+https://termcast.app/oauth/{provider}/callback
+```
+
+### Token exchange fails
+
+Check that:
+1. Client ID and secret are correct
+2. The authorization code hasn't expired (they're usually short-lived)
+3. The redirect_uri matches what was used in authorization
+
+## Local Development
+
+For testing OAuth locally, the flow still works because:
+1. Authorization goes through termcast.app (production)
+2. Callback redirects to `http://localhost:8989/oauth/callback`
+3. Token exchange goes through termcast.app (production)
+
+You need the production OAuth apps configured on termcast.app for this to work.

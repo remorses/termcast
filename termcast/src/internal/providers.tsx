@@ -13,10 +13,11 @@ import { Cache } from 'termcast/src/apis/cache'
 import { logger } from 'termcast/src/logger'
 import { Theme, initializeTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
-import { useTerminalDimensions } from '@opentui/react'
+import { useKeyboard, useRenderer, useTerminalDimensions } from '@opentui/react'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
 
 import { InFocus } from './focus-context'
+import { Clipboard } from '../apis/clipboard'
 
 // Initialize error handlers at module load time
 initializeErrorHandlers()
@@ -101,7 +102,9 @@ class ErrorBoundaryClass extends Component<
 function ErrorDisplay({ error }: { error: Error | null }): any {
   return (
     <box padding={2}>
-      <text fg={Theme.error} wrapMode='none'>{error?.stack}</text>
+      <text fg={Theme.error} wrapMode='none'>
+        {error?.stack}
+      </text>
     </box>
   )
 }
@@ -109,7 +112,17 @@ function ErrorDisplay({ error }: { error: Error | null }): any {
 const ErrorBoundary = ErrorBoundaryClass as any
 
 export function TermcastProvider(props: ProvidersProps): any {
-
+  const renderer = useRenderer()
+  useKeyboard((key) => {
+    if (!renderer) return
+    if (key.ctrl && key.name === 'd') {
+      renderer.console.onCopySelection = (text: any) => {
+        Clipboard.copy(text)
+      }
+      renderer?.toggleDebugOverlay()
+      renderer?.console.toggle()
+    }
+  })
 
   return (
     <ErrorBoundary>

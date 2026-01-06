@@ -2,31 +2,24 @@ import { plugin } from 'bun'
 import path from 'node:path'
 import { logger } from './logger'
 
+// Path to our forked raycast-utils with termcast OAuth proxy URLs
+const RAYCAST_UTILS_PATH = path.resolve(__dirname, '../../raycast-utils/src/index.ts')
+
 plugin({
   name: 'alias-raycast-to-termcast',
   setup(build) {
-    build.onResolve({ filter: /@raycast\/api/ }, () => {
+    // Redirect @raycast/api to termcast
+    build.onResolve({ filter: /^@raycast\/api$/ }, () => {
       return {
         path: require.resolve('termcast'),
       }
     })
-    // build.onResolve({ filter: /@raycast\/utils/ }, (args) => {
-    //     return {
-    //         path: require.resolve('@raycast/utils', {
-    //             paths: [args.importer],
-    //         }),
 
-    //     }
-    // })
-    // build.onLoad({ filter: /@raycast\/utils/ }, (args) => {
-    //     const filePath = require
-    //         .resolve(args.path.replace('file:', ''))
-    //         .replace('file:', '')
-    //     return {
-    //         contents: require('fs').readFileSync(filePath, 'utf8'),
-
-    //         loader: 'js',
-    //     }
-    // })
+    // Redirect @raycast/utils to our fork with termcast OAuth proxy URLs
+    build.onResolve({ filter: /^@raycast\/utils$/ }, () => {
+      return {
+        path: RAYCAST_UTILS_PATH,
+      }
+    })
   },
 })

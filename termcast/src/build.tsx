@@ -50,6 +50,14 @@ export const aliasPlugin: BunPlugin = {
       }
     })
 
+    // Alias @raycast/utils to our fork with termcast OAuth proxy URLs
+    build.onResolve({ filter: /@raycast\/utils/ }, () => {
+      logger.log('Resolving @raycast/utils to termcast fork')
+      return {
+        path: import.meta.resolve('@termcast/utils'),
+      }
+    })
+
     // Resolve external packages to globals namespace
     build.onResolve({ filter: /^termcast/ }, (args) => {
       return {

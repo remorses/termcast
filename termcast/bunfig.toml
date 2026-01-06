@@ -2,7 +2,7 @@
 preload = ["./src/preload.tsx"]
 
 [install]
-auto = "fallback"   # same behavior as: -i / --install=fallback
+auto = "disable"   # don't auto-install at runtime
 
 [test]
 pathFilter = ["!dist/**/*.test.*", "!esm/**/*.test.*"]

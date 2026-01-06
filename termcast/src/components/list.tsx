@@ -729,17 +729,17 @@ export const List: ListType = (props) => {
 
   // Ref callback that registers the textarea in global state for ESC handling
   const setInputRef = useCallback((node: TextareaRenderable | null) => {
-    if (node) {
-      inputRef.current = node
-      useStore.setState({ activeSearchInputRef: node })
+    if (!node) return
 
-      // React 19: return cleanup function for unmount
-      return () => {
-        if (useStore.getState().activeSearchInputRef === node) {
-          useStore.setState({ activeSearchInputRef: null })
-        }
-        inputRef.current = null
+    inputRef.current = node
+    useStore.setState({ activeSearchInputRef: node })
+
+    // React 19: return cleanup function for unmount
+    return () => {
+      if (useStore.getState().activeSearchInputRef === node) {
+        useStore.setState({ activeSearchInputRef: null })
       }
+      inputRef.current = null
     }
   }, [])
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
