@@ -1,51 +1,54 @@
-import { test, expect, beforeEach, afterEach, beforeAll, describe } from 'vitest'
+import { test, expect, beforeEach, afterEach, beforeAll } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
-import fs from 'node:fs'
 
 const extensionDir = path.resolve(__dirname, '../../extensions/synonyms')
 
-// Track if install succeeded - tests will be skipped if not
-let installSucceeded = false
-
 // Install dependencies before running tests
 beforeAll(() => {
-  // Check if node_modules already exists (fast path)
-  if (fs.existsSync(path.join(extensionDir, 'node_modules'))) {
-    installSucceeded = true
-    return
+  // Use spawnSync and capture output for debugging
+  const result = spawnSync('bun', ['install'], {
+    cwd: extensionDir,
+    stdio: 'pipe',
+    timeout: 120000,
+    env: {
+      ...process.env,
+      // Disable color output for cleaner logs
+      NO_COLOR: '1',
+      FORCE_COLOR: '0',
+    },
+  })
+
+  // Log full result for debugging CI issues
+  console.log('bun install result:', {
+    status: result.status,
+    signal: result.signal,
+    error: result.error?.message,
+    stdout: result.stdout?.toString().slice(-2000),
+    stderr: result.stderr?.toString().slice(-2000),
+  })
+
+  if (result.error) {
+    throw new Error(`bun install error: ${result.error.message}`)
   }
 
-  // Use spawnSync without shell to avoid /bin/sh issues on CI
-  // Retry up to 3 times because bun install can be flaky in CI
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    const result = spawnSync('bun', ['install'], {
-      cwd: extensionDir,
-      stdio: 'inherit',
-      timeout: 60000,
-    })
-    // Check for success (status 0 and no signal)
-    if (result.status === 0 && !result.signal) {
-      installSucceeded = true
-      return
-    }
-    // Log failure but continue retrying
-    console.warn(
-      `bun install attempt ${attempt}/3 failed: status=${result.status}, signal=${result.signal}`,
+  if (result.signal) {
+    throw new Error(
+      `bun install killed by signal ${result.signal}. stderr: ${result.stderr?.toString().slice(-500)}`,
     )
   }
-  // Don't throw - just mark as failed, tests will be skipped
-  console.warn('bun install failed after 3 attempts, tests will be skipped')
+
+  if (result.status !== 0) {
+    throw new Error(
+      `bun install failed with exit code ${result.status}. stderr: ${result.stderr?.toString().slice(-500)}`,
+    )
+  }
 }, 180000)
 
 let session: Session
 
-beforeEach(async (ctx) => {
-  if (!installSucceeded) {
-    ctx.skip()
-    return
-  }
+beforeEach(async () => {
   session = await launchTerminal({
     command: 'bun',
     args: ['src/cli.tsx', 'dev', extensionDir],
@@ -59,11 +62,7 @@ afterEach(() => {
   session?.close()
 })
 
-test('synonyms extension shows preferences form on first launch', async (ctx) => {
-  if (!installSucceeded) {
-    ctx.skip()
-    return
-  }
+test('synonyms extension shows preferences form on first launch', async () => {
   // Wait for preferences form to appear (extension requires LLM provider setup)
   await session.text({
     waitFor: (text) => /LLM Provider/i.test(text),
@@ -110,11 +109,7 @@ test('synonyms extension shows preferences form on first launch', async (ctx) =>
   `)
 }, 60000)
 
-test('synonyms extension preferences form can be navigated', async (ctx) => {
-  if (!installSucceeded) {
-    ctx.skip()
-    return
-  }
+test('synonyms extension preferences form can be navigated', async () => {
   // Wait for preferences form to appear
   await session.text({
     waitFor: (text) => /LLM Provider/i.test(text),
