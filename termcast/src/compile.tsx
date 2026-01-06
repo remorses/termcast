@@ -13,8 +13,7 @@ const raycastAliasPlugin: BunPlugin = {
     }))
 
     build.onResolve({ filter: /@raycast\/utils/ }, () => ({
-      path: import.meta.resolve('@termcast/utils'),
-      external: true,
+      path: require.resolve('@termcast/utils'),
     }))
 
     build.onResolve({ filter: /^termcast/ }, (args) => ({
@@ -30,8 +29,6 @@ const raycastAliasPlugin: BunPlugin = {
     build.onResolve({ filter: /^react\/jsx-dev-runtime$/ }, () => ({
       path: require.resolve('react/jsx-dev-runtime'),
     }))
-
-
   },
 }
 

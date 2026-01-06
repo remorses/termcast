@@ -15,11 +15,6 @@ plugin({
       }
     })
 
-    // // Redirect @raycast/utils to our fork with termcast OAuth proxy URLs
-    // build.onResolve({ filter: /^@raycast\/utils$/ }, () => {
-    //   return {
-    //     path: RAYCAST_UTILS_PATH,
-    //   }
-    // })
+
   },
 })

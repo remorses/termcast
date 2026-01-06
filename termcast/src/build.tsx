@@ -54,8 +54,9 @@ export const aliasPlugin: BunPlugin = {
     build.onResolve({ filter: /@raycast\/utils/ }, () => {
       logger.log('Resolving @raycast/utils to termcast fork')
       return {
-        path: import.meta.resolve('@termcast/utils'),
-        external: true,
+        path: require.resolve('@termcast/utils'),
+
+        // external: true,
       }
     })
 
