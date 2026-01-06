@@ -2,46 +2,26 @@ import { test, expect, beforeEach, afterEach, beforeAll } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
+import fs from 'node:fs'
 
 const extensionDir = path.resolve(__dirname, '../../extensions/synonyms')
 
-// Install dependencies before running tests
+// Install dependencies before running tests (CI pre-installs, this is for local dev)
 beforeAll(() => {
-  // Use spawnSync and capture output for debugging
+  // Skip if already installed (fast path for CI where deps are pre-installed)
+  if (fs.existsSync(path.join(extensionDir, 'node_modules', '.bin'))) {
+    return
+  }
+
   const result = spawnSync('bun', ['install'], {
     cwd: extensionDir,
-    stdio: 'pipe',
+    stdio: 'inherit',
     timeout: 120000,
-    env: {
-      ...process.env,
-      // Disable color output for cleaner logs
-      NO_COLOR: '1',
-      FORCE_COLOR: '0',
-    },
   })
 
-  // Log full result for debugging CI issues
-  console.log('bun install result:', {
-    status: result.status,
-    signal: result.signal,
-    error: result.error?.message,
-    stdout: result.stdout?.toString().slice(-2000),
-    stderr: result.stderr?.toString().slice(-2000),
-  })
-
-  if (result.error) {
-    throw new Error(`bun install error: ${result.error.message}`)
-  }
-
-  if (result.signal) {
+  if (result.status !== 0 || result.signal) {
     throw new Error(
-      `bun install killed by signal ${result.signal}. stderr: ${result.stderr?.toString().slice(-500)}`,
-    )
-  }
-
-  if (result.status !== 0) {
-    throw new Error(
-      `bun install failed with exit code ${result.status}. stderr: ${result.stderr?.toString().slice(-500)}`,
+      `bun install failed: status=${result.status}, signal=${result.signal}`,
     )
   }
 }, 180000)

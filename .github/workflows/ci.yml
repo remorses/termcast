@@ -40,6 +40,10 @@ jobs:
       - name: Build tuistory
         run: bun run build
         working-directory: tuistory
+      # Install extension dependencies for tests
+      - name: Install synonyms extension dependencies
+        run: bun install
+        working-directory: termcast/extensions/synonyms
       # scripts
       - run: bun run binary
         working-directory: termcast
