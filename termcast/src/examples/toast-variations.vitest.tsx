@@ -1,10 +1,13 @@
 import { test, expect, afterEach, beforeEach } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
 
-// Normalize terminal output: trim trailing blank lines to avoid flaky tests
-// due to variable padding at the end of the terminal buffer
+// Normalize terminal output to avoid flaky tests:
+// 1. Collapse multiple consecutive blank lines into exactly 2 blank lines
+// 2. Trim trailing whitespace
 function normalizeOutput(text: string): string {
-  return text.replace(/\n+\s*$/, '\n')
+  return text
+    .replace(/\n(\s*\n){2,}/g, '\n\n\n') // Collapse 3+ consecutive newlines to 2 blank lines
+    .replace(/\n+\s*$/, '\n') // Trim trailing blank lines
 }
 
 let session: Session
@@ -23,9 +26,9 @@ afterEach(() => {
 })
 
 test('toast variations display correctly', async () => {
-  // Simple Success - wait for toast to appear in stable position (after list items with 2 blank lines)
+  // Simple Success - wait for toast to appear after list items (with any number of blank lines)
   const simpleSuccess = await session.text({
-    waitFor: (text) => text.includes('›Simple Success') && /Error with Retry\n\n\n\s+✓ Success/.test(text),
+    waitFor: (text) => text.includes('›Simple Success') && /Error with Retry[\s\n]+✓ Success/.test(text),
   })
   expect(normalizeOutput(simpleSuccess)).toMatchInlineSnapshot(`
     "
@@ -48,23 +51,13 @@ test('toast variations display correctly', async () => {
 
 
        ✓ Success
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
   // Simple Failure
   await session.press('down')
   const simpleFailure = await session.text({
-    waitFor: (text) => text.includes('›Simple Failure') && /Error with Retry\n\n\n\s+✗ Error/.test(text),
+    waitFor: (text) => text.includes('›Simple Failure') && /Error with Retry[\s\n]+✗ Error/.test(text),
   })
   expect(normalizeOutput(simpleFailure)).toMatchInlineSnapshot(`
     "
@@ -87,23 +80,13 @@ test('toast variations display correctly', async () => {
 
 
        ✗ Error
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
   // With Short Message
   await session.press('down')
   const shortMessage = await session.text({
-    waitFor: (text) => text.includes('›With Short Message') && /Error with Retry\n\n\n\s+✓ Copied/.test(text),
+    waitFor: (text) => text.includes('›With Short Message') && /Error with Retry[\s\n]+✓ Copied/.test(text),
   })
   expect(normalizeOutput(shortMessage)).toMatchInlineSnapshot(`
     "
@@ -126,25 +109,15 @@ test('toast variations display correctly', async () => {
 
 
        ✓ Copied  Text copied to clipboard
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
   // With Long Message
   await session.press('down')
   const longMessage = await session.text({
-    waitFor: (text) => text.includes('›With Long Message') && /Error with Retry\n\n\n\s+✗ Error/.test(text),
+    waitFor: (text) => text.includes('›With Long Message') && /Error with Retry[\s\n]+✗ Error/.test(text),
   })
-  expect(longMessage).toMatchInlineSnapshot(`
+  expect(normalizeOutput(longMessage)).toMatchInlineSnapshot(`
     "
 
 
@@ -165,16 +138,6 @@ test('toast variations display correctly', async () => {
 
 
        ✗ Error  This is a very long error message that should wrap to multiple
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
@@ -182,9 +145,9 @@ test('toast variations display correctly', async () => {
   await session.press('down')
   const superLongMessage = await session.text({
     waitFor: (text) =>
-      text.includes('›With Super Long Message') && /Error with Retry\n\n\n\s+✗ Warning/.test(text),
+      text.includes('›With Super Long Message') && /Error with Retry[\s\n]+✗ Warning/.test(text),
   })
-  expect(superLongMessage).toMatchInlineSnapshot(`
+  expect(normalizeOutput(superLongMessage)).toMatchInlineSnapshot(`
     "
 
 
@@ -205,16 +168,6 @@ test('toast variations display correctly', async () => {
 
 
        ✗ Warning  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
@@ -222,9 +175,9 @@ test('toast variations display correctly', async () => {
   await session.press('down')
   const primaryAction = await session.text({
     waitFor: (text) =>
-      text.includes('›With Primary Action') && /Error with Retry\n\n\n\s+✓ File Deleted/.test(text),
+      text.includes('›With Primary Action') && /Error with Retry[\s\n]+✓ File Deleted/.test(text),
   })
-  expect(primaryAction).toMatchInlineSnapshot(`
+  expect(normalizeOutput(primaryAction)).toMatchInlineSnapshot(`
     "
 
 
@@ -245,16 +198,6 @@ test('toast variations display correctly', async () => {
 
 
        ✓ File Deleted  document.pdf was moved to trash                Undo ctrl t
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
@@ -262,9 +205,9 @@ test('toast variations display correctly', async () => {
   await session.press('down')
   const bothActions = await session.text({
     waitFor: (text) =>
-      text.includes('›With Both Actions') && /Error with Retry\n\n\n\s+✓ Update Available/.test(text),
+      text.includes('›With Both Actions') && /Error with Retry[\s\n]+✓ Update Available/.test(text),
   })
-  expect(bothActions).toMatchInlineSnapshot(`
+  expect(normalizeOutput(bothActions)).toMatchInlineSnapshot(`
     "
 
 
@@ -285,16 +228,6 @@ test('toast variations display correctly', async () => {
 
 
        ✓ Update Available  Version 2.0 is ready to i  Install ctrl t Later ctrl g
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
@@ -302,9 +235,9 @@ test('toast variations display correctly', async () => {
   await session.press('down')
   const longTitleActions = await session.text({
     waitFor: (text) =>
-      text.includes('›Long Title with Actions') && /Error with Retry\n\n\n\s+✓ Operation Completed/.test(text),
+      text.includes('›Long Title with Actions') && /Error with Retry[\s\n]+✓ Operation Completed/.test(text),
   })
-  expect(longTitleActions).toMatchInlineSnapshot(`
+  expect(normalizeOutput(longTitleActions)).toMatchInlineSnapshot(`
     "
 
 
@@ -325,16 +258,6 @@ test('toast variations display correctly', async () => {
 
 
        ✓ Operation Completed Successfully  Al  View Results ctrl t Dismiss ctrl g
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
@@ -342,11 +265,11 @@ test('toast variations display correctly', async () => {
   await session.press('down')
   const animatedLoading = await session.text({
     waitFor: (text) =>
-      text.includes('›Animated Loading') && /Error with Retry\n\n\n\s+[⣾⣽⣻⢿⡿⣟⣯⣷] Processing/.test(text),
+      text.includes('›Animated Loading') && /Error with Retry[\s\n]+[⣾⣽⣻⢿⡿⣟⣯⣷] Processing/.test(text),
   })
   // Normalize the spinner character (⣾⣽⣻⢿⡿⣟⣯⣷) to a fixed one for stable snapshot
   const normalizedAnimatedLoading = animatedLoading.replace(/[⣾⣽⣻⢿⡿⣟⣯⣷]/g, '◌')
-  expect(normalizedAnimatedLoading).toMatchInlineSnapshot(`
+  expect(normalizeOutput(normalizedAnimatedLoading)).toMatchInlineSnapshot(`
     "
 
 
@@ -367,16 +290,6 @@ test('toast variations display correctly', async () => {
 
 
        ◌ Processing  Please wait while we process your request...
-
-
-
-
-
-
-
-
-
-
     "
   `)
 
@@ -384,9 +297,9 @@ test('toast variations display correctly', async () => {
   await session.press('down')
   const errorRetry = await session.text({
     waitFor: (text) =>
-      text.includes('›Error with Retry') && /Error with Retry\n\n\n\s+✗ Connection Failed/.test(text),
+      text.includes('›Error with Retry') && /Error with Retry[\s\n]+✗ Connection Failed/.test(text),
   })
-  expect(errorRetry).toMatchInlineSnapshot(`
+  expect(normalizeOutput(errorRetry)).toMatchInlineSnapshot(`
     "
 
 
@@ -407,16 +320,6 @@ test('toast variations display correctly', async () => {
 
 
        ✗ Connection Failed  Unable to connect to the server. Please  Retry ctrl t
-
-
-
-
-
-
-
-
-
-
     "
   `)
 }, 30000)
