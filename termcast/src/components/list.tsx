@@ -1107,7 +1107,8 @@ export const List: ListType = (props) => {
 }
 
 
-function DefaultEmptyView(): any {
+// Wrapper component that only renders children when no visible items exist
+function ShowOnNoItems(props: { children: ReactNode }): any {
   // Subscribe to re-render when items are added/removed
   void useListDescendantsRerender()
   // Get live map ref for reading in useLayoutEffect
@@ -1128,22 +1129,28 @@ function DefaultEmptyView(): any {
 
   if (hasVisibleItems) return null
 
+  return props.children
+}
+
+function DefaultEmptyView(): any {
   return (
-    <box
-      style={{
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 2,
-        paddingBottom: 2,
-        paddingLeft: 2,
-        paddingRight: 2,
-      }}
-    >
-      <text flexShrink={0} fg={Theme.textMuted}>
-        No items found
-      </text>
-    </box>
+    <ShowOnNoItems>
+      <box
+        style={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 2,
+          paddingBottom: 2,
+          paddingLeft: 2,
+          paddingRight: 2,
+        }}
+      >
+        <text flexShrink={0} fg={Theme.textMuted}>
+          No items found
+        </text>
+      </box>
+    </ShowOnNoItems>
   )
 }
 
@@ -1778,7 +1785,8 @@ const ListSection = (props: SectionProps) => {
 
 List.Section = ListSection
 List.Dropdown = ListDropdown
-List.EmptyView = (props: EmptyViewProps) => {
+// Inner component for EmptyView content (needs hooks at top level)
+function EmptyViewContent(props: EmptyViewProps): any {
   const dialog = useDialog()
   const inFocus = useIsInFocus()
 
@@ -1846,6 +1854,14 @@ List.EmptyView = (props: EmptyViewProps) => {
         </text>
       )}
     </box>
+  )
+}
+
+List.EmptyView = (props: EmptyViewProps) => {
+  return (
+    <ShowOnNoItems>
+      <EmptyViewContent {...props} />
+    </ShowOnNoItems>
   )
 }
 
