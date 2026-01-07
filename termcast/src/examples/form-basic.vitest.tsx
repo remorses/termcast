@@ -34,27 +34,27 @@ test('form basic navigation and input', async () => {
 
 
 
-      ■  Form Component Demo                                           █
-      │  This demonstrates all available form input types. Use arrow   ▀
-      │  keys or Tab to navigate between fields.
-      │
-      ◇  Username
-      │  Enter your username
-      │
-      │  Required field
-      │
-      ◇  Password
-      │  Enter secure password
-      │  Must be at least 8 characters
-      │
-      ◇  Biography
-      │  Tell us about yourself...
-      │
-      │
-      │
-      │
-      │  Maximum 500 characters
-      │
+      ▪  Form Component Demo                                           █
+      │  This demonstrates all available form input types. Use arrow   █
+      │  keys or Tab to navigate between fields.                       █
+      │                                                                █
+      ◇  Username                                                      █
+      │  Enter your username                                           █
+      │                                                                █
+      │  Required field                                                █
+      │                                                                █
+      ◇  Password                                                      █
+      │  Enter secure password                                         █
+      │  Must be at least 8 characters                                 █
+      │                                                                █
+      ◇  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │  Maximum 500 characters                                        █
+      │                                                                █
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
       │
@@ -171,27 +171,27 @@ test('form date picker selection with space and enter', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
-      │  Tell us about yourself...
-      │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
-      │
-      ◇  Email Preferences
-      │  ○ Subscribe to newsletter
-      │
-      │  Receive weekly updates
-      │
-      ◆  Country
-      │  Select your country
-      │
-      │  Americas
-      │› ○ United States
-      │  ○ Canada
-      │  ○ Mexico
+      ◇  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │  Maximum 500 characters                                        █
+      │                                                                █
+      ◇  Email Preferences                                             █
+      │  ○ Subscribe to newsletter                                     █
+      │                                                                █
+      │  Receive weekly updates                                        █
+      │                                                                █
+      ◆  Country                                                       █
+      │  Select your country                                           █
+      │                                                                █
+      │  Americas                                                      █
+      │› ○ United States                                               █
+      │  ○ Canada                                                      █
+      │  ○ Mexico                                                      █
       │  Europe
       │
       │  Your country of residence
@@ -229,27 +229,27 @@ test('form date picker selection with space and enter', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
-      │  Tell us about yourself...
-      │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
-      │
-      ◇  Email Preferences
-      │  ○ Subscribe to newsletter
-      │
-      │  Receive weekly updates
-      │
-      ◆  Country
-      │  United States
-      │
-      │  Americas
-      │› ● United States
-      │  ○ Canada
-      │  ○ Mexico
+      ◇  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │  Maximum 500 characters                                        █
+      │                                                                █
+      ◇  Email Preferences                                             █
+      │  ○ Subscribe to newsletter                                     █
+      │                                                                █
+      │  Receive weekly updates                                        █
+      │                                                                █
+      ◆  Country                                                       █
+      │  United States                                                 █
+      │                                                                █
+      │  Americas                                                      █
+      │› ● United States                                               █
+      │  ○ Canada                                                      █
+      │  ○ Mexico                                                      █
       │  Europe
       │
       │  Your country of residence
@@ -288,27 +288,27 @@ test('form date picker selection with space and enter', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
-      │  Tell us about yourself...
-      │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
-      │
-      ◇  Email Preferences
-      │  ○ Subscribe to newsletter
-      │
-      │  Receive weekly updates
-      │
-      ◆  Country
-      │  United States
-      │
-      │  Americas
-      │› ● United States
-      │  ○ Canada
-      │  ○ Mexico
+      ◇  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │  Maximum 500 characters                                        █
+      │                                                                █
+      ◇  Email Preferences                                             █
+      │  ○ Subscribe to newsletter                                     █
+      │                                                                █
+      │  Receive weekly updates                                        █
+      │                                                                █
+      ◆  Country                                                       █
+      │  United States                                                 █
+      │                                                                █
+      │  Americas                                                      █
+      │› ● United States                                               █
+      │  ○ Canada                                                      █
+      │  ○ Mexico                                                      █
       │  Europe
       │
       │  Your country of residence
@@ -363,27 +363,27 @@ test('form dropdown navigation', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
-      │  Tell us about yourself...
-      │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
-      │
-      ◇  Email Preferences
-      │  ○ Subscribe to newsletter
-      │
-      │  Receive weekly updates
-      │
-      ◆  Country
-      │  United States
-      │
-      │  Americas
-      │› ● United States
-      │  ○ Canada
-      │  ○ Mexico
+      ◇  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │  Maximum 500 characters                                        █
+      │                                                                █
+      ◇  Email Preferences                                             █
+      │  ○ Subscribe to newsletter                                     █
+      │                                                                █
+      │  Receive weekly updates                                        █
+      │                                                                █
+      ◆  Country                                                       █
+      │  United States                                                 █
+      │                                                                █
+      │  Americas                                                      █
+      │› ● United States                                               █
+      │  ○ Canada                                                      █
+      │  ○ Mexico                                                      █
       │  Europe
       │
       │  Your country of residence
@@ -421,27 +421,27 @@ test('form dropdown navigation', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
-      │  Tell us about yourself...
-      │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
-      │
-      ◇  Email Preferences
-      │  ○ Subscribe to newsletter
-      │
-      │  Receive weekly updates
-      │
-      ◆  Country
-      │  United States
-      │
-      │  Americas
-      │  ● United States
-      │› ○ Canada
-      │  ○ Mexico
+      ◇  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │  Maximum 500 characters                                        █
+      │                                                                █
+      ◇  Email Preferences                                             █
+      │  ○ Subscribe to newsletter                                     █
+      │                                                                █
+      │  Receive weekly updates                                        █
+      │                                                                █
+      ◆  Country                                                       █
+      │  United States                                                 █
+      │                                                                █
+      │  Americas                                                      █
+      │  ● United States                                               █
+      │› ○ Canada                                                      █
+      │  ○ Mexico                                                      █
       │  Europe
       │
       │  Your country of residence
@@ -481,27 +481,27 @@ test('form dropdown navigation', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
-      │  Tell us about yourself...
-      │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
-      │
-      ◇  Email Preferences
-      │  ○ Subscribe to newsletter
-      │
-      │  Receive weekly updates
-      │
-      ◆  Country
-      │  United States
-      │
-      │  ○ Mexico
-      │  Europe
-      │  ○ United Kingdom
-      │› ○ France
+      ◇  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │  Maximum 500 characters                                        █
+      │                                                                █
+      ◇  Email Preferences                                             █
+      │  ○ Subscribe to newsletter                                     █
+      │                                                                █
+      │  Receive weekly updates                                        █
+      │                                                                █
+      ◆  Country                                                       █
+      │  United States                                                 █
+      │                                                                █
+      │  ○ Mexico                                                      █
+      │  Europe                                                        █
+      │  ○ United Kingdom                                              █
+      │› ○ France                                                      █
       │  ○ Germany
       │
       │  Your country of residence
@@ -539,27 +539,27 @@ test('form dropdown navigation', async () => {
       ◇  Password
       │  Enter secure password
       │  Must be at least 8 characters
-      │
-      ◇  Biography
-      │  Tell us about yourself...
-      │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
-      │
-      ◇  Email Preferences
-      │  ○ Subscribe to newsletter
-      │
-      │  Receive weekly updates
-      │
-      ◆  Country
-      │  France
-      │
-      │  ○ Mexico
-      │  Europe
-      │  ○ United Kingdom
-      │› ● France
+      ◇  Biography                                                     █
+      │  Tell us about yourself...                                     █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │                                                                █
+      │  Maximum 500 characters                                        █
+      │                                                                █
+      ◇  Email Preferences                                             █
+      │  ○ Subscribe to newsletter                                     █
+      │                                                                █
+      │  Receive weekly updates                                        █
+      │                                                                █
+      ◆  Country                                                       █
+      │  France                                                        █
+      │                                                                █
+      │  ○ Mexico                                                      █
+      │  Europe                                                        █
+      │  ○ United Kingdom                                              █
+      │› ● France                                                      █
       │  ○ Germany
       │
       │  Your country of residence
@@ -604,7 +604,7 @@ test('form scrolls with mouse wheel', async () => {
 
 
 
-      ■  Form Component Demo                                           ▀
+      ▪  Form Component Demo                                           ▀
       │  This demonstrates all available form input types. Use arrow
       │  keys or Tab to navigate between fields.
       │
@@ -660,7 +660,7 @@ test('form scrolls with mouse wheel', async () => {
 
 
 
-      ■  Form Component Demo                                           ▀
+      ▪  Form Component Demo                                           ▀
       │  This demonstrates all available form input types. Use arrow
       │  keys or Tab to navigate between fields.
       │

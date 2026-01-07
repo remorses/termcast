@@ -33,7 +33,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -59,24 +59,24 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -90,7 +90,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -116,24 +116,24 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -147,7 +147,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -173,24 +173,24 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -207,7 +207,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -233,24 +233,24 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -264,7 +264,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -290,24 +290,24 @@ test('form tagpicker shows inline options', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -329,7 +329,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -355,24 +355,24 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -389,7 +389,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -415,24 +415,24 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -446,7 +446,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -472,24 +472,24 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -503,7 +503,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -529,24 +529,24 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -560,7 +560,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ■  TagPicker Component Demo
+      ▪  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◇  Favorite Sport
@@ -586,24 +586,24 @@ test('form tagpicker keyboard navigation', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -651,24 +651,24 @@ test('form tagpicker with default value', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -708,24 +708,24 @@ test('form tagpicker with default value', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -778,16 +778,16 @@ test('form tagpicker with default value', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
 
     "
   `)

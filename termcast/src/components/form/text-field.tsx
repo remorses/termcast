@@ -1,7 +1,7 @@
 import React, { useRef, useCallback } from 'react'
 import { BoxRenderable, TextareaRenderable } from '@opentui/core'
 import { useFormContext } from 'react-hook-form'
-import { useFocusContext, useFormFieldDescendant } from './index'
+import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
@@ -21,14 +21,7 @@ export const TextField = (props: TextFieldProps): any => {
   const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
 
-  const elementRef = useRef<BoxRenderable>(null)
   const textareaRef = useRef<TextareaRenderable>(null)
-
-  // Register as form field descendant for scroll support
-  useFormFieldDescendant({
-    id: props.id,
-    elementRef: elementRef.current,
-  })
 
   // Use form navigation hook
   useFormNavigation(props.id)
@@ -60,7 +53,7 @@ export const TextField = (props: TextFieldProps): any => {
   const fieldError = formState.errors[props.id]
 
   return (
-    <box ref={elementRef} flexDirection="column">
+    <termcast-form-field-wrapper fieldId={props.id}>
       <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
         <box
           onMouseDown={() => {
@@ -105,6 +98,6 @@ export const TextField = (props: TextFieldProps): any => {
           <text fg={Theme.textMuted}>{props.info}</text>
         </WithLeftBorder>
       )}
-    </box>
+    </termcast-form-field-wrapper>
   )
 }

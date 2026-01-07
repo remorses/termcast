@@ -32,7 +32,7 @@ test(
 
 
 
-        ■  Form Scroll Test                                    ▀
+        ▪  Form Scroll Test                                    ▀
         │  Test scrolling behavior when navigating with Tab
         │
         ◇  Field 1

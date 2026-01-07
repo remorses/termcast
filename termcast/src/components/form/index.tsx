@@ -6,7 +6,7 @@ import React, {
   useRef,
   useEffect,
 } from 'react'
-import { useKeyboard, flushSync } from '@opentui/react'
+import { useKeyboard, flushSync, extend } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { ActionPanel } from 'termcast/src/components/actions'
 import { logger } from 'termcast/src/logger'
@@ -19,6 +19,9 @@ import {
   TextAttributes,
   ScrollBoxRenderable,
   BoxRenderable,
+  Renderable,
+  type RenderContext,
+  type BoxOptions,
 } from '@opentui/core'
 
 import {
@@ -45,6 +48,234 @@ import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 export * from './types'
 export { useFormContext } from 'react-hook-form'
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Helper to find parent renderable of specific type
+// ─────────────────────────────────────────────────────────────────────────────
+
+function findParent<T>(
+  node: Renderable,
+  type: abstract new (...args: any[]) => T,
+): T | undefined {
+  let current: Renderable | null = node.parent
+  while (current) {
+    if (current instanceof type) {
+      return current
+    }
+    current = current.parent
+  }
+  return undefined
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FormRenderable - owns field registry, focus state, scroll
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface RegisteredField {
+  id: string
+  elementRef: BoxRenderable | null
+  order: number
+}
+
+interface FormRenderableOptions extends BoxOptions {}
+
+class FormRenderable extends BoxRenderable {
+  // Field registry
+  private fields = new Map<string, RegisteredField>()
+
+  // Focus state
+  private _focusedFieldId: string | null = null
+
+  // Callback to notify React of focus changes
+  public onFocusChange?: (fieldId: string | null) => void
+
+  // UI components
+  private scrollBox: ScrollBoxRenderable
+  private contentBox: BoxRenderable
+
+  constructor(ctx: RenderContext, options: FormRenderableOptions) {
+    super(ctx, {
+      ...options,
+      flexDirection: 'row',
+      flexGrow: 1,
+      paddingTop: 2,
+      justifyContent: 'center',
+    })
+
+    // Outer scrollbox
+    this.scrollBox = new ScrollBoxRenderable(ctx, {
+      maxWidth: FORM_MAX_WIDTH,
+    })
+    super.add(this.scrollBox)
+
+    // Content box inside scrollbox
+    this.contentBox = new BoxRenderable(ctx, {
+      flexDirection: 'column',
+      justifyContent: 'center',
+    })
+    this.scrollBox.add(this.contentBox)
+  }
+
+  // React children go into content box
+  add(child: Renderable, index?: number): number {
+    return this.contentBox.add(child, index)
+  }
+
+  insertBefore(child: unknown, anchor?: unknown): number {
+    return this.contentBox.insertBefore(child, anchor)
+  }
+
+  remove(id: string): void {
+    this.contentBox.remove(id)
+  }
+
+  // --- Field Registration ---
+
+  registerField(id: string, wrapper: BoxRenderable): void {
+    // Don't store registration order - we'll sort by y-position instead
+    this.fields.set(id, { id, elementRef: wrapper, order: 0 })
+    // Note: fieldOrder is updated lazily when needed via getFieldOrder()
+  }
+
+  unregisterField(id: string): void {
+    this.fields.delete(id)
+  }
+
+  // Get fields sorted by y-position (visual order)
+  private getFieldOrder(): string[] {
+    return Array.from(this.fields.values())
+      .sort((a, b) => {
+        const aY = a.elementRef?.y ?? 0
+        const bY = b.elementRef?.y ?? 0
+        return aY - bY
+      })
+      .map((f) => f.id)
+  }
+
+  // --- Focus Management ---
+
+  get focusedFieldId(): string | null {
+    return this._focusedFieldId
+  }
+
+  focusField(id: string): void {
+    if (!this.fields.has(id)) return
+    this._focusedFieldId = id
+    this.scrollToField(id)
+    this.onFocusChange?.(id)
+  }
+
+  focusNext(): void {
+    const fieldOrder = this.getFieldOrder()
+    if (fieldOrder.length === 0) return
+    const idx = this._focusedFieldId
+      ? fieldOrder.indexOf(this._focusedFieldId)
+      : -1
+    const nextIdx = (idx + 1) % fieldOrder.length
+    this.focusField(fieldOrder[nextIdx])
+  }
+
+  focusPrev(): void {
+    const fieldOrder = this.getFieldOrder()
+    if (fieldOrder.length === 0) return
+    const idx = this._focusedFieldId
+      ? fieldOrder.indexOf(this._focusedFieldId)
+      : 0
+    const prevIdx = (idx - 1 + fieldOrder.length) % fieldOrder.length
+    this.focusField(fieldOrder[prevIdx])
+  }
+
+  // Get first field ID (by y-position)
+  getFirstFieldId(): string | null {
+    const fieldOrder = this.getFieldOrder()
+    return fieldOrder[0] ?? null
+  }
+
+  private scrollToField(id: string): void {
+    const field = this.fields.get(id)
+    if (!field?.elementRef) return
+
+    const itemY = field.elementRef.y
+    const scrollBoxY = this.scrollBox.content?.y || 0
+    const viewportHeight = this.scrollBox.viewport?.height || 10
+
+    const relativeY = itemY - scrollBoxY
+    const targetScrollTop = relativeY - Math.floor(viewportHeight / 2)
+    this.scrollBox.scrollTop = Math.max(0, targetScrollTop)
+  }
+
+  // Page scroll support
+  pageUp(): void {
+    const viewportHeight = this.scrollBox.viewport?.height || 10
+    const currentScrollTop = this.scrollBox.scrollTop || 0
+    const scrollAmount = viewportHeight - 2
+    this.scrollBox.scrollTop = Math.max(0, currentScrollTop - scrollAmount)
+  }
+
+  pageDown(): void {
+    const viewportHeight = this.scrollBox.viewport?.height || 10
+    const currentScrollTop = this.scrollBox.scrollTop || 0
+    const scrollAmount = viewportHeight - 2
+    this.scrollBox.scrollTop = currentScrollTop + scrollAmount
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FormFieldWrapperRenderable - thin wrapper that self-registers via onLifecyclePass
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface FormFieldWrapperOptions extends BoxOptions {
+  fieldId?: string
+}
+
+class FormFieldWrapperRenderable extends BoxRenderable {
+  private parentForm?: FormRenderable
+
+  // Set by React after constructor
+  public fieldId = ''
+
+  constructor(ctx: RenderContext, options: FormFieldWrapperOptions) {
+    super(ctx, { ...options, flexDirection: 'column' })
+
+    // SYNC registration when added to tree
+    this.onLifecyclePass = () => {
+      if (!this.parentForm && this.fieldId) {
+        this.parentForm = findParent(this, FormRenderable)
+        this.parentForm?.registerField(this.fieldId, this)
+      }
+    }
+  }
+}
+
+// Register with opentui
+extend({
+  'termcast-form': FormRenderable,
+  'termcast-form-field-wrapper': FormFieldWrapperRenderable,
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FormRenderableContext - exposes formRef for imperative access
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface FormRenderableContextValue {
+  formRef: React.RefObject<FormRenderable | null>
+}
+
+const FormRenderableContext = createContext<FormRenderableContextValue | null>(
+  null,
+)
+
+export const useFormRenderable = () => {
+  const ctx = useContext(FormRenderableContext)
+  if (!ctx) {
+    throw new Error('Form components must be used within a Form')
+  }
+  return ctx
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Legacy descendants (kept for backward compatibility during migration)
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Form field descendant type - stores element ref for scrolling
 interface FormFieldDescendant {
@@ -191,82 +422,30 @@ export const Form: FormType = ((props) => {
     // mode: 'onChange',
   })
 
+  const formRef = useRef<FormRenderable>(null)
   const [focusedField, setFocusedFieldRaw] = useState<string | null>(null)
   const navigationPending = useNavigationPending()
 
-  const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
+  // Legacy: keep descendantsContext for backward compatibility with existing field components
   const descendantsContext = useFormFieldDescendants()
+  const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
 
-  // Helper to get sorted field IDs
-  const getFieldIds = () => {
-    return Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1 && item.props?.id)
-      .sort((a, b) => a.index - b.index)
-      .map((item) => item.props!.id)
-  }
-
-  const scrollToField = (fieldId: string) => {
-    const scrollBox = scrollBoxRef.current
-    if (!scrollBox) return
-
-    // Find field in descendants map by matching props.id
-    const field = Object.values(descendantsContext.map.current).find(
-      (item) => item.props?.id === fieldId,
-    )
-    const elementRef = field?.props?.elementRef
-    if (!elementRef) return
-
-    const contentY = scrollBox.content?.y || 0
-    const viewportHeight = scrollBox.viewport?.height || 10
-
-    // Access current position from the BoxRenderable ref
-    const itemTop = elementRef.y - contentY
-
-    // Scroll so the top of the item is centered in the viewport
-    const targetScrollTop = itemTop - viewportHeight / 2
-    scrollBox.scrollTo(Math.max(0, targetScrollTop))
-  }
-
+  // Sync focus state from renderable to React (for WithLeftBorder styling)
   const setFocusedField = (id: string | null) => {
     flushSync(() => {
       setFocusedFieldRaw(id)
     })
-    if (id) {
-      scrollToField(id)
-    }
   }
 
-  // Focus first field helper
-  const focusFirstField = () => {
-    const fieldIds = getFieldIds()
-    if (fieldIds.length > 0) {
-      logger.log(`focusing first field:`, fieldIds[0])
-      setFocusedField(fieldIds[0])
-      return true
-    }
-    return false
-  }
-
-  // Focus last field helper
-  const focusLastField = () => {
-    const fieldIds = getFieldIds()
-    if (fieldIds.length > 0) {
-      logger.log(`focusing last field:`, fieldIds[fieldIds.length - 1])
-      setFocusedField(fieldIds[fieldIds.length - 1])
-      return true
-    }
-    return false
-  }
-
-  // Auto-focus first field when descendants become available
-  // Runs on every render until a field is focused (handles async loading)
+  // Auto-focus first field when form mounts and fields are registered
+  // Runs on every render until a field is focused (handles async field registration)
   useEffect(() => {
     if (focusedField) return
+    if (!formRef.current) return
 
-    const fieldIds = getFieldIds()
-    if (fieldIds.length > 0) {
-      logger.log(`auto-focusing first field:`, fieldIds[0])
-      setFocusedFieldRaw(fieldIds[0])
+    const firstFieldId = formRef.current.getFirstFieldId()
+    if (firstFieldId) {
+      formRef.current.focusField(firstFieldId)
     }
   })
 
@@ -276,56 +455,25 @@ export const Form: FormType = ((props) => {
 
   // Handle action keys, tab navigation, and page scrolling
   useKeyboard((evt) => {
-    // Only handle keyboard events when form is in focus
     if (!inFocus) return
 
-    // Tab navigation at Form level - handles case when no field is focused
-    // or navigates between fields
+    // Tab navigation via renderable
     if (evt.name === 'tab') {
-      if (!focusedField) {
-        // No field focused yet - focus first or last based on shift
-        if (evt.shift) {
-          focusLastField()
-        } else {
-          focusFirstField()
-        }
+      if (evt.shift) {
+        formRef.current?.focusPrev()
       } else {
-        // A field is focused - navigate to next/previous
-        const fieldIds = getFieldIds()
-        const currentIndex = fieldIds.indexOf(focusedField)
-        if (evt.shift) {
-          // Shift+Tab - go to previous
-          if (currentIndex > 0) {
-            setFocusedField(fieldIds[currentIndex - 1])
-          } else {
-            setFocusedField(fieldIds[fieldIds.length - 1])
-          }
-        } else {
-          // Tab - go to next
-          if (currentIndex < fieldIds.length - 1) {
-            setFocusedField(fieldIds[currentIndex + 1])
-          } else {
-            setFocusedField(fieldIds[0])
-          }
-        }
+        formRef.current?.focusNext()
       }
       return
     }
 
-    // Page up/down scrolling
-    if (evt.name === 'pageup' || evt.name === 'pagedown') {
-      const scrollBox = scrollBoxRef.current
-      if (!scrollBox) return
-
-      const viewportHeight = scrollBox.viewport?.height || 10
-      const currentScrollTop = scrollBox.scrollTop || 0
-      const scrollAmount = viewportHeight - 2 // Leave some overlap
-
-      if (evt.name === 'pageup') {
-        scrollBox.scrollTo(Math.max(0, currentScrollTop - scrollAmount))
-      } else {
-        scrollBox.scrollTo(currentScrollTop + scrollAmount)
-      }
+    // Page up/down scrolling via renderable
+    if (evt.name === 'pageup') {
+      formRef.current?.pageUp()
+      return
+    }
+    if (evt.name === 'pagedown') {
+      formRef.current?.pageDown()
       return
     }
 
@@ -362,76 +510,44 @@ export const Form: FormType = ((props) => {
     getFormValues: () => methods.getValues(),
   }
 
+  // Legacy scroll context for backward compatibility
   const scrollContextValue: FormScrollContextValue = {
     scrollBoxRef,
     descendantsContext,
   }
 
+  // Callback ref to set up onFocusChange when formRef is available
+  const handleFormRef = React.useCallback((ref: FormRenderable | null) => {
+    ;(formRef as React.MutableRefObject<FormRenderable | null>).current = ref
+    if (ref) {
+      ref.onFocusChange = setFocusedField
+    }
+  }, [setFocusedField])
+
   return (
     <FormProvider {...methods}>
       <FormSubmitContext.Provider value={submitContextValue}>
-        <FormScrollContext.Provider value={scrollContextValue}>
-          <FocusContext.Provider
-            value={{
-              focusedField,
-              setFocusedField,
-              isLoading: isLoading || false,
-            }}
-          >
-            <box
-              flexDirection='row'
-              flexGrow={1}
-              paddingTop={2}
-              justifyContent='center'
+        <FormRenderableContext.Provider value={{ formRef }}>
+          <FormScrollContext.Provider value={scrollContextValue}>
+            <FocusContext.Provider
+              value={{
+                focusedField,
+                setFocusedField: (id) => {
+                  formRef.current?.focusField(id!)
+                },
+                isLoading: isLoading || false,
+              }}
             >
-              <box flexGrow={0} flexDirection='column'>
-                <ScrollBox
-                  ref={scrollBoxRef}
-                  // flexGrow={1}
-                  style={{
-                    rootOptions: {
-                      maxWidth: FORM_MAX_WIDTH,
-                    },
-
-                    contentOptions: {
-                      justifyContent: 'center',
-                    },
-                  }}
-                >
-                  {/* Navigation header with title, loading bar, and accessory */}
-
-                  {/*<box
-                    border={false}
-                    style={{
-                      flexShrink: 0,
-                      flexDirection: 'row',
-                      paddingBottom: 1,
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      gap: 3,
-                    }}
-                  >
-                    <box overflow='hidden'>
-                      <LoadingBar
-                        title={navigationTitle || ''}
-                        isLoading={isLoading || navigationPending}
-                      />
-                    </box>
-                    {searchBarAccessory}
-                  </box>*/}
-
-                  <box>
-                    <FormFieldDescendantsProvider value={descendantsContext}>
-                      {props.children}
-                      <FormEnd />
-                    </FormFieldDescendantsProvider>
-                  </box>
-                </ScrollBox>
-                <FormFooter />
-              </box>
-            </box>
-          </FocusContext.Provider>
-        </FormScrollContext.Provider>
+              <termcast-form ref={handleFormRef}>
+                <FormFieldDescendantsProvider value={descendantsContext}>
+                  {props.children}
+                  <FormEnd />
+                </FormFieldDescendantsProvider>
+              </termcast-form>
+              <FormFooter />
+            </FocusContext.Provider>
+          </FormScrollContext.Provider>
+        </FormRenderableContext.Provider>
       </FormSubmitContext.Provider>
     </FormProvider>
   )

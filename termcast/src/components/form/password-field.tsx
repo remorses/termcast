@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
-import { BoxRenderable } from '@opentui/core'
 import { useFormContext, Controller } from 'react-hook-form'
-import { useFocusContext, useFormFieldDescendant } from './index'
+import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
@@ -19,14 +18,8 @@ export const PasswordField = (props: PasswordFieldProps): any => {
   const focusContext = useFocusContext()
   const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
-  const elementRef = useRef<BoxRenderable>(null)
   const realValueRef = useRef(props.defaultValue || props.value || '')
   const [displayLength, setDisplayLength] = useState(realValueRef.current.length)
-
-  useFormFieldDescendant({
-    id: props.id,
-    elementRef: elementRef.current,
-  })
 
   useFormNavigation(props.id)
 
@@ -39,7 +32,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
         const displayValue = '*'.repeat(displayLength)
 
         return (
-          <box ref={elementRef} flexDirection="column">
+          <termcast-form-field-wrapper fieldId={props.id}>
             <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
               <box
                 onMouseDown={() => {
@@ -98,7 +91,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
                 <text fg={Theme.textMuted}>{props.info}</text>
               </WithLeftBorder>
             )}
-          </box>
+          </termcast-form-field-wrapper>
         ) as React.ReactElement
       }}
     />

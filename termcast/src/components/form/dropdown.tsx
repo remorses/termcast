@@ -14,7 +14,7 @@ import {
   ControllerRenderProps,
   ControllerFieldState,
 } from 'react-hook-form'
-import { useFocusContext, useFormFieldDescendant } from './index'
+import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from 'termcast/src/logger'
 import { Theme } from 'termcast/src/theme'
@@ -210,17 +210,10 @@ const DropdownContent = ({
   const isFocused = focusedField === props.id
   const [focusedIndex, setFocusedIndex] = useState(0)
 
-  const elementRef = useRef<BoxRenderable>(null)
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
 
   const typeAheadTextRef = useRef('')
   const typeAheadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  // Register as form field descendant for scroll support
-  useFormFieldDescendant({
-    id: props.id,
-    elementRef: elementRef.current,
-  })
 
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
 
@@ -415,7 +408,7 @@ const DropdownContent = ({
   return (
     <FormDropdownDescendantsProvider value={descendantsContext}>
       <FormDropdownContext.Provider value={contextValue}>
-        <box ref={elementRef} flexDirection='column'>
+        <termcast-form-field-wrapper fieldId={props.id}>
           <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
             <box
               onMouseDown={() => {
@@ -476,7 +469,7 @@ const DropdownContent = ({
               <text fg={Theme.textMuted}>{props.info}</text>
             </WithLeftBorder>
           )}
-        </box>
+        </termcast-form-field-wrapper>
       </FormDropdownContext.Provider>
     </FormDropdownDescendantsProvider>
   )

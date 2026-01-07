@@ -1,10 +1,10 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { Theme } from 'termcast/src/theme'
-import { BoxRenderable, TextareaRenderable } from '@opentui/core'
+import { TextareaRenderable } from '@opentui/core'
 import { WithLeftBorder } from './with-left-border'
 import { FormItemProps, FormItemRef } from './types'
 import { useFormContext, Controller } from 'react-hook-form'
-import { useFocusContext, useFormFieldDescendant } from './index'
+import { useFocusContext } from './index'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { FileAutocompleteDialog, createFileAutocompleteStore } from './file-autocomplete'
@@ -240,14 +240,6 @@ export const FilePicker = (props: FilePickerProps): any => {
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
 
-  const elementRef = useRef<BoxRenderable>(null)
-
-  // Register as form field descendant for scroll support
-  useFormFieldDescendant({
-    id: props.id,
-    elementRef: elementRef.current,
-  })
-
   const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
 
   // Handle keyboard navigation
@@ -270,7 +262,7 @@ export const FilePicker = (props: FilePickerProps): any => {
       defaultValue={props.defaultValue || props.value || []}
       render={(renderProps) => {
         return (
-          <box ref={elementRef} flexDirection='column'>
+          <termcast-form-field-wrapper fieldId={props.id}>
             <FilePickerField
               {...renderProps}
               props={props}
@@ -278,7 +270,7 @@ export const FilePicker = (props: FilePickerProps): any => {
               setFocusedField={setFocusedField}
               isFormLoading={focusContext.isLoading}
             />
-          </box>
+          </termcast-form-field-wrapper>
         ) as React.ReactElement
       }}
     />

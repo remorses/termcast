@@ -1,8 +1,7 @@
-import React, { useRef } from 'react'
-import { BoxRenderable } from '@opentui/core'
+import React from 'react'
 import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
-import { useFocusContext, useFormFieldDescendant } from './index'
+import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
@@ -36,14 +35,6 @@ const DatePickerComponent = (props: DatePickerProps): any => {
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
 
-  const elementRef = useRef<BoxRenderable>(null)
-
-  // Register as form field descendant for scroll support
-  useFormFieldDescendant({
-    id: props.id,
-    elementRef: elementRef.current,
-  })
-
   const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
 
   // Handle tab navigation only
@@ -66,7 +57,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
       defaultValue={props.defaultValue || props.value || null}
       render={({ field, fieldState, formState }) => {
         return (
-          <box ref={elementRef} flexDirection='column'>
+          <termcast-form-field-wrapper fieldId={props.id}>
             <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
               <box
                 onMouseDown={() => {
@@ -113,7 +104,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                 <text fg={Theme.textMuted}>{props.info}</text>
               </WithLeftBorder>
             )}
-          </box>
+          </termcast-form-field-wrapper>
         ) as React.ReactElement
       }}
     />

@@ -1,10 +1,8 @@
-import React, { useRef } from 'react'
-import { TextAttributes, BoxRenderable } from '@opentui/core'
+import React from 'react'
 import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
-import { useFocusContext, useFormFieldDescendant } from './index'
+import { useFocusContext } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { logger } from 'termcast/src/logger'
 import { Theme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
@@ -23,14 +21,6 @@ export const Checkbox = (props: CheckboxProps): any => {
   const { focusedField, setFocusedField } = focusContext
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
-
-  const elementRef = useRef<BoxRenderable>(null)
-
-  // Register as form field descendant for scroll support
-  useFormFieldDescendant({
-    id: props.id,
-    elementRef: elementRef.current,
-  })
 
   // Use form navigation hook
   useFormNavigation(props.id)
@@ -58,7 +48,7 @@ export const Checkbox = (props: CheckboxProps): any => {
       defaultValue={props.defaultValue || props.value || false}
       render={({ field, fieldState, formState }) => {
         return (
-          <box ref={elementRef} flexDirection='column'>
+          <termcast-form-field-wrapper fieldId={props.id}>
             <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
               <box
                 onMouseDown={() => {
@@ -102,7 +92,7 @@ export const Checkbox = (props: CheckboxProps): any => {
                 <text fg={Theme.textMuted}>{props.info}</text>
               </WithLeftBorder>
             )}
-          </box>
+          </termcast-form-field-wrapper>
         ) as React.ReactElement
       }}
     />
