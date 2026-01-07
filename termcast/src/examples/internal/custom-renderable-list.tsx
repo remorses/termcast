@@ -543,6 +543,7 @@ function Example() {
                 title={item.title}
                 subtitle={item.subtitle}
                 keywords={item.keywords}
+                onAction={() => console.log(`Selected: ${item.title}`)}
               />
             </ItemWrapper>
           ))}
@@ -554,6 +555,7 @@ function Example() {
               title={item.title}
               subtitle={item.subtitle}
               keywords={item.keywords}
+              onAction={() => console.log(`Selected: ${item.title}`)}
             />
           ))}
         </CustomList.Section>
