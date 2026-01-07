@@ -123,7 +123,7 @@ class CustomListEmptyViewRenderable extends BoxRenderable {
 
   constructor(ctx: RenderContext, options: CustomListEmptyViewOptions) {
     super(ctx, { ...options, height: 0, overflow: 'hidden' })
-    this.emptyTitle = options.emptyTitle || 'No Results'
+    this.emptyTitle = options.emptyTitle
     this.emptyDescription = options.emptyDescription
   }
 }
@@ -238,13 +238,13 @@ class CustomListRenderable extends BoxRenderable {
   // Override add() so React children go into scrollBox
   add(child: Renderable, index?: number): number {
     if (child instanceof CustomListEmptyViewRenderable) {
+      // EmptyView is data-only, not rendered - just store reference
       this.emptyView = child
-      // Don't add to DOM - just store reference
       return -1
-    } else {
-      // All React children go into scrollBox
-      return this.scrollBox.add(child, index)
     }
+    // All other React children go into scrollBox
+    // Items/sections register themselves via onLifecyclePass
+    return this.scrollBox.add(child, index)
   }
 
   // ─────────────────────────────────────────────────────────────────────────
