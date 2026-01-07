@@ -49,9 +49,34 @@ interface CustomListOptions extends BoxOptions {
 // Renderables (data holders - invisible, parent renders them)
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Helper to find parent CustomListRenderable by traversing up
+function findParentList(node: { parent: any }): CustomListRenderable | undefined {
+  let current = node.parent
+  while (current) {
+    if (current instanceof CustomListRenderable) {
+      return current
+    }
+    current = current.parent
+  }
+  return undefined
+}
+
+// Helper to find parent section
+function findParentSection(node: { parent: any }): CustomListSectionRenderable | undefined {
+  let current = node.parent
+  while (current) {
+    if (current instanceof CustomListSectionRenderable) {
+      return current
+    }
+    current = current.parent
+  }
+  return undefined
+}
+
 class CustomListSectionRenderable extends BoxRenderable {
   public sectionTitle?: string
   private headerText?: TextRenderable
+  private parentList?: CustomListRenderable
 
   constructor(ctx: RenderContext, options: CustomListSectionOptions) {
     super(ctx, { ...options, flexDirection: 'column', width: '100%' })
@@ -65,6 +90,14 @@ class CustomListSectionRenderable extends BoxRenderable {
         paddingLeft: 1,
       })
       super.add(this.headerText)
+    }
+
+    // Register with parent list after being added to tree
+    this.onLifecyclePass = () => {
+      if (!this.parentList) {
+        this.parentList = findParentList(this)
+        this.parentList?.registerSection(this)
+      }
     }
   }
 
@@ -105,6 +138,7 @@ class CustomListItemRenderable extends BoxRenderable {
   private isSelected = false
   private isVisible = true
   private indicatorText: TextRenderable
+  private parentList?: CustomListRenderable
 
   constructor(ctx: RenderContext, options: CustomListItemOptions) {
     super(ctx, { ...options, flexDirection: 'row', width: '100%' })
@@ -119,6 +153,15 @@ class CustomListItemRenderable extends BoxRenderable {
     super.add(new TextRenderable(ctx, { content: this.itemTitle }))
     if (this.itemSubtitle) {
       super.add(new TextRenderable(ctx, { content: ` ${this.itemSubtitle}` }))
+    }
+
+    // Register with parent list after being added to tree
+    this.onLifecyclePass = () => {
+      if (!this.parentList) {
+        this.parentList = findParentList(this)
+        this.section = findParentSection(this)
+        this.parentList?.registerItem(this)
+      }
     }
   }
 
@@ -204,23 +247,41 @@ class CustomListRenderable extends BoxRenderable {
     }
   }
 
-  // Recursively find and register items/sections in subtree
-  private collectDescendants(node: Renderable, currentSection?: CustomListSectionRenderable) {
-    if (node instanceof CustomListSectionRenderable) {
-      this.registeredSections.add(node)
-      currentSection = node
-    } else if (node instanceof CustomListItemRenderable) {
-      this.registeredItems.add(node)
-      node.section = currentSection
-    }
-    const children = (node as any)._childrenInLayoutOrder || []
-    for (const child of children) {
-      this.collectDescendants(child, currentSection)
-    }
+  // ─────────────────────────────────────────────────────────────────────────
+  // Registration - items/sections register themselves via onLifecyclePass
+  // ─────────────────────────────────────────────────────────────────────────
+
+  registerItem(item: CustomListItemRenderable) {
+    this.registeredItems.add(item)
+    this.scheduleUpdate()
+  }
+
+  registerSection(section: CustomListSectionRenderable) {
+    this.registeredSections.add(section)
+    this.scheduleUpdate()
+  }
+
+  private updateScheduled = false
+  private scheduleUpdate() {
+    if (this.updateScheduled) return
+    this.updateScheduled = true
+    queueMicrotask(() => {
+      this.updateScheduled = false
+      this.refilter()
+      this.updateEmptyState()
+      this.updateStatus()
+      
+      // Select first visible item if none selected
+      const visibleItems = this.getVisibleItems()
+      if (visibleItems.length > 0 && !visibleItems.some(i => i.selected)) {
+        this.selectedIndex = 0
+        visibleItems[0].selected = true
+      }
+    })
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Helpers - use registered sets (items/sections register themselves)
+  // Helpers - use registered sets
   // ─────────────────────────────────────────────────────────────────────────
 
   private getAllItems(): CustomListItemRenderable[] {
@@ -236,22 +297,15 @@ class CustomListRenderable extends BoxRenderable {
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Initialization - collect once, then use registered sets
+  // Initialization - kept for compatibility but items self-register now
   // ─────────────────────────────────────────────────────────────────────────
 
   commitPendingChanges() {
-    // Clear and repopulate registered sets
-    this.registeredItems.clear()
-    this.registeredSections.clear()
-    
-    // Traverse once to collect all items/sections
-    const scrollBoxChildren = (this.scrollBox as any)._childrenInLayoutOrder || []
-    for (const child of scrollBoxChildren) {
-      this.collectDescendants(child)
-    }
-    
+    // Items/sections register themselves via onLifecyclePass
+    // Just trigger initial update
     this.refilter()
     this.updateEmptyState()
+    this.updateStatus()
     
     // Select first visible item
     const visibleItems = this.getVisibleItems()
@@ -259,8 +313,6 @@ class CustomListRenderable extends BoxRenderable {
       this.selectedIndex = 0
       visibleItems[0].selected = true
     }
-    
-    this.updateStatus()
   }
 
   // ─────────────────────────────────────────────────────────────────────────

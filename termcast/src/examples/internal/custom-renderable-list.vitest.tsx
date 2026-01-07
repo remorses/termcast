@@ -26,9 +26,9 @@ test('initial render with sections', async () => {
          Banana A yellow fruit
          Date A sweet fruit
          Fig A small fruit
-         Grape A vine fruit                                 █
-                                                            █
-                                                            ▀
+         Grape A vine fruit                                 ▀
+
+
 
 
        10 of 10 items
@@ -294,9 +294,9 @@ test('wrapper components work (tree traversal)', async () => {
          Banana A yellow fruit
          Date A sweet fruit
          Fig A small fruit
-         Grape A vine fruit                                 █
-                                                            █
-                                                            ▀
+         Grape A vine fruit                                 ▀
+
+
 
 
        10 of 10 items
