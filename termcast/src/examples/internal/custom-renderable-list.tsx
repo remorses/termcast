@@ -132,20 +132,6 @@ class CustomListSectionRenderable extends BoxRenderable {
     }
   }
 
-  private isVisible = true
-  get visible() { return this.isVisible }
-  set visible(value: boolean) {
-    if (this.isVisible !== value) {
-      this.isVisible = value
-      // Hide both section and header
-      this.height = value ? 'auto' : 0
-      this.overflow = value ? 'visible' : 'hidden'
-      if (this.headerText) {
-        this.headerText.height = value ? 'auto' : 0
-        this.headerText.paddingTop = value ? 1 : 0
-      }
-    }
-  }
 }
 
 class CustomListEmptyViewRenderable extends BoxRenderable {
@@ -156,7 +142,7 @@ class CustomListEmptyViewRenderable extends BoxRenderable {
   private parentList?: CustomListRenderable
 
   constructor(ctx: RenderContext, options: CustomListEmptyViewOptions) {
-    super(ctx, { ...options, height: 0, overflow: 'hidden' })
+    super(ctx, { ...options, visible: false })
     // React will set emptyTitle/emptyDescription props after constructor
 
     // Self-register with parent list after being added to tree
@@ -176,7 +162,6 @@ class CustomListItemRenderable extends BoxRenderable {
   public section?: CustomListSectionRenderable
 
   private isSelected = false
-  private isVisible = true
   private indicatorText: TextRenderable
   private titleText: TextRenderable
   private subtitleText: TextRenderable
@@ -232,14 +217,6 @@ class CustomListItemRenderable extends BoxRenderable {
     }
   }
 
-  get visible() { return this.isVisible }
-  set visible(value: boolean) {
-    if (this.isVisible !== value) {
-      this.isVisible = value
-      this.height = value ? 'auto' : 0
-      this.overflow = value ? 'visible' : 'hidden'
-    }
-  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
