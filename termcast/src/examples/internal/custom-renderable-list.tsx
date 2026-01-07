@@ -108,11 +108,20 @@ class CustomListSectionRenderable extends BoxRenderable {
 class CustomListEmptyViewRenderable extends BoxRenderable {
   public emptyTitle: string
   public emptyDescription?: string
+  private parentList?: CustomListRenderable
 
   constructor(ctx: RenderContext, options: CustomListEmptyViewOptions) {
     super(ctx, { ...options, height: 0, overflow: 'hidden' })
-    this.emptyTitle = options.emptyTitle
+    this.emptyTitle = options.emptyTitle || 'No items'
     this.emptyDescription = options.emptyDescription
+
+    // Self-register with parent list after being added to tree
+    this.onLifecyclePass = () => {
+      if (!this.parentList) {
+        this.parentList = findParent(this, CustomListRenderable)
+        this.parentList?.registerEmptyView(this)
+      }
+    }
   }
 }
 
@@ -223,21 +232,27 @@ class CustomListRenderable extends BoxRenderable {
     super.add(this.statusText)
   }
 
-  // Override add() so React children go into scrollBox
+  // ─────────────────────────────────────────────────────────────────────────
+  // Child Management
+  // 
+  // All React children are redirected to scrollBox for proper scrolling.
+  // Children self-register with the list via onLifecyclePass callback:
+  //
+  //   1. React calls list.add(child) for sections/items/emptyView
+  //   2. We forward to scrollBox.add(child), which sets child.parent
+  //   3. opentui calls child.onLifecyclePass() after parent is set
+  //   4. Child traverses up via findParent() to find this list
+  //   5. Child calls registerItem/Section/EmptyView to add itself to sets
+  //   6. scheduleUpdate() debounces and triggers refilter/selection
+  //
+  // This avoids the list needing to traverse the tree to find children.
+  // Stale refs are cleaned lazily in getAllItems/Sections by checking
+  // if items are still connected to the tree via parent chain.
+  // ─────────────────────────────────────────────────────────────────────────
+
   add(child: Renderable, index?: number): number {
-    if (child instanceof CustomListEmptyViewRenderable) {
-      // EmptyView is data-only, not rendered - just store reference
-      this.emptyView = child
-      return -1
-    }
-    // All other React children go into scrollBox
-    // Items/sections register themselves via onLifecyclePass
     return this.scrollBox.add(child, index)
   }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Registration - items/sections register themselves via onLifecyclePass
-  // ─────────────────────────────────────────────────────────────────────────
 
   registerItem(item: CustomListItemRenderable) {
     this.registeredItems.add(item)
@@ -247,6 +262,10 @@ class CustomListRenderable extends BoxRenderable {
   registerSection(section: CustomListSectionRenderable) {
     this.registeredSections.add(section)
     this.scheduleUpdate()
+  }
+
+  registerEmptyView(emptyView: CustomListEmptyViewRenderable) {
+    this.emptyView = emptyView
   }
 
   private updateScheduled = false
