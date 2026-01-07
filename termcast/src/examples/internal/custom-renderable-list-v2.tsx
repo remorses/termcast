@@ -411,9 +411,6 @@ class CustomListRenderable extends BoxRenderable {
     return Array.from(this.registeredItems)
   }
 
-  private getVisibleItems(): CustomListItemWrapperRenderable[] {
-    return this.getAllItems().filter((item) => item.visible)
-  }
 
   private updateStatusText(visibleCount: number, totalCount: number, searchQuery: string) {
     this.statusText.content = searchQuery
