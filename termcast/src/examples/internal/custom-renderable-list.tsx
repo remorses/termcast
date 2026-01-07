@@ -74,10 +74,10 @@ class CustomListSectionRenderable extends BoxRenderable {
     if (this.isVisible !== value) {
       this.isVisible = value
       // Hide both section and header
-      this.height = value ? undefined : 0
-      this.overflow = value ? undefined : 'hidden'
+      this.height = value ? 'auto' : 0
+      this.overflow = value ? 'visible' : 'hidden'
       if (this.headerText) {
-        this.headerText.height = value ? undefined : 0
+        this.headerText.height = value ? 'auto' : 0
         this.headerText.paddingTop = value ? 1 : 0
       }
     }
@@ -135,8 +135,8 @@ class CustomListItemRenderable extends BoxRenderable {
   set visible(value: boolean) {
     if (this.isVisible !== value) {
       this.isVisible = value
-      this.height = value ? undefined : 0
-      this.overflow = value ? undefined : 'hidden'
+      this.height = value ? 'auto' : 0
+      this.overflow = value ? 'visible' : 'hidden'
     }
   }
 }
@@ -149,6 +149,10 @@ class CustomListRenderable extends BoxRenderable {
   private emptyView?: CustomListEmptyViewRenderable
   private selectedIndex = 0
   private searchQuery = ''
+
+  // Registered items/sections (they register themselves)
+  readonly registeredItems = new Set<CustomListItemRenderable>()
+  readonly registeredSections = new Set<CustomListSectionRenderable>()
 
   // Display components
   private searchInput: TextareaRenderable
@@ -200,29 +204,27 @@ class CustomListRenderable extends BoxRenderable {
     }
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // Helpers - traverse scrollBox children
-  // ─────────────────────────────────────────────────────────────────────────
-
-  private getScrollBoxChildren(): Renderable[] {
-    return (this.scrollBox as any)._childrenInLayoutOrder || []
+  // Recursively find and register items/sections in subtree
+  private collectDescendants(node: Renderable, currentSection?: CustomListSectionRenderable) {
+    if (node instanceof CustomListSectionRenderable) {
+      this.registeredSections.add(node)
+      currentSection = node
+    } else if (node instanceof CustomListItemRenderable) {
+      this.registeredItems.add(node)
+      node.section = currentSection
+    }
+    const children = (node as any)._childrenInLayoutOrder || []
+    for (const child of children) {
+      this.collectDescendants(child, currentSection)
+    }
   }
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Helpers - use registered sets (items/sections register themselves)
+  // ─────────────────────────────────────────────────────────────────────────
+
   private getAllItems(): CustomListItemRenderable[] {
-    const items: CustomListItemRenderable[] = []
-    const findItems = (node: Renderable) => {
-      if (node instanceof CustomListItemRenderable) {
-        items.push(node)
-      }
-      const children = (node as any)._childrenInLayoutOrder || []
-      for (const child of children) {
-        findItems(child)
-      }
-    }
-    for (const child of this.getScrollBoxChildren()) {
-      findItems(child)
-    }
-    return items
+    return Array.from(this.registeredItems)
   }
 
   private getVisibleItems(): CustomListItemRenderable[] {
@@ -230,44 +232,24 @@ class CustomListRenderable extends BoxRenderable {
   }
 
   private getAllSections(): CustomListSectionRenderable[] {
-    const sections: CustomListSectionRenderable[] = []
-    const findSections = (node: Renderable) => {
-      if (node instanceof CustomListSectionRenderable) {
-        sections.push(node)
-      }
-      const children = (node as any)._childrenInLayoutOrder || []
-      for (const child of children) {
-        findSections(child)
-      }
-    }
-    for (const child of this.getScrollBoxChildren()) {
-      findSections(child)
-    }
-    return sections
+    return Array.from(this.registeredSections)
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Collection - link items to their sections
+  // Initialization - collect once, then use registered sets
   // ─────────────────────────────────────────────────────────────────────────
 
   commitPendingChanges() {
-    // Link items to their parent sections
-    for (const section of this.getAllSections()) {
-      const sectionChildren = (section as any)._childrenInLayoutOrder || []
-      const linkItems = (node: Renderable) => {
-        if (node instanceof CustomListItemRenderable) {
-          node.section = section
-        }
-        const children = (node as any)._childrenInLayoutOrder || []
-        for (const child of children) {
-          linkItems(child)
-        }
-      }
-      for (const child of sectionChildren) {
-        linkItems(child)
-      }
+    // Clear and repopulate registered sets
+    this.registeredItems.clear()
+    this.registeredSections.clear()
+    
+    // Traverse once to collect all items/sections
+    const scrollBoxChildren = (this.scrollBox as any)._childrenInLayoutOrder || []
+    for (const child of scrollBoxChildren) {
+      this.collectDescendants(child)
     }
-
+    
     this.refilter()
     this.updateEmptyState()
     
@@ -517,7 +499,6 @@ function CustomListEmptyView({ title, description }: ListEmptyViewProps) {
   return (
     <custom-list-empty-view
       emptyTitle={title}
-      emptyDescription={description}
       emptyDescription={description}
     />
   )
