@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect, useCallback } from 'react'
 import { BoxRenderable } from '@opentui/core'
 import { Theme } from 'termcast/src/theme'
 import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
@@ -16,6 +16,10 @@ export function LoadingBar(props: LoadingBarProps): any {
   )
   const containerRef = useRef<BoxRenderable>(null)
   const tick = useAnimationTick(isLoading ? TICK_DIVISORS.LOADING_BAR : 0)
+
+  const containerRefCallback = useCallback((el: BoxRenderable | null) => {
+    containerRef.current = el
+  }, [])
 
   // Calculate bar length based on container width
   useLayoutEffect(() => {
@@ -101,9 +105,7 @@ export function LoadingBar(props: LoadingBarProps): any {
 
   return (
     <box
-      ref={(el) => {
-        containerRef.current = el
-      }}
+      ref={containerRefCallback}
       style={{
         flexDirection: 'row',
         flexGrow: 1,

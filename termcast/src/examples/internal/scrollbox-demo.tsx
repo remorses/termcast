@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { renderWithProviders } from 'termcast'
 import { useKeyboard } from '@opentui/react'
 
@@ -34,6 +34,15 @@ function ScrollBoxListDemo(): any {
 
     return () => clearTimeout(timeoutId)
   }, [selectedIndex])
+
+  const createItemRefCallback = useCallback(
+    (index: number) => (el: any) => {
+      if (el) {
+        itemRefs.current.set(index, el)
+      }
+    },
+    [],
+  )
 
   useKeyboard((evt) => {
     if (evt.name === 'up') {
@@ -95,9 +104,7 @@ function ScrollBoxListDemo(): any {
           return (
             <box
               key={item.id}
-              ref={(el) => {
-                if (el) itemRefs.current.set(index, el)
-              }}
+              ref={createItemRefCallback(index)}
               padding={1}
               backgroundColor={isSelected ? '#5e81ac' : '#3b4252'}
               marginBottom={0.5}
