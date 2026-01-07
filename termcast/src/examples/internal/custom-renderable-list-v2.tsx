@@ -29,6 +29,13 @@
  * - `onSelectionChange` callback fires when selection changes
  * - Supports both controlled (via prop) and uncontrolled (internal) selection
  *
+ * ## Phase 2: Detail Panel Support
+ *
+ * - `isShowingDetail` prop on List enables detail panel on the right
+ * - `detail` prop on Item provides React node to render in detail panel
+ * - Detail updates automatically when selection changes
+ * - List splits into two columns when detail is shown
+ *
  * ## How React Props Work with opentui Renderables
  *
  * React props are applied via direct property assignment, NOT just constructor:
@@ -76,6 +83,9 @@ interface CustomListStoreState {
   // Phase 1: Bidirectional selection sync
   // The id of the currently selected item (for controlled selection)
   selectedItemId: string | null
+  // Phase 2: Detail panel support
+  isShowingDetail: boolean
+  currentDetailNode: React.ReactNode | null
 }
 
 const useCustomListStore = create<CustomListStoreState>(() => ({
@@ -85,6 +95,8 @@ const useCustomListStore = create<CustomListStoreState>(() => ({
   searchQuery: '',
   renderTick: 0,
   selectedItemId: null,
+  isShowingDetail: false,
+  currentDetailNode: null,
 }))
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -97,6 +109,7 @@ interface CustomListItemWrapperOptions extends BoxOptions {
   itemTitle?: string
   itemSubtitle?: string
   itemId?: string // Phase 1: unique id for controlled selection
+  detail?: React.ReactNode // Phase 2: detail panel content
 }
 
 interface CustomListSectionWrapperOptions extends BoxOptions {
@@ -114,6 +127,8 @@ interface CustomListOptions extends BoxOptions {
   // Phase 1: Bidirectional selection
   selectedItemId?: string | null
   onSelectionChange?: (id: string | null) => void
+  // Phase 2: Detail panel
+  isShowingDetail?: boolean
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -145,6 +160,7 @@ class CustomListItemWrapperRenderable extends BoxRenderable {
   public itemTitle = ''
   public itemSubtitle?: string
   public itemId?: string // Phase 1: unique id for controlled selection
+  public detail?: React.ReactNode // Phase 2: detail panel content
 
   // Set by parent during refilter
   public visibleIndex = -1
@@ -298,6 +314,33 @@ class CustomListRenderable extends BoxRenderable {
     this.onSelectionChange?.(itemId)
   }
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 2: Detail Panel Support
+  // ─────────────────────────────────────────────────────────────────────────
+
+  // Prop with setter - controls whether detail panel is shown
+  private _isShowingDetail = false
+  get isShowingDetail() {
+    return this._isShowingDetail
+  }
+  set isShowingDetail(value: boolean) {
+    if (this._isShowingDetail === value) return
+    this._isShowingDetail = value
+    useCustomListStore.setState({ isShowingDetail: value })
+    this.updateCurrentDetail()
+  }
+
+  // Updates the current detail node in zustand based on selected item
+  private updateCurrentDetail() {
+    if (!this._isShowingDetail) {
+      useCustomListStore.setState({ currentDetailNode: null })
+      return
+    }
+    const { selectedIndex } = useCustomListStore.getState()
+    const item = this.getAllItems().find((i) => i.visibleIndex === selectedIndex)
+    useCustomListStore.setState({ currentDetailNode: item?.detail ?? null })
+  }
+
   constructor(ctx: RenderContext, options: CustomListOptions) {
     super(ctx, { ...options, flexDirection: 'column' })
 
@@ -430,6 +473,9 @@ class CustomListRenderable extends BoxRenderable {
 
     // Update status text (owned by renderable, not React)
     this.updateStatusText(visibleIndex, allItems.length, this.searchQuery)
+
+    // Phase 2: Update detail panel after filtering (handles initial render and filter changes)
+    this.updateCurrentDetail()
   }
 
   private scoreItem(item: CustomListItemWrapperRenderable, query: string): number {
@@ -494,6 +540,8 @@ class CustomListRenderable extends BoxRenderable {
     this.scrollToIndex(newIndex)
     // Phase 1: Notify selection change
     this.notifySelectionChange(newIndex)
+    // Phase 2: Update detail panel
+    this.updateCurrentDetail()
   }
 
   private scrollToIndex(index: number) {
@@ -580,9 +628,11 @@ interface ListProps {
   // Phase 1: Bidirectional selection
   selectedItemId?: string | null
   onSelectionChange?: (id: string | null) => void
+  // Phase 2: Detail panel
+  isShowingDetail?: boolean
 }
 
-function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId, onSelectionChange }: ListProps): any {
+function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId, onSelectionChange, isShowingDetail }: ListProps): any {
   const listRef = useRef<CustomListRenderable>(null)
   const inFocus = useIsInFocus()
 
@@ -590,6 +640,9 @@ function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId,
   const visibleCount = useCustomListStore((s) => s.visibleCount)
   const totalCount = useCustomListStore((s) => s.totalCount)
   const searchQuery = useCustomListStore((s) => s.searchQuery)
+  // Phase 2: Subscribe to detail panel state
+  const currentDetailNode = useCustomListStore((s) => s.currentDetailNode)
+  const showingDetail = useCustomListStore((s) => s.isShowingDetail)
 
   // Get empty view data from renderable
   const emptyViewData = listRef.current?.getEmptyViewData()
@@ -615,7 +668,8 @@ function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId,
     }
   })
 
-  return (
+  // Phase 2: Wrap list and detail panel in a row layout when detail is shown
+  const listContent = (
     <custom-list-v2
       ref={listRef}
       flexGrow={1}
@@ -623,6 +677,7 @@ function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId,
       defaultSearchQuery={defaultSearchQuery}
       selectedItemId={selectedItemId}
       onSelectionChange={onSelectionChange}
+      isShowingDetail={isShowingDetail}
     >
       {children}
       {/* Empty view - rendered by React based on zustand state */}
@@ -635,6 +690,23 @@ function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId,
       {/* Status text is rendered by the renderable outside the scrollbox */}
     </custom-list-v2>
   )
+
+  // Phase 2: When detail panel is enabled, show list on left, detail on right
+  if (showingDetail) {
+    return (
+      <box flexDirection="row" flexGrow={1}>
+        <box width="50%" flexDirection="column">
+          {listContent}
+        </box>
+        <text flexShrink={0}>│</text>
+        <box width="50%" flexDirection="column" paddingLeft={1}>
+          {currentDetailNode || <text fg={Theme.textMuted}>No detail available</text>}
+        </box>
+      </box>
+    )
+  }
+
+  return listContent
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -647,9 +719,11 @@ interface ListItemProps {
   subtitle?: string
   keywords?: string[]
   onAction?: () => void
+  // Phase 2: Detail panel content
+  detail?: React.ReactNode
 }
 
-function CustomListItem({ id, title, subtitle, keywords, onAction }: ListItemProps): any {
+function CustomListItem({ id, title, subtitle, keywords, onAction, detail }: ListItemProps): any {
   const wrapperRef = useRef<CustomListItemWrapperRenderable>(null)
   const selectedIndex = useCustomListStore((s) => s.selectedIndex)
   // Subscribe to renderTick to force re-render after visibleIndex is set
@@ -666,6 +740,7 @@ function CustomListItem({ id, title, subtitle, keywords, onAction }: ListItemPro
       itemTitle={title}
       itemSubtitle={subtitle}
       itemId={id}
+      detail={detail}
       backgroundColor={isSelected ? '#0066cc' : undefined}
       flexShrink={0}
     >
@@ -769,9 +844,19 @@ function Example(): any {
     }
   })
 
+  // Phase 2: Helper to create detail content for an item
+  const createDetail = (item: { id: string; title: string; subtitle: string; keywords: string[] }) => (
+    <box flexDirection="column" padding={1}>
+      <text>Details for {item.title}</text>
+      <text fg={Theme.textMuted} marginTop={1}>{item.subtitle}</text>
+      <text fg={Theme.textMuted} marginTop={1}>Keywords: {item.keywords.join(', ')}</text>
+      <text fg={Theme.textMuted} marginTop={1}>ID: {item.id}</text>
+    </box>
+  )
+
   return (
     <box flexDirection="column" padding={1} flexGrow={1}>
-      <text marginBottom={1}>Custom Renderable List V2 - Phase 1: Bidirectional Selection</text>
+      <text marginBottom={1}>Custom Renderable List V2 - Detail Panel</text>
       <text fg={Theme.textMuted}>Selected: {selectedId || '(none)'}</text>
       <text fg={Theme.textMuted} marginBottom={1}>
         Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
@@ -782,6 +867,7 @@ function Example(): any {
         onSelectionChange={(id) => {
           setSelectedId(id)
         }}
+        isShowingDetail={true}
       >
         <CustomList.EmptyView title="Nothing found" description="Try a different search term" />
         <CustomList.Section title="Fruits">
@@ -792,6 +878,7 @@ function Example(): any {
                 title={item.title}
                 subtitle={item.subtitle}
                 keywords={item.keywords}
+                detail={createDetail(item)}
                 onAction={() => {
                   console.log(`Activated: ${item.title} (id: ${item.id})`)
                 }}
@@ -807,6 +894,7 @@ function Example(): any {
               title={item.title}
               subtitle={item.subtitle}
               keywords={item.keywords}
+              detail={createDetail(item)}
               onAction={() => {
                 console.log(`Activated: ${item.title} (id: ${item.id})`)
               }}
@@ -827,6 +915,8 @@ if (import.meta.main) {
     searchQuery: '',
     renderTick: 0,
     selectedItemId: null,
+    isShowingDetail: false,
+    currentDetailNode: null,
   })
   renderWithProviders(<Example />)
 }

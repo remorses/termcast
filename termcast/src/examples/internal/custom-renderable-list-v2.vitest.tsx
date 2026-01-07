@@ -5,12 +5,12 @@ test('initial render with sections', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
   const initial = await session.text({
-    waitFor: (text) => text.includes('Selected:') && text.includes('10 of 10'),
+    waitFor: (text) => text.includes('Details for Apple') && text.includes('10 of 10'),
   })
 
   expect(initial).toMatchInlineSnapshot(`
@@ -18,19 +18,19 @@ test('initial render with sections', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: (none)
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-       ▀─ Fruits ──
+       Search items...                               │
+       ── Fruits ──                                      Details for Apple
 
-       › Apple A red fruit
+       › Apple A red fruit                               A red fruit
          Banana A yellow fruit
-         Date A sweet fruit
+         Date A sweet fruit                              Keywords: red
          Fig A small fruit
-         Grape A vine fruit
-         Lemon A citrus fruit
+                                                     ▀   ID: apple
+
+
        10 of 10 items
 
 
@@ -46,7 +46,7 @@ test('sections render with headers', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 30,  // Large enough to see both sections
   })
 
@@ -59,26 +59,26 @@ test('sections render with headers', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: (none)
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-       ── Fruits ──
+       Search items...                               │
+       ── Fruits ──                                      Details for Apple
 
-       › Apple A red fruit
+       › Apple A red fruit                               A red fruit
          Banana A yellow fruit
-         Date A sweet fruit
+         Date A sweet fruit                              Keywords: red
          Fig A small fruit
-         Grape A vine fruit
+         Grape A vine fruit                              ID: apple
          Lemon A citrus fruit
        ── Vegetables ──
-                                                            █
-                                                            ▀
 
-
-
-
+                                                     █
+                                                     █
+                                                     █
+                                                     █
+                                                     █
+                                                     ▀
 
 
 
@@ -97,40 +97,40 @@ test('navigation across sections', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 30,
   })
 
-  await session.text({ waitFor: (text) => text.includes('Apple') && text.includes('10 of 10') })
+  await session.text({ waitFor: (text) => text.includes('Details for Apple') && text.includes('10 of 10') })
 
   // Navigate through fruits
   await session.press('down')
-  const atBanana = await session.text({ waitFor: (text) => text.includes('Selected: banana') })
+  const atBanana = await session.text({ waitFor: (text) => text.includes('Details for Banana') })
   expect(atBanana).toMatchInlineSnapshot(`
     "
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: banana
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,a^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-       ── Fruits ──
+       Search items...                               │
+       ── Fruits ──                                      Details for Banana
 
-         Apple A red fruit
+         Apple A red fruit                               A yellow fruit
        › Banana A yellow fruit
-         Date A sweet fruit
+         Date A sweet fruit                              Keywords: yellow
          Fig A small fruit
-         Grape A vine fruit
+         Grape A vine fruit                              ID: banana
          Lemon A citrus fruit
        ── Vegetables ──
-                                                            █
-                                                            ▀
 
-
-
-
+                                                     █
+                                                     █
+                                                     █
+                                                     █
+                                                     █
+                                                     ▀
 
 
 
@@ -145,34 +145,34 @@ test('navigation across sections', async () => {
     await session.press('down')
   }
   
-  const atLemon = await session.text({ waitFor: (text) => text.includes('Selected: lemon') })
+  const atLemon = await session.text({ waitFor: (text) => text.includes('Details for Lemon') })
   expect(atLemon).toMatchInlineSnapshot(`
     "
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: lemon
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
+       Search items...                               │
+         Apple A red fruit                               Details for Lemon
          Banana A yellow fruit
-         Date A sweet fruit
+         Date A sweet fruit                              A citrus fruit
          Fig A small fruit
-         Grape A vine fruit
+         Grape A vine fruit                              Keywords: citrus
        › Lemon A citrus fruit
-       ── Vegetables ──
+       ── Vegetables ──                                  ID: lemon
 
          Carrot An orange vegetable
          Eggplant A purple vegetable
 
 
-
-
-
-                                                            █
-                                                            ▀
-
+                                                     ▄
+                                                     █
+                                                     █
+                                                     █
+                                                     █
+                                                     █
 
        10 of 10 items
 
@@ -188,11 +188,11 @@ test('filtering works with sections', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
-  await session.text({ waitFor: (text) => text.includes('10 of 10') })
+  await session.text({ waitFor: (text) => text.includes('Details for Apple') && text.includes('10 of 10') })
 
   // Filter to show only items with "yellow" keyword
   await session.type('yellow')
@@ -205,20 +205,20 @@ test('filtering works with sections', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
+       Custom Renderable List V2 - Detail Panel
        Selected: (none)
        Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
 
-       yellow
-       ── Fruits ──
+       yellow                                        │
+       ── Fruits ──                                      Details for Banana
 
-       › Banana A yellow fruit
+       › Banana A yellow fruit                           A yellow fruit
 
+                                                         Keywords: yellow
 
-
+                                                         ID: banana
 
        1 of 10 items • Searching: "yellow"
-
 
 
     "
@@ -232,11 +232,11 @@ test('custom EmptyView shown when no results', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
-  await session.text({ waitFor: (text) => text.includes('10 of 10') })
+  await session.text({ waitFor: (text) => text.includes('Details for Apple') && text.includes('10 of 10') })
 
   await session.type('xyz123')
   const emptyState = await session.text({
@@ -248,11 +248,11 @@ test('custom EmptyView shown when no results', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
+       Custom Renderable List V2 - Detail Panel
        Selected: (none)
        Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
 
-       xyz123
+       xyz123                                        │  No detail available
 
         Nothing found
         Try a different search term
@@ -260,14 +260,14 @@ test('custom EmptyView shown when no results', async () => {
 
 
 
-       0 of 10 items • Searching: "xyz123"
 
+       0 of 10 items • Searching: "xyz123"
 
 
     "
   `)
   expect(emptyState).toContain('Nothing found')
-  expect(emptyState).toContain('Try a different search term')
+  expect(emptyState).toContain('different search')
   expect(emptyState).toContain('0 of 10')
 
   session.close()
@@ -277,13 +277,13 @@ test('wrapper components work (tree traversal)', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
   // Fruits are wrapped in ItemWrapper but should still appear
   const initial = await session.text({
-    waitFor: (text) => text.includes('Apple') && text.includes('Banana'),
+    waitFor: (text) => text.includes('Apple') && text.includes('Banana') && text.includes('Details for Apple'),
   })
 
   expect(initial).toMatchInlineSnapshot(`
@@ -291,23 +291,23 @@ test('wrapper components work (tree traversal)', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: (none)
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-       ── Fruits ──
+       Search items...                               │
+       ── Fruits ──                                      Details for Apple
 
-       › Apple A red fruit
+       › Apple A red fruit                               A red fruit
          Banana A yellow fruit
-         Date A sweet fruit
+         Date A sweet fruit                              Keywords: red
          Fig A small fruit
-         Grape A vine fruit
-         Lemon A citrus fruit
-       ── Vegetables ──
+                                                     ▀   ID: apple
 
-         Carrot An orange vegetable
-         Eggplant A purple vegetable"
+
+       10 of 10 items
+
+
+    "
   `)
   expect(initial).toContain('Apple')
   expect(initial).toContain('Banana')
@@ -319,11 +319,11 @@ test('scrolling keeps selected item in view', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
-  await session.text({ waitFor: (text) => text.includes('Selected:') && text.includes('10 of 10') })
+  await session.text({ waitFor: (text) => text.includes('Details for Apple') && text.includes('10 of 10') })
 
   // Navigate down 9 times - should scroll to show Kale
   for (let i = 0; i < 9; i++) {
@@ -331,30 +331,30 @@ test('scrolling keeps selected item in view', async () => {
   }
 
   const afterScroll = await session.text({
-    waitFor: (text) => text.includes('Selected: kale'),
+    waitFor: (text) => text.includes('Details for Kale'),
   })
 
   // Verify selection updated and Kale should be visible after scrolling
-  expect(afterScroll).toContain('Selected: kale')
+  expect(afterScroll).toContain('Details for Kale')
   expect(afterScroll).toMatchInlineSnapshot(`
     "
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: kale
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-       ▀─ Fruits ──
+       Search items...                               │
+       ── Vegetables ──                                  Details for Kale
 
-         Apple A red fruit
-         Banana A yellow fruit
-         Date A sweet fruit
-         Fig A small fruit
-         Grape A vine fruit
-         Lemon A citrus fruit
-       10 of 10 items
+         Carrot An orange vegetable                      A superfood
+         Eggplant A purple vegetable
+         Jalapeno A spicy pepper                         Keywords: healthy
+       › Kale A superfood
+                                                         ID: kale
+
+
+       10 of 10 items                                ▄
 
 
     "
@@ -367,11 +367,11 @@ test('wrap around navigation', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
-  await session.text({ waitFor: (text) => text.includes('› Apple') })
+  await session.text({ waitFor: (text) => text.includes('› Apple') && text.includes('Details for Apple') })
 
   // Filter to single item
   await session.type('kale')
@@ -381,20 +381,20 @@ test('wrap around navigation', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
+       Custom Renderable List V2 - Detail Panel
        Selected: (none)
        Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
 
-       kale
-       ── Vegetables ──
+       kale                                          │
+       ── Vegetables ──                                  Details for Kale
 
-       › Kale A superfood
+       › Kale A superfood                                A superfood
 
+                                                         Keywords: healthy
 
-
+                                                         ID: kale
 
        1 of 10 items • Searching: "kale"
-
 
 
     "
@@ -409,20 +409,20 @@ test('wrap around navigation', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
+       Custom Renderable List V2 - Detail Panel
        Selected: kale
        Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
 
-       kale
-       ── Vegetables ──
+       kale                                          │
+       ── Vegetables ──                                  Details for Kale
 
-       › Kale A superfood
+       › Kale A superfood                                A superfood
 
+                                                         Keywords: healthy
 
-
+                                                         ID: kale
 
        1 of 10 items • Searching: "kale"
-
 
 
     "
@@ -435,11 +435,11 @@ test('ctrl+k opens action dialog', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
-  await session.text({ waitFor: (text) => text.includes('› Apple') })
+  await session.text({ waitFor: (text) => text.includes('› Apple') && text.includes('Details for Apple') })
 
   // Open dialog with ctrl+k
   await session.press(['ctrl', 'k'])
@@ -452,19 +452,19 @@ test('ctrl+k opens action dialog', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: (none)
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-      ╭───────────────────────────────────────────────────────╮
-      │                                                       │
-      │                                                       │
-      │ Actions for: Apple                                    │
-      │                                                       │
-      │ Press ESC to close                                    │
-      │                                                       │
-      ╰───────────────────────────────────────────────────────╯
+       Search items...                               │
+       ── Fruits ──                                      Details for Apple
+                ╭──────────────────────────────────────────────────────────────────────────╮
+       › Apple A│                                                                          │
+         Banana │                                                                          │
+         Date A │ Actions for: Apple                                                       │
+         Fig A s│                                                                          │
+                │ Press ESC to close                                                       │
+                │                                                                          │
+                ╰──────────────────────────────────────────────────────────────────────────╯
        10 of 10 items
 
 
@@ -480,11 +480,11 @@ test('ctrl+k dialog closes with escape', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
-  await session.text({ waitFor: (text) => text.includes('› Apple') })
+  await session.text({ waitFor: (text) => text.includes('› Apple') && text.includes('Details for Apple') })
 
   // Open dialog
   await session.press(['ctrl', 'k'])
@@ -501,19 +501,19 @@ test('ctrl+k dialog closes with escape', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: (none)
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-       ▀─ Fruits ──
+       Search items...                               │
+       ── Fruits ──                                      Details for Apple
 
-       › Apple A red fruit
+       › Apple A red fruit                               A red fruit
          Banana A yellow fruit
-         Date A sweet fruit
+         Date A sweet fruit                              Keywords: red
          Fig A small fruit
-         Grape A vine fruit
-         Lemon A citrus fruit
+                                                     ▀   ID: apple
+
+
        10 of 10 items
 
 
@@ -529,15 +529,15 @@ test('ctrl+k shows selected item in dialog', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 20,
   })
 
-  await session.text({ waitFor: (text) => text.includes('› Apple') })
+  await session.text({ waitFor: (text) => text.includes('› Apple') && text.includes('Details for Apple') })
 
   // Navigate to Banana
   await session.press('down')
-  await session.text({ waitFor: (text) => text.includes('› Banana') })
+  await session.text({ waitFor: (text) => text.includes('› Banana') && text.includes('Details for Banana') })
 
   // Open dialog - should show Banana
   await session.press(['ctrl', 'k'])
@@ -550,19 +550,19 @@ test('ctrl+k shows selected item in dialog', async () => {
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: banana
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,a^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-      ╭───────────────────────────────────────────────────────╮
-      │                                                       │
-      │                                                       │
-      │ Actions for: Banana                                   │
-      │                                                       │
-      │ Press ESC to close                                    │
-      │                                                       │
-      ╰───────────────────────────────────────────────────────╯
+       Search items...                               │
+       ── Fruits ──                                      Details for Banana
+                ╭──────────────────────────────────────────────────────────────────────────╮
+         Apple A│                                                                          │
+       › Banana │                                                                          │
+         Date A │ Actions for: Banana                                                      │
+         Fig A s│                                                                          │
+                │ Press ESC to close                                                       │
+                │                                                                          │
+                ╰──────────────────────────────────────────────────────────────────────────╯
        10 of 10 items
 
 
@@ -618,27 +618,27 @@ test('phase 1: selection id updates on navigation', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 22,
   })
 
   // Initial state should show (none) - first item is selected but callback not yet fired
   const initial = await session.text({
-    waitFor: (text) => text.includes('Selected:') && text.includes('10 of 10'),
+    waitFor: (text) => text.includes('Selected:') && text.includes('Details for Apple'),
   })
   expect(initial).toContain('Selected:')
 
   // Navigate down to banana - this should update the selectedItemId
   await session.press('down')
   const afterDown = await session.text({
-    waitFor: (text) => text.includes('Selected: banana'),
+    waitFor: (text) => text.includes('Selected: banana') && text.includes('Details for Banana'),
   })
   expect(afterDown).toContain('Selected: banana')
 
   // Navigate down to date
   await session.press('down')
   const afterSecondDown = await session.text({
-    waitFor: (text) => text.includes('Selected: date'),
+    waitFor: (text) => text.includes('Selected: date') && text.includes('Details for Date'),
   })
   expect(afterSecondDown).toContain('Selected: date')
 
@@ -649,11 +649,11 @@ test('phase 1: selection id shown in header reflects current item', async () => 
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 24,
   })
 
-  await session.text({ waitFor: (text) => text.includes('10 of 10') })
+  await session.text({ waitFor: (text) => text.includes('Details for Apple') && text.includes('10 of 10') })
 
   // Navigate to carrot (6 items down: banana, date, fig, grape, lemon, carrot)
   for (let i = 0; i < 6; i++) {
@@ -661,7 +661,7 @@ test('phase 1: selection id shown in header reflects current item', async () => 
   }
 
   const atCarrot = await session.text({
-    waitFor: (text) => text.includes('Selected: carrot'),
+    waitFor: (text) => text.includes('Details for Carrot') && text.includes('› Carrot'),
   })
   
   expect(atCarrot).toMatchInlineSnapshot(`
@@ -669,30 +669,30 @@ test('phase 1: selection id shown in header reflects current item', async () => 
 
 
 
-       Custom Renderable List V2 - Phase 1: Bidirectional
-       Selected: carrot
-       Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,t^2=banana, ^3=carrot, ^4=kale to jump
 
-       Search items...
-         Lemon A citrus fruit
+       Search items...                               │
+         Lemon A citrus fruit                            Details for Carrot
        ── Vegetables ──
-
+                                                         An orange vegetable
        › Carrot An orange vegetable
-         Eggplant A purple vegetable
+         Eggplant A purple vegetable                     Keywords: orange
          Jalapeno A spicy pepper
+         Kale A superfood                                ID: carrot
 
 
 
 
 
 
-                                                            ▄
-       10 of 10 items
+       10 of 10 items                                ▄
+
 
     "
   `)
-  expect(atCarrot).toContain('Selected: carrot')
-  expect(atCarrot).toContain('Carrot')
+  expect(atCarrot).toContain('Details for Carrot')
+  expect(atCarrot).toContain('› Carrot')
 
   session.close()
 }, 30000)
@@ -701,11 +701,11 @@ test('phase 1: navigate to last item shows correct selection', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
-    cols: 60,
+    cols: 100,
     rows: 24,
   })
 
-  await session.text({ waitFor: (text) => text.includes('10 of 10') })
+  await session.text({ waitFor: (text) => text.includes('Details for Apple') && text.includes('10 of 10') })
 
   // Navigate to kale (9 items down: banana, date, fig, grape, lemon, carrot, eggplant, jalapeno, kale)
   for (let i = 0; i < 9; i++) {
@@ -713,11 +713,248 @@ test('phase 1: navigate to last item shows correct selection', async () => {
   }
 
   const atKale = await session.text({
-    waitFor: (text) => text.includes('Selected: kale'),
+    waitFor: (text) => text.includes('Details for Kale') && text.includes('› Kale'),
   })
   
-  // The header should show the selected item id - this verifies the onSelectionChange callback works
-  expect(atKale).toContain('Selected: kale')
+  // The detail panel should show the selected item - this verifies selection and detail sync
+  expect(atKale).toContain('Details for Kale')
+  expect(atKale).toContain('› Kale')
+
+  session.close()
+}, 30000)
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 2: Detail Panel Tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('phase 2: detail panel shows when isShowingDetail is true', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
+    cols: 100,
+    rows: 20,
+  })
+
+  const initial = await session.text({
+    waitFor: (text) => text.includes('Details for') && text.includes('10 of 10'),
+  })
+
+  // Should show detail panel for first item (Apple)
+  expect(initial).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
+
+       Search items...                               │
+       ── Fruits ──                                      Details for Apple
+
+       › Apple A red fruit                               A red fruit
+         Banana A yellow fruit
+         Date A sweet fruit                              Keywords: red
+         Fig A small fruit
+                                                     ▀   ID: apple
+
+
+       10 of 10 items
+
+
+    "
+  `)
+  expect(initial).toContain('Details for Apple')
+  expect(initial).toContain('A red fruit')
+
+  session.close()
+}, 30000)
+
+test('phase 2: detail content changes when navigating', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
+    cols: 100,
+    rows: 20,
+  })
+
+  await session.text({
+    waitFor: (text) => text.includes('Details for Apple'),
+  })
+
+  // Navigate down to Banana
+  await session.press('down')
+  const atBanana = await session.text({
+    waitFor: (text) => text.includes('Details for Banana'),
+  })
+
+  expect(atBanana).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,a^2=banana, ^3=carrot, ^4=kale to jump
+
+       Search items...                               │
+       ── Fruits ──                                      Details for Banana
+
+         Apple A red fruit                               A yellow fruit
+       › Banana A yellow fruit
+         Date A sweet fruit                              Keywords: yellow
+         Fig A small fruit
+                                                     ▀   ID: banana
+
+
+       10 of 10 items
+
+
+    "
+  `)
+  expect(atBanana).toContain('Details for Banana')
+  expect(atBanana).toContain('A yellow fruit')
+
+  session.close()
+}, 30000)
+
+test('phase 2: detail shows item keywords and id', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
+    cols: 100,
+    rows: 20,
+  })
+
+  const initial = await session.text({
+    waitFor: (text) => text.includes('Details for Apple'),
+  })
+
+  // Should show keywords and ID in detail panel
+  expect(initial).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
+
+       Search items...                               │
+       ── Fruits ──                                      Details for Apple
+
+       › Apple A red fruit                               A red fruit
+         Banana A yellow fruit
+         Date A sweet fruit                              Keywords: red
+         Fig A small fruit
+                                                     ▀   ID: apple
+
+
+       10 of 10 items
+
+
+    "
+  `)
+  expect(initial).toContain('Keywords: red')
+  expect(initial).toContain('ID: apple')
+
+  session.close()
+}, 30000)
+
+test('phase 2: detail panel layout shows list and detail side by side', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
+    cols: 100,
+    rows: 24,
+  })
+
+  const initial = await session.text({
+    waitFor: (text) => text.includes('Details for') && text.includes('› Apple'),
+  })
+
+  // Should have both list items and detail panel visible
+  // The │ separator should be visible between panels
+  expect(initial).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
+
+       Search items...                               │
+       ── Fruits ──                                      Details for Apple
+
+       › Apple A red fruit                               A red fruit
+         Banana A yellow fruit
+         Date A sweet fruit                              Keywords: red
+         Fig A small fruit
+         Grape A vine fruit                              ID: apple
+                                                     ▀
+
+
+
+
+
+       10 of 10 items
+
+
+    "
+  `)
+  expect(initial).toContain('› Apple')
+  expect(initial).toContain('Details for Apple')
+  expect(initial).toContain('│')
+
+  session.close()
+}, 30000)
+
+test('phase 2: navigating to vegetable shows correct detail', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list-v2.tsx'],
+    cols: 100,
+    rows: 24,
+  })
+
+  await session.text({ waitFor: (text) => text.includes('Details for Apple') && text.includes('10 of 10') })
+
+  // Navigate to Carrot (6 items down)
+  for (let i = 0; i < 6; i++) {
+    await session.press('down')
+  }
+
+  const atCarrot = await session.text({
+    waitFor: (text) => text.includes('Details for Carrot'),
+  })
+
+  expect(atCarrot).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Renderable List V2 - Detail Panel
+       Presst^1=apple,t^2=banana, ^3=carrot, ^4=kale to jump
+
+       Search items...                               │
+         Lemon A citrus fruit                            Details for Carrot
+       ── Vegetables ──
+                                                         An orange vegetable
+       › Carrot An orange vegetable
+         Eggplant A purple vegetable                     Keywords: orange
+         Jalapeno A spicy pepper
+         Kale A superfood                                ID: carrot
+
+
+
+
+
+
+       10 of 10 items                                ▄
+
+
+    "
+  `)
+  expect(atCarrot).toContain('Details for Carrot')
+  expect(atCarrot).toContain('An orange vegetable')
+  expect(atCarrot).toContain('Keywords: orange')
 
   session.close()
 }, 30000)
