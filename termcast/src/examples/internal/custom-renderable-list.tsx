@@ -52,8 +52,9 @@ interface CustomListOptions extends BoxOptions {
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Generic helper to find parent of specific type by traversing up
-function findParent<T>(node: { parent: any }, type: new (...args: any[]) => T): T | undefined {
-  let current = node.parent
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function findParent<T>(node: Renderable, type: abstract new (...args: any[]) => T): T | undefined {
+  let current: Renderable | null = node.parent
   while (current) {
     if (current instanceof type) {
       return current
@@ -214,7 +215,7 @@ class CustomListRenderable extends BoxRenderable {
         { name: 'linefeed', action: 'submit' },
       ],
     })
-    ;(this.searchInput as any).onContentChange = () => {
+    this.searchInput.onContentChange = () => {
       const value = this.searchInput.editBuffer?.getText() || ''
       this.setSearchQuery(value)
     }
@@ -464,8 +465,8 @@ class CustomListRenderable extends BoxRenderable {
     if (!item) return
 
     // Use item's position for scrolling
-    const itemY = (item as any).y || 0
-    const scrollBoxY = (this.scrollBox as any).content?.y || 0
+    const itemY = item.y
+    const scrollBoxY = this.scrollBox.content.y
     const viewportHeight = this.scrollBox.viewport?.height || 10
     
     const relativeY = itemY - scrollBoxY
