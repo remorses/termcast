@@ -418,6 +418,8 @@ class CustomListRenderable extends BoxRenderable {
     const allSections = this.getAllSections()
 
     // Fast path: no query means all visible
+    // We use the `visible` prop instead of conditional rendering to keep elements
+    // in the tree - this preserves registration order and indexes for navigation
     if (!query) {
       for (const item of allItems) {
         item.visible = true

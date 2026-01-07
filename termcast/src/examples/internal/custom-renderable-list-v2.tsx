@@ -336,6 +336,8 @@ class CustomListRenderable extends BoxRenderable {
     let visibleIndex = 0
 
     // Update item visibility and visible indices
+    // We use the `visible` prop instead of conditional rendering to keep elements
+    // in the tree - this preserves registration order and visibleIndex for navigation
     for (const item of allItems) {
       const matches = !query || this.scoreItem(item, query) > 0
       item.visible = matches
