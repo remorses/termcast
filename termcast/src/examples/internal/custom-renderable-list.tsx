@@ -49,23 +49,11 @@ interface CustomListOptions extends BoxOptions {
 // Renderables (data holders - invisible, parent renders them)
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Helper to find parent CustomListRenderable by traversing up
-function findParentList(node: { parent: any }): CustomListRenderable | undefined {
+// Generic helper to find parent of specific type by traversing up
+function findParent<T>(node: { parent: any }, type: new (...args: any[]) => T): T | undefined {
   let current = node.parent
   while (current) {
-    if (current instanceof CustomListRenderable) {
-      return current
-    }
-    current = current.parent
-  }
-  return undefined
-}
-
-// Helper to find parent section
-function findParentSection(node: { parent: any }): CustomListSectionRenderable | undefined {
-  let current = node.parent
-  while (current) {
-    if (current instanceof CustomListSectionRenderable) {
+    if (current instanceof type) {
       return current
     }
     current = current.parent
@@ -95,7 +83,7 @@ class CustomListSectionRenderable extends BoxRenderable {
     // Register with parent list after being added to tree
     this.onLifecyclePass = () => {
       if (!this.parentList) {
-        this.parentList = findParentList(this)
+        this.parentList = findParent(this, CustomListRenderable)
         this.parentList?.registerSection(this)
       }
     }
@@ -158,8 +146,8 @@ class CustomListItemRenderable extends BoxRenderable {
     // Register with parent list after being added to tree
     this.onLifecyclePass = () => {
       if (!this.parentList) {
-        this.parentList = findParentList(this)
-        this.section = findParentSection(this)
+        this.parentList = findParent(this, CustomListRenderable)
+        this.section = findParent(this, CustomListSectionRenderable)
         this.parentList?.registerItem(this)
       }
     }
