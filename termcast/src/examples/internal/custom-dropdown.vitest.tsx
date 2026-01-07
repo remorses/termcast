@@ -26,14 +26,14 @@ test('dropdown renders items and shows selection', async () => {
        Hover: Apple
 
        ┌────────────────────────────────────────────────────┐
+       │Search items...                                     │
        │› Apple                                             │
        │  Banana                                            │
-       │                                                   ▀│
-       │4 of 4 items                                        │
-       └────────────────────────────────────────────────────┘
-
-
-    "
+       │  Carrot                                            │
+       │  Date                                              │
+       │                                                    │
+       │                                                    │
+       │4 of 4 items                                        │"
   `)
   expect(initial).toContain('› Apple')
 
@@ -65,14 +65,14 @@ test('dropdown keyboard navigation', async () => {
        Hover: Banana
 
        ┌────────────────────────────────────────────────────┐
+       │Search items...                                     │
+       │  Apple                                             │
        │› Banana                                            │
        │  Carrot                                            │
+       │  Date                                              │
        │                                                    │
-       │4 of 4 items                                       ▀│
-       └────────────────────────────────────────────────────┘
-
-
-    "
+       │                                                    │
+       │4 of 4 items                                        │"
   `)
   expect(atBanana).toContain('› Banana')
 
@@ -123,11 +123,11 @@ test('dropdown search filtering', async () => {
        │ban                                                 │
        │› Banana                                            │
        │                                                    │
-       │1 of 4 items • "ban"                                │
-       └────────────────────────────────────────────────────┘
-
-
-    "
+       │                                                    │
+       │                                                    │
+       │                                                    │
+       │                                                    │
+       │1 of 4 items • "ban"                                │"
   `)
   expect(filtered).toContain('› Banana')
   expect(filtered).not.toContain('Apple')
@@ -151,7 +151,24 @@ test('dropdown enter triggers onSelect callback', async () => {
     waitFor: (text) => text.includes('Selected: Apple'),
   })
 
-  expect(afterSelect).toMatchInlineSnapshot()
+  expect(afterSelect).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Dropdown Example
+       Selected: Apple
+       Hover: Apple
+
+       ┌────────────────────────────────────────────────────┐
+       │Search items...                                     │
+       │› Apple                                             │
+       │  Banana                                            │
+       │  Carrot                                            │
+       │  Date                                              │
+       │                                                    │
+       │                                                    │"
+  `)
   expect(afterSelect).toContain('Selected: Apple')
 
   session.close()
@@ -183,13 +200,13 @@ test('dropdown scroll with many items', async () => {
 
        Custom Dropdown Example
        Hover: Item 9
+
        ┌────────────────────────────────────────────────────┐
        │› Item 9                                            │
-       │20Iofm200items                                     ▀│
-       └────────────────────────────────────────────────────┘
-
-
-    "
+       │  Item 10                                           │
+       │  Item 11                                           │
+       │  Item 12                                           │
+       │  Item 13                                           │"
   `)
   expect(scrolled).toContain('› Item 9')
 

@@ -21,7 +21,7 @@ import React, { useRef, useState } from 'react'
 import { renderWithProviders } from '../../utils'
 import { create } from 'zustand'
 import { Theme } from 'termcast/src/theme'
-import { useIsInFocus } from 'termcast/src/internal/focus-context'
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Zustand Store
@@ -276,10 +276,7 @@ interface DropdownProps {
 
 function Dropdown({ children, placeholder, onSelect, onSelectionChange }: DropdownProps): any {
   const dropdownRef = useRef<DropdownRenderable>(null)
-  const inFocus = useIsInFocus()
-
   useKeyboard((evt) => {
-    if (!inFocus) return
     const dropdown = dropdownRef.current
     if (!dropdown) return
 
@@ -294,7 +291,11 @@ function Dropdown({ children, placeholder, onSelect, onSelectionChange }: Dropdo
     }
 
     if (evt.name === 'return') {
-      dropdown.triggerSelect()
+      const selectedTitle = dropdown.getSelectedItemTitle()
+      if (selectedTitle && onSelect) {
+        onSelect(selectedTitle)
+      }
+      dropdown.triggerSelect() // Also trigger item's onSelect
       return
     }
 
@@ -368,30 +369,33 @@ export { CustomDropdown, Dropdown, DropdownItem, useDropdownStore, DropdownRende
 // Example
 // ─────────────────────────────────────────────────────────────────────────────
 
-function Example(): any {
-  const [selectedItem, setSelectedItem] = useState('')
-  const [hoverItem, setHoverItem] = useState('')
+function Example({ useMany = false }: { useMany?: boolean }): any {
+  const [selectedItem, setSelectedItem] = useState<string | null>(null)
+  const [hoverItem, setHoverItem] = useState<string | null>(null)
 
-  // Check for --many flag for scroll test
-  const manyItems = process.argv.includes('--many')
+  const defaultItems = [
+    { id: 'apple', title: 'Apple', keywords: ['fruit', 'red'] },
+    { id: 'banana', title: 'Banana', keywords: ['fruit', 'yellow'] },
+    { id: 'carrot', title: 'Carrot', keywords: ['vegetable', 'orange'] },
+    { id: 'date', title: 'Date', keywords: ['fruit', 'sweet'] },
+  ]
 
-  const items = manyItems
-    ? Array.from({ length: 20 }, (_, i) => ({ id: `item-${i + 1}`, title: `Item ${i + 1}` }))
-    : [
-        { id: 'apple', title: 'Apple', keywords: ['fruit', 'red'] },
-        { id: 'banana', title: 'Banana', keywords: ['fruit', 'yellow'] },
-        { id: 'carrot', title: 'Carrot', keywords: ['vegetable', 'orange'] },
-        { id: 'date', title: 'Date', keywords: ['fruit', 'sweet'] },
-      ]
+  // Generate many items for scroll testing
+  const manyItems = Array.from({ length: 20 }, (_, i) => ({
+    id: `item-${i + 1}`,
+    title: `Item ${i + 1}`,
+  }))
+
+  const items = useMany ? manyItems : defaultItems
 
   return (
     <box flexDirection="column" padding={1} height="100%">
       <text marginBottom={1}>Custom Dropdown Example</text>
 
-      {selectedItem && <text fg={Theme.accent}>Selected: {selectedItem}</text>}
-      {hoverItem && <text fg={Theme.textMuted}>Hover: {hoverItem}</text>}
+      {selectedItem && <text flexShrink={0} fg={Theme.accent}>Selected: {selectedItem}</text>}
+      {hoverItem && <text flexShrink={0} fg={Theme.textMuted}>Hover: {hoverItem}</text>}
 
-      <box marginTop={1} flexGrow={1} border={['top', 'bottom', 'left', 'right']} borderStyle="single">
+      <box marginTop={1} height={10} border={['top', 'bottom', 'left', 'right']} borderStyle="single">
         <CustomDropdown
           placeholder="Search items..."
           onSelect={(id) => {
@@ -406,7 +410,7 @@ function Example(): any {
               key={item.id}
               id={item.id}
               title={item.title}
-              keywords={'keywords' in item ? item.keywords : undefined}
+              keywords={'keywords' in item ? (item.keywords as string[]) : undefined}
             />
           ))}
         </CustomDropdown>
@@ -425,5 +429,7 @@ if (import.meta.main) {
     searchQuery: '',
     renderTick: 0,
   })
-  renderWithProviders(<Example />)
+  // Check for --many flag to test scrolling with many items
+  const useMany = process.argv.includes('--many')
+  renderWithProviders(<Example useMany={useMany} />)
 }
