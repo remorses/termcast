@@ -164,6 +164,11 @@ class CustomListItemRenderable extends BoxRenderable {
         this.parentList?.registerItem(this)
       }
     }
+
+    // Example: register click handler directly on renderable
+    this.onMouseDown = (event) => {
+      console.log('CustomListItemRenderable clicked:', this.itemTitle, event)
+    }
   }
 
   get selected() { return this.isSelected }
@@ -234,6 +239,11 @@ class CustomListRenderable extends BoxRenderable {
     super.add(this.searchInput)
     super.add(this.scrollBox)
     super.add(this.statusText)
+
+    // Example: register key handler directly on renderable (logs all key presses)
+    this.onKeyDown = (key) => {
+      console.log('CustomListRenderable received key:', key.name, key)
+    }
   }
 
   // ─────────────────────────────────────────────────────────────────────────
