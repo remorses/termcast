@@ -120,11 +120,20 @@ class CustomListSectionRenderable extends BoxRenderable {
 class CustomListEmptyViewRenderable extends BoxRenderable {
   public emptyTitle: string
   public emptyDescription?: string
+  private parentList?: CustomListRenderable
 
   constructor(ctx: RenderContext, options: CustomListEmptyViewOptions) {
     super(ctx, { ...options, height: 0, overflow: 'hidden' })
     this.emptyTitle = options.emptyTitle
     this.emptyDescription = options.emptyDescription
+
+    // Register with parent list after being added to tree
+    this.onLifecyclePass = () => {
+      if (!this.parentList) {
+        this.parentList = findParentList(this)
+        this.parentList?.registerEmptyView(this)
+      }
+    }
   }
 }
 
@@ -236,14 +245,8 @@ class CustomListRenderable extends BoxRenderable {
   }
 
   // Override add() so React children go into scrollBox
+  // Items/sections/emptyView register themselves via onLifecyclePass
   add(child: Renderable, index?: number): number {
-    if (child instanceof CustomListEmptyViewRenderable) {
-      // EmptyView is data-only, not rendered - just store reference
-      this.emptyView = child
-      return -1
-    }
-    // All other React children go into scrollBox
-    // Items/sections register themselves via onLifecyclePass
     return this.scrollBox.add(child, index)
   }
 
@@ -259,6 +262,10 @@ class CustomListRenderable extends BoxRenderable {
   registerSection(section: CustomListSectionRenderable) {
     this.registeredSections.add(section)
     this.scheduleUpdate()
+  }
+
+  registerEmptyView(emptyView: CustomListEmptyViewRenderable) {
+    this.emptyView = emptyView
   }
 
   private updateScheduled = false
