@@ -35,6 +35,7 @@ interface CustomListItemOptions extends BoxOptions {
   itemTitle: string
   itemSubtitle?: string
   keywords?: string[]
+  onAction?: () => void
 }
 
 interface CustomListOptions extends BoxOptions {
@@ -87,6 +88,7 @@ class CustomListItemRenderable extends BoxRenderable {
   public itemTitle: string
   public itemSubtitle?: string
   public keywords?: string[]
+  public onAction?: () => void
   public parentList?: CustomListRenderable
   public sectionTitle?: string  // populated from parent section
 
@@ -96,6 +98,7 @@ class CustomListItemRenderable extends BoxRenderable {
     this.itemTitle = options.itemTitle
     this.itemSubtitle = options.itemSubtitle
     this.keywords = options.keywords
+    this.onAction = options.onAction
   }
 }
 
@@ -106,6 +109,13 @@ class CustomListItemRenderable extends BoxRenderable {
 interface SectionData {
   title: string
   items: ListItemData[]
+}
+
+// Rendered section with associated display boxes
+interface RenderedSection {
+  title: string
+  headerBox?: BoxRenderable
+  itemBoxes: BoxRenderable[]
 }
 
 class CustomListRenderable extends BoxRenderable {
@@ -122,7 +132,10 @@ class CustomListRenderable extends BoxRenderable {
   private searchInput: TextareaRenderable
   private scrollBox: ScrollBoxRenderable
   private statusText: TextRenderable
-  private displayBoxes: Map<string, BoxRenderable> = new Map()
+  
+  // Rendered display state
+  private emptyBox?: BoxRenderable
+  private renderedSections: RenderedSection[] = []
 
   constructor(ctx: RenderContext, options: CustomListOptions) {
     super(ctx, { ...options, flexDirection: 'column' })
@@ -132,6 +145,11 @@ class CustomListRenderable extends BoxRenderable {
       placeholder: options.placeholder || 'Search...',
       height: 1,
       width: '100%',
+      // Block return/linefeed from inserting newlines
+      keyBindings: [
+        { name: 'return', action: 'submit' },
+        { name: 'linefeed', action: 'submit' },
+      ],
     })
     // Wire up content change callback directly (like reconciler does)
     ;(this.searchInput as any).onContentChange = () => {
@@ -285,10 +303,19 @@ class CustomListRenderable extends BoxRenderable {
 
   private rebuildDisplay() {
     // Clear old display boxes
-    for (const box of this.displayBoxes.values()) {
-      this.scrollBox.remove(box.id)
+    if (this.emptyBox) {
+      this.scrollBox.remove(this.emptyBox.id)
+      this.emptyBox = undefined
     }
-    this.displayBoxes.clear()
+    for (const section of this.renderedSections) {
+      if (section.headerBox) {
+        this.scrollBox.remove(section.headerBox.id)
+      }
+      for (const box of section.itemBoxes) {
+        this.scrollBox.remove(box.id)
+      }
+    }
+    this.renderedSections = []
 
     // Update status
     const statusContent = this.searchQuery
@@ -322,11 +349,16 @@ class CustomListRenderable extends BoxRenderable {
       }
       
       this.scrollBox.add(emptyBox)
-      this.displayBoxes.set('__empty__', emptyBox)
+      this.emptyBox = emptyBox
     } else {
       // Render sections with headers
       let itemIndex = 0
       for (const section of this.filteredSections) {
+        const rendered: RenderedSection = {
+          title: section.title,
+          itemBoxes: [],
+        }
+        
         // Section header (if has title)
         if (section.title) {
           const headerBox = new BoxRenderable(this.ctx, { 
@@ -338,17 +370,19 @@ class CustomListRenderable extends BoxRenderable {
           })
           headerBox.add(headerText)
           this.scrollBox.add(headerBox)
-          this.displayBoxes.set(`__section_${section.title}__`, headerBox)
+          rendered.headerBox = headerBox
         }
         
         // Section items
         for (const item of section.items) {
           const isSelected = itemIndex === this.selectedIndex
           const box = this.createItemBox(item, isSelected)
-          this.displayBoxes.set(item.id, box)
+          rendered.itemBoxes.push(box)
           this.scrollBox.add(box)
           itemIndex++
         }
+        
+        this.renderedSections.push(rendered)
       }
     }
 
@@ -433,6 +467,16 @@ class CustomListRenderable extends BoxRenderable {
   getSelectedItem(): ListItemData | undefined {
     return this.filteredItems[this.selectedIndex]
   }
+
+  // Activate selected item (call onAction)
+  activateSelected() {
+    const selectedData = this.filteredItems[this.selectedIndex]
+    if (!selectedData) return
+    
+    // Find the actual renderable to get onAction callback
+    const item = this.items.find(i => i.id === selectedData.id)
+    item?.onAction?.()
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -471,6 +515,7 @@ function CustomList({ children, placeholder }: ListProps) {
     if (!inFocus || !listRef.current) return
     if (evt.name === 'up') listRef.current.moveSelection(-1)
     if (evt.name === 'down') listRef.current.moveSelection(1)
+    if (evt.name === 'return') listRef.current.activateSelected()
   })
 
   return (
@@ -484,14 +529,16 @@ interface ListItemProps {
   title: string
   subtitle?: string
   keywords?: string[]
+  onAction?: () => void
 }
 
-function CustomListItem({ title, subtitle, keywords }: ListItemProps) {
+function CustomListItem({ title, subtitle, keywords, onAction }: ListItemProps) {
   return (
     <custom-list-item
       itemTitle={title}
       itemSubtitle={subtitle}
       keywords={keywords}
+      onAction={onAction}
     />
   )
 }
