@@ -51,10 +51,36 @@ interface CustomListOptions extends BoxOptions {
 
 class CustomListSectionRenderable extends BoxRenderable {
   public sectionTitle?: string
+  private headerText?: TextRenderable
 
   constructor(ctx: RenderContext, options: CustomListSectionOptions) {
-    super(ctx, { ...options, height: 0, overflow: 'hidden' })
+    super(ctx, { ...options, flexDirection: 'column', width: '100%' })
     this.sectionTitle = options.sectionTitle
+
+    // Render own header
+    if (this.sectionTitle) {
+      this.headerText = new TextRenderable(ctx, { 
+        content: `── ${this.sectionTitle} ──`,
+        paddingTop: 1,
+        paddingLeft: 1,
+      })
+      super.add(this.headerText)
+    }
+  }
+
+  private isVisible = true
+  get visible() { return this.isVisible }
+  set visible(value: boolean) {
+    if (this.isVisible !== value) {
+      this.isVisible = value
+      // Hide both section and header
+      this.height = value ? undefined : 0
+      this.overflow = value ? undefined : 'hidden'
+      if (this.headerText) {
+        this.headerText.height = value ? undefined : 0
+        this.headerText.paddingTop = value ? 1 : 0
+      }
+    }
   }
 }
 
@@ -74,31 +100,45 @@ class CustomListItemRenderable extends BoxRenderable {
   public itemSubtitle?: string
   public keywords?: string[]
   public onAction?: () => void
+  public section?: CustomListSectionRenderable
+
+  private isSelected = false
+  private isVisible = true
+  private indicatorText: TextRenderable
 
   constructor(ctx: RenderContext, options: CustomListItemOptions) {
-    super(ctx, { ...options, height: 0, overflow: 'hidden' })
+    super(ctx, { ...options, flexDirection: 'row', width: '100%' })
     this.itemTitle = options.itemTitle
     this.itemSubtitle = options.itemSubtitle
     this.keywords = options.keywords
     this.onAction = options.onAction
+
+    // Render own content
+    this.indicatorText = new TextRenderable(ctx, { content: '  ' })
+    super.add(this.indicatorText)
+    super.add(new TextRenderable(ctx, { content: this.itemTitle }))
+    if (this.itemSubtitle) {
+      super.add(new TextRenderable(ctx, { content: ` ${this.itemSubtitle}` }))
+    }
   }
-}
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Unified State Model
-// ─────────────────────────────────────────────────────────────────────────────
+  get selected() { return this.isSelected }
+  set selected(value: boolean) {
+    if (this.isSelected !== value) {
+      this.isSelected = value
+      this.backgroundColor = value ? '#0066cc' : 'transparent'
+      this.indicatorText.content = value ? '› ' : '  '
+    }
+  }
 
-interface ItemState {
-  renderable: CustomListItemRenderable
-  visible: boolean      // passes current filter
-  rowIndex: number      // for scrolling (calculated during refilter)
-  displayBox?: BoxRenderable
-}
-
-interface SectionState {
-  title: string
-  items: ItemState[]
-  headerBox?: BoxRenderable
+  get visible() { return this.isVisible }
+  set visible(value: boolean) {
+    if (this.isVisible !== value) {
+      this.isVisible = value
+      this.height = value ? undefined : 0
+      this.overflow = value ? undefined : 'hidden'
+    }
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -106,15 +146,9 @@ interface SectionState {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class CustomListRenderable extends BoxRenderable {
-  // Unified state model
-  private sections: SectionState[] = []
   private emptyView?: CustomListEmptyViewRenderable
   private selectedIndex = 0
   private searchQuery = ''
-  
-  // Computed from sections (for convenience)
-  private visibleItems: ItemState[] = []
-  private totalItemCount = 0
 
   // Display components
   private searchInput: TextareaRenderable
@@ -154,53 +188,97 @@ class CustomListRenderable extends BoxRenderable {
     super.add(this.statusText)
   }
 
+  // Override add() so React children go into scrollBox
+  add(child: Renderable, index?: number): number {
+    if (child instanceof CustomListEmptyViewRenderable) {
+      this.emptyView = child
+      // Don't add to DOM - just store reference
+      return -1
+    } else {
+      // All React children go into scrollBox
+      return this.scrollBox.add(child, index)
+    }
+  }
+
   // ─────────────────────────────────────────────────────────────────────────
-  // Collection (builds unified state from tree)
+  // Helpers - traverse scrollBox children
+  // ─────────────────────────────────────────────────────────────────────────
+
+  private getScrollBoxChildren(): Renderable[] {
+    return (this.scrollBox as any)._childrenInLayoutOrder || []
+  }
+
+  private getAllItems(): CustomListItemRenderable[] {
+    const items: CustomListItemRenderable[] = []
+    const findItems = (node: Renderable) => {
+      if (node instanceof CustomListItemRenderable) {
+        items.push(node)
+      }
+      const children = (node as any)._childrenInLayoutOrder || []
+      for (const child of children) {
+        findItems(child)
+      }
+    }
+    for (const child of this.getScrollBoxChildren()) {
+      findItems(child)
+    }
+    return items
+  }
+
+  private getVisibleItems(): CustomListItemRenderable[] {
+    return this.getAllItems().filter(item => item.visible)
+  }
+
+  private getAllSections(): CustomListSectionRenderable[] {
+    const sections: CustomListSectionRenderable[] = []
+    const findSections = (node: Renderable) => {
+      if (node instanceof CustomListSectionRenderable) {
+        sections.push(node)
+      }
+      const children = (node as any)._childrenInLayoutOrder || []
+      for (const child of children) {
+        findSections(child)
+      }
+    }
+    for (const child of this.getScrollBoxChildren()) {
+      findSections(child)
+    }
+    return sections
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Collection - link items to their sections
   // ─────────────────────────────────────────────────────────────────────────
 
   commitPendingChanges() {
-    this.sections = []
-    this.emptyView = undefined
-    this.collectFromTree(this, undefined)
-    this.refilter()
-    this.rebuildDisplay()
-  }
-
-  private collectFromTree(node: Renderable, currentSection: SectionState | undefined) {
-    const children = (node as any)._childrenInLayoutOrder || []
-    
-    for (const child of children) {
-      if (child instanceof CustomListEmptyViewRenderable) {
-        this.emptyView = child
-      } else if (child instanceof CustomListSectionRenderable) {
-        const section: SectionState = {
-          title: child.sectionTitle || '',
-          items: [],
+    // Link items to their parent sections
+    for (const section of this.getAllSections()) {
+      const sectionChildren = (section as any)._childrenInLayoutOrder || []
+      const linkItems = (node: Renderable) => {
+        if (node instanceof CustomListItemRenderable) {
+          node.section = section
         }
-        this.sections.push(section)
-        this.collectFromTree(child, section)
-      } else if (child instanceof CustomListItemRenderable) {
-        const itemState: ItemState = {
-          renderable: child,
-          visible: true,
-          rowIndex: 0,
+        const children = (node as any)._childrenInLayoutOrder || []
+        for (const child of children) {
+          linkItems(child)
         }
-        if (currentSection) {
-          currentSection.items.push(itemState)
-        } else {
-          // Orphan item - create/find no-title section
-          let orphanSection = this.sections.find(s => s.title === '')
-          if (!orphanSection) {
-            orphanSection = { title: '', items: [] }
-            this.sections.unshift(orphanSection)
-          }
-          orphanSection.items.push(itemState)
-        }
-      } else {
-        // Recurse into wrapper components
-        this.collectFromTree(child, currentSection)
+      }
+      for (const child of sectionChildren) {
+        linkItems(child)
       }
     }
+
+    this.refilter()
+    this.updateEmptyState()
+    
+    // Select first visible item
+    const visibleItems = this.getVisibleItems()
+    if (visibleItems.length > 0) {
+      this.selectedIndex = 0
+      visibleItems[0].selected = true
+    }
+    
+    this.updateStatus()
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -209,51 +287,50 @@ class CustomListRenderable extends BoxRenderable {
 
   setSearchQuery(query: string) {
     if (this.searchQuery === query) return
+    
+    // Deselect current
+    const oldVisible = this.getVisibleItems()
+    if (oldVisible[this.selectedIndex]) {
+      oldVisible[this.selectedIndex].selected = false
+    }
+    
     this.searchQuery = query
     this.refilter()
-    this.rebuildDisplay()
+    this.updateEmptyState()
+    
+    // Select first visible item
+    const newVisible = this.getVisibleItems()
+    if (newVisible.length > 0) {
+      this.selectedIndex = 0
+      newVisible[0].selected = true
+    }
+    
+    this.updateStatus()
   }
 
   private refilter() {
     const query = this.searchQuery.toLowerCase()
-    this.visibleItems = []
-    this.totalItemCount = 0
-    let rowIndex = 0
+    const allItems = this.getAllItems()
+    const allSections = this.getAllSections()
 
-    for (const section of this.sections) {
-      // Count header rows if section has title and will have visible items
-      const sectionStartRow = rowIndex
-      if (section.title) {
-        rowIndex += 2  // header padding + text
-      }
+    // Update item visibility
+    for (const item of allItems) {
+      const matches = !query || this.scoreItem(item, query) > 0
+      item.visible = matches
+    }
 
-      let sectionHasVisible = false
-      for (const item of section.items) {
-        this.totalItemCount++
-        
-        if (!query) {
-          item.visible = true
-        } else {
-          item.visible = this.scoreItem(item.renderable, query) > 0
-        }
-
-        if (item.visible) {
-          item.rowIndex = rowIndex++
-          this.visibleItems.push(item)
-          sectionHasVisible = true
-        }
-      }
-
-      // If section had no visible items, don't count header rows
-      if (!sectionHasVisible && section.title) {
-        rowIndex = sectionStartRow
-      }
+    // Update section visibility
+    for (const section of allSections) {
+      const sectionItems = allItems.filter(item => item.section === section)
+      const hasVisibleItems = sectionItems.some(item => item.visible)
+      section.visible = hasVisibleItems
     }
 
     // Clamp selection
+    const visibleCount = this.getVisibleItems().length
     this.selectedIndex = Math.min(
       Math.max(0, this.selectedIndex),
-      Math.max(0, this.visibleItems.length - 1)
+      Math.max(0, visibleCount - 1)
     )
   }
 
@@ -278,100 +355,36 @@ class CustomListRenderable extends BoxRenderable {
   // Display
   // ─────────────────────────────────────────────────────────────────────────
 
-  private rebuildDisplay() {
-    this.clearDisplay()
-    this.updateStatus()
-
-    if (this.visibleItems.length === 0) {
-      this.renderEmptyState()
-    } else {
-      this.renderSections()
-    }
-
-    this.requestRender()
+  private updateStatus() {
+    const visibleCount = this.getVisibleItems().length
+    const totalCount = this.getAllItems().length
+    this.statusText.content = this.searchQuery
+      ? `${visibleCount} of ${totalCount} items • Searching: "${this.searchQuery}"`
+      : `${visibleCount} of ${totalCount} items`
   }
 
-  private clearDisplay() {
-    if (this.emptyBox) {
+  private updateEmptyState() {
+    const showEmpty = this.getVisibleItems().length === 0
+    
+    if (showEmpty && !this.emptyBox) {
+      this.emptyBox = new BoxRenderable(this.ctx, { padding: 1, flexDirection: 'column' })
+      
+      if (this.emptyView) {
+        this.emptyBox.add(new TextRenderable(this.ctx, { content: this.emptyView.emptyTitle }))
+        if (this.emptyView.emptyDescription) {
+          this.emptyBox.add(new TextRenderable(this.ctx, { content: this.emptyView.emptyDescription }))
+        }
+      } else {
+        this.emptyBox.add(new TextRenderable(this.ctx, {
+          content: this.searchQuery ? `No results for "${this.searchQuery}"` : 'No items',
+        }))
+      }
+      
+      this.scrollBox.add(this.emptyBox)
+    } else if (!showEmpty && this.emptyBox) {
       this.scrollBox.remove(this.emptyBox.id)
       this.emptyBox = undefined
     }
-    for (const section of this.sections) {
-      if (section.headerBox) {
-        this.scrollBox.remove(section.headerBox.id)
-        section.headerBox = undefined
-      }
-      for (const item of section.items) {
-        if (item.displayBox) {
-          this.scrollBox.remove(item.displayBox.id)
-          item.displayBox = undefined
-        }
-      }
-    }
-  }
-
-  private updateStatus() {
-    this.statusText.content = this.searchQuery
-      ? `${this.visibleItems.length} of ${this.totalItemCount} items • Searching: "${this.searchQuery}"`
-      : `${this.visibleItems.length} of ${this.totalItemCount} items`
-  }
-
-  private renderEmptyState() {
-    this.emptyBox = new BoxRenderable(this.ctx, { padding: 1, flexDirection: 'column' })
-    
-    if (this.emptyView) {
-      this.emptyBox.add(new TextRenderable(this.ctx, { content: this.emptyView.emptyTitle }))
-      if (this.emptyView.emptyDescription) {
-        this.emptyBox.add(new TextRenderable(this.ctx, { content: this.emptyView.emptyDescription }))
-      }
-    } else {
-      this.emptyBox.add(new TextRenderable(this.ctx, {
-        content: this.searchQuery ? `No results for "${this.searchQuery}"` : 'No items',
-      }))
-    }
-    
-    this.scrollBox.add(this.emptyBox)
-  }
-
-  private renderSections() {
-    let visibleIndex = 0
-    
-    for (const section of this.sections) {
-      const sectionHasVisible = section.items.some(i => i.visible)
-      if (!sectionHasVisible) continue
-
-      // Section header
-      if (section.title) {
-        section.headerBox = new BoxRenderable(this.ctx, { paddingTop: 1, paddingLeft: 1 })
-        section.headerBox.add(new TextRenderable(this.ctx, { content: `── ${section.title} ──` }))
-        this.scrollBox.add(section.headerBox)
-      }
-
-      // Section items
-      for (const item of section.items) {
-        if (!item.visible) continue
-        
-        const isSelected = visibleIndex === this.selectedIndex
-        item.displayBox = this.createItemBox(item.renderable, isSelected)
-        this.scrollBox.add(item.displayBox)
-        visibleIndex++
-      }
-    }
-  }
-
-  private createItemBox(item: CustomListItemRenderable, isSelected: boolean): BoxRenderable {
-    const box = new BoxRenderable(this.ctx, { flexDirection: 'row', width: '100%' })
-    if (isSelected) {
-      box.backgroundColor = '#0066cc'
-    }
-
-    box.add(new TextRenderable(this.ctx, { content: isSelected ? '› ' : '  ' }))
-    box.add(new TextRenderable(this.ctx, { content: item.itemTitle }))
-    if (item.itemSubtitle) {
-      box.add(new TextRenderable(this.ctx, { content: ` ${item.itemSubtitle}` }))
-    }
-
-    return box
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -379,34 +392,44 @@ class CustomListRenderable extends BoxRenderable {
   // ─────────────────────────────────────────────────────────────────────────
 
   moveSelection(delta: number) {
-    if (this.visibleItems.length === 0) return
+    const visibleItems = this.getVisibleItems()
+    if (visibleItems.length === 0) return
 
     let newIndex = this.selectedIndex + delta
-    if (newIndex < 0) newIndex = this.visibleItems.length - 1
-    if (newIndex >= this.visibleItems.length) newIndex = 0
+    if (newIndex < 0) newIndex = visibleItems.length - 1
+    if (newIndex >= visibleItems.length) newIndex = 0
     if (newIndex === this.selectedIndex) return
 
+    // O(1) update: just change 2 items' selected state
+    visibleItems[this.selectedIndex].selected = false
+    visibleItems[newIndex].selected = true
+    
     this.selectedIndex = newIndex
-    this.rebuildDisplay()
     this.scrollToSelected()
   }
 
   private scrollToSelected() {
-    const item = this.visibleItems[this.selectedIndex]
+    const visibleItems = this.getVisibleItems()
+    const item = visibleItems[this.selectedIndex]
     if (!item) return
 
+    // Use item's position for scrolling
+    const itemY = (item as any).y || 0
+    const scrollBoxY = (this.scrollBox as any).content?.y || 0
     const viewportHeight = this.scrollBox.viewport?.height || 10
-    const targetScrollTop = item.rowIndex - Math.floor(viewportHeight / 2)
+    
+    const relativeY = itemY - scrollBoxY
+    const targetScrollTop = relativeY - Math.floor(viewportHeight / 2)
     this.scrollBox.scrollTop = Math.max(0, targetScrollTop)
   }
 
   activateSelected() {
-    const item = this.visibleItems[this.selectedIndex]
-    item?.renderable.onAction?.()
+    const visibleItems = this.getVisibleItems()
+    visibleItems[this.selectedIndex]?.onAction?.()
   }
 
   getSelectedItem(): CustomListItemRenderable | undefined {
-    return this.visibleItems[this.selectedIndex]?.renderable
+    return this.getVisibleItems()[this.selectedIndex]
   }
 }
 
@@ -494,6 +517,7 @@ function CustomListEmptyView({ title, description }: ListEmptyViewProps) {
   return (
     <custom-list-empty-view
       emptyTitle={title}
+      emptyDescription={description}
       emptyDescription={description}
     />
   )

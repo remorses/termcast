@@ -20,8 +20,8 @@ test('initial render with sections', async () => {
 
        Custom Renderable List (using extend)
        Search items...
+       ── Fruits ──
 
-        ── Fruits ──
        › Apple A red fruit
          Banana A yellow fruit
          Date A sweet fruit
@@ -61,16 +61,16 @@ test('sections render with headers', async () => {
 
        Custom Renderable List (using extend)
        Search items...
+       ── Fruits ──
 
-        ── Fruits ──
        › Apple A red fruit
          Banana A yellow fruit
          Date A sweet fruit
          Fig A small fruit
          Grape A vine fruit
          Lemon A citrus fruit
+       ── Vegetables ──
 
-        ── Vegetables ──
                                                             █
                                                             █
 
@@ -112,16 +112,16 @@ test('navigation across sections', async () => {
 
        Custom Renderable List (using extend)
        Search items...
+       ── Fruits ──
 
-        ── Fruits ──
          Apple A red fruit
        › Banana A yellow fruit
          Date A sweet fruit
          Fig A small fruit
          Grape A vine fruit
          Lemon A citrus fruit
+       ── Vegetables ──
 
-        ── Vegetables ──
                                                             █
                                                             █
 
@@ -156,8 +156,8 @@ test('navigation across sections', async () => {
          Fig A small fruit
          Grape A vine fruit
        › Lemon A citrus fruit
+       ── Vegetables ──
 
-        ── Vegetables ──
          Carrot An orange vegetable
          Eggplant A purple vegetable
 
@@ -203,8 +203,8 @@ test('filtering works with sections', async () => {
        Custom Renderable List (using extend)
 
        yellow
+       ── Fruits ──
 
-        ── Fruits ──
        › Banana A yellow fruit
 
 
@@ -288,8 +288,8 @@ test('wrapper components work (tree traversal)', async () => {
 
        Custom Renderable List (using extend)
        Search items...
+       ── Fruits ──
 
-        ── Fruits ──
        › Apple A red fruit
          Banana A yellow fruit
          Date A sweet fruit
@@ -372,8 +372,8 @@ test('wrap around navigation', async () => {
        Custom Renderable List (using extend)
 
        kale
+       ── Vegetables ──
 
-        ── Vegetables ──
        › Kale A superfood
 
 
@@ -400,8 +400,8 @@ test('wrap around navigation', async () => {
        Custom Renderable List (using extend)
 
        kale
+       ── Vegetables ──
 
-        ── Vegetables ──
        › Kale A superfood
 
 
