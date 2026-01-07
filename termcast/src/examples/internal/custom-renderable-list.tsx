@@ -46,7 +46,9 @@ interface CustomListOptions extends BoxOptions {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Renderables (data holders - invisible, parent renders them)
+// Renderables
+// - Section/Item: self-rendering (create their own child TextRenderables)
+// - EmptyView: data holder (height:0, parent creates emptyBox from its data)
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Generic helper to find parent of specific type by traversing up
