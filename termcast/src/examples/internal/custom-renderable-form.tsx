@@ -21,7 +21,7 @@
  * 1. Wrapper renderable self-registers synchronously when added to tree
  * 2. No useEffect needed for registration - onLifecyclePass handles it
  * 3. Focus state in parent, checked in children each render
- * 4. react-hook-form integration via setRHFMethods()
+ * 4. react-hook-form: useForm() in React, passed as prop to renderable, exposed via context
  * 5. Tab navigation via parent methods (focusNext/focusPrev)
  */
 
@@ -37,7 +37,7 @@ import {
 } from '@opentui/core'
 import { extend, useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
-import React, { useRef, createContext, useContext, useLayoutEffect, useState, useEffect } from 'react'
+import React, { useRef, createContext, useContext, useState, useEffect } from 'react'
 
 // Generic helper to find parent of specific type by traversing up
 function findParent<T>(node: Renderable, type: abstract new (...args: any[]) => T): T | undefined {
@@ -51,7 +51,7 @@ function findParent<T>(node: Renderable, type: abstract new (...args: any[]) => 
   return undefined
 }
 import { renderWithProviders } from '../../utils'
-import { useForm, FormProvider, useFormContext, type UseFormReturn } from 'react-hook-form'
+import { useForm, type UseFormReturn } from 'react-hook-form'
 import { Theme } from 'termcast/src/theme'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -73,8 +73,8 @@ interface CustomFormOptions extends BoxOptions {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class CustomFormRenderable extends BoxRenderable {
-  // RHF integration - store methods object
-  private rhfMethods: UseFormReturn<Record<string, unknown>> | null = null
+  // RHF integration - set by React as prop
+  public formControl?: UseFormReturn<Record<string, unknown>>
 
   // Field registry - replaces useDescendants
   private fields = new Map<string, RegisteredField>()
@@ -116,17 +116,14 @@ class CustomFormRenderable extends BoxRenderable {
   }
 
   // --- RHF Integration ---
-
-  setRHFMethods(methods: UseFormReturn<Record<string, unknown>>) {
-    this.rhfMethods = methods
-  }
+  // formControl is set by React as prop, use it directly
 
   getValues() {
-    return this.rhfMethods?.getValues() ?? {}
+    return this.formControl?.getValues() ?? {}
   }
 
   setValue(name: string, value: unknown) {
-    this.rhfMethods?.setValue(name, value)
+    this.formControl?.setValue(name, value)
   }
 
   // --- Field Registration ---
@@ -287,11 +284,12 @@ extend({
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
-// React Context for parent ref
+// React Context for form ref and RHF methods
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface CustomFormContextValue {
   formRef: React.RefObject<CustomFormRenderable | null>
+  methods: UseFormReturn<Record<string, unknown>>
 }
 
 const CustomFormContext = createContext<CustomFormContextValue | null>(null)
@@ -299,7 +297,7 @@ const CustomFormContext = createContext<CustomFormContextValue | null>(null)
 function useCustomForm() {
   const ctx = useContext(CustomFormContext)
   if (!ctx) throw new Error('Must be inside CustomForm')
-  return ctx.formRef
+  return ctx
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -315,13 +313,6 @@ function CustomForm({ children }: CustomFormProps): any {
   const methods = useForm<Record<string, unknown>>()
   const inFocus = useIsInFocus()
 
-  // Pass RHF methods to renderable after mount
-  useLayoutEffect(() => {
-    if (formRef.current) {
-      formRef.current.setRHFMethods(methods)
-    }
-  }, [methods])
-
   // Tab navigation
   useKeyboard((evt) => {
     if (!inFocus || !formRef.current) return
@@ -334,14 +325,13 @@ function CustomForm({ children }: CustomFormProps): any {
     }
   })
 
+  // Pass formControl as prop to renderable, expose methods via context
   return (
-    <FormProvider {...methods}>
-      <CustomFormContext.Provider value={{ formRef }}>
-        <custom-form ref={formRef} flexGrow={1}>
-          {children}
-        </custom-form>
-      </CustomFormContext.Provider>
-    </FormProvider>
+    <CustomFormContext.Provider value={{ formRef, methods }}>
+      <custom-form ref={formRef} formControl={methods} flexGrow={1}>
+        {children}
+      </custom-form>
+    </CustomFormContext.Provider>
   )
 }
 
@@ -356,17 +346,16 @@ interface TextFieldProps {
 }
 
 function CustomFormTextField({ id, title, placeholder }: TextFieldProps): any {
-  const formRef = useCustomForm()
+  const { formRef, methods } = useCustomForm()
   const inputRef = useRef<TextareaRenderable>(null)
-  const { register } = useFormContext()
 
   // No useEffect needed - wrapper self-registers via onLifecyclePass
 
   // Check if focused - read from parent each render
   const isFocused = formRef.current?.focusedFieldId === id
 
-  // RHF integration
-  const registration = register(id)
+  // RHF integration - use methods from context (no useFormContext needed)
+  const registration = methods.register(id)
 
   const handleContentChange = () => {
     registration.onChange({

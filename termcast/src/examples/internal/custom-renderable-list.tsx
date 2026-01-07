@@ -5,6 +5,38 @@
  * that handle filtering, navigation, and selection imperatively.
  * 
  * Uses unified ItemState/SectionState model for simplified state management.
+ * 
+ * ## How React Props Work with opentui Renderables
+ * 
+ * React props are applied via direct property assignment, NOT just constructor:
+ * 
+ * 1. `createInstance()` - constructor called (props passed in options)
+ * 2. `setInitialProperties()` - iterates props, does `instance[propKey] = propValue`
+ * 3. `commitUpdate()` - on re-render, applies changed props via `instance[propKey] = propValue`
+ * 
+ * This means:
+ * - Props don't need to be read from constructor options - React sets them after
+ * - Simple props (just stored/read later) can be public fields
+ * - Props that need side effects on change require setters
+ * - Constructor should just create the renderable structure
+ * 
+ * Example:
+ * ```typescript
+ * class MyRenderable extends BoxRenderable {
+ *   // Simple prop - no setter needed, React assigns directly
+ *   public myLabel = ''
+ * 
+ *   // Prop that needs action on change - use setter
+ *   private _activeIndex = 0
+ *   get activeIndex() { return this._activeIndex }
+ *   set activeIndex(value: number) {
+ *     if (this._activeIndex === value) return
+ *     this._activeIndex = value
+ *     this.updateHighlight()  // side effect
+ *     this.requestRender()
+ *   }
+ * }
+ * ```
  */
 
 import {
@@ -68,23 +100,28 @@ function findParent<T>(node: Renderable, type: abstract new (...args: any[]) => 
 }
 
 class CustomListSectionRenderable extends BoxRenderable {
-  public sectionTitle?: string
-  private headerText?: TextRenderable
+  private headerText: TextRenderable
   private parentList?: CustomListRenderable
+
+  // Prop with setter - updates header text when changed
+  private _sectionTitle = ''
+  get sectionTitle() { return this._sectionTitle }
+  set sectionTitle(value: string) {
+    this._sectionTitle = value
+    this.headerText.content = value ? `── ${value} ──` : ''
+    this.headerText.height = value ? 'auto' : 0
+    this.headerText.paddingTop = value ? 1 : 0
+  }
 
   constructor(ctx: RenderContext, options: CustomListSectionOptions) {
     super(ctx, { ...options, flexDirection: 'column', width: '100%' })
-    this.sectionTitle = options.sectionTitle
-
-    // Render own header
-    if (this.sectionTitle) {
-      this.headerText = new TextRenderable(ctx, { 
-        content: `── ${this.sectionTitle} ──`,
-        paddingTop: 1,
-        paddingLeft: 1,
-      })
-      super.add(this.headerText)
-    }
+    // Create header - React will set sectionTitle prop after constructor
+    this.headerText = new TextRenderable(ctx, { 
+      content: '',
+      paddingTop: 1,
+      paddingLeft: 1,
+    })
+    super.add(this.headerText)
 
     // Register with parent list after being added to tree
     this.onLifecyclePass = () => {
@@ -112,14 +149,15 @@ class CustomListSectionRenderable extends BoxRenderable {
 }
 
 class CustomListEmptyViewRenderable extends BoxRenderable {
-  public emptyTitle: string
+  // Simple props - just stored, read by parent list. No setter needed.
+  public emptyTitle = 'No items'
   public emptyDescription?: string
+
   private parentList?: CustomListRenderable
 
   constructor(ctx: RenderContext, options: CustomListEmptyViewOptions) {
     super(ctx, { ...options, height: 0, overflow: 'hidden' })
-    this.emptyTitle = options.emptyTitle || 'No items'
-    this.emptyDescription = options.emptyDescription
+    // React will set emptyTitle/emptyDescription props after constructor
 
     // Self-register with parent list after being added to tree
     this.onLifecyclePass = () => {
@@ -132,8 +170,7 @@ class CustomListEmptyViewRenderable extends BoxRenderable {
 }
 
 class CustomListItemRenderable extends BoxRenderable {
-  public itemTitle: string
-  public itemSubtitle?: string
+  // Simple props - just stored/read for filtering. No setter needed.
   public keywords?: string[]
   public onAction?: () => void
   public section?: CustomListSectionRenderable
@@ -141,22 +178,35 @@ class CustomListItemRenderable extends BoxRenderable {
   private isSelected = false
   private isVisible = true
   private indicatorText: TextRenderable
+  private titleText: TextRenderable
+  private subtitleText: TextRenderable
   private parentList?: CustomListRenderable
+
+  // Prop with setter - updates title text when changed
+  private _itemTitle = ''
+  get itemTitle() { return this._itemTitle }
+  set itemTitle(value: string) {
+    this._itemTitle = value
+    this.titleText.content = value
+  }
+
+  // Prop with setter - updates subtitle text when changed
+  private _itemSubtitle?: string
+  get itemSubtitle() { return this._itemSubtitle }
+  set itemSubtitle(value: string | undefined) {
+    this._itemSubtitle = value
+    this.subtitleText.content = value ? ` ${value}` : ''
+  }
 
   constructor(ctx: RenderContext, options: CustomListItemOptions) {
     super(ctx, { ...options, flexDirection: 'row', width: '100%' })
-    this.itemTitle = options.itemTitle
-    this.itemSubtitle = options.itemSubtitle
-    this.keywords = options.keywords
-    this.onAction = options.onAction
-
-    // Render own content
+    // Create text renderables - React will set itemTitle/itemSubtitle props after constructor
     this.indicatorText = new TextRenderable(ctx, { content: '  ' })
+    this.titleText = new TextRenderable(ctx, { content: '' })
+    this.subtitleText = new TextRenderable(ctx, { content: '' })
     super.add(this.indicatorText)
-    super.add(new TextRenderable(ctx, { content: this.itemTitle }))
-    if (this.itemSubtitle) {
-      super.add(new TextRenderable(ctx, { content: ` ${this.itemSubtitle}` }))
-    }
+    super.add(this.titleText)
+    super.add(this.subtitleText)
 
     // Register with parent list after being added to tree
     this.onLifecyclePass = () => {
@@ -199,7 +249,7 @@ class CustomListItemRenderable extends BoxRenderable {
 class CustomListRenderable extends BoxRenderable {
   private emptyView?: CustomListEmptyViewRenderable
   private selectedIndex = 0
-  private searchQuery: string
+  private searchQuery = ''
 
   // Registered items/sections (they register themselves)
   readonly registeredItems = new Set<CustomListItemRenderable>()
@@ -211,16 +261,31 @@ class CustomListRenderable extends BoxRenderable {
   private statusText: TextRenderable
   private emptyBox?: BoxRenderable
 
+  // Prop with setter - updates search input placeholder
+  private _placeholder = 'Search...'
+  get placeholder() { return this._placeholder }
+  set placeholder(value: string) {
+    this._placeholder = value
+    this.searchInput.placeholder = value
+  }
+
+  // Prop with setter - updates search input text and triggers refilter
+  get defaultSearchQuery() { return this.searchQuery }
+  set defaultSearchQuery(value: string) {
+    if (this.searchQuery === value) return
+    this.searchQuery = value
+    this.searchInput.editBuffer?.setText(value)
+    this.dirty = true
+    this.requestRender()
+  }
+
   constructor(ctx: RenderContext, options: CustomListOptions) {
     super(ctx, { ...options, flexDirection: 'column' })
-
-    this.searchQuery = options.defaultSearchQuery || ''
-
+    // Create search input - React will set placeholder/defaultSearchQuery props after constructor
     this.searchInput = new TextareaRenderable(ctx, {
-      placeholder: options.placeholder || 'Search...',
+      placeholder: 'Search...',
       height: 1,
       width: '100%',
-      initialValue: this.searchQuery,
       keyBindings: [
         { name: 'return', action: 'submit' },
         { name: 'linefeed', action: 'submit' },
