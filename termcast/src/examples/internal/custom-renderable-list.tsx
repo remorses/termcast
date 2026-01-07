@@ -13,6 +13,7 @@ import {
   TextRenderable,
   ScrollBoxRenderable,
   TextareaRenderable,
+  OptimizedBuffer,
   type RenderContext,
   type BoxOptions,
 } from '@opentui/core'
@@ -270,35 +271,38 @@ class CustomListRenderable extends BoxRenderable {
 
   registerItem(item: CustomListItemRenderable) {
     this.registeredItems.add(item)
-    this.scheduleUpdate()
+    this.dirty = true
+    this.requestRender()
   }
 
   registerSection(section: CustomListSectionRenderable) {
     this.registeredSections.add(section)
-    this.scheduleUpdate()
+    this.dirty = true
+    this.requestRender()
   }
 
   registerEmptyView(emptyView: CustomListEmptyViewRenderable) {
     this.emptyView = emptyView
   }
 
-  private updateScheduled = false
-  private scheduleUpdate() {
-    if (this.updateScheduled) return
-    this.updateScheduled = true
-    queueMicrotask(() => {
-      this.updateScheduled = false
+  // Single dirty flag - checked in render() to run all updates
+  private dirty = false
+
+  render(buffer: OptimizedBuffer, deltaTime: number) {
+    if (this.dirty) {
+      this.dirty = false
       this.refilter()
       this.updateEmptyState()
       this.updateStatus()
-      
+
       // Select first visible item if none selected
       const visibleItems = this.getVisibleItems()
       if (visibleItems.length > 0 && !visibleItems.some(i => i.selected)) {
         this.selectedIndex = 0
         visibleItems[0].selected = true
       }
-    })
+    }
+    super.render(buffer, deltaTime)
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -350,24 +354,16 @@ class CustomListRenderable extends BoxRenderable {
   setSearchQuery(query: string) {
     if (this.searchQuery === query) return
     
-    // Deselect current
+    // Deselect current before query change
     const oldVisible = this.getVisibleItems()
     if (oldVisible[this.selectedIndex]) {
       oldVisible[this.selectedIndex].selected = false
     }
     
     this.searchQuery = query
-    this.refilter()
-    this.updateEmptyState()
-    
-    // Select first visible item
-    const newVisible = this.getVisibleItems()
-    if (newVisible.length > 0) {
-      this.selectedIndex = 0
-      newVisible[0].selected = true
-    }
-    
-    this.updateStatus()
+    this.selectedIndex = 0  // Reset to first item on query change
+    this.dirty = true
+    this.requestRender()
   }
 
   private refilter() {
