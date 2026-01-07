@@ -18,7 +18,7 @@ import {
 } from '@opentui/core'
 import { extend, useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import { renderWithProviders } from '../../utils'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -296,24 +296,7 @@ class CustomListRenderable extends BoxRenderable {
     return Array.from(this.registeredSections)
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // Initialization - kept for compatibility but items self-register now
-  // ─────────────────────────────────────────────────────────────────────────
 
-  commitPendingChanges() {
-    // Items/sections register themselves via onLifecyclePass
-    // Just trigger initial update
-    this.refilter()
-    this.updateEmptyState()
-    this.updateStatus()
-    
-    // Select first visible item
-    const visibleItems = this.getVisibleItems()
-    if (visibleItems.length > 0) {
-      this.selectedIndex = 0
-      visibleItems[0].selected = true
-    }
-  }
 
   // ─────────────────────────────────────────────────────────────────────────
   // Filtering
@@ -491,9 +474,7 @@ function CustomList({ children, placeholder }: ListProps) {
   const listRef = useRef<CustomListRenderable>(null)
   const inFocus = useIsInFocus()
 
-  useEffect(() => {
-    listRef.current?.commitPendingChanges()
-  })
+
 
   useKeyboard((evt) => {
     if (!inFocus || !listRef.current) return
