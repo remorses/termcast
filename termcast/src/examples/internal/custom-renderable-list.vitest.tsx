@@ -560,3 +560,40 @@ test('ctrl+k shows selected item in dialog', async () => {
 
   session.close()
 }, 30000)
+
+test('defaultSearchQuery filters on initial render', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list-default-search.tsx'],
+    cols: 60,
+    rows: 15,
+  })
+
+  const initial = await session.text({
+    waitFor: (text) => text.includes('› Banana') && text.includes('1 of 3'),
+  })
+
+  expect(initial).toMatchInlineSnapshot(`
+    "
+
+
+
+       Default Search Test
+
+       banana
+       › Banana Yellow fruit
+
+
+
+
+       1 of 3 items • Searching: "banana"
+
+
+    "
+  `)
+  expect(initial).toContain('› Banana')
+  expect(initial).toContain('banana') // search query visible
+  expect(initial).not.toContain('› Apple') // filtered out
+
+  session.close()
+}, 30000)

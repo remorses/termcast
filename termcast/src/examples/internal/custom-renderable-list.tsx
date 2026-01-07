@@ -45,6 +45,7 @@ interface CustomListEmptyViewOptions extends BoxOptions {
 
 interface CustomListOptions extends BoxOptions {
   placeholder?: string
+  defaultSearchQuery?: string
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -198,7 +199,7 @@ class CustomListItemRenderable extends BoxRenderable {
 class CustomListRenderable extends BoxRenderable {
   private emptyView?: CustomListEmptyViewRenderable
   private selectedIndex = 0
-  private searchQuery = ''
+  private searchQuery: string
 
   // Registered items/sections (they register themselves)
   readonly registeredItems = new Set<CustomListItemRenderable>()
@@ -213,10 +214,13 @@ class CustomListRenderable extends BoxRenderable {
   constructor(ctx: RenderContext, options: CustomListOptions) {
     super(ctx, { ...options, flexDirection: 'column' })
 
+    this.searchQuery = options.defaultSearchQuery || ''
+
     this.searchInput = new TextareaRenderable(ctx, {
       placeholder: options.placeholder || 'Search...',
       height: 1,
       width: '100%',
+      initialValue: this.searchQuery,
       keyBindings: [
         { name: 'return', action: 'submit' },
         { name: 'linefeed', action: 'submit' },
@@ -371,10 +375,20 @@ class CustomListRenderable extends BoxRenderable {
     const allItems = this.getAllItems()
     const allSections = this.getAllSections()
 
+    // Fast path: no query means all visible
+    if (!query) {
+      for (const item of allItems) {
+        item.visible = true
+      }
+      for (const section of allSections) {
+        section.visible = true
+      }
+      return
+    }
+
     // Update item visibility
     for (const item of allItems) {
-      const matches = !query || this.scoreItem(item, query) > 0
-      item.visible = matches
+      item.visible = this.scoreItem(item, query) > 0
     }
 
     // Update section visibility
@@ -530,9 +544,10 @@ function ActionDialog({ itemTitle }: { itemTitle?: string }): any {
 interface ListProps {
   children?: React.ReactNode
   placeholder?: string
+  defaultSearchQuery?: string
 }
 
-function CustomList({ children, placeholder }: ListProps) {
+function CustomList({ children, placeholder, defaultSearchQuery }: ListProps) {
   const listRef = useRef<CustomListRenderable>(null)
   const inFocus = useIsInFocus()
 
@@ -559,7 +574,7 @@ function CustomList({ children, placeholder }: ListProps) {
   })
 
   return (
-    <custom-list ref={listRef} flexGrow={1} placeholder={placeholder}>
+    <custom-list ref={listRef} flexGrow={1} placeholder={placeholder} defaultSearchQuery={defaultSearchQuery}>
       {children}
     </custom-list>
   )
@@ -675,6 +690,8 @@ function Example() {
   )
 }
 
-renderWithProviders(<Example />)
+if (import.meta.main) {
+  renderWithProviders(<Example />)
+}
 
 export { CustomList, CustomListItem, Example }
