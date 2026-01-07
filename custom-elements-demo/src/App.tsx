@@ -29,7 +29,7 @@ export function App() {
       <div style={{ marginBottom: 8, display: 'flex', gap: 8 }}>
         <button onClick={() => listRef.current?.moveSelection(-1)}>↑ Prev</button>
         <button onClick={() => listRef.current?.moveSelection(1)}>↓ Next</button>
-        <button onClick={() => listRef.current?.getSelectedItem()?.onAction?.()}>Activate</button>
+        <button onClick={() => listRef.current?.getSelectedItem()?.actionCallback?.()}>Activate</button>
       </div>
 
       {/* @ts-expect-error - React 19 custom element support */}
@@ -55,7 +55,7 @@ export function App() {
           <li>Items dispatch <code>item:register</code> event on connect</li>
           <li>Event bubbles to parent (like opentui's <code>findParent()</code>)</li>
           <li>Parent catches and registers items in Map</li>
-          <li>React 19 passes <code>onAction</code> as property, not attribute</li>
+          <li>React 19 passes <code>actionCallback</code> as property, not attribute</li>
         </ol>
       </div>
     </div>
