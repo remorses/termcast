@@ -18,6 +18,7 @@ import {
 } from '@opentui/core'
 import { extend, useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
+import { useStore } from 'termcast/src/state'
 import React, { useRef } from 'react'
 import { renderWithProviders } from '../../utils'
 
@@ -499,6 +500,27 @@ extend({
 // React Components
 // ─────────────────────────────────────────────────────────────────────────────
 
+function ActionDialog({ itemTitle }: { itemTitle?: string }): any {
+  const inFocus = useIsInFocus()
+
+  useKeyboard((evt) => {
+    if (!inFocus) return
+    if (evt.name === 'escape') {
+      const state = useStore.getState()
+      useStore.setState({
+        dialogStack: state.dialogStack.slice(0, -1),
+      })
+    }
+  })
+
+  return (
+    <box flexDirection="column" padding={1}>
+      <text>Actions for: {itemTitle || 'No item selected'}</text>
+      <text marginTop={1}>Press ESC to close</text>
+    </box>
+  )
+}
+
 interface ListProps {
   children?: React.ReactNode
   placeholder?: string
@@ -515,6 +537,19 @@ function CustomList({ children, placeholder }: ListProps) {
     if (evt.name === 'up') listRef.current.moveSelection(-1)
     if (evt.name === 'down') listRef.current.moveSelection(1)
     if (evt.name === 'return') listRef.current.activateSelected()
+    if (evt.name === 'k' && evt.ctrl) {
+      const selectedItem = listRef.current.getSelectedItem()
+      const state = useStore.getState()
+      useStore.setState({
+        dialogStack: [
+          ...state.dialogStack,
+          {
+            element: <ActionDialog itemTitle={selectedItem?.itemTitle} />,
+            position: 'center',
+          },
+        ],
+      })
+    }
   })
 
   return (

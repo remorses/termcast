@@ -418,3 +418,145 @@ test('wrap around navigation', async () => {
 
   session.close()
 }, 30000)
+
+test('ctrl+k opens action dialog', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list.tsx'],
+    cols: 60,
+    rows: 20,
+  })
+
+  await session.text({ waitFor: (text) => text.includes('› Apple') })
+
+  // Open dialog with ctrl+k
+  await session.press(['ctrl', 'k'])
+  const withDialog = await session.text({
+    waitFor: (text) => text.includes('Actions for:'),
+  })
+
+  expect(withDialog).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Renderable List (using extend)
+       Search items...
+       ── Fruits ──
+
+       › Apple A red fruit
+      ╭───────────────────────────────────────────────────────╮
+      │                                                       │
+      │                                                       │
+      │ Actions for: Apple                                    │
+      │                                                       │
+      │ Press ESC to close                                    │
+      │                                                       │
+      ╰───────────────────────────────────────────────────────╯
+       10 of 10 items
+
+
+    "
+  `)
+  expect(withDialog).toContain('Actions for: Apple')
+  expect(withDialog).toContain('Press ESC to close')
+
+  session.close()
+}, 30000)
+
+test('ctrl+k dialog closes with escape', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list.tsx'],
+    cols: 60,
+    rows: 20,
+  })
+
+  await session.text({ waitFor: (text) => text.includes('› Apple') })
+
+  // Open dialog
+  await session.press(['ctrl', 'k'])
+  await session.text({ waitFor: (text) => text.includes('Actions for:') })
+
+  // Close with escape
+  await session.press(['escape'])
+  const afterClose = await session.text({
+    waitFor: (text) => !text.includes('Actions for:') && text.includes('› Apple'),
+  })
+
+  expect(afterClose).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Renderable List (using extend)
+       Search items...
+       ── Fruits ──
+
+       › Apple A red fruit
+         Banana A yellow fruit
+         Date A sweet fruit
+         Fig A small fruit
+         Grape A vine fruit                                 █
+                                                            █
+                                                            ▀
+
+
+       10 of 10 items
+
+
+    "
+  `)
+  expect(afterClose).not.toContain('Actions for:')
+  expect(afterClose).toContain('› Apple')
+
+  session.close()
+}, 30000)
+
+test('ctrl+k shows selected item in dialog', async () => {
+  const session = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/internal/custom-renderable-list.tsx'],
+    cols: 60,
+    rows: 20,
+  })
+
+  await session.text({ waitFor: (text) => text.includes('› Apple') })
+
+  // Navigate to Banana
+  await session.press('down')
+  await session.text({ waitFor: (text) => text.includes('› Banana') })
+
+  // Open dialog - should show Banana
+  await session.press(['ctrl', 'k'])
+  const withDialog = await session.text({
+    waitFor: (text) => text.includes('Actions for: Banana'),
+  })
+
+  expect(withDialog).toMatchInlineSnapshot(`
+    "
+
+
+
+       Custom Renderable List (using extend)
+       Search items...
+       ── Fruits ──
+
+         Apple A red fruit
+      ╭───────────────────────────────────────────────────────╮
+      │                                                       │
+      │                                                       │
+      │ Actions for: Banana                                   │
+      │                                                       │
+      │ Press ESC to close                                    │
+      │                                                       │
+      ╰───────────────────────────────────────────────────────╯
+       10 of 10 items
+
+
+    "
+  `)
+  expect(withDialog).toContain('Actions for: Banana')
+
+  session.close()
+}, 30000)
