@@ -49,6 +49,92 @@
  * - Simple props (just stored/read later) can be public fields
  * - Props that need side effects on change require setters
  * - Constructor should just create the renderable structure
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ## Migration Notes (Lessons from Form conversion)
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * ### 1. Registration Order ≠ Visual Order
+ *
+ * IMPORTANT: `onLifecyclePass` is called in tree traversal order, which may NOT
+ * match the visual/React render order. For Form, we solved this by sorting
+ * fields by y-position instead of registration order:
+ *
+ * ```typescript
+ * private getFieldOrder(): string[] {
+ *   return Array.from(this.fields.values())
+ *     .sort((a, b) => (a.elementRef?.y ?? 0) - (b.elementRef?.y ?? 0))
+ *     .map((f) => f.id)
+ * }
+ * ```
+ *
+ * For List, this is less critical since items use visibleIndex from filtering,
+ * but be aware if you need stable ordering based on visual position.
+ *
+ * ### 2. Auto-Focus Pattern
+ *
+ * Don't auto-focus in registerField() - registration order is unpredictable.
+ * Instead, use React useEffect that runs until focus is set:
+ *
+ * ```typescript
+ * useEffect(() => {
+ *   if (focusedField) return
+ *   const firstId = formRef.current?.getFirstFieldId()
+ *   if (firstId) formRef.current?.focusField(firstId)
+ * })
+ * ```
+ *
+ * ### 3. Hybrid Approach - Keep React for Styling
+ *
+ * The renderable should only handle STATE (registry, focus, scroll).
+ * Keep existing React components for UI (e.g., WithLeftBorder for Form).
+ * This ensures visual output stays identical - only the wiring changes.
+ *
+ * ### 4. Focus State Sync to React
+ *
+ * Form uses `onFocusChange` callback to sync focus to React state:
+ *
+ * ```typescript
+ * // In FormRenderable
+ * public onFocusChange?: (fieldId: string | null) => void
+ *
+ * focusField(id: string) {
+ *   this._focusedFieldId = id
+ *   this.onFocusChange?.(id)  // Notify React
+ * }
+ *
+ * // In Form component
+ * const handleFormRef = (ref: FormRenderable | null) => {
+ *   formRef.current = ref
+ *   if (ref) ref.onFocusChange = setFocusedField
+ * }
+ * ```
+ *
+ * This example uses zustand instead (setState triggers re-render).
+ * Both patterns work - zustand is simpler for shared state.
+ *
+ * ### 5. Legacy Compatibility
+ *
+ * When migrating, keep old descendants/context during transition:
+ *
+ * ```typescript
+ * // Keep old system for components not yet migrated
+ * const { DescendantsProvider, useDescendant } = createDescendants<...>()
+ * export { useDescendant }  // Still exported for old components
+ * ```
+ *
+ * ### 6. Field Component Changes
+ *
+ * Each field component needs minimal changes:
+ * - Remove: useFormFieldDescendant() call, elementRef
+ * - Add: wrap return in <termcast-form-field-wrapper fieldId={id}>
+ * - Keep: all UI code (WithLeftBorder, etc.) unchanged
+ *
+ * ### 7. Testing Strategy
+ *
+ * Run existing tests with -u to update snapshots. Visual output should be
+ * identical - if tests fail, the wiring is wrong, not the rendering.
+ * ─────────────────────────────────────────────────────────────────────────────
  */
 
 import {

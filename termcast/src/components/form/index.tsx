@@ -430,13 +430,6 @@ export const Form: FormType = ((props) => {
   const descendantsContext = useFormFieldDescendants()
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
 
-  // Sync focus state from renderable to React (for WithLeftBorder styling)
-  const setFocusedField = (id: string | null) => {
-    flushSync(() => {
-      setFocusedFieldRaw(id)
-    })
-  }
-
   // Auto-focus first field when form mounts and fields are registered
   // Runs on every render until a field is focused (handles async field registration)
   useEffect(() => {
@@ -520,9 +513,13 @@ export const Form: FormType = ((props) => {
   const handleFormRef = React.useCallback((ref: FormRenderable | null) => {
     ;(formRef as React.MutableRefObject<FormRenderable | null>).current = ref
     if (ref) {
-      ref.onFocusChange = setFocusedField
+      ref.onFocusChange = (id) => {
+        flushSync(() => {
+          setFocusedFieldRaw(id)
+        })
+      }
     }
-  }, [setFocusedField])
+  }, [])
 
   return (
     <FormProvider {...methods}>
