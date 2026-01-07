@@ -11,7 +11,7 @@
  * ├── children redirected to scrollBox
  * │
  * └── CustomListItemWrapperRenderable (thin wrapper)
- *     ├── tracks: keywords, onAction, section, visibleIndex
+ *     ├── tracks: keywords, onAction, section, visibleIndex, itemId
  *     ├── handles: visibility (height: 0 when hidden)
  *     └── React children render all UI (indicator, title, subtitle)
  *
@@ -22,6 +22,12 @@
  * 3. Zustand store for React state (selectedIndex, visibleCount, searchQuery)
  * 4. Renderable calls zustand.setState to trigger React re-renders
  * 5. Items compare visibleIndex to selectedIndex from zustand
+ *
+ * ## Phase 1: Bidirectional Selection Sync
+ *
+ * - `selectedItemId` prop on List controls selection by item id
+ * - `onSelectionChange` callback fires when selection changes
+ * - Supports both controlled (via prop) and uncontrolled (internal) selection
  *
  * ## How React Props Work with opentui Renderables
  *
@@ -50,7 +56,7 @@ import {
 import { extend, useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useStore } from 'termcast/src/state'
-import React, { useRef, useLayoutEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import { renderWithProviders } from '../../utils'
 import { create } from 'zustand'
 import { Theme } from 'termcast/src/theme'
@@ -67,6 +73,9 @@ interface CustomListStoreState {
   // Incremented on each refilter to force React re-renders
   // This ensures items re-render after their visibleIndex is set
   renderTick: number
+  // Phase 1: Bidirectional selection sync
+  // The id of the currently selected item (for controlled selection)
+  selectedItemId: string | null
 }
 
 const useCustomListStore = create<CustomListStoreState>(() => ({
@@ -75,6 +84,7 @@ const useCustomListStore = create<CustomListStoreState>(() => ({
   totalCount: 0,
   searchQuery: '',
   renderTick: 0,
+  selectedItemId: null,
 }))
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -86,6 +96,7 @@ interface CustomListItemWrapperOptions extends BoxOptions {
   onAction?: () => void
   itemTitle?: string
   itemSubtitle?: string
+  itemId?: string // Phase 1: unique id for controlled selection
 }
 
 interface CustomListSectionWrapperOptions extends BoxOptions {
@@ -100,6 +111,9 @@ interface CustomListEmptyViewWrapperOptions extends BoxOptions {
 interface CustomListOptions extends BoxOptions {
   placeholder?: string
   defaultSearchQuery?: string
+  // Phase 1: Bidirectional selection
+  selectedItemId?: string | null
+  onSelectionChange?: (id: string | null) => void
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -130,6 +144,7 @@ class CustomListItemWrapperRenderable extends BoxRenderable {
   public onAction?: () => void
   public itemTitle = ''
   public itemSubtitle?: string
+  public itemId?: string // Phase 1: unique id for controlled selection
 
   // Set by parent during refilter
   public visibleIndex = -1
@@ -246,6 +261,43 @@ class CustomListRenderable extends BoxRenderable {
     // Refilter will be called after items register
   }
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 1: Bidirectional Selection Sync
+  // ─────────────────────────────────────────────────────────────────────────
+
+  // Callback when selection changes - set by React
+  public onSelectionChange?: (id: string | null) => void
+
+  // Controlled selection by item id
+  private _selectedItemId: string | null = null
+  get selectedItemId() {
+    return this._selectedItemId
+  }
+  set selectedItemId(value: string | null) {
+    if (this._selectedItemId === value) return
+    this._selectedItemId = value
+
+    // Find item with this id and update selectedIndex
+    if (value !== null) {
+      const item = this.getAllItems().find((i) => i.itemId === value)
+      if (item && item.visibleIndex !== -1) {
+        useCustomListStore.setState({
+          selectedIndex: item.visibleIndex,
+          selectedItemId: value,
+        })
+        this.scrollToIndex(item.visibleIndex)
+      }
+    }
+  }
+
+  // Helper to notify selection change
+  private notifySelectionChange(index: number) {
+    const item = this.getAllItems().find((i) => i.visibleIndex === index)
+    const itemId = item?.itemId ?? null
+    useCustomListStore.setState({ selectedItemId: itemId })
+    this.onSelectionChange?.(itemId)
+  }
+
   constructor(ctx: RenderContext, options: CustomListOptions) {
     super(ctx, { ...options, flexDirection: 'column' })
 
@@ -353,16 +405,27 @@ class CustomListRenderable extends BoxRenderable {
 
     // Get current selection and clamp it
     const { selectedIndex, renderTick } = useCustomListStore.getState()
-    const newSelectedIndex = Math.max(0, Math.min(selectedIndex, Math.max(0, visibleIndex - 1)))
+    let newSelectedIndex = Math.max(0, Math.min(selectedIndex, Math.max(0, visibleIndex - 1)))
+
+    // Phase 1: Apply controlled selection if set
+    // This handles the case where selectedItemId is set before items register
+    if (this._selectedItemId !== null) {
+      const targetItem = allItems.find((i) => i.itemId === this._selectedItemId)
+      if (targetItem && targetItem.visibleIndex !== -1) {
+        newSelectedIndex = targetItem.visibleIndex
+      }
+    }
 
     // Update zustand store - triggers React re-render
     // Increment renderTick to ensure items re-render after visibleIndex is set
+    const finalSelectedIndex = visibleIndex > 0 ? newSelectedIndex : 0
     useCustomListStore.setState({
       searchQuery: this.searchQuery,
       visibleCount: visibleIndex,
       totalCount: allItems.length,
-      selectedIndex: visibleIndex > 0 ? newSelectedIndex : 0,
+      selectedIndex: finalSelectedIndex,
       renderTick: renderTick + 1,
+      selectedItemId: this._selectedItemId,
     })
 
     // Update status text (owned by renderable, not React)
@@ -429,6 +492,8 @@ class CustomListRenderable extends BoxRenderable {
     const newIndex = (selectedIndex + delta + visibleCount) % visibleCount
     useCustomListStore.setState({ selectedIndex: newIndex })
     this.scrollToIndex(newIndex)
+    // Phase 1: Notify selection change
+    this.notifySelectionChange(newIndex)
   }
 
   private scrollToIndex(index: number) {
@@ -512,9 +577,12 @@ interface ListProps {
   children?: React.ReactNode
   placeholder?: string
   defaultSearchQuery?: string
+  // Phase 1: Bidirectional selection
+  selectedItemId?: string | null
+  onSelectionChange?: (id: string | null) => void
 }
 
-function CustomList({ children, placeholder, defaultSearchQuery }: ListProps): any {
+function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId, onSelectionChange }: ListProps): any {
   const listRef = useRef<CustomListRenderable>(null)
   const inFocus = useIsInFocus()
 
@@ -548,7 +616,14 @@ function CustomList({ children, placeholder, defaultSearchQuery }: ListProps): a
   })
 
   return (
-    <custom-list-v2 ref={listRef} flexGrow={1} placeholder={placeholder} defaultSearchQuery={defaultSearchQuery}>
+    <custom-list-v2
+      ref={listRef}
+      flexGrow={1}
+      placeholder={placeholder}
+      defaultSearchQuery={defaultSearchQuery}
+      selectedItemId={selectedItemId}
+      onSelectionChange={onSelectionChange}
+    >
       {children}
       {/* Empty view - rendered by React based on zustand state */}
       {visibleCount === 0 && totalCount > 0 && (
@@ -567,13 +642,14 @@ function CustomList({ children, placeholder, defaultSearchQuery }: ListProps): a
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface ListItemProps {
+  id?: string // Phase 1: unique id for controlled selection
   title: string
   subtitle?: string
   keywords?: string[]
   onAction?: () => void
 }
 
-function CustomListItem({ title, subtitle, keywords, onAction }: ListItemProps): any {
+function CustomListItem({ id, title, subtitle, keywords, onAction }: ListItemProps): any {
   const wrapperRef = useRef<CustomListItemWrapperRenderable>(null)
   const selectedIndex = useCustomListStore((s) => s.selectedIndex)
   // Subscribe to renderTick to force re-render after visibleIndex is set
@@ -589,6 +665,7 @@ function CustomListItem({ title, subtitle, keywords, onAction }: ListItemProps):
       onAction={onAction}
       itemTitle={title}
       itemSubtitle={subtitle}
+      itemId={id}
       backgroundColor={isSelected ? '#0066cc' : undefined}
       flexShrink={0}
     >
@@ -649,19 +726,19 @@ CustomList.EmptyView = CustomListEmptyView
 // ─────────────────────────────────────────────────────────────────────────────
 
 const FRUITS = [
-  { title: 'Apple', subtitle: 'A red fruit', keywords: ['red'] },
-  { title: 'Banana', subtitle: 'A yellow fruit', keywords: ['yellow'] },
-  { title: 'Date', subtitle: 'A sweet fruit', keywords: ['sweet'] },
-  { title: 'Fig', subtitle: 'A small fruit', keywords: ['small'] },
-  { title: 'Grape', subtitle: 'A vine fruit', keywords: ['vine'] },
-  { title: 'Lemon', subtitle: 'A citrus fruit', keywords: ['citrus'] },
+  { id: 'apple', title: 'Apple', subtitle: 'A red fruit', keywords: ['red'] },
+  { id: 'banana', title: 'Banana', subtitle: 'A yellow fruit', keywords: ['yellow'] },
+  { id: 'date', title: 'Date', subtitle: 'A sweet fruit', keywords: ['sweet'] },
+  { id: 'fig', title: 'Fig', subtitle: 'A small fruit', keywords: ['small'] },
+  { id: 'grape', title: 'Grape', subtitle: 'A vine fruit', keywords: ['vine'] },
+  { id: 'lemon', title: 'Lemon', subtitle: 'A citrus fruit', keywords: ['citrus'] },
 ]
 
 const VEGETABLES = [
-  { title: 'Carrot', subtitle: 'An orange vegetable', keywords: ['orange'] },
-  { title: 'Eggplant', subtitle: 'A purple vegetable', keywords: ['purple'] },
-  { title: 'Jalapeno', subtitle: 'A spicy pepper', keywords: ['spicy'] },
-  { title: 'Kale', subtitle: 'A superfood', keywords: ['healthy'] },
+  { id: 'carrot', title: 'Carrot', subtitle: 'An orange vegetable', keywords: ['orange'] },
+  { id: 'eggplant', title: 'Eggplant', subtitle: 'A purple vegetable', keywords: ['purple'] },
+  { id: 'jalapeno', title: 'Jalapeno', subtitle: 'A spicy pepper', keywords: ['spicy'] },
+  { id: 'kale', title: 'Kale', subtitle: 'A superfood', keywords: ['healthy'] },
 ]
 
 // Wrapper component to test tree traversal (items nested in other components)
@@ -670,20 +747,53 @@ function ItemWrapper({ children }: { children: React.ReactNode }): any {
 }
 
 function Example(): any {
+  // Phase 1: Track selected item id in React state
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const inFocus = useIsInFocus()
+
+  // Phase 1: Demonstrate programmatic selection change (bidirectional sync)
+  // Press ctrl+1-4 to jump to specific items (ctrl to avoid typing in search)
+  useKeyboard((evt) => {
+    if (!inFocus) return
+    if (evt.ctrl && evt.name === '1') {
+      setSelectedId('apple')
+    }
+    if (evt.ctrl && evt.name === '2') {
+      setSelectedId('banana')
+    }
+    if (evt.ctrl && evt.name === '3') {
+      setSelectedId('carrot')
+    }
+    if (evt.ctrl && evt.name === '4') {
+      setSelectedId('kale')
+    }
+  })
+
   return (
     <box flexDirection="column" padding={1} flexGrow={1}>
-      <text marginBottom={1}>Custom Renderable List (using extend)</text>
-      <CustomList placeholder="Search items...">
+      <text marginBottom={1}>Custom Renderable List V2 - Phase 1: Bidirectional Selection</text>
+      <text fg={Theme.textMuted}>Selected: {selectedId || '(none)'}</text>
+      <text fg={Theme.textMuted} marginBottom={1}>
+        Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
+      </text>
+      <CustomList
+        placeholder="Search items..."
+        selectedItemId={selectedId}
+        onSelectionChange={(id) => {
+          setSelectedId(id)
+        }}
+      >
         <CustomList.EmptyView title="Nothing found" description="Try a different search term" />
         <CustomList.Section title="Fruits">
           {FRUITS.map((item) => (
-            <ItemWrapper key={item.title}>
+            <ItemWrapper key={item.id}>
               <CustomList.Item
+                id={item.id}
                 title={item.title}
                 subtitle={item.subtitle}
                 keywords={item.keywords}
                 onAction={() => {
-                  console.log(`Selected: ${item.title}`)
+                  console.log(`Activated: ${item.title} (id: ${item.id})`)
                 }}
               />
             </ItemWrapper>
@@ -692,12 +802,13 @@ function Example(): any {
         <CustomList.Section title="Vegetables">
           {VEGETABLES.map((item) => (
             <CustomList.Item
-              key={item.title}
+              key={item.id}
+              id={item.id}
               title={item.title}
               subtitle={item.subtitle}
               keywords={item.keywords}
               onAction={() => {
-                console.log(`Selected: ${item.title}`)
+                console.log(`Activated: ${item.title} (id: ${item.id})`)
               }}
             />
           ))}
@@ -715,6 +826,7 @@ if (import.meta.main) {
     totalCount: 0,
     searchQuery: '',
     renderTick: 0,
+    selectedItemId: null,
   })
   renderWithProviders(<Example />)
 }
