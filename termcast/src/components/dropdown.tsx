@@ -14,7 +14,7 @@ import {
   ScrollBoxRenderable,
   TextareaRenderable,
 } from '@opentui/core'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { getIconValue } from 'termcast/src/components/icon'
 import { logger } from 'termcast/src/logger'
 import { useStore } from 'termcast/src/state'
@@ -114,6 +114,7 @@ const Dropdown: DropdownType = (props) => {
     throttle,
   } = props
 
+  const theme = useTheme()
   const isOffscreen = useIsOffscreen()
   const [selected, setSelected] = useState(0)
   const [searchText, setSearchTextState] = useState('')
@@ -317,11 +318,11 @@ const Dropdown: DropdownType = (props) => {
                   justifyContent: 'space-between',
                 }}
               >
-                <text fg={Theme.textMuted}>{tooltip}</text>
-                <text fg={Theme.textMuted}>esc</text>
+                <text fg={theme.textMuted}>{tooltip}</text>
+                <text fg={theme.textMuted}>esc</text>
               </box>
               <box style={{ paddingTop: 1, paddingBottom: 1, flexDirection: 'row' }}>
-                <text flexShrink={0} fg={Theme.primary}>&gt; </text>
+                <text flexShrink={0} fg={theme.primary}>&gt; </text>
                 <textarea
                   ref={setInputRef}
                   height={1}
@@ -338,9 +339,9 @@ const Dropdown: DropdownType = (props) => {
                   placeholder={placeholder}
                   focused={inFocus}
                   initialValue=""
-                  focusedBackgroundColor={Theme.backgroundPanel}
-                  cursorColor={Theme.primary}
-                  focusedTextColor={Theme.textMuted}
+                  focusedBackgroundColor={theme.backgroundPanel}
+                  cursorColor={theme.primary}
+                  focusedTextColor={theme.textMuted}
                 />
               </box>
             </box>
@@ -375,14 +376,14 @@ const Dropdown: DropdownType = (props) => {
               flexDirection: 'row',
             }}
           >
-            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+            <text fg={theme.text} attributes={TextAttributes.BOLD}>
               ↵
             </text>
-            <text fg={Theme.textMuted}> select</text>
-            <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+            <text fg={theme.textMuted}> select</text>
+            <text fg={theme.text} attributes={TextAttributes.BOLD}>
               {'   '}↑↓
             </text>
-            <text fg={Theme.textMuted}> navigate</text>
+            <text fg={theme.textMuted}> navigate</text>
           </box>
         </box>
       </DropdownContext.Provider>
@@ -401,6 +402,7 @@ function ItemOption(props: {
   onMouseMove?: () => void
   elementRef?: React.Ref<any>
 }) {
+  const theme = useTheme()
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -409,9 +411,9 @@ function ItemOption(props: {
       style={{
         flexDirection: 'row',
         backgroundColor: props.active
-          ? Theme.primary
+          ? theme.primary
           : isHovered
-            ? Theme.backgroundPanel
+            ? theme.backgroundPanel
             : undefined,
         paddingLeft: props.active ? 0 : 1,
         paddingRight: 1,
@@ -427,13 +429,13 @@ function ItemOption(props: {
     >
       <box style={{ flexDirection: 'row' }}>
         {props.active && (
-          <text fg={Theme.background} selectable={false}>
+          <text fg={theme.background} selectable={false}>
             ›{''}
           </text>
         )}
         {props.icon && (
           <text
-            fg={props.active ? Theme.background : Theme.text}
+            fg={props.active ? theme.background : theme.text}
             selectable={false}
           >
             {getIconValue(props.icon)}{' '}
@@ -442,12 +444,12 @@ function ItemOption(props: {
         <text
           fg={
             props.active
-              ? Theme.background
+              ? theme.background
               : props.color
                 ? props.color
                 : props.current
-                  ? Theme.primary
-                  : Theme.text
+                  ? theme.primary
+                  : theme.text
           }
           attributes={props.active ? TextAttributes.BOLD : undefined}
           selectable={false}
@@ -457,7 +459,7 @@ function ItemOption(props: {
       </box>
       {props.label && (
         <text
-          fg={props.active ? Theme.background : Theme.textMuted}
+          fg={props.active ? theme.background : theme.textMuted}
           attributes={props.active ? TextAttributes.BOLD : undefined}
           selectable={false}
         >

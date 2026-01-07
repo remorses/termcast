@@ -3,6 +3,12 @@ import { getResolvedTheme, type ResolvedTheme, defaultThemeName, themeNames } fr
 import { useStore } from './state'
 import { Cache } from './apis/cache'
 
+// Reactive hook for theme - use this in React components
+export function useTheme(): ResolvedTheme {
+  const themeName = useStore((state) => state.currentThemeName)
+  return getResolvedTheme(themeName)
+}
+
 // Global cache for theme persistence (no namespace = global storage)
 let globalCache: Cache | null = null
 
