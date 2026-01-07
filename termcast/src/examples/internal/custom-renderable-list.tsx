@@ -440,9 +440,7 @@ function CustomList({ children, placeholder }: ListProps) {
   const inFocus = useIsInFocus()
 
   useEffect(() => {
-    queueMicrotask(() => {
-      listRef.current?.commitPendingChanges()
-    })
+    listRef.current?.commitPendingChanges()
   })
 
   useKeyboard((evt) => {
