@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  createContext,
-  useContext,
-  useLayoutEffect,
-  useRef,
-  useEffect,
-} from 'react'
+import React, { useState, createContext, useContext, useRef } from 'react'
 import { useKeyboard, flushSync, extend } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { ActionPanel } from 'termcast/src/components/actions'
@@ -134,7 +127,11 @@ class FormRenderable extends BoxRenderable {
   registerField(id: string, wrapper: BoxRenderable): void {
     // Don't store registration order - we'll sort by y-position instead
     this.fields.set(id, { id, elementRef: wrapper, order: 0 })
-    // Note: fieldOrder is updated lazily when needed via getFieldOrder()
+
+    // Auto-focus first field when no field is focused yet
+    if (this._focusedFieldId === null) {
+      this.focusField(id)
+    }
   }
 
   unregisterField(id: string): void {
@@ -183,12 +180,6 @@ class FormRenderable extends BoxRenderable {
       : 0
     const prevIdx = (idx - 1 + fieldOrder.length) % fieldOrder.length
     this.focusField(fieldOrder[prevIdx])
-  }
-
-  // Get first field ID (by y-position)
-  getFirstFieldId(): string | null {
-    const fieldOrder = this.getFieldOrder()
-    return fieldOrder[0] ?? null
   }
 
   private scrollToField(id: string): void {
@@ -430,18 +421,6 @@ export const Form: FormType = ((props) => {
   // Legacy: keep descendantsContext for backward compatibility with existing field components
   const descendantsContext = useFormFieldDescendants()
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
-
-  // Auto-focus first field when form mounts and fields are registered
-  // Runs on every render until a field is focused (handles async field registration)
-  useEffect(() => {
-    if (focusedField) return
-    if (!formRef.current) return
-
-    const firstFieldId = formRef.current.getFirstFieldId()
-    if (firstFieldId) {
-      formRef.current.focusField(firstFieldId)
-    }
-  })
 
   // Get focus state and dialog
   const inFocus = useIsInFocus()
