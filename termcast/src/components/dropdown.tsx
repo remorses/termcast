@@ -1,39 +1,24 @@
 /**
- * Dropdown Component - Custom Renderable Pattern
+ * Dropdown Component - Using descendants-v2 pattern
  *
- * Uses same pattern as custom-renderable-list-v2.tsx:
- * - Custom renderables for Dropdown/DropdownItem/DropdownSection
- * - onLifecyclePass for item registration
- * - Zustand store for state sync with React
+ * STATE FLOW:
+ *   Items register via onLifecyclePass → React state (items array)
+ *   Filtering/selection/navigation all in React
+ *   Scrollbox ref for imperative scrolling
  *
  * Architecture:
- * DropdownRenderable (custom renderable)
- * ├── owns: scrollBox, searchInput, navigation logic
- * ├── children redirected to scrollBox
- * │
- * ├── DropdownSectionWrapperRenderable (thin wrapper)
- * │   ├── tracks: sectionTitle
- * │   └── React children render section header + items
- * │
- * └── DropdownItemWrapperRenderable (thin wrapper)
- *     ├── tracks: value, title, keywords, visibleIndex
- *     ├── handles: visibility (hidden when filtered out)
- *     └── React children render all UI (icon, title, label)
+ *   - createDescendantsV2('dropdown') provides Root/Item components
+ *   - Items self-register, React owns the list in state
+ *   - All logic in React closures, renderables are thin wrappers
  */
 
-import React, { ReactNode, useRef, useState, useEffect, useLayoutEffect } from 'react'
+import React, { ReactNode, useRef, useState, useEffect, useMemo } from 'react'
 import {
-  Renderable,
-  BoxRenderable,
-  TextRenderable,
   ScrollBoxRenderable,
   TextareaRenderable,
-  type RenderContext,
-  type BoxOptions,
   TextAttributes,
 } from '@opentui/core'
-import { extend, useKeyboard, flushSync } from '@opentui/react'
-import { create } from 'zustand'
+import { useKeyboard, flushSync } from '@opentui/react'
 import { useTheme } from 'termcast/src/theme'
 import { getIconValue } from 'termcast/src/components/icon'
 import { logger } from 'termcast/src/logger'
@@ -41,448 +26,31 @@ import { useStore } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useIsOffscreen } from 'termcast/src/internal/offscreen'
 import { CommonProps } from 'termcast/src/utils'
+import {
+  createDescendantsV2,
+  DescendantItemRenderable,
+  DescendantsRootRenderable,
+} from 'termcast/src/descendants-v2'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Zustand Store - instance-scoped via context
+// Create descendants for dropdown - unique element names
 // ─────────────────────────────────────────────────────────────────────────────
 
-interface ItemState {
-  visibleIndex: number
-}
-
-interface DropdownStoreState {
-  selectedIndex: number
-  visibleCount: number
-  totalCount: number
-  searchQuery: string
-  currentValue: string | undefined
-  // Item visibility state keyed by value - eliminates need for renderTick
-  itemStates: Record<string, ItemState>
-}
-
-type DropdownStore = ReturnType<typeof createDropdownStore>
-
-function createDropdownStore() {
-  return create<DropdownStoreState>(() => ({
-    selectedIndex: 0,
-    visibleCount: 0,
-    totalCount: 0,
-    searchQuery: '',
-    currentValue: undefined,
-    itemStates: {},
-  }))
-}
-
-// Context to provide store to children
-const DropdownStoreContext = React.createContext<DropdownStore | null>(null)
-
-function useDropdownStore<T>(selector: (state: DropdownStoreState) => T): T {
-  const store = React.useContext(DropdownStoreContext)
-  if (!store) {
-    throw new Error('useDropdownStore must be used within a Dropdown')
-  }
-  return store(selector)
-}
-
-function useDropdownStoreApi(): DropdownStore {
-  const store = React.useContext(DropdownStoreContext)
-  if (!store) {
-    throw new Error('useDropdownStoreApi must be used within a Dropdown')
-  }
-  return store
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Helper: Find parent of specific type
-// ─────────────────────────────────────────────────────────────────────────────
-
-function findParent<T>(
-  node: Renderable,
-  type: abstract new (...args: any[]) => T,
-): T | undefined {
-  let current: Renderable | null = node.parent
-  while (current) {
-    if (current instanceof type) {
-      return current
-    }
-    current = current.parent
-  }
-  return undefined
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Renderable Options
-// ─────────────────────────────────────────────────────────────────────────────
-
-interface DropdownItemWrapperOptions extends BoxOptions {
-  itemValue?: string
-  itemTitle?: string
+interface DropdownItemData {
+  value: string
+  title: string
   keywords?: string[]
   icon?: ReactNode
   label?: string
   color?: string
+  sectionId?: string  // Track which section this item belongs to
 }
 
-interface DropdownSectionWrapperOptions extends BoxOptions {
-  sectionTitle?: string
-}
-
-interface DropdownOptions extends BoxOptions {
-  placeholder?: string
-  tooltip?: string
-  defaultValue?: string
-  filtering?: boolean | { keepSectionOrder: boolean }
-  onSearchTextChange?: (text: string) => void
-  onChange?: (value: string) => void
-  onSelectionChange?: (value: string) => void
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DropdownItemWrapperRenderable - thin wrapper for tracking/hiding
-// ─────────────────────────────────────────────────────────────────────────────
-
-class DropdownItemWrapperRenderable extends BoxRenderable {
-  private parentDropdown?: DropdownRenderable
-
-  // Props set by React - used for filtering
-  public itemValue = ''
-  public itemTitle = ''
-  public keywords?: string[]
-  public icon?: ReactNode
-  public label?: string
-  public color?: string
-
-  // Set by parent during refilter
-  public visibleIndex = -1
-  public section?: DropdownSectionWrapperRenderable
-
-  constructor(ctx: RenderContext, options: DropdownItemWrapperOptions) {
-    super(ctx, { ...options, flexDirection: 'row', width: '100%' })
-    // NO UI creation - React children provide that
-
-    // Self-register with parent dropdown after being added to tree
-    this.onLifecyclePass = () => {
-      if (!this.parentDropdown) {
-        this.parentDropdown = findParent(this, DropdownRenderable)
-        this.section = findParent(this, DropdownSectionWrapperRenderable)
-        this.parentDropdown?.registerItem(this)
-      }
-    }
-  }
-
-  matchesSearch(query: string): boolean {
-    if (!query) return true
-    const lowerQuery = query.toLowerCase()
-    if (this.itemTitle.toLowerCase().includes(lowerQuery)) return true
-    if (this.keywords?.some((k) => k.toLowerCase().includes(lowerQuery))) {
-      return true
-    }
-    return false
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DropdownSectionWrapperRenderable - thin wrapper for sections
-// ─────────────────────────────────────────────────────────────────────────────
-
-class DropdownSectionWrapperRenderable extends BoxRenderable {
-  private parentDropdown?: DropdownRenderable
-
-  // Props set by React
-  public sectionTitle?: string
-
-  constructor(ctx: RenderContext, options: DropdownSectionWrapperOptions) {
-    super(ctx, { ...options, flexDirection: 'column', width: '100%' })
-    // NO UI creation - React children provide that
-
-    // Self-register with parent dropdown after being added to tree
-    this.onLifecyclePass = () => {
-      if (!this.parentDropdown) {
-        this.parentDropdown = findParent(this, DropdownRenderable)
-        this.parentDropdown?.registerSection(this)
-      }
-    }
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DropdownRenderable - parent container with filtering/navigation logic
-// ─────────────────────────────────────────────────────────────────────────────
-//
-// STATE FLOW:
-//   React props/state → zustand store → renderable reads from store
-//   React component is responsible for updating the store (via useEffect or callbacks).
-//   Renderable reads from store.getState() when it needs values.
-//
-// WHEN TO ADD A PROP TO THE CLASS:
-//   Only add a prop (with getter/setter) if the RENDERABLE needs to use it in its
-//   imperative logic (e.g. `filtering` is used in refilter()). If React just needs
-//   the value for rendering JSX, keep it in React scope - don't pass through renderable.
-//
-// TEXTAREA NOTE:
-//   This renderable does NOT own a TextareaRenderable for search input. The React
-//   <textarea> handles both display AND input, calling setSearchQuery() directly.
-//   This avoids sync issues where an internal textarea captures keystrokes but a
-//   separate React textarea displays content.
-//
-// ─────────────────────────────────────────────────────────────────────────────
-
-class DropdownRenderable extends ScrollBoxRenderable {
-  // Registered children (they register themselves via onLifecyclePass)
-  private registeredItems = new Set<DropdownItemWrapperRenderable>()
-  private registeredSections = new Set<DropdownSectionWrapperRenderable>()
-
-  // Dirty flag - refilter() runs during renderSelf() when set
-  // This batches multiple item registrations into one refilter pass
-  private _needsRefilter = false
-
-  // Store reference - set by React component
-  public store?: DropdownStore
-
-  // Callbacks set by React
-  public onChange?: (value: string) => void
-  public onSelectionChange?: (value: string) => void
-  public onSearchTextChange?: (text: string) => void
-
-  // Props used by renderable logic - only add props here if the renderable needs them
-  // for imperative operations. If React just needs the value for JSX, keep it in React.
-  public filtering: boolean | { keepSectionOrder: boolean } = true
-
-  constructor(ctx: RenderContext, options: DropdownOptions) {
-    // NOTE: ScrollBox internally uses flexDirection: 'row' to place wrapper and vertical
-    // scrollbar side-by-side. NEVER pass flexDirection to ScrollBox options - it will
-    // break the scrollbar layout and cause incorrect thumb positioning.
-    super(ctx, {
-      ...options,
-      flexGrow: 1,
-      height: 7,
-      padding: 0,
-      viewportOptions: {
-        flexGrow: 1,
-        flexShrink: 1,
-        paddingRight: 1,
-      },
-      contentOptions: {
-        flexShrink: 0,
-        minHeight: 0, // let the scrollbox shrink with content
-      },
-      scrollbarOptions: {
-        trackOptions: {
-          foregroundColor: '#868e96',
-        },
-      },
-      horizontalScrollbarOptions: {
-        visible: false,
-      },
-    })
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Registration - children call these via onLifecyclePass
-  // ─────────────────────────────────────────────────────────────────────────
-
-  registerItem(item: DropdownItemWrapperRenderable) {
-    this.registeredItems.add(item)
-    this.markNeedsRefilter()
-  }
-
-  registerSection(section: DropdownSectionWrapperRenderable) {
-    this.registeredSections.add(section)
-    this.markNeedsRefilter()
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Filtering
-  // ─────────────────────────────────────────────────────────────────────────
-
-  setSearchQuery(query: string) {
-    const currentQuery = this.store?.getState().searchQuery ?? ''
-    if (currentQuery === query) return
-    this.store?.setState({ searchQuery: query })
-    this.markNeedsRefilter()
-    this.onSearchTextChange?.(query)
-  }
-
-  private markNeedsRefilter() {
-    this._needsRefilter = true
-    this.requestRender()
-  }
-
-  override renderSelf(buffer: any) {
-    if (this._needsRefilter) {
-      this._needsRefilter = false
-      this.refilter()
-    }
-    return super.renderSelf(buffer)
-  }
-
-  private refilter() {
-    const query = (this.store?.getState().searchQuery ?? '').toLowerCase()
-    const allItems = this.getAllItems()
-    let visibleIndex = 0
-
-    // Update item visibility and visible indices
-    // Build itemStates for React to subscribe to
-    const itemStates: Record<string, ItemState> = {}
-    for (const item of allItems) {
-      const matches = !this.filtering || item.matchesSearch(query)
-      item.visible = matches
-      item.visibleIndex = matches ? visibleIndex++ : -1
-      // Store in itemStates keyed by value
-      if (item.itemValue) {
-        itemStates[item.itemValue] = { visibleIndex: item.visibleIndex }
-      }
-    }
-
-    // Update section visibility based on their items
-    for (const section of this.registeredSections) {
-      const sectionItems = allItems.filter((item) => item.section === section)
-      const hasVisibleItems = sectionItems.some((item) => item.visible)
-      section.visible = hasVisibleItems
-    }
-
-    // Get current selection and clamp it
-    if (!this.store) return
-    const { selectedIndex } = this.store.getState()
-    const newSelectedIndex = Math.max(
-      0,
-      Math.min(selectedIndex, Math.max(0, visibleIndex - 1)),
-    )
-
-    // Update zustand store - triggers React re-render via itemStates
-    this.store.setState({
-      visibleCount: visibleIndex,
-      totalCount: allItems.length,
-      selectedIndex: visibleIndex > 0 ? newSelectedIndex : 0,
-      itemStates,
-    })
-
-    // Notify selection change after refilter
-    if (visibleIndex > 0) {
-      this.notifySelectionChange(newSelectedIndex)
-    }
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Helpers - clean stale refs
-  // ─────────────────────────────────────────────────────────────────────────
-
-  private isConnected(node: Renderable): boolean {
-    let current = node.parent
-    while (current) {
-      if (current === this) {
-        return true
-      }
-      current = current.parent
-    }
-    return false
-  }
-
-  private getAllItems(): DropdownItemWrapperRenderable[] {
-    // Clean stale refs (items no longer in tree)
-    for (const item of this.registeredItems) {
-      if (!this.isConnected(item)) {
-        this.registeredItems.delete(item)
-      }
-    }
-    return Array.from(this.registeredItems)
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Navigation - called by React via ref
-  // ─────────────────────────────────────────────────────────────────────────
-
-  moveSelection(delta: number) {
-    if (!this.store) return
-    const { selectedIndex, visibleCount } = this.store.getState()
-    if (visibleCount === 0) return
-
-    const newIndex = (selectedIndex + delta + visibleCount) % visibleCount
-    this.store.setState({ selectedIndex: newIndex })
-    this.scrollToIndex(newIndex)
-    this.notifySelectionChange(newIndex)
-  }
-
-  private scrollToIndex(index: number) {
-    const item = this.getAllItems().find((i) => i.visibleIndex === index)
-    if (!item) return
-
-    const itemY = item.y
-    const scrollBoxY = this.content?.y || 0
-    const viewportHeight = this.viewport?.height || 10
-
-    const relativeY = itemY - scrollBoxY
-    const targetScrollTop = relativeY - Math.floor(viewportHeight / 2)
-    this.scrollTop = Math.max(0, targetScrollTop)
-  }
-
-  private notifySelectionChange(index: number) {
-    const item = this.getAllItems().find((i) => i.visibleIndex === index)
-    if (item && this.onSelectionChange) {
-      this.onSelectionChange(item.itemValue)
-    }
-  }
-
-  selectCurrent() {
-    if (!this.store) return
-    const { selectedIndex } = this.store.getState()
-    const item = this.getAllItems().find(
-      (i) => i.visibleIndex === selectedIndex,
-    )
-    if (item) {
-      this.store.setState({ currentValue: item.itemValue })
-      this.onChange?.(item.itemValue)
-    }
-  }
-
-  // Get selected item's title - for display
-  getSelectedItemTitle(): string | undefined {
-    if (!this.store) return undefined
-    const { selectedIndex } = this.store.getState()
-    const item = this.getAllItems().find(
-      (i) => i.visibleIndex === selectedIndex,
-    )
-    return item?.itemTitle
-  }
-
-  // Get current value's title - for display
-  getCurrentValueTitle(): string | undefined {
-    if (!this.store) return undefined
-    const { currentValue } = this.store.getState()
-    if (!currentValue) return undefined
-    const item = this.getAllItems().find((i) => i.itemValue === currentValue)
-    return item?.itemTitle
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Register with opentui
-// ─────────────────────────────────────────────────────────────────────────────
-
-extend({
-  'termcast-dropdown': DropdownRenderable,
-  'termcast-dropdown-item-wrapper': DropdownItemWrapperRenderable,
-  'termcast-dropdown-section-wrapper': DropdownSectionWrapperRenderable,
-})
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'termcast-dropdown': DropdownOptions & {
-        ref?: React.Ref<DropdownRenderable>
-        children?: React.ReactNode
-      }
-      'termcast-dropdown-item-wrapper': DropdownItemWrapperOptions & {
-        ref?: React.Ref<DropdownItemWrapperRenderable>
-        children?: React.ReactNode
-      }
-      'termcast-dropdown-section-wrapper': DropdownSectionWrapperOptions & {
-        ref?: React.Ref<DropdownSectionWrapperRenderable>
-        children?: React.ReactNode
-      }
-    }
-  }
-}
+const {
+  Root: DropdownRoot,
+  Item: DropdownItemWrapper,
+  ItemRenderable,
+} = createDescendantsV2<DropdownItemData>('dropdown')
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Props Interfaces
@@ -528,6 +96,42 @@ interface DropdownType {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Context for passing state to children
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface DropdownContextValue {
+  selectedIndex: number
+  currentValue: string | undefined
+  visibleSections: Set<string>
+  searchQuery: string
+  setSelectedIndex: (index: number) => void
+  setCurrentValue: (value: string) => void
+  getVisibleIndex: (value: string) => number
+  onItemSelect: (value: string) => void
+}
+
+const DropdownContext = React.createContext<DropdownContextValue | null>(null)
+const SectionContext = React.createContext<string | null>(null)
+
+function useDropdownContext() {
+  const ctx = React.useContext(DropdownContext)
+  // Return default context if not available (during initial registration)
+  if (!ctx) {
+    return {
+      selectedIndex: -1,
+      currentValue: undefined,
+      visibleSections: new Set<string>(),
+      searchQuery: '',
+      setSelectedIndex: () => {},
+      setCurrentValue: () => {},
+      getVisibleIndex: () => -1,
+      onItemSelect: () => {},
+    }
+  }
+  return ctx
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // ItemOption - Shared UI component for rendering items
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -545,7 +149,6 @@ function ItemOption(props: {
   const [isHovered, setIsHovered] = useState(false)
 
   // flexGrow={1} is required for justifyContent='space-between' to work.
-  // Without it, the box shrinks to fit content and there's no space to distribute.
   return (
     <box
       flexDirection='row'
@@ -635,21 +238,129 @@ const Dropdown: DropdownType = (props) => {
   const theme = useTheme()
   const isOffscreen = useIsOffscreen()
   const inFocus = useIsInFocus()
-  const dropdownRef = useRef<DropdownRenderable>(null)
+  const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const inputRef = useRef<TextareaRenderable>(null)
   const throttleTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
-  // Create instance-scoped store
-  const [store] = useState(() => createDropdownStore())
+  // Items in React state - populated by registration callbacks
+  const [items, setItems] = useState<DescendantItemRenderable<DropdownItemData>[]>([])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [currentValue, setCurrentValue] = useState<string | undefined>(
+    value ?? defaultValue
+  )
 
-  // Subscribe to zustand for UI updates
-  const selectedIndex = store((s) => s.selectedIndex)
-  const searchQuery = store((s) => s.searchQuery)
+  console.log('[dropdown] render, items:', items.length, 'selectedIndex:', selectedIndex)
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Filtering - computed in render
+  // ─────────────────────────────────────────────────────────────────────────
 
+  const { filteredItems, visibleSections } = useMemo(() => {
+    let filtered = items
+    if (filtering && searchQuery) {
+      const query = searchQuery.toLowerCase()
+      filtered = items.filter((item) => {
+        const data = item.props
+        if (data.title?.toLowerCase().includes(query)) return true
+        if (data.keywords?.some((k) => k.toLowerCase().includes(query))) return true
+        return false
+      })
+    }
+    // Compute which sections have visible items
+    const sections = new Set<string>()
+    for (const item of filtered) {
+      if (item.props.sectionId) {
+        sections.add(item.props.sectionId)
+      }
+    }
+    return { filteredItems: filtered, visibleSections: sections }
+  }, [items, searchQuery, filtering])
 
-  // Callbacks wrapped for throttle support
+  // Map from value to visible index for quick lookup
+  const visibleIndexMap = useMemo(() => {
+    const map = new Map<string, number>()
+    filteredItems.forEach((item, index) => {
+      map.set(item.props.value, index)
+    })
+    return map
+  }, [filteredItems])
+
+  const getVisibleIndex = (itemValue: string) => visibleIndexMap.get(itemValue) ?? -1
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Registration callbacks - called by descendants-v2
+  // ─────────────────────────────────────────────────────────────────────────
+
+  const handleRegisterItem = (item: DescendantItemRenderable<DropdownItemData>) => {
+    console.log('[dropdown] handleRegisterItem', item.props)
+    setItems((prev) => [...prev, item])
+  }
+
+  const handleUnregisterItem = (item: DescendantItemRenderable<DropdownItemData>) => {
+    console.log('[dropdown] handleUnregisterItem', item.props)
+    setItems((prev) => prev.filter((i) => i !== item))
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Navigation - simple functions
+  // ─────────────────────────────────────────────────────────────────────────
+
+  const moveSelection = (delta: number) => {
+    if (filteredItems.length === 0) return
+    const newIndex = (selectedIndex + delta + filteredItems.length) % filteredItems.length
+    // Use flushSync to avoid visual jumping - state update + scroll happen synchronously
+    flushSync(() => {
+      setSelectedIndex(newIndex)
+    })
+    scrollToIndex(newIndex)
+    // Notify selection change
+    const item = filteredItems[newIndex]
+    if (item && onSelectionChange) {
+      onSelectionChange(item.props.value)
+    }
+  }
+
+  const scrollToIndex = (index: number) => {
+    const item = filteredItems[index]
+    const scrollBox = scrollBoxRef.current
+    if (!item || !scrollBox) return
+
+    const itemY = item.y
+    const scrollBoxY = scrollBox.content?.y || 0
+    const viewportHeight = scrollBox.viewport?.height || 10
+
+    const relativeY = itemY - scrollBoxY
+    const targetScrollTop = relativeY - Math.floor(viewportHeight / 2)
+    scrollBox.scrollTop = Math.max(0, targetScrollTop)
+  }
+
+  const selectCurrent = () => {
+    const item = filteredItems[selectedIndex]
+    if (item) {
+      const itemValue = item.props.value
+      setCurrentValue(itemValue)
+      onChange?.(itemValue)
+      if (storeValue) {
+        logger.log('Storing value:', itemValue)
+      }
+    }
+  }
+
+  const onItemSelect = (itemValue: string) => {
+    setCurrentValue(itemValue)
+    onChange?.(itemValue)
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Search text handling
+  // ─────────────────────────────────────────────────────────────────────────
+
   const handleSearchTextChange = (text: string) => {
+    setSearchQuery(text)
+    // Reset selection when search changes
+    setSelectedIndex(0)
+    
     if (onSearchTextChange) {
       if (throttle) {
         if (throttleTimeoutRef.current) {
@@ -664,72 +375,91 @@ const Dropdown: DropdownType = (props) => {
     }
   }
 
-  const handleChange = (itemValue: string) => {
-    if (onChange) {
-      onChange(itemValue)
-    }
-    if (storeValue) {
-      logger.log('Storing value:', itemValue)
-    }
-  }
+  // ─────────────────────────────────────────────────────────────────────────
+  // Sync controlled value
+  // ─────────────────────────────────────────────────────────────────────────
 
-  // Sync controlled value and defaultValue to store
-  // Store is source of truth - React sets it directly, renderable reads from it
   useEffect(() => {
     if (value !== undefined) {
-      store.setState({ currentValue: value })
-    } else if (defaultValue !== undefined) {
-      store.setState({ currentValue: defaultValue })
+      setCurrentValue(value)
     }
-  }, [value, defaultValue, store])
+  }, [value])
 
-  // Ref callback to register search input for ESC handling (clears search before exit)
+  // Clamp selectedIndex when filtered items change
+  useEffect(() => {
+    if (filteredItems.length > 0 && selectedIndex >= filteredItems.length) {
+      setSelectedIndex(Math.max(0, filteredItems.length - 1))
+    }
+  }, [filteredItems.length, selectedIndex])
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // ESC handling - register search input
+  // ─────────────────────────────────────────────────────────────────────────
+
   const searchInputRefCallback = (node: TextareaRenderable | null) => {
     inputRef.current = node
     useStore.getState().activeSearchInputRef.current = node
   }
 
+  // ─────────────────────────────────────────────────────────────────────────
   // Keyboard navigation
+  // ─────────────────────────────────────────────────────────────────────────
+
   useKeyboard((evt) => {
-    if (!inFocus || !dropdownRef.current) return
+    if (!inFocus) return
 
     if (evt.name === 'up') {
-      dropdownRef.current.moveSelection(-1)
+      moveSelection(-1)
     }
     if (evt.name === 'down') {
-      dropdownRef.current.moveSelection(1)
+      moveSelection(1)
     }
     if (evt.name === 'tab' && !evt.shift) {
-      dropdownRef.current.moveSelection(1)
+      moveSelection(1)
     }
     if (evt.name === 'tab' && evt.shift) {
-      dropdownRef.current.moveSelection(-1)
+      moveSelection(-1)
     }
     if (evt.name === 'return') {
-      dropdownRef.current.selectCurrent()
+      selectCurrent()
     }
   })
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Context value
+  // ─────────────────────────────────────────────────────────────────────────
+
+  const contextValue: DropdownContextValue = {
+    selectedIndex,
+    currentValue,
+    visibleSections,
+    searchQuery,
+    setSelectedIndex,
+    setCurrentValue,
+    getVisibleIndex,
+    onItemSelect,
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Render
+  // ─────────────────────────────────────────────────────────────────────────
 
   // When offscreen, just render children to collect descendants without UI
   if (isOffscreen) {
     return (
-      <DropdownStoreContext.Provider value={store}>
-        <termcast-dropdown
-          ref={dropdownRef}
-          filtering={filtering}
-          store={store}
-          onChange={handleChange}
-          onSelectionChange={onSelectionChange}
-          onSearchTextChange={handleSearchTextChange}
+      <DropdownContext.Provider value={contextValue}>
+        <DropdownRoot
+          onRegisterItem={handleRegisterItem}
+          onUnregisterItem={handleUnregisterItem}
         >
           {children}
-        </termcast-dropdown>
-      </DropdownStoreContext.Provider>
+        </DropdownRoot>
+      </DropdownContext.Provider>
     )
   }
 
   return (
-    <DropdownStoreContext.Provider value={store}>
+    <DropdownContext.Provider value={contextValue}>
       <box flexGrow={1} paddingLeft={2} paddingRight={2}>
         <box paddingLeft={1} paddingRight={1}>
           <box flexDirection='row' justifyContent='space-between'>
@@ -740,10 +470,6 @@ const Dropdown: DropdownType = (props) => {
             <text flexShrink={0} fg={theme.primary}>
               &gt;{' '}
             </text>
-            {/* This React textarea handles BOTH display and input. It calls setSearchQuery()
-                on the renderable directly via onContentChange. We intentionally don't use an
-                internal TextareaRenderable in DropdownRenderable - that caused sync issues
-                where keystrokes went to the internal textarea but display was on this one. */}
             <textarea
               ref={searchInputRefCallback}
               height={1}
@@ -755,7 +481,7 @@ const Dropdown: DropdownType = (props) => {
               ]}
               onContentChange={() => {
                 const text = inputRef.current?.plainText || ''
-                dropdownRef.current?.setSearchQuery(text)
+                handleSearchTextChange(text)
               }}
               placeholder={placeholder}
               focused={inFocus}
@@ -766,16 +492,35 @@ const Dropdown: DropdownType = (props) => {
             />
           </box>
         </box>
-        <termcast-dropdown
-          ref={dropdownRef}
-          filtering={filtering}
-          store={store}
-          onChange={handleChange}
-          onSelectionChange={onSelectionChange}
-          onSearchTextChange={handleSearchTextChange}
+        <DropdownRoot
+          onRegisterItem={handleRegisterItem}
+          onUnregisterItem={handleUnregisterItem}
         >
-          {children}
-        </termcast-dropdown>
+          <scrollbox
+            ref={scrollBoxRef}
+            flexGrow={1}
+            height={7}
+            viewportOptions={{
+              flexGrow: 1,
+              flexShrink: 1,
+              paddingRight: 1,
+            }}
+            contentOptions={{
+              flexShrink: 0,
+              minHeight: 0,
+            }}
+            scrollbarOptions={{
+              trackOptions: {
+                foregroundColor: '#868e96',
+              },
+            }}
+            horizontalScrollbarOptions={{
+              visible: false,
+            }}
+          >
+            {children}
+          </scrollbox>
+        </DropdownRoot>
       </box>
       <box
         paddingRight={2}
@@ -793,80 +538,65 @@ const Dropdown: DropdownType = (props) => {
         </text>
         <text fg={theme.textMuted}> navigate</text>
       </box>
-    </DropdownStoreContext.Provider>
+    </DropdownContext.Provider>
   )
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DropdownItem React Component - all UI in JSX
+// DropdownItem React Component
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DropdownItem: (props: DropdownItemProps) => any = (props) => {
-  const wrapperRef = useRef<DropdownItemWrapperRenderable>(null)
   const isOffscreen = useIsOffscreen()
-  const store = useDropdownStoreApi()
-  const selectedIndex = store((s) => s.selectedIndex)
-  const currentValue = store((s) => s.currentValue)
+  const ctx = useDropdownContext()
 
   // Use title as fallback for value
   const value = props.value ?? props.title
 
-  // Subscribe to THIS item's state - React re-renders when it changes
-  const itemState = store((s) => s.itemStates[value])
+  // Get sectionId from parent section (if any)
+  const sectionId = React.useContext(SectionContext)
 
-  // Check visibility from itemState (zustand) not wrapper ref
-  const isVisible = itemState?.visibleIndex !== -1
-  const isActive = itemState?.visibleIndex === selectedIndex
-  const isCurrent = value === currentValue
+  const itemData: DropdownItemData = {
+    value,
+    title: props.title,
+    keywords: props.keywords,
+    icon: props.icon,
+    label: props.label,
+    color: props.color,
+    sectionId: sectionId ?? undefined,
+  }
+
+  // Get visibility from context
+  const visibleIndex = ctx.getVisibleIndex(value)
+  const isVisible = visibleIndex !== -1
+  const isActive = visibleIndex === ctx.selectedIndex
+  const isCurrent = value === ctx.currentValue
+
+  console.log('[dropdown-item] render', props.title, 'visible:', isVisible, 'active:', isActive)
 
   // Mouse handlers
   const handleMouseMove = () => {
-    const wrapper = wrapperRef.current
-    if (
-      wrapper &&
-      wrapper.visibleIndex !== -1 &&
-      wrapper.visibleIndex !== selectedIndex
-    ) {
-      store.setState({ selectedIndex: wrapper.visibleIndex })
+    if (visibleIndex !== -1 && visibleIndex !== ctx.selectedIndex) {
+      ctx.setSelectedIndex(visibleIndex)
     }
   }
 
   const handleMouseDown = () => {
-    const wrapper = wrapperRef.current
-    if (wrapper) {
-      store.setState({ currentValue: wrapper.itemValue })
-      // Find parent dropdown and trigger onChange
-      const dropdown = findParent(wrapper, DropdownRenderable)
-      dropdown?.onChange?.(wrapper.itemValue)
-    }
+    ctx.onItemSelect(value)
   }
 
-  // Don't render UI when offscreen
+  // Don't render UI when offscreen - just register
   if (isOffscreen) {
-    return (
-      <termcast-dropdown-item-wrapper
-        ref={wrapperRef}
-        itemValue={value}
-        itemTitle={props.title}
-        keywords={props.keywords}
-        icon={props.icon}
-        label={props.label}
-        color={props.color}
-      />
-    )
+    return <DropdownItemWrapper props={itemData} />
+  }
+
+  // Hide when filtered out
+  if (!isVisible) {
+    return <DropdownItemWrapper props={itemData} />
   }
 
   return (
-    <termcast-dropdown-item-wrapper
-      ref={wrapperRef}
-      itemValue={value}
-      itemTitle={props.title}
-      keywords={props.keywords}
-      icon={props.icon}
-      label={props.label}
-      color={props.color}
-      flexShrink={0}
-    >
+    <DropdownItemWrapper props={itemData} flexShrink={0}>
       <ItemOption
         title={props.title}
         icon={props.icon}
@@ -877,47 +607,51 @@ const DropdownItem: (props: DropdownItemProps) => any = (props) => {
         onMouseMove={handleMouseMove}
         onMouseDown={handleMouseDown}
       />
-    </termcast-dropdown-item-wrapper>
+    </DropdownItemWrapper>
   )
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DropdownSection React Component - all UI in JSX
+// DropdownSection React Component
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DropdownSection: (props: DropdownSectionProps) => any = (props) => {
   const theme = useTheme()
   const isOffscreen = useIsOffscreen()
-  const store = useDropdownStoreApi()
-  const searchQuery = store((s) => s.searchQuery)
+  const ctx = useDropdownContext()
 
-  // Hide section titles when there's search text
-  const hideTitle = searchQuery.trim().length > 0
+  // Generate section ID from title (or use explicit id if provided)
+  const sectionId = props.title ?? 'untitled'
 
-  // When offscreen, just render children without section title UI
+  // Hide section if no visible items
+  const isVisible = ctx.visibleSections.has(sectionId)
+
   if (isOffscreen) {
     return (
-      <termcast-dropdown-section-wrapper sectionTitle={props.title}>
-        {props.children}
-      </termcast-dropdown-section-wrapper>
+      <SectionContext.Provider value={sectionId}>
+        <box flexDirection='column'>{props.children}</box>
+      </SectionContext.Provider>
     )
   }
 
+  // Don't render if no items are visible in this section (when filtering)
+  if (!isVisible && ctx.searchQuery) {
+    return null
+  }
+
   return (
-    <termcast-dropdown-section-wrapper
-      sectionTitle={props.title}
-      flexShrink={0}
-      flexGrow={1}
-    >
-      {props.title && !hideTitle && (
-        <box paddingTop={1} paddingLeft={1}>
-          <text fg={theme.accent} attributes={TextAttributes.BOLD}>
-            {props.title}
-          </text>
-        </box>
-      )}
-      {props.children}
-    </termcast-dropdown-section-wrapper>
+    <SectionContext.Provider value={sectionId}>
+      <box flexDirection='column' flexShrink={0} flexGrow={1}>
+        {props.title && (
+          <box paddingTop={1} paddingLeft={1}>
+            <text fg={theme.accent} attributes={TextAttributes.BOLD}>
+              {props.title}
+            </text>
+          </box>
+        )}
+        {props.children}
+      </box>
+    </SectionContext.Provider>
   )
 }
 
@@ -933,4 +667,4 @@ Dropdown.Section = DropdownSection
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default Dropdown
-export { Dropdown, useDropdownStore, DropdownRenderable }
+export { Dropdown, useDropdownContext }
