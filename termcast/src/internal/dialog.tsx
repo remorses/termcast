@@ -56,6 +56,7 @@ export function Dialog({
           alignItems: 'center' as const,
           justifyContent: 'center' as const,
           padding: 0,
+
         }
     }
   }
@@ -66,7 +67,7 @@ export function Dialog({
     <box
       border={false}
       flexGrow={1}
-      left={-2}
+      // left={-2}
       alignItems={positionStyles.alignItems}
       justifyContent={positionStyles.justifyContent}
       padding={positionStyles.padding}
@@ -140,7 +141,8 @@ export function DialogOverlay(): any {
   const item = dialogStack[topIndex]
 
   return (
-    <box position='absolute' width='100%' height='100%' flexDirection='column'>
+    // .2 comes from outer wrapper padding, we need to substract so it is centered
+    <box left={-2} top={-2} position='absolute' width='100%' height='100%' flexDirection='column'>
       <InFocus inFocus={true}>
         <Dialog
           position={item.position}
