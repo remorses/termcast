@@ -121,7 +121,7 @@ export function TermcastProvider(props: ProvidersProps): any {
       renderer.console.onCopySelection = (text: any) => {
         Clipboard.copy(text)
       }
-      renderer?.toggleDebugOverlay()
+      // renderer?.toggleDebugOverlay()
       renderer?.console.toggle()
     }
   })
