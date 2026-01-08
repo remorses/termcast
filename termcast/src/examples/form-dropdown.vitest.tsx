@@ -49,11 +49,11 @@ test('form dropdown shows inline options', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust
       │
       │  Frontend
-      │  ● TypeScript
+      │› ○ TypeScript
       │  ○ JavaScript
       │  ○ React
       │  ○ Vue
@@ -106,12 +106,12 @@ test('form dropdown shows inline options', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust
       │
       │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
+      │  ○ TypeScript
+      │› ○ JavaScript
       │  ○ React
       │  ○ Vue
       │
@@ -166,14 +166,14 @@ test('form dropdown shows inline options', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust
       │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
+      │  ○ Svelte
+      │  Backend
+      │› ○ Node.js
+      │  ○ Python
+      │  ○ Go
       │
       │  Choose your preferred programming languages
       │
@@ -223,14 +223,14 @@ test('form dropdown shows inline options', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust, Node.js
       │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
+      │  ○ Svelte
+      │  Backend
+      │› ● Node.js
+      │  ○ Python
+      │  ○ Go
       │
       │  Choose your preferred programming languages
       │
@@ -288,11 +288,11 @@ test('form dropdown keyboard navigation', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust
       │
       │  Frontend
-      │  ● TypeScript
+      │› ○ TypeScript
       │  ○ JavaScript
       │  ○ React
       │  ○ Vue
@@ -348,14 +348,14 @@ test('form dropdown keyboard navigation', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust
       │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
       │  ○ React
       │  ○ Vue
+      │› ○ Svelte
+      │  Backend
+      │  ○ Node.js
       │
       │  Choose your preferred programming languages
       │
@@ -405,14 +405,14 @@ test('form dropdown keyboard navigation', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust
       │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
+      │  ○ Svelte
+      │  Backend
+      │› ○ Node.js
+      │  ○ Python
+      │  ○ Go
       │
       │  Choose your preferred programming languages
       │
@@ -462,14 +462,14 @@ test('form dropdown keyboard navigation', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust
       │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
       │  ○ React
       │  ○ Vue
+      │› ○ Svelte
+      │  Backend
+      │  ○ Node.js
       │
       │  Choose your preferred programming languages
       │
@@ -519,14 +519,14 @@ test('form dropdown keyboard navigation', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  Rust
       │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
       │  ○ React
       │  ○ Vue
+      │› ○ Svelte
+      │  Backend
+      │  ○ Node.js
       │
       │  Choose your preferred programming languages
       │
@@ -584,21 +584,21 @@ test('form dropdown with default value', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◆  Programming Languages
+      ◇  Programming Languages
       │  TypeScript, Rust
       │
       │  Frontend
-      │› ● TypeScript
+      │  ● TypeScript
       │  ○ JavaScript
       │  ○ React
       │  ○ Vue
       │
       │  Choose your preferred programming languages
       │
-      ◇  Editor Theme
+      ◆  Editor Theme
       │  Dracula
       │
-      │  ○ Monokai
+      │› ○ Monokai
       │  ● Dracula
       │  ○ One Dark
       │  ○ Nord
@@ -641,22 +641,22 @@ test('form dropdown with default value', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◆  Programming Languages
-      │  Rust
+      ◇  Programming Languages
+      │  TypeScript, Rust
       │
       │  Frontend
-      │› ○ TypeScript
+      │  ● TypeScript
       │  ○ JavaScript
       │  ○ React
       │  ○ Vue
       │
       │  Choose your preferred programming languages
       │
-      ◇  Editor Theme
-      │  Dracula
+      ◆  Editor Theme
+      │  Monokai
       │
-      │  ○ Monokai
-      │  ● Dracula
+      │› ● Monokai
+      │  ○ Dracula
       │  ○ One Dark
       │  ○ Nord
       │  ○ GitHub Light
@@ -703,22 +703,22 @@ test('form dropdown with default value', async () => {
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
-      ◆  Programming Languages                                         █
-      │  Rust, TypeScript                                              █
+      ◇  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
       │                                                                ▀
       │  Frontend
-      │› ● TypeScript
+      │  ● TypeScript
       │  ○ JavaScript
       │  ○ React
       │  ○ Vue
       │
       │  Choose your preferred programming languages
       │
-      ◇  Editor Theme
-      │  Dracula
+      ◆  Editor Theme
+      │  Monokai
       │
-      │  ○ Monokai
-      │  ● Dracula
+      │› ● Monokai
+      │  ○ Dracula
       │  ○ One Dark
       │  ○ Nord
       │  ○ GitHub Light
@@ -737,8 +737,8 @@ test('form dropdown with default value', async () => {
       ▪  Submitted Data
       │  {
       │    "languages": [
-      │      "rust",
-      │      "typescript"
+      │      "typescript",
+      │      "rust"
       │    ],
 
 
@@ -769,14 +769,14 @@ test('selecting second-to-last visible item should not scroll', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
+      ◆  Programming Languages
       │  TypeScript, Rust
       │
-      │  Frontend
       │  ● TypeScript
       │  ○ JavaScript
-      │  ○ React
+      │› ○ React
       │  ○ Vue
+      │  ○ Svelte
       │
       │  Choose your preferred programming languages
       │
@@ -826,14 +826,14 @@ test('selecting second-to-last visible item should not scroll', async () => {
       │  Test dropdown with sections, multiple selection, and more
       │  features
       │
-      ◇  Programming Languages
-      │  TypeScript, Rust
+      ◆  Programming Languages
+      │  TypeScript, Rust, React
       │
-      │  Frontend
       │  ● TypeScript
       │  ○ JavaScript
-      │  ○ React
+      │› ● React
       │  ○ Vue
+      │  ○ Svelte
       │
       │  Choose your preferred programming languages
       │

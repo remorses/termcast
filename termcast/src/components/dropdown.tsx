@@ -257,10 +257,13 @@ const Dropdown: DropdownType = (props) => {
   // ─────────────────────────────────────────────────────────────────────────
 
   const { filteredItems, visibleSections } = useMemo(() => {
-    let filtered = items
+    // IMPORTANT: Sort items by y position to ensure correct visual order.
+    // opentui's tree traversal order (which determines registration order) may differ
+    // from React's render order, causing items to appear in wrong order.
+    let filtered = [...items].sort((a, b) => (a.y ?? 0) - (b.y ?? 0))
     if (filtering && searchQuery) {
       const query = searchQuery.toLowerCase()
-      filtered = items.filter((item) => {
+      filtered = filtered.filter((item) => {
         const data = item.props
         if (data.title?.toLowerCase().includes(query)) return true
         if (data.keywords?.some((k) => k.toLowerCase().includes(query))) return true
@@ -293,7 +296,6 @@ const Dropdown: DropdownType = (props) => {
   // ─────────────────────────────────────────────────────────────────────────
 
   const handleRegisterItem = (item: DescendantItemRenderable<DropdownItemData>) => {
-    console.log('[dropdown] handleRegisterItem', item.props)
     setItems((prev) => [...prev, item])
   }
 
@@ -360,7 +362,7 @@ const Dropdown: DropdownType = (props) => {
     setSearchQuery(text)
     // Reset selection when search changes
     setSelectedIndex(0)
-    
+
     if (onSearchTextChange) {
       if (throttle) {
         if (throttleTimeoutRef.current) {
@@ -398,7 +400,7 @@ const Dropdown: DropdownType = (props) => {
 
   const searchInputRefCallback = (node: TextareaRenderable | null) => {
     inputRef.current = node
-    useStore.getState().activeSearchInputRef.current = node
+    useStore.setState({ activeSearchInputRef: node })
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -406,7 +408,8 @@ const Dropdown: DropdownType = (props) => {
   // ─────────────────────────────────────────────────────────────────────────
 
   useKeyboard((evt) => {
-    if (!inFocus) return
+    // Don't handle keyboard when rendered offscreen (for footer title calculation)
+    if (!inFocus || isOffscreen) return
 
     if (evt.name === 'up') {
       moveSelection(-1)

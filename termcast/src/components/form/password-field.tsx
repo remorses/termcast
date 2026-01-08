@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
+import { BoxRenderable } from '@opentui/core'
 import { useFormContext, Controller } from 'react-hook-form'
-import { useFocusContext } from './index'
+import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { useTheme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
@@ -21,6 +22,13 @@ export const PasswordField = (props: PasswordFieldProps): any => {
   const isFocused = focusedField === props.id
   const realValueRef = useRef(props.defaultValue || props.value || '')
   const [displayLength, setDisplayLength] = useState(realValueRef.current.length)
+  const elementRef = useRef<BoxRenderable>(null)
+
+  // Register as form field descendant for scroll and navigation support
+  useFormFieldDescendant({
+    id: props.id,
+    elementRef: elementRef,
+  })
 
   useFormNavigation(props.id)
 
@@ -33,7 +41,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
         const displayValue = '*'.repeat(displayLength)
 
         return (
-          <termcast-form-field-wrapper fieldId={props.id}>
+          <termcast-form-field-wrapper fieldId={props.id} ref={elementRef}>
             <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
               <box
                 onMouseDown={() => {

@@ -39,27 +39,27 @@ test('autocomplete shows flat file list in dialog', async () => {
       ◇  Your Name
       │  John Doe
       │
-      ◇  Select Files
+      ◆  Select Files
+      │  s
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │ Filter: s                                                      │
+    │                                                                │
+    │  ▫ src/                                                        │
+    │                                                                │
+    │ ↑↓ navigate  ⏎/tab select  esc close                           │
+    ╰────────────────────────────────────────────────────────────────╯
+      ◇  Select Single File
       │  Enter file path...
       │
-      │  Choose one or more files to upload
-      │
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │ Filter: s                                                      │
-      │                                                                │
-      │  ▫ src/                                                        │
-      │                                                                │
-      │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      ╰────────────────────────────────────────────────────────────────╯
       │  Choose exactly one file
       │
       └
 
 
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
     "
   `)
@@ -91,27 +91,27 @@ test('autocomplete navigation with down/up keys', async () => {
       ◇  Your Name
       │  John Doe
       │
-      ◇  Select Files
+      ◆  Select Files
+      │  s
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │ Filter: s                                                      │
+    │                                                                │
+    │  ▫ src/                                                        │
+    │                                                                │
+    │ ↑↓ navigate  ⏎/tab select  esc close                           │
+    ╰────────────────────────────────────────────────────────────────╯
+      ◇  Select Single File
       │  Enter file path...
       │
-      │  Choose one or more files to upload
-      │
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │ Filter: s                                                      │
-      │                                                                │
-      │  ▫ src/                                                        │
-      │                                                                │
-      │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      ╰────────────────────────────────────────────────────────────────╯
       │  Choose exactly one file
       │
       └
 
 
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
     "
   `)
@@ -128,27 +128,27 @@ test('autocomplete navigation with down/up keys', async () => {
       ◇  Your Name
       │  John Doe
       │
-      ◇  Select Files
+      ◆  Select Files
+      │  s
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │ Filter: s                                                      │
+    │                                                                │
+    │  ▫ src/                                                        │
+    │                                                                │
+    │ ↑↓ navigate  ⏎/tab select  esc close                           │
+    ╰────────────────────────────────────────────────────────────────╯
+      ◇  Select Single File
       │  Enter file path...
       │
-      │  Choose one or more files to upload
-      │
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │ Filter: s                                                      │
-      │                                                                │
-      │  ▫ src/                                                        │
-      │                                                                │
-      │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      ╰────────────────────────────────────────────────────────────────╯
       │  Choose exactly one file
       │
       └
 
 
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
     "
   `)
@@ -178,27 +178,27 @@ test('file picker shows only files, not folders', async () => {
       ◇  Your Name
       │  John Doe
       │
-      ◆  Select Files
-      │  t
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │ Filter: t                                                      │
+    │                                                                │
+    │  ▫ template/                                                   │
+    │  ▫ termcasttmp/                                                │
+    │  ▫ tmp/                                                        │
+    │  ▪ TESTING_RAYCAST_EXTENSIONS.md                               │
+    │  ▪ tsconfig.json                                               │
+    │  ▪ tsconfig.tsbuildinfo                                        │
+    │                                                                │
+    │ ↑↓ navigate  ⏎/tab select  esc close                           │
+    ╰────────────────────────────────────────────────────────────────╯
+      │  Choose exactly one file
       │
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │ Filter: t                                                      │
-      │                                                                │
-      │  ▫ template/                                                   │
-      │  ▫ termcasttmp/                                                │
-      │  ▫ tmp/                                                        │
-      │  ▪ TESTING_RAYCAST_EXTENSIONS.md                               │
-      │  ▪ tsconfig.json                                               │
-      │  ▪ tsconfig.tsbuildinfo                                        │
-      │                                                                │
-      │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      ╰────────────────────────────────────────────────────────────────╯
+      └
+
+
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
     "
   `)
@@ -232,13 +232,13 @@ test('escape closes autocomplete and form stays visible', async () => {
       ◇  Your Name
       │  John Doe
       │
-      ◇  Select Files
-      │  Enter file path...
+      ◆  Select Files
+      │  s
       │
       │  Choose one or more files to upload
       │
-      ◆  Select Folder
-      │  s
+      ◇  Select Folder
+      │  Enter file path...
       │
       │  Choose a folder for output
       │
@@ -250,9 +250,9 @@ test('escape closes autocomplete and form stays visible', async () => {
       └
 
 
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
     "
   `)

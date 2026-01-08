@@ -35,7 +35,7 @@ test(
         ▪  Form Scroll Test                                    ▀
         │  Test scrolling behavior when navigating with Tab
         │
-        ◇  Field 1
+        ◆  Field 1
         │  First field
         │
 
@@ -53,11 +53,11 @@ test(
 
 
 
-        ▪  Form Scroll Test                                    ▀
-        │  Test scrolling behavior when navigating with Tab
+        ◇  Field 1
+        │  First field                                         ▀
         │
-        ◆  Field 1
-        │  First field
+        ◆  Field 2
+        │  Second field
         │
 
 
@@ -95,11 +95,11 @@ test(
 
 
 
-        ◇  Field 2
-        │  Second field                                        ▄
+        ◇  Field 1
+        │  First field                                         ▀
         │
-        ◆  Field 3
-        │  Third field
+        ◆  Field 2
+        │  Second field
         │
 
 
@@ -116,11 +116,11 @@ test(
 
 
 
-        ◇  Field 3
-        │  Third field
-        │                                                      ▄
-        ◆  Field 4
-        │  Fourth field
+        ◇  Field 1
+        │  First field                                         ▀
+        │
+        ◆  Field 2
+        │  Second field
         │
 
 
@@ -137,11 +137,11 @@ test(
 
 
 
-        ◇  Field 4
-        │  Fourth field
+        ◇  Field 1
+        │  First field                                         ▀
         │
-        ◆  Field 5                                             ▀
-        │  Fifth field
+        ◆  Field 2
+        │  Second field
         │
 
 
@@ -158,11 +158,11 @@ test(
 
 
 
-        ◇  Field 5
-        │  Fifth field
+        ◇  Field 1
+        │  First field                                         ▀
         │
-        ◆  Field 6                                             ▄
-        │  Sixth field
+        ◆  Field 2
+        │  Second field
         │
 
 
@@ -179,11 +179,11 @@ test(
 
 
 
-        ◇  Field 6
-        │  Sixth field
+        ◇  Field 1
+        │  First field                                         ▀
         │
-        ◆  Field 7
-        │  Seventh field                                       ▄
+        ◆  Field 2
+        │  Second field
         │
 
 
@@ -200,12 +200,12 @@ test(
 
 
 
-        ◇  Field 5
-        │  Fifth field
+        ◇  Field 7
+        │  Seventh field
         │
-        ◆  Field 6                                             ▄
-        │  Sixth field
-        │
+        ◆  Field 8
+        │  Eighth field
+        │                                                      ▄
 
 
          ctrl ↵ submit   tab navigate   ^k actions
@@ -221,11 +221,11 @@ test(
 
 
 
-        ◇  Field 4
-        │  Fourth field
-        │
-        ◆  Field 5                                             ▀
+        ◇  Field 5
         │  Fifth field
+        │
+        ◆  Field 6                                             ▄
+        │  Sixth field
         │
 
 

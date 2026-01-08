@@ -53,26 +53,26 @@ test('Store extension - searching for spiceblow shows Database', async () => {
       ›Spiceblow - Sql Database Management Search, update, insert and delete row
 
 
-       ↑↓ navigate   ^k actions                               powered by termcast
+
+
+
+
+
+       ✗ Unhandled Promise Rejection  database is locked
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    "
+                                   Console (Focused)          [Copy (ctrl+shift+c)]
+       /query-persist-client-core/build/modern/persist.js:40:38)
+             at <anonymous> (/Users/morse/Documents/GitHub/termcast/node_modules/.bu
+       @tanstack+query-persist-client-core@5.91.11/node_modules/@tanstack/query-pers
+       ist-client-core/build/modern/persist.js:56:7)
+             at <anonymous> (/Users/morse/Documents/GitHub/termcast/node_modules/.bu
+       @tanstack+query-core@5.90.12/node_modules/@tanstack/query-core/build/modern/q
+       ueryCache.js:75:9)
+    >        at forEach (native:1:11)"
   `)
 }, 30000)

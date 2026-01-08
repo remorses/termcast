@@ -671,8 +671,12 @@ const ActionPanel: ActionPanelType = (props) => {
   // Auto-execute first action if flag is set (triggered by enter/ctrl+enter)
   // Also report first action title when rendered offscreen
   useLayoutEffect(() => {
+    // IMPORTANT: Must sort by index because Object.values() returns items in key insertion
+    // order (random IDs), not by render order. Without sorting, "Change Theme..." or other
+    // Settings section actions could be executed instead of user's first action.
     const allActions = Object.values(descendantsContext.map.current)
       .filter((item: any) => item.index !== -1)
+      .sort((a: any, b: any) => a.index - b.index)
       .map((item: any) => item.props as ActionDescendant)
 
     // When offscreen, just report first action title for footer display

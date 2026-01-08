@@ -26,9 +26,9 @@ test('initial render with sections', async () => {
          Banana A yellow fruit
          Date A sweet fruit
          Fig A small fruit
-         Grape A vine fruit                                 █
-                                                            █
                                                             ▀
+
+
 
 
        10 of 10 items
@@ -441,18 +441,18 @@ test('ctrl+k opens action dialog', async () => {
 
 
        Custom Renderable List (using extend)
-       Search items...
-       ── Fruits ──
+    ╭───────────────────────────────────────────────────────╮
+    │                                                       │
+    │                                                       │
+    │ Actions for: Apple                                    │
+    │                                                       │
+    │ Press ESC to close                                    │
+    │                                                       │
+    ╰───────────────────────────────────────────────────────╯
+                                                            █
+                                                            ▀
 
-       › Apple A red fruit
-      ╭───────────────────────────────────────────────────────╮
-      │                                                       │
-      │                                                       │
-      │ Actions for: Apple                                    │
-      │                                                       │
-      │ Press ESC to close                                    │
-      │                                                       │
-      ╰───────────────────────────────────────────────────────╯
+
        10 of 10 items
 
 
@@ -539,18 +539,18 @@ test('ctrl+k shows selected item in dialog', async () => {
 
 
        Custom Renderable List (using extend)
-       Search items...
-       ── Fruits ──
+    ╭───────────────────────────────────────────────────────╮
+    │                                                       │
+    │                                                       │
+    │ Actions for: Banana                                   │
+    │                                                       │
+    │ Press ESC to close                                    │
+    │                                                       │
+    ╰───────────────────────────────────────────────────────╯
+                                                            █
+                                                            ▀
 
-         Apple A red fruit
-      ╭───────────────────────────────────────────────────────╮
-      │                                                       │
-      │                                                       │
-      │ Actions for: Banana                                   │
-      │                                                       │
-      │ Press ESC to close                                    │
-      │                                                       │
-      ╰───────────────────────────────────────────────────────╯
+
        10 of 10 items
 
 

@@ -39,8 +39,8 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits                                                          ▲
-      ›🍎 Apple                                                        ▀
-       🍌 Banana
+      ›🍎 Apple                                                        █
+       🍌 Banana                                                       █
        🍒 Cherry
 
        Animals
@@ -72,8 +72,8 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits                                                          ▲
-       🍎 Apple                                                        ▀
-      ›🍌 Banana
+       🍎 Apple                                                        █
+      ›🍌 Banana                                                       █
        🍒 Cherry
 
        Animals
@@ -106,8 +106,8 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits                                                          ▲
-       🍎 Apple                                                        ▀
-       🍌 Banana
+       🍎 Apple                                                        █
+       🍌 Banana                                                       █
        🍒 Cherry
 
        Animals
@@ -134,27 +134,27 @@ test('grid navigation and display', async () => {
     "
 
 
-       Simple Grid Example ────────────────────────────────────────────
+    ╭────────────────────────────────────────────────────────────────╮─
+    │                                                                │
+    │   Actions                                                esc   │
+    │                                                                │
+    │   > Search actions...                                          │ ▲
+    │                                                                │ █
+    │  ›Show Details                                                 │ █
+    │   Copy Emoji                                             ⌃C    │
+    │                                                                │
+    │   Settings                                                     │
+    │   Change Theme...                                              │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │
+    │                                                                │
+    ╰────────────────────────────────────────────────────────────────╯
+          Rocket                                                       ▼
 
-       > Search items...
 
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›Show Details                                                 │
-      │   Copy Emoji                                             ⌃C    │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -171,23 +171,23 @@ test('grid navigation and display', async () => {
 
        > Search items...
 
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │                                                                │
-      │   Settings                                                     │
-      │  ›Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
+       Fruits                                                          ▲
+       🍎 Apple                                                        █
+       🍌 Banana                                                       █
+       🍒 Cherry
+
+       Animals
+      ›🐕 Dog
+       🐱 Cat
+       🐰 Rabbit
+
+       Others
+       🏠 House
+       🚗 Car
+       🚀 Rocket                                                       ▼
+
+
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -217,8 +217,8 @@ test('grid search functionality', async () => {
 
        > cat
 
-      ›🍎 Apple                                                        ▲
-       🍌 Banana                                                       █
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
        🐕 Dog
        🐱 Cat
@@ -230,10 +230,10 @@ test('grid search functionality', async () => {
        🌙 Moon
        ☀ Sun
 
-                                                                       ▼
-
 
        ↵ show details   ↑↓ navigate   ^k actions
+
+
 
     "
   `)
@@ -257,8 +257,8 @@ test('grid search functionality', async () => {
 
        > space
 
-      ›🍎 Apple                                                        ▲
-       🍌 Banana                                                       █
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
        🐕 Dog
        🐱 Cat
@@ -270,10 +270,10 @@ test('grid search functionality', async () => {
        🌙 Moon
        ☀ Sun
 
-                                                                       ▼
-
 
        ↵ show details   ↑↓ navigate   ^k actions
+
+
 
     "
   `)
@@ -295,8 +295,8 @@ test('grid search functionality', async () => {
        > Search items...
 
        Fruits                                                          ▲
-      ›🍎 Apple                                                        ▀
-       🍌 Banana
+      ›🍎 Apple                                                        █
+       🍌 Banana                                                       █
        🍒 Cherry
 
        Animals
@@ -331,8 +331,8 @@ test('grid search functionality', async () => {
 
        > xyz123
 
-      ›🍎 Apple                                                        ▲
-       🍌 Banana                                                       █
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
        🐕 Dog
        🐱 Cat
@@ -344,10 +344,10 @@ test('grid search functionality', async () => {
        🌙 Moon
        ☀ Sun
 
-                                                                       ▼
-
 
        ↵ show details   ↑↓ navigate   ^k actions
+
+
 
     "
   `)
@@ -374,8 +374,8 @@ test('grid item selection and actions', async () => {
        > Search items...
 
        Fruits                                                          ▲
-      ›🍎 Apple                                                        ▀
-       🍌 Banana
+      ›🍎 Apple                                                        █
+       🍌 Banana                                                       █
        🍒 Cherry
 
        Animals
@@ -407,8 +407,8 @@ test('grid item selection and actions', async () => {
        > Search items...
 
        Fruits                                                          ▲
-       🍎 Apple                                                        ▀
-      ›🍌 Banana
+       🍎 Apple                                                        █
+      ›🍌 Banana                                                       █
        🍒 Cherry
 
        Animals
@@ -440,8 +440,8 @@ test('grid item selection and actions', async () => {
        > Search items...
 
        Fruits                                                          ▲
-       🍎 Apple                                                        ▀
-      ›🍌 Banana
+       🍎 Apple                                                        █
+      ›🍌 Banana                                                       █
        🍒 Cherry
 
        Animals
@@ -482,8 +482,8 @@ test('grid mouse interaction', async () => {
        > Search items...
 
        Fruits                                                          ▲
-       🍎 Apple                                                        ▀
-       🍌 Banana
+       🍎 Apple                                                        █
+       🍌 Banana                                                       █
        🍒 Cherry
 
        Animals
@@ -519,27 +519,27 @@ test('grid mouse interaction', async () => {
     "
 
 
-       Simple Grid Example ────────────────────────────────────────────
+    ╭────────────────────────────────────────────────────────────────╮─
+    │                                                                │
+    │   Actions                                                esc   │
+    │                                                                │
+    │   > Search actions...                                          │ ▲
+    │                                                                │
+    │  ›Show Details                                                 │
+    │   Copy Emoji                                             ⌃C    │
+    │                                                                │
+    │   Settings                                                     │
+    │   Change Theme...                                              │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │
+    │                                                                │ █
+    ╰────────────────────────────────────────────────────────────────╯ █
+                                                                       ▼
 
-       > Search items...
 
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›Show Details                                                 │
-      │   Copy Emoji                                             ⌃C    │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
+       ↵ show details   ↑↓ navigate   ^k actions
 
     "
   `)
@@ -568,8 +568,8 @@ test('grid mouse interaction', async () => {
        > Search items...
 
        Fruits                                                          ▲
-      ›🍎 Apple                                                        ▀
-       🍌 Banana
+      ›🍎 Apple                                                        █
+       🍌 Banana                                                       █
        🍒 Cherry
 
        Animals

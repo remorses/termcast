@@ -33,11 +33,11 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
        > Search items...
 
       ›▲ Item 1 Description for item 1             ▲
-                                                   ▼
-
-       ↑↓ navigate   ^k actions
-
-    "
+       ■ Item 2 Description for item 2             ▀
+       ▲ Item 3 Description for item 3
+       ■ Item 4 Description for item 4
+       ▼ Item 5 Description for item 5
+       ● Item 6 Description for item 6             ▼"
   `)
 
   await session.press('down')
@@ -55,12 +55,12 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
 
        > Search items...
 
-      ›● Item 6 Description for item 6             ▲
-                                                   ▼
-
-       ↑↓ navigate   ^k actions
-
-    "
+       ▲ Item 3 Description for item 3             ▲
+       ■ Item 4 Description for item 4             ▄
+       ▼ Item 5 Description for item 5
+      ›● Item 6 Description for item 6
+       ■ Item 7 Description for item 7
+       ■ Item 8 Description for item 8             ▼"
   `)
 
   await session.press('down')
@@ -76,12 +76,12 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
 
        > Search items...
 
-      ›■ Item 9 Description for item 9             ▲
-                                                   ▼
-
-       ↑↓ navigate   ^k actions
-
-    "
+       ● Item 6 Description for item 6             ▲
+       ■ Item 7 Description for item 7
+       ■ Item 8 Description for item 8             ▄
+      ›■ Item 9 Description for item 9
+       Item 10 Description for item 10
+       ▲ Item 11 Description for item 11           ▼"
   `)
 
   await session.press('up')
@@ -101,12 +101,12 @@ test('list scrollbox auto-scrolls when navigating down', async () => {
 
        > Search items...
 
-      ›■ Item 2 Description for item 2             ▲
-                                                   ▼
-
-       ↑↓ navigate   ^k actions
-
-    "
+       ▲ Item 1 Description for item 1             ▲
+      ›■ Item 2 Description for item 2             ▀
+       ▲ Item 3 Description for item 3
+       ■ Item 4 Description for item 4
+       ▼ Item 5 Description for item 5
+       ● Item 6 Description for item 6             ▼"
   `)
 }, 15000)
 
@@ -127,11 +127,11 @@ test('list scrollbox scrolls with mouse wheel', async () => {
        > Search items...
 
       ›▲ Item 1 Description for item 1             ▲
-                                                   ▼
-
-       ↑↓ navigate   ^k actions
-
-    "
+       ■ Item 2 Description for item 2             ▀
+       ▲ Item 3 Description for item 3
+       ■ Item 4 Description for item 4
+       ▼ Item 5 Description for item 5
+       ● Item 6 Description for item 6             ▼"
   `)
 
   await session.scrollDown(3)
@@ -150,11 +150,11 @@ test('list scrollbox scrolls with mouse wheel', async () => {
        > Search items...
 
        ■ Item 2 Description for item 2             ▲
-                                                   ▼
-
-       ↑↓ navigate   ^k actions
-
-    "
+       ▲ Item 3 Description for item 3             ▄
+       ■ Item 4 Description for item 4
+       ▼ Item 5 Description for item 5
+       ● Item 6 Description for item 6
+       ■ Item 7 Description for item 7             ▼"
   `)
 
   await session.scrollUp(2)
@@ -173,10 +173,10 @@ test('list scrollbox scrolls with mouse wheel', async () => {
        > Search items...
 
       ›▲ Item 1 Description for item 1             ▲
-                                                   ▼
-
-       ↑↓ navigate   ^k actions
-
-    "
+       ■ Item 2 Description for item 2             ▀
+       ▲ Item 3 Description for item 3
+       ■ Item 4 Description for item 4
+       ▼ Item 5 Description for item 5
+       ● Item 6 Description for item 6             ▼"
   `)
 }, 15000)

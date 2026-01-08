@@ -43,9 +43,9 @@ test('pressing enter triggers primary action on toast', async () => {
        Other Item
 
 
+
+
        ✓ File Deleted  document.pdf was moved to trash      Undo ctrl t
-
-
 
 
 
@@ -76,9 +76,9 @@ test('pressing enter triggers primary action on toast', async () => {
        Other Item
 
 
+
+
        ✓ Undone  File restored
-
-
 
 
 
@@ -122,9 +122,9 @@ test('pressing escape hides the toast', async () => {
        Other Item
 
 
+
+
        ↵ show toast   ↑↓ navigate   ^k actions
-
-
 
 
 
@@ -166,14 +166,14 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       └
 
 
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
 
     "
   `)
@@ -195,7 +195,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
 
 
-    
+
 
       ◆  Name
       │  John
@@ -203,14 +203,14 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       └
 
 
+
+
+
+
+
+
+
        ✓ Form Submitted  Hello, John!               View Details ctrl t
-
-
-
-
-
-
-
 
     "
   `)
@@ -233,12 +233,12 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       ›Welcome, John! Form submission successful
 
 
+
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
@@ -295,14 +295,14 @@ test('form toast: pressing escape closes toast but stays on form', async () => {
       └
 
 
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
 
     "
   `)
@@ -358,14 +358,14 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       └
 
 
+
+
+
+
+
+
+
        ✓ Done  Hello, Test!                                 Open ctrl t
-
-
-
-
-
-
-
 
     "
   `)
@@ -390,14 +390,14 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       └
 
 
+
+
+
+
+
+
+
        ✓ Opened!  Action triggered successfully
-
-
-
-
-
-
-
 
     "
   `)

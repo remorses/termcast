@@ -12,7 +12,25 @@ export function useFormNavigationHelpers(id: string) {
     if (!scrollContext) return []
     const descendants = Object.values(scrollContext.descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.id)
-      .sort((a, b) => a.index - b.index)
+      // IMPORTANT: Sort by y position to ensure correct visual order.
+      // opentui's tree traversal order (which determines descendant index) may differ
+      // from React's render order, causing fields to appear in wrong navigation order.
+      // Note: elementRef can be a React ref object or direct BoxRenderable
+      .sort((a, b) => {
+        const aRef = a.props?.elementRef
+        const bRef = b.props?.elementRef
+        // Handle both RefObject<BoxRenderable> and direct BoxRenderable
+        const aY = (aRef && 'current' in aRef ? aRef.current?.y : (aRef as any)?.y) ?? 0
+        const bY = (bRef && 'current' in bRef ? bRef.current?.y : (bRef as any)?.y) ?? 0
+        return aY - bY
+      })
+    // Debug logging
+    const { logger } = require('termcast/src/logger')
+    logger.log(`getFieldIds: ${descendants.map(d => {
+      const ref = d.props?.elementRef
+      const y = (ref && 'current' in ref ? ref.current?.y : (ref as any)?.y) ?? 'null'
+      return `${d.props?.id}(y=${y})`
+    }).join(', ')}`)
     return descendants.map((item) => item.props!.id)
   }
 
@@ -64,6 +82,15 @@ export function useFormNavigation(
     if (!isFocused || !isInFocus) return
 
     if (handleTabs && evt.name === 'tab') {
+      // Prevent cascading navigation: when navigateToNext() triggers a re-render,
+      // the newly focused field's handler will also fire for the same event.
+      // Use a counter to track the current navigation "session" - handlers that
+      // fire during the same navigation session will see the same counter value.
+      const currentNav = useFormNavigation._navCounter ?? 0
+      if ((evt as any)._navCounter === currentNav) return
+      ;(evt as any)._navCounter = currentNav
+      useFormNavigation._navCounter = currentNav + 1
+
       if (evt.shift) {
         navigateToPrevious()
       } else {

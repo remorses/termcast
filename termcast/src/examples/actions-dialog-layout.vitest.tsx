@@ -58,51 +58,51 @@ test('actions dialog layout shift when opening with ctrl+k', async () => {
   // First frame: dialog appears at stable position (same as last frame)
   expect(firstDialogFrame).toMatchInlineSnapshot(`
     "
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │   Actions                                                esc   │─
+    │                                                                │
+    │   > Search actions...                                          │
+    │                                                                │
+    │                                                                │ ▲
+    │   Settings                                                     │ ▀
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │ ▼
+    │                                                                │
+    ╰────────────────────────────────────────────────────────────────╯
+       ↵ view details   ↑↓ navigate   ^k actions
 
-
-       Simple List Example ────────────────────────────────────────────
-
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›View Details                                                 │
-      │   Add to Cart                                                  │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+    "
   `)
 
   // Last frame: dialog at same position as first frame (no shift)
   expect(lastDialogFrame).toMatchInlineSnapshot(`
     "
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │   Actions                                                esc   │─
+    │                                                                │
+    │   > Search actions...                                          │
+    │                                                                │
+    │  ›View Details                                                 │ ▲
+    │   Add to Cart                                                  │ ▀
+    │                                                                │
+    │   Settings                                                     │
+    │   Change Theme...                                              │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │ ▼
+    │                                                                │
+    ╰────────────────────────────────────────────────────────────────╯
+       ↵ view details   ↑↓ navigate   ^k actions
 
-
-       Simple List Example ────────────────────────────────────────────
-
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›View Details                                                 │
-      │   Add to Cart                                                  │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+    "
   `)
 
   // The dialog should appear at a stable position immediately.

@@ -149,27 +149,27 @@ test('list with detail view display and navigation', async () => {
        Pokemon List ─────────────────────────────────────────────────────────────
 
        > Search Pokemon...
-
-       bulbasaur #001
-       ivysaur #002                         │ charmander                        ▲
-      ›charmander #004                      │                                   █
-      ╭──────────────────────────────────────────────────────────────────────────╮
-      │                                                                          │
-      │   Actions                                                          esc   │
-      │                                                                          │
-      │   > Search actions...                                                    │
-      │                                                                          │
-      │  ›Toggle Detail                                                          │
-      │   View on Pokemon.com                                                    │
-      │                                                                          │
-      │   Settings                                                               │
-      │   Change Theme...                                                        │
-      │                                                                          │
-      │                                                                          │
-      │                                                                          │
-      │   ↵ select   ↑↓ navigate                                                 │
-      │                                                                          │
-      ╰──────────────────────────────────────────────────────────────────────────╯
+    ╭──────────────────────────────────────────────────────────────────────────╮
+    │                                                                          │
+    │   Actions                                                          esc   │▲
+    │                                                                          │█
+    │   > Search actions...                                                    │
+    │                                                                          │
+    │  ›Toggle Detail                                                          │
+    │   View on Pokemon.com                                                    │
+    │                                                                          │
+    │   Settings                                                               │
+    │   Change Theme...                                                        │
+    │                                                                          │
+    │                                                                          │
+    │                                                                          │
+    │   ↵ select   ↑↓ navigate                                                 │
+    │                                                                          │
+    ╰──────────────────────────────────────────────────────────────────────────╯
+                                            │
+                                            │ Types
+                                            │
+                                            │ Fire
        ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
          detail                             │                                   ▼
 

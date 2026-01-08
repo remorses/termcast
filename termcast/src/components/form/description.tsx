@@ -1,10 +1,11 @@
 import React, { useRef, useId } from 'react'
-import { BoxRenderable, TextAttributes } from '@opentui/core'
+import { BoxRenderable } from '@opentui/core'
+import { useFocusContext } from './index'
 import { useTheme } from 'termcast/src/theme'
-import { WithLeftBorder } from './with-left-border'
-import { useFocusContext, useFormFieldDescendant } from './index'
-import { useFormNavigation } from './use-form-navigation'
 import { LoadingText } from 'termcast/src/components/loading-text'
+import { WithLeftBorder } from './with-left-border'
+
+export const FORM_MAX_WIDTH = 70
 
 export interface DescriptionProps {
   id?: string
@@ -12,8 +13,6 @@ export interface DescriptionProps {
   text: string
   isFormTitle?: boolean
 }
-
-export const FORM_MAX_WIDTH = 70
 
 export const Description = (props: DescriptionProps): any => {
   const theme = useTheme()
@@ -24,14 +23,8 @@ export const Description = (props: DescriptionProps): any => {
   const focusContext = useFocusContext()
   const isFocused = focusContext.focusedField === id
 
-  // Register as form field descendant for scroll and navigation support
-  useFormFieldDescendant({
-    id,
-    elementRef: elementRef.current,
-  })
-
-  // Use form navigation for tab/arrow key support
-  useFormNavigation(id)
+  // Note: Description is display-only, not a navigable input field.
+  // It does NOT register with useFormFieldDescendant or useFormNavigation.
 
   return (
     <box

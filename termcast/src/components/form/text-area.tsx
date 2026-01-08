@@ -1,7 +1,7 @@
 import React, { useRef, useCallback } from 'react'
-import { TextareaRenderable } from '@opentui/core'
+import { BoxRenderable, TextareaRenderable } from '@opentui/core'
 import { useFormContext } from 'react-hook-form'
-import { useFocusContext } from './index'
+import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { useTheme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
@@ -24,6 +24,13 @@ export const TextArea = (props: TextAreaProps): any => {
   const isFocused = focusedField === props.id
 
   const textareaRef = useRef<TextareaRenderable>(null)
+  const elementRef = useRef<BoxRenderable>(null)
+
+  // Register as form field descendant for scroll and navigation support
+  useFormFieldDescendant({
+    id: props.id,
+    elementRef: elementRef,
+  })
 
   // TODO in textarea arrows should probably go to lines instead of other forms
   useFormNavigation(props.id)
@@ -53,7 +60,7 @@ export const TextArea = (props: TextAreaProps): any => {
   const fieldError = formState.errors[props.id]
 
   return (
-    <termcast-form-field-wrapper fieldId={props.id}>
+    <termcast-form-field-wrapper fieldId={props.id} ref={elementRef}>
       <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
         <box
           onMouseDown={() => {

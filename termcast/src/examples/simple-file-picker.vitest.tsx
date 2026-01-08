@@ -54,29 +54,29 @@ test('file picker shows form fields', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -106,47 +106,47 @@ test('typing opens autocomplete dialog with file list', async () => {
       ◇  Your Name
       │  John Doe
       │
-      ◇  Select Files
-      │  Enter file path...
+      ◆  Select Files
+      │  s
       │
       │  Choose one or more files to upload
       │
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │ Filter: s                                                      │
-      │                                                                │
-      │  ▫ src/                                                        │
-      │                                                                │
-      │ ↑↓ navigate  ⏎/tab select  esc close                           │
-      ╰────────────────────────────────────────────────────────────────╯
-      │  Choose exactly one file
+      ◇  Select Folder
+      │  Enter file path...
       │
-      └
+      │  Choose a folder for output
+      │
+      ◇  Select Single File
+      │  Enter file path...
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │ Filter: s                                                      │
+    │                                                                │
+    │  ▫ src/                                                        │
+    │                                                                │
+    │ ↑↓ navigate  ⏎/tab select  esc close                           │
+    ╰────────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -184,13 +184,13 @@ test('escape closes autocomplete without going back', async () => {
       ◇  Your Name
       │  John Doe
       │
-      ◇  Select Files
-      │  Enter file path...
+      ◆  Select Files
+      │  s
       │
       │  Choose one or more files to upload
       │
-      ◆  Select Folder
-      │  s
+      ◇  Select Folder
+      │  Enter file path...
       │
       │  Choose a folder for output
       │
@@ -202,29 +202,29 @@ test('escape closes autocomplete without going back', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -284,26 +284,26 @@ test('selecting first item with enter adds it to the list', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)

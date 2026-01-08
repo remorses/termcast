@@ -43,12 +43,12 @@ test('list shows initial items after fetch', async () => {
        Settings Icon Category: Icons
 
        Illustrations
-       Welcome Banner Category: Illustrations
-       Hero Image Category: Illustrations
-
 
 
        ↑↓ navigate   ^k actions
+
+
+
 
 
 

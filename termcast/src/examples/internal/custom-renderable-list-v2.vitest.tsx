@@ -453,18 +453,18 @@ test('ctrl+k opens action dialog', async () => {
 
 
        Custom Renderable List V2 - Detail Panel
-       Presst^1=apple,)^2=banana, ^3=carrot, ^4=kale to jump
+       Presst^╭──────────────────────────────────────────────────────────────────────────╮
+              │                                                                          │
+       Search │                                                                          │
+       ── Frui│ Actions for: Apple                                                       │
+              │                                                                          │
+       › Apple│ Press ESC to close                                                       │
+         Banan│                                                                          │
+         Date ╰──────────────────────────────────────────────────────────────────────────╯
+         Fig A small fruit
+                                                     ▀   ID: apple
 
-       Search items...                               │
-       ── Fruits ──                                      Details for Apple
-                ╭──────────────────────────────────────────────────────────────────────────╮
-       › Apple A│                                                                          │
-         Banana │                                                                          │
-         Date A │ Actions for: Apple                                                       │
-         Fig A s│                                                                          │
-                │ Press ESC to close                                                       │
-                │                                                                          │
-                ╰──────────────────────────────────────────────────────────────────────────╯
+
        10 of 10 items
 
 
@@ -551,18 +551,18 @@ test('ctrl+k shows selected item in dialog', async () => {
 
 
        Custom Renderable List V2 - Detail Panel
-       Presst^1=apple,a^2=banana, ^3=carrot, ^4=kale to jump
+       Presst^╭──────────────────────────────────────────────────────────────────────────╮
+              │                                                                          │
+       Search │                                                                          │
+       ── Frui│ Actions for: Banana                                                      │
+              │                                                                          │
+         Apple│ Press ESC to close                                                       │
+       › Banan│                                                                          │
+         Date ╰──────────────────────────────────────────────────────────────────────────╯
+         Fig A small fruit
+                                                     ▀   ID: banana
 
-       Search items...                               │
-       ── Fruits ──                                      Details for Banana
-                ╭──────────────────────────────────────────────────────────────────────────╮
-         Apple A│                                                                          │
-       › Banana │                                                                          │
-         Date A │ Actions for: Banana                                                      │
-         Fig A s│                                                                          │
-                │ Press ESC to close                                                       │
-                │                                                                          │
-                ╰──────────────────────────────────────────────────────────────────────────╯
+
        10 of 10 items
 
 

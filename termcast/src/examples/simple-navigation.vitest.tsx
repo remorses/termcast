@@ -45,8 +45,8 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
 
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -79,8 +79,8 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
 
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -115,10 +115,10 @@ test('navigation between main and detail views', async () => {
 
 
 
+
+
+
        ↵ go back   ↑↓ navigate   ^k actions
-
-
-
 
 
 
@@ -159,8 +159,8 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
 
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -193,8 +193,8 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
 
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -224,10 +224,10 @@ test('navigation between main and detail views', async () => {
 
 
 
+
+
+
        ↵ go back   ↑↓ navigate   ^k actions
-
-
-
 
 
 
@@ -265,8 +265,8 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
 
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -294,25 +294,25 @@ test('navigation with actions panel', async () => {
   const actionsOpenSnapshot = await session.text()
   expect(actionsOpenSnapshot).toMatchInlineSnapshot(`
     "
+    │   Actions                                                esc   │
+    │                                                                │
+    │   > Search actions...                                          │─
+    │                                                                │
+    │  ›Open Details                                                 │
+    │   Copy Title                                                   │
+    │                                                                │
+    │   Settings                                                     │
+    │   Change Theme...                                              │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │
+    │                                                                │
+    ╰────────────────────────────────────────────────────────────────╯
 
 
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›Open Details                                                 │
-      │   Copy Title                                                   │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
+
+
 
 
 
@@ -327,25 +327,25 @@ test('navigation with actions panel', async () => {
   const secondActionSnapshot = await session.text()
   expect(secondActionSnapshot).toMatchInlineSnapshot(`
     "
+    │   Actions                                                esc   │
+    │                                                                │
+    │   > Search actions...                                          │─
+    │                                                                │
+    │   Open Details                                                 │
+    │  ›Copy Title                                                   │
+    │                                                                │
+    │   Settings                                                     │
+    │   Change Theme...                                              │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │
+    │                                                                │
+    ╰────────────────────────────────────────────────────────────────╯
 
 
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │   Open Details                                                 │
-      │  ›Copy Title                                                   │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
+
+
 
 
 
@@ -373,8 +373,8 @@ test('navigation with actions panel', async () => {
 
 
 
-       ✓ Copied to Clipboard  First Item
 
+       ✓ Copied to Clipboard  First Item
 
 
 
@@ -416,10 +416,10 @@ test('navigation with actions panel', async () => {
 
 
 
+
+
+
        ↵ go back   ↑↓ navigate   ^k actions
-
-
-
 
 
 
@@ -438,24 +438,24 @@ test('navigation with actions panel', async () => {
   const detailActionsSnapshot = await session.text()
   expect(detailActionsSnapshot).toMatchInlineSnapshot(`
     "
+    │   Actions                                                esc   │
+    │                                                                │
+    │   > Search actions...                                          │─
+    │                                                                │
+    │  ›Go Back                                                      │
+    │   Copy Title                                                   │
+    │                                                                │
+    │   Settings                                                     │
+    │   Change Theme...                                              │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │
+    │                                                                │
+    ╰────────────────────────────────────────────────────────────────╯
 
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›Go Back                                                      │
-      │   Copy Title                                                   │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
+
+
 
 
 
@@ -488,8 +488,8 @@ test('navigation with actions panel', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
 
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -530,12 +530,12 @@ test('search functionality in main and detail views', async () => {
       ›Second Item Navigate to second detail
 
 
+
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
@@ -572,8 +572,8 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
 
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 
@@ -610,10 +610,10 @@ test('search functionality in main and detail views', async () => {
 
 
 
+
+
+
        ↵ go back   ↑↓ navigate   ^k actions
-
-
-
 
 
 
@@ -649,8 +649,8 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions
 
+       ↵ go back   ↑↓ navigate   ^k actions
 
 
 
@@ -686,8 +686,8 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
 
+       ↵ open details   ↑↓ navigate   ^k actions
 
 
 

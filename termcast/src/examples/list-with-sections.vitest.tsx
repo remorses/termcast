@@ -172,12 +172,12 @@ test('list with sections search functionality', async () => {
       ›Banana Yellow and nutritious                               Ripe
 
 
+
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
@@ -208,12 +208,12 @@ test('list with sections search functionality', async () => {
       ›Lettuce Green and fresh
 
 
+
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
@@ -271,12 +271,12 @@ test('list with sections search functionality', async () => {
       ›Bread Freshly baked                                 Today [New]
 
 
+
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
@@ -419,26 +419,26 @@ test('list actions panel with ctrl+k', async () => {
   const afterCtrlKSnapshot = await session.text()
   expect(afterCtrlKSnapshot).toMatchInlineSnapshot(`
     "
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │   Actions                                                esc   │─
+    │                                                                │
+    │   > Search actions...                                          │
+    │                                                                │
+    │  ›View Details                                                 │ ▲
+    │   Add to Cart                                                  │ ▀
+    │                                                                │
+    │   Settings                                                     │
+    │   Change Theme...                                              │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │ ▼
+    │                                                                │
+    ╰────────────────────────────────────────────────────────────────╯
+       ↵ view details   ↑↓ navigate   ^k actions
 
-
-       Simple List Example ────────────────────────────────────────────
-
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›View Details                                                 │
-      │   Add to Cart                                                  │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+    "
   `)
 
   // Navigate down to second action
@@ -447,26 +447,26 @@ test('list actions panel with ctrl+k', async () => {
   const afterDownInActionsSnapshot = await session.text()
   expect(afterDownInActionsSnapshot).toMatchInlineSnapshot(`
     "
+    ╭────────────────────────────────────────────────────────────────╮
+    │                                                                │
+    │   Actions                                                esc   │─
+    │                                                                │
+    │   > Search actions...                                          │
+    │                                                                │
+    │   View Details                                                 │ ▲
+    │  ›Add to Cart                                                  │ ▀
+    │                                                                │
+    │   Settings                                                     │
+    │   Change Theme...                                              │
+    │                                                                │
+    │                                                                │
+    │                                                                │
+    │   ↵ select   ↑↓ navigate                                       │ ▼
+    │                                                                │
+    ╰────────────────────────────────────────────────────────────────╯
+       ↵ view details   ↑↓ navigate   ^k actions
 
-
-       Simple List Example ────────────────────────────────────────────
-
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │   View Details                                                 │
-      │  ›Add to Cart                                                  │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+    "
   `)
 
   // Trigger the second action (Add to Cart)
@@ -538,11 +538,11 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
 
 
 
@@ -566,11 +566,11 @@ test('filtering selects first visible item and navigation works', async () => {
       ›Carrot Orange and crunchy                             [Healthy]
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
 
 
 
@@ -594,11 +594,11 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
 
 
 
@@ -622,11 +622,11 @@ test('filtering selects first visible item and navigation works', async () => {
       ›Carrot Orange and crunchy                             [Healthy]
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
 
 
 

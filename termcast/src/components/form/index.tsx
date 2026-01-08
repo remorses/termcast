@@ -269,9 +269,11 @@ export const useFormRenderable = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Form field descendant type - stores element ref for scrolling
+// Note: elementRef is a React ref object so we can access .current.y at navigation time
+// (not the element directly, which would be null at registration time)
 interface FormFieldDescendant {
   id: string
-  elementRef?: BoxRenderable | null
+  elementRef?: React.RefObject<BoxRenderable | null> | BoxRenderable | null
 }
 
 // Create descendants for form fields
