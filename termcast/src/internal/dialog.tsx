@@ -1,6 +1,6 @@
 import { useKeyboard } from '@opentui/react'
 import React, { type ReactNode, useRef, useContext } from 'react'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
 import { useStore, type DialogPosition } from 'termcast/src/state'
@@ -20,6 +20,7 @@ export function Dialog({
   position = 'center',
   onClickOutside,
 }: DialogProps): any {
+  const theme = useTheme()
   const inFocus = useIsInFocus()
   const clickedInsideDialog = useRef(false)
 
@@ -77,8 +78,8 @@ export function Dialog({
         borderStyle='rounded'
         width={76}
         maxWidth='95%'
-        backgroundColor={Theme.backgroundPanel}
-        borderColor={Theme.accent}
+        backgroundColor={theme.backgroundPanel}
+        borderColor={theme.accent}
         paddingTop={1}
         onMouseDown={handleDialogClick}
       >

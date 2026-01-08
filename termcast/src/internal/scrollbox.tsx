@@ -1,5 +1,5 @@
 import React from 'react'
-import Theme from '../theme'
+import { useTheme } from '../theme'
 import { MacOSScrollAccel } from '@opentui/core'
 import { ScrollBoxProps } from '@opentui/react'
 
@@ -13,6 +13,7 @@ export function ScrollBox({
   ref,
   ...props
 }: ScrollBoxProps): any {
+  const Theme = useTheme()
   return (
     <scrollbox
       ref={ref}

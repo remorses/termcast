@@ -1,6 +1,6 @@
 import { useKeyboard } from '@opentui/react'
 import { useMemo, useState, useRef } from 'react'
-import Theme from '../theme'
+import { useTheme } from '../theme'
 
 // ----- Helpers -----
 type Focus = 'year' | 'month' | 'grid'
@@ -76,6 +76,7 @@ export function DatePickerWidget({
   onFirstRowUpKey?: () => void
   onLastRowDownKey?: () => void
 }) {
+  const Theme = useTheme()
   const today = useMemo(() => new Date(), [])
   const [focus, setFocus] = useState<Focus>('grid') // can be "year" | "month" | "grid"
   const [selected, setSelected] = useState<Date>(initialValue || new Date()) // focused day

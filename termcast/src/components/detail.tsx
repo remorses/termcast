@@ -1,7 +1,7 @@
 import React, { ReactNode, useMemo, ReactElement } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard, useTerminalDimensions } from '@opentui/react'
-import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
+import { useTheme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { ActionPanel, Action } from 'termcast/src/components/actions'
 import { Footer } from 'termcast/src/components/footer'
@@ -97,29 +97,30 @@ function DetailFooter({
   hasActions?: boolean
   firstActionTitle?: string
 }): any {
+  const theme = useTheme()
   return (
     <Footer paddingLeft={0} paddingRight={0}>
       <box style={{ flexDirection: 'row', gap: 3 }}>
         <box style={{ flexDirection: 'row', gap: 1 }}>
-          <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
             esc
           </text>
-          <text flexShrink={0} fg={Theme.textMuted}>go back</text>
+          <text flexShrink={0} fg={theme.textMuted}>go back</text>
         </box>
         {hasActions && (
           <box style={{ flexDirection: 'row', gap: 1 }}>
-            <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+            <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
               ^k
             </text>
-            <text flexShrink={0} fg={Theme.textMuted}>actions</text>
+            <text flexShrink={0} fg={theme.textMuted}>actions</text>
           </box>
         )}
         {hasActions && firstActionTitle && (
           <box style={{ flexDirection: 'row', gap: 1 }}>
-            <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+            <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
               ↵
             </text>
-            <text flexShrink={0} fg={Theme.textMuted}>{firstActionTitle}</text>
+            <text flexShrink={0} fg={theme.textMuted}>{firstActionTitle}</text>
           </box>
         )}
       </box>

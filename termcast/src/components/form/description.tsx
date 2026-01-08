@@ -1,6 +1,6 @@
 import React, { useRef, useId } from 'react'
 import { BoxRenderable, TextAttributes } from '@opentui/core'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { useFormNavigation } from './use-form-navigation'
@@ -16,6 +16,7 @@ export interface DescriptionProps {
 export const FORM_MAX_WIDTH = 70
 
 export const Description = (props: DescriptionProps): any => {
+  const theme = useTheme()
   const elementRef = useRef<BoxRenderable>(null)
   const autoId = useId()
   const id = props.id || autoId
@@ -49,14 +50,14 @@ export const Description = (props: DescriptionProps): any => {
         >
           <LoadingText
             isLoading={isFocused && focusContext.isLoading}
-            color={isFocused ? Theme.primary : Theme.text}
+            color={isFocused ? theme.primary : theme.text}
           >
             {props.title}
           </LoadingText>
         </WithLeftBorder>
       )}
       <WithLeftBorder isFocused={isFocused}>
-        <text fg={Theme.textMuted}>{props.text}</text>
+        <text fg={theme.textMuted}>{props.text}</text>
       </WithLeftBorder>
     </box>
   )

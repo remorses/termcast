@@ -70,11 +70,11 @@ test('compile extension and run executable', async () => {
       ›List Items Displays a simple list with some ite view  ▀
        Search Items Search and filter through a list o view
        Google Oauth                                    view
-       usePromise Demo Shows how to use the usePromise view  ▼
+       usePromise Demo Shows how to use the usePromise view
+       Show State Shows the current application state  view  ▼
 
 
        ↵ run command   ↑↓ navigate   ^k actions
-
     "
   `)
 }, 60000)

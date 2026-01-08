@@ -1,17 +1,20 @@
-import React from 'react'
-import { Theme } from 'termcast/src/theme'
+import React, { useMemo } from 'react'
+import { useTheme, type ResolvedTheme } from 'termcast/src/theme'
 import { colord } from 'colord'
 import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
 
-const spinnerFrames = [
-  { char: ' ', color: Theme.accent },
-  { char: '·', color: Theme.accent },
-  { char: '•', color: colord(Theme.accent).lighten(0.1).toHex() },
-  // { char: '●', color: colord(Theme.accent).lighten(0.2).toHex() },
-]
+function getSpinnerFrames(theme: ResolvedTheme) {
+  return [
+    { char: ' ', color: theme.accent },
+    { char: '·', color: theme.accent },
+    { char: '•', color: colord(theme.accent).lighten(0.1).toHex() },
+  ]
+}
 
 function Spinner(): any {
+  const theme = useTheme()
   const tick = useAnimationTick(TICK_DIVISORS.SPINNER)
+  const spinnerFrames = useMemo(() => getSpinnerFrames(theme), [theme])
   const frame = spinnerFrames[tick % spinnerFrames.length]
   return (
     <text flexShrink={0} fg={frame.color}>
@@ -42,9 +45,10 @@ export const WithLeftBorder = ({
   paddingLeft = 2,
   paddingTop = 0,
 }: WithLeftBorderProps): any => {
+  const theme = useTheme()
   if (withDiamond || customCharacter) {
     const chars = customCharacter || { focused: '◆', unfocused: '◇' }
-    const color = isFocused ? Theme.accent : Theme.text
+    const color = isFocused ? theme.accent : theme.text
     return (
       <box flexDirection='row'>
         {isFocused && isLoading ? (
@@ -65,7 +69,7 @@ export const WithLeftBorder = ({
       paddingLeft={paddingLeft}
       border={['left']}
       // borderStyle={isFocused ? 'heavy' : 'single'}
-      borderColor={isFocused ? Theme.accent : Theme.text}
+      borderColor={isFocused ? theme.accent : theme.text}
       flexShrink={0}
       flexDirection='row'
     >

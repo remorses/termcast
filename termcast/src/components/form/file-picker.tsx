@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { TextareaRenderable } from '@opentui/core'
 import { WithLeftBorder } from './with-left-border'
 import { FormItemProps, FormItemRef } from './types'
@@ -65,6 +65,7 @@ const FilePickerField = ({
   setFocusedField: (id: string) => void
   isFormLoading: boolean
 }): any => {
+  const theme = useTheme()
   const isInFocus = useIsInFocus()
   const inputRef = React.useRef<TextareaRenderable>(null)
 
@@ -176,7 +177,7 @@ const FilePickerField = ({
         >
           <LoadingText
             isLoading={isFocused && isFormLoading}
-            color={isFocused ? Theme.primary : Theme.text}
+            color={isFocused ? theme.primary : theme.text}
           >
             {props.title || 'File Path'}
           </LoadingText>
@@ -207,9 +208,9 @@ const FilePickerField = ({
           />
           {selectedFiles.length > 0 && (
             <box flexDirection='column' marginTop={1}>
-              <text fg={Theme.textMuted}>Selected files:</text>
+              <text fg={theme.textMuted}>Selected files:</text>
               {selectedFiles.map((file: string, index: number) => (
-                <text key={index} fg={Theme.text}>
+                <text key={index} fg={theme.text}>
                   • {file}
                 </text>
               ))}
@@ -219,14 +220,14 @@ const FilePickerField = ({
       </WithLeftBorder>
       {(fieldState.error || props.error) && (
         <WithLeftBorder isFocused={isFocused}>
-          <text fg={Theme.error}>
+          <text fg={theme.error}>
             {fieldState.error?.message || props.error}
           </text>
         </WithLeftBorder>
       )}
       {props.info && (
         <WithLeftBorder isFocused={isFocused}>
-          <text fg={Theme.textMuted}>{props.info}</text>
+          <text fg={theme.textMuted}>{props.info}</text>
         </WithLeftBorder>
       )}
     </box>

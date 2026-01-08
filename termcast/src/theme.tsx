@@ -1,5 +1,6 @@
 import { SyntaxStyle, RGBA } from '@opentui/core'
 import { getResolvedTheme, type ResolvedTheme, defaultThemeName, themeNames } from './themes'
+export type { ResolvedTheme }
 import { useStore } from './state'
 import { Cache } from './apis/cache'
 
@@ -47,15 +48,6 @@ export function initializeTheme(): void {
   useStore.setState({ currentThemeName: themeName })
 }
 
-// Proxy-based Theme object that reads from zustand state
-export const Theme: ResolvedTheme = new Proxy({} as ResolvedTheme, {
-  get(_, prop: string) {
-    const themeName = useStore.getState().currentThemeName
-    const resolved = getResolvedTheme(themeName)
-    return resolved[prop as keyof ResolvedTheme]
-  },
-})
-
 export function getMarkdownSyntaxStyle(): SyntaxStyle {
   const themeName = useStore.getState().currentThemeName
   const t = getResolvedTheme(themeName)
@@ -89,5 +81,3 @@ export const markdownSyntaxStyle = new Proxy({} as SyntaxStyle, {
     return getMarkdownSyntaxStyle()[prop as keyof SyntaxStyle]
   },
 })
-
-export default Theme

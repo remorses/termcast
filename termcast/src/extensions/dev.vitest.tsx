@@ -38,11 +38,11 @@ test('dev command shows extension commands list', async () => {
       ›List Items Displays a simple list with some ite view  ▀
        Search Items Search and filter through a list o view
        Google Oauth                                    view
-       usePromise Demo Shows how to use the usePromise view  ▼
+       usePromise Demo Shows how to use the usePromise view
+       Show State Shows the current application state  view  ▼
 
 
        ↵ run command   ↑↓ navigate   ^k actions
-
     "
   `)
 }, 30000)
@@ -69,15 +69,15 @@ test('selecting command with arguments shows arguments form', async () => {
 
        > Search commands...
 
-       usePromise Demo Shows how to use the usePromise view  ▲
+       Google Oauth                                    view  ▲
+       usePromise Demo Shows how to use the usePromise view
        Show State Shows the current application state  view
-      ›With Arguments Demonstrates command arguments ( view
-       Quick Action Copies current timestamp to cli no-view  ▀
+      ›With Arguments Demonstrates command arguments ( view  ▄
+       Quick Action Copies current timestamp to cli no-view
        Throw Error Command that throws an error at roo view  ▼
 
 
        ↵ run command   ↑↓ navigate   ^k actions
-
     "
   `)
 
@@ -97,10 +97,10 @@ test('selecting command with arguments shows arguments form', async () => {
 
 
 
-      ■  With Arguments                                      ▀
+      ▪  With Arguments                                      ▀
       │  Enter the arguments to run this command.
       │
-      ◇  Search query
+      ◆  Search query
       │  Search query
       │
       ◇  Secret key
@@ -142,11 +142,11 @@ test('can fill arguments and run command', async () => {
 
 
 
-      ■  With Arguments                                      ▀
+      ▪  With Arguments                                      ▀
       │  Enter the arguments to run this command.
       │
-      ◇  Search query
-      │  Search query
+      ◆  Search query
+      │  my search term
       │
       ◇  Secret key
 
