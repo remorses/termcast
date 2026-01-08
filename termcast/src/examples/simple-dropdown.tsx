@@ -1,10 +1,22 @@
 import { renderWithProviders } from 'termcast'
 import { Dropdown } from 'termcast'
 import { logger } from 'termcast'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const App: any = () => {
-  const [selectedValue, setSelectedValue] = useState<string>('one')
+  const [selectedValue, setSelectedValue] = useState<string>('beer')
+  const [dynamicItems, setDynamicItems] = useState<{ value: string; title: string; icon: string }[]>([])
+
+  // Add new items after 500ms delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDynamicItems([
+        { value: 'smoothie', title: 'Smoothie', icon: '🥤' },
+        { value: 'milkshake', title: 'Milkshake', icon: '🥛' },
+      ])
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleChange = (newValue: string) => {
     logger.log('Dropdown value changed to:', newValue)
@@ -88,6 +100,20 @@ const App: any = () => {
           keywords={['lemon', 'citrus', 'sweet']}
         />
       </Dropdown.Section>
+
+      {/* Dynamic items added after 1 second */}
+      {dynamicItems.length > 0 && (
+        <Dropdown.Section title='Dynamic Items'>
+          {dynamicItems.map((item) => (
+            <Dropdown.Item
+              key={item.value}
+              value={item.value}
+              title={item.title}
+              icon={item.icon}
+            />
+          ))}
+        </Dropdown.Section>
+      )}
     </Dropdown>
   )
 }
