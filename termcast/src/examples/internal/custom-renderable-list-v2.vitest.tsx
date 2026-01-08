@@ -593,7 +593,7 @@ test('defaultSearchQuery filters on initial render', async () => {
        Default Search Test
 
        banana
-       › Banana Yellow fruit
+         Banana Yellow fruit
 
 
 

@@ -29,7 +29,7 @@ useCustomListStore.setState({
   visibleCount: 0,
   totalCount: 0,
   searchQuery: '',
-  renderTick: 0,
+  itemStates: {},
 })
 
 renderWithProviders(<Test />)

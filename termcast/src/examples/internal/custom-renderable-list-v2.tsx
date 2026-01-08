@@ -152,20 +152,24 @@ import { useStore } from 'termcast/src/state'
 import React, { useRef, useState } from 'react'
 import { renderWithProviders } from '../../utils'
 import { create } from 'zustand'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Zustand Store
 // ─────────────────────────────────────────────────────────────────────────────
+
+interface ItemState {
+  visibleIndex: number
+}
 
 interface CustomListStoreState {
   selectedIndex: number
   visibleCount: number
   totalCount: number
   searchQuery: string
-  // Incremented on each refilter to force React re-renders
-  // This ensures items re-render after their visibleIndex is set
-  renderTick: number
+  // Item visibility state keyed by itemId - eliminates need for renderTick
+  itemStates: Record<string, ItemState>
+
   // Phase 1: Bidirectional selection sync
   // The id of the currently selected item (for controlled selection)
   selectedItemId: string | null
@@ -179,7 +183,7 @@ const useCustomListStore = create<CustomListStoreState>(() => ({
   visibleCount: 0,
   totalCount: 0,
   searchQuery: '',
-  renderTick: 0,
+  itemStates: {},
   selectedItemId: null,
   isShowingDetail: false,
   currentDetailNode: null,
@@ -519,10 +523,15 @@ class CustomListRenderable extends BoxRenderable {
     // Update item visibility and visible indices
     // We use the `visible` prop instead of conditional rendering to keep elements
     // in the tree - this preserves registration order and visibleIndex for navigation
+    const itemStates: Record<string, ItemState> = {}
     for (const item of allItems) {
       const matches = !query || this.scoreItem(item, query) > 0
       item.visible = matches
       item.visibleIndex = matches ? visibleIndex++ : -1
+      // Store in itemStates for React to subscribe to
+      if (item.itemId) {
+        itemStates[item.itemId] = { visibleIndex: item.visibleIndex }
+      }
     }
 
     // Update section visibility based on their items
@@ -533,7 +542,7 @@ class CustomListRenderable extends BoxRenderable {
     }
 
     // Get current selection and clamp it
-    const { selectedIndex, renderTick } = useCustomListStore.getState()
+    const { selectedIndex } = useCustomListStore.getState()
     let newSelectedIndex = Math.max(0, Math.min(selectedIndex, Math.max(0, visibleIndex - 1)))
 
     // Phase 1: Apply controlled selection if set
@@ -546,15 +555,15 @@ class CustomListRenderable extends BoxRenderable {
     }
 
     // Update zustand store - triggers React re-render
-    // Increment renderTick to ensure items re-render after visibleIndex is set
+    // itemStates allows each item to subscribe to its own visibleIndex
     const finalSelectedIndex = visibleIndex > 0 ? newSelectedIndex : 0
     useCustomListStore.setState({
       searchQuery: this.searchQuery,
       visibleCount: visibleIndex,
       totalCount: allItems.length,
       selectedIndex: finalSelectedIndex,
-      renderTick: renderTick + 1,
       selectedItemId: this._selectedItemId,
+      itemStates,
     })
 
     // Update status text (owned by renderable, not React)
@@ -721,6 +730,7 @@ interface ListProps {
 function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId, onSelectionChange, isShowingDetail }: ListProps): any {
   const listRef = useRef<CustomListRenderable>(null)
   const inFocus = useIsInFocus()
+  const theme = useTheme()
 
   // Subscribe to zustand for UI updates
   const visibleCount = useCustomListStore((s) => s.visibleCount)
@@ -786,7 +796,7 @@ function CustomList({ children, placeholder, defaultSearchQuery, selectedItemId,
         </box>
         <text flexShrink={0}>│</text>
         <box width="50%" flexDirection="column" paddingLeft={1}>
-          {currentDetailNode || <text fg={Theme.textMuted}>No detail available</text>}
+          {currentDetailNode || <text fg={theme.textMuted}>No detail available</text>}
         </box>
       </box>
     )
@@ -812,11 +822,12 @@ interface ListItemProps {
 function CustomListItem({ id, title, subtitle, keywords, onAction, detail }: ListItemProps): any {
   const wrapperRef = useRef<CustomListItemWrapperRenderable>(null)
   const selectedIndex = useCustomListStore((s) => s.selectedIndex)
-  // Subscribe to renderTick to force re-render after visibleIndex is set
-  useCustomListStore((s) => s.renderTick)
+  // Subscribe to THIS item's state - React re-renders when it changes
+  const itemState = useCustomListStore((s) => (id ? s.itemStates[id] : undefined))
+  const theme = useTheme()
 
-  // Compare visibleIndex to selectedIndex
-  const isSelected = wrapperRef.current?.visibleIndex === selectedIndex
+  // Compare visibleIndex to selectedIndex - using zustand state, not ref
+  const isSelected = itemState?.visibleIndex === selectedIndex
 
   return (
     <custom-list-item-wrapper-v2
@@ -833,7 +844,7 @@ function CustomListItem({ id, title, subtitle, keywords, onAction, detail }: Lis
       {/* All UI in JSX */}
       <text flexShrink={0}>{isSelected ? '› ' : '  '}</text>
       <text flexShrink={0}>{title}</text>
-      {subtitle && <text flexShrink={0} fg={Theme.textMuted}> {subtitle}</text>}
+      {subtitle && <text flexShrink={0} fg={theme.textMuted}> {subtitle}</text>}
     </custom-list-item-wrapper-v2>
   )
 }
@@ -911,6 +922,7 @@ function Example(): any {
   // Phase 1: Track selected item id in React state
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const inFocus = useIsInFocus()
+  const theme = useTheme()
 
   // Phase 1: Demonstrate programmatic selection change (bidirectional sync)
   // Press ctrl+1-4 to jump to specific items (ctrl to avoid typing in search)
@@ -934,17 +946,17 @@ function Example(): any {
   const createDetail = (item: { id: string; title: string; subtitle: string; keywords: string[] }) => (
     <box flexDirection="column" padding={1}>
       <text>Details for {item.title}</text>
-      <text fg={Theme.textMuted} marginTop={1}>{item.subtitle}</text>
-      <text fg={Theme.textMuted} marginTop={1}>Keywords: {item.keywords.join(', ')}</text>
-      <text fg={Theme.textMuted} marginTop={1}>ID: {item.id}</text>
+      <text fg={theme.textMuted} marginTop={1}>{item.subtitle}</text>
+      <text fg={theme.textMuted} marginTop={1}>Keywords: {item.keywords.join(', ')}</text>
+      <text fg={theme.textMuted} marginTop={1}>ID: {item.id}</text>
     </box>
   )
 
   return (
     <box flexDirection="column" padding={1} flexGrow={1}>
       <text marginBottom={1}>Custom Renderable List V2 - Detail Panel</text>
-      <text fg={Theme.textMuted}>Selected: {selectedId || '(none)'}</text>
-      <text fg={Theme.textMuted} marginBottom={1}>
+      <text fg={theme.textMuted}>Selected: {selectedId || '(none)'}</text>
+      <text fg={theme.textMuted} marginBottom={1}>
         Press ^1=apple, ^2=banana, ^3=carrot, ^4=kale to jump
       </text>
       <CustomList
@@ -999,7 +1011,6 @@ if (import.meta.main) {
     visibleCount: 0,
     totalCount: 0,
     searchQuery: '',
-    renderTick: 0,
     selectedItemId: null,
     isShowingDetail: false,
     currentDetailNode: null,
