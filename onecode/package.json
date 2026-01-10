@@ -1,0 +1,11 @@
+{
+  "name": "onecode",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scripts": "bun run src/run.tsx"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.3"
+  }
+}
