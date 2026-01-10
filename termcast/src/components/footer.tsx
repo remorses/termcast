@@ -123,7 +123,7 @@ function ToastInline({ toast }: { toast: ToastData }): any {
         flexDirection='row'
         flexShrink={0}
         backgroundColor={colord(primaryBg).lighten(0.1).toHex()}
-        paddingLeft={3}
+        paddingLeft={0}
         paddingRight={1}
         overflow='hidden'
         height={1}
