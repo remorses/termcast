@@ -12,6 +12,11 @@ const platform = process.platform
 async function copyFileToClipboard(filePath: string): Promise<void> {
   const absolutePath = path.resolve(filePath)
 
+  if (process.env.VITEST) {
+    logger.log(`📋 [VITEST] Skipping copy file to clipboard: ${filePath}`)
+    return
+  }
+
   if (!fs.existsSync(absolutePath)) {
     throw new Error(`File not found: ${absolutePath}`)
   }

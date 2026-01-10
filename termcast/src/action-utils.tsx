@@ -31,6 +31,11 @@ export async function copyToClipboard(
 ): Promise<void> {
   const text = String(content)
 
+  if (process.env.VITEST) {
+    logger.log(`📋 [VITEST] Skipping copy to clipboard: ${concealed ? '[CONCEALED]' : text}`)
+    return
+  }
+
   try {
     if (platform === 'darwin') {
       // macOS: use pbcopy
@@ -117,6 +122,11 @@ export async function openFile(
  */
 export async function pasteContent(content: string | number): Promise<void> {
   const text = String(content)
+
+  if (process.env.VITEST) {
+    logger.log(`📝 [VITEST] Skipping paste: ${text}`)
+    return
+  }
 
   try {
     if (platform === 'darwin') {
