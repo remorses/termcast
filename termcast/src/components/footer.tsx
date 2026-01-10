@@ -29,13 +29,7 @@ interface FooterProps {
 
 const MIN_WIDTH_FOR_POWERED_BY = 75
 
-function ToastInline({
-  toast,
-  maxWidth,
-}: {
-  toast: ToastData
-  maxWidth: number
-}): any {
+function ToastInline({ toast }: { toast: ToastData }): any {
   const theme = useTheme()
   const inFocus = useIsInFocus()
   const [animationFrame, setAnimationFrame] = useState(0)
@@ -116,9 +110,9 @@ function ToastInline({
   return (
     <box
       flexDirection='row'
-      marginLeft={-3}
-      marginRight={-3}
-      width={maxWidth}
+      // marginLeft={-1}
+      // marginRight={-1}
+      width={'100%'}
       flexGrow={0}
       flexShrink={0}
       overflow='hidden'
@@ -233,7 +227,6 @@ export function Footer({
   const { width } = useTerminalDimensions()
   const showPoweredBy = !hidePoweredBy && width >= MIN_WIDTH_FOR_POWERED_BY
   const toast = useStore((state) => state.toast)
-  const toastWidth = Math.min(width, 140)
 
   return (
     <box
@@ -250,7 +243,7 @@ export function Footer({
       }}
     >
       {toast ? (
-        <ToastInline toast={toast} maxWidth={toastWidth} />
+        <ToastInline toast={toast} />
       ) : (
         <>
           {children}
