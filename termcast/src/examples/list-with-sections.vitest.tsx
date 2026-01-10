@@ -423,22 +423,22 @@ test('list actions panel with ctrl+k', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-       > Search items...
-
-       Fruits                                                          ▲
-      ›Apple Red and sweet                            Fresh [Popular]  ▀
-       Banana Yellow and nutritious                              Ripe
-       Orange Citrus and juicy                                  Fresh
-       Grape Sweet clusters                                [Seasonal]
-       Mango Tropical delight                                Imported
-       Pineapple Sweet and tangy
-       Strawberry Red and sweet                             [Popular]
-                                                                       ▼
-
-
-       ↵ view details   ↑↓ navigate   ^k actions
-
-    "
+      ╭────────────────────────────────────────────────────────────────╮
+      │                                                                │
+      │   Actions                                                esc   │
+      │                                                                │
+      │   > Search actions...                                          │
+      │                                                                │
+      │  ›View Details                                                 │
+      │   Add to Cart                                                  │
+      │                                                                │
+      │   Settings                                                     │
+      │   Change Theme...                                              │
+      │                                                                │
+      │                                                                │
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │
+      │                                                                │"
   `)
 
   // Navigate down to second action
@@ -562,15 +562,15 @@ test('filtering selects first visible item and navigation works', async () => {
 
        > ora
 
-       Orange Citrus and juicy                                   Fresh
-      ›Carrot Orange and crunchy                             [Healthy]
+      ›Orange Citrus and juicy                                   Fresh
+       Carrot Orange and crunchy                             [Healthy]
 
 
 
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions
 
 
 

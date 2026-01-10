@@ -231,9 +231,9 @@ test('grid search functionality', async () => {
        ☀ Sun
 
 
-
-
        ↵ show details   ↑↓ navigate   ^k actions
+
+
 
     "
   `)

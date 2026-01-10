@@ -1707,12 +1707,8 @@ const ListSection = (props: SectionProps) => {
   const listContext = useContext(ListContext)
   const searchText = listContext?.searchText || ''
 
-  // Don't render empty sections
-  if (React.Children.count(props.children) === 0) {
-    return null
-  }
-
   // Create new context with section title and search text
+  // NOTE: Must be called before any early returns to satisfy React hooks rules
   const sectionContextValue = useMemo(
     () => ({
       ...parentContext,
@@ -1721,6 +1717,11 @@ const ListSection = (props: SectionProps) => {
     }),
     [parentContext, props.title, searchText],
   )
+
+  // Don't render empty sections
+  if (React.Children.count(props.children) === 0) {
+    return null
+  }
 
   const isSearching = searchText.trim().length > 0
 

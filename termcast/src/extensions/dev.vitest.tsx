@@ -156,8 +156,9 @@ test('can fill arguments and run command', async () => {
     "
   `)
 
-  // Submit the form with Alt+Enter (opens action panel), then Enter (selects submit)
-  await session.press(['alt', 'enter'])
+  // Submit via action panel (ctrl+k then enter)
+  await session.press(['ctrl', 'k'])
+  await session.waitIdle()
   await session.press('enter')
 
   await session.text({
@@ -182,7 +183,7 @@ test('can fill arguments and run command', async () => {
 
 
 
-       ✓ Copied to Clipboard  (empty)
+       ↵ copy value   ↑↓ navigate   ^k actions
     "
   `)
 }, 30000)

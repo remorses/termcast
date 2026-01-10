@@ -301,8 +301,12 @@ const DropdownContent = ({
           })
           scrollToItem(nextItem)
         }
-      } else if (evt.name === 'return' || evt.name === 'space') {
-        // Toggle selection of current focused item
+      } else if (
+        (evt.name === 'return' || evt.name === 'space') &&
+        !evt.ctrl &&
+        !evt.meta
+      ) {
+        // Toggle selection of current focused item (but not when ctrl/meta is held for form submission)
         const entries = Object.entries(descendantsContext.committedMap)
         const sortedEntries = entries
           .filter(([_, item]) => item.index !== -1)

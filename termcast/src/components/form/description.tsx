@@ -13,7 +13,7 @@ export interface DescriptionProps {
   isFormTitle?: boolean
 }
 
-export const FORM_MAX_WIDTH = 70
+export const FORM_MAX_WIDTH = 120
 
 export const Description = (props: DescriptionProps): any => {
   const theme = useTheme()

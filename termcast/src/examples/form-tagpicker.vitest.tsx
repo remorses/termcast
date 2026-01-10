@@ -730,8 +730,10 @@ test('form tagpicker with default value', async () => {
     "
   `)
 
-  // Submit with alt+enter directly - no need to press esc first
-  await session.press(['alt', 'enter'])
+  // Submit via action panel (ctrl+k then enter)
+  await session.press(['ctrl', 'k'])
+  await session.waitIdle()
+  await session.press('enter')
 
   const afterSubmitSnapshot = await session.text({
     waitFor: (text) => {
@@ -748,9 +750,9 @@ test('form tagpicker with default value', async () => {
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
-      │  Choose your favorite sport...
+      │  Basketball
       │
-      │› ○ Basketball
+      │› ● Basketball
       │  ○ Football
       │  ○ Tennis
       │  ○ Baseball
@@ -770,7 +772,9 @@ test('form tagpicker with default value', async () => {
       │
       ▪  Submitted Data
       │  {
-      │    "sports": [],
+      │    "sports": [
+      │      "basketball"
+      │    ],
       │    "countries": [
       │      "ger"
       │    ]
@@ -780,8 +784,6 @@ test('form tagpicker with default value', async () => {
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
 
 
 
