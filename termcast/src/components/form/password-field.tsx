@@ -4,7 +4,7 @@ import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { useTheme } from 'termcast/src/theme'
-import { WithLeftBorder } from './with-left-border'
+import { WithLeftBorder, TitleIndicator } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 import { LoadingText } from 'termcast/src/components/loading-text'
 
@@ -41,21 +41,21 @@ export const PasswordField = (props: PasswordFieldProps): any => {
 
         return (
           <box ref={elementRef} flexDirection="column">
-            <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
-              <box
-                onMouseDown={() => {
-                  setFocusedField(props.id)
-                }}
-              >
-                <LoadingText
-                  isLoading={isFocused && focusContext.isLoading}
-                  color={isFocused ? theme.primary : theme.text}
+            <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
+              <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
+                <box
+                  onMouseDown={() => {
+                    setFocusedField(props.id)
+                  }}
                 >
-                  {props.title || ''}
-                </LoadingText>
-              </box>
-            </WithLeftBorder>
-            <WithLeftBorder isFocused={isFocused}>
+                  <LoadingText
+                    isLoading={isFocused && focusContext.isLoading}
+                    color={isFocused ? theme.primary : theme.text}
+                  >
+                    {props.title || ''}
+                  </LoadingText>
+                </box>
+              </TitleIndicator>
               <input
                 value={displayValue}
                 onInput={(newDisplay: string) => {
@@ -86,19 +86,16 @@ export const PasswordField = (props: PasswordFieldProps): any => {
                   setFocusedField(props.id)
                 }}
               />
-            </WithLeftBorder>
-            {(fieldState.error || props.error) && (
-              <WithLeftBorder isFocused={isFocused}>
+              {(fieldState.error || props.error || props.info) && <box height={1} />}
+              {(fieldState.error || props.error) && (
                 <text fg={theme.error}>
                   {fieldState.error?.message || props.error}
                 </text>
-              </WithLeftBorder>
-            )}
-            {props.info && (
-              <WithLeftBorder isFocused={isFocused}>
+              )}
+              {props.info && (
                 <text fg={theme.textMuted}>{props.info}</text>
-              </WithLeftBorder>
-            )}
+              )}
+            </WithLeftBorder>
           </box>
         ) as React.ReactElement
       }}

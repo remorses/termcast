@@ -19,6 +19,44 @@ function Spinner(): any {
   )
 }
 
+interface TitleIndicatorProps {
+  isFocused: boolean
+  isLoading?: boolean
+  customCharacter?: { focused: string; unfocused: string }
+  children: React.ReactNode
+}
+
+/**
+ * TitleIndicator renders a title row with a diamond/custom indicator that
+ * uses negative margin to overlay the left border character.
+ * Must be used inside a WithLeftBorder component.
+ */
+export const TitleIndicator = ({
+  isFocused,
+  isLoading,
+  customCharacter,
+  children,
+}: TitleIndicatorProps): any => {
+  const theme = useTheme()
+  const chars = customCharacter || { focused: '◆', unfocused: '◇' }
+  const color = isFocused ? theme.accent : theme.text
+
+  return (
+    <box flexDirection='row' marginLeft={-3}>
+      {isFocused && isLoading ? (
+        <Spinner />
+      ) : (
+        <text flexShrink={0} fg={color}>
+          <b>{isFocused ? chars.focused : chars.unfocused}</b>
+        </text>
+      )}
+      <box flexShrink={0} flexGrow={1} paddingLeft={2}>
+        {children}
+      </box>
+    </box>
+  )
+}
+
 interface WithLeftBorderProps {
   children: React.ReactNode
   withDiamond?: boolean

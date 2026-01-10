@@ -1,7 +1,7 @@
 import React, { useRef, useCallback } from 'react'
 import { useTheme } from 'termcast/src/theme'
 import { BoxRenderable, TextareaRenderable } from '@opentui/core'
-import { WithLeftBorder } from './with-left-border'
+import { WithLeftBorder, TitleIndicator } from './with-left-border'
 import { FormItemProps, FormItemRef } from './types'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
@@ -169,21 +169,21 @@ const FilePickerField = ({
 
   return (
     <box flexDirection='column'>
-      <WithLeftBorder withDiamond isFocused={isFocused} isLoading={isFormLoading}>
-        <box
-          onMouseDown={() => {
-            setFocusedField(props.id)
-          }}
-        >
-          <LoadingText
-            isLoading={isFocused && isFormLoading}
-            color={isFocused ? theme.primary : theme.text}
+      <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
+        <TitleIndicator isFocused={isFocused} isLoading={isFormLoading}>
+          <box
+            onMouseDown={() => {
+              setFocusedField(props.id)
+            }}
           >
-            {props.title || 'File Path'}
-          </LoadingText>
-        </box>
-      </WithLeftBorder>
-      <WithLeftBorder isFocused={isFocused}>
+            <LoadingText
+              isLoading={isFocused && isFormLoading}
+              color={isFocused ? theme.primary : theme.text}
+            >
+              {props.title || 'File Path'}
+            </LoadingText>
+          </box>
+        </TitleIndicator>
         <box flexDirection='column'>
           <textarea
             ref={setInputRef}
@@ -217,19 +217,15 @@ const FilePickerField = ({
             </box>
           )}
         </box>
-      </WithLeftBorder>
-      {(fieldState.error || props.error) && (
-        <WithLeftBorder isFocused={isFocused}>
+        {(fieldState.error || props.error) && (
           <text fg={theme.error}>
             {fieldState.error?.message || props.error}
           </text>
-        </WithLeftBorder>
-      )}
-      {props.info && (
-        <WithLeftBorder isFocused={isFocused}>
+        )}
+        {props.info && (
           <text fg={theme.textMuted}>{props.info}</text>
-        </WithLeftBorder>
-      )}
+        )}
+      </WithLeftBorder>
     </box>
   ) as React.ReactElement
 }

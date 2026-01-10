@@ -82,6 +82,18 @@ export function FormBasicExample(): any {
           </Form.Dropdown.Section>
         </Form.Dropdown>
 
+        <Form.Dropdown
+          id='emptyDropdown'
+          title='Empty Dropdown'
+          placeholder='No items available'
+        />
+
+        <Form.TextField
+          id='minimalField'
+          title='Minimal Field'
+          placeholder='No info text'
+        />
+
         <Form.DatePicker
           id='birthdate'
           title='Date of Birth'

@@ -1,7 +1,7 @@
 import React, { useRef, useId } from 'react'
 import { BoxRenderable, TextAttributes } from '@opentui/core'
 import { useTheme } from 'termcast/src/theme'
-import { WithLeftBorder } from './with-left-border'
+import { WithLeftBorder, TitleIndicator } from './with-left-border'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { useFormNavigation } from './use-form-navigation'
 import { LoadingText } from 'termcast/src/components/loading-text'
@@ -42,21 +42,21 @@ export const Description = (props: DescriptionProps): any => {
         focusContext.setFocusedField(id)
       }}
     >
-      {props.title && (
-        <WithLeftBorder
-          customCharacter={{ focused: '■', unfocused: '▪︎' }}
-          isFocused={isFocused}
-          isLoading={focusContext.isLoading}
-        >
-          <LoadingText
-            isLoading={isFocused && focusContext.isLoading}
-            color={isFocused ? theme.primary : theme.text}
+      <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
+        {props.title && (
+          <TitleIndicator
+            isFocused={isFocused}
+            isLoading={focusContext.isLoading}
+            customCharacter={{ focused: '■', unfocused: '▪︎' }}
           >
-            {props.title}
-          </LoadingText>
-        </WithLeftBorder>
-      )}
-      <WithLeftBorder isFocused={isFocused}>
+            <LoadingText
+              isLoading={isFocused && focusContext.isLoading}
+              color={isFocused ? theme.primary : theme.text}
+            >
+              {props.title}
+            </LoadingText>
+          </TitleIndicator>
+        )}
         <text fg={theme.textMuted}>{props.text}</text>
       </WithLeftBorder>
     </box>

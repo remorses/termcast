@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { useTheme } from 'termcast/src/theme'
-import { WithLeftBorder } from './with-left-border'
+import { WithLeftBorder, TitleIndicator } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 import { createTextareaFormRef } from './form-ref'
 import { LoadingText } from 'termcast/src/components/loading-text'
@@ -62,21 +62,21 @@ export const TextField = (props: TextFieldProps): any => {
 
   return (
     <box ref={elementRef} flexDirection="column">
-      <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
-        <box
-          onMouseDown={() => {
-            setFocusedField(props.id)
-          }}
-        >
-          <LoadingText
-            isLoading={isFocused && focusContext.isLoading}
-            color={isFocused ? theme.primary : theme.text}
+      <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
+        <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
+          <box
+            onMouseDown={() => {
+              setFocusedField(props.id)
+            }}
           >
-            {props.title || ''}
-          </LoadingText>
-        </box>
-      </WithLeftBorder>
-      <WithLeftBorder isFocused={isFocused}>
+            <LoadingText
+              isLoading={isFocused && focusContext.isLoading}
+              color={isFocused ? theme.primary : theme.text}
+            >
+              {props.title || ''}
+            </LoadingText>
+          </box>
+        </TitleIndicator>
         <textarea
           ref={handleRef}
           height={1}
@@ -93,19 +93,16 @@ export const TextField = (props: TextFieldProps): any => {
             setFocusedField(props.id)
           }}
         />
-      </WithLeftBorder>
-      {(fieldError || props.error) && (
-        <WithLeftBorder isFocused={isFocused}>
+        {(fieldError || props.error || props.info) && <box height={1} />}
+        {(fieldError || props.error) && (
           <text fg={theme.error}>
             {(fieldError?.message as string) || props.error}
           </text>
-        </WithLeftBorder>
-      )}
-      {props.info && (
-        <WithLeftBorder isFocused={isFocused}>
+        )}
+        {props.info && (
           <text fg={theme.textMuted}>{props.info}</text>
-        </WithLeftBorder>
-      )}
+        )}
+      </WithLeftBorder>
     </box>
   )
 }

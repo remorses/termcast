@@ -6,7 +6,7 @@ import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from 'termcast/src/logger'
 import { useTheme } from 'termcast/src/theme'
-import { WithLeftBorder } from './with-left-border'
+import { WithLeftBorder, TitleIndicator } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { LoadingText } from 'termcast/src/components/loading-text'
@@ -60,26 +60,26 @@ export const Checkbox = (props: CheckboxProps): any => {
       render={({ field, fieldState, formState }) => {
         return (
           <box ref={elementRef} flexDirection='column'>
-            <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
-              <box
-                onMouseDown={() => {
-                  // Always focus the field when clicked
-                  if (!isFocused) {
-                    setFocusedField(props.id)
-                  }
-                  // Always toggle the value when clicked
-                  handleToggle()
-                }}
-              >
-                <LoadingText
-                  isLoading={isFocused && focusContext.isLoading}
-                  color={isFocused ? theme.primary : theme.text}
+            <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
+              <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
+                <box
+                  onMouseDown={() => {
+                    // Always focus the field when clicked
+                    if (!isFocused) {
+                      setFocusedField(props.id)
+                    }
+                    // Always toggle the value when clicked
+                    handleToggle()
+                  }}
                 >
-                  {props.title || ''}
-                </LoadingText>
-              </box>
-            </WithLeftBorder>
-            <WithLeftBorder isFocused={isFocused}>
+                  <LoadingText
+                    isLoading={isFocused && focusContext.isLoading}
+                    color={isFocused ? theme.primary : theme.text}
+                  >
+                    {props.title || ''}
+                  </LoadingText>
+                </box>
+              </TitleIndicator>
               <text
                 fg={isFocused ? theme.accent : theme.text}
                 selectable={false}
@@ -92,17 +92,14 @@ export const Checkbox = (props: CheckboxProps): any => {
               >
                 {field.value ? '●' : '○'} {props.label}
               </text>
-            </WithLeftBorder>
-            {props.error && (
-              <WithLeftBorder isFocused={isFocused}>
+              {(props.error || props.info) && <box height={1} />}
+              {props.error && (
                 <text fg={theme.error}>{props.error}</text>
-              </WithLeftBorder>
-            )}
-            {props.info && (
-              <WithLeftBorder isFocused={isFocused}>
+              )}
+              {props.info && (
                 <text fg={theme.textMuted}>{props.info}</text>
-              </WithLeftBorder>
-            )}
+              )}
+            </WithLeftBorder>
           </box>
         ) as React.ReactElement
       }}

@@ -22,7 +22,7 @@ import {
   createDescendants,
   DescendantContextType,
 } from 'termcast/src/descendants'
-import { WithLeftBorder } from './with-left-border'
+import { WithLeftBorder, TitleIndicator } from './with-left-border'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useFormNavigationHelpers } from './use-form-navigation'
 import { LoadingText } from 'termcast/src/components/loading-text'
@@ -139,27 +139,21 @@ const DropdownItem = (props: DropdownItemProps) => {
 
   return (
     <box ref={elementRef} key={props.value}>
-      <WithLeftBorder
-        isFocused={context.isFocused}
-        paddingLeft={0}
-        paddingBottom={0}
+      <text
+        fg={
+          context.isFocused && isFocused
+            ? theme.accent
+            : context.isFocused
+              ? theme.text
+              : theme.textMuted
+        }
+        onMouseDown={() => {
+          context.handleSelect(descendant.descendantId)
+        }}
       >
-        <text
-          fg={
-            context.isFocused && isFocused
-              ? theme.accent
-              : context.isFocused
-                ? theme.text
-                : theme.textMuted
-          }
-          onMouseDown={() => {
-            context.handleSelect(descendant.descendantId)
-          }}
-        >
-          {context.isFocused && isFocused ? '› ' : '  '}
-          {isSelected ? '●' : '○'} {props.title}
-        </text>
-      </WithLeftBorder>
+        {context.isFocused && isFocused ? '› ' : '  '}
+        {isSelected ? '●' : '○'} {props.title}
+      </text>
     </box>
   )
 }
@@ -180,13 +174,7 @@ const DropdownSection = (props: DropdownSectionProps) => {
     <SectionContext.Provider value={sectionContextValue}>
       <box flexDirection='column'>
         {props.title && (
-          <WithLeftBorder
-            paddingTop={0}
-            paddingBottom={0}
-            isFocused={parentContext.isFocused}
-          >
-            <text fg={theme.textMuted}>{props.title}</text>
-          </WithLeftBorder>
+          <text fg={theme.textMuted}>  {props.title}</text>
         )}
         {props.children}
       </box>
@@ -405,21 +393,21 @@ const DropdownContent = ({
     <FormDropdownDescendantsProvider value={descendantsContext}>
       <FormDropdownContext.Provider value={contextValue}>
         <box ref={elementRef} flexDirection='column'>
-          <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
-            <box
-              onMouseDown={() => {
-                setFocusedField(props.id)
-              }}
-            >
-              <LoadingText
-                isLoading={isFocused && focusContext.isLoading}
-                color={isFocused ? theme.primary : theme.text}
+          <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
+            <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
+              <box
+                onMouseDown={() => {
+                  setFocusedField(props.id)
+                }}
               >
-                {props.title || ''}
-              </LoadingText>
-            </box>
-          </WithLeftBorder>
-          <WithLeftBorder isFocused={isFocused}>
+                <LoadingText
+                  isLoading={isFocused && focusContext.isLoading}
+                  color={isFocused ? theme.primary : theme.text}
+                >
+                  {props.title || ''}
+                </LoadingText>
+              </box>
+            </TitleIndicator>
             <text
               fg={selectedTitles.length > 0 ? theme.text : theme.textMuted}
               selectable={false}
@@ -431,40 +419,45 @@ const DropdownContent = ({
                 ? selectedTitles.join(', ')
                 : props.placeholder || 'Select...'}
             </text>
-          </WithLeftBorder>
-
-          <scrollbox
-            ref={scrollBoxRef}
-            maxHeight={5}
-            flexShrink={1}
-            style={{
-              rootOptions: {
-                flexShrink: 1,
-              },
-              viewportOptions: {
-                flexShrink: 1,
-              },
-              scrollbarOptions: {
-                visible: false,
-              },
-            }}
-          >
-            {props.children}
-          </scrollbox>
-          <WithLeftBorder children={<box />} isFocused={isFocused} />
-
-          {(fieldState.error || props.error) && (
-            <WithLeftBorder isFocused={isFocused}>
+            {props.children && (
+              <>
+                <box height={1} />
+                <box marginLeft={-2}>
+                  <scrollbox
+                    ref={scrollBoxRef}
+                    maxHeight={5}
+                    flexShrink={1}
+                    style={{
+                      rootOptions: {
+                        flexShrink: 1,
+                      },
+                      viewportOptions: {
+                        flexShrink: 1,
+                      },
+                      contentOptions: {
+                        flexShrink: 0,
+                        minHeight: 0,
+                      },
+                      scrollbarOptions: {
+                        visible: false,
+                      },
+                    }}
+                  >
+                    {props.children}
+                  </scrollbox>
+                </box>
+                <box height={1} />
+              </>
+            )}
+            {(fieldState.error || props.error) && (
               <text fg={theme.error}>
                 {fieldState.error?.message || props.error}
               </text>
-            </WithLeftBorder>
-          )}
-          {props.info && (
-            <WithLeftBorder isFocused={isFocused}>
+            )}
+            {props.info && (
               <text fg={theme.textMuted}>{props.info}</text>
-            </WithLeftBorder>
-          )}
+            )}
+          </WithLeftBorder>
         </box>
       </FormDropdownContext.Provider>
     </FormDropdownDescendantsProvider>

@@ -89,6 +89,14 @@ function FormDropdownExample() {
         <Form.Dropdown.Item value='low' title='Low' icon='🟢' />
       </Form.Dropdown>
 
+      <Form.Dropdown
+        id='emptyDropdown'
+        title='Empty Dropdown'
+        placeholder='No options available'
+      />
+
+      <Form.TextField id='afterEmpty' title='Field After Empty' placeholder='This should be close to empty dropdown' />
+
       {submitted && (
         <Form.Description
           title='Submitted Data'

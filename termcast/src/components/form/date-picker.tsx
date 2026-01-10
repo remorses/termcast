@@ -5,7 +5,7 @@ import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { useTheme } from 'termcast/src/theme'
-import { WithLeftBorder } from './with-left-border'
+import { WithLeftBorder, TitleIndicator } from './with-left-border'
 import { DatePickerWidget } from 'termcast/src/internal/date-picker-widget'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useFormNavigationHelpers } from './use-form-navigation'
@@ -53,21 +53,21 @@ const DatePickerComponent = (props: DatePickerProps): any => {
       render={({ field, fieldState, formState }) => {
         return (
           <box ref={elementRef} flexDirection='column'>
-            <WithLeftBorder withDiamond isFocused={isFocused} isLoading={focusContext.isLoading}>
-              <box
-                onMouseDown={() => {
-                  setFocusedField(props.id)
-                }}
-              >
-                <LoadingText
-                  isLoading={isFocused && focusContext.isLoading}
-                  color={isFocused ? theme.primary : theme.text}
+            <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
+              <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
+                <box
+                  onMouseDown={() => {
+                    setFocusedField(props.id)
+                  }}
                 >
-                  {props.title || ''}
-                </LoadingText>
-              </box>
-            </WithLeftBorder>
-            <WithLeftBorder isFocused={isFocused}>
+                  <LoadingText
+                    isLoading={isFocused && focusContext.isLoading}
+                    color={isFocused ? theme.primary : theme.text}
+                  >
+                    {props.title || ''}
+                  </LoadingText>
+                </box>
+              </TitleIndicator>
               <DatePickerWidget
                 enableColors={isFocused}
                 initialValue={field.value || undefined}
@@ -79,26 +79,20 @@ const DatePickerComponent = (props: DatePickerProps): any => {
                 }}
                 focused={isFocused}
               />
-            </WithLeftBorder>
-            {field.value && (
-              <WithLeftBorder isFocused={isFocused}>
+              {field.value && (
                 <text fg={theme.accent}>
                   Selected: {field.value.toISOString().split('T')[0]}
                 </text>
-              </WithLeftBorder>
-            )}
-            {(fieldState.error || props.error) && (
-              <WithLeftBorder isFocused={isFocused}>
+              )}
+              {(fieldState.error || props.error) && (
                 <text fg={theme.error}>
                   {fieldState.error?.message || props.error}
                 </text>
-              </WithLeftBorder>
-            )}
-            {props.info && (
-              <WithLeftBorder isFocused={isFocused}>
+              )}
+              {props.info && (
                 <text fg={theme.textMuted}>{props.info}</text>
-              </WithLeftBorder>
-            )}
+              )}
+            </WithLeftBorder>
           </box>
         ) as React.ReactElement
       }}
