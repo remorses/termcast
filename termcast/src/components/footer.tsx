@@ -29,7 +29,13 @@ interface FooterProps {
 
 const MIN_WIDTH_FOR_POWERED_BY = 75
 
-function ToastInline({ toast }: { toast: ToastData }): any {
+function ToastInline({
+  toast,
+  maxWidth,
+}: {
+  toast: ToastData
+  maxWidth: number
+}): any {
   const theme = useTheme()
   const inFocus = useIsInFocus()
   const [animationFrame, setAnimationFrame] = useState(0)
@@ -112,8 +118,11 @@ function ToastInline({ toast }: { toast: ToastData }): any {
       flexDirection='row'
       marginLeft={-3}
       marginRight={-3}
-      flexGrow={1}
+      width={maxWidth}
+      flexGrow={0}
+      flexShrink={0}
       overflow='hidden'
+      height={1}
     >
       {/* Title box */}
       <box
@@ -122,24 +131,33 @@ function ToastInline({ toast }: { toast: ToastData }): any {
         backgroundColor={colord(primaryBg).lighten(0.1).toHex()}
         paddingLeft={3}
         paddingRight={1}
+        overflow='hidden'
+        height={1}
       >
-        <text flexShrink={0} fg={getIconColor()}>
+        <text flexShrink={0} fg={getIconColor()} wrapMode='none'>
           {getIcon()}{' '}
         </text>
-        <text flexShrink={0} fg={primaryFg} attributes={TextAttributes.BOLD}>
+        <text
+          flexShrink={1}
+          fg={primaryFg}
+          attributes={TextAttributes.BOLD}
+          wrapMode='none'
+        >
           {toast.title}
         </text>
       </box>
       {/* Message/description box (in the middle with keys background) */}
       <box
         flexGrow={1}
+        flexShrink={1}
         backgroundColor={keysBg}
         paddingLeft={1}
         paddingRight={1}
         flexDirection='row'
         overflow='hidden'
+        height={1}
       >
-        <text fg={primaryFg} wrapMode='none'>
+        <text fg={primaryFg} flexShrink={1} wrapMode='none'>
           {toast.message || ''}
         </text>
       </box>
@@ -152,6 +170,8 @@ function ToastInline({ toast }: { toast: ToastData }): any {
         gap={1}
         flexDirection='row'
         flexShrink={0}
+        overflow='hidden'
+        height={1}
       >
         {toast.primaryAction?.title && (
           <box
@@ -161,10 +181,17 @@ function ToastInline({ toast }: { toast: ToastData }): any {
               toast.primaryAction?.onAction()
             }}
           >
-            <text fg={primaryFg} attributes={TextAttributes.BOLD}>
+            <text
+              fg={primaryFg}
+              attributes={TextAttributes.BOLD}
+              wrapMode='none'
+            >
               {toast.primaryAction.title}
             </text>
-            <text fg={primaryFg}> ctrl t</text>
+            <text fg={primaryFg} wrapMode='none'>
+              {' '}
+              ctrl t
+            </text>
           </box>
         )}
         {toast.secondaryAction?.title && (
@@ -175,10 +202,17 @@ function ToastInline({ toast }: { toast: ToastData }): any {
               toast.secondaryAction?.onAction()
             }}
           >
-            <text fg={primaryFg} attributes={TextAttributes.BOLD}>
+            <text
+              fg={primaryFg}
+              attributes={TextAttributes.BOLD}
+              wrapMode='none'
+            >
               {toast.secondaryAction.title}
             </text>
-            <text fg={primaryFg}> ctrl g</text>
+            <text fg={primaryFg} wrapMode='none'>
+              {' '}
+              ctrl g
+            </text>
           </box>
         )}
       </box>
@@ -199,6 +233,7 @@ export function Footer({
   const { width } = useTerminalDimensions()
   const showPoweredBy = !hidePoweredBy && width >= MIN_WIDTH_FOR_POWERED_BY
   const toast = useStore((state) => state.toast)
+  const toastWidth = Math.min(width, 140)
 
   return (
     <box
@@ -215,7 +250,7 @@ export function Footer({
       }}
     >
       {toast ? (
-        <ToastInline toast={toast} />
+        <ToastInline toast={toast} maxWidth={toastWidth} />
       ) : (
         <>
           {children}

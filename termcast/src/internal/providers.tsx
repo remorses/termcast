@@ -140,14 +140,19 @@ export function TermcastProvider(props: ProvidersProps): any {
             minHeight={'100%'}
             justifyContent='flex-start'
             backgroundColor={theme.background}
+            width='100%'
+            flexGrow={1}
+            alignItems='center'
             // borderColor={Theme.border}
             // fg={Theme.text}
           >
-            <box padding={2}>
+            <box padding={2} width='100%' maxWidth={140} flexShrink={0}>
               <DialogProvider>
                 {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
                 <NavigationProvider overlay={<DialogOverlay />}>
-                  <box>{props.children}</box>
+                  <box width='100%' flexGrow={1} flexShrink={0}>
+                    {props.children}
+                  </box>
                 </NavigationProvider>
               </DialogProvider>
             </box>

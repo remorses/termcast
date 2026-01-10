@@ -35,7 +35,7 @@ const toastVariations: ToastVariation[] = [
     options: {
       title: 'Error',
       message:
-        'This is a very long error message that should wrap to multiple lines when displayed in the toast component.',
+      'This is a very long error message that should wrap to multiple lines when displayed in the toast component. This is a very long error message that should wrap to multiple lines when displayed in the toast component.',
       style: Toast.Style.Failure,
     },
   },
