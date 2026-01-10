@@ -4,6 +4,7 @@ import { useTerminalDimensions, useKeyboard } from '@opentui/react'
 import { colord } from 'colord'
 import { useTheme } from 'termcast/src/theme'
 import { openInBrowser } from 'termcast/src/action-utils'
+import { termcastMaxContentWidth } from 'termcast/src/utils'
 import {
   useStore,
   toastPrimaryActionKey,
@@ -24,9 +25,12 @@ interface FooterProps {
 
 const MIN_WIDTH_FOR_POWERED_BY = 75
 
+const TOAST_MARGIN = 2
+
 function ToastInline({ toast }: { toast: ToastData }): any {
   const theme = useTheme()
   const inFocus = useIsInFocus()
+  const { width: terminalWidth } = useTerminalDimensions()
   const [animationFrame, setAnimationFrame] = useState(0)
 
   // Keyboard handling for toast actions
@@ -100,12 +104,15 @@ function ToastInline({ toast }: { toast: ToastData }): any {
   const primaryColor = theme.primary
   const mutedColor = colord(primaryColor).darken(0.06).toHex()
 
+  const maxToastWidth = Math.min(terminalWidth, termcastMaxContentWidth)
+  const toastWidth = maxToastWidth - TOAST_MARGIN * 2
+
   return (
     <box
       flexDirection='row'
-      width={'100%'}
-      marginLeft={-2}
-      marginRight={-2}
+      width={toastWidth}
+      marginLeft={-TOAST_MARGIN}
+      marginRight={-TOAST_MARGIN}
       flexGrow={0}
       flexShrink={0}
       overflow='hidden'

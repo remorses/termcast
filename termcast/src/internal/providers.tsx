@@ -8,12 +8,12 @@ import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { DialogProvider, DialogOverlay } from 'termcast/src/internal/dialog'
 import { NavigationProvider } from 'termcast/src/internal/navigation'
-import { CommonProps } from 'termcast/src/utils'
+import { CommonProps, termcastMaxContentWidth } from 'termcast/src/utils'
 import { Cache } from 'termcast/src/apis/cache'
 import { logger } from 'termcast/src/logger'
 import { useTheme, initializeTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
-import { useKeyboard, useRenderer, useTerminalDimensions } from '@opentui/react'
+import { useKeyboard, useRenderer } from '@opentui/react'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
 
 import { InFocus } from './focus-context'
@@ -146,7 +146,12 @@ export function TermcastProvider(props: ProvidersProps): any {
             // borderColor={Theme.border}
             // fg={Theme.text}
           >
-            <box padding={2} width='100%' maxWidth={140} flexShrink={0}>
+            <box
+              padding={2}
+              width='100%'
+              maxWidth={termcastMaxContentWidth}
+              flexShrink={0}
+            >
               <DialogProvider>
                 {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
                 <NavigationProvider overlay={<DialogOverlay />}>

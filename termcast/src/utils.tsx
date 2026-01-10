@@ -22,6 +22,8 @@ export async function renderWithProviders(element: ReactNode): Promise<void> {
   createRoot(renderer).render(<TermcastProvider>{element}</TermcastProvider>)
 }
 
+export const termcastMaxContentWidth = 140
+
 export type CommonProps = {
   key?: any
 }
