@@ -14,7 +14,7 @@ import { useNavigation } from 'termcast/src/internal/navigation'
 import { TermcastProvider } from 'termcast/src/internal/providers'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { logger } from '../logger'
 import { getCommandsWithFiles, CommandWithFile, RaycastPackageJson } from '../package-json'
 import { buildExtensionCommands } from '../build'
@@ -26,9 +26,10 @@ import {
 } from '../utils/run-command'
 
 function CommandLoadError({ error }: { error: Error }): any {
+  const theme = useTheme()
   return (
     <box padding={2}>
-      <text fg={Theme.error} wrapMode='none'>{error.stack}</text>
+      <text fg={theme.error} wrapMode='none'>{error.stack}</text>
     </box>
   )
 }

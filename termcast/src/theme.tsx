@@ -41,14 +41,11 @@ export function initializeTheme(): void {
   useStore.setState({ currentThemeName: themeName })
 }
 
-// Proxy-based Theme object that reads from zustand state
-export const Theme: ResolvedTheme = new Proxy({} as ResolvedTheme, {
-  get(_, prop: string) {
-    const themeName = useStore.getState().currentThemeName
-    const resolved = getResolvedTheme(themeName)
-    return resolved[prop as keyof ResolvedTheme]
-  },
-})
+// Reactive hook for theme - use this in React components
+export function useTheme(): ResolvedTheme {
+  const themeName = useStore((state) => state.currentThemeName)
+  return getResolvedTheme(themeName)
+}
 
 export function getMarkdownSyntaxStyle(): SyntaxStyle {
   const themeName = useStore.getState().currentThemeName
@@ -84,4 +81,4 @@ export const markdownSyntaxStyle = new Proxy({} as SyntaxStyle, {
   },
 })
 
-export default Theme
+

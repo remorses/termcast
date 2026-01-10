@@ -4,7 +4,7 @@ import { useKeyboard } from '@opentui/react'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { DatePickerWidget } from 'termcast/src/internal/date-picker-widget'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
@@ -30,6 +30,7 @@ interface DatePickerComponentType {
 }
 
 const DatePickerComponent = (props: DatePickerProps): any => {
+  const theme = useTheme()
   const { control } = useFormContext()
   const focusContext = useFocusContext()
   const { focusedField, setFocusedField } = focusContext
@@ -75,7 +76,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
               >
                 <LoadingText
                   isLoading={isFocused && focusContext.isLoading}
-                  color={isFocused ? Theme.primary : Theme.text}
+                  color={isFocused ? theme.primary : theme.text}
                 >
                   {props.title || ''}
                 </LoadingText>
@@ -96,21 +97,21 @@ const DatePickerComponent = (props: DatePickerProps): any => {
             </WithLeftBorder>
             {field.value && (
               <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.accent}>
+                <text fg={theme.accent}>
                   Selected: {field.value.toISOString().split('T')[0]}
                 </text>
               </WithLeftBorder>
             )}
             {(fieldState.error || props.error) && (
               <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.error}>
+                <text fg={theme.error}>
                   {fieldState.error?.message || props.error}
                 </text>
               </WithLeftBorder>
             )}
             {props.info && (
               <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.textMuted}>{props.info}</text>
+                <text fg={theme.textMuted}>{props.info}</text>
               </WithLeftBorder>
             )}
           </box>

@@ -5,7 +5,7 @@ import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from 'termcast/src/logger'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
@@ -18,6 +18,7 @@ export interface CheckboxProps extends FormItemProps<boolean> {
 export type CheckboxRef = FormItemRef
 
 export const Checkbox = (props: CheckboxProps): any => {
+  const theme = useTheme()
   const { control, setValue, getValues } = useFormContext()
   const focusContext = useFocusContext()
   const { focusedField, setFocusedField } = focusContext
@@ -72,7 +73,7 @@ export const Checkbox = (props: CheckboxProps): any => {
               >
                 <LoadingText
                   isLoading={isFocused && focusContext.isLoading}
-                  color={isFocused ? Theme.primary : Theme.text}
+                  color={isFocused ? theme.primary : theme.text}
                 >
                   {props.title || ''}
                 </LoadingText>
@@ -80,7 +81,7 @@ export const Checkbox = (props: CheckboxProps): any => {
             </WithLeftBorder>
             <WithLeftBorder isFocused={isFocused}>
               <text
-                fg={isFocused ? Theme.accent : Theme.text}
+                fg={isFocused ? theme.accent : theme.text}
                 selectable={false}
                 onMouseDown={() => {
                   if (!isFocused) {
@@ -94,12 +95,12 @@ export const Checkbox = (props: CheckboxProps): any => {
             </WithLeftBorder>
             {props.error && (
               <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.error}>{props.error}</text>
+                <text fg={theme.error}>{props.error}</text>
               </WithLeftBorder>
             )}
             {props.info && (
               <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.textMuted}>{props.info}</text>
+                <text fg={theme.textMuted}>{props.info}</text>
               </WithLeftBorder>
             )}
           </box>

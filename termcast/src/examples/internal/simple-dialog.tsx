@@ -5,7 +5,7 @@ import {
   useDialog,
   type DialogPosition,
 } from 'termcast/src/internal/dialog'
-import { Theme } from 'termcast'
+import { useTheme } from 'termcast'
 import { List } from 'termcast'
 import { ActionPanel, Action } from 'termcast'
 import { Dropdown } from 'termcast'

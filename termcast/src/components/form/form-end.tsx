@@ -1,8 +1,9 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { useFocusContext, useFormScrollContext } from './index'
 
 export const FormEnd = (): any => {
+  const theme = useTheme()
   const { focusedField } = useFocusContext()
   const scrollContext = useFormScrollContext()
   const [isLastFieldFocused, setIsLastFieldFocused] = useState(false)
@@ -23,5 +24,5 @@ export const FormEnd = (): any => {
     setIsLastFieldFocused(lastField.props?.id === focusedField)
   }, [focusedField])
 
-  return <text fg={isLastFieldFocused ? Theme.accent : Theme.text}>└</text>
+  return <text fg={isLastFieldFocused ? theme.accent : theme.text}>└</text>
 }

@@ -17,7 +17,7 @@ import {
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { logger } from 'termcast/src/logger'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import {
   createDescendants,
   DescendantContextType,
@@ -103,6 +103,7 @@ const FormDropdownContext = createContext<FormDropdownContextValue>({
 })
 
 const DropdownItem = (props: DropdownItemProps) => {
+  const theme = useTheme()
   const context = useContext(FormDropdownContext)
   const sectionContext = useContext(SectionContext)
   const elementRef = useRef<BoxRenderable | null>(null)
@@ -146,10 +147,10 @@ const DropdownItem = (props: DropdownItemProps) => {
         <text
           fg={
             context.isFocused && isFocused
-              ? Theme.accent
+              ? theme.accent
               : context.isFocused
-                ? Theme.text
-                : Theme.textMuted
+                ? theme.text
+                : theme.textMuted
           }
           onMouseDown={() => {
             context.handleSelect(descendant.descendantId)
@@ -164,6 +165,7 @@ const DropdownItem = (props: DropdownItemProps) => {
 }
 
 const DropdownSection = (props: DropdownSectionProps) => {
+  const theme = useTheme()
   const parentContext = useContext(FormDropdownContext)
 
   // Create section context value
@@ -183,7 +185,7 @@ const DropdownSection = (props: DropdownSectionProps) => {
             paddingBottom={0}
             isFocused={parentContext.isFocused}
           >
-            <text fg={Theme.textMuted}>{props.title}</text>
+            <text fg={theme.textMuted}>{props.title}</text>
           </WithLeftBorder>
         )}
         {props.children}
@@ -203,6 +205,7 @@ const DropdownContent = ({
   fieldState,
   ...props
 }: DropdownContentProps) => {
+  const theme = useTheme()
   const descendantsContext = useFormDropdownDescendants()
   const isInFocus = useIsInFocus()
   const focusContext = useFocusContext()
@@ -424,7 +427,7 @@ const DropdownContent = ({
             >
               <LoadingText
                 isLoading={isFocused && focusContext.isLoading}
-                color={isFocused ? Theme.primary : Theme.text}
+                color={isFocused ? theme.primary : theme.text}
               >
                 {props.title || ''}
               </LoadingText>
@@ -432,7 +435,7 @@ const DropdownContent = ({
           </WithLeftBorder>
           <WithLeftBorder isFocused={isFocused}>
             <text
-              fg={selectedTitles.length > 0 ? Theme.text : Theme.textMuted}
+              fg={selectedTitles.length > 0 ? theme.text : theme.textMuted}
               selectable={false}
               onMouseDown={() => {
                 setFocusedField(props.id)
@@ -466,14 +469,14 @@ const DropdownContent = ({
 
           {(fieldState.error || props.error) && (
             <WithLeftBorder isFocused={isFocused}>
-              <text fg={Theme.error}>
+              <text fg={theme.error}>
                 {fieldState.error?.message || props.error}
               </text>
             </WithLeftBorder>
           )}
           {props.info && (
             <WithLeftBorder isFocused={isFocused}>
-              <text fg={Theme.textMuted}>{props.info}</text>
+              <text fg={theme.textMuted}>{props.info}</text>
             </WithLeftBorder>
           )}
         </box>

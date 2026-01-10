@@ -3,7 +3,7 @@ import { BoxRenderable } from '@opentui/core'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 import { LoadingText } from 'termcast/src/components/loading-text'
@@ -15,6 +15,7 @@ export interface PasswordFieldProps extends FormItemProps<string> {
 export type PasswordFieldRef = FormItemRef
 
 export const PasswordField = (props: PasswordFieldProps): any => {
+  const theme = useTheme()
   const { control } = useFormContext()
   const focusContext = useFocusContext()
   const { focusedField, setFocusedField } = focusContext
@@ -48,7 +49,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
               >
                 <LoadingText
                   isLoading={isFocused && focusContext.isLoading}
-                  color={isFocused ? Theme.primary : Theme.text}
+                  color={isFocused ? theme.primary : theme.text}
                 >
                   {props.title || ''}
                 </LoadingText>
@@ -88,14 +89,14 @@ export const PasswordField = (props: PasswordFieldProps): any => {
             </WithLeftBorder>
             {(fieldState.error || props.error) && (
               <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.error}>
+                <text fg={theme.error}>
                   {fieldState.error?.message || props.error}
                 </text>
               </WithLeftBorder>
             )}
             {props.info && (
               <WithLeftBorder isFocused={isFocused}>
-                <text fg={Theme.textMuted}>{props.info}</text>
+                <text fg={theme.textMuted}>{props.info}</text>
               </WithLeftBorder>
             )}
           </box>

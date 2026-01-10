@@ -1,6 +1,6 @@
 import React, { useState, useRef, useLayoutEffect } from 'react'
 import { BoxRenderable } from '@opentui/core'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
 
 interface LoadingBarProps {
@@ -11,6 +11,7 @@ interface LoadingBarProps {
 
 export function LoadingBar(props: LoadingBarProps): any {
   let { title, isLoading = false, barLength: propBarLength } = props
+  const theme = useTheme()
   const [calculatedBarLength, setCalculatedBarLength] = useState(
     propBarLength || 0,
   )
@@ -78,12 +79,12 @@ export function LoadingBar(props: LoadingBarProps): any {
   const getCharacterColor = (index: number): string => {
     if (!isLoading) {
       // When not loading, use default theme colors
-      return index < title.length ? Theme.text : '#626262'
+      return index < title.length ? theme.text : '#626262'
     }
 
     // Title text stays static when loading, only animate the bar
     if (index < title.length) {
-      return Theme.textMuted // Keep title text muted during loading
+      return theme.textMuted // Keep title text muted during loading
     }
 
     // Only animate the bar part

@@ -12,7 +12,7 @@ import { ActionPanel } from 'termcast/src/components/actions'
 import { logger } from 'termcast/src/logger'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useDialog } from 'termcast/src/internal/dialog'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
 import { Footer } from 'termcast/src/components/footer'
 import {
@@ -104,27 +104,28 @@ export const useFormSubmit = () => {
 }
 
 function FormFooter(): any {
+  const theme = useTheme()
   const hasToast = useStore((s) => s.toast !== null)
 
   const content = hasToast ? null : (
     <box style={{ flexDirection: 'row', gap: 3 }}>
       <box style={{ flexDirection: 'row', gap: 1 }}>
-        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ctrl ↵
         </text>
-        <text flexShrink={0} fg={Theme.textMuted}>submit</text>
+        <text flexShrink={0} fg={theme.textMuted}>submit</text>
       </box>
       <box style={{ flexDirection: 'row', gap: 1 }}>
-        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           tab
         </text>
-        <text flexShrink={0} fg={Theme.textMuted}>navigate</text>
+        <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
       <box style={{ flexDirection: 'row', gap: 1 }}>
-        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ^k
         </text>
-        <text flexShrink={0} fg={Theme.textMuted}>actions</text>
+        <text flexShrink={0} fg={theme.textMuted}>actions</text>
       </box>
     </box>
   )
@@ -489,6 +490,7 @@ Form.Description = Description
 
 // LinkAccessory component - shows a link in the navigation bar
 function LinkAccessory(props: LinkAccessoryProps): any {
+  const theme = useTheme()
   return (
     <box
       style={{
@@ -499,7 +501,7 @@ function LinkAccessory(props: LinkAccessoryProps): any {
       }}
     >
       <text
-        fg={Theme.textMuted}
+        fg={theme.textMuted}
         attributes={TextAttributes.UNDERLINE}
         wrapMode='none'
       >

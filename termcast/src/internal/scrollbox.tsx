@@ -1,5 +1,5 @@
 import React from 'react'
-import Theme from '../theme'
+import { useTheme } from '../theme'
 import { MacOSScrollAccel } from '@opentui/core'
 import { ScrollBoxProps } from '@opentui/react'
 
@@ -13,6 +13,8 @@ export function ScrollBox({
   ref,
   ...props
 }: ScrollBoxProps): any {
+  const theme = useTheme()
+
   return (
     <scrollbox
       ref={ref}
@@ -41,7 +43,7 @@ export function ScrollBox({
           // visible: true,
           // showArrows: true,
           trackOptions: {
-            foregroundColor: Theme.textMuted,
+            foregroundColor: theme.textMuted,
 
             // backgroundColor: '#414868',
           },

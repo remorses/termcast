@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { TextAttributes } from '@opentui/core'
 import { LocalStorage } from 'termcast/src/apis/localstorage'
 import { useStore } from 'termcast/src/state'
@@ -44,6 +44,7 @@ function AlertComponent({
   onConfirm,
   onDismiss,
 }: AlertComponentProps): any {
+  const theme = useTheme()
   const [rememberChoice, setRememberChoice] = useState(false)
   const inFocus = useIsInFocus()
 
@@ -73,18 +74,18 @@ function AlertComponent({
   const getPrimaryColor = () => {
     switch (primaryStyle) {
       case Alert.ActionStyle.Destructive:
-        return Theme.error
+        return theme.error
       case Alert.ActionStyle.Default:
       default:
-        return Theme.primary
+        return theme.primary
     }
   }
 
   return (
     <box
       border
-      borderColor={Theme.border}
-      backgroundColor={Theme.backgroundPanel}
+      borderColor={theme.border}
+      backgroundColor={theme.backgroundPanel}
       paddingTop={2}
       paddingBottom={2}
       paddingLeft={3}
@@ -94,17 +95,17 @@ function AlertComponent({
       <box flexDirection='column' alignItems='center'>
         {options.icon && (
           <box marginBottom={1}>
-            <text fg={Theme.accent}>⚠️</text>
+            <text fg={theme.accent}>⚠️</text>
           </box>
         )}
 
-        <text fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text fg={theme.text} attributes={TextAttributes.BOLD}>
           {options.title}
         </text>
 
         {options.message && (
           <box marginTop={1} marginBottom={1}>
-            <text fg={Theme.textMuted}>{options.message}</text>
+            <text fg={theme.textMuted}>{options.message}</text>
           </box>
         )}
 
@@ -114,7 +115,7 @@ function AlertComponent({
             marginBottom={1}
             onMouseDown={() => setRememberChoice(!rememberChoice)}
           >
-            <text fg={Theme.textMuted} selectable={false}>
+            <text fg={theme.textMuted} selectable={false}>
               {rememberChoice ? '[x]' : '[ ]'} Do not show this message again
               (Space to toggle)
             </text>
@@ -149,7 +150,7 @@ function AlertComponent({
               onDismiss()
             }}
           >
-            <text fg={Theme.textMuted} selectable={false}>
+            <text fg={theme.textMuted} selectable={false}>
               [{options.dismissAction?.title || 'Cancel'} (ESC)]
             </text>
           </box>

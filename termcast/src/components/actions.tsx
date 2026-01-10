@@ -7,7 +7,7 @@ import React, {
   useLayoutEffect,
 } from 'react'
 import { useKeyboard } from '@opentui/react'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import {
   copyToClipboard,
   openInBrowser,
@@ -176,6 +176,8 @@ interface ActionPanelContextValue {
 const ActionPanelContext = createContext<ActionPanelContextValue>({})
 
 const Action: ActionType = (props) => {
+  const theme = useTheme()
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'View',
@@ -192,7 +194,7 @@ const Action: ActionType = (props) => {
       value={props.title}
       icon={props.icon}
       label={formatShortcut(props.shortcut)}
-      color={isDestructive ? Theme.error : undefined}
+      color={isDestructive ? theme.error : undefined}
     />
   )
 }

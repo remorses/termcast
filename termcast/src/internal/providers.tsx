@@ -11,7 +11,7 @@ import { NavigationProvider } from 'termcast/src/internal/navigation'
 import { CommonProps } from 'termcast/src/utils'
 import { Cache } from 'termcast/src/apis/cache'
 import { logger } from 'termcast/src/logger'
-import { Theme, initializeTheme } from 'termcast/src/theme'
+import { useTheme, initializeTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
 import { useKeyboard, useRenderer, useTerminalDimensions } from '@opentui/react'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
@@ -100,9 +100,10 @@ class ErrorBoundaryClass extends Component<
 }
 
 function ErrorDisplay({ error }: { error: Error | null }): any {
+  const theme = useTheme()
   return (
     <box padding={2}>
-      <text fg={Theme.error} wrapMode='none'>
+      <text fg={theme.error} wrapMode='none'>
         {error?.stack}
       </text>
     </box>
@@ -112,6 +113,7 @@ function ErrorDisplay({ error }: { error: Error | null }): any {
 const ErrorBoundary = ErrorBoundaryClass as any
 
 export function TermcastProvider(props: ProvidersProps): any {
+  const theme = useTheme()
   const renderer = useRenderer()
   useKeyboard((key) => {
     if (!renderer) return
@@ -137,7 +139,7 @@ export function TermcastProvider(props: ProvidersProps): any {
           <box
             minHeight={'100%'}
             justifyContent='flex-start'
-            backgroundColor={Theme.background}
+            backgroundColor={theme.background}
             // borderColor={Theme.border}
             // fg={Theme.text}
           >

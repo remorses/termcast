@@ -3,7 +3,7 @@ import { BoxRenderable, TextareaRenderable } from '@opentui/core'
 import { useFormContext } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { WithLeftBorder } from './with-left-border'
 import { useFormNavigation } from './use-form-navigation'
 import { createTextareaFormRef } from './form-ref'
@@ -17,6 +17,7 @@ export interface TextAreaProps extends FormItemProps<string> {
 export type TextAreaRef = FormItemRef
 
 export const TextArea = (props: TextAreaProps): any => {
+  const theme = useTheme()
   const { register, formState } = useFormContext()
   const focusContext = useFocusContext()
   const { focusedField, setFocusedField } = focusContext
@@ -68,7 +69,7 @@ export const TextArea = (props: TextAreaProps): any => {
         >
           <LoadingText
             isLoading={isFocused && focusContext.isLoading}
-            color={isFocused ? Theme.primary : Theme.text}
+            color={isFocused ? theme.primary : theme.text}
           >
             {props.title || ''}
           </LoadingText>
@@ -94,14 +95,14 @@ export const TextArea = (props: TextAreaProps): any => {
 
       {(fieldError || props.error) && (
         <WithLeftBorder isFocused={isFocused}>
-          <text fg={Theme.error}>
+          <text fg={theme.error}>
             {(fieldError?.message as string) || props.error}
           </text>
         </WithLeftBorder>
       )}
       {props.info && (
         <WithLeftBorder isFocused={isFocused}>
-          <text fg={Theme.textMuted}>{props.info}</text>
+          <text fg={theme.textMuted}>{props.info}</text>
         </WithLeftBorder>
       )}
     </box>

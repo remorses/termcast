@@ -3,7 +3,7 @@ import { TextareaRenderable } from '@opentui/core'
 import { useForm } from 'react-hook-form'
 import { useKeyboard } from '@opentui/react'
 import { renderWithProviders } from '../../utils'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { logger } from 'termcast/src/logger'
 import { createTextareaFormRef } from 'termcast/src/components/form/form-ref'
 
@@ -13,6 +13,7 @@ interface FormData {
 }
 
 function RHFCustomRefExample() {
+  const theme = useTheme()
   const textareaRef1 = useRef<TextareaRenderable>(null)
   const textareaRef2 = useRef<TextareaRenderable>(null)
   const [focusedField, setFocusedField] = useState<'username' | 'message'>('username')
@@ -73,14 +74,14 @@ function RHFCustomRefExample() {
 
   return (
     <box flexDirection="column" gap={1}>
-      <text fg={Theme.accent}>React Hook Form with Custom Ref Adapter</text>
-      <text fg={Theme.textMuted}>
+      <text fg={theme.accent}>React Hook Form with Custom Ref Adapter</text>
+      <text fg={theme.textMuted}>
         This example uses register() directly with opentui textarea
       </text>
 
       <box flexDirection="column">
         <text
-          fg={Theme.text}
+          fg={theme.text}
           onMouseDown={() => {
             setFocusedField('username')
           }}
@@ -99,13 +100,13 @@ function RHFCustomRefExample() {
           focused={focusedField === 'username'}
         />
         {formState.errors.username && (
-          <text fg={Theme.error}>{formState.errors.username.message}</text>
+          <text fg={theme.error}>{formState.errors.username.message}</text>
         )}
       </box>
 
       <box flexDirection="column">
         <text
-          fg={Theme.text}
+          fg={theme.text}
           onMouseDown={() => {
             setFocusedField('message')
           }}
@@ -124,28 +125,28 @@ function RHFCustomRefExample() {
           focused={focusedField === 'message'}
         />
         {formState.errors.message && (
-          <text fg={Theme.error}>{formState.errors.message.message}</text>
+          <text fg={theme.error}>{formState.errors.message.message}</text>
         )}
       </box>
 
       <box flexDirection="column" marginTop={1}>
-        <text fg={Theme.textMuted}>Controls:</text>
-        <text fg={Theme.textMuted}>• Ctrl+S: Submit form</text>
-        <text fg={Theme.textMuted}>• Ctrl+V: Set values programmatically</text>
-        <text fg={Theme.textMuted}>• Ctrl+G: Get current values</text>
-        <text fg={Theme.textMuted}>• ESC: Reset form</text>
+        <text fg={theme.textMuted}>Controls:</text>
+        <text fg={theme.textMuted}>• Ctrl+S: Submit form</text>
+        <text fg={theme.textMuted}>• Ctrl+V: Set values programmatically</text>
+        <text fg={theme.textMuted}>• Ctrl+G: Get current values</text>
+        <text fg={theme.textMuted}>• ESC: Reset form</text>
       </box>
 
       <box marginTop={1}>
-        <text fg={Theme.textMuted}>
+        <text fg={theme.textMuted}>
           isDirty: {String(formState.isDirty)} | isValid:{' '}
           {String(formState.isValid)} | submitCount: {formState.submitCount}
         </text>
       </box>
 
       <box marginTop={1} flexDirection="column">
-        <text fg={Theme.accent}>Form values:</text>
-        <text fg={Theme.text}>{JSON.stringify(formValues, null, 2)}</text>
+        <text fg={theme.accent}>Form values:</text>
+        <text fg={theme.text}>{JSON.stringify(formValues, null, 2)}</text>
       </box>
     </box>
   )

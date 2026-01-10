@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { searchFiles, parsePath } from '../../utils/file-system'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
@@ -50,6 +50,7 @@ export const FileAutocompleteDialog = ({
   canChooseDirectories = false,
   initialDirectory,
 }: FileAutocompleteDialogProps): any => {
+  const theme = useTheme()
   const [selectedIndex, setSelectedIndex] = useState(0)
   const isInFocus = useIsInFocus()
   
@@ -119,16 +120,16 @@ export const FileAutocompleteDialog = ({
   return (
     <box flexDirection='column' paddingLeft={1} paddingRight={1} overflow='hidden'>
       <box flexDirection='row'>
-        <text fg={Theme.textMuted} wrapMode='none'>Filter: </text>
-        <text fg={Theme.primary} wrapMode='none'>
+        <text fg={theme.textMuted} wrapMode='none'>Filter: </text>
+        <text fg={theme.primary} wrapMode='none'>
           {filter ? filter.replace(homedir, '~') : '(type to filter)'}
         </text>
       </box>
       <box height={1} />
       {isLoading ? (
-        <text fg={Theme.textMuted}>Loading files...</text>
+        <text fg={theme.textMuted}>Loading files...</text>
       ) : visibleFiles.length === 0 ? (
-        <text fg={Theme.textMuted}>No files found</text>
+        <text fg={theme.textMuted}>No files found</text>
       ) : (
         <>
           {visibleFiles.map((item, index) => {
@@ -136,8 +137,8 @@ export const FileAutocompleteDialog = ({
             return (
               <text
                 key={item.path}
-                fg={index === selectedIndex ? Theme.background : Theme.text}
-                bg={index === selectedIndex ? Theme.primary : Theme.backgroundPanel}
+                fg={index === selectedIndex ? theme.background : theme.text}
+                bg={index === selectedIndex ? theme.primary : theme.backgroundPanel}
                 wrapMode='none'
               >
                 {' '}{icon}{item.name}{item.isDirectory ? '/' : ''}
@@ -147,7 +148,7 @@ export const FileAutocompleteDialog = ({
         </>
       )}
       <box height={1} />
-      <text fg={Theme.textMuted} wrapMode='none'>{hintText}</text>
+      <text fg={theme.textMuted} wrapMode='none'>{hintText}</text>
     </box>
   )
 }

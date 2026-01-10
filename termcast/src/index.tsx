@@ -210,7 +210,7 @@ export type { PreferenceValues } from 'termcast/src/apis/preferences'
 export type { CommonProps } from 'termcast/src/utils'
 
 // Theme
-export { Theme } from 'termcast/src/theme'
+export { useTheme } from 'termcast/src/theme'
 
 // Logger
 export { logger } from 'termcast/src/logger'

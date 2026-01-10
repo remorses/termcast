@@ -2,7 +2,7 @@ import React, { ReactNode, useState, useEffect } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useTerminalDimensions, useKeyboard } from '@opentui/react'
 import { colord } from 'colord'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { openInBrowser } from 'termcast/src/action-utils'
 import {
   useStore,
@@ -30,6 +30,7 @@ interface FooterProps {
 const MIN_WIDTH_FOR_POWERED_BY = 75
 
 function ToastInline({ toast }: { toast: ToastData }): any {
+  const theme = useTheme()
   const inFocus = useIsInFocus()
   const [animationFrame, setAnimationFrame] = useState(0)
 
@@ -91,17 +92,17 @@ function ToastInline({ toast }: { toast: ToastData }): any {
   const getIconColor = () => {
     switch (toast.style) {
       case 'SUCCESS':
-        return Theme.success
+        return theme.success
       case 'FAILURE':
-        return Theme.error
+        return theme.error
       case 'ANIMATED':
-        return Theme.primary
+        return theme.primary
       default:
-        return Theme.success
+        return theme.success
     }
   }
 
-  const primaryBg = Theme.primary
+  const primaryBg = theme.primary
   const primaryFg = getFgForBg(primaryBg)
   const keysBg = colord(primaryBg).darken(0.06).toHex()
 
@@ -194,6 +195,7 @@ export function Footer({
   marginTop = 1,
   hidePoweredBy = false,
 }: FooterProps): any {
+  const theme = useTheme()
   const { width } = useTerminalDimensions()
   const showPoweredBy = !hidePoweredBy && width >= MIN_WIDTH_FOR_POWERED_BY
   const toast = useStore((state) => state.toast)
@@ -219,7 +221,7 @@ export function Footer({
           {children}
           {showPoweredBy && (
             <box flexDirection='row' gap={1}>
-              <text flexShrink={0} fg={Theme.textMuted}>
+              <text flexShrink={0} fg={theme.textMuted}>
                 powered by
               </text>
               <text
@@ -227,7 +229,7 @@ export function Footer({
                 onMouseDown={() => {
                   openInBrowser('https://termcast.app')
                 }}
-                fg={Theme.textMuted}
+                fg={theme.textMuted}
                 attributes={TextAttributes.BOLD}
               >
                 termcast

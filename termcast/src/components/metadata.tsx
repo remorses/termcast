@@ -7,7 +7,7 @@
 
 import React, { createContext, useContext, ReactNode } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { Theme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
 import type { ImageLike } from 'termcast/src/components/image'
 
@@ -83,6 +83,7 @@ interface TagListItemProps {
 
 // Components
 const MetadataLabel = (props: LabelProps): any => {
+  const theme = useTheme()
   const config = useContext(MetadataContext)
   const textValue = typeof props.text === 'string' ? props.text : props.text?.value
   const textColor = typeof props.text === 'object' ? props.text?.color : undefined
@@ -91,7 +92,7 @@ const MetadataLabel = (props: LabelProps): any => {
   if (!textValue) {
     return (
       <box style={{ paddingBottom: config.paddingBottom }}>
-        <text flexShrink={0} fg={Theme.textMuted}>{props.title}</text>
+        <text flexShrink={0} fg={theme.textMuted}>{props.title}</text>
       </box>
     )
   }
@@ -102,8 +103,8 @@ const MetadataLabel = (props: LabelProps): any => {
   if (textValue.length > maxLen) {
     return (
       <box style={{ flexDirection: 'column', paddingBottom: config.paddingBottom }}>
-        <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
-        <text flexShrink={0} fg={resolveColor(textColor) || Theme.text}>{textValue}</text>
+        <text flexShrink={0} fg={theme.textMuted}>{props.title}:</text>
+        <text flexShrink={0} fg={resolveColor(textColor) || theme.text}>{textValue}</text>
       </box>
     )
   }
@@ -111,22 +112,24 @@ const MetadataLabel = (props: LabelProps): any => {
   // Short value = row layout (title: value on same line)
   return (
     <box style={{ flexDirection: 'row', paddingBottom: config.paddingBottom }}>
-      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: config.titleMinWidth }}>{props.title}:</text>
-      <text flexShrink={0} fg={resolveColor(textColor) || Theme.text}>{textValue}</text>
+      <text flexShrink={0} fg={theme.textMuted} style={{ minWidth: config.titleMinWidth }}>{props.title}:</text>
+      <text flexShrink={0} fg={resolveColor(textColor) || theme.text}>{textValue}</text>
     </box>
   )
 }
 
 const MetadataSeparator = (_props: SeparatorProps): any => {
+  const theme = useTheme()
   const config = useContext(MetadataContext)
   return (
     <box style={{ paddingBottom: config.paddingBottom }}>
-      <text flexShrink={0} fg={Theme.border}>{'─'.repeat(config.separatorWidth)}</text>
+      <text flexShrink={0} fg={theme.border}>{'─'.repeat(config.separatorWidth)}</text>
     </box>
   )
 }
 
 const MetadataLink = (props: LinkProps): any => {
+  const theme = useTheme()
   const config = useContext(MetadataContext)
   const maxLen = resolveMaxValueLen(config, props.title.length)
   const isLongValue = props.text.length > maxLen
@@ -134,26 +137,27 @@ const MetadataLink = (props: LinkProps): any => {
   if (isLongValue) {
     return (
       <box style={{ flexDirection: 'column', paddingBottom: config.paddingBottom }}>
-        <text flexShrink={0} fg={Theme.textMuted}>{props.title}:</text>
-        <text flexShrink={0} fg={Theme.accent} attributes={TextAttributes.UNDERLINE}>{props.text}</text>
+        <text flexShrink={0} fg={theme.textMuted}>{props.title}:</text>
+        <text flexShrink={0} fg={theme.accent} attributes={TextAttributes.UNDERLINE}>{props.text}</text>
       </box>
     )
   }
 
   return (
     <box style={{ flexDirection: 'row', paddingBottom: config.paddingBottom }}>
-      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: config.titleMinWidth }}>{props.title}:</text>
-      <text flexShrink={0} fg={Theme.accent} attributes={TextAttributes.UNDERLINE}>{props.text}</text>
+      <text flexShrink={0} fg={theme.textMuted} style={{ minWidth: config.titleMinWidth }}>{props.title}:</text>
+      <text flexShrink={0} fg={theme.accent} attributes={TextAttributes.UNDERLINE}>{props.text}</text>
     </box>
   )
 }
 
 const MetadataTagListItem = (props: TagListItemProps): any => {
+  const theme = useTheme()
   const displayText = props.text || ''
 
   return (
     <text
-      fg={resolveColor(props.color) || Theme.text}
+      fg={resolveColor(props.color) || theme.text}
       style={{
         paddingRight: 1,
         paddingLeft: props.icon ? 1 : 0,
@@ -170,11 +174,12 @@ interface MetadataTagListType {
 }
 
 const MetadataTagList: MetadataTagListType = (props) => {
+  const theme = useTheme()
   const config = useContext(MetadataContext)
 
   return (
     <box style={{ flexDirection: 'row', paddingBottom: config.paddingBottom }}>
-      <text flexShrink={0} fg={Theme.textMuted} style={{ minWidth: config.titleMinWidth }}>{props.title}:</text>
+      <text flexShrink={0} fg={theme.textMuted} style={{ minWidth: config.titleMinWidth }}>{props.title}:</text>
       <box style={{ flexDirection: 'row' }}>{props.children}</box>
     </box>
   )

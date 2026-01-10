@@ -31,7 +31,7 @@ import { ScrollBox } from 'termcast/src/internal/scrollbox'
 import { Color, resolveColor } from 'termcast/src/colors'
 import { getIconEmoji, getIconValue } from 'termcast/src/components/icon'
 import { ActionPanel } from 'termcast/src/components/actions'
-import { Theme, markdownSyntaxStyle } from 'termcast/src/theme'
+import { useTheme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { CommonProps } from 'termcast/src/utils'
 
 export { Color }
@@ -73,6 +73,7 @@ interface ActionsInterface {
 }
 
 function ListFooter(): any {
+  const theme = useTheme()
   const firstActionTitle = useStore((s) => s.firstActionTitle)
   const hasToast = useStore((s) => s.toast !== null)
   const listContext = useContext(ListContext)
@@ -82,23 +83,23 @@ function ListFooter(): any {
     <box style={{ flexDirection: 'row', gap: 3 }}>
       {firstActionTitle && (
         <box style={{ flexDirection: 'row', gap: 1 }}>
-          <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+          <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
             ↵
           </text>
-          <text flexShrink={0} fg={Theme.textMuted}>{firstActionTitle.toLowerCase()}</text>
+          <text flexShrink={0} fg={theme.textMuted}>{firstActionTitle.toLowerCase()}</text>
         </box>
       )}
       <box style={{ flexDirection: 'row', gap: 1 }}>
-        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ↑↓
         </text>
-        <text flexShrink={0} fg={Theme.textMuted}>navigate</text>
+        <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
       <box style={{ flexDirection: 'row', gap: 1 }}>
-        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ^k
         </text>
-        <text flexShrink={0} fg={Theme.textMuted}>actions</text>
+        <text flexShrink={0} fg={theme.textMuted}>actions</text>
       </box>
     </box>
   )
@@ -391,6 +392,7 @@ interface ListDropdownDialogProps extends DropdownProps {
 }
 
 function ListDropdownDialog(props: ListDropdownDialogProps): any {
+  const theme = useTheme()
   const [searchText, setSearchTextRaw] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const inputRef = useRef<TextareaRenderable>(null)
@@ -477,11 +479,11 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 justifyContent: 'space-between',
               }}
             >
-              <text flexShrink={0} fg={Theme.textMuted}>{props.tooltip}</text>
-              <text flexShrink={0} fg={Theme.textMuted}>esc</text>
+              <text flexShrink={0} fg={theme.textMuted}>{props.tooltip}</text>
+              <text flexShrink={0} fg={theme.textMuted}>esc</text>
             </box>
             <box style={{ paddingTop: 1, paddingBottom: 1, flexDirection: 'row' }}>
-              <text flexShrink={0} fg={Theme.textMuted}>&gt; </text>
+              <text flexShrink={0} fg={theme.textMuted}>&gt; </text>
               <textarea
                 ref={inputRef}
                 height={1}
@@ -498,9 +500,9 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
                 placeholder={props.placeholder || 'Search...'}
                 focused={inFocus}
                 initialValue={searchText}
-                focusedBackgroundColor={Theme.backgroundPanel}
-                cursorColor={Theme.primary}
-                focusedTextColor={Theme.textMuted}
+                focusedBackgroundColor={theme.backgroundPanel}
+                cursorColor={theme.primary}
+                focusedTextColor={theme.textMuted}
               />
             </box>
           </box>
@@ -525,7 +527,7 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
           </box>
           {props.isLoading && (
             <box style={{ paddingLeft: 1 }}>
-              <text flexShrink={0} fg={Theme.textMuted}>Loading...</text>
+              <text flexShrink={0} fg={theme.textMuted}>Loading...</text>
             </box>
           )}
         </box>
@@ -537,21 +539,22 @@ function ListDropdownDialog(props: ListDropdownDialogProps): any {
 }
 
 function DropdownFooter(): any {
+  const theme = useTheme()
   const hasToast = useStore((s) => s.toast !== null)
 
   const content = hasToast ? null : (
     <box style={{ flexDirection: 'row', gap: 3 }}>
       <box style={{ flexDirection: 'row', gap: 1 }}>
-        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ↵
         </text>
-        <text flexShrink={0} fg={Theme.textMuted}>select</text>
+        <text flexShrink={0} fg={theme.textMuted}>select</text>
       </box>
       <box style={{ flexDirection: 'row', gap: 1 }}>
-        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ↑↓
         </text>
-        <text flexShrink={0} fg={Theme.textMuted}>navigate</text>
+        <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
     </box>
   )
@@ -576,6 +579,7 @@ function ListItemRow(props: {
   index?: number
   ref?: React.Ref<BoxRenderable>
 }) {
+  const theme = useTheme()
   const { title, subtitle, icon, iconColor, accessories, active, ref } = props
   const [isHovered, setIsHovered] = useState(false)
 
@@ -594,7 +598,7 @@ function ListItemRow(props: {
             <text
               key={`text-${textValue}`}
               flexShrink={0}
-              fg={active ? Theme.background : resolveColor(textColor) || Theme.info}
+              fg={active ? theme.background : resolveColor(textColor) || theme.info}
               wrapMode="none"
             >
               {textValue}
@@ -614,7 +618,7 @@ function ListItemRow(props: {
             <text
               key={`tag-${tagValue}`}
               flexShrink={0}
-              fg={active ? Theme.background : resolveColor(tagColor) || Theme.warning}
+              fg={active ? theme.background : resolveColor(tagColor) || theme.warning}
               wrapMode="none"
             >
               [{tagValue}]
@@ -637,7 +641,7 @@ function ListItemRow(props: {
             <text
               key={`date-${dateValue.getTime()}`}
               flexShrink={0}
-              fg={active ? Theme.background : resolveColor(dateColor) || Theme.success}
+              fg={active ? theme.background : resolveColor(dateColor) || theme.success}
               wrapMode="none"
             >
               {formatted}
@@ -655,9 +659,9 @@ function ListItemRow(props: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: active
-          ? Theme.primary
+          ? theme.primary
           : isHovered
-            ? Theme.backgroundPanel
+            ? theme.backgroundPanel
             : undefined,
         paddingLeft: 0,
         paddingRight: 1,
@@ -674,11 +678,11 @@ function ListItemRow(props: {
     >
       <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1, overflow: 'hidden', gap: 1 }}>
         <box style={{ flexDirection: 'row', flexShrink: 0 }}>
-          <text flexShrink={0} fg={active ? Theme.background : Theme.text} attributes={active ? TextAttributes.BOLD : undefined} selectable={false} wrapMode="none">{active ? '›' : ' '}</text>
-          {icon && <text flexShrink={0} fg={active ? Theme.background : iconColor || Theme.text} selectable={false} wrapMode="none">{getIconEmoji(icon)} </text>}
+          <text flexShrink={0} fg={active ? theme.background : theme.text} attributes={active ? TextAttributes.BOLD : undefined} selectable={false} wrapMode="none">{active ? '›' : ' '}</text>
+          {icon && <text flexShrink={0} fg={active ? theme.background : iconColor || theme.text} selectable={false} wrapMode="none">{getIconEmoji(icon)} </text>}
           <text
             flexShrink={0}
-            fg={active ? Theme.background : Theme.text}
+            fg={active ? theme.background : theme.text}
             attributes={active ? TextAttributes.BOLD : undefined}
             selectable={false}
             wrapMode="none"
@@ -689,7 +693,7 @@ function ListItemRow(props: {
         {subtitle && (
           <text
             flexShrink={0}
-            fg={active ? Theme.background : Theme.textMuted}
+            fg={active ? theme.background : theme.textMuted}
             selectable={false}
             wrapMode="none"
           >
@@ -727,6 +731,7 @@ export const List: ListType = (props) => {
     ...otherProps
   } = props
 
+  const theme = useTheme()
   const [internalSearchText, setInternalSearchTextRaw] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -1031,7 +1036,7 @@ export const List: ListType = (props) => {
                   flexShrink: 1,
                 }}
               >
-                <text flexShrink={0} fg={Theme.textMuted}>&gt; </text>
+                <text flexShrink={0} fg={theme.textMuted}>&gt; </text>
                 <textarea
                   ref={setInputRef}
                   height={1}
@@ -1048,9 +1053,9 @@ export const List: ListType = (props) => {
                     const value = inputRef.current?.plainText || ''
                     handleSearchChange(value)
                   }}
-                  focusedBackgroundColor={Theme.backgroundPanel}
-                  cursorColor={Theme.primary}
-                  focusedTextColor={Theme.text}
+                  focusedBackgroundColor={theme.backgroundPanel}
+                  cursorColor={theme.primary}
+                  focusedTextColor={theme.text}
                 />
               </box>
               {searchBarAccessory}
@@ -1103,7 +1108,7 @@ export const List: ListType = (props) => {
                 }}
                 border={['left']}
                 borderStyle='single'
-                borderColor={Theme.border}
+                borderColor={theme.border}
               >
                 {currentDetail}
               </box>
@@ -1145,6 +1150,7 @@ function ShowOnNoItems(props: { children: ReactNode; isCustomEmptyView?: boolean
 }
 
 function DefaultEmptyView(): any {
+  const theme = useTheme()
   return (
     <ShowOnNoItems>
       <box
@@ -1158,7 +1164,7 @@ function DefaultEmptyView(): any {
           paddingRight: 2,
         }}
       >
-        <text flexShrink={0} fg={Theme.textMuted}>
+        <text flexShrink={0} fg={theme.textMuted}>
           No items found
         </text>
       </box>
@@ -1302,13 +1308,14 @@ const ListItem: ListItemType = (props) => {
 }
 
 const ListItemDetail: ListItemDetailType = (props) => {
+  const theme = useTheme()
   const { isLoading, markdown, metadata } = props
 
   return (
     <box style={{ flexDirection: 'column', flexGrow: 1 }}>
       {isLoading && (
         <box style={{ paddingBottom: 1 }}>
-          <text flexShrink={0} fg={Theme.textMuted}>Loading...</text>
+          <text flexShrink={0} fg={theme.textMuted}>Loading...</text>
         </box>
       )}
 
@@ -1336,7 +1343,7 @@ const ListItemDetail: ListItemDetailType = (props) => {
               style={{ paddingTop: 1 }}
               // border={['top']}
               // borderStyle='single'
-              // borderColor={Theme.border}
+              // borderColor={theme.border}
             >
               {metadata}
             </box>
@@ -1385,6 +1392,7 @@ ListItem.Detail = ListItemDetail
  * value="" (or your preferred reset value) at the top of your dropdown items.
  */
 const ListDropdown: ListDropdownType = (props) => {
+  const theme = useTheme()
   const listContext = useContext(ListContext)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -1506,7 +1514,7 @@ const ListDropdown: ListDropdownType = (props) => {
             // minWidth: value.length + 4,
             flexDirection: 'row',
             flexShrink: 0,
-            backgroundColor: isHovered ? Theme.backgroundPanel : undefined,
+            backgroundColor: isHovered ? theme.backgroundPanel : undefined,
           }}
           onMouseMove={() => setIsHovered(true)}
           onMouseOut={() => setIsHovered(false)}
@@ -1519,13 +1527,13 @@ const ListDropdown: ListDropdownType = (props) => {
         >
           {/*<text >^p </text>*/}
           {listContext.isLoading ? (
-            <LoadingText isLoading color={isHovered ? Theme.text : Theme.textMuted}>
+            <LoadingText isLoading color={isHovered ? theme.text : theme.textMuted}>
               {displayValue || 'Loading...'}
             </LoadingText>
           ) : (
             <text
               flexShrink={0}
-              fg={isHovered ? Theme.text : Theme.textMuted}
+              fg={isHovered ? theme.text : theme.textMuted}
               selectable={false}
             >
               {displayValue}
@@ -1533,7 +1541,7 @@ const ListDropdown: ListDropdownType = (props) => {
           )}
           <text
             flexShrink={0}
-            fg={isHovered ? Theme.text : Theme.textMuted}
+            fg={isHovered ? theme.text : theme.textMuted}
             selectable={false}
           >
             {' '}
@@ -1546,6 +1554,7 @@ const ListDropdown: ListDropdownType = (props) => {
 }
 
 ListDropdown.Item = (props) => {
+  const theme = useTheme()
   const dropdownContext = useContext(DropdownContext)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -1609,9 +1618,9 @@ ListDropdown.Item = (props) => {
         style={{
           flexDirection: 'row',
           backgroundColor: isActive
-            ? Theme.primary
+            ? theme.primary
             : isHovered
-              ? Theme.backgroundPanel
+              ? theme.backgroundPanel
               : undefined,
           paddingLeft: isActive ? 0 : 1,
           paddingRight: 1,
@@ -1624,7 +1633,7 @@ ListDropdown.Item = (props) => {
       >
         <box style={{ flexDirection: 'row' }}>
           {isActive && (
-            <text flexShrink={0} fg={Theme.background} selectable={false}>
+            <text flexShrink={0} fg={theme.background} selectable={false}>
               ›{''}
             </text>
           )}
@@ -1632,10 +1641,10 @@ ListDropdown.Item = (props) => {
             flexShrink={0}
             fg={
               isActive
-                ? Theme.background
+                ? theme.background
                 : isCurrent
-                  ? Theme.primary
-                  : Theme.text
+                  ? theme.primary
+                  : theme.text
             }
             attributes={isActive ? TextAttributes.BOLD : undefined}
             selectable={false}
@@ -1651,6 +1660,7 @@ ListDropdown.Item = (props) => {
 }
 
 ListDropdown.Section = (props) => {
+  const theme = useTheme()
   const parentContext = useContext(DropdownContext)
 
   // If not inside a Dropdown, just render nothing
@@ -1678,7 +1688,7 @@ ListDropdown.Section = (props) => {
       {/* Render section title if we're in the dialog and not searching */}
       {showTitle && (
         <box style={{ paddingTop: 1, paddingLeft: 1 }}>
-          <text flexShrink={0} fg={Theme.accent} attributes={TextAttributes.BOLD}>
+          <text flexShrink={0} fg={theme.accent} attributes={TextAttributes.BOLD}>
             {props.title}
           </text>
         </box>
@@ -1692,6 +1702,7 @@ ListDropdown.Section = (props) => {
 
 List.Item = ListItem
 const ListSection = (props: SectionProps) => {
+  const theme = useTheme()
   const parentContext = useContext(ListSectionContext)
   const listContext = useContext(ListContext)
   const searchText = listContext?.searchText || ''
@@ -1732,7 +1743,7 @@ const ListSection = (props: SectionProps) => {
             paddingLeft: 1,
           }}
         >
-          <text flexShrink={0} fg={Theme.accent} attributes={TextAttributes.BOLD}>
+          <text flexShrink={0} fg={theme.accent} attributes={TextAttributes.BOLD}>
             {props.title}
           </text>
         </box>
@@ -1746,6 +1757,7 @@ List.Section = ListSection
 List.Dropdown = ListDropdown
 // Inner component for EmptyView content (needs hooks at top level)
 function EmptyViewContent(props: EmptyViewProps): any {
+  const theme = useTheme()
   const dialog = useDialog()
   const inFocus = useIsInFocus()
 
@@ -1783,17 +1795,17 @@ function EmptyViewContent(props: EmptyViewProps): any {
       }}
     >
       {iconEmoji && (
-        <text flexShrink={0} fg={Theme.textMuted} style={{ marginBottom: 1 }}>
+        <text flexShrink={0} fg={theme.textMuted} style={{ marginBottom: 1 }}>
           {iconEmoji}
         </text>
       )}
       {props.title && (
-        <text flexShrink={0} fg={Theme.text} attributes={TextAttributes.BOLD}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           {props.title?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
         </text>
       )}
       {props.description && (
-        <text flexShrink={0} fg={Theme.textMuted} wrapMode='word'>
+        <text flexShrink={0} fg={theme.textMuted} wrapMode='word'>
           {props.description?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
         </text>
       )}
