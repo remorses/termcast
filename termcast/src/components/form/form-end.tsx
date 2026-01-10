@@ -13,7 +13,8 @@ export const FormEnd = (): any => {
       setIsLastFieldFocused(false)
       return
     }
-    const descendants = Object.values(scrollContext.descendantsContext.map.current)
+    // Use committedMap for stability
+    const descendants = Object.values(scrollContext.descendantsContext.committedMap)
       .filter((item) => item.index !== -1 && item.props?.id)
       .sort((a, b) => a.index - b.index)
     if (descendants.length === 0) {
@@ -22,7 +23,7 @@ export const FormEnd = (): any => {
     }
     const lastField = descendants[descendants.length - 1]
     setIsLastFieldFocused(lastField.props?.id === focusedField)
-  }, [focusedField])
+  }, [focusedField, scrollContext?.descendantsContext.committedMap])
 
   return <text fg={isLastFieldFocused ? theme.accent : theme.text}>└</text>
 }

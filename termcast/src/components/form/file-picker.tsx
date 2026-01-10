@@ -249,21 +249,6 @@ export const FilePicker = (props: FilePickerProps): any => {
     elementRef: elementRef.current,
   })
 
-  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
-
-  // Handle keyboard navigation
-  useKeyboard((evt) => {
-    if (!isFocused || !isInFocus) return
-
-    if (evt.name === 'tab') {
-      if (evt.shift) {
-        navigateToPrevious()
-      } else {
-        navigateToNext()
-      }
-    }
-  })
-
   return (
     <Controller
       name={props.id}

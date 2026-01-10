@@ -7,10 +7,10 @@ export function useFormNavigationHelpers(id: string) {
   const scrollContext = useFormScrollContext()
   const { setFocusedField } = useFocusContext()
 
-  // Get sorted field IDs from descendants
+  // Get sorted field IDs from descendants - use committedMap for stability
   const getFieldIds = () => {
     if (!scrollContext) return []
-    const descendants = Object.values(scrollContext.descendantsContext.map.current)
+    const descendants = Object.values(scrollContext.descendantsContext.committedMap)
       .filter((item) => item.index !== -1 && item.props?.id)
       .sort((a, b) => a.index - b.index)
     return descendants.map((item) => item.props!.id)
@@ -53,9 +53,8 @@ export function useFormNavigation(
   const isInFocus = useIsInFocus()
   const isFocused = focusedField === id
 
-  let { handleArrows = true, handleTabs = true } = options || {}
-
-  handleArrows = false
+  // handleTabs defaults to false to avoid conflict with global Form handler
+  let { handleArrows = true, handleTabs = false } = options || {}
 
   const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(id)
 

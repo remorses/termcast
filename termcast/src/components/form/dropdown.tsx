@@ -227,10 +227,6 @@ const DropdownContent = ({
 
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
 
-  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(
-    props.id,
-  )
-
   const scrollToItem = (item: { props?: FormDropdownItemDescendant }) => {
     const scrollBox = scrollBoxRef.current
     const itemElementRef = item.props?.elementRef
@@ -247,11 +243,11 @@ const DropdownContent = ({
     scrollBox.scrollTo(Math.max(0, targetScrollTop))
   }
 
-  // Helper to get value for a descendantId
+  // Helper to get value for a descendantId - use committedMap for stability
   const getValueForDescendantId = (
     descendantId: string,
   ): string | undefined => {
-    const item = descendantsContext.map.current[descendantId]
+    const item = descendantsContext.committedMap[descendantId]
     return item?.props?.value
   }
 
@@ -259,7 +255,7 @@ const DropdownContent = ({
     const value = getValueForDescendantId(descendantId)
     if (!value) return
 
-    const item = descendantsContext.map.current[descendantId]
+    const item = descendantsContext.committedMap[descendantId]
     const title = item?.props?.title || value
 
     if (props.hasMultipleSelection) {
@@ -293,7 +289,7 @@ const DropdownContent = ({
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
 
-    const items = Object.values(descendantsContext.map.current)
+    const items = Object.values(descendantsContext.committedMap)
       .filter((item) => item.index !== -1)
       .sort((a, b) => a.index - b.index)
     const itemCount = items.length
@@ -319,7 +315,7 @@ const DropdownContent = ({
         }
       } else if (evt.name === 'return' || evt.name === 'space') {
         // Toggle selection of current focused item
-        const entries = Object.entries(descendantsContext.map.current)
+        const entries = Object.entries(descendantsContext.committedMap)
         const sortedEntries = entries
           .filter(([_, item]) => item.index !== -1)
           .sort((a, b) => a[1].index - b[1].index)
@@ -329,16 +325,6 @@ const DropdownContent = ({
           handleSelect(focusedId)
         }
       }
-    }
-
-    // Handle tab navigation
-    if (evt.name === 'tab') {
-      if (evt.shift) {
-        navigateToPrevious()
-      } else {
-        navigateToNext()
-      }
-      return
     }
 
     // Type-ahead search
@@ -379,9 +365,9 @@ const DropdownContent = ({
 
   // Initialize selected titles from field value only once when descendants are loaded
   useLayoutEffect(() => {
-    if (field.value && Object.keys(descendantsContext.map.current).length > 0) {
+    if (field.value && Object.keys(descendantsContext.committedMap).length > 0) {
       const titles: string[] = []
-      const entries = Object.entries(descendantsContext.map.current)
+      const entries = Object.entries(descendantsContext.committedMap)
 
       entries.forEach(([id, item]) => {
         if (item.props) {

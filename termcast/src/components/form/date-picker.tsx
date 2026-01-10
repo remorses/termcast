@@ -45,21 +45,6 @@ const DatePickerComponent = (props: DatePickerProps): any => {
     elementRef: elementRef.current,
   })
 
-  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
-
-  // Handle tab navigation only
-  useKeyboard((evt) => {
-    if (!isFocused || !isInFocus) return
-
-    if (evt.name === 'tab') {
-      if (evt.shift) {
-        navigateToPrevious()
-      } else {
-        navigateToNext()
-      }
-    }
-  })
-
   return (
     <Controller
       name={props.id}
