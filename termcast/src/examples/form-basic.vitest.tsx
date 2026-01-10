@@ -71,10 +71,10 @@ test('form basic navigation and input', async () => {
       │
       │  Your country of residence
       │
-      ◇  Date of Birth
+      ◇  Empty Dropdown
+      │  No items available
       │
-      │   ←       2026        →
-      │   ←      January      →
+      ◇  Minimal Field
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -175,10 +175,10 @@ test('form date picker selection with space and enter', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
+      │                                                                ▀
+      │
+      │  Maximum 500 characters
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -196,16 +196,16 @@ test('form date picker selection with space and enter', async () => {
       │
       │  Your country of residence
       │
+      ◇  Empty Dropdown
+      │  No items available
+      │
+      ◇  Minimal Field
+      │  No info text
+      │
       ◇  Date of Birth
       │
       │   ←       2026        →
       │   ←      January      →
-      │
-      │   Mo Tu We Th Fr Sa Su
-      │             1  2  3  4
-      │    5  6  7  8  9 10 11
-      │   12 13 14 15 16 17 18
-      │   19 20 21 22 23 24 25
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -233,10 +233,10 @@ test('form date picker selection with space and enter', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
+      │                                                                ▀
+      │
+      │  Maximum 500 characters
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -254,16 +254,16 @@ test('form date picker selection with space and enter', async () => {
       │
       │  Your country of residence
       │
+      ◇  Empty Dropdown
+      │  No items available
+      │
+      ◇  Minimal Field
+      │  No info text
+      │
       ◇  Date of Birth
       │
       │   ←       2026        →
       │   ←      January      →
-      │
-      │   Mo Tu We Th Fr Sa Su
-      │             1  2  3  4
-      │    5  6  7  8  9 10 11
-      │   12 13 14 15 16 17 18
-      │   19 20 21 22 23 24 25
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -292,10 +292,10 @@ test('form date picker selection with space and enter', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
+      │                                                                ▀
+      │
+      │  Maximum 500 characters
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -313,16 +313,16 @@ test('form date picker selection with space and enter', async () => {
       │
       │  Your country of residence
       │
+      ◇  Empty Dropdown
+      │  No items available
+      │
+      ◇  Minimal Field
+      │  No info text
+      │
       ◇  Date of Birth
       │
       │   ←       2026        →
       │   ←      January      →
-      │
-      │   Mo Tu We Th Fr Sa Su
-      │             1  2  3  4
-      │    5  6  7  8  9 10 11
-      │   12 13 14 15 16 17 18
-      │   19 20 21 22 23 24 25
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -367,10 +367,10 @@ test('form dropdown navigation', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
+      │                                                                ▀
+      │
+      │  Maximum 500 characters
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -388,16 +388,16 @@ test('form dropdown navigation', async () => {
       │
       │  Your country of residence
       │
+      ◇  Empty Dropdown
+      │  No items available
+      │
+      ◇  Minimal Field
+      │  No info text
+      │
       ◇  Date of Birth
       │
       │   ←       2026        →
       │   ←      January      →
-      │
-      │   Mo Tu We Th Fr Sa Su
-      │             1  2  3  4
-      │    5  6  7  8  9 10 11
-      │   12 13 14 15 16 17 18
-      │   19 20 21 22 23 24 25
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -425,10 +425,10 @@ test('form dropdown navigation', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
+      │                                                                ▀
+      │
+      │  Maximum 500 characters
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -446,16 +446,16 @@ test('form dropdown navigation', async () => {
       │
       │  Your country of residence
       │
+      ◇  Empty Dropdown
+      │  No items available
+      │
+      ◇  Minimal Field
+      │  No info text
+      │
       ◇  Date of Birth
       │
       │   ←       2026        →
       │   ←      January      →
-      │
-      │   Mo Tu We Th Fr Sa Su
-      │             1  2  3  4
-      │    5  6  7  8  9 10 11
-      │   12 13 14 15 16 17 18
-      │   19 20 21 22 23 24 25
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -485,10 +485,10 @@ test('form dropdown navigation', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
+      │                                                                ▀
+      │
+      │  Maximum 500 characters
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -506,16 +506,16 @@ test('form dropdown navigation', async () => {
       │
       │  Your country of residence
       │
+      ◇  Empty Dropdown
+      │  No items available
+      │
+      ◇  Minimal Field
+      │  No info text
+      │
       ◇  Date of Birth
       │
       │   ←       2026        →
       │   ←      January      →
-      │
-      │   Mo Tu We Th Fr Sa Su
-      │             1  2  3  4
-      │    5  6  7  8  9 10 11
-      │   12 13 14 15 16 17 18
-      │   19 20 21 22 23 24 25
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -543,10 +543,10 @@ test('form dropdown navigation', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │
-      │
       │                                                                █
-      │  Maximum 500 characters                                        ▀
+      │                                                                ▀
+      │
+      │  Maximum 500 characters
       │
       ◇  Email Preferences
       │  ○ Subscribe to newsletter
@@ -564,16 +564,16 @@ test('form dropdown navigation', async () => {
       │
       │  Your country of residence
       │
+      ◇  Empty Dropdown
+      │  No items available
+      │
+      ◇  Minimal Field
+      │  No info text
+      │
       ◇  Date of Birth
       │
       │   ←       2026        →
       │   ←      January      →
-      │
-      │   Mo Tu We Th Fr Sa Su
-      │             1  2  3  4
-      │    5  6  7  8  9 10 11
-      │   12 13 14 15 16 17 18
-      │   19 20 21 22 23 24 25
 
 
        ctrl ↵ submit   tab navigate   ^k actions

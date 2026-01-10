@@ -64,20 +64,20 @@ test('actions dialog layout shift when opening with ctrl+k', async () => {
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›View Details                                                 │
-      │   Add to Cart                                                  │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+      │   Actions                                                      ▲
+      ›Apple Red and sweet                            Fresh [Popular]  ▀
+       Banana Yellow and nutritious                              Ripe
+       Orange Citrus and juicy                                  Fresh
+       Grape Sweet clusters                                [Seasonal]
+       Mango Tropical delight                                Imported
+       Pineapple Sweet and tangy
+       Strawberry Red and sweet                             [Popular]
+                                                                       ▼
+
+
+       ↵ view details   ↑↓ navigate   ^k actions
+
+    "
   `)
 
   // Last frame: dialog at same position as first frame (no shift)

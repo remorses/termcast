@@ -43,8 +43,8 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
+       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
 
 
@@ -77,6 +77,7 @@ test('dropdown opens and shows items', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
+
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Filter by category                                               esc   │
@@ -102,7 +103,6 @@ test('dropdown opens and shows items', async () => {
 
 
 
-
     "
   `)
 
@@ -114,6 +114,7 @@ test('dropdown opens and shows items', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
+
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Filter by category                                               esc   │
@@ -129,7 +130,6 @@ test('dropdown opens and shows items', async () => {
       │   ↵ select   ↑↓ navigate                            powered by termcast  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
-
 
 
 
@@ -162,8 +162,8 @@ test('dropdown opens and shows items', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
+       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
 
 
@@ -196,6 +196,7 @@ test('clicking dropdown opens it', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
+
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Filter by category                                               esc   │
@@ -211,7 +212,6 @@ test('clicking dropdown opens it', async () => {
       │   ↵ select   ↑↓ navigate                            powered by termcast  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
-
 
 
 
@@ -244,8 +244,8 @@ test('clicking dropdown opens it', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
+       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
 
 
 

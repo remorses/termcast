@@ -172,12 +172,12 @@ test('list with sections search functionality', async () => {
       ›Banana Yellow and nutritious                               Ripe
 
 
+
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
@@ -208,12 +208,12 @@ test('list with sections search functionality', async () => {
       ›Lettuce Green and fresh
 
 
+
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
@@ -271,12 +271,12 @@ test('list with sections search functionality', async () => {
       ›Bread Freshly baked                                 Today [New]
 
 
+
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
@@ -423,22 +423,22 @@ test('list actions panel with ctrl+k', async () => {
 
        Simple List Example ────────────────────────────────────────────
 
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›View Details                                                 │
-      │   Add to Cart                                                  │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+       > Search items...
+
+       Fruits                                                          ▲
+      ›Apple Red and sweet                            Fresh [Popular]  ▀
+       Banana Yellow and nutritious                              Ripe
+       Orange Citrus and juicy                                  Fresh
+       Grape Sweet clusters                                [Seasonal]
+       Mango Tropical delight                                Imported
+       Pineapple Sweet and tangy
+       Strawberry Red and sweet                             [Popular]
+                                                                       ▼
+
+
+       ↵ view details   ↑↓ navigate   ^k actions
+
+    "
   `)
 
   // Navigate down to second action
@@ -538,11 +538,11 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
 
 
 
@@ -566,11 +566,11 @@ test('filtering selects first visible item and navigation works', async () => {
       ›Carrot Orange and crunchy                             [Healthy]
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
 
 
 
@@ -594,11 +594,11 @@ test('filtering selects first visible item and navigation works', async () => {
        Carrot Orange and crunchy                             [Healthy]
 
 
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
 
 
 
@@ -622,11 +622,11 @@ test('filtering selects first visible item and navigation works', async () => {
       ›Carrot Orange and crunchy                             [Healthy]
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions
-
-
-
-
 
 
 

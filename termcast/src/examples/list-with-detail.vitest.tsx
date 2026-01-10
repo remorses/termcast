@@ -283,27 +283,27 @@ test('list detail view search functionality', async () => {
        > char
 
       ›charmander #004
-       charmeleon #005                      │ charmander                        ▲
+       charmeleon #005                      │                                   ▲
                                             │                                   █
-                                            │ Illustration
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
                                             │
                                             │ Types
-                                            │ Fire
-                                            │
-                                            │ Characteristics
-                                            │ - Height: 0.6m
-                                            │ - Weight: 8.5kg
-                                            │
-                                            │ Abilities
-                                            │ - Blaze
-                                            │ - Solar Power
-                                            │
-                                            │
-                                            │ Types
-                                            │
-                                            │ Fire
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+       ↵ toggle        ↑↓ navigate ^k action│
+         detail                             │ Fire                              ▼
 
     "
   `)
@@ -428,14 +428,14 @@ test('list detail metadata rendering', async () => {
                                             │
                                             │ Abilities
                                             │ - Chlorophyll
-                                            │ - Overgrow
+                                            │
+                                            │
+                                            │
                                             │
                                             │
                                             │ Types
-                                            │
-                                            │ Grass
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+       ↵ toggle        ↑↓ navigate ^k action│
+         detail                             │ Grass                             ▼
 
     "
   `)

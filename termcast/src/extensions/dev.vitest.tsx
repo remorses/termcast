@@ -38,11 +38,11 @@ test('dev command shows extension commands list', async () => {
       ›List Items Displays a simple list with some ite view  ▀
        Search Items Search and filter through a list o view
        Google Oauth                                    view
-       usePromise Demo Shows how to use the usePromise view  ▼
+       usePromise Demo Shows how to use the usePromise view
+       Show State Shows the current application state  view  ▼
 
 
        ↵ run command   ↑↓ navigate   ^k actions
-
     "
   `)
 }, 30000)
@@ -69,15 +69,15 @@ test('selecting command with arguments shows arguments form', async () => {
 
        > Search commands...
 
-       usePromise Demo Shows how to use the usePromise view  ▲
+       Google Oauth                                    view  ▲
+       usePromise Demo Shows how to use the usePromise view
        Show State Shows the current application state  view
-      ›With Arguments Demonstrates command arguments ( view
-       Quick Action Copies current timestamp to cli no-view  ▀
+      ›With Arguments Demonstrates command arguments ( view  ▄
+       Quick Action Copies current timestamp to cli no-view
        Throw Error Command that throws an error at roo view  ▼
 
 
        ↵ run command   ↑↓ navigate   ^k actions
-
     "
   `)
 
@@ -181,8 +181,8 @@ test('can fill arguments and run command', async () => {
 
 
 
-       ✓ Copied to Clipboard  (empty)
 
+       ✓ Copied to Clipboard  (empty)
     "
   `)
 }, 30000)
@@ -213,13 +213,13 @@ test('can run simple view command without arguments', async () => {
 
        Items                                                 ▲
       ›▲ First Item This is the first item                   █
-       ▲ Second Item This is the second item
+       ▲ Second Item This is the second item                 █
        ▲ Third Item This is the third item
-       ▲ Fourth Item This is the fourth item                 ▼
+       ▲ Fourth Item This is the fourth item
+       ▲ Fifth Item This is the fifth item                   ▼
 
 
        ✓ Copied to Clipboard  First Item
-
     "
   `)
 }, 30000)

@@ -45,27 +45,27 @@ test('form dropdown shows inline options', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
-      │
-      ◇  Editor Theme
-      │  Dracula
-      │
-      │  ○ Monokai
-      │  ● Dracula
-      │  ○ One Dark
+      ■  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◇  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  Frontend                                                      █
+      │  ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │                                                                █
+      │  Choose your preferred programming languages                   █
+      │                                                                █
+      ◇  Editor Theme                                                  █
+      │  Dracula                                                       █
+      │                                                                █
+      │  ○ Monokai                                                     █
+      │  ● Dracula                                                     █
+      │  ○ One Dark                                                    ▀
       │  ○ Nord
       │  ○ GitHub Light
       │
@@ -78,17 +78,17 @@ test('form dropdown shows inline options', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
+      │
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -102,27 +102,27 @@ test('form dropdown shows inline options', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
-      │
-      ◇  Editor Theme
-      │  Dracula
-      │
-      │  ○ Monokai
-      │  ● Dracula
-      │  ○ One Dark
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  Frontend                                                      █
+      │  ● TypeScript                                                  █
+      │› ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │                                                                █
+      │  Choose your preferred programming languages                   █
+      │                                                                █
+      ◇  Editor Theme                                                  █
+      │  Dracula                                                       █
+      │                                                                █
+      │  ○ Monokai                                                     █
+      │  ● Dracula                                                     █
+      │  ○ One Dark                                                    ▀
       │  ○ Nord
       │  ○ GitHub Light
       │
@@ -135,17 +135,17 @@ test('form dropdown shows inline options', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
+      │
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -162,27 +162,27 @@ test('form dropdown shows inline options', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
-      │
-      ◇  Editor Theme
-      │  Dracula
-      │
-      │  ○ Monokai
-      │  ● Dracula
-      │  ○ One Dark
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  ○ Svelte                                                      █
+      │  Backend                                                       █
+      │› ○ Node.js                                                     █
+      │  ○ Python                                                      █
+      │  ○ Go                                                          █
+      │                                                                █
+      │  Choose your preferred programming languages                   █
+      │                                                                █
+      ◇  Editor Theme                                                  █
+      │  Dracula                                                       █
+      │                                                                █
+      │  ○ Monokai                                                     █
+      │  ● Dracula                                                     █
+      │  ○ One Dark                                                    ▀
       │  ○ Nord
       │  ○ GitHub Light
       │
@@ -195,17 +195,17 @@ test('form dropdown shows inline options', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
+      │
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -219,27 +219,27 @@ test('form dropdown shows inline options', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
-      │
-      ◇  Editor Theme
-      │  Dracula
-      │
-      │  ○ Monokai
-      │  ● Dracula
-      │  ○ One Dark
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust, Node.js                                     █
+      │                                                                █
+      │  ○ Svelte                                                      █
+      │  Backend                                                       █
+      │› ● Node.js                                                     █
+      │  ○ Python                                                      █
+      │  ○ Go                                                          █
+      │                                                                █
+      │  Choose your preferred programming languages                   █
+      │                                                                █
+      ◇  Editor Theme                                                  █
+      │  Dracula                                                       █
+      │                                                                █
+      │  ○ Monokai                                                     █
+      │  ● Dracula                                                     █
+      │  ○ One Dark                                                    ▀
       │  ○ Nord
       │  ○ GitHub Light
       │
@@ -252,17 +252,17 @@ test('form dropdown shows inline options', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
+      │
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -284,20 +284,20 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ■  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◇  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  Frontend                                                      █
+      │  ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -317,17 +317,17 @@ test('form dropdown keyboard navigation', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -344,20 +344,20 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │› ○ Svelte                                                      █
+      │  Backend                                                       █
+      │  ○ Node.js                                                     █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -377,17 +377,17 @@ test('form dropdown keyboard navigation', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -401,20 +401,20 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  ○ Svelte                                                      █
+      │  Backend                                                       █
+      │› ○ Node.js                                                     █
+      │  ○ Python                                                      █
+      │  ○ Go                                                          █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -434,17 +434,17 @@ test('form dropdown keyboard navigation', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -458,20 +458,20 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │› ○ Svelte                                                      █
+      │  Backend                                                       █
+      │  ○ Node.js                                                     █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -491,17 +491,17 @@ test('form dropdown keyboard navigation', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -515,20 +515,20 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │› ○ Svelte                                                      █
+      │  Backend                                                       █
+      │  ○ Node.js                                                     █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -548,17 +548,17 @@ test('form dropdown keyboard navigation', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -580,20 +580,20 @@ test('form dropdown with default value', async () => {
 
 
 
-      ▪  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◆  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │› ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  Frontend                                                      █
+      │› ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -613,17 +613,17 @@ test('form dropdown with default value', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -637,20 +637,20 @@ test('form dropdown with default value', async () => {
 
 
 
-      ▪  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◆  Programming Languages
-      │  Rust
-      │
-      │  Frontend
-      │› ○ TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  Rust                                                          █
+      │                                                                █
+      │  Frontend                                                      █
+      │› ○ TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │  ○ Vue                                                         █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -670,17 +670,17 @@ test('form dropdown with default value', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -704,8 +704,8 @@ test('form dropdown with default value', async () => {
       │  features                                                      █
       │                                                                █
       ◆  Programming Languages                                         █
-      │  Rust, TypeScript                                              █
-      │                                                                ▀
+      │  Rust, TypeScript                                              ▀
+      │
       │  Frontend
       │› ● TypeScript
       │  ○ JavaScript
@@ -732,14 +732,14 @@ test('form dropdown with default value', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
+      │
+      │
       │
       ▪  Submitted Data
       │  {
       │    "languages": [
       │      "rust",
       │      "typescript"
-      │    ],
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -765,20 +765,20 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust                                              █
+      │                                                                █
+      │  ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │› ○ React                                                       █
+      │  ○ Vue                                                         █
+      │  ○ Svelte                                                      █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -798,17 +798,17 @@ test('selecting second-to-last visible item should not scroll', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)
@@ -822,20 +822,20 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-      ■  Dropdown Component Demo
-      │  Test dropdown with sections, multiple selection, and more
-      │  features
-      │
-      ◇  Programming Languages
-      │  TypeScript, Rust
-      │
-      │  Frontend
-      │  ● TypeScript
-      │  ○ JavaScript
-      │  ○ React
-      │  ○ Vue
-      │
-      │  Choose your preferred programming languages
+      ▪  Dropdown Component Demo                                       █
+      │  Test dropdown with sections, multiple selection, and more     █
+      │  features                                                      █
+      │                                                                █
+      ◆  Programming Languages                                         █
+      │  TypeScript, Rust, React                                       █
+      │                                                                █
+      │  ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │› ● React                                                       █
+      │  ○ Vue                                                         █
+      │  ○ Svelte                                                      █
+      │                                                                █
+      │  Choose your preferred programming languages                   ▀
       │
       ◇  Editor Theme
       │  Dracula
@@ -855,17 +855,17 @@ test('selecting second-to-last visible item should not scroll', async () => {
       │  ○ High
       │  ○ Medium
       │  ○ Low
-
       │
-      └
+      │
+      │
+      ◇  Empty Dropdown
+      │  No options available
+      │
+      ◇  Field After Empty
+      │  This should be close to empty dropdown
 
 
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
 
     "
   `)

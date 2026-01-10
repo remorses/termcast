@@ -50,10 +50,10 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
 
     "
   `)
@@ -212,11 +212,11 @@ test('list with dropdown navigation', async () => {
        Pinot Noir Wine
 
 
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
 
 
 
@@ -336,11 +336,11 @@ test('list with dropdown search and filter', async () => {
        Pinot Noir Wine
 
 
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
 
 
 
@@ -371,12 +371,12 @@ test('list with dropdown search and filter', async () => {
       ›Pinot Noir Wine
 
 
+
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 

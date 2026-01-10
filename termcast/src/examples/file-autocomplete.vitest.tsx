@@ -41,7 +41,6 @@ test('autocomplete shows flat file list in dialog', async () => {
       │
       ◇  Select Files
       │  Enter file path...
-      │
       │  Choose one or more files to upload
       │
       ╭────────────────────────────────────────────────────────────────╮
@@ -52,12 +51,13 @@ test('autocomplete shows flat file list in dialog', async () => {
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
       ╰────────────────────────────────────────────────────────────────╯
-      │  Choose exactly one file
-      │
       └
 
 
        ctrl ↵ submit   tab navigate   ^k actions
+
+
+
 
 
 
@@ -93,7 +93,6 @@ test('autocomplete navigation with down/up keys', async () => {
       │
       ◇  Select Files
       │  Enter file path...
-      │
       │  Choose one or more files to upload
       │
       ╭────────────────────────────────────────────────────────────────╮
@@ -104,12 +103,13 @@ test('autocomplete navigation with down/up keys', async () => {
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
       ╰────────────────────────────────────────────────────────────────╯
-      │  Choose exactly one file
-      │
       └
 
 
        ctrl ↵ submit   tab navigate   ^k actions
+
+
+
 
 
 
@@ -130,7 +130,6 @@ test('autocomplete navigation with down/up keys', async () => {
       │
       ◇  Select Files
       │  Enter file path...
-      │
       │  Choose one or more files to upload
       │
       ╭────────────────────────────────────────────────────────────────╮
@@ -141,12 +140,13 @@ test('autocomplete navigation with down/up keys', async () => {
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
       ╰────────────────────────────────────────────────────────────────╯
-      │  Choose exactly one file
-      │
       └
 
 
        ctrl ↵ submit   tab navigate   ^k actions
+
+
+
 
 
 
@@ -179,8 +179,6 @@ test('file picker shows only files, not folders', async () => {
       │  John Doe
       │
       ◆  Select Files
-      │  t
-      │
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │ Filter: t                                                      │
@@ -195,8 +193,10 @@ test('file picker shows only files, not folders', async () => {
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
       ╰────────────────────────────────────────────────────────────────╯
 
-
        ctrl ↵ submit   tab navigate   ^k actions
+
+
+
 
 
 
@@ -234,23 +234,23 @@ test('escape closes autocomplete and form stays visible', async () => {
       │
       ◇  Select Files
       │  Enter file path...
-      │
       │  Choose one or more files to upload
       │
       ◆  Select Folder
       │  s
-      │
       │  Choose a folder for output
       │
       ◇  Select Single File
       │  Enter file path...
-      │
       │  Choose exactly one file
       │
       └
 
 
        ctrl ↵ submit   tab navigate   ^k actions
+
+
+
 
 
 

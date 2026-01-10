@@ -38,45 +38,45 @@ test('file picker shows form fields', async () => {
       │
       ◇  Select Files
       │  Enter file path...
-      │
       │  Choose one or more files to upload
       │
       ◇  Select Folder
       │  Enter file path...
-      │
       │  Choose a folder for output
       │
       ◇  Select Single File
       │  Enter file path...
-      │
       │  Choose exactly one file
       │
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -108,7 +108,6 @@ test('typing opens autocomplete dialog with file list', async () => {
       │
       ◇  Select Files
       │  Enter file path...
-      │
       │  Choose one or more files to upload
       │
       ╭────────────────────────────────────────────────────────────────╮
@@ -119,12 +118,13 @@ test('typing opens autocomplete dialog with file list', async () => {
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
       ╰────────────────────────────────────────────────────────────────╯
-      │  Choose exactly one file
-      │
       └
 
 
        ctrl ↵ submit   tab navigate   ^k actions
+
+
+
 
 
 
@@ -186,23 +186,23 @@ test('escape closes autocomplete without going back', async () => {
       │
       ◇  Select Files
       │  Enter file path...
-      │
       │  Choose one or more files to upload
       │
       ◆  Select Folder
       │  s
-      │
       │  Choose a folder for output
       │
       ◇  Select Single File
       │  Enter file path...
-      │
       │  Choose exactly one file
       │
       └
 
 
        ctrl ↵ submit   tab navigate   ^k actions
+
+
+
 
 
 
@@ -265,7 +265,6 @@ test('selecting first item with enter adds it to the list', async () => {
       │
       ◇  Select Files
       │  Enter file path...
-      │
       │  Choose one or more files to upload
       │
       ◆  Select Folder
@@ -273,18 +272,19 @@ test('selecting first item with enter adds it to the list', async () => {
       │
       │  Selected files:
       │  • /Users/morse/Documents/GitHub/termcast/termcast/src
-      │
       │  Choose a folder for output
       │
       ◇  Select Single File
       │  Enter file path...
-      │
       │  Choose exactly one file
       │
       └
 
 
        ctrl ↵ submit   tab navigate   ^k actions
+
+
+
 
 
 

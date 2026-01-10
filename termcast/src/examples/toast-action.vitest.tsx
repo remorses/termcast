@@ -43,9 +43,9 @@ test('pressing enter triggers primary action on toast', async () => {
        Other Item
 
 
+
+
        ✓ File Deleted  document.pdf was moved to trash      Undo ctrl t
-
-
 
 
 
@@ -76,9 +76,9 @@ test('pressing enter triggers primary action on toast', async () => {
        Other Item
 
 
+
+
        ✓ Undone  File restored
-
-
 
 
 
@@ -122,9 +122,9 @@ test('pressing escape hides the toast', async () => {
        Other Item
 
 
+
+
        ↵ show toast   ↑↓ navigate   ^k actions
-
-
 
 
 
@@ -233,12 +233,12 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       ›Welcome, John! Form submission successful
 
 
+
+
+
+
+
        ↑↓ navigate   ^k actions
-
-
-
-
-
 
 
 
