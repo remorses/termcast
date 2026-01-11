@@ -492,7 +492,7 @@ test('list actions panel with ctrl+k', async () => {
                                                                        ▼
 
 
-       ✓ Added to Cart  Apple has been added to your cart
+     ✓ Added to Cart  Apple has been added to your cart
 
     "
   `)
@@ -562,15 +562,15 @@ test('filtering selects first visible item and navigation works', async () => {
 
        > ora
 
-      ›Orange Citrus and juicy                                   Fresh
-       Carrot Orange and crunchy                             [Healthy]
+       Orange Citrus and juicy                                   Fresh
+      ›Carrot Orange and crunchy                             [Healthy]
 
 
 
 
 
 
-       ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions
 
 
 

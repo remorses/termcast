@@ -50,7 +50,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✓ Success
+     ✓ Success
     "
   `)
 
@@ -79,7 +79,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✗ Error
+     ✗ Error
     "
   `)
 
@@ -108,7 +108,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✓ Copied  Text copied to clipboard
+     ✓ Copied  Text copied to clipboard
     "
   `)
 
@@ -137,7 +137,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✗ Error  This is a very long error message that should wrap to multiple lines
+     ✗ Error  This is a very long error message that should wrap to multiple line
     "
   `)
 
@@ -167,7 +167,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✗ Warning  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do ei
+     ✗ Warning  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do e
     "
   `)
 
@@ -197,7 +197,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✓ File Deleted  document.pdf was moved to trash                Undo ctrl t
+     ✓ File Deleted  document.pdf was moved to trash                  Undo ctrl t
     "
   `)
 
@@ -227,7 +227,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✓ Update Available  Version 2.0 is ready to install  Install ctrl t Later ctr
+     ✓ Update Available  Version 2.0 is ready to install  Install ctrl t Later ct
     "
   `)
 
@@ -257,7 +257,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ✓ Operation Completed Successfully  All files have been processed  View Resul
+     ✓ Operation Completed Successfully  All files have been processed  View Resu
     "
   `)
 
@@ -289,7 +289,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-       ◌ Processing  Please wait while we process your request...
+     ◌ Processing  Please wait while we process your request...
     "
   `)
 
@@ -319,7 +319,7 @@ test('toast variations display correctly', async () => {
       ›Error with Retry
 
 
-       ✗ Connection Failed  Unable to connect to the server. Please check your inter
+     ✗ Connection Failed  Unable to connect to the server. Please check your inte
     "
   `)
 }, 30000)

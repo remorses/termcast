@@ -220,7 +220,7 @@ test('can run simple view command without arguments', async () => {
        ▲ Fifth Item This is the fifth item                   ▼
 
 
-       ✓ Copied to Clipboard  First Item
+     ✓ Copied to Clipboard  First Item
     "
   `)
 }, 30000)

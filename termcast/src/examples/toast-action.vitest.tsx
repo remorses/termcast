@@ -45,7 +45,7 @@ test('pressing enter triggers primary action on toast', async () => {
 
 
 
-       ✓ File Deleted  document.pdf was moved to trash      Undo ctrl t
+     ✓ File Deleted  document.pdf was moved to trash        Undo ctrl t
 
 
 
@@ -78,7 +78,7 @@ test('pressing enter triggers primary action on toast', async () => {
 
 
 
-       ✓ Undone  File restored
+     ✓ Undone  File restored
 
 
 
@@ -195,7 +195,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
     "
 
 
-    
+
 
       ◆  Name
       │  John
@@ -203,7 +203,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
       └
 
 
-       ✓ Form Submitted  Hello, John!               View Details ctrl t
+     ✓ Form Submitted  Hello, John!                 View Details ctrl t
 
 
 
@@ -358,7 +358,7 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       └
 
 
-       ✓ Done  Hello, Test!                                 Open ctrl t
+     ✓ Done  Hello, Test!                                   Open ctrl t
 
 
 
@@ -390,7 +390,7 @@ test('delayed toast action: primaryAction set after toast shown works with enter
       └
 
 
-       ✓ Opened!  Action triggered successfully
+     ✓ Opened!  Action triggered successfully
 
 
 

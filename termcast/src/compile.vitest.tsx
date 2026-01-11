@@ -120,7 +120,7 @@ test('compiled executable can run command', async () => {
        ▲ Fifth Item This is the fifth item                   ▼
 
 
-       ✓ Copied to Clipboard  First Item
+     ✓ Copied to Clipboard  First Item
     "
   `)
 }, 60000)

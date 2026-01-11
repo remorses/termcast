@@ -89,7 +89,7 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
 
 
 
-       ↵ run command   ↑↓ navigate
+       ↵ run command   ↑↓ navigate   ^k actions               powered by termcast
 
     "
   `)

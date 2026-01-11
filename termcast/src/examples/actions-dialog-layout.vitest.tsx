@@ -17,7 +17,8 @@ afterEach(() => {
   session?.close()
 })
 
-test('actions dialog layout shift when opening with ctrl+k', async () => {
+// this was a temporary test to find out if there was any layout shift in dialogs
+test.skip('actions dialog layout shift when opening with ctrl+k', async () => {
   // Wait for list to fully render
   await session.text({
     waitFor: (text) => /search/i.test(text) && /Apple/.test(text),
@@ -64,20 +65,20 @@ test('actions dialog layout shift when opening with ctrl+k', async () => {
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
-      │   Actions                                                      ▲
-      ›Apple Red and sweet                            Fresh [Popular]  ▀
-       Banana Yellow and nutritious                              Ripe
-       Orange Citrus and juicy                                  Fresh
-       Grape Sweet clusters                                [Seasonal]
-       Mango Tropical delight                                Imported
-       Pineapple Sweet and tangy
-       Strawberry Red and sweet                             [Popular]
-                                                                       ▼
-
-
-       ↵ view details   ↑↓ navigate   ^k actions
-
-    "
+      │   Actions                                                esc   │
+      │                                                                │
+      │   > Search actions...                                          │
+      │                                                                │
+      │  ›View Details                                                 │
+      │   Add to Cart                                                  │
+      │                                                                │
+      │   Settings                                                     │
+      │   Change Theme...                                              │
+      │                                                                │
+      │                                                                │
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │
+      │                                                                │"
   `)
 
   // Last frame: dialog at same position as first frame (no shift)

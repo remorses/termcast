@@ -40,7 +40,7 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-       ✓ Selected  First Item
+     ✓ Selected  First Item
 
 
 
@@ -68,7 +68,7 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-       ✓ Selected  Second Item
+     ✓ Selected  Second Item
 
 
 
@@ -96,7 +96,7 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-       ✓ Selected  Third Item
+     ✓ Selected  Third Item
 
 
 
@@ -124,7 +124,7 @@ test('list navigation works while toast is shown', async () => {
 
 
 
-       ✓ Selected  Second Item
+     ✓ Selected  Second Item
 
 
 

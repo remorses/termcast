@@ -374,7 +374,7 @@ test('navigation with actions panel', async () => {
 
 
 
-       ✓ Copied to Clipboard  First Item
+     ✓ Copied to Clipboard  First Item
 
 
 
