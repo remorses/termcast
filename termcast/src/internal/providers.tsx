@@ -150,12 +150,13 @@ export function TermcastProvider(props: ProvidersProps): any {
               padding={2}
               width='100%'
               maxWidth={termcastMaxContentWidth}
-              flexShrink={0}
+              // flexShrink={1}
+              // flexGrow={1}
             >
               <DialogProvider>
                 {/* NavigationProvider must be last to ensure parent providers remain in the tree when navigation changes */}
                 <NavigationProvider overlay={<DialogOverlay />}>
-                  <box width='100%' flexGrow={1} flexShrink={0}>
+                  <box width='100%' flexGrow={1} flexShrink={1}>
                     {props.children}
                   </box>
                 </NavigationProvider>
