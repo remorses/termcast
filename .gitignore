@@ -16,3 +16,4 @@ tmp
 .build/**
 termcasttmp
 .env*
+.termcast-bundle-test

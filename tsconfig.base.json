@@ -7,6 +7,7 @@
     "outDir": "${configDir}/dist",
     "rootDir": "${configDir}/src",
     "moduleResolution": "Bundler",
+    "types": ["bun-types"],
     "lib": [
       "es2022",
       "es2017",

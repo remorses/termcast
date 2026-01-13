@@ -39,6 +39,7 @@
     "@opentui/react": "^0.1.68",
     "@parcel/watcher": "^2.5.1",
     "@parcel/watcher-darwin-arm64": "^2.5.1",
+    "bun-types": "^1.3.6",
     "figlet": "^1.9.4",
     "ghostty-opentui": "^1.3.6"
   }

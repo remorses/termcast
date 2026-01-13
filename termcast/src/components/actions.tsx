@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useLayoutEffect,
 } from 'react'
-import { useKeyboard } from '@opentui/react'
+import { useKeyboard, useRenderer } from '@opentui/react'
 import { useTheme } from 'termcast/src/theme'
 import {
   copyToClipboard,
@@ -31,6 +31,7 @@ import type {
   KeyboardKeyModifier,
 } from 'termcast/src/keyboard'
 import { showToast, Toast } from 'termcast/src/apis/toast'
+import { Clipboard } from 'termcast/src/apis/clipboard'
 import { createDescendants } from 'termcast/src/descendants'
 import { useFormSubmit } from 'termcast/src/components/form/index'
 import { logger } from '../logger'
@@ -651,6 +652,7 @@ const ActionPanel: ActionPanelType = (props) => {
   const inFocus = useIsInFocus()
   const isOffscreen = useIsOffscreen()
   const descendantsContext = useActionDescendants()
+  const renderer = useRenderer()
 
   // Get extension and command info for configure actions
   const extensionPackageJson = useStore((state) => state.extensionPackageJson)
@@ -755,6 +757,19 @@ const ActionPanel: ActionPanelType = (props) => {
               onAction={() => {
                 dialog.clear()
                 dialog.push({ element: <ThemePicker /> })
+              }}
+            />
+            <Action
+              title="See Console Logs"
+              onAction={() => {
+                dialog.clear()
+                if (renderer) {
+                  renderer.console.onCopySelection = (text: any) => {
+                    Clipboard.copy(text)
+                  }
+                  renderer.toggleDebugOverlay()
+                  renderer.console.toggle()
+                }
               }}
             />
           </ActionPanel.Section>

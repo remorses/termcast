@@ -25,18 +25,21 @@ export const logger = {
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] ${formattedMessages}\n`
     fs.appendFileSync(LOG_FILE, logEntry)
+    console.log(...messages)
   },
   error: (...messages: any[]) => {
     const timestamp = new Date().toISOString()
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] ERROR: ${formattedMessages}\n`
     fs.appendFileSync(LOG_FILE, logEntry)
+    console.error(...messages)
   },
   warn: (...messages: any[]) => {
     const timestamp = new Date().toISOString()
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] WARN: ${formattedMessages}\n`
     fs.appendFileSync(LOG_FILE, logEntry)
+    console.warn(...messages)
   },
   trace: (...messages: any[]) => {
     const timestamp = new Date().toISOString()
@@ -51,6 +54,7 @@ export const logger = {
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] TRACE: ${formattedMessages}\n${stack}\n`
     fs.appendFileSync(LOG_FILE, logEntry)
+    console.trace(...messages)
   },
 }
 
