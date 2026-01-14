@@ -43,29 +43,61 @@ export function sleep(ms: number): Promise<void> {
 }
 
 export async function getApplications(path?: PathLike): Promise<Application[]> {
-  // TODO: Implement system call to get applications
-  // For now, return common applications
-  const apps: Application[] = [
-    {
-      name: 'Finder',
-      localizedName: 'Finder',
-      path: '/System/Library/CoreServices/Finder.app',
-      bundleId: 'com.apple.finder',
-    },
-    {
-      name: 'Terminal',
-      localizedName: 'Terminal',
-      path: '/System/Applications/Utilities/Terminal.app',
-      bundleId: 'com.apple.Terminal',
-    },
-    {
-      name: 'Visual Studio Code',
-      localizedName: 'Visual Studio Code',
-      path: '/Applications/Visual Studio Code.app',
-      bundleId: 'com.microsoft.VSCode',
-    },
-  ]
-  return Promise.resolve(apps)
+  if (process.platform !== 'darwin') {
+    // Windows/Linux: return empty for now
+    return []
+  }
+
+  const { execSync } = await import('node:child_process')
+  const plist = await import('simple-plist')
+
+  const apps: Application[] = []
+
+  try {
+    // Use mdfind (Spotlight) to find all .app bundles
+    // This is much faster than scanning directories manually
+    const appPaths = execSync(
+      'mdfind "kMDItemContentType == \'com.apple.application-bundle\'" 2>/dev/null || find /Applications /System/Applications -name "*.app" -maxdepth 3 2>/dev/null',
+      { encoding: 'utf-8', maxBuffer: 50 * 1024 * 1024 },
+    )
+      .trim()
+      .split('\n')
+      .filter((p) => p && p.endsWith('.app'))
+
+    for (const appPath of appPaths) {
+      try {
+        const infoPlistPath = `${appPath}/Contents/Info.plist`
+
+        if (!fs.existsSync(infoPlistPath)) {
+          continue
+        }
+
+        const plistData = plist.default.readFileSync(infoPlistPath) as Record<
+          string,
+          unknown
+        >
+        const bundleId = plistData.CFBundleIdentifier as string | undefined
+        const name = (plistData.CFBundleName ||
+          plistData.CFBundleDisplayName ||
+          appPath.split('/').pop()?.replace('.app', '')) as string
+        const localizedName = (plistData.CFBundleDisplayName || name) as string
+
+        apps.push({
+          name,
+          localizedName,
+          path: appPath,
+          bundleId,
+        })
+      } catch {
+        // Skip apps with unreadable plist files
+        continue
+      }
+    }
+  } catch (error) {
+    logger.error('Failed to get applications:', error)
+  }
+
+  return apps
 }
 
 export async function getDefaultApplication(
