@@ -1,8 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { execSync } from 'node:child_process'
 import type { BunPlugin } from 'bun'
-import * as swc from '@swc/core'
 import { logger } from './logger'
 import { getCommandsWithFiles, CommandWithFile } from './package-json'
 import * as termcastApi from './index'
@@ -190,57 +188,7 @@ export const aliasPlugin: BunPlugin = {
   },
 }
 
-// React Refresh transform plugin for hot reloading using SWC (Rust-based, ~20x faster than Babel)
-// Transforms extension source files to inject $RefreshReg$ and $RefreshSig$ calls
-export const reactRefreshPlugin: BunPlugin = {
-  name: 'react-refresh-transform',
-  async setup(build) {
-    build.onLoad({ filter: /\.[tj]sx?$/ }, async (args) => {
-      // Skip node_modules
-      if (args.path.includes('node_modules')) {
-        return undefined
-      }
 
-      const code = await Bun.file(args.path).text()
-
-      const isTypeScript =
-        args.path.endsWith('.ts') || args.path.endsWith('.tsx')
-      const hasJsx = args.path.endsWith('.tsx') || args.path.endsWith('.jsx')
-
-      const result = await swc.transform(code, {
-        filename: args.path,
-        jsc: {
-          parser: isTypeScript
-            ? {
-                syntax: 'typescript',
-                tsx: hasJsx,
-              }
-            : {
-                syntax: 'ecmascript',
-                jsx: hasJsx,
-              },
-          transform: {
-            react: {
-              development: true,
-              refresh: true, // Built-in React Refresh support in SWC
-              runtime: 'automatic',
-            },
-          },
-        },
-        sourceMaps: 'inline',
-      })
-
-      if (!result?.code) {
-        return undefined
-      }
-
-      return {
-        contents: result.code,
-        loader: 'js', // SWC transforms JSX to JS
-      }
-    })
-  },
-}
 
 interface BundledCommand extends CommandWithFile {
   bundledPath: string
@@ -286,20 +234,17 @@ export async function buildExtensionCommands({
 
   logger.log(`Building ${entrypoints.length} commands...`)
 
-  const plugins = [aliasPlugin, swiftLoaderPlugin]
-  if (hotReload) {
-    plugins.push(reactRefreshPlugin)
-  }
+  const plugins: BunPlugin[] = [aliasPlugin, swiftLoaderPlugin]
 
   const result = await Bun.build({
     entrypoints,
     outdir: bundleDir,
     target: target || (format === 'cjs' ? 'node' : 'bun'),
     format,
-    // external: [],
     plugins,
     naming: '[name].js',
     throw: false,
+    reactFastRefresh: hotReload,
   })
 
   if (!result.success) {
