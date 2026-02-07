@@ -7,13 +7,15 @@ import { useStore } from '../state'
 
 function getCurrentDatabasePath(): string {
   const { extensionPath } = useStore.getState()
+  const dbSuffix = process.env.TERMCAST_DB_SUFFIX?.replace(/[^a-zA-Z0-9_-]/g, '_')
+  const dbFileName = dbSuffix ? `data-${dbSuffix}.db` : 'data.db'
 
   if (extensionPath) {
-    return path.join(extensionPath, '.termcast-bundle', 'data.db')
+    return path.join(extensionPath, '.termcast-bundle', dbFileName)
   }
 
   // Fallback for examples/tests that don't set extensionPath
-  return path.join(os.homedir(), '.termcast', '.termcast-bundle', 'data.db')
+  return path.join(os.homedir(), '.termcast', '.termcast-bundle', dbFileName)
 }
 
 function getCurrentCacheDir(namespace?: string): string {

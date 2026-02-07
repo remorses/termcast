@@ -6,6 +6,8 @@ export default defineConfig({
     include: ['**/*.vitest.{ts,tsx}'],
     globals: true,
     environment: 'node',
-    // fileParallelism: false,
+    fileParallelism: true,
+    hookTimeout: 20000,
+    testTimeout: 30000,
   },
 })
