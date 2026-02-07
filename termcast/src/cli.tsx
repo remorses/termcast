@@ -695,8 +695,18 @@ cli
   )
 
 cli
-  .command('new <name>', 'Create a new termcast extension')
+  .command('new [name]', 'Create a new termcast extension')
   .action(async (name: string) => {
+    if (!name) {
+      console.log('Usage: termcast new <extension-name>\n')
+      console.log('Create a new termcast extension with the given name.\n')
+      console.log('Example:')
+      console.log('  termcast new my-extension')
+      console.log('  cd my-extension')
+      console.log('  termcast dev')
+      process.exit(0)
+    }
+
     try {
       const targetDir = path.resolve(name)
 
