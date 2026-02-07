@@ -76,7 +76,7 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
+
 
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
@@ -89,7 +89,7 @@ test('dropdown opens and shows items', async () => {
       │   Orange                                                                 │
       │   Grape                                                                  │
       │                                                                          │
-      │                                                                          │t
+      │                                                                          │
       │   ↵ select   ↑↓ navigate                            powered by termcast  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
@@ -113,7 +113,7 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
+
 
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
@@ -126,7 +126,7 @@ test('dropdown opens and shows items', async () => {
       │   Orange                                                                 │
       │   Grape                                                                  │
       │                                                                          │
-      │                                                                          │t
+      │                                                                          │
       │   ↵ select   ↑↓ navigate                            powered by termcast  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
@@ -195,7 +195,7 @@ test('clicking dropdown opens it', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
+
 
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
@@ -208,7 +208,7 @@ test('clicking dropdown opens it', async () => {
       │   Orange                                                                 │
       │   Grape                                                                  │
       │                                                                          │
-      │                                                                          │t
+      │                                                                          │
       │   ↵ select   ↑↓ navigate                            powered by termcast  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯

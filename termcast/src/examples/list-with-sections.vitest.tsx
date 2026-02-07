@@ -417,11 +417,16 @@ test('list actions panel with ctrl+k', async () => {
   await session.press(['ctrl', 'k'])
 
   const afterCtrlKSnapshot = await session.text()
+  // Fast feedback loop: fail if list content leaks under the actions dialog.
+  expect(afterCtrlKSnapshot).toContain('Actions')
+  expect(afterCtrlKSnapshot).not.toContain('Search items...')
+  expect(afterCtrlKSnapshot).not.toContain('Apple Red and sweet')
+  expect(afterCtrlKSnapshot).not.toContain('Fruitsions')
   expect(afterCtrlKSnapshot).toMatchInlineSnapshot(`
     "
 
 
-       Simple List Example ────────────────────────────────────────────
+
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
@@ -434,7 +439,7 @@ test('list actions panel with ctrl+k', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │                                                                │
+      │   See Console Logs                                             │
       │                                                                │
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
@@ -449,7 +454,7 @@ test('list actions panel with ctrl+k', async () => {
     "
 
 
-       Simple List Example ────────────────────────────────────────────
+
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
@@ -462,7 +467,7 @@ test('list actions panel with ctrl+k', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │                                                                │
+      │   See Console Logs                                             │
       │                                                                │
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │

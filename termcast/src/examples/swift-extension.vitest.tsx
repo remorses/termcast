@@ -96,15 +96,15 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
 
 
 
+       ↵ run command   ↑↓
+
+
+
+
+
+
+
        ↵ run command   ↑↓ navigate   ^k actions
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -120,7 +120,9 @@ test.skipIf(isLinux)('swift extension runs Swift List command and shows items', 
   // Navigate down to Swift List (it's the second item)
   await session.press('down')
   
-  // Select the Swift List command
+  // Run selected command via actions panel for deterministic behavior
+  await session.press(['ctrl', 'k'])
+  await session.waitIdle()
   await session.press('return')
 
   // Wait for Swift items to load and display

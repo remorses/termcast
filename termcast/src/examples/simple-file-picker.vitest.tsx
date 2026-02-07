@@ -51,32 +51,32 @@ test('file picker shows form fields', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -103,13 +103,13 @@ test('typing opens autocomplete dialog with file list', async () => {
 
 
 
-      ◇  Your Name
-      │  John Doe
-      │
-      ◇  Select Files
-      │  Enter file path...
-      │  Choose one or more files to upload
-      │
+
+
+
+
+
+
+
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │ Filter: s                                                      │
@@ -118,10 +118,10 @@ test('typing opens autocomplete dialog with file list', async () => {
       │                                                                │
       │ ↑↓ navigate  ⏎/tab select  esc close                           │
       ╰────────────────────────────────────────────────────────────────╯
-      └
 
 
-       ctrl ↵ submit   tab navigate   ^k actions
+
+
 
 
 

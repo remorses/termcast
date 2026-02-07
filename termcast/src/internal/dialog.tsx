@@ -1,5 +1,5 @@
 import { useKeyboard } from '@opentui/react'
-import React, { type ReactNode, useRef, useContext } from 'react'
+import React, { type ReactNode, useRef, useContext, useCallback } from 'react'
 import { useTheme } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { CommonProps } from 'termcast/src/utils'
@@ -95,12 +95,26 @@ interface DialogProviderProps {
 
 export function DialogProvider(props: DialogProviderProps): any {
   const dialogStack = useStore((state) => state.dialogStack)
+  const showActionsDialog = useStore((state) => state.showActionsDialog)
   const inFocus = useIsInFocus()
 
   useKeyboard((evt) => {
     if (!inFocus) return
     if (evt.name === 'escape') {
       const state = useStore.getState()
+      
+      // Handle actions dialog first
+      if (state.showActionsDialog) {
+        // Check if there's a search input with text that should be cleared first
+        const activeSearchInputRef = state.activeSearchInputRef
+        if (activeSearchInputRef && activeSearchInputRef.plainText) {
+          activeSearchInputRef.setText('')
+          return
+        }
+        useStore.setState({ showActionsDialog: false })
+        return
+      }
+      
       if (state.dialogStack.length > 0) {
         // Check if there's a search input with text that should be cleared first
         const activeSearchInputRef = state.activeSearchInputRef
@@ -116,8 +130,8 @@ export function DialogProvider(props: DialogProviderProps): any {
     }
   })
 
-  // Children lose focus only when there's a dialog (toast uses unique shortcuts so no focus stealing needed)
-  const childrenInFocus = !dialogStack?.length
+  // Children lose focus only when there's a dialog or actions dialog
+  const childrenInFocus = !dialogStack?.length && !showActionsDialog
 
   return (
     <>
@@ -127,38 +141,81 @@ export function DialogProvider(props: DialogProviderProps): any {
   )
 }
 
+/**
+ * DialogOverlay renders dialog stack items and provides a portal target for
+ * ActionPanel. The portal target is always mounted so ActionPanel can use
+ * createPortal to render its Dropdown here while keeping its React context
+ * (FormSubmitContext, NavigationContext, etc.) from the original tree.
+ */
 export function DialogOverlay(): any {
   const dialogStack = useStore((state) => state.dialogStack)
+  const showActionsDialog = useStore((state) => state.showActionsDialog)
   const navContext = useContext(NavigationContext)
 
-  if (dialogStack.length === 0) {
+  const setActionsPortalTargetRef = useCallback((node: any) => {
+    if (!node) {
+      useStore.setState({ actionsPortalTarget: null })
+      return
+    }
+
+    useStore.setState({ actionsPortalTarget: node })
+
+    return () => {
+      if (useStore.getState().actionsPortalTarget === node) {
+        useStore.setState({ actionsPortalTarget: null })
+      }
+    }
+  }, [])
+
+  if (dialogStack.length === 0 && !showActionsDialog) {
     return null
   }
 
-  // Only render the topmost dialog
   const topIndex = dialogStack.length - 1
-  const item = dialogStack[topIndex]
+  const item = topIndex >= 0 ? dialogStack[topIndex] : undefined
 
   return (
-    <box position='absolute' width='100%' height='100%' flexDirection='column'>
-      <InFocus inFocus={true}>
-        <Dialog
-          position={item.position}
-          onClickOutside={() => {
-            const state = useStore.getState()
-            if (state.dialogStack.length > 0) {
-              useStore.setState({
-                dialogStack: state.dialogStack.slice(0, -1),
-              })
-            }
-          }}
-        >
-          <NavigationContext.Provider value={navContext}>
-            {item.element}
-          </NavigationContext.Provider>
-        </Dialog>
-      </InFocus>
-    </box>
+    <>
+      {showActionsDialog && (
+        <box position='absolute' width='100%' height='100%' flexDirection='column'>
+          <InFocus inFocus={true}>
+            <Dialog
+              position='center'
+              onClickOutside={() => {
+                useStore.setState({ showActionsDialog: false })
+              }}
+            >
+              <box
+                ref={setActionsPortalTargetRef}
+                flexDirection='column'
+                flexGrow={1}
+              />
+            </Dialog>
+          </InFocus>
+        </box>
+      )}
+      {item && (
+        <box position='absolute' width='100%' height='100%' flexDirection='column'>
+          <InFocus inFocus={true}>
+            <Dialog
+              position={item.position}
+              onClickOutside={() => {
+                const state = useStore.getState()
+                if (state.dialogStack.length > 0) {
+                  useStore.setState({
+                    dialogStack: state.dialogStack.slice(0, -1),
+                  })
+                }
+              }}
+            >
+              <NavigationContext.Provider value={navContext}>
+                {item.element}
+              </NavigationContext.Provider>
+            </Dialog>
+          </InFocus>
+        </box>
+      )}
+    </>
   )
 }
 

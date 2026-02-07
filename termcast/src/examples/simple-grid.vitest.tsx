@@ -134,9 +134,9 @@ test('grid navigation and display', async () => {
     "
 
 
-       Simple Grid Example ────────────────────────────────────────────
 
-       > Search items...
+
+
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
@@ -149,7 +149,7 @@ test('grid navigation and display', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │                                                                │
+      │   See Console Logs                                             │
       │                                                                │
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
@@ -519,9 +519,9 @@ test('grid mouse interaction', async () => {
     "
 
 
-       Simple Grid Example ────────────────────────────────────────────
 
-       > Search items...
+
+
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
@@ -534,7 +534,7 @@ test('grid mouse interaction', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │                                                                │
+      │   See Console Logs                                             │
       │                                                                │
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │

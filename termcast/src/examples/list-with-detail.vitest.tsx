@@ -142,17 +142,21 @@ test('list with detail view display and navigation', async () => {
   await session.press(['ctrl', 'k'])
 
   const actionsSnapshot = await session.text()
+  // Fast feedback loop: fail if list/detail content leaks under the actions dialog
+  expect(actionsSnapshot).toContain('Actions')
+  expect(actionsSnapshot).not.toContain('charmander #004')
+  expect(actionsSnapshot).not.toContain('Illustration')
   expect(actionsSnapshot).toMatchInlineSnapshot(`
     "
 
 
-       Pokemon List ─────────────────────────────────────────────────────────────
 
-       > Search Pokemon...
 
-       bulbasaur #001
-       ivysaur #002                         │ charmander                        ▲
-      ›charmander #004                      │                                   █
+
+
+
+
+
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Actions                                                          esc   │
@@ -164,14 +168,14 @@ test('list with detail view display and navigation', async () => {
       │                                                                          │
       │   Settings                                                               │
       │   Change Theme...                                                        │
-      │                                                                          │
+      │   See Console Logs                                                       │
       │                                                                          │
       │                                                                          │
       │   ↵ select   ↑↓ navigate                                                 │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+
+
 
     "
   `)

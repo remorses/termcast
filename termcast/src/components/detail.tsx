@@ -9,6 +9,7 @@ import { Footer } from 'termcast/src/components/footer'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 import { useStore } from 'termcast/src/state'
+import { Offscreen } from 'termcast/src/internal/offscreen'
 import { Metadata, MetadataContext } from 'termcast/src/components/metadata'
 import type { LabelProps, SeparatorProps, LinkProps, TagListProps, TagListItemProps, MetadataConfig } from 'termcast/src/components/metadata'
 
@@ -175,12 +176,13 @@ const Detail: DetailType = (props) => {
     if (!inFocus) return
 
     if (evt.name === 'k' && evt.ctrl) {
-      // Ctrl+K shows actions (always show panel, even without actions)
-      dialog.pushActions(actions || <ActionPanel />)
+      // Ctrl+K shows actions dialog via portal
+      if (actions) {
+        useStore.setState({ showActionsDialog: true })
+      }
     } else if (evt.name === 'return' && actions) {
-      // Enter executes first action directly
+      // Enter auto-executes first action via ActionPanel's layout effect
       useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.pushActions(actions)
     }
   })
 
@@ -218,6 +220,8 @@ const Detail: DetailType = (props) => {
         hasActions={!!actions}
         firstActionTitle={firstActionTitle}
       />
+      {/* Render actions offscreen to capture them */}
+      {actions && <Offscreen>{actions}</Offscreen>}
     </box>
   )
 }

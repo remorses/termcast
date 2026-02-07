@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useLayoutEffect,
 } from 'react'
-import { useKeyboard, useRenderer } from '@opentui/react'
+import { createPortal, useRenderer } from '@opentui/react'
 import { useTheme } from 'termcast/src/theme'
 import {
   copyToClipboard,
@@ -22,11 +22,10 @@ import { Dropdown } from 'termcast/src/components/dropdown'
 import { ExtensionPreferences } from 'termcast/src/components/extension-preferences'
 import { ThemePicker } from 'termcast/src/components/theme-picker'
 import { useStore } from 'termcast/src/state'
-import { useIsInFocus } from 'termcast/src/internal/focus-context'
-import { useIsOffscreen } from 'termcast/src/internal/offscreen'
+import { InFocus } from 'termcast/src/internal/focus-context'
+import { Onscreen } from 'termcast/src/internal/offscreen'
 import { CommonProps } from 'termcast/src/utils'
 import type {
-  KeyboardShortcut,
   KeyboardKeyEquivalent,
   KeyboardKeyModifier,
 } from 'termcast/src/keyboard'
@@ -156,10 +155,13 @@ interface PickDateProps extends Omit<ActionProps, 'onAction'> {
   onPick?: (date: Date | null) => void
 }
 
-// Create descendants for Actions - minimal fields needed
+// Create descendants for Actions - includes all data needed for display
 interface ActionDescendant {
   title: string
+  icon?: string | null
   shortcut?: { modifiers?: KeyboardKeyModifier[]; key: KeyboardKeyEquivalent } | null
+  style?: ActionStyle
+  sectionTitle?: string
   execute: () => void
 }
 
@@ -169,7 +171,7 @@ const {
   useDescendant: useActionDescendant,
 } = createDescendants<ActionDescendant>()
 
-// Context for ActionPanel
+// Context for ActionPanel - provides section info to child actions
 interface ActionPanelContextValue {
   currentSection?: string
 }
@@ -178,11 +180,15 @@ const ActionPanelContext = createContext<ActionPanelContextValue>({})
 
 const Action: ActionType = (props) => {
   const theme = useTheme()
+  const { currentSection } = useContext(ActionPanelContext)
 
-  // Register as descendant with execute function
+  // Register as descendant with execute function - captures all data including section
   useActionDescendant({
     title: props.title || 'View',
+    icon: props.icon,
     shortcut: props.shortcut,
+    style: props.style,
+    sectionTitle: currentSection,
     execute: () => props.onAction?.(),
   })
 
@@ -204,11 +210,14 @@ Action.Style = ActionStyle
 
 Action.Push = (props) => {
   const { push } = useNavigation()
+  const { currentSection } = useContext(ActionPanelContext)
 
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Navigate',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       props.onPush?.()
       // Push the target to navigation stack
@@ -230,10 +239,14 @@ Action.Push = (props) => {
 }
 
 Action.CopyToClipboard = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Copy to clipboard',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       copyToClipboard(props.content, props.concealed)
       props.onCopy?.(props.content)
@@ -263,10 +276,14 @@ Action.CopyToClipboard = (props) => {
 }
 
 Action.OpenInBrowser = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Open in Browser',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       openInBrowser(props.url)
       props.onOpen?.(props.url)
@@ -289,10 +306,14 @@ Action.OpenInBrowser = (props) => {
 }
 
 Action.Open = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Open',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       openFile(props.target, props.application)
       props.onOpen?.(props.target)
@@ -317,10 +338,14 @@ Action.Open = (props) => {
 }
 
 Action.Paste = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Paste',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       pasteContent(props.content)
       props.onPaste?.(props.content)
@@ -347,10 +372,14 @@ Action.Paste = (props) => {
 }
 
 Action.ShowInFinder = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Show in Finder',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       showInFinder(props.path)
       props.onShow?.(props.path)
@@ -374,10 +403,14 @@ Action.ShowInFinder = (props) => {
 }
 
 Action.OpenWith = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || `Open with ${props.application}`,
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       openFile(props.path, props.application)
       props.onOpen?.(props.path)
@@ -402,11 +435,15 @@ Action.OpenWith = (props) => {
 
 Action.Trash = (props) => {
   const paths = Array.isArray(props.paths) ? props.paths : [props.paths]
+  const { currentSection } = useContext(ActionPanelContext)
 
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Move to Trash',
+    icon: props.icon,
     shortcut: props.shortcut,
+    style: ActionStyle.Destructive,
+    sectionTitle: currentSection,
     execute: async () => {
       for (const path of paths) {
         await moveToTrash(path)
@@ -433,6 +470,7 @@ Action.Trash = (props) => {
 
 Action.SubmitForm = (props) => {
   const dialog = useDialog()
+  const { currentSection } = useContext(ActionPanelContext)
 
   // Get form context - will be null if not in a form
   const formContext = useFormSubmit()
@@ -440,7 +478,9 @@ Action.SubmitForm = (props) => {
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Submit',
+    icon: props.icon,
     shortcut: props.shortcut || { modifiers: ['cmd'], key: 'return' },
+    sectionTitle: currentSection,
     execute: () => {
       if (formContext) {
         // Also call the onSubmit if provided
@@ -469,10 +509,14 @@ Action.SubmitForm = (props) => {
 }
 
 Action.CreateSnippet = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Create Snippet',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       // TODO: Navigate to Create Snippet command when extension system is implemented
       logger.log(
@@ -499,10 +543,14 @@ Action.CreateSnippet = (props) => {
 }
 
 Action.CreateQuicklink = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Create Quicklink',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       // TODO: Navigate to Create Quicklink command when extension system is implemented
       logger.log(
@@ -529,10 +577,14 @@ Action.CreateQuicklink = (props) => {
 }
 
 Action.ToggleQuickLook = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Quick Look',
+    icon: props.icon,
     shortcut: props.shortcut || { key: 'space' },
+    sectionTitle: currentSection,
     execute: async () => {
       if (!props.path) {
         props.onToggle?.()
@@ -571,10 +623,14 @@ Action.ToggleQuickLook = (props) => {
 }
 
 Action.PickDate = (props) => {
+  const { currentSection } = useContext(ActionPanelContext)
+
   // Register as descendant with execute function
   useActionDescendant({
     title: props.title || 'Pick Date',
+    icon: props.icon,
     shortcut: props.shortcut,
+    sectionTitle: currentSection,
     execute: () => {
       // TODO: Show date picker dialog when implemented
       logger.log(`Picking ${props.type || 'date'}`)
@@ -645,14 +701,31 @@ function formatShortcut(
     .join('')
 }
 
+/**
+ * ActionPanel uses React portals to render its dialog content in the overlay
+ * area while staying in the original React tree. This preserves all React
+ * context (FormSubmitContext, NavigationContext, etc.) because portals inherit
+ * context from the source tree, not the portal target.
+ *
+ * Flow:
+ * 1. ActionPanel is rendered offscreen via <Offscreen> in List/Detail/Form
+ * 2. Action children register as descendants (title, icon, shortcut, execute)
+ * 3. A useLayoutEffect captures the first action title for footer display
+ * 4. When showActionsDialog is true, ActionPanel renders a Dropdown via
+ *    createPortal into the overlay target (provided by DialogOverlay)
+ * 5. The Dropdown and all callbacks have fresh context from the original tree
+ */
 const ActionPanel: ActionPanelType = (props) => {
   const { children, title } = props
   const dialog = useDialog()
   const { push } = useNavigation()
-  const inFocus = useIsInFocus()
-  const isOffscreen = useIsOffscreen()
   const descendantsContext = useActionDescendants()
   const renderer = useRenderer()
+
+  const showActionsDialog = useStore((state) => state.showActionsDialog)
+  const portalTarget = useStore((state) => state.actionsPortalTarget)
+  // Subscribe so a re-render + layout effect fires when Enter sets this flag
+  const shouldAutoExecute = useStore((state) => state.shouldAutoExecuteFirstAction)
 
   // Get extension and command info for configure actions
   const extensionPackageJson = useStore((state) => state.extensionPackageJson)
@@ -671,109 +744,131 @@ const ActionPanel: ActionPanelType = (props) => {
     [],
   )
 
-  // Auto-execute first action if flag is set (triggered by enter/ctrl+enter)
-  // Also report first action title when rendered offscreen
+  // Capture first action title for footer display, and handle auto-execute.
+  // Runs after every render so descendant props are always fresh.
   useLayoutEffect(() => {
     const allActions = Object.values(descendantsContext.map.current)
       .filter((item: any) => item.index !== -1)
-      .map((item: any) => item.props as ActionDescendant)
+      .sort((a: any, b: any) => a.index - b.index)
 
-    // When offscreen, just report first action title for footer display
-    if (isOffscreen) {
-      useStore.setState({ firstActionTitle: allActions[0]?.title ?? '' })
-      return
+    useStore.setState({ firstActionTitle: allActions[0]?.props?.title ?? '' })
+
+    // Auto-execute first action when Enter was pressed (shouldAutoExecuteFirstAction flag)
+    if (shouldAutoExecute) {
+      useStore.setState({ shouldAutoExecuteFirstAction: false, showActionsDialog: false })
+      const firstAction = allActions[0]?.props as ActionDescendant | undefined
+      if (firstAction) {
+        logger.log(`Auto-executing first action: ${firstAction.title}`)
+        firstAction.execute()
+      }
     }
+  })
 
-    const shouldExecute = useStore.getState().shouldAutoExecuteFirstAction
-    useStore.setState({ shouldAutoExecuteFirstAction: false })
+  // Always render the full Dropdown tree so Action children stay mounted and
+  // descendants are always registered. The Dropdown handles offscreen mode
+  // internally (returns null for visual output when isOffscreen is true).
+  // When showActionsDialog is true, we portal into the DialogOverlay's content
+  // target so the dialog shell and z-order are managed in one place.
+  const dropdownTree = (
+    <Dropdown
+      tooltip={title || 'Actions'}
+      placeholder='Search actions...'
+      filtering
+      onChange={(value) => {
+        logger.log(`actions dropdown onChange`, value)
+        // Find and execute the selected action from live descendants
+        const allActions = Object.values(descendantsContext.map.current)
+          .filter((item: any) => item.index !== -1)
+          .map((item: any) => item.props as ActionDescendant)
 
-    if (!shouldExecute) return
+        const action = allActions.find((a) => a.title === value)
+        if (action) {
+          useStore.setState({ showActionsDialog: false, dialogStack: [] })
+          action.execute()
+        }
+      }}
+    >
+      {children}
+      <ActionPanel.Section title="Settings">
+        {hasExtensionPrefs && (
+          <Action
+            title={`Configure ${extensionPackageJson!.title}...`}
+            shortcut={{ modifiers: ['cmd', 'shift'], key: ',' }}
+            onAction={() => {
+              useStore.setState({ showActionsDialog: false })
+              push(
+                <ExtensionPreferences
+                  extensionName={extensionPackageJson!.name}
+                />,
+              )
+            }}
+          />
+        )}
+        {hasCommandPrefs && (
+          <Action
+            title="Configure Command..."
+            onAction={() => {
+              useStore.setState({ showActionsDialog: false })
+              push(
+                <ExtensionPreferences
+                  extensionName={extensionPackageJson!.name}
+                  commandName={currentCommandName!}
+                />,
+              )
+            }}
+          />
+        )}
+        <Action
+          title="Change Theme..."
+          onAction={() => {
+            useStore.setState({ showActionsDialog: false })
+            dialog.push({ element: <ThemePicker /> })
+          }}
+        />
+        <Action
+          title="See Console Logs"
+          onAction={() => {
+            useStore.setState({ showActionsDialog: false })
+            if (renderer) {
+              renderer.console.onCopySelection = (text: any) => {
+                Clipboard.copy(text)
+              }
+              renderer.toggleDebugOverlay()
+              renderer.console.toggle()
+            }
+          }}
+        />
+      </ActionPanel.Section>
+    </Dropdown>
+  )
 
-    if (allActions[0]) {
-      logger.log(`Auto-executing first action: ${allActions[0].title}`)
-      dialog.clear()
-      allActions[0].execute()
-    }
-  }, [descendantsContext.map, dialog, isOffscreen])
+  // When dialog is active and portal target exists, render the Dropdown in
+  // a portal. The portal inherits React context from the source tree, which
+  // preserves FormSubmitContext, custom contexts, etc.
+  // Onscreen resets the OffscreenContext (since we're portaled from an offscreen
+  // tree into a visible overlay), so the Dropdown renders its items normally.
+  if (showActionsDialog && portalTarget) {
+    return createPortal(
+      <Onscreen>
+        <InFocus inFocus={true}>
+          <ActionDescendantsProvider value={descendantsContext}>
+            <ActionPanelContext.Provider value={contextValue}>
+              {dropdownTree}
+            </ActionPanelContext.Provider>
+          </ActionDescendantsProvider>
+        </InFocus>
+      </Onscreen>,
+      portalTarget,
+      null,
+    )
+  }
 
-  // prevent showing actions if we're not inside an actions dialog (must be after hooks)
-  const lastStackItem = dialog.stack[dialog.stack.length - 1]
-  if (lastStackItem?.type !== 'actions' && !isOffscreen) return null
-
-  // ActionPanel renders as Dropdown with children
+  // When not showing dialog, render the tree inline (offscreen) so descendants
+  // register and first action title is captured for the footer.
   return (
     <ActionDescendantsProvider value={descendantsContext}>
       <ActionPanelContext.Provider value={contextValue}>
-        <Dropdown
-          tooltip={title || 'Actions'}
-          placeholder='Search actions...'
-          filtering
-          onChange={(value) => {
-            logger.log(`actions dropdown onChange`, value)
-            // Find and execute the selected action
-            const allActions = Object.values(descendantsContext.map.current)
-              .filter((item: any) => item.index !== -1)
-              .map((item: any) => item.props as ActionDescendant)
-
-            const action = allActions.find((a) => a.title === value)
-            if (action) {
-              dialog.clear()
-              action.execute()
-            }
-          }}
-        >
-          {children}
-          <ActionPanel.Section title="Settings">
-            {hasExtensionPrefs && (
-              <Action
-                title={`Configure ${extensionPackageJson!.title}...`}
-                shortcut={{ modifiers: ['cmd', 'shift'], key: ',' }}
-                onAction={() => {
-                  dialog.clear()
-                  push(
-                    <ExtensionPreferences
-                      extensionName={extensionPackageJson!.name}
-                    />,
-                  )
-                }}
-              />
-            )}
-            {hasCommandPrefs && (
-              <Action
-                title="Configure Command..."
-                onAction={() => {
-                  dialog.clear()
-                  push(
-                    <ExtensionPreferences
-                      extensionName={extensionPackageJson!.name}
-                      commandName={currentCommandName!}
-                    />,
-                  )
-                }}
-              />
-            )}
-            <Action
-              title="Change Theme..."
-              onAction={() => {
-                dialog.clear()
-                dialog.push({ element: <ThemePicker /> })
-              }}
-            />
-            <Action
-              title="See Console Logs"
-              onAction={() => {
-                dialog.clear()
-                if (renderer) {
-                  renderer.console.onCopySelection = (text: any) => {
-                    Clipboard.copy(text)
-                  }
-                  renderer.toggleDebugOverlay()
-                  renderer.console.toggle()
-                }
-              }}
-            />
-          </ActionPanel.Section>
-        </Dropdown>
+        {dropdownTree}
       </ActionPanelContext.Provider>
     </ActionDescendantsProvider>
   )

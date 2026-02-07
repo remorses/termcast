@@ -12,6 +12,7 @@ import { ActionPanel } from 'termcast/src/components/actions'
 import { logger } from 'termcast/src/logger'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useDialog } from 'termcast/src/internal/dialog'
+import { Offscreen } from 'termcast/src/internal/offscreen'
 import { useTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
 import { Footer } from 'termcast/src/components/footer'
@@ -330,31 +331,15 @@ export const Form: FormType = ((props) => {
     }
 
     if (evt.name === 'k' && evt.ctrl) {
-      // Ctrl+K shows actions (always show panel, even without actions)
-      dialog.pushActions(
-        <FormSubmitContext.Provider value={submitContextValue}>
-          {props.actions || <ActionPanel />}
-        </FormSubmitContext.Provider>,
-        'center',
-      )
-    } else if (evt.name === 'return' && evt.ctrl && props.actions) {
-      // Ctrl+Return executes first action directly
-      useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.pushActions(
-        <FormSubmitContext.Provider value={submitContextValue}>
-          {props.actions}
-        </FormSubmitContext.Provider>,
-        'center',
-      )
-    } else if (evt.name === 'return' && evt.meta && props.actions) {
-      // Cmd+Return also executes first action directly
-      useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.pushActions(
-        <FormSubmitContext.Provider value={submitContextValue}>
-          {props.actions}
-        </FormSubmitContext.Provider>,
-        'center',
-      )
+      // Ctrl+K shows actions dialog via portal
+      if (props.actions) {
+        useStore.setState({ showActionsDialog: true })
+      }
+    } else if ((evt.name === 'return' && evt.ctrl) || (evt.name === 'return' && evt.meta)) {
+      // Ctrl+Return or Cmd+Return auto-executes first action via ActionPanel
+      if (props.actions) {
+        useStore.setState({ shouldAutoExecuteFirstAction: true })
+      }
     }
   })
 
@@ -428,6 +413,8 @@ export const Form: FormType = ((props) => {
                   </box>
                 </ScrollBox>
                 <FormFooter />
+                {/* Render actions offscreen to capture them with FormSubmitContext */}
+                {props.actions && <Offscreen>{props.actions}</Offscreen>}
               </box>
             </box>
           </FocusContext.Provider>

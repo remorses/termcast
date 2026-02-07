@@ -116,6 +116,38 @@ function ListFooter(): any {
   return <Footer hidePoweredBy={isShowingDetail}>{content}</Footer>
 }
 
+/**
+ * Component that subscribes to descendants changes and renders current item's
+ * actions offscreen. This ensures actions are captured even when items register
+ * after the initial render (preserving context via closures).
+ */
+function CurrentItemActionsOffscreen(props: {
+  selectedIndex: number
+  fallbackActions?: ReactNode
+}): any {
+  // Subscribe to descendants changes - this hook triggers re-render when items register
+  const descendantsMap = useListDescendantsRerender()
+
+  // Get current item's actions
+  const items = Object.values(descendantsMap)
+    .filter((item) => item.index !== -1)
+    .sort((a, b) => a.index - b.index)
+
+  const currentItem = items.find((item) => item.index === props.selectedIndex)
+  const actions = currentItem?.props?.actions ?? props.fallbackActions ?? null
+
+  // Clear first action title when there are no actions
+  useLayoutEffect(() => {
+    if (!actions) {
+      useStore.setState({ firstActionTitle: '' })
+    }
+  }, [actions])
+
+  if (!actions) return null
+
+  return <Offscreen>{actions}</Offscreen>
+}
+
 interface NavigationChildInterface {
   navigationTitle?: string
   isLoading?: boolean
@@ -746,7 +778,7 @@ export const List: ListType = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
-  const [currentItemActions, setCurrentItemActions] = useState<ReactNode>(null)
+
   const inputRef = useRef<TextareaRenderable>(null)
   const customEmptyViewRef = useRef(false)
 
@@ -867,7 +899,7 @@ export const List: ListType = (props) => {
     }
   }, [selectedItemId])
 
-  // Call onSelectionChange when selection changes and track current item's actions
+  // Call onSelectionChange when selection changes
   useEffect(() => {
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1)
@@ -875,21 +907,12 @@ export const List: ListType = (props) => {
 
     const currentItem = items.find((item) => item.index === selectedIndex)
 
-    // Track current item's actions for footer display
-    const actions = currentItem?.props?.actions ?? props.actions ?? null
-    setCurrentItemActions(actions)
-
-    // Clear first action title when there are no actions
-    if (!actions) {
-      useStore.setState({ firstActionTitle: '' })
-    }
-
     // Call onSelectionChange callback if provided
     if (onSelectionChange) {
       const selectedId = currentItem?.props?.id ?? null
       onSelectionChange(selectedId)
     }
-  }, [selectedIndex, props.actions])
+  }, [selectedIndex])
 
   const scrollToItem = (item: { props?: ListItemDescendant }) => {
     const scrollBox = scrollBoxRef.current
@@ -959,32 +982,23 @@ export const List: ListType = (props) => {
       .sort((a, b) => a.index - b.index)
     const currentItem = items.find((item) => item.index === selectedIndex)
 
-    // Handle Ctrl+K to show actions (always show sheet)
+    // Handle Ctrl+K to show actions dialog via portal
     if (evt.name === 'k' && evt.ctrl) {
-      // Show current item's actions if available
-      if (currentItem?.props?.actions) {
-        dialog.pushActions(currentItem.props.actions)
-      }
-      // Otherwise show List's own actions
-      else if (props.actions) {
-        dialog.pushActions(props.actions)
-      }
-      // Otherwise show empty ActionPanel (still has Settings section with Configure Extension, etc.)
-      else {
-        dialog.pushActions(<ActionPanel />)
+      const hasActions = currentItem?.props?.actions || props.actions
+      if (hasActions) {
+        useStore.setState({ showActionsDialog: true })
       }
       return
     }
 
     if (evt.name === 'up') move(-1)
     if (evt.name === 'down') move(1)
-    // Handle Enter to execute first action directly
+    // Handle Enter to auto-execute first action via ActionPanel
     if (evt.name === 'return') {
       if (!currentItem?.props) return
 
       if (currentItem.props.actions) {
         useStore.setState({ shouldAutoExecuteFirstAction: true })
-        dialog.pushActions(currentItem.props.actions)
       }
     }
   })
@@ -1102,10 +1116,11 @@ export const List: ListType = (props) => {
               {/* Footer with keyboard shortcuts or toast */}
               <ListFooter />
 
-              {/* Render current item's actions offscreen to collect first action title */}
-              {currentItemActions && (
-                <Offscreen>{currentItemActions}</Offscreen>
-              )}
+              {/* Render current item's actions offscreen to capture them with context preserved */}
+              <CurrentItemActionsOffscreen
+                selectedIndex={selectedIndex}
+                fallbackActions={props.actions}
+              />
             </box>
 
             {/* Detail panel on the right */}
@@ -1269,7 +1284,10 @@ const ListItem: ListItemType = (props) => {
     if (listContext && index !== -1) {
       // If clicking on already selected item, show actions (like pressing Enter)
       if (isActive) {
-        dialog.pushActions(props.actions || <ActionPanel />)
+        // Show actions dialog via portal
+        if (props.actions) {
+          useStore.setState({ showActionsDialog: true })
+        }
       } else if (listContext.setSelectedIndex) {
         // Otherwise just select the item
         listContext.setSelectedIndex(index)
@@ -1770,23 +1788,23 @@ List.Dropdown = ListDropdown
 // Inner component for EmptyView content (needs hooks at top level)
 function EmptyViewContent(props: EmptyViewProps): any {
   const theme = useTheme()
-  const dialog = useDialog()
   const inFocus = useIsInFocus()
 
   // Handle keyboard for actions
   useKeyboard((evt) => {
     if (!inFocus) return
 
-    // Handle Ctrl+K to show actions (always show panel, even without actions)
+    // Handle Ctrl+K to show actions dialog via portal
     if (evt.name === 'k' && evt.ctrl) {
-      dialog.pushActions(props.actions || <ActionPanel />)
+      if (props.actions) {
+        useStore.setState({ showActionsDialog: true })
+      }
       return
     }
 
-    // Handle Enter to execute first action
+    // Handle Enter to auto-execute first action via ActionPanel
     if (evt.name === 'return' && props.actions) {
       useStore.setState({ shouldAutoExecuteFirstAction: true })
-      dialog.pushActions(props.actions)
     }
   })
 
@@ -1821,6 +1839,8 @@ function EmptyViewContent(props: EmptyViewProps): any {
           {props.description?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
         </text>
       )}
+      {/* Render actions offscreen to capture them */}
+      {props.actions && <Offscreen>{props.actions}</Offscreen>}
     </box>
   )
 }

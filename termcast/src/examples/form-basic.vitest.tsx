@@ -45,6 +45,7 @@ test('form basic navigation and input', async () => {
       │
       ◇  Password
       │  Enter secure password
+      │
       │  Must be at least 8 characters
       │
       ◇  Biography
@@ -74,7 +75,6 @@ test('form basic navigation and input', async () => {
       ◇  Empty Dropdown
       │  No items available
       │
-      ◇  Minimal Field
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -165,19 +165,19 @@ test('form date picker selection with space and enter', async () => {
 
 
 
-      │
       │  Required field
       │
       ◇  Password
       │  Enter secure password
+      │
       │  Must be at least 8 characters
       │
       ◇  Biography
       │  Tell us about yourself...
       │
+      │
       │                                                                █
       │                                                                ▀
-      │
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -223,19 +223,19 @@ test('form date picker selection with space and enter', async () => {
 
 
 
-      │
       │  Required field
       │
       ◇  Password
       │  Enter secure password
+      │
       │  Must be at least 8 characters
       │
       ◇  Biography
       │  Tell us about yourself...
       │
+      │
       │                                                                █
       │                                                                ▀
-      │
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -282,19 +282,19 @@ test('form date picker selection with space and enter', async () => {
 
 
 
-      │
       │  Required field
       │
       ◇  Password
       │  Enter secure password
+      │
       │  Must be at least 8 characters
       │
       ◇  Biography
       │  Tell us about yourself...
       │
+      │
       │                                                                █
       │                                                                ▀
-      │
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -357,19 +357,19 @@ test('form dropdown navigation', async () => {
 
 
 
-      │
       │  Required field
       │
       ◇  Password
       │  Enter secure password
+      │
       │  Must be at least 8 characters
       │
       ◇  Biography
       │  Tell us about yourself...
       │
+      │
       │                                                                █
       │                                                                ▀
-      │
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -415,19 +415,19 @@ test('form dropdown navigation', async () => {
 
 
 
-      │
       │  Required field
       │
       ◇  Password
       │  Enter secure password
+      │
       │  Must be at least 8 characters
       │
       ◇  Biography
       │  Tell us about yourself...
       │
+      │
       │                                                                █
       │                                                                ▀
-      │
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -475,19 +475,19 @@ test('form dropdown navigation', async () => {
 
 
 
-      │
       │  Required field
       │
       ◇  Password
       │  Enter secure password
+      │
       │  Must be at least 8 characters
       │
       ◇  Biography
       │  Tell us about yourself...
       │
+      │
       │                                                                █
       │                                                                ▀
-      │
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -533,19 +533,19 @@ test('form dropdown navigation', async () => {
 
 
 
-      │
       │  Required field
       │
       ◇  Password
       │  Enter secure password
+      │
       │  Must be at least 8 characters
       │
       ◇  Biography
       │  Tell us about yourself...
       │
+      │
       │                                                                █
       │                                                                ▀
-      │
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -642,7 +642,7 @@ test('form scrolls with mouse wheel', async () => {
       │
       ◇  Password
       │  Enter secure password
-      │  Must be at least 8 characters
+      │
 
 
        ctrl ↵ submit   tab navigate   ^k actions

@@ -320,8 +320,9 @@ test('hot reload with navigation - preserves navigation and updates content', as
     await hotReloadSession.press('down')
     await hotReloadSession.waitIdle()
 
-    // Run the command (enter opens action panel, enter again runs)
-    await hotReloadSession.press('enter')
+    // Run selected command via actions panel for deterministic behavior
+    await hotReloadSession.press(['ctrl', 'k'])
+    await hotReloadSession.waitIdle()
     await hotReloadSession.press('enter')
     await hotReloadSession.waitIdle()
 

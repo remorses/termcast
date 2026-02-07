@@ -307,7 +307,7 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │                                                                │
+      │   See Console Logs                                             │
       │                                                                │
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
@@ -340,7 +340,7 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │                                                                │
+      │   See Console Logs                                             │
       │                                                                │
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
@@ -451,7 +451,7 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │                                                                │
+      │   See Console Logs                                             │
       │                                                                │
       │                                                                │
       │   ↵ select   ↑↓ navigate                                       │

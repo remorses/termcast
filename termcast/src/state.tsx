@@ -63,6 +63,11 @@ interface AppState {
   shouldAutoExecuteFirstAction: boolean
   // First action title for footer display (set by offscreen ActionPanel)
   firstActionTitle: string
+  // Flag to show actions dialog via portal
+  showActionsDialog: boolean
+  // Portal target node for rendering ActionPanel dialog in the overlay area.
+  // Set by DialogOverlay, consumed by ActionPanel via createPortal.
+  actionsPortalTarget: any
   // Theme state
   currentThemeName: string
   // Active search input ref - used to clear search before exiting on ESC
@@ -89,6 +94,8 @@ export const useStore = create<AppState>(() => ({
   // Actions state
   shouldAutoExecuteFirstAction: false,
   firstActionTitle: '',
+  showActionsDialog: false,
+  actionsPortalTarget: null,
   // Theme state
   currentThemeName: 'termcast',
   // Active search input ref
