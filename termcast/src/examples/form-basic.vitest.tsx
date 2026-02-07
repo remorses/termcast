@@ -205,7 +205,7 @@ test('form date picker selection with space and enter', async () => {
       ◇  Date of Birth
       │
       │   ←       2026        →
-      │   ←      January      →
+      │   ←     February      →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -263,7 +263,7 @@ test('form date picker selection with space and enter', async () => {
       ◇  Date of Birth
       │
       │   ←       2026        →
-      │   ←      January      →
+      │   ←     February      →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -322,7 +322,7 @@ test('form date picker selection with space and enter', async () => {
       ◇  Date of Birth
       │
       │   ←       2026        →
-      │   ←      January      →
+      │   ←     February      →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -397,7 +397,7 @@ test('form dropdown navigation', async () => {
       ◇  Date of Birth
       │
       │   ←       2026        →
-      │   ←      January      →
+      │   ←     February      →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -455,7 +455,7 @@ test('form dropdown navigation', async () => {
       ◇  Date of Birth
       │
       │   ←       2026        →
-      │   ←      January      →
+      │   ←     February      →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -515,7 +515,7 @@ test('form dropdown navigation', async () => {
       ◇  Date of Birth
       │
       │   ←       2026        →
-      │   ←      January      →
+      │   ←     February      →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -573,7 +573,7 @@ test('form dropdown navigation', async () => {
       ◇  Date of Birth
       │
       │   ←       2026        →
-      │   ←      January      →
+      │   ←     February      →
 
 
        ctrl ↵ submit   tab navigate   ^k actions

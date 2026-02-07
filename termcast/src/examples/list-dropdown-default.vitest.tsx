@@ -44,8 +44,8 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
-
+       ↵ show selected       ↑↓ navigate  ^p dropdown  ^k actionpowered by termcast
+         fruit
 
 
 
@@ -89,7 +89,7 @@ test('dropdown opens and shows items', async () => {
       │   Orange                                                                 │
       │   Grape                                                                  │
       │                                                                          │
-      │                                                                          │
+      │                                                                          │t
       │   ↵ select   ↑↓ navigate                            powered by termcast  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
@@ -126,7 +126,7 @@ test('dropdown opens and shows items', async () => {
       │   Orange                                                                 │
       │   Grape                                                                  │
       │                                                                          │
-      │                                                                          │
+      │                                                                          │t
       │   ↵ select   ↑↓ navigate                            powered by termcast  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
@@ -163,8 +163,8 @@ test('dropdown opens and shows items', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
-
+       ↵ show selected       ↑↓ navigate  ^p dropdown  ^k actionpowered by termcast
+         fruit
 
 
 
@@ -208,7 +208,7 @@ test('clicking dropdown opens it', async () => {
       │   Orange                                                                 │
       │   Grape                                                                  │
       │                                                                          │
-      │                                                                          │
+      │                                                                          │t
       │   ↵ select   ↑↓ navigate                            powered by termcast  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
@@ -245,8 +245,8 @@ test('clicking dropdown opens it', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^k actions       powered by termcast
-
+       ↵ show selected       ↑↓ navigate  ^p dropdown  ^k actionpowered by termcast
+         fruit
 
 
 

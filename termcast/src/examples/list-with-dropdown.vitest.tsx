@@ -50,7 +50,7 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^p dropdown   ^k actions
 
 
 
@@ -216,7 +216,7 @@ test('list with dropdown navigation', async () => {
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^p dropdown   ^k actions
 
 
 
@@ -308,7 +308,7 @@ test('list with dropdown search and filter', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^p dropdown   ^k actions
 
 
 
@@ -340,7 +340,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^p dropdown   ^k actions
 
 
 
@@ -376,7 +376,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^p dropdown   ^k actions
 
 
 
