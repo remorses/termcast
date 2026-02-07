@@ -41,7 +41,7 @@ export const aliasPlugin: BunPlugin = {
 
     // Alias @raycast/api to termcast using namespace
     build.onResolve({ filter: /@raycast\/api/ }, () => {
-      logger.log('Resolving @raycast/api to termcast')
+      // logger.log('Resolving @raycast/api to termcast')
       return {
         path: 'termcast',
         namespace: GLOBALS_NAMESPACE,
@@ -50,7 +50,7 @@ export const aliasPlugin: BunPlugin = {
 
     // Alias @raycast/utils to our fork with termcast OAuth proxy URLs
     build.onResolve({ filter: /@raycast\/utils/ }, () => {
-      logger.log('Resolving @raycast/utils to termcast fork')
+      // logger.log('Resolving @raycast/utils to termcast fork')
       return {
         path: require.resolve('@termcast/utils'),
 
@@ -194,6 +194,13 @@ interface BundledCommand extends CommandWithFile {
   bundledPath: string
 }
 
+function sanitizeHotReloadBundle({ code }: { code: string }): string {
+  // Bun reactFastRefresh can emit invalid self-redeclarations like:
+  // `var Component = Component;`
+  // which throws in ESM during import. Strip those lines in hot-reload bundles.
+  return code.replace(/^var\s+([A-Za-z_$][\w$]*)\s*=\s*\1;\s*$/gm, '')
+}
+
 export interface BuildResult {
   commands: BundledCommand[]
   bundleDir: string
@@ -252,6 +259,21 @@ export async function buildExtensionCommands({
       .map((log: any) => log.message || log)
       .join('\n')
     throw new Error(`Build failed: ${errorMessage}`)
+  }
+
+  if (hotReload) {
+    for (const output of result.outputs) {
+      const outputPath = output.path
+      if (!outputPath.endsWith('.js')) {
+        continue
+      }
+      const code = fs.readFileSync(outputPath, 'utf-8')
+      const sanitizedCode = sanitizeHotReloadBundle({ code })
+      if (sanitizedCode === code) {
+        continue
+      }
+      fs.writeFileSync(outputPath, sanitizedCode)
+    }
   }
 
   // Map outputs back to commands
