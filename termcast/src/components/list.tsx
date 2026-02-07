@@ -78,6 +78,7 @@ function ListFooter(): any {
   const hasToast = useStore((s) => s.toast !== null)
   const listContext = useContext(ListContext)
   const isShowingDetail = listContext?.isShowingDetail ?? false
+  const hasDropdown = listContext?.hasDropdown ?? false
 
   const content = hasToast ? null : (
     <box style={{ flexDirection: 'row', gap: 3 }}>
@@ -95,6 +96,14 @@ function ListFooter(): any {
         </text>
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
+      {hasDropdown && (
+        <box style={{ flexDirection: 'row', gap: 1 }}>
+          <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
+            ^p
+          </text>
+          <text flexShrink={0} fg={theme.textMuted}>dropdown</text>
+        </box>
+      )}
       <box style={{ flexDirection: 'row', gap: 1 }}>
         <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ^k
@@ -307,6 +316,7 @@ interface ListContextValue {
   isShowingDetail?: boolean
   customEmptyViewRef: React.MutableRefObject<boolean>
   isLoading?: boolean
+  hasDropdown?: boolean
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -831,8 +841,9 @@ export const List: ListType = (props) => {
       isShowingDetail,
       customEmptyViewRef,
       isLoading,
+      hasDropdown: !!searchBarAccessory,
     }),
-    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading],
+    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading, searchBarAccessory],
   )
 
   // Clear detail when detail view is hidden
