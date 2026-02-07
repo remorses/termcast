@@ -23,7 +23,7 @@ import { ExtensionPreferences } from 'termcast/src/components/extension-preferen
 import { ThemePicker } from 'termcast/src/components/theme-picker'
 import { useStore } from 'termcast/src/state'
 import { InFocus } from 'termcast/src/internal/focus-context'
-import { Onscreen } from 'termcast/src/internal/offscreen'
+import { Onscreen, useIsOffscreen } from 'termcast/src/internal/offscreen'
 import { CommonProps } from 'termcast/src/utils'
 import type {
   KeyboardKeyEquivalent,
@@ -721,6 +721,7 @@ const ActionPanel: ActionPanelType = (props) => {
   const { push } = useNavigation()
   const descendantsContext = useActionDescendants()
   const renderer = useRenderer()
+  const isOffscreen = useIsOffscreen()
 
   const showActionsDialog = useStore((state) => state.showActionsDialog)
   const portalTarget = useStore((state) => state.actionsPortalTarget)
@@ -751,7 +752,10 @@ const ActionPanel: ActionPanelType = (props) => {
       .filter((item: any) => item.index !== -1)
       .sort((a: any, b: any) => a.index - b.index)
 
-    useStore.setState({ firstActionTitle: allActions[0]?.props?.title ?? '' })
+    const firstActionTitle = allActions[0]?.props?.title ?? ''
+    if (useStore.getState().firstActionTitle !== firstActionTitle) {
+      useStore.setState({ firstActionTitle })
+    }
 
     // Auto-execute first action when Enter was pressed (shouldAutoExecuteFirstAction flag)
     if (shouldAutoExecute) {
@@ -764,7 +768,19 @@ const ActionPanel: ActionPanelType = (props) => {
     }
   })
 
-  // Always render the full Dropdown tree so Action children stay mounted and
+  // Keep offscreen registration lightweight for fast initial command startup.
+  // We only need descendants for footer title + auto-execute; rendering the full
+  // Dropdown tree offscreen adds avoidable mount work before first paint.
+  const offscreenRegistrationTree = (
+    <ActionDescendantsProvider value={descendantsContext}>
+      <ActionPanelContext.Provider value={contextValue}>
+        {children}
+      </ActionPanelContext.Provider>
+    </ActionDescendantsProvider>
+  )
+
+  // Always render the full Dropdown tree when actions are visible so Action
+  // children stay mounted and descendants are always registered.
   // descendants are always registered. The Dropdown handles offscreen mode
   // internally (returns null for visual output when isOffscreen is true).
   // When showActionsDialog is true, we portal into the DialogOverlay's content
@@ -861,6 +877,10 @@ const ActionPanel: ActionPanelType = (props) => {
       portalTarget,
       null,
     )
+  }
+
+  if (isOffscreen) {
+    return offscreenRegistrationTree
   }
 
   // When not showing dialog, render the tree inline (offscreen) so descendants

@@ -3,8 +3,10 @@ import { test, expect, afterEach, beforeEach } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
 
 let session: Session
+let sessionStartMs = 0
 
 beforeEach(async () => {
+  sessionStartMs = Date.now()
   session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/list-with-sections.tsx'],
@@ -16,6 +18,17 @@ beforeEach(async () => {
 afterEach(() => {
   session?.close()
 })
+
+test('list startup shows first content near instantly', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /search items/i.test(text)
+    },
+  })
+
+  const loadTimeMs = Date.now() - sessionStartMs
+  expect(loadTimeMs).toBeLessThan(700)
+}, 10000)
 
 test('list with sections navigation', async () => {
   await session.text({
