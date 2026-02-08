@@ -217,8 +217,9 @@ export async function compileExtension({
     const result = await Bun.build({
       entrypoints: [tempEntryPath],
       target: bunTarget as 'bun',
+      format: 'esm',
       minify,
-      // bytecode: true, // TODO need to wait for opentui to support this removing top level await
+      bytecode: true,
       sourcemap: 'external',
       compile: {
         outfile: defaultOutfile,
