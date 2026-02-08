@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.33
+
+### Patch Changes
+
+- Enable ESM bytecode compilation for extension compile and CLI binary builds
+- Speed up list startup by lightening offscreen action registration
+- Migrate `ActionPanel` to portal-based overlay rendering
+- Pin `node-pty` to 0.10.1 for PTY stability
+- OAuth support for extensions
+- Form component refactoring
+
 ## 1.3.32
 
 ### Patch Changes

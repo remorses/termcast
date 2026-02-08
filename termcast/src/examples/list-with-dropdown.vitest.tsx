@@ -50,10 +50,10 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
+       ↑↓ navigate   ^p dropdown   ^k
+
+
        ↑↓ navigate   ^p dropdown   ^k actions
-
-
-
 
     "
   `)
@@ -69,7 +69,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-
+       Search Beers ───────────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -103,7 +103,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-
+       Search Beers ───────────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -135,7 +135,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-
+       Search Beers ───────────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -167,7 +167,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-
+       Search Beers ───────────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -249,7 +249,7 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-
+       Search Beers ───────────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -291,10 +291,10 @@ test('list with dropdown search and filter', async () => {
     "
 
 
+       Search Beers ───────────────────────────────────────────────────
 
 
-
-
+       > Search...                                                All ▾
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
@@ -308,7 +308,7 @@ test('list with dropdown search and filter', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
+       ↑↓ navigate   ^p dropdown   ^k actions
 
 
 
