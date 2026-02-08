@@ -41,7 +41,5 @@ jobs:
         run: bun run build
         working-directory: tuistory
       # scripts
-      - run: bun run binary
-        working-directory: termcast
       - run: bun run test || bun run test
         working-directory: termcast

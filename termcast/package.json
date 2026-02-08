@@ -4,10 +4,9 @@
   "description": "Raycast for the terminal",
   "repository": "https://github.com/remorses/termcast",
   "scripts": {
-    "build": "tsc && bun run binary",
+    "build": "tsc",
     "prepublishOnly": "tsc && chmod +x dist/cli.js",
     "release": "cd .. && bun changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
-    "binary": "bun scripts/build-binary.ts",
     "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
     "play": "bun src/cli.tsx",
     "test": "bun test && bun e2e",
