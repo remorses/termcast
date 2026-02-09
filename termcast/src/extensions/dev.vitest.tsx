@@ -1,10 +1,32 @@
 import { test, expect, afterEach, beforeEach } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
+import fs from 'node:fs'
 import path from 'node:path'
 
 let session: Session
 
 const fixtureDir = path.resolve(__dirname, '../../fixtures/simple-extension')
+
+async function waitForTextWithDebug({
+  session,
+  waitFor,
+  timeout,
+}: {
+  session: Session
+  waitFor: (text: string) => boolean
+  timeout: number
+}): Promise<string> {
+  try {
+    return await session.text({ waitFor, timeout })
+  } catch (error) {
+    const logPath = path.resolve(process.cwd(), 'app.log')
+    const appLog = fs.existsSync(logPath)
+      ? fs.readFileSync(logPath, 'utf-8').slice(-8000)
+      : 'app.log not found'
+    const message = error instanceof Error ? error.message : String(error)
+    throw new Error(`${message}\n\napp.log tail:\n${appLog}`)
+  }
+}
 
 beforeEach(async () => {
   session = await launchTerminal({
@@ -20,7 +42,8 @@ afterEach(() => {
 })
 
 test('dev command shows extension commands list', async () => {
-  await session.text({
+  await waitForTextWithDebug({
+    session,
     waitFor: (text) => /Simple Test Extension/i.test(text),
     timeout: 10000,
   })
@@ -48,7 +71,8 @@ test('dev command shows extension commands list', async () => {
 }, 30000)
 
 test('selecting command with arguments shows arguments form', async () => {
-  await session.text({
+  await waitForTextWithDebug({
+    session,
     waitFor: (text) => /Simple Test Extension/i.test(text),
     timeout: 10000,
   })
@@ -85,7 +109,8 @@ test('selecting command with arguments shows arguments form', async () => {
   await session.press('enter')
   await session.press('enter')
 
-  await session.text({
+  await waitForTextWithDebug({
+    session,
     waitFor: (text) => /Search query/i.test(text),
     timeout: 10000,
   })
@@ -113,7 +138,8 @@ test('selecting command with arguments shows arguments form', async () => {
 }, 30000)
 
 test('can fill arguments and run command', async () => {
-  await session.text({
+  await waitForTextWithDebug({
+    session,
     waitFor: (text) => /Simple Test Extension/i.test(text),
     timeout: 10000,
   })
@@ -127,7 +153,8 @@ test('can fill arguments and run command', async () => {
   await session.press('enter')
   await session.press('enter')
 
-  await session.text({
+  await waitForTextWithDebug({
+    session,
     waitFor: (text) => /Search query/i.test(text),
     timeout: 10000,
   })
@@ -161,7 +188,8 @@ test('can fill arguments and run command', async () => {
   await session.waitIdle()
   await session.press('enter')
 
-  await session.text({
+  await waitForTextWithDebug({
+    session,
     waitFor: (text) => /Received Arguments/i.test(text),
     timeout: 10000,
   })
@@ -189,7 +217,8 @@ test('can fill arguments and run command', async () => {
 }, 30000)
 
 test('can run simple view command without arguments', async () => {
-  await session.text({
+  await waitForTextWithDebug({
+    session,
     waitFor: (text) => /Simple Test Extension/i.test(text),
     timeout: 10000,
   })
@@ -198,7 +227,8 @@ test('can run simple view command without arguments', async () => {
   await session.press('enter')
   await session.press('enter')
 
-  await session.text({
+  await waitForTextWithDebug({
+    session,
     waitFor: (text) => /First Item/i.test(text),
     timeout: 10000,
   })
@@ -247,7 +277,8 @@ test('hot reload updates TUI when source file changes', async () => {
 
   try {
     // Wait for the extension to load
-    await hotReloadSession.text({
+    await waitForTextWithDebug({
+      session: hotReloadSession,
       waitFor: (text) => /Hot Reload Test/i.test(text) && /Detail View/i.test(text),
       timeout: 5000,
     })
@@ -259,7 +290,8 @@ test('hot reload updates TUI when source file changes', async () => {
     await hotReloadSession.waitIdle()
 
     // Wait for the detail view to show
-    await hotReloadSession.text({
+    await waitForTextWithDebug({
+      session: hotReloadSession,
       waitFor: (text) => /MARKER_VALUE/i.test(text),
       timeout: 10000,
     })
@@ -311,7 +343,8 @@ test('hot reload with navigation - preserves navigation and updates content', as
 
   try {
     // Wait for the extension to load
-    await hotReloadSession.text({
+    await waitForTextWithDebug({
+      session: hotReloadSession,
       waitFor: (text) => /Hot Reload Test/i.test(text) && /List With Navigation/i.test(text),
       timeout: 10000,
     })
@@ -327,7 +360,8 @@ test('hot reload with navigation - preserves navigation and updates content', as
     await hotReloadSession.waitIdle()
 
     // Wait for the list to show OR the detail view (enter might auto-execute first action)
-    await hotReloadSession.text({
+    await waitForTextWithDebug({
+      session: hotReloadSession,
       waitFor: (text) => /Item One/i.test(text),
       timeout: 10000,
     })
@@ -341,7 +375,8 @@ test('hot reload with navigation - preserves navigation and updates content', as
       await hotReloadSession.waitIdle()
       
       // Wait for the detail view with the marker
-      await hotReloadSession.text({
+      await waitForTextWithDebug({
+        session: hotReloadSession,
         waitFor: (text) => /NAV_MARKER_VALUE/i.test(text) && /Item One Details/i.test(text),
         timeout: 10000,
       })
