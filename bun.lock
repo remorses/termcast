@@ -125,6 +125,9 @@
         "tuistory": "workspace:*",
         "vitest": "^4.0.16",
       },
+      "optionalDependencies": {
+        "@parcel/watcher-linux-x64-glibc": "2.5.1",
+      },
       "peerDependencies": {
         "react": "*",
       },
