@@ -72,27 +72,27 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
        > Search commands...
 
        Commands
-      ›My Pull Requests List pull requests you created, participated in, o view
-       Search Pull Requests Search recent pull requests globally in all re view
-       Create Pull Request Create a pull request in one of your GitHub rep view
-       My Issues List issues created by you, assigned to you or mentioning view
-       Search Issues Search recent issues globally in all repositories.    view
-       Create Issue Create an issue in one of your GitHub repositories.    view
-       Create Branch Create a branch in one of your GitHub repositories    view
-       Search Repositories Search in your public or private repositories b view
-       My Latest Repositories List your repositories by latest updated     view
-       My Starred Repositories List repositories you have starred          view
-       Workflow Runs Manage workflow runs for a selected GitHub repository view
-       Notifications List inbox notifications from all repositories or a s view
-       Search Discussions Search recent Discussions globally in all reposi view
-       My Discussions Show your Discussions                                view
-       My Projects Show your Projects                                      view
-
-
+      ›My Pull Requests List pull requests you created, participated in, or view
+       Search Pull Requests Search recent pull requests globally in all rep view
+       Create Pull Request Create a pull request in one of your GitHub repo view
+       My Issues List issues created by you, assigned to you or mentioning  view
+       Search Issues Search recent issues globally in all repositories.     view
+       Create Issue Create an issue in one of your GitHub repositories.     view
+       Create Branch Create a branch in one of your GitHub repositories     view
+       Search Repositories Search in your public or private repositories by view
+       My Latest Repositories List your repositories by latest updated      view
+       My Starred Repositories List repositories you have starred           view
+       Workflow Runs Manage workflow runs for a selected GitHub repository. view
+       Notifications List inbox notifications from all repositories or a se view
+       Search Discussions Search recent Discussions globally in all reposit view
+       My Discussions Show your Discussions                                 view
+       My Projects Show your Projects                                       view
 
 
 
        ↵ run command   ↑↓ navigate   ^k actions               powered by termcast
+
+
 
     "
   `)

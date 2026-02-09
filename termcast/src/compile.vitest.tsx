@@ -273,28 +273,42 @@ test('single command extension shows error when command throws at root scope', a
   await session.waitIdle()
 
   const errorSnapshot = await session.text()
+  expect(errorSnapshot).not.toContain('Failed to load native binding')
+  expect(errorSnapshot).not.toContain('@swc/core/binding.js')
   expect(errorSnapshot).toMatchInlineSnapshot(`
     "
+    Failed to start: 328 |   if (loadErrors.length > 0) {
+    329 |     // TODO Link to documentation with potential fixes
+    330 |     //  - The package owner could build/publish bindin
+    gs for this arch
+    331 |     //  - The user may need to bundle the correct file
+    s
+    332 |     //  - The user may need to re-install node_modules
+     to get new packages
+    333 |     throw new Error('Failed to load native binding', {
+     cause: loadErrors })
+                    ^
+    error: Failed to load native binding
+          at <anonymous> (../node_modules/.bun/@swc+core@1.15.7/
+    node_modules/@swc/core/binding.js:333:11)
+          at <anonymous> (/$bunfs/root/_entry-local.js:18:47)
+          at <anonymous> (../node_modules/.bun/@swc+core@1.15.7/
+    node_modules/@swc/core/index.js:49:5)
+          at <anonymous> (/$bunfs/root/_entry-local.js:18:47)
+          at <anonymous> (src/build.tsx:5:1)
+          at async <anonymous> (src/extensions/dev.tsx:19:1)
+          at async <anonymous> (src/index.tsx:233:1)
 
-
-
-
-        Error
-            at <anonymous> (fixtures/single-error-extension/
-            at processTicksAndRejections (unknown:7:39)
-
-
-
-
-
-
-
-
-
-
-
-
+    Stack: Error: Failed to load native binding
+        at <anonymous> (../node_modules/.bun/@swc+core@1.15.7/no
+    de_modules/@swc/core/binding.js:333:15)
+        at <anonymous> (/$bunfs/root/_entry-local.js:18:47)
+        at <anonymous> (../node_modules/.bun/@swc+core@1.15.7/no
+    de_modules/@swc/core/index.js:49:5)
+        at <anonymous> (/$bunfs/root/_entry-local.js:18:47)
+        at <anonymous> (src/build.tsx:5)
+        at async <anonymous> (src/extensions/dev.tsx:19)
+        at async <anonymous> (src/index.tsx:233)
     "
   `)
 }, 60000)
-

@@ -41,11 +41,11 @@ open state), it must be `useLayoutEffect`.
 
 ### When to use which
 
-| Situation | Use |
-|-----------|-----|
+| Situation                                             | Use               |
+| ----------------------------------------------------- | ----------------- |
 | Updating visible UI (selection, detail panel, dialog) | `useLayoutEffect` |
-| Side effects / callbacks (`onSelectionChange`) | `useEffect` |
-| Logging, analytics, non-visual bookkeeping | `useEffect` |
+| Side effects / callbacks (`onSelectionChange`)        | `useEffect`       |
+| Logging, analytics, non-visual bookkeeping            | `useEffect`       |
 
 ## The flushSync trap
 
