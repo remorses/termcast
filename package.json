@@ -25,6 +25,8 @@
   ],
   "packageManager": "bun@1.3.3",
   "trustedDependencies": [
+    "@parcel/watcher",
+    "@parcel/watcher-linux-x64-glibc",
     "@tailwindcss/oxide",
     "@xmorse/rfd",
     "esbuild",

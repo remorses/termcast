@@ -125,9 +125,6 @@
         "tuistory": "workspace:*",
         "vitest": "^4.0.16",
       },
-      "optionalDependencies": {
-        "@parcel/watcher-linux-x64-glibc": "2.5.1",
-      },
       "peerDependencies": {
         "react": "*",
       },
@@ -200,6 +197,8 @@
     "@tailwindcss/oxide",
     "esbuild",
     "node-pty",
+    "@parcel/watcher-linux-x64-glibc",
+    "@parcel/watcher",
   ],
   "packages": {
     "@actions/cache": ["@actions/cache@3.3.0", "", { "dependencies": { "@actions/core": "^1.11.1", "@actions/exec": "^1.0.1", "@actions/glob": "^0.1.0", "@actions/http-client": "^2.1.1", "@actions/io": "^1.0.1", "@azure/abort-controller": "^1.1.0", "@azure/ms-rest-js": "^2.6.0", "@azure/storage-blob": "^12.13.0", "semver": "^6.3.1" } }, "sha512-+eCsMTIZUEm+QA9GqjollOhCdvRrZ1JV8d9Rp34zVNizBkYITO8dhKczP5Xps1dFzc5n59p7vYVtZrGt18bb5Q=="],
