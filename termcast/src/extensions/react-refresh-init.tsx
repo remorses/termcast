@@ -41,9 +41,10 @@ function initializeReactRefresh() {
 
 // Only load react-refresh in non-production
 if (process.env.NODE_ENV !== 'production') {
-  // Dynamic import to avoid bundling in production
-  RefreshRuntime = require('react-refresh/runtime')
-  initializeReactRefresh()
+  void import('react-refresh/runtime').then((runtime) => {
+    RefreshRuntime = runtime
+    initializeReactRefresh()
+  })
 }
 
 // Get captured renderer internals
