@@ -27,7 +27,7 @@ export function getWatcher(): typeof ParcelWatcher {
         '',
         'This usually means Bun blocked install scripts for watcher packages.',
         'Fix with:',
-        '  bun pm trust @parcel/watcher @parcel/watcher-linux-x64-glibc',
+        '  bun pm trust @parcel/watcher',
         '  bun install',
         '',
         `Original error: ${message}`,

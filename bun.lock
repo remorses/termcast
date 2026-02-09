@@ -200,7 +200,6 @@
     "@tailwindcss/oxide",
     "esbuild",
     "node-pty",
-    "@parcel/watcher-linux-x64-glibc",
     "@parcel/watcher",
   ],
   "packages": {
