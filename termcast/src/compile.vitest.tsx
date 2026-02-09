@@ -6,7 +6,13 @@ import { execSync } from 'node:child_process'
 
 const fixtureDir = path.resolve(__dirname, '../fixtures/simple-extension')
 const distDir = path.join(fixtureDir, 'dist')
+const bundleDir = path.join(fixtureDir, '.termcast-bundle')
 const executablePath = path.join(distDir, 'simple-extension')
+
+const singleErrorFixtureDir = path.resolve(__dirname, '../fixtures/single-error-extension')
+const singleErrorDistDir = path.join(singleErrorFixtureDir, 'dist')
+const singleErrorBundleDir = path.join(singleErrorFixtureDir, '.termcast-bundle')
+const singleErrorExecutablePath = path.join(singleErrorDistDir, 'single-error-extension')
 
 let session: Session
 
@@ -37,6 +43,22 @@ function ensureCompiled() {
 beforeAll(() => {
   if (fs.existsSync(executablePath)) {
     fs.unlinkSync(executablePath)
+  }
+  if (fs.existsSync(distDir)) {
+    fs.rmSync(distDir, { recursive: true, force: true })
+  }
+  if (fs.existsSync(bundleDir)) {
+    fs.rmSync(bundleDir, { recursive: true, force: true })
+  }
+
+  if (fs.existsSync(singleErrorExecutablePath)) {
+    fs.unlinkSync(singleErrorExecutablePath)
+  }
+  if (fs.existsSync(singleErrorDistDir)) {
+    fs.rmSync(singleErrorDistDir, { recursive: true, force: true })
+  }
+  if (fs.existsSync(singleErrorBundleDir)) {
+    fs.rmSync(singleErrorBundleDir, { recursive: true, force: true })
   }
 })
 
@@ -237,11 +259,6 @@ test('compiled executable shows error when command throws at root scope', async 
   `)
 }, 60000)
 
-// Test for single-command extension with root-level error
-const singleErrorFixtureDir = path.resolve(__dirname, '../fixtures/single-error-extension')
-const singleErrorDistDir = path.join(singleErrorFixtureDir, 'dist')
-const singleErrorExecutablePath = path.join(singleErrorDistDir, 'single-error-extension')
-
 function ensureSingleErrorCompiled() {
   if (!fs.existsSync(singleErrorExecutablePath)) {
     if (fs.existsSync(singleErrorDistDir)) {
@@ -277,38 +294,25 @@ test('single command extension shows error when command throws at root scope', a
   expect(errorSnapshot).not.toContain('@swc/core/binding.js')
   expect(errorSnapshot).toMatchInlineSnapshot(`
     "
-    Failed to start: 328 |   if (loadErrors.length > 0) {
-    329 |     // TODO Link to documentation with potential fixes
-    330 |     //  - The package owner could build/publish bindin
-    gs for this arch
-    331 |     //  - The user may need to bundle the correct file
-    s
-    332 |     //  - The user may need to re-install node_modules
-     to get new packages
-    333 |     throw new Error('Failed to load native binding', {
-     cause: loadErrors })
-                    ^
-    error: Failed to load native binding
-          at <anonymous> (../node_modules/.bun/@swc+core@1.15.7/
-    node_modules/@swc/core/binding.js:333:11)
-          at <anonymous> (/$bunfs/root/_entry-local.js:18:47)
-          at <anonymous> (../node_modules/.bun/@swc+core@1.15.7/
-    node_modules/@swc/core/index.js:49:5)
-          at <anonymous> (/$bunfs/root/_entry-local.js:18:47)
-          at <anonymous> (src/build.tsx:5:1)
-          at async <anonymous> (src/extensions/dev.tsx:19:1)
-          at async <anonymous> (src/index.tsx:233:1)
 
-    Stack: Error: Failed to load native binding
-        at <anonymous> (../node_modules/.bun/@swc+core@1.15.7/no
-    de_modules/@swc/core/binding.js:333:15)
-        at <anonymous> (/$bunfs/root/_entry-local.js:18:47)
-        at <anonymous> (../node_modules/.bun/@swc+core@1.15.7/no
-    de_modules/@swc/core/index.js:49:5)
-        at <anonymous> (/$bunfs/root/_entry-local.js:18:47)
-        at <anonymous> (src/build.tsx:5)
-        at async <anonymous> (src/extensions/dev.tsx:19)
-        at async <anonymous> (src/index.tsx:233)
+
+
+
+        Error
+            at <anonymous> (fixtures/single-error-extension/
+            at processTicksAndRejections (unknown:7:39)
+
+
+
+
+
+
+
+
+
+
+
+
     "
   `)
 }, 60000)
