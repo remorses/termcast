@@ -2,8 +2,10 @@ import { test, expect, afterEach, beforeEach } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
 
 let session: Session
+let sessionStartMs = 0
 
 beforeEach(async () => {
+  sessionStartMs = Date.now()
   session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/list-scrollbox.tsx'],
@@ -15,6 +17,18 @@ beforeEach(async () => {
 afterEach(() => {
   session?.close()
 })
+
+test('list scrollbox startup appears in under one second', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Search items\.\.\./i.test(text)
+    },
+    timeout: 5000,
+  })
+
+  const startupMs = Date.now() - sessionStartMs
+  expect(startupMs).toBeLessThan(1000)
+}, 10000)
 
 test('list scrollbox auto-scrolls when navigating down', async () => {
   await session.text({

@@ -5,6 +5,16 @@ import * as fs from 'fs'
 import { logger } from '../logger'
 import { useStore } from '../state'
 
+const CACHE_TABLE_NAME = 'cache_entries'
+const DEFAULT_NAMESPACE = '__default__'
+const initializedDatabasePaths = new Set<string>()
+let logicalTimestamp = Date.now()
+
+function nextTimestamp(): number {
+  logicalTimestamp += 1
+  return logicalTimestamp
+}
+
 function getCurrentDatabasePath(): string {
   const { extensionPath } = useStore.getState()
   const dbSuffix = process.env.TERMCAST_DB_SUFFIX?.replace(/[^a-zA-Z0-9_-]/g, '_')
@@ -28,6 +38,109 @@ function getCurrentCacheDir(namespace?: string): string {
   return namespace ? path.join(baseDir, namespace) : baseDir
 }
 
+function getNamespace(namespace?: string): string {
+  return namespace || DEFAULT_NAMESPACE
+}
+
+function initializeDatabaseOnce({ db, dbPath }: { db: Database; dbPath: string }): void {
+  if (initializedDatabasePaths.has(dbPath)) {
+    return
+  }
+
+  db.exec('PRAGMA journal_mode = WAL')
+  db.exec('PRAGMA wal_autocheckpoint = 1000')
+  db.exec('PRAGMA synchronous = NORMAL')
+
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS ${CACHE_TABLE_NAME} (
+      namespace TEXT NOT NULL,
+      key TEXT NOT NULL,
+      data TEXT NOT NULL,
+      size INTEGER NOT NULL,
+      last_accessed_at INTEGER NOT NULL,
+      updated_at INTEGER NOT NULL,
+      PRIMARY KEY(namespace, key)
+    )
+  `)
+
+  db.exec(`
+    CREATE INDEX IF NOT EXISTS idx_${CACHE_TABLE_NAME}_namespace_lru
+    ON ${CACHE_TABLE_NAME}(namespace, last_accessed_at)
+  `)
+
+  cleanupLegacyCacheTables(db)
+  initializedDatabasePaths.add(dbPath)
+}
+
+function cleanupLegacyCacheTables(db: Database): void {
+  const rows = db
+    .prepare(
+      `SELECT name FROM sqlite_master
+       WHERE type = 'table'
+         AND (name = 'cache' OR name LIKE 'cache_%')
+         AND name != ?`,
+    )
+    .all(CACHE_TABLE_NAME) as Array<{ name: string }>
+
+  if (rows.length === 0) {
+    return
+  }
+
+  const tx = db.transaction(() => {
+    const upsert = db.prepare(
+      `INSERT INTO ${CACHE_TABLE_NAME} (namespace, key, data, size, last_accessed_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?)
+       ON CONFLICT(namespace, key)
+       DO UPDATE SET
+         data = excluded.data,
+         size = excluded.size,
+         last_accessed_at = excluded.last_accessed_at,
+         updated_at = excluded.updated_at`,
+    )
+
+    for (const { name } of rows) {
+      const namespace =
+        name === 'cache'
+          ? DEFAULT_NAMESPACE
+          : name === 'cache_tanstack_query'
+            ? 'tanstack-query'
+            : `legacy:${name.slice('cache_'.length)}`
+
+      try {
+        const values = db
+          .prepare(`SELECT key, data, size, rowid FROM ${name}`)
+          .all() as Array<{ key: string; data: string; size: number; rowid: number }>
+
+        values.forEach((entry) => {
+          const timestamp = entry.rowid
+          upsert.run(
+            namespace,
+            entry.key,
+            entry.data,
+            entry.size,
+            timestamp,
+            timestamp,
+          )
+        })
+      } catch {
+        // Ignore invalid legacy tables and continue cleanup.
+      }
+
+      db.exec(`DROP TABLE IF EXISTS ${name}`)
+    }
+  })
+
+  tx()
+}
+
+function hashString(value: string): string {
+  let hash = 0
+  for (let i = 0; i < value.length; i++) {
+    hash = (hash * 31 + value.charCodeAt(i)) | 0
+  }
+  return Math.abs(hash).toString(36)
+}
+
 export class Cache {
   static get STORAGE_DIRECTORY_NAME(): string {
     const extensionPath = useStore.getState().extensionPath
@@ -40,17 +153,14 @@ export class Cache {
 
   private db: Database
   private capacity: number
-  private namespace?: string
-  private tableName: string
+  private namespace: string
   private subscribers: Cache.Subscriber[] = []
   private currentSize: number = 0
 
   constructor(options?: Cache.Options) {
+    const sqliteLoadStart = Date.now()
     this.capacity = options?.capacity || Cache.DEFAULT_CAPACITY
-    this.namespace = options?.namespace
-    // Replace non-alphanumeric characters with underscores for valid SQL table names
-    const safeNamespace = this.namespace?.replace(/[^a-zA-Z0-9]/g, '_')
-    this.tableName = safeNamespace ? `cache_${safeNamespace}` : 'cache'
+    this.namespace = getNamespace(options?.namespace)
 
     const dbPath = getCurrentDatabasePath()
 
@@ -66,31 +176,22 @@ export class Cache {
       readwrite: true,
     })
 
-    // Use WAL mode and optimize for single file usage
-    this.db.exec('PRAGMA journal_mode = WAL')
-    this.db.exec('PRAGMA wal_autocheckpoint = 1000')
-    this.db.exec('PRAGMA synchronous = NORMAL')
-
-    // Use rowid for ordering - it auto-increments and provides natural LRU order
-    this.db.exec(`
-            CREATE TABLE IF NOT EXISTS ${this.tableName} (
-                rowid INTEGER PRIMARY KEY AUTOINCREMENT,
-                key TEXT UNIQUE NOT NULL,
-                data TEXT NOT NULL,
-                size INTEGER NOT NULL
-            )
-        `)
-
-    // Create index on key for fast lookups
-    this.db.exec(`
-            CREATE INDEX IF NOT EXISTS idx_${this.tableName}_key ON ${this.tableName}(key)
-        `)
+    initializeDatabaseOnce({ db: this.db, dbPath })
 
     // Calculate initial size
     const row = this.db
-      .prepare(`SELECT SUM(size) as total FROM ${this.tableName}`)
-      .get() as { total: number | null } | undefined
+      .prepare(
+        `SELECT COALESCE(SUM(size), 0) as total FROM ${CACHE_TABLE_NAME} WHERE namespace = ?`,
+      )
+      .get(this.namespace) as { total: number | null } | undefined
     this.currentSize = row?.total || 0
+
+    const sqliteLoadMs = Date.now() - sqliteLoadStart
+    if (sqliteLoadMs > 500) {
+      logger.log(
+        `[perf] sqlite cache init took ${sqliteLoadMs}ms (namespace=${this.namespace})`,
+      )
+    }
 
     // Bind all methods to this instance
     this.get = this.get.bind(this)
@@ -108,21 +209,19 @@ export class Cache {
   }
 
   get(key: string): string | undefined {
+    const now = nextTimestamp()
     const row = this.db
-      .prepare(`SELECT rowid, data, size FROM ${this.tableName} WHERE key = ?`)
-      .get(key) as { rowid: number; data: string; size: number } | undefined
+      .prepare(
+        `SELECT data, size FROM ${CACHE_TABLE_NAME} WHERE namespace = ? AND key = ?`,
+      )
+      .get(this.namespace, key) as { data: string; size: number } | undefined
 
     if (row) {
-      // Move to end of LRU by deleting and reinserting (gets new rowid)
-      const tx = this.db.transaction(() => {
-        this.db.prepare(`DELETE FROM ${this.tableName} WHERE key = ?`).run(key)
-        this.db
-          .prepare(
-            `INSERT INTO ${this.tableName} (key, data, size) VALUES (?, ?, ?)`,
-          )
-          .run(key, row.data, row.size)
-      })
-      tx()
+      this.db
+        .prepare(
+          `UPDATE ${CACHE_TABLE_NAME} SET last_accessed_at = ? WHERE namespace = ? AND key = ?`,
+        )
+        .run(now, this.namespace, key)
 
       return row.data
     }
@@ -132,25 +231,30 @@ export class Cache {
 
   has(key: string): boolean {
     const row = this.db
-      .prepare(`SELECT 1 FROM ${this.tableName} WHERE key = ?`)
-      .get(key)
+      .prepare(`SELECT 1 FROM ${CACHE_TABLE_NAME} WHERE namespace = ? AND key = ?`)
+      .get(this.namespace, key)
     return !!row
   }
 
   get isEmpty(): boolean {
     const row = this.db
-      .prepare(`SELECT COUNT(*) as count FROM ${this.tableName}`)
-      .get() as { count: number }
+      .prepare(
+        `SELECT COUNT(*) as count FROM ${CACHE_TABLE_NAME} WHERE namespace = ?`,
+      )
+      .get(this.namespace) as { count: number }
     return row.count === 0
   }
 
   set(key: string, data: string): void {
+    const now = nextTimestamp()
     const dataSize = Buffer.byteLength(data, 'utf8')
 
     // Get existing size if any
     const existingRow = this.db
-      .prepare(`SELECT size FROM ${this.tableName} WHERE key = ?`)
-      .get(key) as { size: number } | undefined
+      .prepare(
+        `SELECT size FROM ${CACHE_TABLE_NAME} WHERE namespace = ? AND key = ?`,
+      )
+      .get(this.namespace, key) as { size: number } | undefined
     const oldSize = existingRow?.size || 0
     const newTotalSize = this.currentSize - oldSize + dataSize
 
@@ -161,9 +265,16 @@ export class Cache {
     // Insert or update the cache entry
     this.db
       .prepare(
-        `INSERT OR REPLACE INTO ${this.tableName} (key, data, size) VALUES (?, ?, ?)`,
+        `INSERT INTO ${CACHE_TABLE_NAME} (namespace, key, data, size, last_accessed_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?)
+         ON CONFLICT(namespace, key)
+         DO UPDATE SET
+           data = excluded.data,
+           size = excluded.size,
+           last_accessed_at = excluded.last_accessed_at,
+           updated_at = excluded.updated_at`,
       )
-      .run(key, data, dataSize)
+      .run(this.namespace, key, data, dataSize, now, now)
 
     this.currentSize = this.currentSize - oldSize + dataSize
     this.notifySubscribers(key, data)
@@ -172,12 +283,16 @@ export class Cache {
   remove(key: string): boolean {
     // Check if key exists and get its size
     const row = this.db
-      .prepare(`SELECT size FROM ${this.tableName} WHERE key = ?`)
-      .get(key) as { size: number } | undefined
+      .prepare(
+        `SELECT size FROM ${CACHE_TABLE_NAME} WHERE namespace = ? AND key = ?`,
+      )
+      .get(this.namespace, key) as { size: number } | undefined
 
     if (row) {
       // Delete the key
-      this.db.prepare(`DELETE FROM ${this.tableName} WHERE key = ?`).run(key)
+      this.db
+        .prepare(`DELETE FROM ${CACHE_TABLE_NAME} WHERE namespace = ? AND key = ?`)
+        .run(this.namespace, key)
 
       this.currentSize -= row.size
       this.notifySubscribers(key, undefined)
@@ -188,7 +303,9 @@ export class Cache {
   }
 
   clear(options?: { notifySubscribers: boolean }): void {
-    this.db.exec(`DELETE FROM ${this.tableName}`)
+    this.db
+      .prepare(`DELETE FROM ${CACHE_TABLE_NAME} WHERE namespace = ?`)
+      .run(this.namespace)
     this.currentSize = 0
 
     if (options?.notifySubscribers !== false) {
@@ -207,10 +324,14 @@ export class Cache {
   }
 
   private maintainCapacity(bytesToFree: number): void {
-    // Order by rowid ASC to get oldest entries first
+    // Order by oldest last-access time first to evict least-recently-used rows.
     const rows = this.db
-      .prepare(`SELECT key, size FROM ${this.tableName} ORDER BY rowid ASC`)
-      .all() as Array<{ key: string; size: number }>
+      .prepare(
+        `SELECT key, size FROM ${CACHE_TABLE_NAME}
+         WHERE namespace = ?
+         ORDER BY last_accessed_at ASC`,
+      )
+      .all(this.namespace) as Array<{ key: string; size: number }>
 
     let freedBytes = 0
     const keysToRemove: string[] = []
@@ -226,9 +347,10 @@ export class Cache {
     if (keysToRemove.length > 0) {
       const placeholders = keysToRemove.map(() => '?').join(',')
       const stmt = this.db.prepare(
-        `DELETE FROM ${this.tableName} WHERE key IN (${placeholders})`,
+        `DELETE FROM ${CACHE_TABLE_NAME}
+         WHERE namespace = ? AND key IN (${placeholders})`,
       )
-      stmt.run(...(keysToRemove as [string, ...string[]]))
+      stmt.run(this.namespace, ...(keysToRemove as [string, ...string[]]))
       this.currentSize -= freedBytes
     }
   }
@@ -326,7 +448,8 @@ export function withCache<Fn extends (...args: any[]) => Promise<any>>(
   const validate = options?.validate || (() => true)
 
   if (!functionCacheMap.has(fnKey)) {
-    functionCacheMap.set(fnKey, new Cache({ namespace: `fn-${Date.now()}` }))
+    const functionNamespace = `fn-${hashString(fnKey)}`
+    functionCacheMap.set(fnKey, new Cache({ namespace: functionNamespace }))
     functionCacheData.set(fnKey, new Map())
   }
 

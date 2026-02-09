@@ -1,8 +1,18 @@
 import { describe, test, expect, beforeEach, afterAll, jest } from 'bun:test'
 import { Cache } from './cache'
+import { Database } from 'bun:sqlite'
 import * as os from 'os'
 import * as path from 'path'
 import * as fs from 'fs'
+
+const testDbSuffix = `cache-tests-${process.pid}-${Date.now()}`
+const testDbPath = path.join(
+  os.homedir(),
+  '.termcast',
+  '.termcast-bundle',
+  `data-${testDbSuffix}.db`,
+)
+process.env.TERMCAST_DB_SUFFIX = testDbSuffix
 
 describe('Cache', () => {
   let cache: Cache
@@ -12,9 +22,13 @@ describe('Cache', () => {
   })
 
   afterAll(() => {
-    // Optional: Clean up test databases after all tests
-    // const testDbPattern = path.join(os.homedir(), '.termcast-cache*.db')
-    // You could implement cleanup here if needed
+    ;[testDbPath, `${testDbPath}-shm`, `${testDbPath}-wal`].forEach((filePath) => {
+      if (!fs.existsSync(filePath)) {
+        return
+      }
+      fs.unlinkSync(filePath)
+    })
+    delete process.env.TERMCAST_DB_SUFFIX
   })
 
   describe('constructor', () => {
@@ -31,6 +45,24 @@ describe('Cache', () => {
     test('creates cache with namespace', () => {
       const cache = new Cache({ namespace: 'test-namespace' })
       expect(cache.storageDirectory).toContain('test-namespace')
+    })
+
+    test('keeps table count stable across many namespaces', () => {
+      const namespaces = Array.from({ length: 40 }, (_, i) => `stable-${i}`)
+      namespaces.forEach((namespace) => {
+        const namespacedCache = new Cache({ namespace })
+        namespacedCache.set('key', 'value')
+      })
+
+      const db = new Database(testDbPath)
+      const countRow = db
+        .prepare(
+          `SELECT COUNT(*) as count FROM sqlite_master WHERE type = 'table' AND name LIKE 'cache%'`,
+        )
+        .get() as { count: number }
+      db.close()
+
+      expect(countRow.count).toBe(1)
     })
   })
 

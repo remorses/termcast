@@ -19,6 +19,7 @@ export async function renderWithProviders(element: ReactNode): Promise<void> {
       process.exit(0)
     },
   })
+
   createRoot(renderer).render(<TermcastProvider>{element}</TermcastProvider>)
 }
 
