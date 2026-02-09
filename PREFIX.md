@@ -326,6 +326,8 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 - NEVER pass children to useEffect depependencies! it makes no sense!
 - Try to use as little useEffect or useLayoutEffect as possible. instead put the code directly in the relevant event handlers
 - Keep as little useState as possible. computed state should be a simple expression in render if possible
+- any useEffect that calls setState for **visible UI state** (selection, detail content, dialog open) MUST be useLayoutEffect to avoid single-frame flash. see `termcast/docs/flash-debugging.md` for the full guide
+- NEVER use flushSync followed by a separate setState for state that should update in the same frame. use useLayoutEffect instead to batch both updates before paint
 
 ## form components styling
 

@@ -328,6 +328,8 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 - NEVER pass children to useEffect depependencies! it makes no sense!
 - Try to use as little useEffect or useLayoutEffect as possible. instead put the code directly in the relevant event handlers
 - Keep as little useState as possible. computed state should be a simple expression in render if possible
+- any useEffect that calls setState for **visible UI state** (selection, detail content, dialog open) MUST be useLayoutEffect to avoid single-frame flash. see `termcast/docs/flash-debugging.md` for the full guide
+- NEVER use flushSync followed by a separate setState for state that should update in the same frame. use useLayoutEffect instead to batch both updates before paint
 
 ## form components styling
 
@@ -628,7 +630,7 @@ do something like this for every new element you want to use and not know about,
 
 ## keys
 
-cdm modifier (named hyper in opentui) cannot be intercepted in opentui. because parent terminal app will not forward it. instead use alt or ctrl
+cmd modifier (named hyper in opentui) cannot be intercepted in opentui. because parent terminal app will not forward it. instead use alt or ctrl
 
 enter key is named return in opentui. alt is option.
 
@@ -639,6 +641,10 @@ if you see text elements too close to each other the issues is probably that the
 to fix this issue add flexShrink={0} to all elements inside the row
 
 this common when using wrapMode none.
+
+## flushSync
+
+flushSync is exported by @opentui/react, same for createPortal
 
 # core guidelines
 
@@ -792,29 +798,33 @@ gh pr-review comments reply 42 -R owner/repo \
 gh pr-review threads resolve 42 -R owner/repo --thread-id PRRT_kwDOAAABbcdEFG12
 ```
 
-## listing, searching, reading github repos files with gitchamber
+## reading github repos source code
 
-you MUST use gitchamber.com to read repo files. first ALWAYS run `curl https://gitchamber.com` to read detailed usage docs. always use curl to fetch the responses of gitchamber.com
+```sh
+opensrc zod # npm package name
 
-for example when working with the vercel ai sdk, you can fetch the latest docs using:
+# Using github: prefix
+opensrc github:owner/repo
 
-https://gitchamber.com/repos/facebook/react/main/files
+# Using owner/repo shorthand
+opensrc facebook/react
 
-https://gitchamber.com/repos/remorses/fumabase/main/files?glob=**/*.ts
+# Using full GitHub URL
+opensrc https://github.com/colinhacks/zod
 
-https://gitchamber.com/repos/facebook/react/main/files/README.md?start=10&end=50
+# Fetch a specific branch or tag
+opensrc owner/repo@v1.0.0
+opensrc owner/repo#main
 
-https://gitchamber.com/repos/facebook/react/main/search/useState
+# Mix packages and repos
+```
 
-gitchamber allows you to list, search and read files in a repo. you MUST use it over alternatives likes raw.github.com, because 
-- it allows you to use context usage better via limit and offset pagination
-- it can list files, even filtering by a specific glob (default is *.md and *.mdx)
-- it can search a repo for a specific substring
-- it can show the code with line numbers for each line, letting you find a specific line number
+This will download the source code in ./opensrc. which should be put in .gitignore
 
 # typescript
 
 - ALWAYS use normal imports instead of dynamic imports, unless there is an issue with es module only packages and you are in a commonjs package (this is rare).
+- when throwing errors always use clause instead of error inside message: `new Error("wrapping error", { cause: e })` instead of `new Error(\`wrapping error ${e}\`)`
 
 - use a single object argument instead of multiple positional args: use object arguments for new typescript functions if the function would accept more than one argument, so it is more readable, ({a,b,c}) instead of (a,b,c). this way you can use the object as a sort of named argument feature, where order of arguments does not matter and it's easier to discover parameters.
 
@@ -913,6 +923,8 @@ remember to always add the explicit type to avoid unexpected type inference.
 DO `import fs from 'fs'; fs.writeFileSync(...)`
 DO NOT `import { writeFileSync } from 'fs';`
 
+- NEVER pass a string to abortController.abort(). instead if you want to pass a reason always pass an Error instance. like `controller.abort(new Error('reason'))`. This way catch blocks receive an Error instance and not something else.
+
 # github
 
 
@@ -970,25 +982,28 @@ gh pr-review comments reply 42 -R owner/repo \
 gh pr-review threads resolve 42 -R owner/repo --thread-id PRRT_kwDOAAABbcdEFG12
 ```
 
-## listing, searching, reading github repos files with gitchamber
+## reading github repos source code
 
-you MUST use gitchamber.com to read repo files. first ALWAYS run `curl https://gitchamber.com` to read detailed usage docs. always use curl to fetch the responses of gitchamber.com
+```sh
+opensrc zod # npm package name
 
-for example when working with the vercel ai sdk, you can fetch the latest docs using:
+# Using github: prefix
+opensrc github:owner/repo
 
-https://gitchamber.com/repos/facebook/react/main/files
+# Using owner/repo shorthand
+opensrc facebook/react
 
-https://gitchamber.com/repos/remorses/fumabase/main/files?glob=**/*.ts
+# Using full GitHub URL
+opensrc https://github.com/colinhacks/zod
 
-https://gitchamber.com/repos/facebook/react/main/files/README.md?start=10&end=50
+# Fetch a specific branch or tag
+opensrc owner/repo@v1.0.0
+opensrc owner/repo#main
 
-https://gitchamber.com/repos/facebook/react/main/search/useState
+# Mix packages and repos
+```
 
-gitchamber allows you to list, search and read files in a repo. you MUST use it over alternatives likes raw.github.com, because 
-- it allows you to use context usage better via limit and offset pagination
-- it can list files, even filtering by a specific glob (default is *.md and *.mdx)
-- it can search a repo for a specific substring
-- it can show the code with line numbers for each line, letting you find a specific line number
+This will download the source code in ./opensrc. which should be put in .gitignore
 
 # react
 
@@ -1095,10 +1110,7 @@ changelogs.md
 # writing docs
 
 when generating a .md or .mdx file to document things, always add a frontmatter with title and description. also add a prompt field with the exact prompt used to generate the doc. use @ to reference files and urls and provide any context necessary to be able to recreate this file from scratch using a model. if you used urls also reference them. reference all files you had to read to create the doc. use yaml | syntax to add this prompt and never go over the column width of 80
-# cac for cli development
-
-the cli uses cac npm package.
-
+goke.md
 # zod
 
 when you need to create a complex type that comes from a prisma table, do not create a new schema that tries to recreate the prisma table structure. instead just use `z.any() as ZodType<PrismaTable>)` to get type safety but leave any in the schema. this gets most of the benefits of zod without having to define a new zod schema that can easily go out of sync.
