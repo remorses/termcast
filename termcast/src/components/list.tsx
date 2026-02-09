@@ -774,7 +774,7 @@ export const List: ListType = (props) => {
   } = props
 
   const theme = useTheme()
-  const [internalSearchText, setInternalSearchTextRaw] = useState('')
+  const [internalSearchText, setInternalSearchText] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
@@ -845,12 +845,17 @@ export const List: ListType = (props) => {
     setIsDropdownOpen(true)
   }
 
-  // Wrapper function that updates search text
-  const setInternalSearchText = (value: string) => {
-    // Using flushSync to force descendants to update visibility before querying
-    flushSync(() => {
-      setInternalSearchTextRaw(value)
-    })
+  // Sync selection to the first visible item whenever searchText changes.
+  // Runs after children's useLayoutEffects (descendants registered) but before paint,
+  // so there is no intermediate frame with stale selection.
+  // Works for both controlled and uncontrolled searchText.
+  const prevSearchTextRef = useRef(searchText)
+  useLayoutEffect(() => {
+    if (prevSearchTextRef.current === searchText) return
+    prevSearchTextRef.current = searchText
+
+    if (!isFilteringEnabled) return
+
     const items = Object.values(descendantsContext.map.current)
       .filter((item) => item.index !== -1 && item.props?.visible !== false)
       .sort((a, b) => a.index - b.index)
@@ -858,7 +863,7 @@ export const List: ListType = (props) => {
     if (items.length > 0 && items[0]) {
       setSelectedIndex(items[0].index)
     }
-  }
+  })
 
   const listContextValue = useMemo<ListContextValue>(
     () => ({
@@ -878,15 +883,15 @@ export const List: ListType = (props) => {
     [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading, searchBarAccessory],
   )
 
-  // Clear detail when detail view is hidden
-  useEffect(() => {
+  // Clear detail when detail view is hidden (before paint to avoid flash)
+  useLayoutEffect(() => {
     if (!isShowingDetail) {
       setCurrentDetail(null)
     }
   }, [isShowingDetail])
 
-  // Handle selectedItemId prop changes
-  useEffect(() => {
+  // Handle selectedItemId prop changes (before paint to avoid flash)
+  useLayoutEffect(() => {
     // Only update selection if selectedItemId is explicitly provided
     if (selectedItemId !== undefined) {
       const items = Object.values(descendantsContext.map.current)
@@ -1269,8 +1274,8 @@ const ListItem: ListItemType = (props) => {
   const selectedIndex = listContext?.selectedIndex ?? 0
   const isActive = index === selectedIndex
 
-  // Update detail when this item becomes active or detail prop changes
-  useEffect(() => {
+  // Update detail when this item becomes active or detail prop changes (before paint)
+  useLayoutEffect(() => {
     if (isActive && listContext?.isShowingDetail && listContext?.setCurrentDetail) {
       listContext.setCurrentDetail(props.detail || null)
     }
@@ -1486,8 +1491,8 @@ const ListDropdown: ListDropdownType = (props) => {
     [],
   )
 
-  // Open dropdown dialog when triggered
-  useEffect(() => {
+  // Open dropdown dialog when triggered (before paint to avoid flash)
+  useLayoutEffect(() => {
     if (isDropdownOpen && !dialog.stack.length) {
       // Pass the children to the dialog to render them there
       dialog.push({

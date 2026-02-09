@@ -811,3 +811,37 @@ test('list scrollbox scrolling with sections', async () => {
     "
   `)
 }, 15000)
+
+test('search resets selection to first visible item without flash', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /search/i.test(text)
+    },
+  })
+
+  // Navigate down to select Grape (4th item, index 3)
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+
+  const beforeSearch = await session.text()
+  expect(beforeSearch).toContain('›Grape')
+
+  // Type one char at a time and check each intermediate frame:
+  // After each keystroke, the › marker must be on the first visible match.
+  // A flash bug would show › on a stale item or missing entirely.
+  await session.press('l')
+  const afterL = await session.text()
+  // 'l' matches: Lettuce, Apple, Bell Pepper, … — first visible must be selected
+  expect(afterL).toMatch(/›\S/)
+
+  await session.press('e')
+  const afterLe = await session.text()
+  expect(afterLe).toMatch(/›\S/)
+
+  await session.press('t')
+  const afterLet = await session.text()
+  // Only "Lettuce" matches "let"
+  expect(afterLet).toContain('›Lettuce')
+  expect(afterLet).not.toContain('›Grape')
+}, 10000)

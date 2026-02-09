@@ -1,7 +1,7 @@
 import React, {
   ReactNode,
   useState,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useCallback,
@@ -178,8 +178,8 @@ const Dropdown: DropdownType = (props) => {
     [searchText, filtering, selected, currentValue, onSelectionChange],
   )
 
-  // Update controlled value
-  useEffect(() => {
+  // Update controlled value (before paint to avoid flash)
+  useLayoutEffect(() => {
     if (value !== undefined) {
       setCurrentValue(value)
     }
