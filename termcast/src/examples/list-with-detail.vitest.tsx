@@ -194,12 +194,12 @@ test('list with detail view display and navigation', async () => {
 
        > Search Pokemon...
 
-       bulbasaur #001                                             Grass / Poison
-       ivysaur #002                                               Grass / Poison
-      ›charmander #004                                                      Fire
-       charmeleon #005                                                      Fire
-       squirtle #007                                                       Water
-       wartortle #008                                                      Water
+       bulbasaur #001                                              Grass / Poison
+       ivysaur #002                                                Grass / Poison
+      ›charmander #004                                                       Fire
+       charmeleon #005                                                       Fire
+       squirtle #007                                                        Water
+       wartortle #008                                                       Water
 
 
        ↵ toggle detail   ↑↓ navigate   ^k actions             powered by termcast
@@ -333,7 +333,7 @@ test('list detail view search functionality', async () => {
 
 
                                             │ wartortle                         ▲
-                 No items found             │                                   █
+                  No items found            │                                   █
                                             │ Illustration
                                             │
                                             │ Types
@@ -370,7 +370,7 @@ test('list detail view search functionality', async () => {
 
 
                                             │ wartortle                         ▲
-                 No items found             │                                   █
+                  No items found            │                                   █
                                             │ Illustration
                                             │
                                             │ Types

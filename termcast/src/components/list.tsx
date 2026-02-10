@@ -1177,10 +1177,11 @@ export const List: ListType = (props) => {
                   rootOptions: {
                     backgroundColor: undefined,
                   },
+                  viewportOptions: {
+                    paddingRight: 0,
+                  },
                   scrollbarOptions: {
-
-                    showArrows: true,
-
+                    visible: false,
                   },
                 }}
               >

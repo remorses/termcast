@@ -57,12 +57,12 @@ test('dev command shows extension commands list', async () => {
 
        > Search commands...
 
-       Commands                                              ▲
-      ›List Items Displays a simple list with some ite view  ▀
-       Search Items Search and filter through a list o view
-       Google Oauth                                    view
-       usePromise Demo Shows how to use the usePromise view
-       Show State Shows the current application state  view  ▼
+       Commands
+      ›List Items Displays a simple list with some items view
+       Search Items Search and filter through a list of  view
+       Google Oauth                                      view
+       usePromise Demo Shows how to use the usePromise h view
+       Show State Shows the current application state in view
 
 
        ↵ run command   ↑↓ navigate   ^k actions
@@ -93,12 +93,12 @@ test('selecting command with arguments shows arguments form', async () => {
 
        > Search commands...
 
-       Google Oauth                                    view  ▲
-       usePromise Demo Shows how to use the usePromise view
-       Show State Shows the current application state  view
-      ›With Arguments Demonstrates command arguments ( view  ▄
-       Quick Action Copies current timestamp to cli no-view
-       Throw Error Command that throws an error at roo view  ▼
+       Google Oauth                                      view
+       usePromise Demo Shows how to use the usePromise h view
+       Show State Shows the current application state in view
+      ›With Arguments Demonstrates command arguments (te view
+       Quick Action Copies current timestamp to clipb no-view
+       Throw Error Command that throws an error at root  view
 
 
        ↵ run command   ↑↓ navigate   ^k actions
@@ -242,12 +242,12 @@ test('can run simple view command without arguments', async () => {
 
        > Search...
 
-       Items                                                 ▲
-      ›○ First Item This is the first item                   █
-       ○ Second Item This is the second item                 █
+       Items
+      ›○ First Item This is the first item
+       ○ Second Item This is the second item
        ○ Third Item This is the third item
        ○ Fourth Item This is the fourth item
-       ○ Fifth Item This is the fifth item                   ▼
+       ○ Fifth Item This is the fifth item
 
 
      ✓ Copied to Clipboard  First Item

@@ -88,12 +88,12 @@ test('compile extension and run executable', async () => {
 
        > Search commands...
 
-       Commands                                              ▲
-      ›List Items Displays a simple list with some ite view  ▀
-       Search Items Search and filter through a list o view
-       Google Oauth                                    view
-       usePromise Demo Shows how to use the usePromise view
-       Show State Shows the current application state  view  ▼
+       Commands
+      ›List Items Displays a simple list with some items view
+       Search Items Search and filter through a list of  view
+       Google Oauth                                      view
+       usePromise Demo Shows how to use the usePromise h view
+       Show State Shows the current application state in view
 
 
        ↵ run command   ↑↓ navigate   ^k actions
@@ -134,12 +134,12 @@ test('compiled executable can run command', async () => {
 
        > Search...
 
-       Items                                                 ▲
-      ›○ First Item This is the first item                   █
-       ○ Second Item This is the second item                 █
+       Items
+      ›○ First Item This is the first item
+       ○ Second Item This is the second item
        ○ Third Item This is the third item
        ○ Fourth Item This is the fourth item
-       ○ Fifth Item This is the fifth item                   ▼
+       ○ Fifth Item This is the fifth item
 
 
      ✓ Copied to Clipboard  First Item
@@ -190,12 +190,12 @@ test('compiled executable can navigate back', async () => {
 
        > Search...
 
-       Items                                                 ▲
-      ›○ First Item This is the first item                   █
-       ○ Second Item This is the second item                 █
+       Items
+      ›○ First Item This is the first item
+       ○ Second Item This is the second item
        ○ Third Item This is the third item
        ○ Fourth Item This is the fourth item
-       ○ Fifth Item This is the fifth item                   ▼
+       ○ Fifth Item This is the fifth item
 
 
        ↵ copy item title   ↑↓ navigate   ^k actions

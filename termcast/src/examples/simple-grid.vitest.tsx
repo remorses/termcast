@@ -38,9 +38,9 @@ test('grid navigation and display', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-      ›🍎 Apple                                                        █
-       🍌 Banana                                                       █
+       Fruits
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -51,7 +51,7 @@ test('grid navigation and display', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -71,9 +71,9 @@ test('grid navigation and display', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-       🍎 Apple                                                        █
-      ›🍌 Banana                                                       █
+       Fruits
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -84,7 +84,7 @@ test('grid navigation and display', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -105,9 +105,9 @@ test('grid navigation and display', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-       🍎 Apple                                                        █
-       🍌 Banana                                                       █
+       Fruits
+       🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -118,7 +118,7 @@ test('grid navigation and display', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -171,9 +171,9 @@ test('grid navigation and display', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-       🍎 Apple                                                        █
-       🍌 Banana                                                       █
+       Fruits
+       🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -184,7 +184,7 @@ test('grid navigation and display', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -294,9 +294,9 @@ test('grid search functionality', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-      ›🍎 Apple                                                        █
-       🍌 Banana                                                       █
+       Fruits
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -307,7 +307,7 @@ test('grid search functionality', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -373,9 +373,9 @@ test('grid item selection and actions', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-      ›🍎 Apple                                                        █
-       🍌 Banana                                                       █
+       Fruits
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -386,7 +386,7 @@ test('grid item selection and actions', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -406,9 +406,9 @@ test('grid item selection and actions', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-       🍎 Apple                                                        █
-      ›🍌 Banana                                                       █
+       Fruits
+       🍎 Apple
+      ›🍌 Banana
        🍒 Cherry
 
        Animals
@@ -419,7 +419,7 @@ test('grid item selection and actions', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -439,9 +439,9 @@ test('grid item selection and actions', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-       🍎 Apple                                                        █
-      ›🍌 Banana                                                       █
+       Fruits
+       🍎 Apple
+      ›🍌 Banana
        🍒 Cherry
 
        Animals
@@ -452,7 +452,7 @@ test('grid item selection and actions', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -481,9 +481,9 @@ test('grid mouse interaction', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-       🍎 Apple                                                        █
-       🍌 Banana                                                       █
+       Fruits
+       🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -494,7 +494,7 @@ test('grid mouse interaction', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -567,9 +567,9 @@ test('grid mouse interaction', async () => {
 
        > Search items...
 
-       Fruits                                                          ▲
-      ›🍎 Apple                                                        █
-       🍌 Banana                                                       █
+       Fruits
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -580,7 +580,7 @@ test('grid mouse interaction', async () => {
        Others
        🏠 House
        🚗 Car
-       🚀 Rocket                                                       ▼
+       🚀 Rocket
 
 
        ↵ show details   ↑↓ navigate   ^k actions
