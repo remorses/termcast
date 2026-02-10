@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.34
+
+### Patch Changes
+
+- Replace `cac` with `goke` CLI framework (major CLI refactor)
+- Fix: Eliminate search selection flash (UI improvement)
+- Fix: Stabilize cache schema and guard slow sqlite startup
+- Fix: Keep Linux watcher package as optional dependency for CI reliability
+- Update `tuistory` submodule
+- Docs: Add flash-debugging guide
+
 ## 1.3.33
 
 ### Patch Changes
