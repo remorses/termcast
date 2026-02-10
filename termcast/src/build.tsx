@@ -241,6 +241,33 @@ export async function buildExtensionCommands({
 
   logger.log(`Building ${entrypoints.length} commands...`)
 
+  // Externalize the extension's declared dependencies so native modules
+  // (@libsql/client, @prisma/client, etc.) resolve from node_modules at runtime
+  // instead of being inlined into the bundle where binary addons fail to load.
+  // Only direct deps are externalized — NOT packages:'external' which would also
+  // externalize transitive deps of termcast internals (like dequal/lite) that
+  // don't exist in the extension's node_modules.
+  const rawPackageJson = JSON.parse(
+    fs.readFileSync(path.join(resolvedPath, 'package.json'), 'utf-8'),
+  )
+  const allDeps = {
+    ...rawPackageJson.dependencies,
+    ...rawPackageJson.devDependencies,
+  }
+  // Deps handled by aliasPlugin (mapped to globalThis), not externalized
+  const aliasedPackages = new Set([
+    '@raycast/api',
+    '@raycast/utils',
+    'react',
+    'termcast',
+  ])
+  const externalDeps = Object.keys(allDeps).filter((dep) => {
+    return !aliasedPackages.has(dep)
+  })
+  if (externalDeps.length > 0) {
+    logger.log(`Externalizing ${externalDeps.length} deps: ${externalDeps.join(', ')}`)
+  }
+
   const plugins: BunPlugin[] = [aliasPlugin, swiftLoaderPlugin]
 
   const result = await Bun.build({
@@ -249,6 +276,7 @@ export async function buildExtensionCommands({
     target: target || (format === 'cjs' ? 'node' : 'bun'),
     format,
     plugins,
+    external: externalDeps,
     naming: '[name].js',
     throw: false,
     reactFastRefresh: hotReload,
