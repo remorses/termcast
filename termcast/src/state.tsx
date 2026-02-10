@@ -36,6 +36,7 @@ export interface DialogStackItem {
 export interface NavigationStackItem {
   element: ReactNode
   onPop?: () => void
+  selectedListIndex?: number
 }
 
 interface AppState {

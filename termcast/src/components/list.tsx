@@ -774,8 +774,15 @@ export const List: ListType = (props) => {
   } = props
 
   const theme = useTheme()
+  const currentStackSelectedListIndex = useStore((state) => {
+    const stack = state.navigationStack
+    const currentItem = stack[stack.length - 1]
+    return currentItem?.selectedListIndex
+  })
   const [internalSearchText, setInternalSearchText] = useState('')
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [selectedIndex, setSelectedIndex] = useState<number>(() => {
+    return currentStackSelectedListIndex ?? 0
+  })
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
 
@@ -903,6 +910,34 @@ export const List: ListType = (props) => {
       }
     }
   }, [selectedItemId])
+
+  // Persist current list selection in the active navigation stack item.
+  // This keeps selection when returning with ESC (pop), where the previous
+  // screen is remounted due to navigation key changes.
+  useEffect(() => {
+    useStore.setState((state) => {
+      const stack = state.navigationStack
+      const currentIndex = stack.length - 1
+      const currentItem = stack[currentIndex]
+      if (!currentItem) {
+        return {}
+      }
+
+      if (currentItem.selectedListIndex === selectedIndex) {
+        return {}
+      }
+
+      const nextStack = [...stack]
+      nextStack[currentIndex] = {
+        ...currentItem,
+        selectedListIndex: selectedIndex,
+      }
+
+      return {
+        navigationStack: nextStack,
+      }
+    })
+  }, [selectedIndex])
 
   // Call onSelectionChange when selection changes
   useEffect(() => {

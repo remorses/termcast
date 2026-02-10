@@ -153,8 +153,8 @@ test('navigation between main and detail views', async () => {
        > Main view
 
        Items
-      ›First Item Navigate to first detail
-       Second Item Navigate to second detail
+       First Item Navigate to first detail
+      ›Second Item Navigate to second detail
        Third Item Navigate to third detail
 
 
@@ -187,9 +187,9 @@ test('navigation between main and detail views', async () => {
        > Main view
 
        Items
-       First Item Navigate to first detail
+      ›First Item Navigate to first detail
        Second Item Navigate to second detail
-      ›Third Item Navigate to third detail
+       Third Item Navigate to third detail
 
 
 
@@ -215,12 +215,12 @@ test('navigation between main and detail views', async () => {
     "
 
 
-       Detail: Third Item ─────────────────────────────────────────────
+       Detail: First Item ─────────────────────────────────────────────
 
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the detail view for Third Item Press Enter to go back o
+      ›This is the detail view for First Item Press Enter to go back o
 
 
 
@@ -482,8 +482,8 @@ test('navigation with actions panel', async () => {
        > Main view
 
        Items
-      ›First Item Navigate to first detail
-       Second Item Navigate to second detail
+       First Item Navigate to first detail
+      ›Second Item Navigate to second detail
        Third Item Navigate to third detail
 
 
@@ -699,4 +699,35 @@ test('search functionality in main and detail views', async () => {
 
     "
   `)
+}, 10000)
+
+test('keeps selected item after opening detail and pressing esc', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Navigation Example/i.test(text) && /First Item/i.test(text)
+    },
+  })
+
+  await session.press('down')
+  const selectedSecondSnapshot = await session.text()
+  expect(selectedSecondSnapshot).toContain('›Second Item')
+
+  await session.press('enter')
+  await session.text({
+    waitFor: (text) => {
+      return /Detail: Second Item/i.test(text)
+    },
+    timeout: 3000,
+  })
+
+  await session.press('esc')
+  const backSnapshot = await session.text({
+    waitFor: (text) => {
+      return /Navigation Example/i.test(text)
+    },
+    timeout: 3000,
+  })
+
+  expect(backSnapshot).toContain('›Second Item')
+  expect(backSnapshot).not.toContain('›First Item')
 }, 10000)
