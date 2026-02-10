@@ -151,7 +151,6 @@ export function DialogOverlay(): any {
   const dialogStack = useStore((state) => state.dialogStack)
   const showActionsDialog = useStore((state) => state.showActionsDialog)
   const navContext = useContext(NavigationContext)
-  const theme = useTheme()
 
   const setActionsPortalTargetRef = useCallback((node: any) => {
     if (!node) {
@@ -177,30 +176,6 @@ export function DialogOverlay(): any {
 
   return (
     <>
-      {showActionsDialog && (
-        <box
-          position='absolute'
-          width='100%'
-          height='100%'
-          flexDirection='column'
-          backgroundColor={theme.background}
-        >
-          <InFocus inFocus={true}>
-            <Dialog
-              position='center'
-              onClickOutside={() => {
-                useStore.setState({ showActionsDialog: false })
-              }}
-            >
-              <box
-                ref={setActionsPortalTargetRef}
-                flexDirection='column'
-                flexGrow={1}
-              />
-            </Dialog>
-          </InFocus>
-        </box>
-      )}
       {item && (
         <box position='absolute' width='100%' height='100%' flexDirection='column'>
           <InFocus inFocus={true}>
@@ -218,6 +193,29 @@ export function DialogOverlay(): any {
               <NavigationContext.Provider value={navContext}>
                 {item.element}
               </NavigationContext.Provider>
+            </Dialog>
+          </InFocus>
+        </box>
+      )}
+      {showActionsDialog && (
+        <box
+          position='absolute'
+          width='100%'
+          height='100%'
+          flexDirection='column'
+        >
+          <InFocus inFocus={true}>
+            <Dialog
+              position='center'
+              onClickOutside={() => {
+                useStore.setState({ showActionsDialog: false })
+              }}
+            >
+              <box
+                ref={setActionsPortalTargetRef}
+                flexDirection='column'
+                flexGrow={1}
+              />
             </Dialog>
           </InFocus>
         </box>

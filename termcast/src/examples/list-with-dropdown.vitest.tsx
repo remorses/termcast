@@ -50,7 +50,7 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
-       ↑↓ navigate   ^p dropdown   ^k
+
 
 
        ↑↓ navigate   ^p dropdown   ^k actions
