@@ -241,9 +241,11 @@ export function Footer({
         <ToastInline toast={toast} />
       ) : (
         <>
-          {children}
+          <box flexDirection='row' overflow='hidden' height={1} flexShrink={1}>
+            {children}
+          </box>
           {showPoweredBy && (
-            <box flexDirection='row' gap={1}>
+            <box flexDirection='row' gap={1} flexShrink={0}>
               <text flexShrink={0} fg={theme.textMuted}>
                 powered by
               </text>

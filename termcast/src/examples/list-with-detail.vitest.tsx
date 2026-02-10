@@ -57,8 +57,8 @@ test('list with detail view display and navigation', async () => {
                                             │ Types
                                             │
                                             │ Grass
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
@@ -96,8 +96,8 @@ test('list with detail view display and navigation', async () => {
                                             │ Types
                                             │
                                             │ Grass
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
@@ -133,8 +133,8 @@ test('list with detail view display and navigation', async () => {
                                             │ Types
                                             │
                                             │ Fire
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
@@ -257,8 +257,8 @@ test('list with detail view display and navigation', async () => {
                                             │ Types
                                             │
                                             │ Fire
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
@@ -306,8 +306,8 @@ test('list detail view search functionality', async () => {
                                             │ Types
                                             │
                                             │ Fire
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
@@ -352,8 +352,8 @@ test('list detail view search functionality', async () => {
                                             │ Types
                                             │
                                             │ Water
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
@@ -389,8 +389,8 @@ test('list detail view search functionality', async () => {
                                             │ Types
                                             │
                                             │ Water
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
@@ -438,8 +438,8 @@ test('list detail metadata rendering', async () => {
                                             │ Types
                                             │
                                             │ Grass
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
@@ -482,8 +482,8 @@ test('list detail metadata rendering', async () => {
                                             │ Types
                                             │
                                             │ Water
-       ↵ toggle        ↑↓ navigate ^k action│ ─────────────────
-         detail                             │                                   ▼
+                                            │ ─────────────────
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)

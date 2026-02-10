@@ -81,30 +81,30 @@ function ListFooter(): any {
   const hasDropdown = listContext?.hasDropdown ?? false
 
   const content = hasToast ? null : (
-    <box style={{ flexDirection: 'row', gap: 3 }}>
+    <box style={{ flexDirection: 'row', gap: 3, flexShrink: 0 }}>
       {firstActionTitle && (
-        <box style={{ flexDirection: 'row', gap: 1 }}>
+        <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
           <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
             ↵
           </text>
           <text flexShrink={0} fg={theme.textMuted}>{firstActionTitle.toLowerCase()}</text>
         </box>
       )}
-      <box style={{ flexDirection: 'row', gap: 1 }}>
+      <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
         <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ↑↓
         </text>
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
       {hasDropdown && (
-        <box style={{ flexDirection: 'row', gap: 1 }}>
+        <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
           <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
             ^p
           </text>
           <text flexShrink={0} fg={theme.textMuted}>dropdown</text>
         </box>
       )}
-      <box style={{ flexDirection: 'row', gap: 1 }}>
+      <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
         <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ^k
         </text>
