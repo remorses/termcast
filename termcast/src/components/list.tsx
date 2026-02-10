@@ -935,6 +935,21 @@ export const List: ListType = (props) => {
     scrollBox.scrollTo(Math.max(0, targetScrollTop))
   }
 
+  // Track whether onLoadMore has been called and we're waiting for new items.
+  // Reset when item count changes (new items arrived) so we can trigger again.
+  const paginationCalledRef = useRef(false)
+  const prevItemCountRef = useRef(0)
+
+  const triggerPaginationIfNeeded = (currentVisibleIndex: number, totalItems: number) => {
+    if (!props.pagination?.hasMore || paginationCalledRef.current) return
+    // Trigger when within 5 items of the end, matching Raycast's behavior
+    const threshold = Math.min(5, Math.max(1, Math.floor(totalItems * 0.2)))
+    if (totalItems - currentVisibleIndex <= threshold) {
+      paginationCalledRef.current = true
+      props.pagination.onLoadMore()
+    }
+  }
+
   const move = (direction: -1 | 1) => {
     // Get all visible items
     const items = Object.values(descendantsContext.map.current)
@@ -942,6 +957,12 @@ export const List: ListType = (props) => {
       .sort((a, b) => a.index - b.index)
 
     if (items.length === 0) return
+
+    // Reset pagination lock when new items arrive
+    if (items.length !== prevItemCountRef.current) {
+      prevItemCountRef.current = items.length
+      paginationCalledRef.current = false
+    }
 
     // Find currently selected item's position in visible items
     let currentVisibleIndex = items.findIndex(
@@ -957,6 +978,14 @@ export const List: ListType = (props) => {
 
     // Calculate next visible index
     let nextVisibleIndex = currentVisibleIndex + direction
+
+    // When navigating past the end and pagination has more, don't wrap
+    if (direction === 1 && nextVisibleIndex >= items.length && props.pagination?.hasMore) {
+      triggerPaginationIfNeeded(currentVisibleIndex, items.length)
+      // Stay on the last item instead of wrapping
+      return
+    }
+
     if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
     if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
 
@@ -966,6 +995,9 @@ export const List: ListType = (props) => {
         setSelectedIndex(nextItem.index)
       })
       scrollToItem(nextItem)
+
+      // Check if we're approaching the end and should trigger pagination
+      triggerPaginationIfNeeded(nextVisibleIndex, items.length)
     }
   }
 
@@ -1115,7 +1147,7 @@ export const List: ListType = (props) => {
                 }}
               >
                 {/* Render children - they will register as descendants */}
-                <ListItemsRenderer>{children}</ListItemsRenderer>
+                <ListItemsRenderer paginationLoading={isLoading && props.pagination?.hasMore}>{children}</ListItemsRenderer>
               </ScrollBox>
 
               {/* Footer with keyboard shortcuts or toast */}
@@ -1204,15 +1236,21 @@ function DefaultEmptyView(): any {
 }
 
 // Component to render list items and sections
-function ListItemsRenderer(props: { children?: ReactNode }): any {
-  const { children } = props
+function ListItemsRenderer(props: { children?: ReactNode; paginationLoading?: boolean }): any {
+  const { children, paginationLoading } = props
   const listContext = useContext(ListContext)
+  const theme = useTheme()
   const searchText = listContext?.searchText || ''
 
   // Pass search text down via context
   return (
     <ListSectionContext.Provider value={{ searchText }}>
       {children}
+      {paginationLoading && (
+        <box style={{ paddingLeft: 1, paddingTop: 1, paddingBottom: 1 }}>
+          <LoadingText isLoading color={theme.textMuted}>Loading more...</LoadingText>
+        </box>
+      )}
       <DefaultEmptyView />
     </ListSectionContext.Provider>
   )
