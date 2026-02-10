@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.35
+
+### Patch Changes
+
+- Add list pagination support: onLoadMore trigger and loading indicator
+- Refactor List selection persistence and persist index in navigation stack
+- Fix footer items wrapping
+- Fix actions dialog layering
+- Hide List pane scrollbar
+- Externalize extension dependencies in esbuild to fix native module loading
+- Initialize zustand state for library usage in renderWithProviders
+
 ## 1.3.34
 
 ### Patch Changes
