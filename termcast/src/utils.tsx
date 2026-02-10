@@ -12,8 +12,47 @@ import {
   type CommandWithFile,
 } from './package-json'
 import { logger } from './logger'
+import { useStore } from './state'
 
-export async function renderWithProviders(element: ReactNode): Promise<void> {
+export interface RenderWithProvidersOptions {
+  extensionName?: string
+  extensionPath?: string
+  packageJson?: RaycastPackageJson
+}
+
+/**
+ * Render a React element wrapped in TermcastProvider with all necessary state initialized.
+ *
+ * Sets up extensionPath (for LocalStorage, Cache, assets) and extensionPackageJson
+ * (for preferences, environment metadata, action panel config) before rendering.
+ *
+ * - extensionName defaults to 'termcast-app'
+ * - extensionPath defaults to ~/.termcast/compiled/{extensionName}
+ * - packageJson defaults to a minimal { name, title, commands: [] }
+ */
+export async function renderWithProviders(
+  element: ReactNode,
+  options?: RenderWithProvidersOptions,
+): Promise<void> {
+  const extensionName = options?.extensionName || 'termcast-app'
+  const extensionPath =
+    options?.extensionPath ||
+    path.join(os.homedir(), '.termcast', 'compiled', extensionName)
+  const packageJson: RaycastPackageJson = options?.packageJson || {
+    name: extensionName,
+    title: extensionName,
+    description: '',
+    commands: [],
+  }
+
+  // Reset store to initial state then set extension fields, matching
+  // startDevMode/startCompiledExtension behavior to avoid stale navigation/dialog state
+  useStore.setState({
+    ...useStore.getInitialState(),
+    extensionPath,
+    extensionPackageJson: packageJson,
+  })
+
   const renderer = await createCliRenderer({
     onDestroy: () => {
       process.exit(0)

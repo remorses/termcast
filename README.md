@@ -82,6 +82,45 @@ Install script:
 
 Share this URL so others can install your TUI with a single command.
 
+## Library Usage
+
+You can use termcast as a library to render TUI components programmatically, without the CLI or extension system. Use `renderWithProviders` to mount any React component with all termcast infrastructure (navigation, dialogs, storage, query cache, theme):
+
+```tsx
+import { renderWithProviders, List, Action, ActionPanel } from 'termcast'
+
+function MyApp() {
+  return (
+    <List>
+      <List.Item
+        title="Hello World"
+        actions={
+          <ActionPanel>
+            <Action title="Greet" onAction={() => console.log('hi')} />
+          </ActionPanel>
+        }
+      />
+    </List>
+  )
+}
+
+await renderWithProviders(<MyApp />, {
+  extensionName: 'my-app',
+})
+```
+
+**Options:**
+
+| Option | Default | Description |
+|---|---|---|
+| `extensionName` | `'termcast-app'` | Used to derive storage paths and extension metadata |
+| `extensionPath` | `~/.termcast/compiled/{extensionName}` | Where LocalStorage, Cache, and data.db are stored |
+| `packageJson` | `{ name, title, description: '', commands: [] }` | Extension metadata for preferences, environment, etc. |
+
+All options are optional. Without any options, storage goes to `~/.termcast/compiled/termcast-app/`.
+
+Pass `extensionName` to isolate storage between different apps. Pass `packageJson` if you need preferences or command metadata.
+
 ## Why Termcast?
 
 Raycast extensions are limited to macOS and the Raycast app. Termcast lets you use similar patterns to build terminal applications that work cross-platform.

@@ -3,12 +3,16 @@ import { getResolvedTheme, type ResolvedTheme, defaultThemeName, themeNames } fr
 import { useStore } from './state'
 import { Cache } from './apis/cache'
 
-// Global cache for theme persistence (no namespace = global storage)
+// Global cache for theme persistence (no namespace = global storage).
+// Tracks extensionPath so the cache is recreated if the path changes.
 let globalCache: Cache | null = null
+let globalCachePath: string | null = null
 
 function getGlobalCache(): Cache {
-  if (!globalCache) {
+  const currentPath = useStore.getState().extensionPath
+  if (!globalCache || currentPath !== globalCachePath) {
     globalCache = new Cache()
+    globalCachePath = currentPath
   }
   return globalCache
 }

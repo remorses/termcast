@@ -181,7 +181,7 @@ function ExtensionsList({
 
 export async function runHomeCommand(): Promise<void> {
   logger.log(`preparing to render the home command component`)
-  await renderWithProviders(<Home />)
+  await renderWithProviders(<Home />, { extensionName: 'termcast-home' })
   logger.log(`rendered home command component`)
 }
 

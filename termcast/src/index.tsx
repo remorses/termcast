@@ -224,6 +224,7 @@ export { TermcastProvider } from 'termcast/src/internal/providers'
 
 // Helper function for rendering examples
 export { renderWithProviders } from 'termcast/src/utils'
+export type { RenderWithProvidersOptions } from 'termcast/src/utils'
 
 // Window Management
 export { closeMainWindow, PopToRootType } from 'termcast/src/apis/window'

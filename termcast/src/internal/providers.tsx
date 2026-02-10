@@ -35,20 +35,33 @@ const queryClient = new QueryClient({
   },
 })
 
-// Create a custom persister using the Cache class
-const queryCache = new Cache({ namespace: 'tanstack-query' })
+// Lazy-initialized Cache for TanStack Query persistence.
+// Must not be created at module load time because extensionPath may not be set yet
+// (e.g. when renderWithProviders sets state right before rendering).
+// Tracks the extensionPath it was created with so it can be recreated if the path changes.
+let queryCache: Cache | null = null
+let queryCachePath: string | null = null
+
+function getQueryCache(): Cache {
+  const currentPath = useStore.getState().extensionPath
+  if (!queryCache || currentPath !== queryCachePath) {
+    queryCache = new Cache({ namespace: 'tanstack-query' })
+    queryCachePath = currentPath
+  }
+  return queryCache
+}
 
 const persister = {
   persistClient: async (client: any) => {
     const serialized = JSON.stringify(client)
-    queryCache.set('query-client-data', serialized)
+    getQueryCache().set('query-client-data', serialized)
   },
   restoreClient: async () => {
-    const data = queryCache.get('query-client-data')
+    const data = getQueryCache().get('query-client-data')
     return data ? JSON.parse(data) : undefined
   },
   removeClient: async () => {
-    queryCache.remove('query-client-data')
+    getQueryCache().remove('query-client-data')
   },
 }
 
