@@ -1,5 +1,5 @@
 import React from 'react'
-import { cac } from 'cac'
+import { goke } from 'goke'
 import { useStore } from 'termcast/src/state'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { LocalStorage } from 'termcast/src/apis/localstorage'
@@ -31,13 +31,13 @@ export interface ParsedExtensionArgs {
 export function parseExtensionArgs({
   skipArgv = 0,
 }: { skipArgv?: number } = {}): ParsedExtensionArgs {
-  // Build argv for cac: keep first 2 (binary + script), skip subcommand args, keep the rest
+  // Build argv for goke: keep first 2 (binary + script), skip subcommand args, keep the rest
   const argv = [
     process.argv[0],
     process.argv[1],
     ...process.argv.slice(2 + skipArgv),
   ]
-  const parsed = cac().parse(argv, { run: false })
+  const parsed = goke().parse(argv, { run: false })
   return {
     commandName: parsed.args[0] as string | undefined,
     showHelp: Boolean(parsed.options.help || parsed.options.h),

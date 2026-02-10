@@ -7,7 +7,7 @@ import './extensions/react-refresh-init'
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync, spawn } from 'node:child_process'
-import { cac } from 'cac'
+import { goke } from 'goke'
 import { getWatcher } from './watcher'
 import { buildExtensionCommands } from './build'
 import { logger } from './logger'
@@ -21,7 +21,7 @@ import { runHomeCommand } from './extensions/home'
 import { showToast, Toast } from './apis/toast'
 import packageJson from '../package.json'
 
-const cli = cac('termcast')
+const cli = goke('termcast')
 
 // Auto-update check
 async function checkForUpdates() {
@@ -535,12 +535,10 @@ cli
     'raycast-search <query>',
     'Search for extensions in the Raycast store',
   )
-  .option('-n, --limit <number>', 'Number of results to show', {
-    default: '10',
-  })
-  .action(async (query: string, options: { limit: string }) => {
+  .option('-n, --limit [number]', 'Number of results to show (default: 10)')
+  .action(async (query: string, options: { limit?: string }) => {
     try {
-      const limit = parseInt(options.limit, 10)
+      const limit = parseInt(options.limit || '10', 10)
       const result = await searchStoreListings({ query, perPage: limit })
 
       if (result.data.length === 0) {
@@ -578,7 +576,7 @@ cli
     'raycast-download <extensionName>',
     'Download extension from Raycast extensions repo',
   )
-  .option('-o, --output <path>', 'Output directory', { default: '.' })
+  .option('-o, --output [path]', 'Output directory (default: .)')
   .option(
     '--no-dir',
     'Put files directly in output directory instead of creating extension subdirectory',
@@ -586,10 +584,10 @@ cli
   .action(
     async (
       extensionName: string,
-      options: { output: string; dir: boolean },
+      options: { output?: string; dir: boolean },
     ) => {
       try {
-        const destPath = path.resolve(options.output)
+        const destPath = path.resolve(options.output || '.')
         // When --no-dir is passed, dir is false; put files directly in destPath
         const extensionDir = options.dir
           ? path.join(destPath, extensionName)
