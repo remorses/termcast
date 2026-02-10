@@ -17,3 +17,6 @@ tmp
 termcasttmp
 .env*
 .termcast-bundle-test
+
+# opensrc - source code for packages
+opensrc/
