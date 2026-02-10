@@ -852,6 +852,36 @@ export const List: ListType = (props) => {
     setIsDropdownOpen(true)
   }
 
+  const persistSelectedIndexInCurrentNavigationItem = (index: number) => {
+    useStore.setState((state) => {
+      const stack = state.navigationStack
+      const currentIndex = stack.length - 1
+      const currentItem = stack[currentIndex]
+      if (!currentItem) {
+        return {}
+      }
+
+      if (currentItem.selectedListIndex === index) {
+        return {}
+      }
+
+      const nextStack = [...stack]
+      nextStack[currentIndex] = {
+        ...currentItem,
+        selectedListIndex: index,
+      }
+
+      return {
+        navigationStack: nextStack,
+      }
+    })
+  }
+
+  const setSelectedIndexWithPersistence = (index: number) => {
+    setSelectedIndex(index)
+    persistSelectedIndexInCurrentNavigationItem(index)
+  }
+
   // Sync selection to the first visible item whenever searchText changes.
   // Runs after children's useLayoutEffects (descendants registered) but before paint,
   // so there is no intermediate frame with stale selection.
@@ -868,7 +898,7 @@ export const List: ListType = (props) => {
       .sort((a, b) => a.index - b.index)
 
     if (items.length > 0 && items[0]) {
-      setSelectedIndex(items[0].index)
+      setSelectedIndexWithPersistence(items[0].index)
     }
   })
 
@@ -878,7 +908,7 @@ export const List: ListType = (props) => {
       setIsDropdownOpen,
       openDropdown,
       selectedIndex,
-      setSelectedIndex,
+      setSelectedIndex: setSelectedIndexWithPersistence,
       searchText,
       isFiltering: isFilteringEnabled,
       setCurrentDetail,
@@ -906,38 +936,10 @@ export const List: ListType = (props) => {
 
       const foundItem = items.find((item) => item.props?.id === selectedItemId)
       if (foundItem) {
-        setSelectedIndex(foundItem.index)
+        setSelectedIndexWithPersistence(foundItem.index)
       }
     }
   }, [selectedItemId])
-
-  // Persist current list selection in the active navigation stack item.
-  // This keeps selection when returning with ESC (pop), where the previous
-  // screen is remounted due to navigation key changes.
-  useEffect(() => {
-    useStore.setState((state) => {
-      const stack = state.navigationStack
-      const currentIndex = stack.length - 1
-      const currentItem = stack[currentIndex]
-      if (!currentItem) {
-        return {}
-      }
-
-      if (currentItem.selectedListIndex === selectedIndex) {
-        return {}
-      }
-
-      const nextStack = [...stack]
-      nextStack[currentIndex] = {
-        ...currentItem,
-        selectedListIndex: selectedIndex,
-      }
-
-      return {
-        navigationStack: nextStack,
-      }
-    })
-  }, [selectedIndex])
 
   // Call onSelectionChange when selection changes
   useEffect(() => {
@@ -1006,7 +1008,7 @@ export const List: ListType = (props) => {
     if (currentVisibleIndex === -1) {
       // If current selection is not visible, select first visible item
       if (items[0]) {
-        setSelectedIndex(items[0].index)
+        setSelectedIndexWithPersistence(items[0].index)
       }
       return
     }
@@ -1029,6 +1031,7 @@ export const List: ListType = (props) => {
       flushSync(() => {
         setSelectedIndex(nextItem.index)
       })
+      persistSelectedIndexInCurrentNavigationItem(nextItem.index)
       scrollToItem(nextItem)
 
       // Check if we're approaching the end and should trigger pagination

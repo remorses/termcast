@@ -135,11 +135,11 @@ test('compiled executable can run command', async () => {
        > Search...
 
        Items                                                 ▲
-      ›▲ First Item This is the first item                   █
-       ▲ Second Item This is the second item                 █
-       ▲ Third Item This is the third item
-       ▲ Fourth Item This is the fourth item
-       ▲ Fifth Item This is the fifth item                   ▼
+      ›○ First Item This is the first item                   █
+       ○ Second Item This is the second item                 █
+       ○ Third Item This is the third item
+       ○ Fourth Item This is the fourth item
+       ○ Fifth Item This is the fifth item                   ▼
 
 
      ✓ Copied to Clipboard  First Item
@@ -191,11 +191,11 @@ test('compiled executable can navigate back', async () => {
        > Search...
 
        Items                                                 ▲
-      ›▲ First Item This is the first item                   █
-       ▲ Second Item This is the second item                 █
-       ▲ Third Item This is the third item
-       ▲ Fourth Item This is the fourth item
-       ▲ Fifth Item This is the fifth item                   ▼
+      ›○ First Item This is the first item                   █
+       ○ Second Item This is the second item                 █
+       ○ Third Item This is the third item
+       ○ Fourth Item This is the fourth item
+       ○ Fifth Item This is the fifth item                   ▼
 
 
        ↵ copy item title   ↑↓ navigate   ^k actions

@@ -168,12 +168,12 @@ test.skipIf(!extensionExists)('github extension can open actions panel', async (
     "
 
 
+       GitHub ───────────────────────────────────────────────────────────────────
 
+       > Search commands...
 
-
-
-
-
+       Commands
+      ›My Pull Requests List pull requests you created, participated in, or view
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Actions                                                          esc   │
@@ -191,7 +191,7 @@ test.skipIf(!extensionExists)('github extension can open actions panel', async (
       │   ↵ select   ↑↓ navigate                                                 │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
-
+       ↵ run command   ↑↓ navigate   ^k actions               powered by termcast
 
 
 

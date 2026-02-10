@@ -204,9 +204,9 @@ test('can fill arguments and run command', async () => {
        > Search...
 
        Received Arguments
-      ›▼ Search Query (empty)
-       ▼ Secret Key (empty)
-       ▼ Category (empty)
+      ›𝐓 Search Query (empty)
+       𝐓 Secret Key (empty)
+       𝐓 Category (empty)
 
 
 
@@ -243,11 +243,11 @@ test('can run simple view command without arguments', async () => {
        > Search...
 
        Items                                                 ▲
-      ›▲ First Item This is the first item                   █
-       ▲ Second Item This is the second item                 █
-       ▲ Third Item This is the third item
-       ▲ Fourth Item This is the fourth item
-       ▲ Fifth Item This is the fifth item                   ▼
+      ›○ First Item This is the first item                   █
+       ○ Second Item This is the second item                 █
+       ○ Third Item This is the third item
+       ○ Fourth Item This is the fourth item
+       ○ Fifth Item This is the fifth item                   ▼
 
 
      ✓ Copied to Clipboard  First Item
