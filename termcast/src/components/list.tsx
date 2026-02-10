@@ -1147,7 +1147,7 @@ export const List: ListType = (props) => {
                 }}
               >
                 {/* Render children - they will register as descendants */}
-                <ListItemsRenderer paginationLoading={isLoading && props.pagination?.hasMore}>{children}</ListItemsRenderer>
+                <ListItemsRenderer>{children}</ListItemsRenderer>
               </ScrollBox>
 
               {/* Footer with keyboard shortcuts or toast */}
@@ -1236,21 +1236,15 @@ function DefaultEmptyView(): any {
 }
 
 // Component to render list items and sections
-function ListItemsRenderer(props: { children?: ReactNode; paginationLoading?: boolean }): any {
-  const { children, paginationLoading } = props
+function ListItemsRenderer(props: { children?: ReactNode }): any {
+  const { children } = props
   const listContext = useContext(ListContext)
-  const theme = useTheme()
   const searchText = listContext?.searchText || ''
 
   // Pass search text down via context
   return (
     <ListSectionContext.Provider value={{ searchText }}>
       {children}
-      {paginationLoading && (
-        <box style={{ paddingLeft: 1, paddingTop: 1, paddingBottom: 1 }}>
-          <LoadingText isLoading color={theme.textMuted}>Loading more...</LoadingText>
-        </box>
-      )}
       <DefaultEmptyView />
     </ListSectionContext.Provider>
   )
