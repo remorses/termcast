@@ -8,7 +8,7 @@ beforeEach(async () => {
     command: 'bun',
     args: ['src/examples/simple-detail-markdown.tsx'],
     cols: 80,
-    rows: 50,
+    rows: 70,
   })
 })
 
@@ -16,10 +16,10 @@ afterEach(() => {
   session?.close()
 })
 
-test('detail renders markdown with headings, lists, links, code and diagram', async () => {
+test('detail renders markdown with headings, lists, links, tables, code and diagrams', async () => {
   const text = await session.text({
     waitFor: (text) => {
-      return text.includes('Architecture') && text.includes('processRequest')
+      return text.includes('Architecture') && text.includes('Configuration Table') && text.includes('Process')
     },
     timeout: 10000,
   })
@@ -28,9 +28,9 @@ test('detail renders markdown with headings, lists, links, code and diagram', as
     "
 
 
-
-
-      Architecture Overview
+                                                                                 █
+                                                                                 █
+      Architecture Overview                                                      ▀
 
       This document describes the system architecture.
 
@@ -50,49 +50,74 @@ test('detail renders markdown with headings, lists, links, code and diagram', as
 
       A paragraph with multiple links inline here.
 
-      Flow
+      Nested formatting: bold with link inside and italic with link.
+
+      Configuration Table
+
+      ┌───────────┬───────────┬───────────────────────┐
+      │Setting    │Default    │Description            │
+      │───────────│───────────│───────────────────────│
+      │Host       │localhost  │Database host address  │
+      │───────────│───────────│───────────────────────│
+      │Port       │5432       │Database port number   │
+      │───────────│───────────│───────────────────────│
+      │SSL        │false      │Enable TLS encryption  │
+      │───────────│───────────│───────────────────────│
+      │Pool Size  │10         │Max connections        │
+      └───────────┴───────────┴───────────────────────┘
+
+      Flow Diagram
 
       ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
       │   Client    │────▶│   Server    │────▶│  Database   │
       └─────────────┘     └─────────────┘     └─────────────┘
 
+      Vertical Flow
+
+           ┌─────────┐
+           │  Start  │
+           └────┬────┘
+                │
+                ▼
+           ┌─────────┐
+           │ Process │
+           └────┬────┘
+                │
+                ▼
+           ┌─────────┐
+           │   End   │
+           └─────────┘
+
       Code Example
 
-      function processRequest(input: string): Result {
-        const validated = validate(input)
-        return db.query(validated)
-      }
-
-      > Note: All connections use TLS encryption.
-
-      The system handles ~10k requests/second.
+      interface Config {
 
 
       esc go back                                              powered by termcast
-
-
-
-
-
 
     "
   `)
   // Headings
   expect(text).toContain('Architecture')
   expect(text).toContain('Components')
+  expect(text).toContain('Configuration Table')
   // List items
   expect(text).toContain('Client')
   expect(text).toContain('Server')
   expect(text).toContain('Database')
-  // Links - title text visible
+  // Links - title text visible, URLs hidden
   expect(text).toContain('GitHub repository')
   expect(text).toContain('API documentation')
+  expect(text).toContain('link inside')
+  // Table
+  expect(text).toContain('Setting')
+  expect(text).toContain('localhost')
+  expect(text).toContain('5432')
   // Diagram box-drawing chars
   expect(text).toContain('┌─')
   expect(text).toContain('─┐')
-  // Code block
-  expect(text).toContain('processRequest')
-  expect(text).toContain('validate')
-  // Blockquote
-  expect(text).toContain('TLS encryption')
+  expect(text).toContain('Process')
+  // Code block header visible (content may need scroll)
+  expect(text).toContain('Code Example')
+  expect(text).toContain('interface Config')
 }, 30000)

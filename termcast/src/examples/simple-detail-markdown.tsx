@@ -25,7 +25,18 @@ See the [API documentation](https://developers.raycast.com/api-reference) for mo
 
 A paragraph with [multiple](https://example.com/one) links [inline](https://example.com/two) here.
 
-## Flow
+Nested formatting: **bold with [link inside](https://example.com/bold)** and *italic with [link](https://example.com/italic)*.
+
+## Configuration Table
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Host | localhost | Database host address |
+| Port | 5432 | Database port number |
+| SSL | false | Enable TLS encryption |
+| Pool Size | 10 | Max connections |
+
+## Flow Diagram
 
 \`\`\`diagram
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -33,18 +44,49 @@ A paragraph with [multiple](https://example.com/one) links [inline](https://exam
 └─────────────┘     └─────────────┘     └─────────────┘
 \`\`\`
 
+## Vertical Flow
+
+\`\`\`diagram
+     ┌─────────┐
+     │  Start  │
+     └────┬────┘
+          │
+          ▼
+     ┌─────────┐
+     │ Process │
+     └────┬────┘
+          │
+          ▼
+     ┌─────────┐
+     │   End   │
+     └─────────┘
+\`\`\`
+
 ## Code Example
 
 \`\`\`typescript
-function processRequest(input: string): Result {
-  const validated = validate(input)
-  return db.query(validated)
+interface Config {
+  host: string
+  port: number
+  ssl: boolean
+}
+
+async function connect(config: Config): Promise<Connection> {
+  const validated = validate(config)
+  return db.connect(validated)
 }
 \`\`\`
 
-> Note: All connections use TLS encryption.
+## Task List
 
-The system handles ~10k requests/second.
+- [x] Design system architecture
+- [x] Implement core components
+- [ ] Add monitoring
+- [ ] Deploy to production
+
+> **Note:** All connections use TLS encryption in production.
+
+The system handles ~10k requests/second. For more info visit [the docs](https://termcast.app).
 `
 
 function SimpleDetailMarkdown() {
