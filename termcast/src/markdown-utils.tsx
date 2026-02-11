@@ -1,11 +1,14 @@
 // Markdown renderNode hook for terminal rendering.
 // Overrides paragraph rendering to hide URLs from links,
-// showing only the link title text (bold, bright).
+// showing only the link title text with distinct cyan color and underline.
 // Uses opentui's renderNode callback on the <markdown> element.
 //
 // Link text gets TextChunk.link = { url } which encodes as OSC 8 terminal
-// hyperlinks. Terminals like iTerm2, kitty, Ghostty make these clickable
-// natively (cmd+click or hover to see URL). No custom onMouseDown needed.
+// hyperlinks when the terminal supports it. Supported terminals include:
+// - Ghostty, kitty, WezTerm, Alacritty, iTerm2
+// In these terminals, links are clickable natively (cmd+click or hover).
+// In unsupported terminals, links still display with distinct color/underline
+// but won't be clickable.
 
 import {
   TextRenderable,
@@ -55,6 +58,7 @@ function flattenInlineTokens({
   chunks,
   links,
   primaryColor,
+  linkColor,
   textColor,
   defaultAttr,
 }: {
@@ -62,19 +66,20 @@ function flattenInlineTokens({
   chunks: TextChunk[]
   links: LinkInfo[]
   primaryColor: ReturnType<typeof parseColor>
+  linkColor: ReturnType<typeof parseColor>
   textColor: ReturnType<typeof parseColor>
   defaultAttr?: number
 }): void {
   for (const token of tokens) {
     if (token.type === 'link') {
       links.push({ text: token.text || '', href: token.href || '' })
-      // Render link title only, bold + primary color, with OSC 8 terminal hyperlink
-      const boldAttr = createTextAttributes({ bold: true })
+      // Render link title only with distinct link color, underline, and OSC 8 terminal hyperlink
+      const linkAttr = createTextAttributes({ underline: true })
       chunks.push({
         __isChunk: true,
         text: token.text || '',
-        fg: primaryColor,
-        attributes: boldAttr,
+        fg: linkColor,
+        attributes: linkAttr,
         link: { url: token.href || '' },
       })
     } else if (token.type === 'strong') {
@@ -85,6 +90,7 @@ function flattenInlineTokens({
         chunks,
         links,
         primaryColor,
+        linkColor,
         textColor,
         defaultAttr: boldAttr,
       })
@@ -96,6 +102,7 @@ function flattenInlineTokens({
         chunks,
         links,
         primaryColor,
+        linkColor,
         textColor,
         defaultAttr: italicAttr,
       })
@@ -106,6 +113,7 @@ function flattenInlineTokens({
         chunks,
         links,
         primaryColor,
+        linkColor,
         textColor,
         defaultAttr: strikeAttr,
       })
@@ -150,6 +158,7 @@ export function createMarkdownRenderNode(renderer: RenderContext): (token: Token
     const themeName = useStore.getState().currentThemeName
     const theme = getResolvedTheme(themeName)
     const primaryColor = parseColor(theme.primary)
+    const linkColor = parseColor(theme.markdownLinkText)
     const textColor = parseColor(theme.text)
 
     const chunks: TextChunk[] = []
@@ -159,6 +168,7 @@ export function createMarkdownRenderNode(renderer: RenderContext): (token: Token
       chunks,
       links,
       primaryColor,
+      linkColor,
       textColor,
     })
 

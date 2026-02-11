@@ -140,12 +140,12 @@
       "light": "darkStep9"
     },
     "markdownLink": {
-      "dark": "darkStep9",
-      "light": "darkStep9"
+      "dark": "darkCyan",
+      "light": "darkCyan"
     },
     "markdownLinkText": {
-      "dark": "darkStep9",
-      "light": "darkStep9"
+      "dark": "darkCyan",
+      "light": "darkCyan"
     },
     "markdownCode": {
       "dark": "darkStep9",

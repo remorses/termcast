@@ -121,3 +121,36 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
   expect(text).toContain('Code Example')
   expect(text).toContain('interface Config')
 }, 30000)
+
+test('links have distinct cyan color from bold/heading text', async () => {
+  await session.text({
+    waitFor: (text) => text.includes('GitHub repository'),
+    timeout: 10000,
+  })
+
+  // Links should be cyan (#56b6c2) 
+  const linkText = await session.text({
+    only: { foreground: '#56b6c2' },
+    timeout: 5000,
+  })
+  
+  // Bold/heading text should be primary yellow (#ffc000)
+  const boldText = await session.text({
+    only: { foreground: '#ffc000' },
+    timeout: 5000,
+  })
+
+  // Verify links are rendered in cyan
+  expect(linkText).toContain('GitHub repository')
+  expect(linkText).toContain('API documentation')
+  expect(linkText).toContain('multiple')
+  expect(linkText).toContain('inline')
+  
+  // Verify headings are rendered in primary color (not cyan)
+  expect(boldText).toContain('Architecture Overview')
+  expect(boldText).toContain('Components')
+  
+  // Links should NOT appear in bold color
+  expect(boldText).not.toContain('GitHub repository')
+  expect(boldText).not.toContain('API documentation')
+}, 30000)
