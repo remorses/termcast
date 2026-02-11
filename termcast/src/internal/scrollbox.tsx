@@ -43,9 +43,7 @@ export function ScrollBox({
           // visible: true,
           // showArrows: true,
           trackOptions: {
-            foregroundColor: theme.textMuted,
-
-            // backgroundColor: '#414868',
+            foregroundColor: theme.border,
           },
           ...(style?.scrollbarOptions || {}),
         },
