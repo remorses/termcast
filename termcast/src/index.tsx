@@ -52,11 +52,58 @@ export type {
 } from 'termcast/src/components/detail'
 
 // Form Components
-export {
-  Form,
+import {
+  Form as FormComponent,
   useFormContext,
   useFormSubmit,
 } from 'termcast/src/components/form/index'
+import type {
+  FormProps,
+  FormValues,
+  FormValue,
+  FormItemProps,
+  FormItemRef,
+  FormEvent,
+  FormEventType,
+} from 'termcast/src/components/form/types'
+export { useFormContext, useFormSubmit }
+
+export function Form(props: FormProps): any {
+  return FormComponent(props)
+}
+
+const FormWithStatics = Form as unknown as typeof FormComponent
+FormWithStatics.TextField = FormComponent.TextField
+FormWithStatics.PasswordField = FormComponent.PasswordField
+FormWithStatics.TextArea = FormComponent.TextArea
+FormWithStatics.Checkbox = FormComponent.Checkbox
+FormWithStatics.Dropdown = FormComponent.Dropdown
+FormWithStatics.DatePicker = FormComponent.DatePicker
+FormWithStatics.TagPicker = FormComponent.TagPicker
+FormWithStatics.FilePicker = FormComponent.FilePicker
+FormWithStatics.Separator = FormComponent.Separator
+FormWithStatics.Description = FormComponent.Description
+FormWithStatics.LinkAccessory = FormComponent.LinkAccessory
+
+export namespace Form {
+  export let TextField: typeof FormComponent.TextField
+  export let PasswordField: typeof FormComponent.PasswordField
+  export let TextArea: typeof FormComponent.TextArea
+  export let Checkbox: typeof FormComponent.Checkbox
+  export let Dropdown: typeof FormComponent.Dropdown
+  export let DatePicker: typeof FormComponent.DatePicker
+  export let TagPicker: typeof FormComponent.TagPicker
+  export let FilePicker: typeof FormComponent.FilePicker
+  export let Separator: typeof FormComponent.Separator
+  export let Description: typeof FormComponent.Description
+  export let LinkAccessory: typeof FormComponent.LinkAccessory
+  export type Values = FormValues
+  export type Value = FormValue
+  export type ItemProps<T> = FormItemProps<T>
+  export type ItemReference = FormItemRef
+  export type Event<T> = FormEvent<T>
+  export type EventType = FormEventType
+}
 export { TextField } from 'termcast/src/components/form/text-field'
 export type {
   TextFieldProps,
@@ -92,19 +139,47 @@ export type {
   FormItemRef,
   FormEvent,
   FormEventType,
-} from 'termcast/src/components/form/types'
+}
 
 // Icons and Images
 export { Icon, getIconEmoji, getIconShape, IconComponent } from 'termcast/src/components/icon'
-export { Image, ImageMask } from 'termcast/src/components/image'
-export type { ImageType } from 'termcast/src/components/image'
-export type {
+import {
+  Image as ImageComponent,
+  ImageMask,
+} from 'termcast/src/components/image'
+import type {
+  ImageType,
   ImageProps,
   ImageSource,
   FileIcon,
   ImageLike,
   ImageFallback,
 } from 'termcast/src/components/image'
+
+export function Image(props: ImageProps): any {
+  return ImageComponent(props)
+}
+
+const ImageWithStatics = Image as unknown as ImageType
+ImageWithStatics.Mask = ImageMask
+
+export namespace Image {
+  export import Mask = ImageMask
+  export type Source = ImageSource
+  export type Asset = string
+  export type Fallback = ImageFallback
+  export type ImageLike = import('termcast/src/components/image').ImageLike
+}
+
+export { ImageMask }
+export type {
+  ImageType,
+  ImageProps,
+  ImageSource,
+  FileIcon,
+  ImageLike,
+  ImageFallback,
+}
 
 // Alerts
 export { Alert, confirmAlert } from 'termcast/src/components/alert'

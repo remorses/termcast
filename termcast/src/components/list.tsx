@@ -171,7 +171,13 @@ interface PaginationInterface {
 }
 
 export namespace Image {
-  export type ImageLike = string | { source: string; tintColor?: string; mask?: ImageMask }
+  export type ImageLike =
+    | string
+    | {
+        source: string | { light: string; dark: string }
+        tintColor?: string
+        mask?: ImageMask
+      }
   export enum ImageMask {
     Circle = 'circle',
     RoundedRectangle = 'roundedRectangle',
