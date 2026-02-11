@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.39
+
+### Patch Changes
+
+- Export `Form` and `Image` with merged value/type namespaces from `termcast` so `@raycast/utils` type usages like `Form.Values`, `Form.ItemReference`, and `Image.Asset` resolve correctly
+- Keep runtime compatibility for static APIs (`Form.TextField`, `Form.Dropdown`, `Image.Mask`) while improving type namespace support
+- Extend list image typing to accept themed image sources (`{ light, dark }`) to match Raycast-style icon objects
+- Update `@termcast/utils` to `2.2.6`
+
 ## 1.3.38
 
 ### Patch Changes
