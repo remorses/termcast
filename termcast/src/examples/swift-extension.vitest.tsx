@@ -96,7 +96,7 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
 
 
 
-       ↵ run command   ↑↓ navigate   ^k actions
+       ↵ run command
 
 
 

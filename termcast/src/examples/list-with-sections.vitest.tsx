@@ -313,6 +313,7 @@ test('list with sections search functionality', async () => {
       Freshly baked bread from our bakery.
 
       Product Details
+
       - Baked fresh daily
       - Made with organic flour
       - No preservatives
@@ -320,7 +321,6 @@ test('list with sections search functionality', async () => {
 
 
       esc go back
-
 
 
     "
