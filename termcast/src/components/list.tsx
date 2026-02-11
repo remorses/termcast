@@ -4,7 +4,7 @@ import {
   TextAttributes,
   TextareaRenderable,
 } from '@opentui/core'
-import { useKeyboard, flushSync } from '@opentui/react'
+import { useKeyboard, flushSync, useRenderer } from '@opentui/react'
 import React, {
     ReactElement,
     ReactNode,
@@ -32,6 +32,7 @@ import { Color, resolveColor } from 'termcast/src/colors'
 import { getIconEmoji, getIconValue } from 'termcast/src/components/icon'
 import { ActionPanel } from 'termcast/src/components/actions'
 import { useTheme, markdownSyntaxStyle } from 'termcast/src/theme'
+import { createMarkdownRenderNode } from 'termcast/src/markdown-utils'
 import { CommonProps } from 'termcast/src/utils'
 
 export { Color }
@@ -1412,6 +1413,18 @@ const ListItem: ListItemType = (props) => {
   )
 }
 
+// Renders markdown with link URL stripping via renderNode for list detail panel.
+function ListMarkdownContent({ markdown }: { markdown: string }): any {
+  const renderer = useRenderer()
+  const renderNode = React.useMemo(() => {
+    return createMarkdownRenderNode(renderer)
+  }, [renderer])
+
+  return (
+    <markdown content={markdown} syntaxStyle={markdownSyntaxStyle} conceal renderNode={renderNode} />
+  )
+}
+
 const ListItemDetail: ListItemDetailType = (props) => {
   const theme = useTheme()
   const { isLoading, markdown, metadata } = props
@@ -1441,7 +1454,7 @@ const ListItemDetail: ListItemDetailType = (props) => {
       >
         <box gap={1} style={{ flexDirection: 'column' }}>
           {markdown && (
-            <code content={markdown} filetype="markdown" syntaxStyle={markdownSyntaxStyle} drawUnstyledText={false} />
+            <ListMarkdownContent markdown={markdown} />
           )}
           {metadata && (
             <box

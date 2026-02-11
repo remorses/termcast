@@ -55,6 +55,7 @@ export interface ResolvedTheme {
   // Text colors
   text: string
   textMuted: string
+  conceal: string
 
   // Background colors
   background: string
@@ -120,6 +121,17 @@ export interface ResolvedTheme {
 
   // Transparent
   transparent: undefined
+}
+
+export interface SyntaxThemeStyle {
+  fg: RGBA
+  bold?: boolean
+  italic?: boolean
+  underline?: boolean
+}
+
+export interface SyntaxTheme {
+  [key: string]: SyntaxThemeStyle
 }
 
 // Note: lucent-orng excluded because it uses transparent backgrounds
@@ -210,6 +222,7 @@ function resolveTheme(
     // Text
     text: resolveColorToHex(t.text ?? fallbackText),
     textMuted: resolveColorToHex(t.textMuted ?? fallbackGray),
+    conceal: resolveColorToHex(t.conceal ?? t.textMuted ?? fallbackGray),
 
     // Background
     background: resolveColorToHex(t.background ?? fallbackBg),
@@ -284,6 +297,91 @@ export function getResolvedTheme(
 ): ResolvedTheme {
   const themeJson = DEFAULT_THEMES[name] ?? DEFAULT_THEMES.termcast!
   return resolveTheme(themeJson, mode)
+}
+
+// Full syntax theme with tree-sitter scope names for both code and markdown.
+// Ported from critique's getSyntaxTheme() for consistent rendering.
+export function getSyntaxTheme(
+  name: string,
+  mode: 'dark' | 'light' = 'dark',
+): SyntaxTheme {
+  const resolved = getResolvedTheme(name, mode)
+
+  const h = (hex: string): RGBA => {
+    return parseColor(hex)
+  }
+
+  return {
+    // Default text style
+    default: { fg: h(resolved.text) },
+
+    // Code syntax styles
+    keyword: { fg: h(resolved.syntaxKeyword), italic: true },
+    'keyword.import': { fg: h(resolved.syntaxKeyword) },
+    'keyword.return': { fg: h(resolved.syntaxKeyword), italic: true },
+    'keyword.conditional': { fg: h(resolved.syntaxKeyword), italic: true },
+    'keyword.repeat': { fg: h(resolved.syntaxKeyword), italic: true },
+    'keyword.type': { fg: h(resolved.syntaxType), bold: true, italic: true },
+    'keyword.function': { fg: h(resolved.syntaxFunction) },
+    'keyword.operator': { fg: h(resolved.syntaxOperator) },
+    'keyword.modifier': { fg: h(resolved.syntaxKeyword), italic: true },
+    'keyword.exception': { fg: h(resolved.syntaxKeyword), italic: true },
+    string: { fg: h(resolved.syntaxString) },
+    symbol: { fg: h(resolved.syntaxString) },
+    comment: { fg: h(resolved.syntaxComment), italic: true },
+    'comment.documentation': { fg: h(resolved.syntaxComment), italic: true },
+    number: { fg: h(resolved.syntaxNumber) },
+    boolean: { fg: h(resolved.syntaxNumber) },
+    constant: { fg: h(resolved.syntaxNumber) },
+    function: { fg: h(resolved.syntaxFunction) },
+    'function.call': { fg: h(resolved.syntaxFunction) },
+    'function.method': { fg: h(resolved.syntaxFunction) },
+    'function.method.call': { fg: h(resolved.syntaxVariable) },
+    constructor: { fg: h(resolved.syntaxFunction) },
+    type: { fg: h(resolved.syntaxType) },
+    module: { fg: h(resolved.syntaxType) },
+    class: { fg: h(resolved.syntaxType) },
+    operator: { fg: h(resolved.syntaxOperator) },
+    variable: { fg: h(resolved.syntaxVariable) },
+    'variable.parameter': { fg: h(resolved.syntaxVariable) },
+    'variable.member': { fg: h(resolved.syntaxFunction) },
+    property: { fg: h(resolved.syntaxVariable) },
+    parameter: { fg: h(resolved.syntaxVariable) },
+    bracket: { fg: h(resolved.syntaxPunctuation) },
+    punctuation: { fg: h(resolved.syntaxPunctuation) },
+    'punctuation.bracket': { fg: h(resolved.syntaxPunctuation) },
+    'punctuation.delimiter': { fg: h(resolved.syntaxOperator) },
+    'punctuation.special': { fg: h(resolved.syntaxOperator) },
+
+    // Markdown styles - tree-sitter scope names for markdown
+    'markup.heading': { fg: h(resolved.markdownHeading), bold: true },
+    'markup.heading.1': { fg: h(resolved.markdownHeading), bold: true },
+    'markup.heading.2': { fg: h(resolved.markdownHeading), bold: true },
+    'markup.heading.3': { fg: h(resolved.markdownHeading), bold: true },
+    'markup.heading.4': { fg: h(resolved.markdownHeading), bold: true },
+    'markup.heading.5': { fg: h(resolved.markdownHeading), bold: true },
+    'markup.heading.6': { fg: h(resolved.markdownHeading), bold: true },
+    'markup.bold': { fg: h(resolved.markdownStrong), bold: true },
+    'markup.strong': { fg: h(resolved.markdownStrong), bold: true },
+    'markup.italic': { fg: h(resolved.markdownEmph), italic: true },
+    'markup.list': { fg: h(resolved.markdownListItem) },
+    'markup.list.checked': { fg: h(resolved.success) },
+    'markup.list.unchecked': { fg: h(resolved.textMuted) },
+    'markup.quote': { fg: h(resolved.markdownBlockQuote), italic: true },
+    'markup.raw': { fg: h(resolved.markdownCode) },
+    'markup.raw.block': { fg: h(resolved.markdownCode) },
+    'markup.raw.inline': { fg: h(resolved.markdownCode) },
+    'markup.link': { fg: h(resolved.markdownLink), underline: true },
+    'markup.link.label': { fg: h(resolved.markdownLinkText), underline: true },
+    'markup.link.url': { fg: h(resolved.markdownLink), underline: true },
+    label: { fg: h(resolved.markdownLinkText) },
+    spell: { fg: h(resolved.text) },
+    nospell: { fg: h(resolved.text) },
+    conceal: { fg: h(resolved.conceal) },
+    'string.special': { fg: h(resolved.markdownLink), underline: true },
+    'string.special.url': { fg: h(resolved.markdownLink), underline: true },
+    'string.escape': { fg: h(resolved.syntaxString) },
+  }
 }
 
 export const themeNames = Object.keys(DEFAULT_THEMES).sort()

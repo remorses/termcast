@@ -1,0 +1,172 @@
+// Markdown renderNode hook for terminal rendering.
+// Overrides paragraph rendering to hide URLs from links,
+// showing only the link title text (bold, bright).
+// Uses opentui's renderNode callback on the <markdown> element.
+//
+// Link text gets TextChunk.link = { url } which encodes as OSC 8 terminal
+// hyperlinks. Terminals like iTerm2, kitty, Ghostty make these clickable
+// natively (cmd+click or hover to see URL). No custom onMouseDown needed.
+
+import {
+  TextRenderable,
+  StyledText,
+  type TextChunk,
+  parseColor,
+  createTextAttributes,
+  type Renderable,
+  type RenderContext,
+} from '@opentui/core'
+import { getResolvedTheme } from './themes'
+import { useStore } from './state'
+
+// Minimal token types from marked (dependency of opentui, not termcast directly)
+interface Token {
+  type: string
+  text?: string
+  raw?: string
+  href?: string
+  tokens?: Token[]
+}
+
+// Matches RenderNodeContext from @opentui/core/renderables/Markdown
+interface RenderNodeContext {
+  defaultRender: () => Renderable | null
+}
+
+interface LinkInfo {
+  text: string
+  href: string
+}
+
+// Recursively check if a token or any of its children contain link tokens
+function hasLinks(token: Token): boolean {
+  if (!Array.isArray(token.tokens)) {
+    return false
+  }
+  return token.tokens.some((t) => {
+    return t.type === 'link' || hasLinks(t)
+  })
+}
+
+// Recursively flatten inline tokens into chunks, stripping link URLs.
+// Handles nested structures like **[link](url)** or *[link](url)*.
+function flattenInlineTokens({
+  tokens,
+  chunks,
+  links,
+  primaryColor,
+  textColor,
+  defaultAttr,
+}: {
+  tokens: Token[]
+  chunks: TextChunk[]
+  links: LinkInfo[]
+  primaryColor: ReturnType<typeof parseColor>
+  textColor: ReturnType<typeof parseColor>
+  defaultAttr?: number
+}): void {
+  for (const token of tokens) {
+    if (token.type === 'link') {
+      links.push({ text: token.text || '', href: token.href || '' })
+      // Render link title only, bold + primary color, with OSC 8 terminal hyperlink
+      const boldAttr = createTextAttributes({ bold: true })
+      chunks.push({
+        __isChunk: true,
+        text: token.text || '',
+        fg: primaryColor,
+        attributes: boldAttr,
+        link: { url: token.href || '' },
+      })
+    } else if (token.type === 'strong') {
+      const boldAttr = createTextAttributes({ bold: true })
+      // Recurse into strong children to handle nested links like **[link](url)**
+      flattenInlineTokens({
+        tokens: token.tokens || [],
+        chunks,
+        links,
+        primaryColor,
+        textColor,
+        defaultAttr: boldAttr,
+      })
+    } else if (token.type === 'em') {
+      const italicAttr = createTextAttributes({ italic: true })
+      // Recurse into em children to handle nested links like *[link](url)*
+      flattenInlineTokens({
+        tokens: token.tokens || [],
+        chunks,
+        links,
+        primaryColor,
+        textColor,
+        defaultAttr: italicAttr,
+      })
+    } else if (token.type === 'del') {
+      const strikeAttr = createTextAttributes({ strikethrough: true })
+      flattenInlineTokens({
+        tokens: token.tokens || [],
+        chunks,
+        links,
+        primaryColor,
+        textColor,
+        defaultAttr: strikeAttr,
+      })
+    } else if (token.type === 'codespan') {
+      chunks.push({
+        __isChunk: true,
+        text: token.text || '',
+        fg: primaryColor,
+        attributes: defaultAttr,
+      })
+    } else if (token.type === 'br') {
+      chunks.push({
+        __isChunk: true,
+        text: '\n',
+        fg: textColor,
+      })
+    } else {
+      // text, escape, etc.
+      chunks.push({
+        __isChunk: true,
+        text: token.text ?? token.raw ?? '',
+        fg: textColor,
+        attributes: defaultAttr,
+      })
+    }
+  }
+}
+
+// Create a renderNode function that overrides paragraph rendering
+// to hide link URLs and make link text bold + bright.
+// Links get OSC 8 terminal hyperlinks via TextChunk.link so terminals
+// can handle click-to-open natively (cmd+click in iTerm2, kitty, Ghostty).
+export function createMarkdownRenderNode(renderer: RenderContext): (token: Token, context: RenderNodeContext) => Renderable | undefined {
+  let nodeCounter = 0
+
+  return (token: Token, context: RenderNodeContext) => {
+    // Only override paragraphs that contain links (including nested)
+    if (token.type !== 'paragraph' || !hasLinks(token)) {
+      return undefined // use default rendering
+    }
+
+    const themeName = useStore.getState().currentThemeName
+    const theme = getResolvedTheme(themeName)
+    const primaryColor = parseColor(theme.primary)
+    const textColor = parseColor(theme.text)
+
+    const chunks: TextChunk[] = []
+    const links: LinkInfo[] = []
+    flattenInlineTokens({
+      tokens: token.tokens || [],
+      chunks,
+      links,
+      primaryColor,
+      textColor,
+    })
+
+    return new TextRenderable(renderer, {
+      id: `para-links-${nodeCounter++}`,
+      content: new StyledText(chunks),
+      width: '100%',
+      marginBottom: 1,
+    })
+  }
+}

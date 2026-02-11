@@ -1,5 +1,5 @@
-import { SyntaxStyle, RGBA } from '@opentui/core'
-import { getResolvedTheme, type ResolvedTheme, defaultThemeName, themeNames } from './themes'
+import { SyntaxStyle } from '@opentui/core'
+import { getResolvedTheme, getSyntaxTheme, type ResolvedTheme, defaultThemeName, themeNames } from './themes'
 import { useStore } from './state'
 import { Cache } from './apis/cache'
 
@@ -51,30 +51,11 @@ export function useTheme(): ResolvedTheme {
   return getResolvedTheme(themeName)
 }
 
+// Returns a full SyntaxStyle with all code + markdown scopes.
+// Code blocks inside markdown get proper syntax highlighting (keywords, strings, etc.)
 export function getMarkdownSyntaxStyle(): SyntaxStyle {
   const themeName = useStore.getState().currentThemeName
-  const t = getResolvedTheme(themeName)
-  return SyntaxStyle.fromStyles({
-    default: { fg: RGBA.fromHex(t.markdownText) },
-    'markup.heading.1': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-    'markup.heading.2': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-    'markup.heading.3': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-    'markup.heading.4': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-    'markup.heading.5': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-    'markup.heading.6': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-    'markup.heading': { fg: RGBA.fromHex(t.markdownHeading), bold: true },
-    'markup.raw.block': { fg: RGBA.fromHex(t.markdownCode) },
-    'markup.link.url': { fg: RGBA.fromHex(t.markdownLink) },
-    'markup.link.label': { fg: RGBA.fromHex(t.markdownLinkText) },
-    'markup.list': { fg: RGBA.fromHex(t.markdownListItem) },
-    'markup.list.checked': { fg: RGBA.fromHex(t.success) },
-    'markup.list.unchecked': { fg: RGBA.fromHex(t.textMuted) },
-    'markup.quote': { fg: RGBA.fromHex(t.markdownBlockQuote), italic: true },
-    'punctuation.special': { fg: RGBA.fromHex(t.syntaxPunctuation) },
-    'punctuation.delimiter': { fg: RGBA.fromHex(t.syntaxPunctuation) },
-    'string.escape': { fg: RGBA.fromHex(t.syntaxString) },
-    label: { fg: RGBA.fromHex(t.accent) },
-  })
+  return SyntaxStyle.fromStyles(getSyntaxTheme(themeName))
 }
 
 // For backward compatibility - some code imports markdownSyntaxStyle directly
