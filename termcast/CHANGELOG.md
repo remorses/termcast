@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.36
+
+### Patch Changes
+
+- Add top-level `types` field pointing to `./dist/index.d.ts` for broader tooling compatibility
+- Add `types` condition to `./src/*` exports so TypeScript resolves `.d.ts` from `dist/` instead of raw `.tsx` sources
+
 ## 1.3.35
 
 ### Patch Changes
