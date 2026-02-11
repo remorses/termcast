@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.3.37
+
+### Patch Changes
+
+- Switch from `<code filetype="markdown">` to native `<markdown>` element for Detail and List.Item.Detail rendering
+- Add renderNode link hiding - markdown links now display only the title text (URL hidden)
+- Markdown links render with distinct cyan color and underline styling
+- OSC 8 terminal hyperlinks for clickable links in supported terminals (Ghostty, kitty, WezTerm, Alacritty, iTerm2)
+- Add syntax theme with ~70 tree-sitter scopes for full code block syntax highlighting inside markdown
+- Add ASCII/Unicode diagram rendering support (diagram-parser ported from critique)
+- Reduce scrollbar thumb contrast for a more subtle appearance
+- Update opentuah to 0.1.87 - fixes bun compile for standalone binaries
+
 ## 1.3.36
 
 ### Patch Changes
