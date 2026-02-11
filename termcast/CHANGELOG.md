@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.38
+
+### Patch Changes
+
+- Update @termcast/utils to 2.2.5 - fix peer dependency resolution by moving termcast alias to dependencies
+
 ## 1.3.37
 
 ### Patch Changes
