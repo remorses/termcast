@@ -66,8 +66,9 @@ export const aliasPlugin: BunPlugin = {
       }
     })
 
-    build.onResolve({ filter: /^@opentui\/react/ }, (args) => {
-      // Handle @opentui/react/jsx-dev-runtime specifically
+    // Handle both @opentui/* and @opentuah/* (npm alias target)
+    build.onResolve({ filter: /^@opentui\/react|^@opentuah\/react/ }, (args) => {
+      // Handle jsx-dev-runtime specifically
       if (args.path.includes('jsx')) {
         return {
           path: 'react/jsx-runtime',
@@ -80,7 +81,7 @@ export const aliasPlugin: BunPlugin = {
       }
     })
 
-    build.onResolve({ filter: /^@opentui\/core/ }, () => {
+    build.onResolve({ filter: /^@opentui\/core|^@opentuah\/core/ }, () => {
       return {
         path: '@opentui/core',
         namespace: GLOBALS_NAMESPACE,
@@ -255,9 +256,17 @@ export async function buildExtensionCommands({
     ...rawPackageJson.devDependencies,
   }
   // Deps handled by aliasPlugin (mapped to globalThis), not externalized
+  // These packages import React internally - if externalized they would load
+  // React from the extension's node_modules instead of termcast's globalThis.react,
+  // causing duplicate React instances and "hooks called outside component" errors
   const aliasedPackages = new Set([
     '@raycast/api',
     '@raycast/utils',
+    '@termcast/utils',
+    '@opentui/react',
+    '@opentui/core',
+    '@opentuah/react', // npm alias target for @opentui/react
+    '@opentuah/core', // npm alias target for @opentui/core
     'react',
     'termcast',
   ])
