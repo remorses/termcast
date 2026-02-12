@@ -830,7 +830,7 @@ function ListItemRow(props: {
           <text
             flexShrink={0}
             fg={active ? theme.background : theme.text}
-            attributes={active ? TextAttributes.BOLD : undefined}
+            attributes={TextAttributes.BOLD}
             selectable={false}
             wrapMode="none"
           >
@@ -840,7 +840,7 @@ function ListItemRow(props: {
         {subtitle && (
           <text
             flexShrink={0}
-            fg={active ? theme.background : theme.textMuted}
+            fg={active ? theme.background : theme.text}
             selectable={false}
             wrapMode="none"
           >
