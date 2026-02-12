@@ -93,12 +93,12 @@ test('selecting command with arguments shows arguments form', async () => {
 
        > Search commands...
 
-       Google Oauth                                      view
        usePromise Demo Shows how to use the usePromise h view
        Show State Shows the current application state in view
       ›With Arguments Demonstrates command arguments (te view
        Quick Action Copies current timestamp to clipb no-view
        Throw Error Command that throws an error at root  view
+
 
 
        ↵ run command   ↑↓ navigate   ^k actions
@@ -161,6 +161,7 @@ test('can fill arguments and run command', async () => {
 
   // Type in the search query field
   await session.type('my search term')
+  await session.waitIdle()
 
   const afterTypingSnapshot = await session.text()
   expect(afterTypingSnapshot).toMatchInlineSnapshot(`
@@ -183,9 +184,14 @@ test('can fill arguments and run command', async () => {
     "
   `)
 
-  // Submit via action panel (ctrl+k then enter)
+  // Submit via actions dialog.
+  // Terminals don't reliably encode Ctrl+Enter, but Ctrl+K is stable.
   await session.press(['ctrl', 'k'])
-  await session.waitIdle()
+  await waitForTextWithDebug({
+    session,
+    waitFor: (text) => text.includes('Search actions...') && text.includes('Run Command'),
+    timeout: 10000,
+  })
   await session.press('enter')
 
   await waitForTextWithDebug({

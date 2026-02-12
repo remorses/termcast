@@ -73,7 +73,9 @@ const DetailMetadata: DetailMetadataType = (props) => {
     maxValueLen: 9999, // No limit - let text wrap naturally
     titleMinWidth: computedTitleWidth,
     paddingBottom: 1,
-    separatorWidth: 200, // Will be clipped by overflow: hidden
+    // Keep separators deterministic by rendering a fixed number of chars.
+    // The content area has paddingRight=2 in <Detail>, so leave some margin.
+    separatorWidth: Math.max(20, width - 6),
   }
 
   return (

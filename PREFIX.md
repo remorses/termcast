@@ -18,6 +18,8 @@ ALWAYS use .tsx extension for every new file.
 
 NEVER use mocks in vitest tests
 
+When running the e2e vitest suite, ALWAYS use the repo scripts (`bun e2e`, `bun e2e <file>`, `bun e2e -u`). NEVER run `vitest` directly.
+
 prefer object args instead of positional args. as a way to implement named arguments, put the typescript definition inline
 
 ## see files in the repo

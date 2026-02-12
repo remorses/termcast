@@ -150,13 +150,14 @@ const MetadataLabel = (props: LabelProps): any => {
 const MetadataSeparator = (_props: SeparatorProps): any => {
   const theme = useTheme()
   const config = useContext(MetadataContext)
+  const separatorWidth = Math.max(20, config.separatorWidth)
   // Separator has same paddingBottom as other elements for symmetrical spacing
   // (element above has paddingBottom, separator also has paddingBottom)
   return (
     <box style={{ paddingBottom: config.paddingBottom }}>
       <box style={{ flexDirection: 'row', overflow: 'hidden' }}>
-        <text flexGrow={1} flexShrink={0} fg={theme.border} wrapMode="none">
-          {'─'.repeat(200)}
+        <text flexGrow={0} flexShrink={0} fg={theme.border} wrapMode="none">
+          {'─'.repeat(separatorWidth)}
         </text>
       </box>
     </box>

@@ -61,6 +61,13 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
     timeout: 30000,
   })
 
+  // Wait for the full command list to render.
+  // The list can paint the first item before all descendants are registered.
+  await session.text({
+    waitFor: (text) => text.includes('My Pull Requests') && text.includes('Search Repositories'),
+    timeout: 30000,
+  })
+
   expect(initialView).toContain('My Pull Requests')
   expect(initialView).toContain('Search Repositories')
   expect(initialView).toMatchInlineSnapshot(`
@@ -101,7 +108,7 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
 test.skipIf(!extensionExists)('github extension can navigate commands', async () => {
   // Wait for command list
   await session.text({
-    waitFor: (text) => /My Pull Requests|Search Repositories/i.test(text),
+    waitFor: (text) => text.includes('My Pull Requests') && text.includes('Search Repositories'),
     timeout: 30000,
   })
 

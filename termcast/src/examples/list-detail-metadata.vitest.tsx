@@ -23,7 +23,9 @@ test('list detail metadata label renders short values in row layout (key: value)
         text.includes('Metadata Test') &&
         text.includes('Name') &&
         text.includes('John Doe') &&
-        text.includes('Email')
+        text.includes('Email') &&
+        text.includes('Website') &&
+        text.includes('↑↓ navigate')
       )
     },
   })

@@ -33,7 +33,8 @@ test('detail metadata showcase renders markdown and metadata together', async ()
         text.includes('Project Update') &&
         text.includes('Basic Information') &&
         text.includes('Alice Johnson') &&
-        text.includes('Watchers')
+        text.includes('Watchers') &&
+        text.includes('powered by termcast')
       )
     },
     timeout: 20000,
@@ -202,7 +203,11 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
 test('detail metadata renders long values in column layout', async () => {
   const snapshot = await session.text({
-    waitFor: (text) => text.includes('Description:') && text.includes('comprehensive'),
+    waitFor: (text) =>
+      text.includes('Description:') &&
+      text.includes('comprehensive') &&
+      text.includes('PR Link:') &&
+      text.includes('powered by termcast'),
     timeout: 15000,
   })
 
@@ -254,7 +259,7 @@ test('detail metadata renders long values in column layout', async () => {
 
       Team:        Platform
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Status:      Active
 
@@ -264,7 +269,7 @@ test('detail metadata renders long values in column layout', async () => {
 
       Risk:        Medium
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Description: This is a comprehensive metadata showcase that demonstrates all the different
                    ways you can display information using the Detail.Metadata component.
@@ -275,7 +280,7 @@ test('detail metadata renders long values in column layout', async () => {
 
       Reviewer:    Bob Smith
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Repository:  github.com/example
 
@@ -283,35 +288,35 @@ test('detail metadata renders long values in column layout', async () => {
 
       PR Link:     github.com/organization/repository/pull/12345
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
+
+      Labels:      documentation enhancement good first issue
+
+      Tags:        bug feature urgent design backend
+
+      Timestamps
+
+      Created:     2024-01-15 09:30:00
+
+      Updated:     2024-01-20 14:45:00
+
+      Due Date:    2024-02-01
+
+      ─────────────────────────────────────────────────────────────────────────────────────────────
+
+      Metrics
+
+      Comments:    42
+
+      Reactions:   +127
+
+      Views:       1,234
+
+      Watchers:    @alice @bob @charlie
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      esc go back                                                                  powered by termcast
 
 
 
@@ -344,8 +349,17 @@ test('detail metadata renders long values in column layout', async () => {
 }, 30000)
 
 test('detail metadata renders links', async () => {
+  // The showcase is long; scroll so the link section is visible.
+  await session.scrollDown(40)
+
   const snapshot = await session.text({
-    waitFor: (text) => text.includes('Repository:') && text.includes('github.com/example'),
+    waitFor: (text) =>
+      text.includes('Repository:') &&
+      text.includes('github.com/example') &&
+      text.includes('Docs:') &&
+      text.includes('docs.example.com') &&
+      text.includes('PR Link:') &&
+      text.includes('github.com/organization/repository/pull/12345'),
     timeout: 15000,
   })
 
@@ -426,7 +440,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Team:        Platform
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Status:      Active
 
@@ -436,7 +450,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Risk:        Medium
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Description: This is a comprehensive metadata showcase that demonstrates all the different
                    ways you can display information using the Detail.Metadata component.
@@ -447,7 +461,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Reviewer:    Bob Smith
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Repository:  github.com/example
 
@@ -455,7 +469,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       PR Link:     github.com/organization/repository/pull/12345
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Labels:      documentation enhancement good first issue
 
@@ -469,7 +483,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Due Date:    2024-02-01
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Metrics
 
@@ -483,21 +497,21 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       esc go back                                                                  powered by termcast
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)

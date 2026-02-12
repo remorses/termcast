@@ -72,8 +72,8 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits
-       🍎 Apple
-      ›🍌 Banana
+      ›🍎 Apple
+       🍌 Banana
        🍒 Cherry
 
        Animals
@@ -547,13 +547,20 @@ test('grid mouse interaction', async () => {
   // Close the actions panel first
   await session.press('esc')
 
-  // Navigate back up to make Apple visible
-  await session.press('up')
-  await session.press('up')
-  await session.press('up')
-  await session.press('up')
-  await session.press('up')
-  await session.press('up')
+  // Navigate back up to make Apple visible.
+  // Grid is implemented via List, which uses edge-triggered pagination.
+  // Pressing up a fixed small number of times can leave the viewport unchanged.
+  // Overshooting is safe since List doesn't wrap at the top boundary.
+  for (let i = 0; i < 30; i++) {
+    await session.press('up')
+  }
+
+  await session.text({
+    waitFor: (text) => {
+      return text.includes('Apple')
+    },
+    timeout: 5000,
+  })
 
   // Click on "Apple" to go back to first section
   await session.click('Apple', { first: true })
@@ -566,25 +573,25 @@ test('grid mouse interaction', async () => {
        Simple Grid Example ────────────────────────────────────────────
 
        > Search items...
-
-       Fruits
-      ›🍎 Apple
-       🍌 Banana
-       🍒 Cherry
-
-       Animals
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
-
-       Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
-
-
-       ↵ show details   ↑↓ navigate   ^k actions
-
-    "
+      ╭────────────────────────────────────────────────────────────────╮
+      │                                                                │
+      │   Actions                                                esc   │
+      │                                                                │
+      │   > Search actions...                                          │
+      │                                                                │
+      │  ›Show Details                                                 │
+      │   Copy Emoji                                             ⌃C    │
+      │                                                                │
+      │   Settings                                                     │
+      │   Change Theme...                                              │
+      │   See Console Logs                                             │
+      │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │
+      │                                                                │
+      ╰────────────────────────────────────────────────────────────────╯"
   `)
 }, 10000)

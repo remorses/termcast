@@ -706,15 +706,15 @@ test('list scrollbox scrolling with sections', async () => {
 
        > Search items...
 
+       Fruits
+       Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
        Orange Citrus and juicy                                    Fresh
        Grape Sweet clusters                                  [Seasonal]
        Mango Tropical delight                                  Imported
        Pineapple Sweet and tangy
       ›Strawberry Red and sweet                               [Popular]
 
-       Vegetables
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
 
 
        ↑↓ navigate   ^k actions
@@ -736,8 +736,6 @@ test('list scrollbox scrolling with sections', async () => {
 
        > Search items...
 
-
-       Vegetables
        Carrot Orange and crunchy                              [Healthy]
        Lettuce Green and fresh
       ›Broccoli Green florets                                 [Healthy]
@@ -745,6 +743,8 @@ test('list scrollbox scrolling with sections', async () => {
        Tomato Red and ripe
        Cucumber Cool and crisp
        Bell Pepper Colorful and crunchy                         [Fresh]
+
+       Bread Freshly baked                                  Today [New]
 
 
        ↑↓ navigate   ^k actions

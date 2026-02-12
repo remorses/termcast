@@ -535,7 +535,8 @@ test('list with detail layout consistency - short vs long detail content', async
     waitFor: (text) => {
       return (
         text.includes('›Short Detail') &&
-        text.includes('Brief content')
+        text.includes('Brief content') &&
+        text.includes('↑↓ navigate')
       )
     },
   })
@@ -547,7 +548,8 @@ test('list with detail layout consistency - short vs long detail content', async
     waitFor: (text) => {
       return (
         text.includes('›Long Detail') &&
-        text.includes('extensive')
+        text.includes('extensive') &&
+        text.includes('↑↓ navigate')
       )
     },
   })

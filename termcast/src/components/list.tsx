@@ -1063,20 +1063,44 @@ export const List: ListType = (props) => {
     }
   }, [selectedIndex])
 
-  const scrollToItem = (item: { props?: ListItemDescendant }) => {
+  const scrollToItemIfNeeded = ({
+    item,
+    direction,
+  }: {
+    item: { props?: ListItemDescendant }
+    direction: -1 | 1
+  }) => {
     const scrollBox = scrollBoxRef.current
     const elementRef = item.props?.elementRef
     if (!scrollBox || !elementRef) return
 
     const contentY = scrollBox.content?.y || 0
+    const scrollTop = scrollBox.scrollTop || 0
     const viewportHeight = scrollBox.viewport?.height || 10
 
-    // Calculate item position relative to content
+    // Position of the item within the scroll content.
+    // Using `content.y` makes this stable even as the content moves while scrolling.
     const itemTop = elementRef.y - contentY
+    const itemHeight = elementRef.height || 1
+    const itemBottom = itemTop + itemHeight
 
-    // Scroll so the top of the item is centered in the viewport
-    const targetScrollTop = itemTop - viewportHeight / 2
-    scrollBox.scrollTo(Math.max(0, targetScrollTop))
+    const viewportTop = scrollTop
+    const viewportBottom = scrollTop + viewportHeight
+
+    // Traditional pagination behavior:
+    // - Going down: only scroll when the next item would go off-screen, and align it to the top.
+    // - Going up: only scroll when the next item would go off-screen, and align it to the bottom.
+    if (direction === 1) {
+      if (itemBottom > viewportBottom) {
+        scrollBox.scrollTo(Math.max(0, itemTop))
+      }
+      return
+    }
+
+    if (itemTop < viewportTop) {
+      const targetScrollTop = itemBottom - viewportHeight
+      scrollBox.scrollTo(Math.max(0, targetScrollTop))
+    }
   }
 
   // Track whether onLoadMore has been called and we're waiting for new items.
@@ -1140,7 +1164,7 @@ export const List: ListType = (props) => {
         setSelectedIndex(nextItem.index)
       })
       persistSelectedIndexInCurrentNavigationItem(nextItem.index)
-      scrollToItem(nextItem)
+      scrollToItemIfNeeded({ item: nextItem, direction })
 
       // Check if we're approaching the end and should trigger pagination
       triggerPaginationIfNeeded(nextVisibleIndex, items.length)
