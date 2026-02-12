@@ -580,15 +580,15 @@ test('form dropdown with default value', async () => {
 
 
 
-      ■  Dropdown Component Demo                                       █
+      ▪  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
-      ◇  Programming Languages                                         █
+      ◆  Programming Languages                                         █
       │  TypeScript, Rust                                              █
       │                                                                █
       │  Frontend                                                      █
-      │  ● TypeScript                                                  █
+      │› ● TypeScript                                                  █
       │  ○ JavaScript                                                  █
       │  ○ React                                                       █
       │  ○ Vue                                                         █

@@ -54,11 +54,11 @@ test('list with detail view display and navigation', async () => {
                                             │ Abilities
                                             │
                                             │ - Chlorophyll
+                                            │ - Overgrow
                                             │
-
-
-
-
+                                            │
+                                            │ Types
+       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
 
     "
   `)
