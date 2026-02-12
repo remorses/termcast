@@ -201,11 +201,17 @@ export async function compileExtension({
     })),
   })
 
+  // IMPORTANT: always compile with a concrete target (bun-linux-x64, bun-darwin-arm64, ...)
+  // rather than the generic "bun" target. Using the generic target can cause Bun.build to
+  // keep platform branches during bundling and attempt to resolve optional platform packages
+  // (e.g. @opentuah/core-linux-musl-x64) even when compiling/running on glibc Linux.
+  const resolvedTarget: CompileTarget = target || getCurrentTarget()
+
   const targetSuffix = target ? targetToFileSuffix(target) : 'local'
   const tempEntryPath = path.join(bundleDir, `_entry-${targetSuffix}.tsx`)
   fs.writeFileSync(tempEntryPath, entryCode)
 
-  const bunTarget = target ? targetToString(target) : 'bun'
+  const bunTarget = targetToString(resolvedTarget)
   const distDir = path.join(resolvedPath, 'dist')
   if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir, { recursive: true })

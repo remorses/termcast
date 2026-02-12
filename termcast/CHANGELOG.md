@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.44
+
+### Patch Changes
+
+- Fix compile: default to a concrete Bun build target (e.g. `bun-linux-x64`) to avoid resolving optional opentuah musl packages during bundling
+
 ## 1.3.43
 
 ### Patch Changes
