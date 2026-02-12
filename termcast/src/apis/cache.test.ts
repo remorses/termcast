@@ -239,8 +239,16 @@ describe('Cache', () => {
       cache.subscribe(errorSubscriber)
       cache.subscribe(normalSubscriber)
 
-      // Should not throw, and normal subscriber should still be called
-      expect(() => cache.set('key', 'value')).not.toThrow()
+      // This test intentionally triggers a subscriber exception.
+      // Cache should catch it, continue notifying other subscribers, and not pollute test output.
+      const originalConsoleError = console.error
+      console.error = () => {}
+      try {
+        // Should not throw, and normal subscriber should still be called
+        expect(() => cache.set('key', 'value')).not.toThrow()
+      } finally {
+        console.error = originalConsoleError
+      }
       expect(normalSubscriber).toHaveBeenCalledWith('key', 'value')
     })
   })
