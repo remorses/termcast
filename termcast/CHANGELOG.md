@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.40
+
+### Patch Changes
+
+- Fix: show a loading spinner in List empty view when `isLoading` is true
+- Update opentuah OpenTUI packages to 0.1.88
+- Test improvements: silence noisy cache subscriber error log; normalize swift extension snapshots by stripping ANSI
+
 ## 1.3.39
 
 ### Patch Changes
