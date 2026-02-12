@@ -38,7 +38,6 @@ test('actions preserve React context through portal', async () => {
   expect(actionsPanel).toMatchInlineSnapshot(`
     "
 
-
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -53,10 +52,11 @@ test('actions preserve React context through portal', async () => {
       │   See Console Logs                                             │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
-    "
+      │                                                                │
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │
+      │                                                                │"
   `)
 
   // Select "Show Counter" (first action, already selected)

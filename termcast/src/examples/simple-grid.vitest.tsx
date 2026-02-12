@@ -137,7 +137,6 @@ test('grid navigation and display', async () => {
        Simple Grid Example ────────────────────────────────────────────
 
        > Search items...
-
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -152,11 +151,12 @@ test('grid navigation and display', async () => {
       │   See Console Logs                                             │
       │                                                                │
       │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
-
-    "
+      ╰────────────────────────────────────────────────────────────────╯"
   `)
 
   // Close actions with escape
@@ -522,7 +522,6 @@ test('grid mouse interaction', async () => {
        Simple Grid Example ────────────────────────────────────────────
 
        > Search items...
-
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -537,11 +536,12 @@ test('grid mouse interaction', async () => {
       │   See Console Logs                                             │
       │                                                                │
       │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
-
-    "
+      ╰────────────────────────────────────────────────────────────────╯"
   `)
 
   // Close the actions panel first

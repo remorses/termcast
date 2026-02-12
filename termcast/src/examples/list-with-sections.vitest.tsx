@@ -440,8 +440,6 @@ test('list actions panel with ctrl+k', async () => {
     "
 
 
-       Simple List Example ────────────────────────────────────────────
-
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -456,8 +454,10 @@ test('list actions panel with ctrl+k', async () => {
       │   See Console Logs                                             │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+      │                                                                │
+      │                                                                │
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │"
   `)
 
   // Navigate down to second action
@@ -467,8 +467,6 @@ test('list actions panel with ctrl+k', async () => {
   expect(afterDownInActionsSnapshot).toMatchInlineSnapshot(`
     "
 
-
-       Simple List Example ────────────────────────────────────────────
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
@@ -484,8 +482,10 @@ test('list actions panel with ctrl+k', async () => {
       │   See Console Logs                                             │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+      │                                                                │
+      │                                                                │
+      │                                                                │
+      │   ↵ select   ↑↓ navigate                                       │"
   `)
 
   // Trigger the second action (Add to Cart)

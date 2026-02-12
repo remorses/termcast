@@ -8,7 +8,7 @@ beforeEach(async () => {
     command: 'bun',
     args: ['src/examples/list-with-detail.tsx'],
     cols: 80,
-    rows: 30,
+    rows: 33,
   })
 })
 
@@ -58,7 +58,10 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Grass
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -97,7 +100,10 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Grass
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -134,7 +140,10 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Fire
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -170,11 +179,14 @@ test('list with detail view display and navigation', async () => {
       │   See Console Logs                                                       │
       │                                                                          │
       │                                                                          │
+      │                                                                          │
+      │                                                                          │
+      │                                                                          │
       │   ↵ select   ↑↓ navigate                                                 │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
-                                            │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -203,6 +215,9 @@ test('list with detail view display and navigation', async () => {
 
 
        ↵ toggle detail   ↑↓ navigate   ^k actions             powered by termcast
+
+
+
 
 
 
@@ -257,7 +272,10 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Fire
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -306,7 +324,10 @@ test('list detail view search functionality', async () => {
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Fire
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -332,27 +353,30 @@ test('list detail view search functionality', async () => {
        > water
 
 
-                                            │ bulbasaur                         ▲
-                  No items found            │                                   ▀
+                                            │ wartortle                         ▲
+                  No items found            │                                   █
                                             │ Illustration
                                             │
                                             │ Types
                                             │
-                                            │ Grass / Poison
+                                            │ Water
                                             │
                                             │ Characteristics
                                             │
-                                            │ - Height: 0.7m
-                                            │ - Weight: 6.9kg
+                                            │ - Height: 1m
+                                            │ - Weight: 22.5kg
                                             │
                                             │ Abilities
                                             │
-                                            │ - Chlorophyll
-                                            │ - Overgrow
+                                            │ - Torrent
+                                            │ - Rain Dish
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Water
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -369,27 +393,30 @@ test('list detail view search functionality', async () => {
        > water
 
 
-                                            │ bulbasaur                         ▲
-                  No items found            │                                   ▀
+                                            │ wartortle                         ▲
+                  No items found            │                                   █
                                             │ Illustration
                                             │
                                             │ Types
                                             │
-                                            │ Grass / Poison
+                                            │ Water
                                             │
                                             │ Characteristics
                                             │
-                                            │ - Height: 0.7m
-                                            │ - Weight: 6.9kg
+                                            │ - Height: 1m
+                                            │ - Weight: 22.5kg
                                             │
                                             │ Abilities
                                             │
-                                            │ - Chlorophyll
-                                            │ - Overgrow
+                                            │ - Torrent
+                                            │ - Rain Dish
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Water
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -438,7 +465,10 @@ test('list detail metadata rendering', async () => {
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Grass
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -482,7 +512,10 @@ test('list detail metadata rendering', async () => {
                                             │
                                             │
                                             │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+                                            │
+                                            │ Water
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)

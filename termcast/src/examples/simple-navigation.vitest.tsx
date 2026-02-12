@@ -295,7 +295,6 @@ test('navigation with actions panel', async () => {
   expect(actionsOpenSnapshot).toMatchInlineSnapshot(`
     "
 
-
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -310,11 +309,12 @@ test('navigation with actions panel', async () => {
       │   See Console Logs                                             │
       │                                                                │
       │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
-
 
 
 
@@ -327,7 +327,6 @@ test('navigation with actions panel', async () => {
   const secondActionSnapshot = await session.text()
   expect(secondActionSnapshot).toMatchInlineSnapshot(`
     "
-
 
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
@@ -343,11 +342,12 @@ test('navigation with actions panel', async () => {
       │   See Console Logs                                             │
       │                                                                │
       │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
-
 
 
 
@@ -439,7 +439,6 @@ test('navigation with actions panel', async () => {
   expect(detailActionsSnapshot).toMatchInlineSnapshot(`
     "
 
-
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -454,11 +453,12 @@ test('navigation with actions panel', async () => {
       │   See Console Logs                                             │
       │                                                                │
       │                                                                │
+      │                                                                │
+      │                                                                │
+      │                                                                │
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
-
 
 
 
@@ -525,12 +525,12 @@ test('search functionality in main and detail views', async () => {
 
        Navigation Example ─────────────────────────────────────────────
 
-       > Main view
+       > second
 
-       Items
-      ›First Item Navigate to first detail
-       Second Item Navigate to second detail
-       Third Item Navigate to third detail
+      ›Second Item Navigate to second detail
+
+
+
 
 
 

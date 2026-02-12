@@ -9,6 +9,7 @@ export { List, Grid } from 'termcast/src/components/list'
 export { List as default } from 'termcast/src/components/list'
 export type {
   ListProps,
+  ListSpacingMode,
   ItemProps as ListItemProps,
   SectionProps as ListSectionProps,
   DetailProps as ListDetailProps,

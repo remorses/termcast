@@ -172,26 +172,26 @@ test.skipIf(!extensionExists)('github extension can open actions panel', async (
 
        > Search commands...
 
-       Commands
-      ›My Pull Requests List pull requests you created, participated in, or  view
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Actions                                                          esc   │
       │                                                                          │
       │   > Search actions...                                                    │
       │                                                                          │
-      │  ›Run Command                                                         █  │
-      │   Copy File Path                                                      █  │
-      │   Copy Command Info                                                   █  │
-      │                                                                       ▀  │
+      │  ›Run Command                                                            │
+      │   Copy File Path                                                         │
+      │   Copy Command Info                                                      │
+      │                                                                          │
       │   Settings                                                               │
-      │   Configure GitHub...                                            ⌃⇧,     │
+      │   Configure GitHub...                                             ⌃⇧,    │
       │   Change Theme...                                                        │
+      │   See Console Logs                                                       │
+      │                                                                          │
+      │                                                                          │
       │                                                                          │
       │   ↵ select   ↑↓ navigate                                                 │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
-       ↵ run command   ↑↓ navigate   ^k actions               powered by termcast
 
 
 

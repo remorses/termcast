@@ -283,6 +283,8 @@ export interface SectionProps extends CommonProps {
   subtitle?: string
 }
 
+export type ListSpacingMode = 'default' | 'relaxed'
+
 export interface ListProps
   extends ActionsInterface,
     NavigationChildInterface,
@@ -298,6 +300,12 @@ export interface ListProps
   searchBarPlaceholder?: string
   selectedItemId?: string
   isShowingDetail?: boolean
+  /**
+   * Controls the vertical spacing of list items.
+   * - 'default': Single-line items with title and subtitle on same row
+   * - 'relaxed': Two-line items with title on first row, subtitle below, and padding between items
+   */
+  spacingMode?: ListSpacingMode
 }
 
 interface ListType {
@@ -352,7 +360,7 @@ interface EmptyViewProps extends ActionsInterface, CommonProps {
   description?: string
 }
 
-// List context for passing data to dropdown
+// List context for passing data to dropdown and list items
 interface ListContextValue {
   isDropdownOpen: boolean
   setIsDropdownOpen: (value: boolean) => void
@@ -366,6 +374,7 @@ interface ListContextValue {
   customEmptyViewRef: React.MutableRefObject<boolean>
   isLoading?: boolean
   hasDropdown?: boolean
+  spacingMode: ListSpacingMode
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -639,6 +648,9 @@ function ListItemRow(props: {
   ref?: React.Ref<BoxRenderable>
 }) {
   const theme = useTheme()
+  const listCtx = useContext(ListContext)
+  const spacingMode = listCtx?.spacingMode ?? 'default'
+  const isRelaxed = spacingMode === 'relaxed'
   const { title, subtitle, icon, iconColor, accessories, active, ref } = props
   const [isHovered, setIsHovered] = useState(false)
 
@@ -711,6 +723,82 @@ function ListItemRow(props: {
     })
   }
 
+  // Calculate subtitle indentation to align with title start
+  // Selection marker = 1 cell
+  // Icon emoji (1 cell) + space after icon (1 cell) = 2 cells if icon present
+  // So total indent: marker (1) + icon+space (2) = 3 if icon, else just marker (1)
+  const subtitleIndent = icon ? 3 : 1
+
+  // Relaxed mode: two-line layout with title on first line, subtitle below
+  if (isRelaxed) {
+    return (
+      <box
+        ref={ref}
+        style={{
+          flexDirection: 'column',
+          backgroundColor: active
+            ? theme.primary
+            : isHovered
+              ? theme.backgroundPanel
+              : undefined,
+          paddingLeft: 0,
+          paddingRight: 1,
+          marginBottom: 1,
+        }}
+        border={false}
+        onMouseMove={() => {
+          setIsHovered(true)
+        }}
+        onMouseOut={() => {
+          setIsHovered(false)
+        }}
+        onMouseDown={props.onMouseDown}
+      >
+        {/* Line 1: marker + icon + title + accessories */}
+        <box style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 1 }}>
+          <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1, overflow: 'hidden' }}>
+            <text flexShrink={0} fg={active ? theme.background : theme.text} attributes={active ? TextAttributes.BOLD : undefined} selectable={false} wrapMode="none">{active ? '›' : ' '}</text>
+            {icon && <text flexShrink={0} fg={active ? theme.background : iconColor || theme.text} selectable={false} wrapMode="none">{getIconEmoji(icon)} </text>}
+            <text
+              flexShrink={0}
+              fg={active ? theme.background : theme.text}
+
+              attributes={TextAttributes.BOLD}
+              selectable={false}
+              wrapMode="none"
+            >
+              {title}
+            </text>
+          </box>
+          {accessoryElements.length > 0 && (
+            <box style={{ flexDirection: 'row', flexShrink: 0 }}>
+              {accessoryElements.map((elem, i) => (
+                <box key={i} style={{ flexDirection: 'row' }}>
+                  {i > 0 && <text flexShrink={0}> </text>}
+                  {elem}
+                </box>
+              ))}
+            </box>
+          )}
+        </box>
+        {/* Line 2: subtitle indented to align with title */}
+        {subtitle && (
+          <box style={{ paddingLeft: subtitleIndent }}>
+            <text
+              flexShrink={0}
+              fg={active ? theme.background : theme.text}
+              selectable={false}
+              wrapMode="none"
+            >
+              {subtitle}
+            </text>
+          </box>
+        )}
+      </box>
+    )
+  }
+
+  // Default mode: single-line layout
   return (
     <box
       ref={ref}
@@ -787,6 +875,7 @@ export const List: ListType = (props) => {
     isShowingDetail,
     selectedItemId,
     searchBarAccessory,
+    spacingMode = 'default',
     ...otherProps
   } = props
 
@@ -933,8 +1022,9 @@ export const List: ListType = (props) => {
       customEmptyViewRef,
       isLoading,
       hasDropdown: !!searchBarAccessory,
+      spacingMode,
     }),
-    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading, searchBarAccessory],
+    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading, searchBarAccessory, spacingMode],
   )
 
   // Clear detail when detail view is hidden (before paint to avoid flash)
