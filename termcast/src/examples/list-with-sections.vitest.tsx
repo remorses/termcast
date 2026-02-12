@@ -597,39 +597,11 @@ test('filtering selects first visible item and navigation works', async () => {
     "
   `)
 
-  // Press down again
+  // Press down again - should stay on Carrot (no wrap)
   await session.press('down')
 
   const afterSecondDownSnapshot = await session.text()
   expect(afterSecondDownSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-       Simple List Example ────────────────────────────────────────────
-
-       > ora
-
-      ›Orange Citrus and juicy                                    Fresh
-       Carrot Orange and crunchy                              [Healthy]
-
-
-
-
-
-
-       ↑↓ navigate   ^k actions
-
-
-
-
-    "
-  `)
-
-  // Press down to wrap back
-  await session.press('down')
-
-  const afterWrapSnapshot = await session.text()
-  expect(afterWrapSnapshot).toMatchInlineSnapshot(`
     "
 
 
@@ -652,6 +624,37 @@ test('filtering selects first visible item and navigation works', async () => {
 
     "
   `)
+
+  // Press down again - should still be on Carrot (no wrap at bottom)
+  await session.press('down')
+
+  const afterNoWrapSnapshot = await session.text()
+  expect(afterNoWrapSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+       Simple List Example ────────────────────────────────────────────
+
+       > ora
+
+       Orange Citrus and juicy                                    Fresh
+      ›Carrot Orange and crunchy                              [Healthy]
+
+
+
+
+
+
+       ↵ view details   ↑↓ navigate   ^k actions
+
+
+
+
+    "
+  `)
+  // Verify Carrot is still selected (not wrapped to Orange)
+  expect(afterNoWrapSnapshot).toContain('›Carrot')
+  expect(afterNoWrapSnapshot).not.toContain('›Orange')
 }, 10000)
 
 test('list scrollbox scrolling with sections', async () => {
@@ -795,15 +798,15 @@ test('list scrollbox scrolling with sections', async () => {
 
        > Search items...
 
-       Carrot Orange and crunchy                              [Healthy]
-       Lettuce Green and fresh
-       Broccoli Green florets                                 [Healthy]
-       Spinach Leafy greens                                     Organic
-       Tomato Red and ripe
-       Cucumber Cool and crisp
-       Bell Pepper Colorful and crunchy                         [Fresh]
+       Fruits
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+       Orange Citrus and juicy                                    Fresh
+       Grape Sweet clusters                                  [Seasonal]
+       Mango Tropical delight                                  Imported
+       Pineapple Sweet and tangy
+       Strawberry Red and sweet                               [Popular]
 
-      ›Bread Freshly baked                                  Today [New]
 
 
        ↵ view details   ↑↓ navigate   ^k actions
@@ -844,4 +847,45 @@ test('search resets selection to first visible item without flash', async () => 
   // Only "Lettuce" matches "let"
   expect(afterLet).toContain('›Lettuce')
   expect(afterLet).not.toContain('›Grape')
+}, 10000)
+
+test('list does not wrap at top boundary', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /search/i.test(text)
+    },
+  })
+
+  // First item (Apple) should be selected
+  const initialSnapshot = await session.text()
+  expect(initialSnapshot).toContain('›Apple')
+
+  // Press up at top - should stay on Apple
+  await session.press('up')
+
+  const afterUpSnapshot = await session.text()
+  expect(afterUpSnapshot).toMatchInlineSnapshot(`
+    "
+
+
+       Simple List Example ────────────────────────────────────────────
+
+       > Search items...
+
+       Fruits
+      ›Apple Red and sweet                              Fresh [Popular]
+       Banana Yellow and nutritious                                Ripe
+       Orange Citrus and juicy                                    Fresh
+       Grape Sweet clusters                                  [Seasonal]
+       Mango Tropical delight                                  Imported
+       Pineapple Sweet and tangy
+       Strawberry Red and sweet                               [Popular]
+
+
+
+       ↵ view details   ↑↓ navigate   ^k actions
+
+    "
+  `)
+  expect(afterUpSnapshot).toContain('›Apple')
 }, 10000)

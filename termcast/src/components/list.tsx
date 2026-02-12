@@ -1031,8 +1031,9 @@ export const List: ListType = (props) => {
       return
     }
 
-    if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
-    if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
+    // Don't wrap around - stop at boundaries
+    if (nextVisibleIndex < 0) return
+    if (nextVisibleIndex >= items.length) return
 
     const nextItem = items[nextVisibleIndex]
     if (nextItem) {
