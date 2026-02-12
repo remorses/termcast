@@ -89,8 +89,8 @@
         "termcast": "./dist/cli.js",
       },
       "dependencies": {
-        "@opentui/core": "^0.1.90",
-        "@opentui/react": "^0.1.90",
+        "@opentui/core": "npm:@opentuah/core@^0.1.92",
+        "@opentui/react": "npm:@opentuah/react@^0.1.92",
         "@parcel/watcher": "^2.5.6",
         "@tanstack/react-query": "^5.85.5",
         "@tanstack/react-query-persist-client": "^5.85.5",
@@ -667,25 +667,13 @@
 
     "@opentelemetry/sql-common": ["@opentelemetry/sql-common@0.41.2", "", { "dependencies": { "@opentelemetry/core": "^2.0.0" }, "peerDependencies": { "@opentelemetry/api": "^1.1.0" } }, "sha512-4mhWm3Z8z+i508zQJ7r6Xi7y4mmoJpdvH0fZPFRkWrdp5fq7hhZ2HhYokEOLkfqSMgPR4Z9EyB3DBkbKGOqZiQ=="],
 
-    "@opentuah/core": ["@opentuah/core@0.1.90", "", { "dependencies": { "bun-ffi-structs": "0.1.2", "diff": "8.0.2", "jimp": "1.6.0", "marked": "17.0.1", "yoga-layout": "3.2.1" }, "optionalDependencies": { "@dimforge/rapier2d-simd-compat": "^0.17.3", "@opentuah/core-darwin-arm64": "0.1.90", "@opentuah/core-darwin-x64": "0.1.90", "@opentuah/core-linux-arm64": "0.1.90", "@opentuah/core-linux-musl-arm64": "0.1.90", "@opentuah/core-linux-musl-x64": "0.1.90", "@opentuah/core-linux-x64": "0.1.90", "@opentuah/core-win32-arm64": "0.1.90", "@opentuah/core-win32-x64": "0.1.90", "bun-webgpu": "0.1.4", "planck": "^1.4.2", "three": "0.177.0" }, "peerDependencies": { "web-tree-sitter": "0.25.10" } }, "sha512-J7pEcOyV1rp1ChYxzXWySw98YJidyYghIwvrv693LcH8LO9EQ23I77So84QRJENg8ILhDqP79T0x7XVXyhGQzA=="],
+    "@opentuah/core": ["@opentuah/core@0.1.92", "", { "dependencies": { "bun-ffi-structs": "0.1.2", "diff": "8.0.2", "jimp": "1.6.0", "marked": "17.0.1", "yoga-layout": "3.2.1" }, "optionalDependencies": { "@dimforge/rapier2d-simd-compat": "^0.17.3", "@opentuah/core-darwin-arm64": "0.1.92", "@opentuah/core-darwin-x64": "0.1.92", "@opentuah/core-linux-arm64": "0.1.92", "@opentuah/core-linux-musl-arm64": "0.1.92", "@opentuah/core-linux-musl-x64": "0.1.92", "@opentuah/core-linux-x64": "0.1.92", "@opentuah/core-win32-arm64": "0.1.92", "@opentuah/core-win32-x64": "0.1.92", "bun-webgpu": "0.1.4", "planck": "^1.4.2", "three": "0.177.0" }, "peerDependencies": { "web-tree-sitter": "0.25.10" } }, "sha512-fASxSmDWlCqaueyYSLNc2dVzWnlRzvlFulHFKv2ClpeqrBH8AXJPwSu1IprrlM/y5+zQpB7uZdKOAODOJ34LIg=="],
 
-    "@opentuah/core-darwin-arm64": ["@opentuah/core-darwin-arm64@0.1.90", "", { "os": "darwin", "cpu": "arm64" }, "sha512-qDTO07PsVsCvdqt+d1aCEuSpd2mQ4hQBn6c/WDszme3bMXYMhPVZ6s/deQOGaamxvlE/fLVr/a18xKwrtkN8pw=="],
+    "@opentuah/core-linux-musl-arm64": ["@opentuah/core-linux-musl-arm64@0.1.92", "", { "os": "none", "cpu": "arm64" }, "sha512-KAdUqYR1y2C8fi5Z4yKntN6YFTCnbXaxNwSoMjIkIiNOKzUYga2au3c7W0mh/eYB+DNz3pyVzg34E8dEuhf2ww=="],
 
-    "@opentuah/core-darwin-x64": ["@opentuah/core-darwin-x64@0.1.90", "", { "os": "darwin", "cpu": "x64" }, "sha512-cg6IezWyRaF+o08osJviVCk7TUYipoEToPD9EwKDJZrAuJNz9NdXpJA+RJx35cwBRPVOHVMD1I3g0yiCb645AA=="],
+    "@opentuah/core-linux-musl-x64": ["@opentuah/core-linux-musl-x64@0.1.92", "", { "os": "none", "cpu": "x64" }, "sha512-bMYXM+ZH/gcS3znBiq7CIMTmcfG4IdxLy8bC1OH4PspmKSXOJnNXODi0UOHWOiWFMlrNCTl5i2qkmTrKmxADxg=="],
 
-    "@opentuah/core-linux-arm64": ["@opentuah/core-linux-arm64@0.1.90", "", { "os": "linux", "cpu": "arm64" }, "sha512-nAplKJroYd94FhqlksSfinaAyYlGt5th9VxBBhDj6IKlxIdd3hyDVNnS41xvqi51TfeIYEklGk7nPY/n/3oryg=="],
-
-    "@opentuah/core-linux-musl-arm64": ["@opentuah/core-linux-musl-arm64@0.1.90", "", { "os": "none", "cpu": "arm64" }, "sha512-XmNb1KfBZEa9Z6el+J3+xOkFQWFAt9Zej1jeLZ3x6N463gEezBGOXx19e+rQ3YCvhvdsZKe49YWijb5o2U61Qg=="],
-
-    "@opentuah/core-linux-musl-x64": ["@opentuah/core-linux-musl-x64@0.1.90", "", { "os": "none", "cpu": "x64" }, "sha512-l4QCPEDTcgrqmjj3g3HKTNEPGm/ZPuI8iTY6X0VOUQsvjzo3MtGgvs/agI1WZJfs0EsULBVDf2d5XMEmqHMLMQ=="],
-
-    "@opentuah/core-linux-x64": ["@opentuah/core-linux-x64@0.1.90", "", { "os": "linux", "cpu": "x64" }, "sha512-/AWSUkYPGOb37ImUqGx2fgpTXeWKABJso+uGnNHRwAUBxV7S8SZ2LfiIuJl5iRCFCTjb7uAl181o9Adfw4gYBA=="],
-
-    "@opentuah/core-win32-arm64": ["@opentuah/core-win32-arm64@0.1.90", "", { "os": "win32", "cpu": "arm64" }, "sha512-CRxycjbte5xXI0VqEos8bYeTNKtvBwwIRmKSUYU+JSPa1BBF8Zf6t+Npa6Juy2aK3HdD9+85Ffi4DSasAZt0+A=="],
-
-    "@opentuah/core-win32-x64": ["@opentuah/core-win32-x64@0.1.90", "", { "os": "win32", "cpu": "x64" }, "sha512-XJvTCNgUh/sGEeUyASwkmVXz0VDZ2JfxkRx56SOlMuJ2TZdIQmpR9N1b2laoWS1wKLWlIZTJLckXF/MBrxDlOw=="],
-
-    "@opentui/core": ["@opentuah/core@0.1.90", "", { "dependencies": { "bun-ffi-structs": "0.1.2", "diff": "8.0.2", "jimp": "1.6.0", "marked": "17.0.1", "yoga-layout": "3.2.1" }, "optionalDependencies": { "@dimforge/rapier2d-simd-compat": "^0.17.3", "@opentuah/core-darwin-arm64": "0.1.90", "@opentuah/core-darwin-x64": "0.1.90", "@opentuah/core-linux-arm64": "0.1.90", "@opentuah/core-linux-musl-arm64": "0.1.90", "@opentuah/core-linux-musl-x64": "0.1.90", "@opentuah/core-linux-x64": "0.1.90", "@opentuah/core-win32-arm64": "0.1.90", "@opentuah/core-win32-x64": "0.1.90", "bun-webgpu": "0.1.4", "planck": "^1.4.2", "three": "0.177.0" }, "peerDependencies": { "web-tree-sitter": "0.25.10" } }, "sha512-J7pEcOyV1rp1ChYxzXWySw98YJidyYghIwvrv693LcH8LO9EQ23I77So84QRJENg8ILhDqP79T0x7XVXyhGQzA=="],
+    "@opentui/core": ["@opentuah/core@0.1.92", "", { "dependencies": { "bun-ffi-structs": "0.1.2", "diff": "8.0.2", "jimp": "1.6.0", "marked": "17.0.1", "yoga-layout": "3.2.1" }, "optionalDependencies": { "@dimforge/rapier2d-simd-compat": "^0.17.3", "@opentuah/core-darwin-arm64": "0.1.92", "@opentuah/core-darwin-x64": "0.1.92", "@opentuah/core-linux-arm64": "0.1.92", "@opentuah/core-linux-musl-arm64": "0.1.92", "@opentuah/core-linux-musl-x64": "0.1.92", "@opentuah/core-linux-x64": "0.1.92", "@opentuah/core-win32-arm64": "0.1.92", "@opentuah/core-win32-x64": "0.1.92", "bun-webgpu": "0.1.4", "planck": "^1.4.2", "three": "0.177.0" }, "peerDependencies": { "web-tree-sitter": "0.25.10" } }, "sha512-fASxSmDWlCqaueyYSLNc2dVzWnlRzvlFulHFKv2ClpeqrBH8AXJPwSu1IprrlM/y5+zQpB7uZdKOAODOJ34LIg=="],
 
     "@opentui/core-darwin-arm64": ["@opentui/core-darwin-arm64@0.1.72", "", { "os": "darwin", "cpu": "arm64" }, "sha512-RoU48kOrhLZYDBiXaDu1LXS2bwRdlJlFle8eUQiqJjLRbMIY34J/srBuL0JnAS3qKW4J34NepUQa0l0/S43Q3w=="],
 
@@ -2419,7 +2407,7 @@
 
     "@parcel/watcher/@parcel/watcher-linux-x64-glibc": ["@parcel/watcher-linux-x64-glibc@2.5.6", "", { "os": "linux", "cpu": "x64" }, "sha512-kbT5wvNQlx7NaGjzPFu8nVIW1rWqV780O7ZtkjuWaPUgpv2NMFpjYERVi0UYj1msZNyCzGlaCWEtzc+exjMGbQ=="],
 
-    "@raycast/api/@opentui/react": ["@opentuah/react@0.1.90", "", { "dependencies": { "@opentuah/core": "0.1.90", "react-reconciler": "^0.32.0" }, "peerDependencies": { "react": ">=19.0.0", "react-devtools-core": "^7.0.1", "ws": "^8.18.0" } }, "sha512-XFr9bznslnp6RaxAp4R9g8HP/NXtfpVgJDx4kuLST8xv8pl/I6maJ77wb5klL0MXKoCuyW2uw45ZNUF3utWjTQ=="],
+    "@raycast/api/@opentui/react": ["@opentuah/react@0.1.92", "", { "dependencies": { "@opentuah/core": "0.1.92", "react-reconciler": "^0.32.0" }, "peerDependencies": { "react": ">=19.0.0", "react-devtools-core": "^7.0.1", "ws": "^8.18.0" } }, "sha512-LpH+FMZXbQGgDZA8k0tYVCe+bPWjCCwQt6BDZBGnBVVmlCxBfgz4UBJXWr+S3fy7qTAI8oVGkE1vzElmUJeGsw=="],
 
     "@raycast/api/@raycast/api": ["@raycast/api@1.104.5", "", { "dependencies": { "@oclif/core": "^4.5.4", "@oclif/plugin-autocomplete": "^3.2.35", "@oclif/plugin-help": "^6.2.33", "@oclif/plugin-not-found": "^3.2.68", "@types/node": "22.13.10", "@types/react": "19.0.10", "esbuild": "^0.25.10", "react": "19.0.0" }, "peerDependencies": { "react-devtools": "6.1.1" }, "optionalPeers": ["react-devtools"], "bin": { "ray": "bin/run.js" } }, "sha512-H2eyeTU5BPd2ZiP5p4bO3krh70xpdglgDRJBHSIg7Dnx4ICOOfvQDo39JMcuDlV7cI8Dca3Ht5kybLXg3G6Ibw=="],
 
@@ -2585,7 +2573,7 @@
 
     "strip-ansi-cjs/ansi-regex": ["ansi-regex@5.0.1", "", {}, "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ=="],
 
-    "termcast/@opentui/react": ["@opentuah/react@0.1.90", "", { "dependencies": { "@opentuah/core": "0.1.90", "react-reconciler": "^0.32.0" }, "peerDependencies": { "react": ">=19.0.0", "react-devtools-core": "^7.0.1", "ws": "^8.18.0" } }, "sha512-XFr9bznslnp6RaxAp4R9g8HP/NXtfpVgJDx4kuLST8xv8pl/I6maJ77wb5klL0MXKoCuyW2uw45ZNUF3utWjTQ=="],
+    "termcast/@opentui/react": ["@opentuah/react@0.1.92", "", { "dependencies": { "@opentuah/core": "0.1.92", "react-reconciler": "^0.32.0" }, "peerDependencies": { "react": ">=19.0.0", "react-devtools-core": "^7.0.1", "ws": "^8.18.0" } }, "sha512-LpH+FMZXbQGgDZA8k0tYVCe+bPWjCCwQt6BDZBGnBVVmlCxBfgz4UBJXWr+S3fy7qTAI8oVGkE1vzElmUJeGsw=="],
 
     "termcast/@raycast/api": ["@raycast/api@1.104.5", "", { "dependencies": { "@oclif/core": "^4.5.4", "@oclif/plugin-autocomplete": "^3.2.35", "@oclif/plugin-help": "^6.2.33", "@oclif/plugin-not-found": "^3.2.68", "@types/node": "22.13.10", "@types/react": "19.0.10", "esbuild": "^0.25.10", "react": "19.0.0" }, "peerDependencies": { "react-devtools": "6.1.1" }, "optionalPeers": ["react-devtools"], "bin": { "ray": "bin/run.js" } }, "sha512-H2eyeTU5BPd2ZiP5p4bO3krh70xpdglgDRJBHSIg7Dnx4ICOOfvQDo39JMcuDlV7cI8Dca3Ht5kybLXg3G6Ibw=="],
 

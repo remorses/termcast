@@ -36,8 +36,8 @@
   "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
   "license": "",
   "dependencies": {
-    "@opentui/core": "npm:@opentuah/core@0.1.90",
-    "@opentui/react": "npm:@opentuah/react@0.1.90",
+    "@opentui/core": "npm:@opentuah/core@^0.1.92",
+    "@opentui/react": "npm:@opentuah/react@^0.1.92",
     "@parcel/watcher": "^2.5.6",
     "@tanstack/react-query": "^5.85.5",
     "@tanstack/react-query-persist-client": "^5.85.5",
