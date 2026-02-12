@@ -51,32 +51,32 @@ test('file picker shows form fields', async () => {
       └
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        ctrl ↵ submit   tab navigate   ^k actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)

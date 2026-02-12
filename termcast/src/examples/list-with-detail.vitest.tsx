@@ -54,11 +54,11 @@ test('list with detail view display and navigation', async () => {
                                             │ Abilities
                                             │
                                             │ - Chlorophyll
-                                            │ - Overgrow
                                             │
-                                            │
-                                            │ Types
-       ↵ toggle detail   ↑↓ navigate   ^k a │                                   ▼
+
+
+
+
 
     "
   `)
@@ -538,14 +538,14 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │
                                             │
                                             │
-                                            │
-                                            │
-                                            │
-                                            │
-                                            │
-                                            │
-                                            │
-                                            │
+       ↑↓ navigate   ^k actions             │
+
+
+
+
+
+
+
 
 
     "
