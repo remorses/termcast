@@ -89,8 +89,8 @@
         "termcast": "./dist/cli.js",
       },
       "dependencies": {
-        "@opentui/core": "npm:@opentuah/core@0.1.90",
-        "@opentui/react": "npm:@opentuah/react@0.1.90",
+        "@opentui/core": "^0.1.90",
+        "@opentui/react": "^0.1.90",
         "@parcel/watcher": "^2.5.6",
         "@tanstack/react-query": "^5.85.5",
         "@tanstack/react-query-persist-client": "^5.85.5",
@@ -152,7 +152,7 @@
         "vitest": "^4.0.16",
       },
       "optionalDependencies": {
-        "node-pty": "1.1.0",
+        "node-pty": "0.10.1",
       },
     },
     "website": {
@@ -2590,8 +2590,6 @@
     "termcast/@raycast/api": ["@raycast/api@1.104.5", "", { "dependencies": { "@oclif/core": "^4.5.4", "@oclif/plugin-autocomplete": "^3.2.35", "@oclif/plugin-help": "^6.2.33", "@oclif/plugin-not-found": "^3.2.68", "@types/node": "22.13.10", "@types/react": "19.0.10", "esbuild": "^0.25.10", "react": "19.0.0" }, "peerDependencies": { "react-devtools": "6.1.1" }, "optionalPeers": ["react-devtools"], "bin": { "ray": "bin/run.js" } }, "sha512-H2eyeTU5BPd2ZiP5p4bO3krh70xpdglgDRJBHSIg7Dnx4ICOOfvQDo39JMcuDlV7cI8Dca3Ht5kybLXg3G6Ibw=="],
 
     "tsutils/tslib": ["tslib@1.14.1", "", {}, "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="],
-
-    "tuistory/node-pty": ["node-pty@1.1.0", "", { "dependencies": { "node-addon-api": "^7.1.0" } }, "sha512-20JqtutY6JPXTUnL0ij1uad7Qe1baT46lyolh2sSENDd4sTzKZ4nmAFkeAARDKwmlLjPx6XKRlwRUxwjOy+lUg=="],
 
     "vite-node/vite": ["vite@7.2.7", "", { "dependencies": { "esbuild": "^0.25.0", "fdir": "^6.5.0", "picomatch": "^4.0.3", "postcss": "^8.5.6", "rollup": "^4.43.0", "tinyglobby": "^0.2.15" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^20.19.0 || >=22.12.0", "jiti": ">=1.21.0", "less": "^4.0.0", "lightningcss": "^1.21.0", "sass": "^1.70.0", "sass-embedded": "^1.70.0", "stylus": ">=0.54.8", "sugarss": "^5.0.0", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["@types/node", "jiti", "less", "lightningcss", "sass", "sass-embedded", "stylus", "sugarss", "terser", "tsx", "yaml"], "bin": { "vite": "bin/vite.js" } }, "sha512-ITcnkFeR3+fI8P1wMgItjGrR10170d8auB4EpMLPqmx6uxElH3a/hHGQabSHKdqd4FXWO1nFIp9rRn7JQ34ACQ=="],
 
