@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.3.46
+
+### Patch Changes
+
+- **metadata**: Dynamic metadata alignment with full-width separators
+  - Title column width now computed from longest title among children
+  - Separators span full container width using flexGrow
+  - Symmetric spacing around separators (1 line above and below)
+  - Fixes paddingBottom consistency (0.5 → 1)
+  - Applies to both `Detail.Metadata` and `List.Item.Detail.Metadata`
+- **list**: Disable wrap-around navigation at boundaries
+  - Pressing up at first item stays on first item
+  - Pressing down at last item stays on last item
+  - Dropdowns still wrap for quick circular navigation
+- **deps**: Update opentuah to 0.1.93
+- **deps**: Bump workspace dependencies
+  - @types/react 19.1.12 → 19.2.14
+  - @types/node 25.0.3 → 25.2.3
+  - @types/bun 1.3.5 → 1.3.9
+  - vite 7.3.0 → 7.3.1
+  - vitest 4.0.16 → 4.0.18
+  - bun-types 1.3.6 → 1.3.9
+  - bun-pty 0.4.6 → 0.4.8
+- **testing**: Document node-pty 0.10.1 requirement in AGENTS.md to prevent posix_spawnp errors
+
 ## 1.3.45
 
 ### Patch Changes

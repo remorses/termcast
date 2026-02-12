@@ -320,7 +320,16 @@ interface ListItemDetailType {
 
 interface ListItemDetailMetadataType {
   (props: MetadataProps): any
-  Label: (props: { title: string; text?: string; icon?: Image.ImageLike }) => any
+  Label: (props: {
+    title: string
+    text?:
+      | string
+      | {
+          value: string
+          color?: Color.ColorLike | null
+        }
+    icon?: Image.ImageLike
+  }) => any
   Separator: () => any
   Link: (props: { title: string; target: string; text: string }) => any
   TagList: ListItemDetailMetadataTagListType
