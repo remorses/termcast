@@ -179,7 +179,6 @@ interface ActionPanelContextValue {
 const ActionPanelContext = createContext<ActionPanelContextValue>({})
 
 const Action: ActionType = (props) => {
-  const theme = useTheme()
   const { currentSection } = useContext(ActionPanelContext)
 
   // Register as descendant with execute function - captures all data including section
@@ -192,8 +191,6 @@ const Action: ActionType = (props) => {
     execute: () => props.onAction?.(),
   })
 
-  const isDestructive = props.style === ActionStyle.Destructive
-
   // Render as Dropdown.Item (handles offscreen check internally)
   return (
     <Dropdown.Item
@@ -201,7 +198,6 @@ const Action: ActionType = (props) => {
       value={props.title}
       icon={props.icon}
       label={formatShortcut(props.shortcut)}
-      color={isDestructive ? theme.error : undefined}
     />
   )
 }
