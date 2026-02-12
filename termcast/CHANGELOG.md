@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.41
+
+### Patch Changes
+
+- Fix CI/compile on Linux: ensure opentuah musl platform packages are present so bun compile can resolve `@opentuah/core-linux-musl-x64`
+
 ## 1.3.40
 
 ### Patch Changes
