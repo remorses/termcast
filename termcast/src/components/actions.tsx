@@ -698,6 +698,49 @@ function formatShortcut(
 }
 
 /**
+ * Check if a keyboard event matches an action shortcut.
+ * Handles modifier mapping:
+ * - 'cmd' maps to ctrl (terminals can't intercept cmd)
+ * - 'alt'/'opt' checks evt.meta (opentui uses meta for alt on Linux/Windows)
+ *   and evt.option (opentui uses option for alt on macOS)
+ */
+export function matchesShortcut(
+  evt: { name: string; ctrl?: boolean; alt?: boolean; shift?: boolean; meta?: boolean; option?: boolean },
+  shortcut: { modifiers?: KeyboardKeyModifier[]; key: KeyboardKeyEquivalent },
+): boolean {
+  // Check key name matches (case-insensitive)
+  if (evt.name.toLowerCase() !== shortcut.key.toLowerCase()) {
+    return false
+  }
+
+  const modifiers = shortcut.modifiers || []
+
+  // Map cmd to ctrl (terminals can't intercept cmd)
+  const needsCtrl = modifiers.some((m) =>
+    ['cmd', 'ctrl', 'control'].includes(m.toLowerCase()),
+  )
+  // alt/opt in shortcuts - opentui uses meta (Linux/Windows) or option (macOS) for alt key
+  const needsAlt = modifiers.some((m) =>
+    ['alt', 'opt', 'option'].includes(m.toLowerCase()),
+  )
+  const needsShift = modifiers.includes('shift')
+
+  // Check all required modifiers are pressed
+  if (needsCtrl && !evt.ctrl) return false
+  // For alt, check both meta and option (opentui platform differences)
+  const hasAlt = evt.alt || evt.meta || evt.option
+  if (needsAlt && !hasAlt) return false
+  if (needsShift && !evt.shift) return false
+
+  // Check no extra modifiers are pressed (excluding ones that match)
+  if (evt.ctrl && !needsCtrl) return false
+  if (hasAlt && !needsAlt) return false
+  if (evt.shift && !needsShift) return false
+
+  return true
+}
+
+/**
  * ActionPanel uses React portals to render its dialog content in the overlay
  * area while staying in the original React tree. This preserves all React
  * context (FormSubmitContext, NavigationContext, etc.) because portals inherit
@@ -741,7 +784,7 @@ const ActionPanel: ActionPanelType = (props) => {
     [],
   )
 
-  // Capture first action title for footer display, and handle auto-execute.
+  // Capture first action title for footer display, register shortcuts, and handle auto-execute.
   // Runs after every render so descendant props are always fresh.
   useLayoutEffect(() => {
     const allActions = Object.values(descendantsContext.map.current)
@@ -751,6 +794,39 @@ const ActionPanel: ActionPanelType = (props) => {
     const firstActionTitle = allActions[0]?.props?.title ?? ''
     if (useStore.getState().firstActionTitle !== firstActionTitle) {
       useStore.setState({ firstActionTitle })
+    }
+
+    // Register actions with shortcuts for global keyboard handling
+    // List/Detail/Form keyboard handlers will check these to execute shortcuts
+    // Only update if shortcuts changed to avoid unnecessary re-renders
+    const actionsWithShortcuts = allActions
+      .map((item: any) => item.props as ActionDescendant)
+      .filter((action) => action.shortcut)
+      .map((action) => ({
+        shortcut: action.shortcut!,
+        execute: action.execute,
+      }))
+    
+    // Compare shortcut keys to detect changes (ignore execute refs which change every render)
+    const currentShortcuts = useStore.getState().registeredActionShortcuts
+    const shortcutsChanged = actionsWithShortcuts.length !== currentShortcuts.length ||
+      actionsWithShortcuts.some((newShortcut, i) => {
+        const current = currentShortcuts[i]
+        if (!current) return true
+        return newShortcut.shortcut.key !== current.shortcut.key ||
+          JSON.stringify(newShortcut.shortcut.modifiers) !== JSON.stringify(current.shortcut.modifiers)
+      })
+    
+    if (shortcutsChanged) {
+      useStore.setState({ registeredActionShortcuts: actionsWithShortcuts })
+    } else if (actionsWithShortcuts.length > 0) {
+      // Update execute functions without triggering re-render by mutating existing array
+      // This ensures the latest closures are used when shortcuts are executed
+      actionsWithShortcuts.forEach((newShortcut, i) => {
+        if (currentShortcuts[i]) {
+          currentShortcuts[i].execute = newShortcut.execute
+        }
+      })
     }
 
     // Auto-execute first action when Enter was pressed (shouldAutoExecuteFirstAction flag)

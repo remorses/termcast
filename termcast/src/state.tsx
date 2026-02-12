@@ -2,6 +2,14 @@ import { create } from 'zustand'
 import { type ReactNode } from 'react'
 import type { TextareaRenderable } from '@opentui/core'
 import type { RaycastPackageJson } from './package-json'
+import type { KeyboardKeyEquivalent, KeyboardKeyModifier } from 'termcast/src/keyboard'
+
+// Registered action shortcuts for global keyboard handling
+// Stored by ActionPanel, consumed by List/Detail/Form keyboard handlers
+export interface RegisteredActionShortcut {
+  shortcut: { modifiers?: KeyboardKeyModifier[]; key: KeyboardKeyEquivalent }
+  execute: () => void
+}
 
 // Toast action keyboard shortcuts (ctrl+t for primary, ctrl+g for secondary)
 export const toastPrimaryActionKey = { ctrl: true, name: 't' } as const
@@ -73,6 +81,9 @@ interface AppState {
   currentThemeName: string
   // Active search input ref - used to clear search before exiting on ESC
   activeSearchInputRef: TextareaRenderable | null
+  // Registered action shortcuts for global keyboard handling
+  // ActionPanel populates this, List/Detail/Form consume it
+  registeredActionShortcuts: RegisteredActionShortcut[]
 }
 
 export const useStore = create<AppState>(() => ({
@@ -101,4 +112,6 @@ export const useStore = create<AppState>(() => ({
   currentThemeName: 'termcast',
   // Active search input ref
   activeSearchInputRef: null,
+  // Registered action shortcuts
+  registeredActionShortcuts: [],
 }))

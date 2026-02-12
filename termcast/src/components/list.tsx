@@ -31,7 +31,7 @@ import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 import { Color, resolveColor } from 'termcast/src/colors'
 import { getIconEmoji, getIconValue } from 'termcast/src/components/icon'
-import { ActionPanel } from 'termcast/src/components/actions'
+import { ActionPanel, matchesShortcut } from 'termcast/src/components/actions'
 import { useTheme, markdownSyntaxStyle } from 'termcast/src/theme'
 import { createMarkdownRenderNode } from 'termcast/src/markdown-utils'
 import { CommonProps } from 'termcast/src/utils'
@@ -1067,6 +1067,16 @@ export const List: ListType = (props) => {
     if (evt.ctrl && evt.name === 'p' && searchBarAccessory && !isDropdownOpen) {
       openDropdown()
       return
+    }
+
+    // Check if key matches any registered action shortcut
+    // This enables direct execution of actions via their shortcuts (e.g., ctrl+r for Refresh)
+    const registeredShortcuts = useStore.getState().registeredActionShortcuts
+    for (const { shortcut, execute } of registeredShortcuts) {
+      if (matchesShortcut(evt, shortcut)) {
+        execute()
+        return
+      }
     }
 
     // Get current item by selectedIndex (which is a descendant index)
