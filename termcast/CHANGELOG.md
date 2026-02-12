@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.42
+
+### Patch Changes
+
+- Roll back opentuah OpenTUI to 0.1.87: 0.1.88 breaks bun compile on Linux (missing `@opentuah/core-linux-musl-x64` resolution in CI)
+
 ## 1.3.41
 
 ### Patch Changes
