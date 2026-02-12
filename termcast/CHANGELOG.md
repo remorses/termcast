@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.43
+
+### Patch Changes
+
+- Pin opentuah OpenTUI to 0.1.87 (no caret) to avoid bun.lock resolving 0.1.88, which breaks bun compile on Linux in CI
+
 ## 1.3.42
 
 ### Patch Changes
