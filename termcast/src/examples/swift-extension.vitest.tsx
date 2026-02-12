@@ -8,6 +8,12 @@ import os from 'node:os'
 // Skip all tests on non-macOS platforms (Swift is only available on macOS)
 const isLinux = os.platform() === 'linux'
 
+function stripAnsi(text: string): string {
+  // Snapshots should be stable and readable. Some terminals encode styles as ANSI
+  // (e.g. reverse video) which can cause flaky diffs.
+  return text.replace(/\x1b\[[0-9;]*m/g, '')
+}
+
 const fixtureDir = path.resolve(__dirname, '../../fixtures/swift-extension')
 
 // Find binary - check debug first, then release
@@ -80,7 +86,7 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
     timeout: 30000,
   })
 
-  expect(commandList).toMatchInlineSnapshot(`
+  expect(stripAnsi(commandList)).toMatchInlineSnapshot(`
     "
 
 
@@ -96,7 +102,7 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
 
 
 
-       ↵ run command
+       ↵ run command   ↑↓ navigate   ^k actions
 
 
 
