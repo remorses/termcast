@@ -19,6 +19,7 @@ import React, {
 } from 'react'
 import { LoadingBar } from 'termcast/src/components/loading-bar'
 import { LoadingText } from 'termcast/src/components/loading-text'
+import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
 import { Footer } from 'termcast/src/components/footer'
 import { createDescendants } from 'termcast/src/descendants'
 import { useStore } from 'termcast/src/state'
@@ -1260,6 +1261,13 @@ function ShowOnNoItems(props: { children: ReactNode; isCustomEmptyView?: boolean
 
 function DefaultEmptyView(): any {
   const theme = useTheme()
+  const listContext = useContext(ListContext)
+  const isLoading = listContext?.isLoading ?? false
+  const tick = useAnimationTick(isLoading ? TICK_DIVISORS.SPINNER : 0)
+
+  const spinnerFrames = ['◰', '◳', '◲', '◱']
+  const spinner = spinnerFrames[tick % spinnerFrames.length] || '◰'
+
   return (
     <ShowOnNoItems>
       <box
@@ -1273,9 +1281,20 @@ function DefaultEmptyView(): any {
           paddingRight: 2,
         }}
       >
-        <text flexShrink={0} fg={theme.textMuted}>
-          No items found
-        </text>
+        {isLoading ? (
+          <box style={{ flexDirection: 'row', gap: 1 }}>
+            <text flexShrink={0} fg={theme.textMuted} wrapMode='none'>
+              {spinner}
+            </text>
+            <text flexShrink={0} fg={theme.textMuted} wrapMode='none'>
+              loading...
+            </text>
+          </box>
+        ) : (
+          <text flexShrink={0} fg={theme.textMuted}>
+            No items found
+          </text>
+        )}
       </box>
     </ShowOnNoItems>
   )
