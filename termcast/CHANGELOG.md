@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.45
+
+### Patch Changes
+
+- Update e2e test snapshots for opentuah 0.1.89 compatibility
+
 ## 1.3.44
 
 ### Patch Changes
