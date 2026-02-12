@@ -84,7 +84,7 @@
     },
     "termcast": {
       "name": "termcast",
-      "version": "1.3.44",
+      "version": "1.3.45",
       "bin": {
         "termcast": "./dist/cli.js",
       },
