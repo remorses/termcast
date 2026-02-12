@@ -4,6 +4,7 @@ on:
   push:
     tags-ignore:
       - '**'
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
