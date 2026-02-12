@@ -250,6 +250,18 @@ tuistory is used for e2e tests. After any change to tuistory source files, you m
 cd tuistory && bun run build
 ```
 
+### node-pty version requirement
+
+tuistory uses node-pty for PTY spawning. **Use node-pty version 0.10.1** - newer versions (like 1.1.0) cause `posix_spawnp failed` errors in vitest. If e2e tests fail with spawn errors, check tuistory/package.json and ensure node-pty is pinned to 0.10.1:
+
+```json
+"optionalDependencies": {
+  "node-pty": "0.10.1"
+}
+```
+
+After changing the version, run `bun install` in the tuistory folder and rebuild.
+
 ## testing
 
 bun must be used to write tests

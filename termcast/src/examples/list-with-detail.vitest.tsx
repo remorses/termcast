@@ -332,23 +332,23 @@ test('list detail view search functionality', async () => {
        > water
 
 
-                                            │ wartortle                         ▲
-                  No items found            │                                   █
+                                            │ bulbasaur                         ▲
+                  No items found            │                                   ▀
                                             │ Illustration
                                             │
                                             │ Types
                                             │
-                                            │ Water
+                                            │ Grass / Poison
                                             │
                                             │ Characteristics
                                             │
-                                            │ - Height: 1m
-                                            │ - Weight: 22.5kg
+                                            │ - Height: 0.7m
+                                            │ - Weight: 6.9kg
                                             │
                                             │ Abilities
                                             │
-                                            │ - Torrent
-                                            │ - Rain Dish
+                                            │ - Chlorophyll
+                                            │ - Overgrow
                                             │
                                             │
                                             │ Types
@@ -369,23 +369,23 @@ test('list detail view search functionality', async () => {
        > water
 
 
-                                            │ wartortle                         ▲
-                  No items found            │                                   █
+                                            │ bulbasaur                         ▲
+                  No items found            │                                   ▀
                                             │ Illustration
                                             │
                                             │ Types
                                             │
-                                            │ Water
+                                            │ Grass / Poison
                                             │
                                             │ Characteristics
                                             │
-                                            │ - Height: 1m
-                                            │ - Weight: 22.5kg
+                                            │ - Height: 0.7m
+                                            │ - Weight: 6.9kg
                                             │
                                             │ Abilities
                                             │
-                                            │ - Torrent
-                                            │ - Rain Dish
+                                            │ - Chlorophyll
+                                            │ - Overgrow
                                             │
                                             │
                                             │ Types

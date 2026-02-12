@@ -1,5 +1,5 @@
 import React from 'react'
-import { List } from 'termcast'
+import { List, Color } from 'termcast'
 import { renderWithProviders } from '../utils'
 
 const ListDetailMetadataExample = () => {
@@ -40,6 +40,34 @@ const ListDetailMetadataExample = () => {
                 <List.Item.Detail.Metadata.Separator />
                 <List.Item.Detail.Metadata.Label title="Short" text="OK" />
                 <List.Item.Detail.Metadata.Link title="URL" target="https://example.com/very/long/path/that/exceeds/limit" text="example.com/very/long/path" />
+              </List.Item.Detail.Metadata>
+            }
+          />
+        }
+      />
+      <List.Item
+        id="item3"
+        title="Colored & Tags"
+        detail={
+          <List.Item.Detail
+            markdown={`# Project Status
+
+Overview of the current project state.`}
+            metadata={
+              <List.Item.Detail.Metadata>
+                <List.Item.Detail.Metadata.Label title="Info" />
+                <List.Item.Detail.Metadata.Label title="Status" text={{ value: "Active", color: Color.Green }} />
+                <List.Item.Detail.Metadata.Label title="Priority" text={{ value: "High", color: Color.Red }} />
+                <List.Item.Detail.Metadata.Label title="Type" text={{ value: "Feature", color: Color.Blue }} />
+                <List.Item.Detail.Metadata.Separator />
+                <List.Item.Detail.Metadata.Label title="Labels" />
+                <List.Item.Detail.Metadata.TagList title="Tags">
+                  <List.Item.Detail.Metadata.TagList.Item text="bug" color={Color.Red} />
+                  <List.Item.Detail.Metadata.TagList.Item text="feature" color={Color.Green} />
+                  <List.Item.Detail.Metadata.TagList.Item text="urgent" color={Color.Orange} />
+                </List.Item.Detail.Metadata.TagList>
+                <List.Item.Detail.Metadata.Separator />
+                <List.Item.Detail.Metadata.Link title="Repo" target="https://github.com/example/repo" text="github.com/example" />
               </List.Item.Detail.Metadata>
             }
           />

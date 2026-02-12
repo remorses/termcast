@@ -252,6 +252,18 @@ tuistory is used for e2e tests. After any change to tuistory source files, you m
 cd tuistory && bun run build
 ```
 
+### node-pty version requirement
+
+tuistory uses node-pty for PTY spawning. **Use node-pty version 0.10.1** - newer versions (like 1.1.0) cause `posix_spawnp failed` errors in vitest. If e2e tests fail with spawn errors, check tuistory/package.json and ensure node-pty is pinned to 0.10.1:
+
+```json
+"optionalDependencies": {
+  "node-pty": "0.10.1"
+}
+```
+
+After changing the version, run `bun install` in the tuistory folder and rebuild.
+
 ## testing
 
 bun must be used to write tests
@@ -1223,37 +1235,3 @@ function Item(props: { title: string; isSelected: boolean }) {
 
 See `src/examples/internal/scrollbox-with-descendants.tsx`
 
-
-<!-- opensrc:start -->
-
-## Source Code Reference
-
-Source code for dependencies is available in `opensrc/` for deeper understanding of implementation details.
-
-See `opensrc/sources.json` for the list of available packages and their versions.
-
-Use this source code when you need to understand how a package works internally, not just its types/interface.
-
-### Fetching Additional Source Code
-
-To fetch source code for a package or repository you need to understand, run:
-
-```bash
-npx opensrc <package>           # npm package (e.g., npx opensrc zod)
-npx opensrc pypi:<package>      # Python package (e.g., npx opensrc pypi:requests)
-npx opensrc crates:<package>    # Rust crate (e.g., npx opensrc crates:serde)
-npx opensrc <owner>/<repo>      # GitHub repo (e.g., npx opensrc vercel/ai)
-```
-
-<!-- opensrc:end -->
-
-## opentui fork
-
-we are using an opentui fork with name opentuah with my personal PRs merged
-
-"@opentui/core": "npm:@opentuah/core@^0.1.80",
-"@opentui/react": "npm:@opentuah/react@^0.1.80",
-
-To find my opentui folder with that fork see kimaki projects via kimaki cli, the one named opentui.
-
-To apply fixes there you must create a new branch and then merge it in the branch called opentuah. then publish and update the versions here. to publish there is a script specifically for opentuah.

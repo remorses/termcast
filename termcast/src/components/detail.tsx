@@ -10,7 +10,7 @@ import { useDialog } from 'termcast/src/internal/dialog'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 import { useStore } from 'termcast/src/state'
 import { Offscreen } from 'termcast/src/internal/offscreen'
-import { Metadata, MetadataContext } from 'termcast/src/components/metadata'
+import { Metadata, MetadataContext, extractTitleLengths, defaultConfig } from 'termcast/src/components/metadata'
 import type { LabelProps, SeparatorProps, LinkProps, TagListProps, TagListItemProps, MetadataConfig } from 'termcast/src/components/metadata'
 import { createMarkdownRenderNode } from 'termcast/src/markdown-utils'
 
@@ -58,19 +58,22 @@ interface DetailType {
 const DetailMetadata: DetailMetadataType = (props) => {
   const { width } = useTerminalDimensions()
 
-  // Dynamic config based on terminal width
-  // Calculate maxValueLen as a function of title length:
-  // availableWidth = terminalWidth - padding(~4) - titleWidth - colon+space(2)
+  // Compute title column width from longest title among children
+  const computedTitleWidth = useMemo(() => {
+    const lengths = extractTitleLengths(props.children)
+    if (lengths.length === 0) {
+      return defaultConfig.titleMinWidth
+    }
+    // +2 for ": " (colon + space)
+    const maxTitleLen = Math.max(...lengths)
+    return maxTitleLen + 2
+  }, [props.children])
+
   const config: MetadataConfig = {
-    maxValueLen: (titleLen: number) => {
-      const padding = 4
-      const colonSpace = 2
-      const titleWidth = Math.max(titleLen, 15) // minimum title width
-      return Math.max(10, width - padding - titleWidth - colonSpace)
-    },
-    titleMinWidth: 15,
+    maxValueLen: 9999, // No limit - let text wrap naturally
+    titleMinWidth: computedTitleWidth,
     paddingBottom: 1,
-    separatorWidth: Math.min(30, width - 4),
+    separatorWidth: 200, // Will be clipped by overflow: hidden
   }
 
   return (

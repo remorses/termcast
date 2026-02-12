@@ -187,9 +187,9 @@ test('navigation between main and detail views', async () => {
        > Main view
 
        Items
-      ›First Item Navigate to first detail
+       First Item Navigate to first detail
        Second Item Navigate to second detail
-       Third Item Navigate to third detail
+      ›Third Item Navigate to third detail
 
 
 
@@ -215,12 +215,12 @@ test('navigation between main and detail views', async () => {
     "
 
 
-       Detail: First Item ─────────────────────────────────────────────
+       Detail: Third Item ─────────────────────────────────────────────
 
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the detail view for First Item Press Enter to go back or
+      ›This is the detail view for Third Item Press Enter to go back or
 
 
 
@@ -259,9 +259,9 @@ test('navigation between main and detail views', async () => {
        > Main view
 
        Items
-      ›First Item Navigate to first detail
+       First Item Navigate to first detail
        Second Item Navigate to second detail
-       Third Item Navigate to third detail
+      ›Third Item Navigate to third detail
 
 
 
@@ -525,12 +525,12 @@ test('search functionality in main and detail views', async () => {
 
        Navigation Example ─────────────────────────────────────────────
 
-       > second
+       > Main view
 
-      ›Second Item Navigate to second detail
-
-
-
+       Items
+      ›First Item Navigate to first detail
+       Second Item Navigate to second detail
+       Third Item Navigate to third detail
 
 
 

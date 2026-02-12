@@ -1498,18 +1498,29 @@ const ListItemDetail: ListItemDetailType = (props) => {
   )
 }
 
-import { Metadata, MetadataContext } from 'termcast/src/components/metadata'
+import { Metadata, MetadataContext, extractTitleLengths, defaultConfig } from 'termcast/src/components/metadata'
 import type { MetadataConfig } from 'termcast/src/components/metadata'
 
-// List.Item.Detail.Metadata config: smaller padding for compact list detail panel
-const listDetailMetadataConfig: MetadataConfig = {
-  maxValueLen: 20,
-  titleMinWidth: 12,
-  paddingBottom: 0.5,
-  separatorWidth: 17,
-}
-
 const ListItemDetailMetadata = (props: MetadataProps) => {
+  // Compute title column width from longest title among children
+  const computedTitleWidth = React.useMemo(() => {
+    const lengths = extractTitleLengths(props.children)
+    if (lengths.length === 0) {
+      return defaultConfig.titleMinWidth
+    }
+    // +2 for ": " (colon + space)
+    const maxTitleLen = Math.max(...lengths)
+    return maxTitleLen + 2
+  }, [props.children])
+
+  // List.Item.Detail.Metadata config for compact list detail panel
+  const listDetailMetadataConfig: MetadataConfig = {
+    maxValueLen: 20,
+    titleMinWidth: computedTitleWidth,
+    paddingBottom: 1, // Use integer to avoid inconsistent rounding
+    separatorWidth: 200, // Will be clipped by overflow: hidden
+  }
+
   return (
     <MetadataContext.Provider value={listDetailMetadataConfig}>
       <box style={{ flexDirection: 'column' }}>
