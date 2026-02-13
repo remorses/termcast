@@ -16,20 +16,39 @@ function ScrollboxWithDescendants() {
   const [selectedIndex, setSelectedIndex] = React.useState(0)
   const scrollBoxRef = React.useRef<any>(null)
 
-  const scrollToItem = (item: { props?: ItemDescendant }) => {
+  const scrollToItemIfNeeded = ({
+    item,
+    direction,
+  }: {
+    item: { props?: ItemDescendant }
+    direction: -1 | 1
+  }) => {
     const scrollBox = scrollBoxRef.current
     const elementRef = item.props?.elementRef
     if (!scrollBox || !elementRef) return
 
     const contentY = scrollBox.content?.y || 0
+    const scrollTop = scrollBox.scrollTop || 0
     const viewportHeight = scrollBox.viewport?.height || 10
 
-    // Calculate item position relative to content
     const itemTop = elementRef.y - contentY
+    const itemHeight = elementRef.height || 1
+    const itemBottom = itemTop + itemHeight
 
-    // Scroll so the top of the item is centered in the viewport
-    const targetScrollTop = itemTop - viewportHeight / 2
-    scrollBox.scrollTo(Math.max(0, targetScrollTop))
+    const viewportTop = scrollTop
+    const viewportBottom = scrollTop + viewportHeight
+
+    if (direction === 1) {
+      if (itemBottom > viewportBottom) {
+        scrollBox.scrollTo(Math.max(0, itemTop))
+      }
+      return
+    }
+
+    if (itemTop < viewportTop) {
+      const targetScrollTop = itemBottom - viewportHeight
+      scrollBox.scrollTo(Math.max(0, targetScrollTop))
+    }
   }
 
   const move = (direction: -1 | 1) => {
@@ -40,15 +59,15 @@ function ScrollboxWithDescendants() {
     if (items.length === 0) return
 
     let nextIndex = selectedIndex + direction
-    if (nextIndex < 0) nextIndex = items.length - 1
-    if (nextIndex >= items.length) nextIndex = 0
+    if (nextIndex < 0) return
+    if (nextIndex >= items.length) return
 
     const nextItem = items[nextIndex]
     if (nextItem) {
       flushSync(() => {
         setSelectedIndex(nextIndex)
       })
-      scrollToItem(nextItem)
+      scrollToItemIfNeeded({ item: nextItem, direction })
     }
   }
 

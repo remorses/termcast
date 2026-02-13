@@ -215,20 +215,39 @@ const DropdownContent = ({
 
   const [selectedTitles, setSelectedTitles] = useState<string[]>([])
 
-  const scrollToItem = (item: { props?: FormDropdownItemDescendant }) => {
+  const scrollToItemIfNeeded = ({
+    item,
+    direction,
+  }: {
+    item: { props?: FormDropdownItemDescendant }
+    direction: -1 | 1
+  }) => {
     const scrollBox = scrollBoxRef.current
     const itemElementRef = item.props?.elementRef
     if (!scrollBox || !itemElementRef) return
 
     const contentY = scrollBox.content?.y || 0
+    const scrollTop = scrollBox.scrollTop || 0
     const viewportHeight = scrollBox.viewport?.height || 5
 
-    // Calculate item position relative to content
     const itemTop = itemElementRef.y - contentY
+    const itemHeight = itemElementRef.height || 1
+    const itemBottom = itemTop + itemHeight
 
-    // Scroll so the top of the item is centered in the viewport
-    const targetScrollTop = itemTop - viewportHeight / 2
-    scrollBox.scrollTo(Math.max(0, targetScrollTop))
+    const viewportTop = scrollTop
+    const viewportBottom = scrollTop + viewportHeight
+
+    if (direction === 1) {
+      if (itemBottom > viewportBottom) {
+        scrollBox.scrollTo(Math.max(0, itemTop))
+      }
+      return
+    }
+
+    if (itemTop < viewportTop) {
+      const targetScrollTop = itemBottom - viewportHeight
+      scrollBox.scrollTo(Math.max(0, targetScrollTop))
+    }
   }
 
   // Helper to get value for a descendantId - use committedMap for stability
@@ -284,22 +303,24 @@ const DropdownContent = ({
 
     if (itemCount > 0) {
       if (evt.name === 'down') {
-        const nextIndex = (focusedIndex + 1) % itemCount
+        if (focusedIndex >= itemCount - 1) return
+        const nextIndex = focusedIndex + 1
         const nextItem = items[nextIndex]
         if (nextItem) {
           flushSync(() => {
             setFocusedIndex(nextIndex)
           })
-          scrollToItem(nextItem)
+          scrollToItemIfNeeded({ item: nextItem, direction: 1 })
         }
       } else if (evt.name === 'up') {
-        const nextIndex = (focusedIndex - 1 + itemCount) % itemCount
+        if (focusedIndex <= 0) return
+        const nextIndex = focusedIndex - 1
         const nextItem = items[nextIndex]
         if (nextItem) {
           flushSync(() => {
             setFocusedIndex(nextIndex)
           })
-          scrollToItem(nextItem)
+          scrollToItemIfNeeded({ item: nextItem, direction: -1 })
         }
       } else if (
         (evt.name === 'return' || evt.name === 'space') &&
@@ -343,10 +364,11 @@ const DropdownContent = ({
         })
 
       if (matchingItem) {
+        const direction: -1 | 1 = matchingItem.index >= focusedIndex ? 1 : -1
         flushSync(() => {
           setFocusedIndex(matchingItem.index)
         })
-        scrollToItem(matchingItem)
+        scrollToItemIfNeeded({ item: matchingItem, direction })
       }
 
       typeAheadTimeoutRef.current = setTimeout(() => {

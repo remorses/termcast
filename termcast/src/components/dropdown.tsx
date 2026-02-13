@@ -143,23 +143,57 @@ const Dropdown: DropdownType = (props) => {
   const throttleTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const scrollBoxRef = useRef<ScrollBoxRenderable>(null)
   const descendantsContext = useDropdownDescendants()
-
-
-
-  const scrollToItem = (item: { props?: DropdownItemDescendant }) => {
+  const scrollToItemAlignTop = (item: { props?: DropdownItemDescendant }) => {
     const scrollBox = scrollBoxRef.current
     const elementRef = item.props?.elementRef
     if (!scrollBox || !elementRef) return
 
     const contentY = scrollBox.content?.y || 0
-    const viewportHeight = scrollBox.viewport?.height || 10
 
     // Calculate item position relative to content
     const itemTop = elementRef.y - contentY
 
-    // Scroll so the top of the item is centered in the viewport
-    const targetScrollTop = itemTop - viewportHeight / 2
-    scrollBox.scrollTo(Math.max(0, targetScrollTop))
+    // When selection resets (e.g. filtering), prefer aligning the first result
+    // to the top rather than centering it.
+    scrollBox.scrollTo(Math.max(0, itemTop))
+  }
+
+  const scrollToItemIfNeeded = ({
+    item,
+    direction,
+  }: {
+    item: { props?: DropdownItemDescendant }
+    direction: -1 | 1
+  }) => {
+    const scrollBox = scrollBoxRef.current
+    const elementRef = item.props?.elementRef
+    if (!scrollBox || !elementRef) return
+
+    const contentY = scrollBox.content?.y || 0
+    const scrollTop = scrollBox.scrollTop || 0
+    const viewportHeight = scrollBox.viewport?.height || 10
+
+    const itemTop = elementRef.y - contentY
+    const itemHeight = elementRef.height || 1
+    const itemBottom = itemTop + itemHeight
+
+    const viewportTop = scrollTop
+    const viewportBottom = scrollTop + viewportHeight
+
+    // Traditional pagination behavior (same as List):
+    // - Down: only scroll when the next selection would go off-screen; align to top
+    // - Up: only scroll when the next selection would go off-screen; align to bottom
+    if (direction === 1) {
+      if (itemBottom > viewportBottom) {
+        scrollBox.scrollTo(Math.max(0, itemTop))
+      }
+      return
+    }
+
+    if (itemTop < viewportTop) {
+      const targetScrollTop = itemBottom - viewportHeight
+      scrollBox.scrollTo(Math.max(0, targetScrollTop))
+    }
   }
 
   // Create context value for children
@@ -201,7 +235,7 @@ const Dropdown: DropdownType = (props) => {
       flushSync(() => {
         setSelected(items[0].index)
       })
-      scrollToItem(items[0])
+      scrollToItemAlignTop(items[0])
     }
 
     if (onSearchTextChange) {
@@ -231,21 +265,25 @@ const Dropdown: DropdownType = (props) => {
     if (currentVisibleIndex === -1) {
       if (items[0]) {
         setSelected(items[0].index)
-        scrollToItem(items[0])
+        scrollToItemAlignTop(items[0])
       }
       return
     }
 
     let nextVisibleIndex = currentVisibleIndex + direction
-    if (nextVisibleIndex < 0) nextVisibleIndex = items.length - 1
-    if (nextVisibleIndex >= items.length) nextVisibleIndex = 0
+
+    // Don't wrap around - stop at boundaries.
+    // Wrapping bottom->top (or top->bottom) can move selection to an offscreen item
+    // while the scroll position stays put, making the highlight appear to disappear.
+    if (nextVisibleIndex < 0) return
+    if (nextVisibleIndex >= items.length) return
 
     const nextItem = items[nextVisibleIndex]
     if (nextItem) {
       flushSync(() => {
         setSelected(nextItem.index)
       })
-      scrollToItem(nextItem)
+      scrollToItemIfNeeded({ item: nextItem, direction })
       if (onSelectionChange && nextItem.props) {
         onSelectionChange((nextItem.props as DropdownItemDescendant).value)
       }

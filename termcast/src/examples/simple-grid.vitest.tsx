@@ -72,8 +72,8 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits
-      ›🍎 Apple
-       🍌 Banana
+       🍎 Apple
+      ›🍌 Banana
        🍒 Cherry
 
        Animals

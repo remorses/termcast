@@ -395,11 +395,11 @@ test('form tagpicker keyboard navigation', async () => {
       ◆  Favorite Sport
       │  Choose your favorite sport...
       │
+      │  ○ Basketball
+      │  ○ Football
       │  ○ Tennis
       │  ○ Baseball
       │› ○ Golf
-      │  ○ Swimming
-      │  ○ Cycling
       │
       │  Select your favorite sport from the list
       │
@@ -509,11 +509,11 @@ test('form tagpicker keyboard navigation', async () => {
       ◆  Favorite Sport
       │  Choose your favorite sport...
       │
-      │  ○ Tennis
       │  ○ Baseball
       │› ○ Golf
       │  ○ Swimming
       │  ○ Cycling
+      │  ○ Running
       │
       │  Select your favorite sport from the list
       │
@@ -566,11 +566,11 @@ test('form tagpicker keyboard navigation', async () => {
       ◆  Favorite Sport
       │  Choose your favorite sport...
       │
-      │  ○ Tennis
       │  ○ Baseball
       │› ○ Golf
       │  ○ Swimming
       │  ○ Cycling
+      │  ○ Running
       │
       │  Select your favorite sport from the list
       │
