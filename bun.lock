@@ -117,7 +117,7 @@
         "@xterm/headless": "^5.5.0",
         "bun-pty": "0.4.8",
         "node-pty": "0.10.1",
-        "react": "^19.2.0",
+        "react": "^19.2.4",
         "tuistory": "workspace:*",
         "vitest": "^4.0.16",
       },
@@ -125,7 +125,7 @@
         "@parcel/watcher-linux-x64-glibc": "2.5.1",
       },
       "peerDependencies": {
-        "react": "*",
+        "react": "^19.2.4",
       },
     },
     "tuistory": {
