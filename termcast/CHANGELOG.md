@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.3.47
+
+### Features
+
+- **action-shortcuts**: Enable action shortcuts to trigger directly without opening action panel
+  - Actions with keyboard shortcuts (e.g., `ctrl+r` for Refresh) now work immediately
+  - No need to open action panel first for shortcut-enabled actions
+- **list-spacing**: Add `spacingMode` prop with 'default' and 'relaxed' options
+  - 'default': Single-line items with title and subtitle on same row
+  - 'relaxed': Two-line items with title on first row, subtitle below
+  - Better visual hierarchy in relaxed mode with bold titles
+- **list-loading**: Show spinner in search prompt when list is loading
+  - Visual feedback for async search operations
+  - Spinner appears in search box during data fetching
+
+### Fixes
+
+- **dropdown**: Fix edge-triggered pagination and stop wrapping at boundaries
+  - Pagination triggers only at viewport edges for smoother navigation
+  - No wrap-around when reaching first/last items
+- **list**: Paginate only at viewport edges for better UX
+- **actions**: Increase actions dialog height to 10 rows, remove destructive red color
+- **react**: Prevent duplicate React by not externalizing internal packages
+  - Fixes potential React runtime conflicts in bundled extensions
+
+### Dependencies
+
+- Update React to 19.2.4
+- Refresh e2e test snapshots for compatibility
+
 ## 1.3.46
 
 ### Patch Changes
