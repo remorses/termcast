@@ -53,7 +53,7 @@
     },
     "raycast-utils": {
       "name": "@termcast/utils",
-      "version": "2.2.6",
+      "version": "2.2.7",
       "dependencies": {
         "dequal": "^2.0.3",
       },
@@ -83,7 +83,7 @@
     },
     "termcast": {
       "name": "termcast",
-      "version": "1.3.46",
+      "version": "1.3.47",
       "bin": {
         "termcast": "./dist/cli.js",
       },
