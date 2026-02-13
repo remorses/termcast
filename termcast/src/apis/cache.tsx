@@ -1,4 +1,4 @@
-import { Database } from 'bun:sqlite'
+import { Database } from './sqlite'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
@@ -170,7 +170,6 @@ export class Cache {
       fs.mkdirSync(dbDir, { recursive: true })
     }
 
-    // Open with options to reduce file usage
     this.db = new Database(dbPath, {
       create: true,
       readwrite: true,

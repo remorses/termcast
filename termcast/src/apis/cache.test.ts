@@ -1,6 +1,6 @@
 import { describe, test, expect, beforeEach, afterAll, jest } from 'bun:test'
 import { Cache } from './cache'
-import { Database } from 'bun:sqlite'
+import { Database } from './sqlite'
 import * as os from 'os'
 import * as path from 'path'
 import * as fs from 'fs'

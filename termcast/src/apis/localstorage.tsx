@@ -1,4 +1,4 @@
-import { Database } from 'bun:sqlite'
+import { Database } from './sqlite'
 import * as path from 'path'
 import * as fs from 'fs'
 import { logger } from '../logger'
@@ -34,7 +34,6 @@ function getDatabase(): Database {
       fs.mkdirSync(dbDir, { recursive: true })
     }
 
-    // Open with options to reduce file usage
     db = new Database(dbPath, {
       create: true,
       readwrite: true,

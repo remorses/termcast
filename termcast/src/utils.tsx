@@ -812,7 +812,7 @@ export async function executeSQL<T = unknown>(
   databasePath: string,
   query: string,
 ): Promise<T[]> {
-  const { Database } = await import('bun:sqlite')
+  const { Database } = await import('./apis/sqlite')
 
   if (!fs.existsSync(databasePath)) {
     throw new Error(`Database file not found: ${databasePath}`)
