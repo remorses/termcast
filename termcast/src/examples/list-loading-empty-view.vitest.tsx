@@ -25,19 +25,19 @@ test('empty view shows spinner when list is loading', async () => {
     },
   })
 
-  // Spinner animates. Normalize for stable snapshots.
-  const normalized = text.replace(/[◰◳◲◱]/g, '◰')
+  // Spinner animates (pulsing dots: ' ' · •). Normalize for stable snapshots.
+  const normalized = text.replace(/[·•]/g, '•')
   expect(normalized).toMatchInlineSnapshot(`
     "
 
 
        Loading Empty View ───────────────────────────────────
 
-       > Search...
+       • Search...
 
 
 
-                            ◰ loading...
+                            • loading...
 
 
 
@@ -45,5 +45,5 @@ test('empty view shows spinner when list is loading', async () => {
 
        ↑↓ navigate   ^k actions"
   `)
-  expect(text).toMatch(/[◰◳◲◱]\s+loading\.\.\./)
+  expect(text).toMatch(/[·• ]\s*loading\.\.\./)
 }, 10000)

@@ -144,6 +144,7 @@ export type {
 
 // Icons and Images
 export { Icon, getIconEmoji, getIconShape, IconComponent } from 'termcast/src/components/icon'
+export { Spinner } from 'termcast/src/components/spinner'
 import {
   Image as ImageComponent,
   ImageMask,

@@ -19,6 +19,7 @@ import React, {
 } from 'react'
 import { LoadingBar } from 'termcast/src/components/loading-bar'
 import { LoadingText } from 'termcast/src/components/loading-text'
+import { Spinner } from 'termcast/src/components/spinner'
 import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
 import { Footer } from 'termcast/src/components/footer'
 import { createDescendants } from 'termcast/src/descendants'
@@ -1008,6 +1009,25 @@ export const List: ListType = (props) => {
     }
   })
 
+  // Ensure selection points to a visible item.
+  // If current selectedIndex is not among visible items, reset to first.
+  // This handles: item removal, visibility changes, async data updates.
+  // Runs after search-text reset so they don't conflict.
+  useLayoutEffect(() => {
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      .sort((a, b) => a.index - b.index)
+
+    if (items.length === 0) return
+
+    // Check if current selection exists in visible items
+    const selectionIsValid = items.some((item) => item.index === selectedIndex)
+
+    if (!selectionIsValid && items[0]) {
+      setSelectedIndexWithPersistence(items[0].index)
+    }
+  })
+
   const listContextValue = useMemo<ListContextValue>(
     () => ({
       isDropdownOpen,
@@ -1278,7 +1298,8 @@ export const List: ListType = (props) => {
                   flexShrink: 1,
                 }}
               >
-                <text flexShrink={0} fg={theme.textMuted}>&gt; </text>
+{isLoading ? <Spinner color={theme.textMuted} /> : <text flexShrink={0} fg={theme.textMuted}>&gt;</text>}
+                <text flexShrink={0}> </text>
                 <textarea
                   ref={setInputRef}
                   height={1}
@@ -1297,7 +1318,7 @@ export const List: ListType = (props) => {
                   }}
                   focusedBackgroundColor={theme.backgroundPanel}
                   cursorColor={theme.primary}
-                  focusedTextColor={theme.text}
+                  focusedTextColor={isLoading ? theme.textMuted : theme.text}
                 />
               </box>
               {searchBarAccessory}
@@ -1397,10 +1418,6 @@ function DefaultEmptyView(): any {
   const theme = useTheme()
   const listContext = useContext(ListContext)
   const isLoading = listContext?.isLoading ?? false
-  const tick = useAnimationTick(isLoading ? TICK_DIVISORS.SPINNER : 0)
-
-  const spinnerFrames = ['◰', '◳', '◲', '◱']
-  const spinner = spinnerFrames[tick % spinnerFrames.length] || '◰'
 
   return (
     <ShowOnNoItems>
@@ -1417,9 +1434,7 @@ function DefaultEmptyView(): any {
       >
         {isLoading ? (
           <box style={{ flexDirection: 'row', gap: 1 }}>
-            <text flexShrink={0} fg={theme.textMuted} wrapMode='none'>
-              {spinner}
-            </text>
+            <Spinner color={theme.textMuted} />
             <text flexShrink={0} fg={theme.textMuted} wrapMode='none'>
               loading...
             </text>
