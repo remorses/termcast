@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import util from 'node:util'
 import { useEffect } from 'react'
 
 const LOG_FILE = path.join(process.cwd(), 'app.log')
@@ -16,7 +17,7 @@ function serialize(msg: any): string {
   if (typeof msg === 'string') {
     return msg
   }
-  return Bun.inspect(msg, { depth: 3 })
+  return util.inspect(msg, { depth: 3 })
 }
 
 export const logger = {

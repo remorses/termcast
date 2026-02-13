@@ -1,3 +1,4 @@
+import childProcess from 'node:child_process'
 import { logger } from './logger'
 
 export async function runSwiftFunction(
@@ -9,14 +10,27 @@ export async function runSwiftFunction(
 
   logger.log(`Swift: calling ${functionName} with args:`, jsonArgs)
 
-  const proc = Bun.spawn([binaryPath, functionName, ...jsonArgs], {
-    stdout: 'pipe',
-    stderr: 'inherit',
+  const proc = childProcess.spawn(binaryPath, [functionName, ...jsonArgs], {
+    stdio: ['ignore', 'pipe', 'inherit'],
   })
 
   const [stdout, exitCode] = await Promise.all([
-    new Response(proc.stdout).text(),
-    proc.exited,
+    new Promise<string>((resolve, reject) => {
+      const chunks: Buffer[] = []
+      proc.stdout!.on('data', (chunk) => { chunks.push(chunk) })
+      proc.stdout!.on('error', reject)
+      proc.stdout!.on('end', () => { resolve(Buffer.concat(chunks).toString()) })
+    }),
+    new Promise<number | null>((resolve, reject) => {
+      proc.on('error', reject)
+      proc.on('close', (code, signal) => {
+        if (signal) {
+          reject(new Error(`Swift function "${functionName}" was killed by signal ${signal}`))
+        } else {
+          resolve(code)
+        }
+      })
+    }),
   ])
 
   if (exitCode !== 0) {
