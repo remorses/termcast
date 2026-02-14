@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.48
+
+### Fixes
+
+- **sqlite**: Add sqlite abstraction layer for swappable SQLite engine
+  - Allows switching between bun:sqlite and libsql for cross-runtime compatibility
+  - Centralized import in `src/apis/sqlite.ts` for easy engine swapping
+- **node-compat**: Replace Bun-specific APIs with Node.js equivalents
+  - Replace `Bun.inspect` with `util.inspect` in logger
+  - Replace `Bun.spawn` with `child_process.spawn` in Swift runtime
+  - Improves compatibility for running on Node.js environments
+
 ## 1.3.47
 
 ### Features
