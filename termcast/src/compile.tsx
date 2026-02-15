@@ -204,7 +204,7 @@ export async function compileExtension({
   // IMPORTANT: always compile with a concrete target (bun-linux-x64, bun-darwin-arm64, ...)
   // rather than the generic "bun" target. Using the generic target can cause Bun.build to
   // keep platform branches during bundling and attempt to resolve optional platform packages
-  // (e.g. @opentuah/core-linux-musl-x64) even when compiling/running on glibc Linux.
+  // (e.g. @opentui/core-linux-musl-x64) even when compiling/running on glibc Linux.
   const resolvedTarget: CompileTarget = target || getCurrentTarget()
 
   const targetSuffix = target ? targetToFileSuffix(target) : 'local'

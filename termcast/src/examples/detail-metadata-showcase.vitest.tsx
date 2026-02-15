@@ -60,6 +60,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
       - Migrated 85% of users to the new platform
       - Reduced API response time by 40%
 
+
       Technical Details
 
       The refactoring effort focused on three main areas:
@@ -68,6 +69,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
       2. Caching layer - Added Redis for session management
       3. Code cleanup - Removed deprecated endpoints
 
+
       Next Steps
 
       We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
@@ -75,6 +77,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
+
 
       ---
 
@@ -146,9 +149,6 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
 
       esc go back                                                                  powered by termcast
-
-
-
 
 
 
@@ -231,6 +231,7 @@ test('detail metadata renders long values in column layout', async () => {
       - Migrated 85% of users to the new platform
       - Reduced API response time by 40%
 
+
       Technical Details
 
       The refactoring effort focused on three main areas:
@@ -239,6 +240,7 @@ test('detail metadata renders long values in column layout', async () => {
       2. Caching layer - Added Redis for session management
       3. Code cleanup - Removed deprecated endpoints
 
+
       Next Steps
 
       We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
@@ -246,6 +248,7 @@ test('detail metadata renders long values in column layout', async () => {
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
+
 
       ---
 
@@ -317,9 +320,6 @@ test('detail metadata renders long values in column layout', async () => {
 
 
       esc go back                                                                  powered by termcast
-
-
-
 
 
 
@@ -412,6 +412,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
       - Migrated 85% of users to the new platform
       - Reduced API response time by 40%
 
+
       Technical Details
 
       The refactoring effort focused on three main areas:
@@ -420,6 +421,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
       2. Caching layer - Added Redis for session management
       3. Code cleanup - Removed deprecated endpoints
 
+
       Next Steps
 
       We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
@@ -427,6 +429,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
+
 
       ---
 
@@ -440,7 +443,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Team:        Platform
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Status:      Active
 
@@ -450,7 +453,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Risk:        Medium
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Description: This is a comprehensive metadata showcase that demonstrates all the different
                    ways you can display information using the Detail.Metadata component.
@@ -461,7 +464,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Reviewer:    Bob Smith
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Repository:  github.com/example
 
@@ -469,7 +472,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       PR Link:     github.com/organization/repository/pull/12345
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Labels:      documentation enhancement good first issue
 
@@ -483,7 +486,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Due Date:    2024-02-01
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Metrics
 
@@ -497,21 +500,18 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
       esc go back                                                                  powered by termcast
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)

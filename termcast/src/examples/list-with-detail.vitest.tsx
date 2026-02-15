@@ -51,17 +51,17 @@ test('list with detail view display and navigation', async () => {
                                             │ - Height: 0.7m
                                             │ - Weight: 6.9kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Chlorophyll
                                             │ - Overgrow
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Grass
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Grass                             ▼
 
     "
   `)
@@ -93,17 +93,17 @@ test('list with detail view display and navigation', async () => {
                                             │ - Height: 1m
                                             │ - Weight: 13kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Chlorophyll
                                             │ - Overgrow
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Grass
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Grass                             ▼
 
     "
   `)
@@ -133,17 +133,17 @@ test('list with detail view display and navigation', async () => {
                                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Blaze
                                             │ - Solar Power
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Fire
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Fire                              ▼
 
     "
   `)
@@ -186,7 +186,7 @@ test('list with detail view display and navigation', async () => {
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Fire                              ▼
 
     "
   `)
@@ -265,17 +265,17 @@ test('list with detail view display and navigation', async () => {
                                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Blaze
                                             │ - Solar Power
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Fire
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Fire                              ▼
 
     "
   `)
@@ -317,17 +317,17 @@ test('list detail view search functionality', async () => {
                                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Blaze
                                             │ - Solar Power
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Fire
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Fire                              ▼
 
     "
   `)
@@ -366,17 +366,17 @@ test('list detail view search functionality', async () => {
                                             │ - Height: 1m
                                             │ - Weight: 22.5kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Torrent
                                             │ - Rain Dish
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Water
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Water                             ▼
 
     "
   `)
@@ -406,17 +406,17 @@ test('list detail view search functionality', async () => {
                                             │ - Height: 1m
                                             │ - Weight: 22.5kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Torrent
                                             │ - Rain Dish
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Water
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Water                             ▼
 
     "
   `)
@@ -458,17 +458,17 @@ test('list detail metadata rendering', async () => {
                                             │ - Height: 0.7m
                                             │ - Weight: 6.9kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Chlorophyll
                                             │ - Overgrow
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Grass
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Grass                             ▼
 
     "
   `)
@@ -505,17 +505,17 @@ test('list detail metadata rendering', async () => {
                                             │ - Height: 0.5m
                                             │ - Weight: 9kg
                                             │
+                                            │
                                             │ Abilities
                                             │
                                             │ - Torrent
                                             │ - Rain Dish
                                             │
                                             │
+                                            │
                                             │ Types
                                             │
-                                            │ Water
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Water                             ▼
 
     "
   `)

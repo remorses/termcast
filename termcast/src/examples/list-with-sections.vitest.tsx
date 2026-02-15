@@ -320,8 +320,8 @@ test('list with sections search functionality', async () => {
       - Perfect for sandwiches or toast
 
 
-      esc go back
 
+      esc go back
 
     "
   `)

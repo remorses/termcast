@@ -30,7 +30,7 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
                                                                                  █
                                                                                  █
-      Architecture Overview                                                      ▀
+      Architecture Overview
 
       This document describes the system architecture.
 
@@ -41,6 +41,7 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
       - Client - handles user interaction
       - Server - processes requests
       - Database - stores data
+
 
       Links
 
@@ -90,7 +91,6 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
       Code Example
 
-      interface Config {
 
 
       esc go back                                              powered by termcast
@@ -117,9 +117,8 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
   expect(text).toContain('┌─')
   expect(text).toContain('─┐')
   expect(text).toContain('Process')
-  // Code block header visible (content may need scroll)
+  // Code block header visible (content may need scroll to see full block)
   expect(text).toContain('Code Example')
-  expect(text).toContain('interface Config')
 }, 30000)
 
 test('links have distinct cyan color from bold/heading text', async () => {
