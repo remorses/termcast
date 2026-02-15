@@ -1665,13 +1665,13 @@ const ListItemDetailMetadata = (props: MetadataProps) => {
   const listDetailMetadataConfig: MetadataConfig = {
     maxValueLen: 20,
     titleMinWidth: computedTitleWidth,
-    paddingBottom: 1, // Use integer to avoid inconsistent rounding
+    paddingBottom: 0,
     separatorWidth: 200, // Will be clipped by overflow: hidden
   }
 
   return (
     <MetadataContext.Provider value={listDetailMetadataConfig}>
-      <box style={{ flexDirection: 'column' }}>
+      <box gap={1} style={{ flexDirection: 'column' }}>
         {props.children}
       </box>
     </MetadataContext.Provider>

@@ -52,6 +52,13 @@ export type {
   DetailPropsWithLoading,
 } from 'termcast/src/components/detail'
 
+// Core UI Components - Graph
+export { Graph } from 'termcast/src/components/graph'
+export type {
+  GraphProps,
+  GraphLineProps,
+} from 'termcast/src/components/graph'
+
 // Form Components
 import {
   Form as FormComponent,

@@ -91,7 +91,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
       Team:        Platform
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Status:      Active
 
@@ -101,7 +101,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
       Risk:        Medium
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Description: This is a comprehensive metadata showcase that demonstrates all the different
                    ways you can display information using the Detail.Metadata component.
@@ -112,7 +112,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
       Reviewer:    Bob Smith
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Repository:  github.com/example
 
@@ -120,7 +120,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
       PR Link:     github.com/organization/repository/pull/12345
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Labels:      documentation enhancement good first issue
 
@@ -134,7 +134,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
       Due Date:    2024-02-01
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Metrics
 
@@ -148,18 +148,18 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
       esc go back                                                                  powered by termcast
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -262,7 +262,7 @@ test('detail metadata renders long values in column layout', async () => {
 
       Team:        Platform
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Status:      Active
 
@@ -272,7 +272,7 @@ test('detail metadata renders long values in column layout', async () => {
 
       Risk:        Medium
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Description: This is a comprehensive metadata showcase that demonstrates all the different
                    ways you can display information using the Detail.Metadata component.
@@ -283,7 +283,7 @@ test('detail metadata renders long values in column layout', async () => {
 
       Reviewer:    Bob Smith
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Repository:  github.com/example
 
@@ -291,7 +291,7 @@ test('detail metadata renders long values in column layout', async () => {
 
       PR Link:     github.com/organization/repository/pull/12345
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Labels:      documentation enhancement good first issue
 
@@ -305,7 +305,7 @@ test('detail metadata renders long values in column layout', async () => {
 
       Due Date:    2024-02-01
 
-      ─────────────────────────────────────────────────────────────────────────────────────────────
+      ────────────────────────────────────────────────────────────────────────────────────────────
 
       Metrics
 
@@ -319,18 +319,18 @@ test('detail metadata renders long values in column layout', async () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
       esc go back                                                                  powered by termcast
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -443,7 +443,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Team:        Platform
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Status:      Active
 
@@ -453,7 +453,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Risk:        Medium
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Description: This is a comprehensive metadata showcase that demonstrates all the different
                    ways you can display information using the Detail.Metadata component.
@@ -464,7 +464,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Reviewer:    Bob Smith
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Repository:  github.com/example
 
@@ -472,7 +472,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       PR Link:     github.com/organization/repository/pull/12345
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Labels:      documentation enhancement good first issue
 
@@ -486,7 +486,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Due Date:    2024-02-01
 
-      ────────────────────────────────────────────────────────────────────────────────────────────
+      ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Metrics
 
@@ -500,18 +500,18 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
       esc go back                                                                  powered by termcast
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)

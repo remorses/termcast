@@ -197,21 +197,21 @@ test('clicking dropdown opens it', async () => {
 
        Dropdown Default Value Example ───────────────────────────────────────────
 
-      ╭──────────────────────────────────────────────────────────────────────────╮
-      │                                                                          │
-      │   Filter by category                                               esc   │
-      │                                                                          │
-      │   > Select category...                                                   │
-      │                                                                          │
-      │  ›Apple                                                                  │
-      │   Banana                                                                 │
-      │   Orange                                                                 │
-      │   Grape                                                                  │
-      │                                                                          │
-      │                                                                          │
-      │   ↵ select   ↑↓ navigate                            powered by termcast  │
-      │                                                                          │
-      ╰──────────────────────────────────────────────────────────────────────────╯
+
+       > Search...                                                        Apple ▾
+
+      ›First Item This list has a dropdown
+       Second Item The dropdown should default to first item
+       Vegetables
+       Carrot With another dropdown
+
+
+
+
+       ↵ show selected fruit   ↑↓ navigate   ^p dropdown   ^k powered by termcast
+
+
+
 
 
 

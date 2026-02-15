@@ -35,7 +35,7 @@ interface MetadataConfig {
 const defaultConfig: MetadataConfig = {
   maxValueLen: 20,
   titleMinWidth: 12,
-  paddingBottom: 1,
+  paddingBottom: 0,
   separatorWidth: 30,
 }
 
@@ -255,7 +255,7 @@ const Metadata: MetadataType = (props) => {
 
   return (
     <MetadataContext.Provider value={config}>
-      <box style={{ flexDirection: 'column' }}>{props.children}</box>
+      <box gap={1} style={{ flexDirection: 'column' }}>{props.children}</box>
     </MetadataContext.Provider>
   )
 }
