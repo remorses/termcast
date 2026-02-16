@@ -32,28 +32,28 @@ test('side detail shows two graphs in a row', async () => {
 
        > Search...
 
-      ›CPU vs Memory Area + Filled side by side
-       Disk I/O Read vs Write operations              │ CPU vs Memory                               ▲
-       Revenue vs Expenses Striped comparison         │                                             █
-       Weather Station Temperature + Humidity         │ Area chart (left) shows CPU with high       █
-       Mixed Variants Area left, Striped right        │ variance.                                   █
-       Sparse Data (Zeros) Filled vs Striped with zer │ Filled chart (right) shows memory steadily  █
-                                                      │ climbing.                                   █
-                                                      │                                             █
+      ›CPU vs Memory Area + Filled side by side       │ CPU vs Memory
+       Disk I/O Read vs Write operations              │
+       Revenue vs Expenses Striped comparison         │ Area chart (left) shows CPU with high
+       Weather Station Temperature + Humidity         │ variance.
+       Mixed Variants Area left, Striped right        │ Filled chart (right) shows memory steadily
+       Sparse Data (Zeros) Filled vs Striped with zer │ climbing.
                                                       │
-                                                      │ 100│            ⡀     100│
-                                                      │    │     ⡄     ⣼⣷⡀       │             ▄▄▀▀
-                                                      │  67│    ⣸⣿⡄   ⣸⣿⣿⣧     67│        ▄▄▀▀▀▀▀▀▀
-                                                      │    │  ⣼⣶⣿⣿⣷⡀ ⢰⣿⣿⣿⣿⣧      │   ▄▄▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │    │ ⢸⣿⣿⣿⣿⣿⣷⣀⣿⣿⣿⣿⣿⣿⣇     │▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │  33│⣀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧  33│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │    │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿    │▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │   0│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿   0│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │     0h 6h  12h 18h24h     0h 6h  12h 18h24h
+                                                      │ 100│             ⡀     100│
+                                                      │    │     ⣠     ⢠⣾⣷⡀       │             ▄▄▀▀
+                                                      │  67│    ⣰⣿⣧   ⢀⣿⣿⣿⣇     67│        ▄▄▀▀▀▀▀▀▀
+                                                      │    │  ⢠⣷⣿⣿⣿⣆  ⣾⣿⣿⣿⣿⡄      │   ▄▄▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │    │ ⢀⣿⣿⣿⣿⣿⣿⣆⣸⣿⣿⣿⣿⣿⣿⣄     │▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │  33│⣀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧  33│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │    │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿    │▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │   0│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿   0│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │     0h 6h   12h 18h24h     0h 6h  12h 18h24h
                                                       │
-                                                      │ ───────────────────────────────────────────
+                                                      │ ────────────────────────────────────────────
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ CPU Peak: 90%                               ▼
+                                                      │ CPU Peak: 90%
+                                                      │
+       ↵ open detail   ↑↓ navigate   ^k actions       │ Mem Peak: 86%
 
     "
   `)
@@ -109,7 +109,7 @@ test('enter pushes full detail with two graphs', async () => {
         0│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿   0│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 
 
-      esc go back   ^k actions   ↵ Go Back                                         powered by termcast
+      esc go back   ^k actions   ↵ Go Back                                     powered by termcast.app
 
     "
   `)
@@ -151,28 +151,28 @@ test('esc returns from detail to list', async () => {
 
        > Search...
 
-      ›CPU vs Memory Area + Filled side by side
-       Disk I/O Read vs Write operations              │ CPU vs Memory                               ▲
-       Revenue vs Expenses Striped comparison         │                                             █
-       Weather Station Temperature + Humidity         │ Area chart (left) shows CPU with high       █
-       Mixed Variants Area left, Striped right        │ variance.                                   █
-       Sparse Data (Zeros) Filled vs Striped with zer │ Filled chart (right) shows memory steadily  █
-                                                      │ climbing.                                   █
-                                                      │                                             █
+      ›CPU vs Memory Area + Filled side by side       │ CPU vs Memory
+       Disk I/O Read vs Write operations              │
+       Revenue vs Expenses Striped comparison         │ Area chart (left) shows CPU with high
+       Weather Station Temperature + Humidity         │ variance.
+       Mixed Variants Area left, Striped right        │ Filled chart (right) shows memory steadily
+       Sparse Data (Zeros) Filled vs Striped with zer │ climbing.
                                                       │
-                                                      │ 100│            ⡀     100│
-                                                      │    │     ⡄     ⣼⣷⡀       │             ▄▄▀▀
-                                                      │  67│    ⣸⣿⡄   ⣸⣿⣿⣧     67│        ▄▄▀▀▀▀▀▀▀
-                                                      │    │  ⣼⣶⣿⣿⣷⡀ ⢰⣿⣿⣿⣿⣧      │   ▄▄▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │    │ ⢸⣿⣿⣿⣿⣿⣷⣀⣿⣿⣿⣿⣿⣿⣇     │▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │  33│⣀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧  33│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │    │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿    │▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │   0│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿   0│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │     0h 6h  12h 18h24h     0h 6h  12h 18h24h
+                                                      │ 100│             ⡀     100│
+                                                      │    │     ⣠     ⢠⣾⣷⡀       │             ▄▄▀▀
+                                                      │  67│    ⣰⣿⣧   ⢀⣿⣿⣿⣇     67│        ▄▄▀▀▀▀▀▀▀
+                                                      │    │  ⢠⣷⣿⣿⣿⣆  ⣾⣿⣿⣿⣿⡄      │   ▄▄▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │    │ ⢀⣿⣿⣿⣿⣿⣿⣆⣸⣿⣿⣿⣿⣿⣿⣄     │▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │  33│⣀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧  33│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │    │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿    │▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │   0│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿   0│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │     0h 6h   12h 18h24h     0h 6h  12h 18h24h
                                                       │
-                                                      │ ───────────────────────────────────────────
+                                                      │ ────────────────────────────────────────────
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ CPU Peak: 90%                               ▼
+                                                      │ CPU Peak: 90%
+                                                      │
+       ↵ open detail   ↑↓ navigate   ^k actions       │ Mem Peak: 86%
 
     "
   `)
@@ -208,28 +208,28 @@ test('sparse data with zeros shows baseline', async () => {
 
        > Search...
 
-       CPU vs Memory Area + Filled side by side
-       Disk I/O Read vs Write operations              │ Sparse Data                                 ▲
-       Revenue vs Expenses Striped comparison         │                                             █
-       Weather Station Temperature + Humidity         │ Data with many zero values should show a    █
-       Mixed Variants Area left, Striped right        │ thin                                        █
-      ›Sparse Data (Zeros) Filled vs Striped with zer │ baseline line so bars are visible even at   █
-                                                      │ zero.                                       █
-                                                      │                                             █
+       CPU vs Memory Area + Filled side by side       │ Sparse Data
+       Disk I/O Read vs Write operations              │
+       Revenue vs Expenses Striped comparison         │ Data with many zero values should show a
+       Weather Station Temperature + Humidity         │ thin
+       Mixed Variants Area left, Striped right        │ baseline line so bars are visible even at
+      ›Sparse Data (Zeros) Filled vs Striped with zer │ zero.
                                                       │
-                                                      │ 100│              ▄   100│              ▄
-                                                      │    │      ▄      ▄▀      │      ▄      ▄▀
-                                                      │  67│      ▀      ▀▀    67│      ▀      ▀▀
-                                                      │    │     ▀▀  ▄▀  ▀▀      │     ▀▀  ▄▀  ▀▀
-                                                      │    │     ▀▀  ▀▀  ▀▀▄     │     ▀▀  ▀▀  ▀▀▄
-                                                      │  33│   ▄ ▀▀▀ ▀▀▄ ▀▀▀   33│   ▄ ▀▀▀ ▀▀▄ ▀▀▀
-                                                      │    │  ▀▀▀▀▀▀▀▀▀▀ ▀▀▀     │  ▀▀▀▀▀▀▀▀▀▀ ▀▀▀
-                                                      │   0│▁▀▀▀▀▀▀▀▀▀▀▀▁▀▀▀▁   0│▁▀▀▀▀▀▀▀▀▀▀▀▁▀▀▀▁
-                                                      │     0h 6h  12h 18h24h     0h 6h  12h 18h24h
+                                                      │ 100│               ▄   100│              ▄
+                                                      │    │      ▄       ▄▀      │      ▄      ▄▀
+                                                      │  67│      ▀       ▀▀    67│      ▀      ▀▀
+                                                      │    │     ▀▀   ▄▀  ▀▀      │     ▀▀  ▄▀  ▀▀
+                                                      │    │     ▀▀   ▀▀  ▀▀▄     │     ▀▀  ▀▀  ▀▀▄
+                                                      │  33│   ▄ ▀▀▀  ▀▀▄▀▀▀▀   33│   ▄ ▀▀▀ ▀▀▄ ▀▀▀
+                                                      │    │  ▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀     │  ▀▀▀▀▀▀▀▀▀▀ ▀▀▀
+                                                      │   0│▁▀▀▀▀▀▀▀▁▀▀▀▀▀▀▀▀▁   0│▁▀▀▀▀▀▀▀▀▀▀▀▁▀▀▀▁
+                                                      │     0h 6h   12h 18h24h     0h 6h  12h 18h24h
                                                       │
-                                                      │ ───────────────────────────────────────────
+                                                      │ ────────────────────────────────────────────
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Zeros: 12 of 20                             ▼
+                                                      │ Zeros: 12 of 20
+                                                      │
+       ↵ open detail   ↑↓ navigate   ^k actions       │ Peak:  90
 
     "
   `)
@@ -264,15 +264,13 @@ test('navigate to striped pair', async () => {
 
        > Search...
 
-       CPU vs Memory Area + Filled side by side
-       Disk I/O Read vs Write operations              │ Revenue vs Expenses                         ▲
-      ›Revenue vs Expenses Striped comparison         │                                             █
-       Weather Station Temperature + Humidity         │ Revenue growing faster than expenses.       █
-       Mixed Variants Area left, Striped right        │ Profit margin widening over the year.       ▀
-       Sparse Data (Zeros) Filled vs Striped with zer │
-                                                      │ - Revenue: $10k to $75k
+       CPU vs Memory Area + Filled side by side       │ Revenue vs Expenses                         ▲
+       Disk I/O Read vs Write operations              │                                             █
+      ›Revenue vs Expenses Striped comparison         │ Revenue growing faster than expenses.       █
+       Weather Station Temperature + Humidity         │ Profit margin widening over the year.       █
+       Mixed Variants Area left, Striped right        │                                             █
+       Sparse Data (Zeros) Filled vs Striped with zer │ - Revenue: $10k to $75k
                                                       │ - Expenses: $8k to $45k
-                                                      │
                                                       │
                                                       │
                                                       │ 78│                 ▄ 47│                 ▄
@@ -285,7 +283,9 @@ test('navigate to striped pair', async () => {
                                                       │  7│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  6│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
                                                       │    Jan  Apr  Jul  Oct    Jan  Apr  Jul  Oct
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ ─────────────────────────────────────────── ▼
+                                                      │ ───────────────────────────────────────────
+                                                      │
+       ↵ open detail   ↑↓ navigate   ^k actions       │ Revenue:  $75k                              ▼
 
     "
   `)

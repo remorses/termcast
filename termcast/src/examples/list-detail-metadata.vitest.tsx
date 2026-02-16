@@ -38,11 +38,9 @@ test('list detail metadata label renders short values in row layout (key: value)
 
        > Search...
 
-      ›Short Values
-       Long Values                          │ Details
-       Colored & Tags                       │
-                                            │
-                                            │ Name:    John Doe
+      ›Short Values                         │ Details
+       Long Values                          │
+       Colored & Tags                       │ Name:    John Doe
                                             │
                                             │ Email:   john@example.com
                                             │
@@ -51,6 +49,8 @@ test('list detail metadata label renders short values in row layout (key: value)
                                             │ Status:  Active
                                             │
        ↑↓ navigate   ^k actions             │ Website: example.com
+
+
 
 
 
@@ -96,11 +96,9 @@ test('list detail metadata renders long values in column layout (key on one line
 
        > Search...
 
-       Short Values
-      ›Long Values                          │ Info with Long Values
-       Colored & Tags                       │
-                                            │
-                                            │ Description: This is a very long
+       Short Values                         │ Info with Long Values
+      ›Long Values                          │
+       Colored & Tags                       │ Description: This is a very long
                                             │              description that
                                             │              would be truncated
                                             │              if shown inline
@@ -116,6 +114,8 @@ test('list detail metadata renders long values in column layout (key on one line
                                             │
                                             │ URL:         example.com/very/
        ↑↓ navigate   ^k actions             │              long/path
+
+
 
 
 
@@ -156,12 +156,10 @@ test('list detail metadata renders colored values and tag lists', async () => {
 
        > Search...
 
-       Short Values
-       Long Values                          │ Project Status
-      ›Colored & Tags                       │
-                                            │ Overview of the current project
+       Short Values                         │ Project Status
+       Long Values                          │
+      ›Colored & Tags                       │ Overview of the current project
                                             │ state.
-                                            │
                                             │
                                             │ Info
                                             │
@@ -180,6 +178,8 @@ test('list detail metadata renders colored values and tag lists', async () => {
                                             │ ──────────────────────────────────
                                             │
        ↑↓ navigate   ^k actions             │ Repo:     github.com/example
+
+
 
 
 

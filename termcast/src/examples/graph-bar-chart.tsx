@@ -348,7 +348,6 @@ function GraphBarChartExample() {
             subtitle={item.subtitle}
             detail={
               <List.Item.Detail
-                markdown={item.markdown}
                 metadata={
                   <List.Item.Detail.Metadata>
                     <BarChart height={1}>

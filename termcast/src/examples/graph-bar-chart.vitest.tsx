@@ -32,27 +32,27 @@ test('initial render shows bar chart for Monthly Budget', async () => {
 
        > Search...
 
-      ›Monthly Budget Spent / Remaining / Savings
-       Disk Usage System / Apps / Media / Free        │ Monthly Budget
+      ›Monthly Budget Spent / Remaining / Savings     │ ┌Spent: 78.6%┐
+       Disk Usage System / Apps / Media / Free        │
        Investment Portfolio Stocks / Bonds / Cash / C │
-       CPU Time User / System / IO Wait / Idle        │ Budget allocation for the current month.
+       CPU Time User / System / IO Wait / Idle        │ ────────────────────────────────────────────
        Revenue by Product 6 product lines             │
-       A/B Test Split Control vs Variant (50/50)      │ - Spent: $4,850 (78.6%)
-       Storage Full 100% used                         │ - Remaining: $707 (11.5%)
-       Market Share One dominant + many tiny players  │ - Savings: $617 (10.0%)
+       A/B Test Split Control vs Variant (50/50)      │ Total: $6,174
+       Storage Full 100% used                         │
+       Market Share One dominant + many tiny players  │ Spent: 78.6%
        Equal Distribution 10 equal segments           │
-       Custom Colors Explicit color per segment       │
+       Custom Colors Explicit color per segment       │ Saved: 10.0%
        Needs vs Wants 50/30/20 budget rule            │
-       Stress Test (20 items) Many small equal segmen │ ┌Spent: 78.6%┐
+       Stress Test (20 items) Many small equal segmen │
                                                       │
                                                       │
-                                                      │ ────────────────────────────────────────────
-                                                      │
-                                                      │ Total: $6,174
-                                                      │
-                                                      │ Spent: 78.6%
-                                                      │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Saved: 10.0%
+       ↵ open detail   ↑↓ navigate   ^k actions       │
+
+
+
+
+
+
 
 
     "
@@ -89,28 +89,28 @@ test('navigate to Market Share - dominant + tiny segments', async () => {
 
        > Search...
 
-       Monthly Budget Spent / Remaining / Savings
-       Disk Usage System / Apps / Media / Free        │ Market Concentration
+       Monthly Budget Spent / Remaining / Savings     │ ┌Leader: 85.0%┐
+       Disk Usage System / Apps / Media / Free        │
        Investment Portfolio Stocks / Bonds / Cash / C │
-       CPU Time User / System / IO Wait / Idle        │ Highly concentrated market with one
-       Revenue by Product 6 product lines             │ dominant player at 85%.
-       A/B Test Split Control vs Variant (50/50)      │ Many tiny segments should be hidden or
-       Storage Full 100% used                         │ collapsed.
-      ›Market Share One dominant + many tiny players  │
-       Equal Distribution 10 equal segments           │ Tests behavior with 14 segments where most
-       Custom Colors Explicit color per segment       │ are < 1%.
+       CPU Time User / System / IO Wait / Idle        │ ────────────────────────────────────────────
+       Revenue by Product 6 product lines             │
+       A/B Test Split Control vs Variant (50/50)      │ HHI:      7,264 (monopoly)
+       Storage Full 100% used                         │
+      ›Market Share One dominant + many tiny players  │ Segments: 14 total
+       Equal Distribution 10 equal segments           │
+       Custom Colors Explicit color per segment       │ Visible:  Tiny ones hidden
        Needs vs Wants 50/30/20 budget rule            │
        Stress Test (20 items) Many small equal segmen │
-                                                      │ ┌Leader: 85.0%┐
                                                       │
                                                       │
-                                                      │ ────────────────────────────────────────────
-                                                      │
-                                                      │ HHI:      7,264 (monopoly)
-                                                      │
-                                                      │ Segments: 14 total
-                                                      │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Visible:  Tiny ones hidden
+       ↵ open detail   ↑↓ navigate   ^k actions       │
+
+
+
+
+
+
+
 
     "
   `)
@@ -145,15 +145,15 @@ test('navigate to Equal Distribution - 10 segments', async () => {
 
        > Search...
 
-       Monthly Budget Spent / Remaining / Savings
+       Monthly Budget Spent / Remaining / Savings     │
        Disk Usage System / Apps / Media / Free        │
-       Investment Portfolio Stocks / Bonds / Cash / C │
+       Investment Portfolio Stocks / Bonds / Cash / C │ ────────────────────────────────────────────
        CPU Time User / System / IO Wait / Idle        │
-       Revenue by Product 6 product lines             │ ────────────────────────────────────────────
+       Revenue by Product 6 product lines             │ Segments: 10
        A/B Test Split Control vs Variant (50/50)      │
-       Storage Full 100% used                         │ Segments: 10
+       Storage Full 100% used                         │ Each:     10%
        Market Share One dominant + many tiny players  │
-      ›Equal Distribution 10 equal segments           │ Each:     10%
+      ›Equal Distribution 10 equal segments           │
        Custom Colors Explicit color per segment       │
        Needs vs Wants 50/30/20 budget rule            │
        Stress Test (20 items) Many small equal segmen │
@@ -201,23 +201,23 @@ test('navigate to Stress Test - 20 segments', async () => {
 
        > Search...
 
-       Monthly Budget Spent / Remaining / Savings
-       Disk Usage System / Apps / Media / Free        │ Stress Test
-       Investment Portfolio Stocks / Bonds / Cash / C │
-       CPU Time User / System / IO Wait / Idle        │ 20 equal segments at 5% each.
-       Revenue by Product 6 product lines             │ Tests color cycling (7 colors, wraps around)
-       A/B Test Split Control vs Variant (50/50)      │ .
-       Storage Full 100% used                         │ Labels may be hidden when segments are
-       Market Share One dominant + many tiny players  │ narrow.
+       Monthly Budget Spent / Remaining / Savings     │
+       Disk Usage System / Apps / Media / Free        │
+       Investment Portfolio Stocks / Bonds / Cash / C │ ────────────────────────────────────────────
+       CPU Time User / System / IO Wait / Idle        │
+       Revenue by Product 6 product lines             │ Segments: 20
+       A/B Test Split Control vs Variant (50/50)      │
+       Storage Full 100% used                         │ Colors:   7 (cycling)
+       Market Share One dominant + many tiny players  │
        Equal Distribution 10 equal segments           │
        Custom Colors Explicit color per segment       │
        Needs vs Wants 50/30/20 budget rule            │
       ›Stress Test (20 items) Many small equal segmen │
-                                                      │ ────────────────────────────────────────────
                                                       │
-                                                      │ Segments: 20
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Colors:   7 (cycling)
+       ↵ open detail   ↑↓ navigate   ^k actions       │
+
+
 
 
 

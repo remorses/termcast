@@ -37,13 +37,12 @@ test('list with detail view display and navigation', async () => {
 
        > Search Pokemon...
 
-      ›bulbasaur #001
-       ivysaur #002                         │ bulbasaur                         ▲
-       charmander #004                      │                                   ▀
-       charmeleon #005                      │ Illustration
-       squirtle #007                        │
-       wartortle #008                       │ Types
-                                            │
+      ›bulbasaur #001                       │ bulbasaur                         ▲
+       ivysaur #002                         │                                   █
+       charmander #004                      │ Illustration
+       charmeleon #005                      │
+       squirtle #007                        │ Types
+       wartortle #008                       │
                                             │ Grass / Poison
                                             │
                                             │ Characteristics
@@ -58,10 +57,11 @@ test('list with detail view display and navigation', async () => {
                                             │ - Overgrow
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Grass                             ▼
+                                            │ Grass
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -79,13 +79,12 @@ test('list with detail view display and navigation', async () => {
 
        > Search Pokemon...
 
-       bulbasaur #001
-      ›ivysaur #002                         │ ivysaur                           ▲
-       charmander #004                      │                                   ▀
-       charmeleon #005                      │ Illustration
-       squirtle #007                        │
-       wartortle #008                       │ Types
-                                            │
+       bulbasaur #001                       │ ivysaur                           ▲
+      ›ivysaur #002                         │                                   █
+       charmander #004                      │ Illustration
+       charmeleon #005                      │
+       squirtle #007                        │ Types
+       wartortle #008                       │
                                             │ Grass / Poison
                                             │
                                             │ Characteristics
@@ -100,10 +99,11 @@ test('list with detail view display and navigation', async () => {
                                             │ - Overgrow
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Grass                             ▼
+                                            │ Grass
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -119,13 +119,12 @@ test('list with detail view display and navigation', async () => {
 
        > Search Pokemon...
 
-       bulbasaur #001
-       ivysaur #002                         │ charmander                        ▲
-      ›charmander #004                      │                                   █
-       charmeleon #005                      │ Illustration
-       squirtle #007                        │
-       wartortle #008                       │ Types
-                                            │
+       bulbasaur #001                       │ charmander                        ▲
+       ivysaur #002                         │                                   █
+      ›charmander #004                      │ Illustration
+       charmeleon #005                      │
+       squirtle #007                        │ Types
+       wartortle #008                       │
                                             │ Fire
                                             │
                                             │ Characteristics
@@ -140,10 +139,11 @@ test('list with detail view display and navigation', async () => {
                                             │ - Solar Power
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Fire                              ▼
+                                            │ Fire
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -162,9 +162,9 @@ test('list with detail view display and navigation', async () => {
 
        > Search Pokemon...
 
-       bulbasaur #001
-       ivysaur #002                         │ charmander                        ▲
-      ›charmander #004                      │                                   █
+       bulbasaur #001                       │ charmander                        ▲
+       ivysaur #002                         │                                   █
+      ›charmander #004                      │ Illustration
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Actions                                                          esc   │
@@ -186,7 +186,7 @@ test('list with detail view display and navigation', async () => {
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Fire                              ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -214,7 +214,7 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                                                       Water
 
 
-       ↵ toggle detail   ↑↓ navigate   ^k actions             powered by termcast
+       ↵ toggle detail   ↑↓ navigate   ^k actions         powered by termcast.app
 
 
 
@@ -251,13 +251,12 @@ test('list with detail view display and navigation', async () => {
 
        > Search Pokemon...
 
-       bulbasaur #001
-       ivysaur #002                         │ charmander                        ▲
-      ›charmander #004                      │                                   █
-       charmeleon #005                      │ Illustration
-       squirtle #007                        │
-       wartortle #008                       │ Types
-                                            │
+       bulbasaur #001                       │ charmander                        ▲
+       ivysaur #002                         │                                   █
+      ›charmander #004                      │ Illustration
+       charmeleon #005                      │
+       squirtle #007                        │ Types
+       wartortle #008                       │
                                             │ Fire
                                             │
                                             │ Characteristics
@@ -272,10 +271,11 @@ test('list with detail view display and navigation', async () => {
                                             │ - Solar Power
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Fire                              ▼
+                                            │ Fire
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -303,9 +303,8 @@ test('list detail view search functionality', async () => {
 
        > char
 
-      ›charmander #004
-       charmeleon #005                      │ charmander                        ▲
-                                            │                                   █
+      ›charmander #004                      │ charmander                        ▲
+       charmeleon #005                      │                                   █
                                             │ Illustration
                                             │
                                             │ Types
@@ -324,10 +323,11 @@ test('list detail view search functionality', async () => {
                                             │ - Solar Power
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Fire                              ▼
+                                            │ Fire
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -352,10 +352,9 @@ test('list detail view search functionality', async () => {
 
        > water
 
-
                                             │ wartortle                         ▲
-                  No items found            │                                   █
-                                            │ Illustration
+                                            │                                   █
+                  No items found            │ Illustration
                                             │
                                             │ Types
                                             │
@@ -373,10 +372,11 @@ test('list detail view search functionality', async () => {
                                             │ - Rain Dish
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Water                             ▼
+                                            │ Water
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -392,10 +392,9 @@ test('list detail view search functionality', async () => {
 
        > water
 
-
                                             │ wartortle                         ▲
-                  No items found            │                                   █
-                                            │ Illustration
+                                            │                                   █
+                  No items found            │ Illustration
                                             │
                                             │ Types
                                             │
@@ -413,10 +412,11 @@ test('list detail view search functionality', async () => {
                                             │ - Rain Dish
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Water                             ▼
+                                            │ Water
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -444,13 +444,12 @@ test('list detail metadata rendering', async () => {
 
        > Search Pokemon...
 
-      ›bulbasaur #001
-       ivysaur #002                         │ bulbasaur                         ▲
-       charmander #004                      │                                   ▀
-       charmeleon #005                      │ Illustration
-       squirtle #007                        │
-       wartortle #008                       │ Types
-                                            │
+      ›bulbasaur #001                       │ bulbasaur                         ▲
+       ivysaur #002                         │                                   █
+       charmander #004                      │ Illustration
+       charmeleon #005                      │
+       squirtle #007                        │ Types
+       wartortle #008                       │
                                             │ Grass / Poison
                                             │
                                             │ Characteristics
@@ -465,10 +464,11 @@ test('list detail metadata rendering', async () => {
                                             │ - Overgrow
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Grass                             ▼
+                                            │ Grass
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -491,13 +491,12 @@ test('list detail metadata rendering', async () => {
 
        > Search Pokemon...
 
-       bulbasaur #001
-       ivysaur #002                         │ squirtle                          ▲
-       charmander #004                      │                                   █
-       charmeleon #005                      │ Illustration
-      ›squirtle #007                        │
-       wartortle #008                       │ Types
-                                            │
+       bulbasaur #001                       │ squirtle                          ▲
+       ivysaur #002                         │                                   █
+       charmander #004                      │ Illustration
+       charmeleon #005                      │
+      ›squirtle #007                        │ Types
+       wartortle #008                       │
                                             │ Water
                                             │
                                             │ Characteristics
@@ -512,10 +511,11 @@ test('list detail metadata rendering', async () => {
                                             │ - Rain Dish
                                             │
                                             │
-                                            │
                                             │ Types
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Water                             ▼
+                                            │ Water
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -565,10 +565,10 @@ test('list with detail layout consistency - short vs long detail content', async
 
        > Search...
 
-      ›Short Detail
-       Long Detail                          │ Brief content
-       Another Item                         │
-                                            │ This is short.
+      ›Short Detail                         │ Brief content
+       Long Detail                          │
+       Another Item                         │ This is short.
+                                            │
                                             │
                                             │
                                             │
@@ -593,10 +593,9 @@ test('list with detail layout consistency - short vs long detail content', async
 
        > Search...
 
-       Short Detail
-      ›Long Detail                          │ This item has extensive detail    ▲
-       Another Item                         │ content                           ▀
-                                            │
+       Short Detail                         │ This item has extensive detail    ▲
+      ›Long Detail                          │ content                           ▀
+       Another Item                         │
                                             │ Section 1
                                             │
                                             │ This is a very long description
@@ -609,7 +608,8 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │
                                             │ More content here to ensure we
                                             │ have enough text to cause
-       ↑↓ navigate   ^k actions             │ vertical overflow in the detail   ▼
+                                            │ vertical overflow in the detail
+       ↑↓ navigate   ^k actions             │ panel scrollbox.                  ▼
 
     "
   `)

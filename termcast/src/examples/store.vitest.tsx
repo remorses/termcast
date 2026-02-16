@@ -58,7 +58,7 @@ test('Store extension - searching for spiceblow shows Database', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions              powered by termcast
+       ↵ view details   ↑↓ navigate   ^k actions          powered by termcast.app
 
 
 

@@ -44,7 +44,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p dropdown   ^k powered by termcast
+       ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
 
 
 
@@ -90,7 +90,7 @@ test('dropdown opens and shows items', async () => {
       │   Grape                                                                  │
       │                                                                          │
       │                                                                          │
-      │   ↵ select   ↑↓ navigate                            powered by termcast  │
+      │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
 
@@ -127,7 +127,7 @@ test('dropdown opens and shows items', async () => {
       │   Grape                                                                  │
       │                                                                          │
       │                                                                          │
-      │   ↵ select   ↑↓ navigate                            powered by termcast  │
+      │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
 
@@ -163,7 +163,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p dropdown   ^k powered by termcast
+       ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
 
 
 
@@ -209,7 +209,7 @@ test('clicking dropdown opens it', async () => {
       │   Grape                                                                  │
       │                                                                          │
       │                                                                          │
-      │   ↵ select   ↑↓ navigate                            powered by termcast  │
+      │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
 
@@ -245,7 +245,7 @@ test('clicking dropdown opens it', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p dropdown   ^k powered by termcast
+       ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
 
 
 

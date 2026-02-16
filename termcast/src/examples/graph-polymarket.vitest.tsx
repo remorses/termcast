@@ -32,17 +32,15 @@ test('polymarket list with graph detail renders correctly', async () => {
 
        > Search markets...
 
-       Trending Markets
-      ›Bitcoin above $100k by EOY Crypto              │
-       ETH above $5k by Q2 2026 Crypto                │ 100%│
-       Fed cuts rates below 4% Economics              │     │                              ⣠⣀
-       S&P 500 reaches 6,000 Markets                  │     │          ⢠⣀       ⢀⣴⣷⡀      ⣰⣿⣿⣷⣀⣤⣴⣦⢀⣴
-       Presidential pardon for SBF Politics           │     │⣠⣴⡀   ⢀  ⢠⣿⣿⣷⡀ ⣀⣤⣀⣀⣾⣿⣿⣿⣶⣴⣿⣿⣶⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       AGI announced by major lab Tech                │  50%│⣿⣿⣷⣄⢀⣴⣿⣿⣾⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Solana flips Ethereum market cap Crypto        │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       US enters recession in 2026 Economics          │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-                                                      │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-                                                      │      30d         20d         10d         Now
+       Trending Markets                               │ 100%│
+      ›Bitcoin above $100k by EOY Crypto              │     │                              ⣠⣀
+       ETH above $5k by Q2 2026 Crypto                │     │          ⢠⣀       ⢀⣴⣷⡀      ⣰⣿⣿⣷⣀⣤⣴⣦⢀⣴
+       Fed cuts rates below 4% Economics              │     │⣠⣴⡀   ⢀  ⢠⣿⣿⣷⡀ ⣀⣤⣀⣀⣾⣿⣿⣿⣶⣴⣿⣿⣶⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       S&P 500 reaches 6,000 Markets                  │  50%│⣿⣿⣷⣄⢀⣴⣿⣿⣾⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Presidential pardon for SBF Politics           │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       AGI announced by major lab Tech                │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Solana flips Ethereum market cap Crypto        │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       US enters recession in 2026 Economics          │      30d         20d         10d         Now
                                                       │
                                                       │ Odds:   72% Yes
                                                       │
@@ -53,6 +51,8 @@ test('polymarket list with graph detail renders correctly', async () => {
                                                       │ ────────────────────────────────────────────
                                                       │
        ↵ buy yes   ↑↓ navigate   ^k actions           │ Probability (30d)
+
+
 
 
     "
@@ -95,17 +95,15 @@ test('navigating to different market updates the graph', async () => {
 
        > Search markets...
 
-       Trending Markets
-       Bitcoin above $100k by EOY Crypto              │
-      ›ETH above $5k by Q2 2026 Crypto                │ 100%│
-       Fed cuts rates below 4% Economics              │     │
-       S&P 500 reaches 6,000 Markets                  │     │ ⣀
-       Presidential pardon for SBF Politics           │     │⣿⣿⣆   ⢀⡀ ⣀⣾⣶⣄      ⢀⣤⣦        ⢀⡀
-       AGI announced by major lab Tech                │  50%│⣿⣿⣿⣷⣴⣾⣿⣿⣿⣿⣿⣿⣿⣦⣤⣶⣷⣦⣤⣿⣿⣿⣷⣤⣀⣤⣤⣀⢀⣴⣿⣿⣧ ⣀⣀⡀ ⢀
-       Solana flips Ethereum market cap Crypto        │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣴⣿
-       US enters recession in 2026 Economics          │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-                                                      │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-                                                      │      30d         20d         10d         Now
+       Trending Markets                               │ 100%│
+       Bitcoin above $100k by EOY Crypto              │     │
+      ›ETH above $5k by Q2 2026 Crypto                │     │ ⣀
+       Fed cuts rates below 4% Economics              │     │⣿⣿⣆   ⢀⡀ ⣀⣾⣶⣄      ⢀⣤⣦        ⢀⡀
+       S&P 500 reaches 6,000 Markets                  │  50%│⣿⣿⣿⣷⣴⣾⣿⣿⣿⣿⣿⣿⣿⣦⣤⣶⣷⣦⣤⣿⣿⣿⣷⣤⣀⣤⣤⣀⢀⣴⣿⣿⣧ ⣀⣀⡀ ⢀
+       Presidential pardon for SBF Politics           │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣴⣿
+       AGI announced by major lab Tech                │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Solana flips Ethereum market cap Crypto        │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       US enters recession in 2026 Economics          │      30d         20d         10d         Now
                                                       │
                                                       │ Odds:   38% Yes
                                                       │
@@ -116,6 +114,8 @@ test('navigating to different market updates the graph', async () => {
                                                       │ ────────────────────────────────────────────
                                                       │
        ↵ buy yes   ↑↓ navigate   ^k actions           │ Probability (30d)
+
+
 
 
     "

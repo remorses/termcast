@@ -52,7 +52,7 @@ test('graph renders with braille characters and axis labels', async () => {
             01          06           11            16           21           26
 
 
-      esc go back                                              powered by termcast
+      esc go back                                          powered by termcast.app
 
 
 
