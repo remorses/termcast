@@ -43,16 +43,16 @@ function SimpleDetailTable() {
           <Table
             headers={['Region', 'Latency']}
             rows={[
-              ['us-east-1','12ms'],
-              ['eu-west-1', '45ms'],
-              ['ap-south-1', '89ms'],
+              ['us-east-1', '**12ms**'],
+              ['eu-west-1', '*45ms*'],
+              ['ap-south-1', '`89ms`'],
             ]}
           />
           <Table
             headers={['Endpoint', 'RPS']}
             rows={[
-              ['/api/auth', '1200'],
-              ['/api/data', '3400'],
+              ['[/api/auth](https://example.com)', '**1200**'],
+              ['/api/data', '~~3400~~'],
               ['/api/health', '500'],
             ]}
           />

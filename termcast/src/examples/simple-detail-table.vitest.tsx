@@ -57,28 +57,28 @@ test('markdown tables render with borderless layout', async () => {
       The system is operating normally.
 
       Region      Latency                  Endpoint     RPS
-      us-east-1   **12ms**                 _/api/auth_  1200
+      us-east-1   12ms                     /api/auth    1200
       eu-west-1   45ms                     /api/data    3400
       ap-south-1  89ms                     /api/health  500
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       esc go back                                          powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)
@@ -157,28 +157,28 @@ test('two tables render side by side in a Row', async () => {
       The system is operating normally.
 
       Region      Latency                  Endpoint     RPS
-      us-east-1   **12ms**                 _/api/auth_  1200
+      us-east-1   12ms                     /api/auth    1200
       eu-west-1   45ms                     /api/data    3400
       ap-south-1  89ms                     /api/health  500
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       esc go back                                          powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)

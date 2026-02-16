@@ -20,6 +20,7 @@ import {
   type RenderContext,
   type SyntaxStyle,
 } from '@opentui/core'
+import { Lexer } from 'marked'
 import { getResolvedTheme } from './themes'
 import { useStore } from './state'
 import { TableRenderable, type TableCellContent } from 'termcast/src/components/table'
@@ -64,7 +65,9 @@ function hasLinks(token: Token): boolean {
 
 // Recursively flatten inline tokens into chunks, stripping link URLs.
 // Handles nested structures like **[link](url)** or *[link](url)*.
-function flattenInlineTokens({
+// Exported so the standalone <Table> component can reuse this for
+// parsing inline markdown in cell strings.
+export function flattenInlineTokens({
   tokens,
   chunks,
   links,
@@ -235,4 +238,26 @@ export function createMarkdownRenderNode(renderer: RenderContext): (token: Token
       marginBottom: 1,
     })
   }
+}
+
+// Parse a raw string containing inline markdown (bold, italic, code,
+// links, strikethrough) into a StyledText. Uses marked's inline lexer
+// to tokenize, then flattenInlineTokens to produce styled chunks.
+// If the string contains no markdown syntax, returns a plain StyledText.
+export function parseInlineMarkdown(text: string): StyledText {
+  const themeName = useStore.getState().currentThemeName
+  const theme = getResolvedTheme(themeName)
+  const primaryColor = parseColor(theme.primary)
+  const linkColor = parseColor(theme.markdownLinkText)
+  const textColor = parseColor(theme.text)
+
+  const tokens = new Lexer().inlineTokens(text) as Token[]
+  const chunks: TextChunk[] = []
+  const links: LinkInfo[] = []
+  flattenInlineTokens({ tokens, chunks, links, primaryColor, linkColor, textColor })
+
+  if (chunks.length === 0) {
+    return new StyledText([{ __isChunk: true, text: ' ', fg: textColor }])
+  }
+  return new StyledText(chunks)
 }
