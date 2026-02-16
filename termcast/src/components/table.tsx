@@ -428,7 +428,37 @@ declare module '@opentui/react' {
 
 // ── React wrapper ────────────────────────────────────────────────────
 
-export interface TableProps {
+// Layout props picked from RenderableOptions that don't conflict with
+// the table's internal styling (header bg, stripe bg, borderless design).
+type TableLayoutProps = Partial<
+  Pick<
+    RenderableOptions<TableRenderable>,
+    | 'flexGrow'
+    | 'flexShrink'
+    | 'flexBasis'
+    | 'alignSelf'
+    | 'padding'
+    | 'paddingX'
+    | 'paddingY'
+    | 'paddingTop'
+    | 'paddingRight'
+    | 'paddingBottom'
+    | 'paddingLeft'
+    | 'margin'
+    | 'marginX'
+    | 'marginY'
+    | 'marginTop'
+    | 'marginRight'
+    | 'marginBottom'
+    | 'marginLeft'
+    | 'minWidth'
+    | 'minHeight'
+    | 'maxWidth'
+    | 'maxHeight'
+  >
+>
+
+export interface TableProps extends TableLayoutProps {
   /** Column header labels */
   headers: string[]
   /** Row data – each inner array is one row of cell strings */
@@ -442,7 +472,7 @@ export interface TableProps {
 }
 
 export function Table(props: TableProps): any {
-  const { headers, rows, wrapText, width = '100%', height } = props
+  const { headers, rows, wrapText, width = '100%', height, ...layoutProps } = props
 
   const syntaxStyle = React.useMemo(() => {
     return getMarkdownSyntaxStyle()
@@ -456,6 +486,7 @@ export function Table(props: TableProps): any {
       syntaxStyle={syntaxStyle}
       width={width}
       height={height}
+      {...layoutProps}
     />
   )
 }

@@ -295,26 +295,26 @@ test('navigation with actions panel', async () => {
   expect(actionsOpenSnapshot).toMatchInlineSnapshot(`
     "
 
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›Open Details                                                 │
-      │   Copy Title                                                   │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │   See Console Logs                                             │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯
+
+       Navigation Example ─────────────────────────────────────────────
+
+       > Main view
+
+       Items
+      ›First Item Navigate to first detail
+       Second Item Navigate to second detail
+       Third Item Navigate to third detail
+
+
+
+
+       ↵ open details   ↑↓ navigate   ^k actions
+
+
+
+
+
+
 
 
 

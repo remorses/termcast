@@ -41,16 +41,16 @@ test('polymarket list with graph detail renders correctly', async () => {
        AGI announced by major lab Tech                │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
        Solana flips Ethereum market cap Crypto        │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
        US enters recession in 2026 Economics          │      30d         20d         10d         Now
-                                                      │
                                                       │ Odds:   72% Yes
-                                                      │
                                                       │ Volume: $4.2M
-                                                      │
                                                       │ Ends:   Dec 31, 2026
-                                                      │
                                                       │ ────────────────────────────────────────────
-                                                      │
        ↵ buy yes   ↑↓ navigate   ^k actions           │ Probability (30d)
+
+
+
+
+
 
 
 
@@ -104,16 +104,16 @@ test('navigating to different market updates the graph', async () => {
        AGI announced by major lab Tech                │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
        Solana flips Ethereum market cap Crypto        │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
        US enters recession in 2026 Economics          │      30d         20d         10d         Now
-                                                      │
                                                       │ Odds:   38% Yes
-                                                      │
                                                       │ Volume: $1.8M
-                                                      │
                                                       │ Ends:   Jun 30, 2026
-                                                      │
                                                       │ ────────────────────────────────────────────
-                                                      │
        ↵ buy yes   ↑↓ navigate   ^k actions           │ Probability (30d)
+
+
+
+
+
 
 
 

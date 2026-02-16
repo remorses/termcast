@@ -32,22 +32,22 @@ test('area style renders braille characters', async () => {
 
        > Search...
 
-      ›Area - Stock Price Orange braille do │ 211│                            ⣠ ▲
-       Area - Multi Series CPU + Memory ove │    │                        ⢀⣴⣦⣼⣿ █
-       Area - Waves Purple + Magenta sine/c │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
-       Area - Blue Revenue Single series, a │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
-       Filled - Red Revenue Solid block gro │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
-       Filled - Green Temp Daily temperatur │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled - Yellow CPU High contrast on │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled - Magenta Waves Smooth curve  │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Purple/Orange Warm alterna │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Blue/Red High contrast str │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Theme Default primary + ac │     1      5     10     15     20
-       Striped - Green/Yellow Nature-inspir │
-       Striped - Red/Magenta Warm gradient  │ ─────────────────────────────────
-                                            │
-                                            │ Variant: area
-       ↵ open detail   ↑↓ navigate   ^k act │                                   ▼
+      ›Area - Stock Price Orange braille do │ 211│                             ⣠
+       Area - Multi Series CPU + Memory ove │    │                         ⢀⣴⣦⣼⣿
+       Area - Waves Purple + Magenta sine/c │    │                     ⣴⣦⣄⣴⣿⣿⣿⣿⣿
+       Area - Blue Revenue Single series, a │ 189│                 ⣠⣾⣶⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled - Red Revenue Solid block gro │    │             ⢀⣄⡀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled - Green Temp Daily temperatur │    │           ⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled - Yellow CPU High contrast on │ 167│        ⣠⣾⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled - Magenta Waves Smooth curve  │    │    ⣰⣤⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped - Purple/Orange Warm alterna │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped - Blue/Red High contrast str │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped - Theme Default primary + ac │     1      5      10     15     20
+       Striped - Green/Yellow Nature-inspir │ ──────────────────────────────────
+       Striped - Red/Magenta Warm gradient  │ Variant: area
+                                            │ Color:   Orange
+                                            │ Points:  20
+       ↵ open detail   ↑↓ navigate   ^k act │
 
     "
   `)
@@ -86,7 +86,7 @@ test('filled style renders block characters', async () => {
 
        Area - Stock Price Orange braille do │ Revenue Growth                    ▲
        Area - Multi Series CPU + Memory ove │                                   █
-       Area - Waves Purple + Magenta sine/c │ Quarterly revenue from $10k to
+       Area - Waves Purple + Magenta sine/c │ Quarterly revenue from $10k to    ▀
        Area - Blue Revenue Single series, a │ $75k.
       ›Filled - Red Revenue Solid block gro │
        Filled - Green Temp Daily temperatur │ Q1: $10k  → Q2: $25k (+150%)
@@ -136,22 +136,22 @@ test('striped style renders alternating columns', async () => {
 
        > Search...
 
-       Area - Stock Price Orange braille do │ 211│                            ▄ ▲
-       Area - Multi Series CPU + Memory ove │    │                         ▄▄▀▀ █
-       Area - Waves Purple + Magenta sine/c │    │                     ▄▄▄▀▀▀▀▀ █
-       Area - Blue Revenue Single series, a │ 189│                ▄▄▀▄▀▀▀▀▀▀▀▀▀
-       Filled - Red Revenue Solid block gro │    │             ▄▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Filled - Green Temp Daily temperatur │    │           ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Filled - Yellow CPU High contrast on │ 167│       ▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Filled - Magenta Waves Smooth curve  │    │    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-      ›Striped - Purple/Orange Warm alterna │    │▄▀▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Striped - Blue/Red High contrast str │ 145│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Striped - Theme Default primary + ac │     1      5     10     15     20
-       Striped - Green/Yellow Nature-inspir │
-       Striped - Red/Magenta Warm gradient  │ ─────────────────────────────────
-                                            │
-                                            │ Even cols: Purple
-       ↵ open detail   ↑↓ navigate   ^k act │                                   ▼
+       Area - Stock Price Orange braille do │ 211│                             ▄
+       Area - Multi Series CPU + Memory ove │    │                          ▄▄▀▀
+       Area - Waves Purple + Magenta sine/c │    │                     ▄▄▄▀▀▀▀▀▀
+       Area - Blue Revenue Single series, a │ 189│                 ▄▀▀▀▀▀▀▀▀▀▀▀▀
+       Filled - Red Revenue Solid block gro │    │              ▄ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+       Filled - Green Temp Daily temperatur │    │           ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+       Filled - Yellow CPU High contrast on │ 167│        ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+       Filled - Magenta Waves Smooth curve  │    │    ▄▀▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      ›Striped - Purple/Orange Warm alterna │    │ ▄▀▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+       Striped - Blue/Red High contrast str │ 145│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+       Striped - Theme Default primary + ac │     1      5      10     15     20
+       Striped - Green/Yellow Nature-inspir │ ──────────────────────────────────
+       Striped - Red/Magenta Warm gradient  │ Even cols: Purple
+                                            │ Odd cols:  Orange
+                                            │ ──────────────────────────────────
+       ↵ open detail   ↑↓ navigate   ^k act │ Colors:    Purple Orange
 
     "
   `)
@@ -187,7 +187,7 @@ test('markdown + metadata detail view in list', async () => {
        > Search...
 
        Area - Stock Price Orange braille do │ System Metrics                    ▲
-      ›Area - Multi Series CPU + Memory ove │                                   ▀
+      ›Area - Multi Series CPU + Memory ove │                                   █
        Area - Waves Purple + Magenta sine/c │ CPU usage (blue) vs memory usage (
        Area - Blue Revenue Single series, a │ green) over 24 hours.
        Filled - Red Revenue Solid block gro │
@@ -297,22 +297,22 @@ test('esc returns from detail to list', async () => {
 
        > Search...
 
-      ›Area - Stock Price Orange braille do │ 211│                            ⣠ ▲
-       Area - Multi Series CPU + Memory ove │    │                        ⢀⣴⣦⣼⣿ █
-       Area - Waves Purple + Magenta sine/c │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
-       Area - Blue Revenue Single series, a │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
-       Filled - Red Revenue Solid block gro │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
-       Filled - Green Temp Daily temperatur │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled - Yellow CPU High contrast on │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled - Magenta Waves Smooth curve  │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Purple/Orange Warm alterna │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Blue/Red High contrast str │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Theme Default primary + ac │     1      5     10     15     20
-       Striped - Green/Yellow Nature-inspir │
-       Striped - Red/Magenta Warm gradient  │ ─────────────────────────────────
-                                            │
-                                            │ Variant: area
-       ↵ open detail   ↑↓ navigate   ^k act │                                   ▼
+      ›Area - Stock Price Orange braille do │ 211│                             ⣠
+       Area - Multi Series CPU + Memory ove │    │                         ⢀⣴⣦⣼⣿
+       Area - Waves Purple + Magenta sine/c │    │                     ⣴⣦⣄⣴⣿⣿⣿⣿⣿
+       Area - Blue Revenue Single series, a │ 189│                 ⣠⣾⣶⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled - Red Revenue Solid block gro │    │             ⢀⣄⡀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled - Green Temp Daily temperatur │    │           ⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled - Yellow CPU High contrast on │ 167│        ⣠⣾⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled - Magenta Waves Smooth curve  │    │    ⣰⣤⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped - Purple/Orange Warm alterna │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped - Blue/Red High contrast str │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped - Theme Default primary + ac │     1      5      10     15     20
+       Striped - Green/Yellow Nature-inspir │ ──────────────────────────────────
+       Striped - Red/Magenta Warm gradient  │ Variant: area
+                                            │ Color:   Orange
+                                            │ Points:  20
+       ↵ open detail   ↑↓ navigate   ^k act │
 
     "
   `)

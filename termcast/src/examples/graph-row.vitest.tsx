@@ -48,12 +48,12 @@ test('side detail shows two graphs in a row', async () => {
                                                       │    │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿    │▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
                                                       │   0│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿   0│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
                                                       │     0h 6h   12h 18h24h     0h 6h  12h 18h24h
-                                                      │
                                                       │ ────────────────────────────────────────────
-                                                      │
                                                       │ CPU Peak: 90%
-                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions       │ Mem Peak: 86%
+
+
+
 
     "
   `)
@@ -167,12 +167,12 @@ test('esc returns from detail to list', async () => {
                                                       │    │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿    │▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
                                                       │   0│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿   0│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
                                                       │     0h 6h   12h 18h24h     0h 6h  12h 18h24h
-                                                      │
                                                       │ ────────────────────────────────────────────
-                                                      │
                                                       │ CPU Peak: 90%
-                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions       │ Mem Peak: 86%
+
+
+
 
     "
   `)
@@ -224,12 +224,12 @@ test('sparse data with zeros shows baseline', async () => {
                                                       │    │  ▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀     │  ▀▀▀▀▀▀▀▀▀▀ ▀▀▀
                                                       │   0│▁▀▀▀▀▀▀▀▁▀▀▀▀▀▀▀▀▁   0│▁▀▀▀▀▀▀▀▀▀▀▀▁▀▀▀▁
                                                       │     0h 6h   12h 18h24h     0h 6h  12h 18h24h
-                                                      │
                                                       │ ────────────────────────────────────────────
-                                                      │
                                                       │ Zeros: 12 of 20
-                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions       │ Peak:  90
+
+
+
 
     "
   `)
@@ -264,28 +264,28 @@ test('navigate to striped pair', async () => {
 
        > Search...
 
-       CPU vs Memory Area + Filled side by side       │ Revenue vs Expenses                         ▲
-       Disk I/O Read vs Write operations              │                                             █
-      ›Revenue vs Expenses Striped comparison         │ Revenue growing faster than expenses.       █
-       Weather Station Temperature + Humidity         │ Profit margin widening over the year.       █
-       Mixed Variants Area left, Striped right        │                                             █
+       CPU vs Memory Area + Filled side by side       │ Revenue vs Expenses
+       Disk I/O Read vs Write operations              │
+      ›Revenue vs Expenses Striped comparison         │ Revenue growing faster than expenses.
+       Weather Station Temperature + Humidity         │ Profit margin widening over the year.
+       Mixed Variants Area left, Striped right        │
        Sparse Data (Zeros) Filled vs Striped with zer │ - Revenue: $10k to $75k
                                                       │ - Expenses: $8k to $45k
                                                       │
                                                       │
-                                                      │ 78│                 ▄ 47│                 ▄
-                                                      │   │              ▄▀▀▀   │             ▄▄▀▀▀
-                                                      │ 54│            ▄▀▀▀▀▀ 33│           ▄▄▀▀▀▀▀
-                                                      │   │         ▄▄▀▀▀▀▀▀▀   │         ▄▀▀▀▀▀▀▀▀
-                                                      │   │      ▄ ▀▀▀▀▀▀▀▀▀▀   │      ▄▄▀▀▀▀▀▀▀▀▀▀
-                                                      │ 31│    ▄▀▀▀▀▀▀▀▀▀▀▀▀▀ 20│    ▄▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │   │ ▄ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀   │  ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │  7│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  6│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-                                                      │    Jan  Apr  Jul  Oct    Jan  Apr  Jul  Oct
-                                                      │
-                                                      │ ───────────────────────────────────────────
-                                                      │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Revenue:  $75k                              ▼
+                                                      │ 78│                  ▄ 47│                 ▄
+                                                      │   │               ▄▀▀▀   │             ▄▄▀▀▀
+                                                      │ 54│            ▄▀▀▀▀▀▀ 33│           ▄▄▀▀▀▀▀
+                                                      │   │         ▄▄▀▀▀▀▀▀▀▀   │         ▄▀▀▀▀▀▀▀▀
+                                                      │   │       ▄ ▀▀▀▀▀▀▀▀▀▀   │      ▄▄▀▀▀▀▀▀▀▀▀▀
+                                                      │ 31│    ▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀ 20│    ▄▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │   │ ▄ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀   │  ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │  7│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  6│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                                                      │    Jan  Apr   Jul  Oct    Jan  Apr  Jul  Oct
+                                                      │ ────────────────────────────────────────────
+                                                      │ Revenue:  $75k
+                                                      │ Expenses: $45k
+       ↵ open detail   ↑↓ navigate   ^k actions       │ Margin:   40%
 
     "
   `)

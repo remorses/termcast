@@ -39,7 +39,7 @@ test('list with detail view display and navigation', async () => {
 
       ›bulbasaur #001                       │ bulbasaur                         ▲
        ivysaur #002                         │                                   █
-       charmander #004                      │ Illustration
+       charmander #004                      │ Illustration                      █
        charmeleon #005                      │
        squirtle #007                        │ Types
        wartortle #008                       │
@@ -58,9 +58,9 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Grass
-                                            │
+                                            │ ─────────────────────────────────
+                                            │ Poison
        ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
@@ -81,7 +81,7 @@ test('list with detail view display and navigation', async () => {
 
        bulbasaur #001                       │ ivysaur                           ▲
       ›ivysaur #002                         │                                   █
-       charmander #004                      │ Illustration
+       charmander #004                      │ Illustration                      █
        charmeleon #005                      │
        squirtle #007                        │ Types
        wartortle #008                       │
@@ -100,9 +100,9 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Grass
-                                            │
+                                            │ ─────────────────────────────────
+                                            │ Poison
        ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
@@ -121,8 +121,8 @@ test('list with detail view display and navigation', async () => {
 
        bulbasaur #001                       │ charmander                        ▲
        ivysaur #002                         │                                   █
-      ›charmander #004                      │ Illustration
-       charmeleon #005                      │
+      ›charmander #004                      │ Illustration                      █
+       charmeleon #005                      │                                   ▀
        squirtle #007                        │ Types
        wartortle #008                       │
                                             │ Fire
@@ -140,10 +140,10 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Fire
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+                                            │ ─────────────────────────────────
+                                            │ Characteristics
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:      0.6m                 ▼
 
     "
   `)
@@ -164,7 +164,7 @@ test('list with detail view display and navigation', async () => {
 
        bulbasaur #001                       │ charmander                        ▲
        ivysaur #002                         │                                   █
-      ›charmander #004                      │ Illustration
+      ›charmander #004                      │ Illustration                      █
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Actions                                                          esc   │
@@ -185,8 +185,8 @@ test('list with detail view display and navigation', async () => {
       │   ↵ select   ↑↓ navigate                                                 │
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+                                            │ Characteristics
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:      0.6m                 ▼
 
     "
   `)
@@ -253,8 +253,8 @@ test('list with detail view display and navigation', async () => {
 
        bulbasaur #001                       │ charmander                        ▲
        ivysaur #002                         │                                   █
-      ›charmander #004                      │ Illustration
-       charmeleon #005                      │
+      ›charmander #004                      │ Illustration                      █
+       charmeleon #005                      │                                   ▀
        squirtle #007                        │ Types
        wartortle #008                       │
                                             │ Fire
@@ -272,10 +272,10 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Fire
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+                                            │ ─────────────────────────────────
+                                            │ Characteristics
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:      0.6m                 ▼
 
     "
   `)
@@ -305,8 +305,8 @@ test('list detail view search functionality', async () => {
 
       ›charmander #004                      │ charmander                        ▲
        charmeleon #005                      │                                   █
-                                            │ Illustration
-                                            │
+                                            │ Illustration                      █
+                                            │                                   ▀
                                             │ Types
                                             │
                                             │ Fire
@@ -324,10 +324,10 @@ test('list detail view search functionality', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Fire
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+                                            │ ─────────────────────────────────
+                                            │ Characteristics
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:      0.6m                 ▼
 
     "
   `)
@@ -354,8 +354,8 @@ test('list detail view search functionality', async () => {
 
                                             │ wartortle                         ▲
                                             │                                   █
-                  No items found            │ Illustration
-                                            │
+                  No items found            │ Illustration                      █
+                                            │                                   ▀
                                             │ Types
                                             │
                                             │ Water
@@ -373,10 +373,10 @@ test('list detail view search functionality', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Water
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+                                            │ ─────────────────────────────────
+                                            │ Characteristics
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:    1m                     ▼
 
     "
   `)
@@ -394,8 +394,8 @@ test('list detail view search functionality', async () => {
 
                                             │ wartortle                         ▲
                                             │                                   █
-                  No items found            │ Illustration
-                                            │
+                  No items found            │ Illustration                      █
+                                            │                                   ▀
                                             │ Types
                                             │
                                             │ Water
@@ -413,10 +413,10 @@ test('list detail view search functionality', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Water
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+                                            │ ─────────────────────────────────
+                                            │ Characteristics
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:    1m                     ▼
 
     "
   `)
@@ -446,7 +446,7 @@ test('list detail metadata rendering', async () => {
 
       ›bulbasaur #001                       │ bulbasaur                         ▲
        ivysaur #002                         │                                   █
-       charmander #004                      │ Illustration
+       charmander #004                      │ Illustration                      █
        charmeleon #005                      │
        squirtle #007                        │ Types
        wartortle #008                       │
@@ -465,9 +465,9 @@ test('list detail metadata rendering', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Grass
-                                            │
+                                            │ ─────────────────────────────────
+                                            │ Poison
        ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
@@ -493,8 +493,8 @@ test('list detail metadata rendering', async () => {
 
        bulbasaur #001                       │ squirtle                          ▲
        ivysaur #002                         │                                   █
-       charmander #004                      │ Illustration
-       charmeleon #005                      │
+       charmander #004                      │ Illustration                      █
+       charmeleon #005                      │                                   ▀
       ›squirtle #007                        │ Types
        wartortle #008                       │
                                             │ Water
@@ -512,10 +512,10 @@ test('list detail metadata rendering', async () => {
                                             │
                                             │
                                             │ Types
-                                            │
                                             │ Water
-                                            │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+                                            │ ─────────────────────────────────
+                                            │ Characteristics
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:    0.5m                   ▼
 
     "
   `)

@@ -430,7 +430,12 @@ test('list actions panel with ctrl+k', async () => {
   // Press ctrl+k to open actions panel
   await session.press(['ctrl', 'k'])
 
-  const afterCtrlKSnapshot = await session.text()
+  const afterCtrlKSnapshot = await session.text({
+    waitFor: (text) => {
+      return /Actions/.test(text)
+    },
+    timeout: 5000,
+  })
   // Fast feedback loop: fail if list content leaks under the actions dialog.
   expect(afterCtrlKSnapshot).toContain('Actions')
   expect(afterCtrlKSnapshot).not.toContain('Search items...')
