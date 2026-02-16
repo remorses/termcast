@@ -1,9 +1,13 @@
 // Example: Detail view with markdown tables rendered by our custom TableRenderable.
 // Shows borderless tables with header background and alternating row stripes
 // instead of ASCII box-drawing borders.
+// Also demonstrates two tables side by side using the Row component.
 
 import { Detail } from 'termcast'
+import { TextAttributes } from '@opentui/core'
 import { renderWithProviders } from '../utils'
+import { Table } from 'termcast/src/components/table'
+import { Row } from 'termcast/src/components/row'
 
 const markdown = `# Server Status
 
@@ -30,7 +34,35 @@ The system is operating normally.
 `
 
 function SimpleDetailTable() {
-  return <Detail markdown={markdown} />
+  return (
+    <Detail
+      markdown={markdown}
+      metadata={
+        <box flexDirection="column" paddingTop={1}>
+          <text attributes={TextAttributes.BOLD}>Side-by-Side Tables</text>
+          <box height={1} />
+          <Row>
+            <Table
+              headers={['Region', 'Latency']}
+              rows={[
+                ['us-east-1', '12ms'],
+                ['eu-west-1', '45ms'],
+                ['ap-south-1', '89ms'],
+              ]}
+            />
+            <Table
+              headers={['Endpoint', 'RPS']}
+              rows={[
+                ['/api/auth', '1200'],
+                ['/api/data', '3400'],
+                ['/api/health', '500'],
+              ]}
+            />
+          </Row>
+        </box>
+      }
+    />
+  )
 }
 
 renderWithProviders(<SimpleDetailTable />)

@@ -22,7 +22,7 @@ import {
 } from '@opentui/core'
 import { getResolvedTheme } from './themes'
 import { useStore } from './state'
-import { TableRenderable } from 'termcast/src/components/table'
+import { TableRenderable, type TableCellContent } from 'termcast/src/components/table'
 
 // Minimal token types from marked (dependency of opentui, not termcast directly)
 interface Token {
@@ -162,14 +162,35 @@ export function createMarkdownRenderNode(renderer: RenderContext): (token: Token
 
   return (token: Token, context: RenderNodeContext) => {
     // Override table tokens with our custom borderless TableRenderable
-    // (header background + alternating row stripes instead of ASCII borders)
+    // (header background + alternating row stripes instead of ASCII borders).
+    // Converts inline markdown tokens (bold, italic, code, links) into
+    // StyledText so formatting is preserved in table cells.
     if (token.type === 'table' && token.header && token.rows) {
+      const themeName = useStore.getState().currentThemeName
+      const theme = getResolvedTheme(themeName)
+      const primaryColor = parseColor(theme.primary)
+      const linkColor = parseColor(theme.markdownLinkText)
+      const textColor = parseColor(theme.text)
+
+      const cellToStyledText = (tokens: Token[] | undefined): TableCellContent => {
+        if (!tokens || tokens.length === 0) {
+          return new StyledText([{ __isChunk: true, text: ' ', fg: textColor }])
+        }
+        const chunks: TextChunk[] = []
+        const links: LinkInfo[] = []
+        flattenInlineTokens({ tokens, chunks, links, primaryColor, linkColor, textColor })
+        if (chunks.length === 0) {
+          return new StyledText([{ __isChunk: true, text: ' ', fg: textColor }])
+        }
+        return new StyledText(chunks)
+      }
+
       const headers = token.header.map((cell) => {
-        return cell.text || ''
+        return cellToStyledText(cell.tokens)
       })
       const rows = token.rows.map((row) => {
         return row.map((cell) => {
-          return cell.text || ''
+          return cellToStyledText(cell.tokens)
         })
       })
       if (headers.length === 0 || rows.length === 0) {

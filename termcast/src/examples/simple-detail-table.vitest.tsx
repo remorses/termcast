@@ -1,6 +1,7 @@
 // E2E tests for Detail view with markdown tables.
 // Verifies our custom TableRenderable renders borderless tables
 // with header background and alternating row stripes.
+// Also tests two tables side by side in a Row component.
 
 import { test, expect, afterEach, beforeEach } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
@@ -12,7 +13,7 @@ beforeEach(async () => {
     command: 'bun',
     args: ['src/examples/simple-detail-table.tsx'],
     cols: 80,
-    rows: 40,
+    rows: 50,
   })
 })
 
@@ -55,8 +56,18 @@ test('markdown tables render with borderless layout', async () => {
 
       The system is operating normally.
 
+      Side-by-Side Tables
+
+      Region      Latency                  Endpoint     RPS
+      us-east-1   12ms                     /api/auth    1200
+      eu-west-1   45ms                     /api/data    3400
+      ap-south-1  89ms                     /api/health  500
+
 
       esc go back                                          powered by termcast.app
+
+
+
 
 
 
@@ -108,4 +119,78 @@ test('table headers have distinct background color', async () => {
 
   expect(headerBgText).toContain('Service')
   expect(headerBgText).toContain('Status')
+}, 30000)
+
+test('two tables render side by side in a Row', async () => {
+  const text = await session.text({
+    waitFor: (text) => {
+      return text.includes('Side-by-Side') && text.includes('us-east-1') && text.includes('/api/auth')
+    },
+    timeout: 10000,
+  })
+
+  expect(text).toMatchInlineSnapshot(`
+    "
+
+
+
+
+      Server Status
+
+      Active Services
+
+      Service      Status   Uptime  Memory
+      API Gateway  Running  14d 3h  256MB
+      Auth Server  Running  14d 3h  128MB
+      Worker Pool  Running  7d 12h  512MB
+      Cache Layer  Stopped  -       0MB
+
+      Configuration
+
+      Key              Value      Description
+      max_connections  1000       Maximum concurrent connections
+      timeout_ms       5000       Request timeout in ms
+      retry_count      3          Number of retry attempts
+      log_level        info       Logging verbosity
+      region           us-east-1  Deployment region
+
+      The system is operating normally.
+
+      Side-by-Side Tables
+
+      Region      Latency                  Endpoint     RPS
+      us-east-1   12ms                     /api/auth    1200
+      eu-west-1   45ms                     /api/data    3400
+      ap-south-1  89ms                     /api/health  500
+
+
+      esc go back                                          powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    "
+  `)
+
+  // Left table
+  expect(text).toContain('Region')
+  expect(text).toContain('Latency')
+  expect(text).toContain('us-east-1')
+  expect(text).toContain('12ms')
+  // Right table
+  expect(text).toContain('Endpoint')
+  expect(text).toContain('RPS')
+  expect(text).toContain('/api/auth')
+  expect(text).toContain('3400')
 }, 30000)
