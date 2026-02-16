@@ -57,7 +57,12 @@ export { Graph } from 'termcast/src/components/graph'
 export type {
   GraphProps,
   GraphLineProps,
+  GraphVariant,
 } from 'termcast/src/components/graph'
+
+// Core UI Components - Row
+export { Row } from 'termcast/src/components/row'
+export type { RowProps } from 'termcast/src/components/row'
 
 // Form Components
 import {

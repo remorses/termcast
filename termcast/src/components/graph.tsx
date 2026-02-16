@@ -28,6 +28,25 @@ import { extend } from '@opentui/react'
 import { useTheme } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
 
+// ── Graph variant ────────────────────────────────────────────────────
+// Three rendering modes for the plot area:
+// - 'area':    braille dots filling area under curve (2×4 sub-pixel resolution)
+// - 'filled':  solid block characters (2× vertical sub-row resolution)
+// - 'striped': all columns filled, alternating between two colors
+//              (pass 'transparent' for one color to get gap-style bars)
+
+export type GraphVariant = 'area' | 'filled' | 'striped'
+
+// ── Block characters for Filled/Striped modes ───────────────────────
+// We use ▀/▄ with fg+bg color encoding to eliminate the tiny gaps
+// some terminals show between adjacent █ rows.
+// ▀ = top half drawn with fg, bottom half shows bg
+// ▄ = bottom half drawn with fg, top half shows bg
+// ▁ = lower 1/8 block, used as a thin baseline for zero/minimum values
+const UPPER_HALF = '▀'    // U+2580
+const LOWER_HALF = '▄'    // U+2584
+const LOWER_EIGHTH = '▁'  // U+2581
+
 // ── Braille bit map ──────────────────────────────────────────────────
 // Maps (subCol, subRow) to the braille bit for that dot position.
 // subCol is 0 or 1, subRow is 0..3.
@@ -45,14 +64,14 @@ function brailleBit(subCol: number, subRow: number): number {
 
 // ── Series data passed to the renderable ─────────────────────────────
 
-interface SeriesData {
+export interface SeriesData {
   data: number[]
   color: string // hex color
 }
 
 // ── GraphPlotRenderable ──────────────────────────────────────────────
 
-interface GraphPlotOptions extends RenderableOptions {
+export interface GraphPlotOptions extends RenderableOptions {
   series?: SeriesData[]
   xLabels?: string[]
   yMin?: number
@@ -60,9 +79,12 @@ interface GraphPlotOptions extends RenderableOptions {
   yTicks?: number
   yFormat?: (v: number) => string
   axisColor?: string
+  variant?: GraphVariant
+  stripeColor1?: string // hex color for even columns in striped mode
+  stripeColor2?: string // hex color for odd columns in striped mode
 }
 
-class GraphPlotRenderable extends Renderable {
+export class GraphPlotRenderable extends Renderable {
   private _series: SeriesData[] = []
   private _xLabels: string[] = []
   private _yMin = 0
@@ -72,6 +94,9 @@ class GraphPlotRenderable extends Renderable {
     return v >= 1000 ? v.toFixed(0) : v.toFixed(1)
   }
   private _axisColor: string = '#666666'
+  private _variant: GraphVariant = 'area'
+  private _stripeColor1: string = '#0080FF'
+  private _stripeColor2: string = '#FF8000'
 
   constructor(ctx: RenderContext, options: GraphPlotOptions) {
     super(ctx, options)
@@ -82,6 +107,9 @@ class GraphPlotRenderable extends Renderable {
     if (options.yTicks !== undefined) this._yTicks = options.yTicks
     if (options.yFormat) this._yFormat = options.yFormat
     if (options.axisColor) this._axisColor = options.axisColor
+    if (options.variant) this._variant = options.variant
+    if (options.stripeColor1) this._stripeColor1 = options.stripeColor1
+    if (options.stripeColor2) this._stripeColor2 = options.stripeColor2
   }
 
   set series(value: SeriesData[]) { this._series = value; this.requestRender() }
@@ -91,16 +119,19 @@ class GraphPlotRenderable extends Renderable {
   set yTicks(value: number) { this._yTicks = value; this.requestRender() }
   set yFormat(value: (v: number) => string) { this._yFormat = value; this.requestRender() }
   set axisColor(value: string) { this._axisColor = value; this.requestRender() }
+  set variant(value: GraphVariant) { this._variant = value; this.requestRender() }
+  set stripeColor1(value: string) { this._stripeColor1 = value; this.requestRender() }
+  set stripeColor2(value: string) { this._stripeColor2 = value; this.requestRender() }
 
-  protected renderSelf(buffer: OptimizedBuffer): void {
+  // ── Shared: compute layout and draw axes ─────────────────────
+  private computeLayout(): {
+    plotX: number; plotY: number; plotW: number; plotH: number
+    yAxisWidth: number; yLabels: string[]
+  } | null {
     const totalW = this.width
     const totalH = this.height
-    if (totalW <= 0 || totalH <= 0) return
+    if (totalW <= 0 || totalH <= 0) return null
 
-    const axisRgba = RGBA.fromHex(this._axisColor)
-    const transparent = RGBA.fromValues(0, 0, 0, 0)
-
-    // ── Compute Y-axis labels ──────────────────────────────────
     const yLabels: string[] = []
     for (let i = 0; i < this._yTicks; i++) {
       const value = this._yMin + (this._yMax - this._yMin) * (1 - i / (this._yTicks - 1))
@@ -108,101 +139,126 @@ class GraphPlotRenderable extends Renderable {
     }
     const yAxisWidth = Math.max(...yLabels.map((l) => l.length))
 
-    // Plot area dimensions (1 col for the │ separator)
     const plotX = this.x + yAxisWidth + 1
     const plotY = this.y
-    // Reserve 1 row for x-axis labels at bottom
     const plotH = totalH - 1
     const plotW = totalW - yAxisWidth - 1
-    if (plotW <= 0 || plotH <= 0) return
+    if (plotW <= 0 || plotH <= 0) return null
 
-    // ── Draw Y-axis labels ─────────────────────────────────────
+    return { plotX, plotY, plotW, plotH, yAxisWidth, yLabels }
+  }
+
+  private drawAxes(buffer: OptimizedBuffer, layout: {
+    plotX: number; plotY: number; plotW: number; plotH: number
+    yAxisWidth: number; yLabels: string[]
+  }): void {
+    const { plotX, plotY, plotW, plotH, yAxisWidth, yLabels } = layout
+    const axisRgba = RGBA.fromHex(this._axisColor)
+
+    // Y-axis labels + separator
+    const labelRows = new Set<number>()
     for (let i = 0; i < this._yTicks; i++) {
       const row = Math.round(plotY + (i / (this._yTicks - 1)) * (plotH - 1))
+      labelRows.add(row)
       const label = yLabels[i]!
-      const labelX = this.x + yAxisWidth - label.length
-      buffer.drawText(label, labelX, row, axisRgba)
-      // Draw the │ separator
+      buffer.drawText(label, this.x + yAxisWidth - label.length, row, axisRgba)
       buffer.drawText('│', this.x + yAxisWidth, row, axisRgba)
     }
-
-    // Fill in │ for rows without labels
     for (let row = plotY; row < plotY + plotH; row++) {
-      // Check if this row already has a label separator
-      const hasLabel = Array.from({ length: this._yTicks }, (_, i) => {
-        return Math.round(plotY + (i / (this._yTicks - 1)) * (plotH - 1))
-      }).includes(row)
-      if (!hasLabel) {
+      if (!labelRows.has(row)) {
         buffer.drawText('│', this.x + yAxisWidth, row, axisRgba)
       }
     }
 
-    // ── Build braille grid ─────────────────────────────────────
-    // Virtual pixel dimensions
+    // X-axis labels
+    if (this._xLabels.length > 0) {
+      const xAxisRow = plotY + plotH
+      const labelCount = this._xLabels.length
+      for (let i = 0; i < labelCount; i++) {
+        const label = this._xLabels[i]!
+        const labelX = plotX + Math.round((i / Math.max(1, labelCount - 1)) * (plotW - 1))
+        const centeredX = Math.max(plotX, Math.min(labelX - Math.floor(label.length / 2), plotX + plotW - label.length))
+        buffer.drawText(label, centeredX, xAxisRow, axisRgba)
+      }
+    }
+  }
+
+  // ── Shared: interpolate line Y per column ────────────────────
+  // Returns an array where lineY[col] = the topmost virtual-row Y
+  // of the series line at that column. virtualRows is the total
+  // number of virtual rows (pixW for braille, plotW for block modes).
+  private computeLineYPerColumn({ series, colCount, virtualH }: {
+    series: { data: number[]; color: RGBA }
+    colCount: number
+    virtualH: number
+  }): Int32Array {
+    const yRange = this._yMax - this._yMin
+    const dataLen = series.data.length
+    const lineY = new Int32Array(colCount).fill(virtualH)
+
+    const pixelYs: number[] = series.data.map((v) => {
+      const normalized = (v - this._yMin) / yRange
+      return Math.round((1 - normalized) * (virtualH - 1))
+    })
+
+    for (let i = 0; i < dataLen - 1; i++) {
+      const x0 = Math.round((i / (dataLen - 1)) * (colCount - 1))
+      const y0 = pixelYs[i]!
+      const x1 = Math.round(((i + 1) / (dataLen - 1)) * (colCount - 1))
+      const y1 = pixelYs[i + 1]!
+
+      let dx = Math.abs(x1 - x0)
+      let dy = Math.abs(y1 - y0)
+      const sx = x0 < x1 ? 1 : -1
+      const sy = y0 < y1 ? 1 : -1
+      let err = dx - dy
+      let cx = x0
+      let cy = y0
+
+      while (true) {
+        if (cx >= 0 && cx < colCount && cy >= 0 && cy < virtualH) {
+          if (cy < lineY[cx]!) lineY[cx] = cy
+        }
+        if (cx === x1 && cy === y1) break
+        const e2 = 2 * err
+        if (e2 > -dy) { err -= dy; cx += sx }
+        if (e2 < dx) { err += dx; cy += sy }
+      }
+    }
+
+    if (dataLen === 1) {
+      const px = Math.round(colCount / 2)
+      const py = pixelYs[0]!
+      if (px >= 0 && px < colCount && py >= 0 && py < virtualH) {
+        lineY[px] = py
+      }
+    }
+
+    return lineY
+  }
+
+  // ── Style: Area (braille) ────────────────────────────────────
+  private renderArea(buffer: OptimizedBuffer, plotX: number, plotY: number, plotW: number, plotH: number): void {
+    const transparent = RGBA.fromValues(0, 0, 0, 0)
     const pixW = plotW * 2
     const pixH = plotH * 4
+    const yRange = this._yMax - this._yMin
+    if (yRange === 0) return
 
-    // Per-cell: braille bits + color of last series to contribute
     const cellCount = plotW * plotH
     const cellBits = new Uint8Array(cellCount)
     const cellColors: RGBA[] = Array.from({ length: cellCount }, () => transparent)
 
-    const yRange = this._yMax - this._yMin
-    if (yRange === 0) return
-
     for (const series of this._series) {
       if (series.data.length === 0) continue
       const seriesColor = RGBA.fromHex(series.color)
-      const dataLen = series.data.length
 
-      // Map each data point to a virtual pixel y-coordinate
-      const pixelYs: number[] = series.data.map((v) => {
-        const normalized = (v - this._yMin) / yRange // 0 = min, 1 = max
-        // Invert: top of plot is max, bottom is min
-        return Math.round((1 - normalized) * (pixH - 1))
+      const lineY = this.computeLineYPerColumn({
+        series: { data: series.data, color: seriesColor },
+        colCount: pixW,
+        virtualH: pixH,
       })
 
-      // Build per-column line Y: for each virtual pixel x, store the
-      // topmost y of the line. We fill from this y down to pixH-1 (area chart).
-      const lineY = new Int32Array(pixW).fill(pixH) // default: below bottom (no fill)
-
-      // For each pair of adjacent points, trace the Bresenham line
-      // and record the min y per pixel column.
-      for (let i = 0; i < dataLen - 1; i++) {
-        const x0 = Math.round((i / (dataLen - 1)) * (pixW - 1))
-        const y0 = pixelYs[i]!
-        const x1 = Math.round(((i + 1) / (dataLen - 1)) * (pixW - 1))
-        const y1 = pixelYs[i + 1]!
-
-        let dx = Math.abs(x1 - x0)
-        let dy = Math.abs(y1 - y0)
-        const sx = x0 < x1 ? 1 : -1
-        const sy = y0 < y1 ? 1 : -1
-        let err = dx - dy
-        let cx = x0
-        let cy = y0
-
-        while (true) {
-          if (cx >= 0 && cx < pixW && cy >= 0 && cy < pixH) {
-            if (cy < lineY[cx]!) lineY[cx] = cy
-          }
-          if (cx === x1 && cy === y1) break
-          const e2 = 2 * err
-          if (e2 > -dy) { err -= dy; cx += sx }
-          if (e2 < dx) { err += dx; cy += sy }
-        }
-      }
-
-      // Single data point: fill a single column
-      if (dataLen === 1) {
-        const px = Math.round(pixW / 2)
-        const py = pixelYs[0]!
-        if (px >= 0 && px < pixW && py >= 0 && py < pixH) {
-          lineY[px] = py
-        }
-      }
-
-      // Fill area: for each pixel column, set all dots from lineY[px] to pixH-1
       for (let px = 0; px < pixW; px++) {
         const topY = lineY[px]!
         if (topY >= pixH) continue
@@ -220,27 +276,107 @@ class GraphPlotRenderable extends Renderable {
       }
     }
 
-    // ── Render braille cells to buffer ─────────────────────────
     for (let cy = 0; cy < plotH; cy++) {
       for (let cx = 0; cx < plotW; cx++) {
         const cellIdx = cy * plotW + cx
         const bits = cellBits[cellIdx]!
         if (bits === 0) continue
-        const char = String.fromCharCode(0x2800 + bits)
-        buffer.setCell(plotX + cx, plotY + cy, char, cellColors[cellIdx]!, transparent)
+        buffer.setCell(plotX + cx, plotY + cy, String.fromCharCode(0x2800 + bits), cellColors[cellIdx]!, transparent)
       }
     }
+  }
 
-    // ── Draw X-axis labels ─────────────────────────────────────
-    if (this._xLabels.length > 0) {
-      const xAxisRow = plotY + plotH
-      const labelCount = this._xLabels.length
-      for (let i = 0; i < labelCount; i++) {
-        const label = this._xLabels[i]!
-        const labelX = plotX + Math.round((i / Math.max(1, labelCount - 1)) * (plotW - 1))
-        // Center the label around the position, but clamp to plot bounds
-        const centeredX = Math.max(plotX, Math.min(labelX - Math.floor(label.length / 2), plotX + plotW - label.length))
-        buffer.drawText(label, centeredX, xAxisRow, axisRgba)
+  // ── Style: Filled / Striped (block characters) ───────────────
+  // Always uses ▀ (upper-half block) with fg=top color, bg=bottom color.
+  // This eliminates the tiny gaps some terminals show between adjacent █ rows.
+  // Filled: every column uses the series color.
+  // Striped: all columns filled, even cols = stripeColor1, odd = stripeColor2.
+  //          Pass a transparent color to skip those columns (gap-style bars).
+  private renderBlock(buffer: OptimizedBuffer, plotX: number, plotY: number, plotW: number, plotH: number, striped: boolean): void {
+    const transparent = RGBA.fromValues(0, 0, 0, 0)
+    const virtualH = plotH * 2 // 2 sub-rows per terminal row
+    const yRange = this._yMax - this._yMin
+    if (yRange === 0) return
+
+    const stripe1 = RGBA.fromHex(this._stripeColor1)
+    const stripe2 = RGBA.fromHex(this._stripeColor2)
+
+    for (const series of this._series) {
+      if (series.data.length === 0) continue
+      const seriesColor = RGBA.fromHex(series.color)
+
+      const lineY = this.computeLineYPerColumn({
+        series: { data: series.data, color: seriesColor },
+        colCount: plotW,
+        virtualH,
+      })
+
+      for (let col = 0; col < plotW; col++) {
+        // Determine fill color for this column
+        const fillColor = striped
+          ? (col % 2 === 0 ? stripe1 : stripe2)
+          : seriesColor
+
+        // Skip transparent columns (allows gap-style bars in striped mode)
+        if (fillColor.a === 0) continue
+
+        const topVRow = lineY[col]!
+        if (topVRow >= virtualH) continue
+
+        // Fill from topVRow down to virtualH-1 using ▀/▄ with fg+bg encoding.
+        // ▀: fg paints top half, bg paints bottom half.
+        // ▄: fg paints bottom half, bg paints top half.
+        // We never set fg=transparent on a visible glyph part (would show as black).
+        for (let row = 0; row < plotH; row++) {
+          const vTop = row * 2       // virtual row for top half
+          const vBot = row * 2 + 1   // virtual row for bottom half
+          const topFilled = vTop >= topVRow
+          const botFilled = vBot >= topVRow
+
+          if (!topFilled && !botFilled) continue
+
+          if (topFilled && botFilled) {
+            // Both halves: ▀ with fg=color, bg=color → seamless full block
+            buffer.setCell(plotX + col, plotY + row, UPPER_HALF, fillColor, fillColor)
+          } else if (topFilled) {
+            // Top only: ▀ with fg=color, bg=transparent
+            buffer.setCell(plotX + col, plotY + row, UPPER_HALF, fillColor, transparent)
+          } else if (topVRow >= virtualH - 1) {
+            // Minimum fill: only the very last virtual row is filled (zero/min value).
+            // Use ▁ (lower 1/8 block) for a thin baseline indicator.
+            buffer.setCell(plotX + col, plotY + row, LOWER_EIGHTH, fillColor, transparent)
+          } else {
+            // Bottom only: ▄ with fg=color, bg=transparent
+            buffer.setCell(plotX + col, plotY + row, LOWER_HALF, fillColor, transparent)
+          }
+        }
+      }
+    }
+  }
+
+  // ── Main render ──────────────────────────────────────────────
+  protected renderSelf(buffer: OptimizedBuffer): void {
+    const layout = this.computeLayout()
+    if (!layout) return
+    const { plotX, plotY, plotW, plotH } = layout
+
+    this.drawAxes(buffer, layout)
+
+    const yRange = this._yMax - this._yMin
+    if (yRange === 0 || this._series.length === 0) return
+
+    switch (this._variant) {
+      case 'area': {
+        this.renderArea(buffer, plotX, plotY, plotW, plotH)
+        break
+      }
+      case 'filled': {
+        this.renderBlock(buffer, plotX, plotY, plotW, plotH, false)
+        break
+      }
+      case 'striped': {
+        this.renderBlock(buffer, plotX, plotY, plotW, plotH, true)
+        break
       }
     }
   }
@@ -270,7 +406,7 @@ const DEFAULT_SERIES_COLORS = [
 
 // ── Graph.Line (data-only child, renders null) ───────────────────────
 
-interface GraphLineProps {
+export interface GraphLineProps {
   /** Y-values for this series */
   data: number[]
   /** Line color */
@@ -285,7 +421,7 @@ const GraphLine = (_props: GraphLineProps): any => {
 
 // ── Graph React component ────────────────────────────────────────────
 
-interface GraphProps {
+export interface GraphProps {
   /** Height of the graph in terminal rows (default: 15) */
   height?: number
   /** X-axis labels */
@@ -296,6 +432,11 @@ interface GraphProps {
   yTicks?: number
   /** Custom Y-axis label formatter */
   yFormat?: (v: number) => string
+  /** Rendering variant: 'area' (braille), 'filled' (blocks), 'striped' (alternating colors) */
+  variant?: GraphVariant
+  /** Two alternating colors for 'striped' variant [even, odd]. Defaults to [theme.primary, theme.accent].
+   *  Pass 'transparent' for one to get gap-style bars. */
+  stripeColors?: [Color.ColorLike, Color.ColorLike]
   /** Graph.Line children */
   children: ReactNode
 }
@@ -307,7 +448,7 @@ interface GraphType {
 
 const Graph: GraphType = (props) => {
   const theme = useTheme()
-  const { height = 15, xLabels = [], yRange, yTicks = 5, yFormat, children } = props
+  const { height = 15, xLabels = [], yRange, yTicks = 5, yFormat, variant = 'area', stripeColors, children } = props
 
   // Collect series data from Graph.Line children
   const series = useMemo<SeriesData[]>(() => {
@@ -345,6 +486,10 @@ const Graph: GraphType = (props) => {
     return [min - padding, max + padding]
   }, [series, yRange])
 
+  // Resolve stripe colors (defaults to theme primary + accent)
+  const resolvedStripe1 = resolveColor(stripeColors?.[0]) || theme.primary
+  const resolvedStripe2 = resolveColor(stripeColors?.[1]) || theme.accent
+
   // Total height = plot rows + 1 for x-axis labels
   const totalHeight = height + (xLabels.length > 0 ? 1 : 0)
 
@@ -359,11 +504,13 @@ const Graph: GraphType = (props) => {
       yTicks={yTicks}
       yFormat={yFormat}
       axisColor={theme.textMuted}
+      variant={variant}
+      stripeColor1={resolvedStripe1}
+      stripeColor2={resolvedStripe2}
     />
   )
 }
 
 Graph.Line = GraphLine
 
-export { Graph, GraphPlotRenderable }
-export type { GraphProps, GraphLineProps, SeriesData }
+export { Graph }

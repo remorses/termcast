@@ -143,6 +143,7 @@ function PolymarketExample() {
                         xLabels={xLabels}
                         yRange={[0, 100]}
                         yTicks={3}
+                        variant="area"
                         yFormat={(v) => `${v.toFixed(0)}%`}
                       >
                         <Graph.Line
