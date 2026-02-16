@@ -64,6 +64,10 @@ export type {
 export { Row } from 'termcast/src/components/row'
 export type { RowProps } from 'termcast/src/components/row'
 
+// Core UI Components - Table
+export { Table } from 'termcast/src/components/table'
+export type { TableProps } from 'termcast/src/components/table'
+
 // Core UI Components - BarChart
 export { BarChart } from 'termcast/src/components/bar-chart'
 export type {
