@@ -22,6 +22,11 @@
       "bun": "./src/index.tsx",
       "default": "./dist/index.js"
     },
+    "./opentui": {
+      "types": "./dist/opentui.d.ts",
+      "bun": "./src/opentui.tsx",
+      "default": "./dist/opentui.js"
+    },
     "./src/*": {
       "types": "./dist/*.d.ts",
       "default": "./src/*.tsx"
