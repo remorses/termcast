@@ -35,13 +35,13 @@ test('polymarket list with graph detail renders correctly', async () => {
        Trending Markets
       ›Bitcoin above $100k by EOY Crypto              │
        ETH above $5k by Q2 2026 Crypto                │ 100%│
-       Fed cuts rates below 4% Economics              │     │                              ⡠⣀
-       S&P 500 reaches 6,000 Markets                  │     │          ⢠⣀       ⢀⠔⠱⡀      ⡰⠁ ⠱⣀⠤⠔⢢⢀⠔
-       Presidential pardon for SBF Politics           │     │⡠⠴⡀   ⢀  ⢠⠃ ⠱⡀ ⣀⠤⣀⣀⠎  ⠈⠒⠔⠉⠉⠒⠜        ⠁
-       AGI announced by major lab Tech                │  50%│  ⠑⢄⢀⠔⠁⠉⠊⠁   ⠑⠊
-       Solana flips Ethereum market cap Crypto        │     │    ⠁
-       US enters recession in 2026 Economics          │     │
-                                                      │   0%│
+       Fed cuts rates below 4% Economics              │     │                              ⣠⣀
+       S&P 500 reaches 6,000 Markets                  │     │          ⢠⣀       ⢀⣴⣷⡀      ⣰⣿⣿⣷⣀⣤⣴⣦⢀⣴
+       Presidential pardon for SBF Politics           │     │⣠⣴⡀   ⢀  ⢠⣿⣿⣷⡀ ⣀⣤⣀⣀⣾⣿⣿⣿⣶⣴⣿⣿⣶⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       AGI announced by major lab Tech                │  50%│⣿⣿⣷⣄⢀⣴⣿⣿⣾⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Solana flips Ethereum market cap Crypto        │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       US enters recession in 2026 Economics          │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+                                                      │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                                       │      30d         20d         10d         Now
                                                       │
                                                       │ Odds:   72% Yes
@@ -100,11 +100,11 @@ test('navigating to different market updates the graph', async () => {
       ›ETH above $5k by Q2 2026 Crypto                │ 100%│
        Fed cuts rates below 4% Economics              │     │
        S&P 500 reaches 6,000 Markets                  │     │ ⣀
-       Presidential pardon for SBF Politics           │     │⠉⠈⢆   ⢀⡀ ⣀⠎⠒⢄      ⢀⠤⢢        ⢀⡀
-       AGI announced by major lab Tech                │  50%│   ⠑⠔⠊⠁⠈⠉   ⠈⠢⠤⠒⠑⠢⠤⠃  ⠑⠤⣀⠤⠤⣀⢀⠔⠁⠈⢣ ⣀⣀⡀ ⢀
-       Solana flips Ethereum market cap Crypto        │     │                            ⠁    ⠉  ⠘⠔⠁
-       US enters recession in 2026 Economics          │     │
-                                                      │   0%│
+       Presidential pardon for SBF Politics           │     │⣿⣿⣆   ⢀⡀ ⣀⣾⣶⣄      ⢀⣤⣦        ⢀⡀
+       AGI announced by major lab Tech                │  50%│⣿⣿⣿⣷⣴⣾⣿⣿⣿⣿⣿⣿⣿⣦⣤⣶⣷⣦⣤⣿⣿⣿⣷⣤⣀⣤⣤⣀⢀⣴⣿⣿⣧ ⣀⣀⡀ ⢀
+       Solana flips Ethereum market cap Crypto        │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣴⣿
+       US enters recession in 2026 Economics          │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+                                                      │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                                       │      30d         20d         10d         Now
                                                       │
                                                       │ Odds:   38% Yes

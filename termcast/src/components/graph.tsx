@@ -162,15 +162,18 @@ class GraphPlotRenderable extends Renderable {
         return Math.round((1 - normalized) * (pixH - 1))
       })
 
-      // For each pair of adjacent points, draw a line using Bresenham
+      // Build per-column line Y: for each virtual pixel x, store the
+      // topmost y of the line. We fill from this y down to pixH-1 (area chart).
+      const lineY = new Int32Array(pixW).fill(pixH) // default: below bottom (no fill)
+
+      // For each pair of adjacent points, trace the Bresenham line
+      // and record the min y per pixel column.
       for (let i = 0; i < dataLen - 1; i++) {
-        // Map data index to pixel x-coordinate
         const x0 = Math.round((i / (dataLen - 1)) * (pixW - 1))
         const y0 = pixelYs[i]!
         const x1 = Math.round(((i + 1) / (dataLen - 1)) * (pixW - 1))
         const y1 = pixelYs[i + 1]!
 
-        // Bresenham line
         let dx = Math.abs(x1 - x0)
         let dy = Math.abs(y1 - y0)
         const sx = x0 < x1 ? 1 : -1
@@ -180,19 +183,9 @@ class GraphPlotRenderable extends Renderable {
         let cy = y0
 
         while (true) {
-          // Set this virtual pixel in the braille grid
           if (cx >= 0 && cx < pixW && cy >= 0 && cy < pixH) {
-            const cellX = Math.floor(cx / 2)
-            const cellY = Math.floor(cy / 4)
-            const subCol = cx % 2
-            const subRow = cy % 4
-            const cellIdx = cellY * plotW + cellX
-            if (cellIdx >= 0 && cellIdx < cellCount) {
-              cellBits[cellIdx]! |= brailleBit(subCol, subRow)
-              cellColors[cellIdx] = seriesColor
-            }
+            if (cy < lineY[cx]!) lineY[cx] = cy
           }
-
           if (cx === x1 && cy === y1) break
           const e2 = 2 * err
           if (e2 > -dy) { err -= dy; cx += sx }
@@ -200,16 +193,27 @@ class GraphPlotRenderable extends Renderable {
         }
       }
 
-      // If only one data point, draw a single dot
+      // Single data point: fill a single column
       if (dataLen === 1) {
         const px = Math.round(pixW / 2)
         const py = pixelYs[0]!
         if (px >= 0 && px < pixW && py >= 0 && py < pixH) {
+          lineY[px] = py
+        }
+      }
+
+      // Fill area: for each pixel column, set all dots from lineY[px] to pixH-1
+      for (let px = 0; px < pixW; px++) {
+        const topY = lineY[px]!
+        if (topY >= pixH) continue
+        for (let py = topY; py < pixH; py++) {
           const cellX = Math.floor(px / 2)
           const cellY = Math.floor(py / 4)
+          const subCol = px % 2
+          const subRow = py % 4
           const cellIdx = cellY * plotW + cellX
           if (cellIdx >= 0 && cellIdx < cellCount) {
-            cellBits[cellIdx]! |= brailleBit(px % 2, py % 4)
+            cellBits[cellIdx]! |= brailleBit(subCol, subRow)
             cellColors[cellIdx] = seriesColor
           }
         }
