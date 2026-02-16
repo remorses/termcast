@@ -1366,7 +1366,6 @@ export const List: ListType = (props) => {
             {isShowingDetail && currentDetail && (
               <box
                 style={{
-                  marginTop: 1,
                   width: '50%',
                   paddingLeft: 1,
                   paddingRight: 1,
@@ -1627,19 +1626,10 @@ const ListItemDetail: ListItemDetailType = (props) => {
         }}
       >
         <box gap={1} style={{ flexDirection: 'column' }}>
-          {markdown && (
+          {markdown && markdown.trim().length > 0 && (
             <ListMarkdownContent markdown={markdown} />
           )}
-          {metadata && (
-            <box
-              style={{ paddingTop: 1 }}
-              // border={['top']}
-              // borderStyle='single'
-              // borderColor={theme.border}
-            >
-              {metadata}
-            </box>
-          )}
+          {metadata}
         </box>
       </ScrollBox>
     </box>

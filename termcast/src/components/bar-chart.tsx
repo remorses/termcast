@@ -165,16 +165,18 @@ function LabelRow({ segments, labelMap, position, color }: {
   const closeBracket = position === 'above' ? '┐' : '┘'
 
   return (
-    <box flexDirection="row" width="100%" flexShrink={0}>
+    <box flexDirection="row" width="100%" height={1} flexShrink={0}>
       {segments.map((seg, i) => {
         const label = labelMap.get(i)
+        if (!label) {
+          // Empty spacer: uses flexGrow to maintain alignment but no height
+          return <box key={i} flexGrow={seg.value} flexShrink={1} flexBasis={0} />
+        }
         return (
-          <box key={i} flexGrow={seg.value} flexShrink={1} flexBasis={0} overflow="hidden" height={1}>
-            {label ? (
-              <text fg={color} wrapMode="none" flexShrink={0}>
-                {openBracket}{label.text}{closeBracket}
-              </text>
-            ) : null}
+          <box key={i} flexGrow={seg.value} flexShrink={1} flexBasis={0} overflow="hidden">
+            <text fg={color} wrapMode="none" flexShrink={0}>
+              {openBracket}{label.text}{closeBracket}
+            </text>
           </box>
         )
       })}

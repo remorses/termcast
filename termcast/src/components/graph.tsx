@@ -27,6 +27,7 @@ import type { OptimizedBuffer } from '@opentui/core'
 import { extend } from '@opentui/react'
 import { useTheme } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
+import type { ResolvedTheme } from 'termcast/src/themes'
 
 // ── Graph variant ────────────────────────────────────────────────────
 // Three rendering modes for the plot area:
@@ -392,17 +393,20 @@ declare module '@opentui/react' {
   }
 }
 
-// ── Default color palette for series ─────────────────────────────────
+// ── Theme color palette for series (matches BarChart ordering) ───────
+// Ordered by visual prominence, assigned to series in declaration order.
 
-const DEFAULT_SERIES_COLORS = [
-  Color.Orange,
-  Color.Blue,
-  Color.Green,
-  Color.Purple,
-  Color.Red,
-  Color.Yellow,
-  Color.Magenta,
-]
+function getThemePalette(theme: ResolvedTheme): string[] {
+  return [
+    theme.accent,
+    theme.info,
+    theme.success,
+    theme.warning,
+    theme.error,
+    theme.secondary,
+    theme.primary,
+  ]
+}
 
 // ── Graph.Line (data-only child, renders null) ───────────────────────
 
@@ -450,6 +454,8 @@ const Graph: GraphType = (props) => {
   const theme = useTheme()
   const { height = 15, xLabels = [], yRange, yTicks = 5, yFormat, variant = 'area', stripeColors, children } = props
 
+  const palette = getThemePalette(theme)
+
   // Collect series data from Graph.Line children
   const series = useMemo<SeriesData[]>(() => {
     const result: SeriesData[] = []
@@ -459,7 +465,7 @@ const Graph: GraphType = (props) => {
       const childProps = child.props as GraphLineProps
       if (!childProps.data) return
 
-      const color = resolveColor(childProps.color) || DEFAULT_SERIES_COLORS[colorIndex % DEFAULT_SERIES_COLORS.length]!
+      const color = resolveColor(childProps.color) || palette[colorIndex % palette.length]!
       result.push({
         data: childProps.data,
         color,
@@ -467,7 +473,7 @@ const Graph: GraphType = (props) => {
       colorIndex++
     })
     return result
-  }, [children])
+  }, [children, palette])
 
   // Auto-compute Y range if not provided
   const computedYRange = useMemo<[number, number]>(() => {
