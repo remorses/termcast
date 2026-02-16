@@ -251,7 +251,7 @@ test('enter pushes full detail view with graph', async () => {
       178│                             ⣀⣤⣶⣿⣶⣶⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 
 
-      esc go back   ^k actions   ↵ Go Back                     powered by termcast
+      esc go back   ^k actions   ↵ Go Back                 powered by termcast.app
 
     "
   `)
