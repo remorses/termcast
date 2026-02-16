@@ -64,6 +64,13 @@ export type {
 export { Row } from 'termcast/src/components/row'
 export type { RowProps } from 'termcast/src/components/row'
 
+// Core UI Components - BarChart
+export { BarChart } from 'termcast/src/components/bar-chart'
+export type {
+  BarChartProps,
+  BarChartSegmentProps,
+} from 'termcast/src/components/bar-chart'
+
 // Form Components
 import {
   Form as FormComponent,
