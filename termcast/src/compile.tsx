@@ -5,29 +5,26 @@ import { logger } from './logger'
 import { getCommandsWithFiles } from './package-json'
 import { swiftLoaderPlugin } from './swift-loader'
 
+// compile.tsx lives at termcast/src/compile.tsx, so __dirname is termcast/src/
+const termcastRoot = path.resolve(__dirname, '..')
+
 const raycastAliasPlugin: BunPlugin = {
   name: 'raycast-to-termcast',
   setup(build) {
     build.onResolve({ filter: /@raycast\/api/ }, () => ({
-      path: require.resolve('termcast/src/index'),
+      path: path.join(__dirname, 'index.tsx'),
     }))
-
     build.onResolve({ filter: /@raycast\/utils/ }, () => ({
       path: require.resolve('@termcast/utils'),
     }))
-
+    // termcast and termcast/* — resolve directly from the package source
     build.onResolve({ filter: /^termcast/ }, (args) => ({
+      path: args.path === 'termcast'
+        ? path.join(__dirname, 'index.tsx')
+        : require.resolve(args.path, { paths: [termcastRoot] }),
+    }))
+    build.onResolve({ filter: /^react(\/|$)/ }, (args) => ({
       path: require.resolve(args.path),
-    }))
-
-    build.onResolve({ filter: /^react$/ }, () => ({
-      path: require.resolve('react'),
-    }))
-    build.onResolve({ filter: /^react\/jsx-runtime$/ }, () => ({
-      path: require.resolve('react/jsx-runtime'),
-    }))
-    build.onResolve({ filter: /^react\/jsx-dev-runtime$/ }, () => ({
-      path: require.resolve('react/jsx-dev-runtime'),
     }))
   },
 }
@@ -153,6 +150,11 @@ export interface CompileOptions {
   minify?: boolean
   target?: CompileTarget
   version?: string
+  /** Custom entry file. When set, this file is used as the entrypoint instead of
+   *  the auto-generated one. Useful for CLIs that have their own subcommands and
+   *  only launch termcast for one of them (e.g. a "tui" subcommand). The same
+   *  raycast alias plugin and swift loader plugin are still applied. */
+  entry?: string
 }
 
 export interface CompileResult {
@@ -166,6 +168,7 @@ export async function compileExtension({
   minify = false,
   target,
   version,
+  entry,
 }: CompileOptions): Promise<CompileResult> {
   const resolvedPath = path.resolve(extensionPath)
 
@@ -178,14 +181,18 @@ export async function compileExtension({
     throw new Error(`No package.json found at: ${packageJsonPath}`)
   }
 
+  // When using a custom entry, commands are optional — the user manages their own entry
   const { packageJson, commands } = getCommandsWithFiles({ packageJsonPath })
 
-  const existingCommands = commands.filter((cmd) => cmd.exists)
-  if (existingCommands.length === 0) {
-    throw new Error('No command files found to build')
+  if (!entry) {
+    const existingCommands = commands.filter((cmd) => cmd.exists)
+    if (existingCommands.length === 0) {
+      throw new Error('No command files found to build')
+    }
+    logger.log(`Compiling ${existingCommands.length} commands...`)
+  } else {
+    logger.log(`Compiling with custom entry: ${entry}`)
   }
-
-  logger.log(`Compiling ${existingCommands.length} commands...`)
 
   const bundleDir = path.join(resolvedPath, '.termcast-bundle')
   if (!fs.existsSync(bundleDir)) {
@@ -193,13 +200,16 @@ export async function compileExtension({
   }
   fs.writeFileSync(path.join(bundleDir, '.gitignore'), '*\n')
 
-  const entryCode = generateEntryCode({
-    packageJson,
-    commands: existingCommands.map((cmd) => ({
-      name: cmd.name,
-      bundledPath: cmd.filePath,
-    })),
-  })
+  const existingCommands = commands.filter((cmd) => cmd.exists)
+  const entryCode = entry
+    ? undefined
+    : generateEntryCode({
+        packageJson,
+        commands: existingCommands.map((cmd) => ({
+          name: cmd.name,
+          bundledPath: cmd.filePath,
+        })),
+      })
 
   // IMPORTANT: always compile with a concrete target (bun-linux-x64, bun-darwin-arm64, ...)
   // rather than the generic "bun" target. Using the generic target can cause Bun.build to
@@ -207,9 +217,22 @@ export async function compileExtension({
   // (e.g. @opentui/core-linux-musl-x64) even when compiling/running on glibc Linux.
   const resolvedTarget: CompileTarget = target || getCurrentTarget()
 
+  // When using a custom entry, resolve it relative to extensionPath and use directly.
+  // Otherwise generate a temp entry file with embedded packageJson and command loaders.
+  const resolvedEntry = entry ? path.resolve(resolvedPath, entry) : undefined
+  if (resolvedEntry && !fs.existsSync(resolvedEntry)) {
+    throw new Error(`Custom entry file does not exist: ${resolvedEntry}`)
+  }
+
   const targetSuffix = target ? targetToFileSuffix(target) : 'local'
-  const tempEntryPath = path.join(bundleDir, `_entry-${targetSuffix}.tsx`)
-  fs.writeFileSync(tempEntryPath, entryCode)
+  const tempEntryPath = resolvedEntry
+    ? undefined
+    : path.join(bundleDir, `_entry-${targetSuffix}.tsx`)
+  if (tempEntryPath && entryCode) {
+    fs.writeFileSync(tempEntryPath, entryCode)
+  }
+
+  const entrypoint = resolvedEntry || tempEntryPath!
 
   const bunTarget = targetToString(resolvedTarget)
   const distDir = path.join(resolvedPath, 'dist')
@@ -221,7 +244,7 @@ export async function compileExtension({
 
   try {
     const result = await Bun.build({
-      entrypoints: [tempEntryPath],
+      entrypoints: [entrypoint],
       target: bunTarget as 'bun',
       format: 'esm',
       minify,
@@ -281,7 +304,7 @@ export async function compileExtension({
       outfile: defaultOutfile,
     }
   } finally {
-    if (fs.existsSync(tempEntryPath)) {
+    if (tempEntryPath && fs.existsSync(tempEntryPath)) {
       fs.unlinkSync(tempEntryPath)
     }
   }

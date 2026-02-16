@@ -259,6 +259,7 @@ cli
   .command('compile [path]', 'Compile the extension to a standalone executable')
   .option('-o, --outfile <path>', 'Output file path for the executable')
   .option('--minify', 'Minify the output')
+  .option('--entry <file>', 'Custom entry file (instead of auto-generated one)')
   .action(async (extensionPath, options) => {
     extensionPath = path.resolve(extensionPath || process.cwd())
 
@@ -268,6 +269,7 @@ cli
         extensionPath,
         outfile: options.outfile,
         minify: options.minify,
+        entry: options.entry,
       })
 
       console.log(`\nExecutable created: ${result.outfile}`)
@@ -282,7 +284,8 @@ cli
 cli
   .command('release [path]', 'Build and publish extension to GitHub releases')
   .option('--single', 'Only compile for the current platform')
-  .action(async (extensionPath: string, options: { single?: boolean }) => {
+  .option('--entry <file>', 'Custom entry file (instead of auto-generated one)')
+  .action(async (extensionPath: string, options: { single?: boolean; entry?: string }) => {
     extensionPath = path.resolve(extensionPath || process.cwd())
 
     console.log('Building and releasing extension...')
@@ -290,6 +293,7 @@ cli
       const result = await releaseExtension({
         extensionPath,
         single: options.single,
+        entry: options.entry,
       })
 
       console.log(`\nRelease complete: ${result.tag}`)

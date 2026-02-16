@@ -15,6 +15,7 @@ import {
 export interface ReleaseOptions {
   extensionPath: string
   single?: boolean
+  entry?: string
 }
 
 export interface ReleaseResult {
@@ -27,6 +28,7 @@ export interface ReleaseResult {
 export async function releaseExtension({
   extensionPath,
   single = false,
+  entry,
 }: ReleaseOptions): Promise<ReleaseResult> {
   const resolvedPath = path.resolve(extensionPath)
 
@@ -127,6 +129,7 @@ export async function releaseExtension({
         minify: true,
         target,
         version: tag,
+        entry,
       })
 
       console.log(`  ✓ ${path.basename(result.outfile)}`)
