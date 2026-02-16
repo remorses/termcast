@@ -257,7 +257,7 @@ export function Footer({
                 fg={theme.textMuted}
                 attributes={TextAttributes.BOLD}
               >
-                termcast
+                termcast.app
               </text>
             </box>
           )}
