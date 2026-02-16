@@ -72,7 +72,7 @@ const DetailMetadata: DetailMetadataType = (props) => {
   const config: MetadataConfig = {
     maxValueLen: 9999, // No limit - let text wrap naturally
     titleMinWidth: computedTitleWidth,
-    paddingBottom: 1,
+    paddingBottom: 0,
     // Keep separators deterministic by rendering a fixed number of chars.
     // The content area has paddingRight=2 in <Detail>, so leave some margin.
     separatorWidth: Math.max(20, width - 6),
@@ -81,6 +81,7 @@ const DetailMetadata: DetailMetadataType = (props) => {
   return (
     <MetadataContext.Provider value={config}>
       <box
+        gap={1}
         style={{
           flexDirection: 'column',
           paddingTop: 1,
