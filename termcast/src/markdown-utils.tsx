@@ -18,9 +18,11 @@ import {
   createTextAttributes,
   type Renderable,
   type RenderContext,
+  type SyntaxStyle,
 } from '@opentui/core'
 import { getResolvedTheme } from './themes'
 import { useStore } from './state'
+import { TableRenderable } from 'termcast/src/components/table'
 
 // Minimal token types from marked (dependency of opentui, not termcast directly)
 interface Token {
@@ -29,10 +31,19 @@ interface Token {
   raw?: string
   href?: string
   tokens?: Token[]
+  // Table-specific fields (from marked Tokens.Table)
+  header?: TableCell[]
+  rows?: TableCell[][]
+}
+
+interface TableCell {
+  text: string
+  tokens: Token[]
 }
 
 // Matches RenderNodeContext from @opentui/core/renderables/Markdown
 interface RenderNodeContext {
+  syntaxStyle: SyntaxStyle
   defaultRender: () => Renderable | null
 }
 
@@ -150,6 +161,30 @@ export function createMarkdownRenderNode(renderer: RenderContext): (token: Token
   let nodeCounter = 0
 
   return (token: Token, context: RenderNodeContext) => {
+    // Override table tokens with our custom borderless TableRenderable
+    // (header background + alternating row stripes instead of ASCII borders)
+    if (token.type === 'table' && token.header && token.rows) {
+      const headers = token.header.map((cell) => {
+        return cell.text || ''
+      })
+      const rows = token.rows.map((row) => {
+        return row.map((cell) => {
+          return cell.text || ''
+        })
+      })
+      if (headers.length === 0 || rows.length === 0) {
+        return undefined
+      }
+      return new TableRenderable(renderer, {
+        id: `table-${nodeCounter++}`,
+        headers,
+        rows,
+        syntaxStyle: context.syntaxStyle,
+        width: '100%',
+        marginBottom: 1,
+      })
+    }
+
     // Only override paragraphs that contain links (including nested)
     if (token.type !== 'paragraph' || !hasLinks(token)) {
       return undefined // use default rendering

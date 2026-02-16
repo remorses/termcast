@@ -125,6 +125,7 @@ export interface ResolvedTheme {
 
 export interface SyntaxThemeStyle {
   fg: RGBA
+  bg?: RGBA
   bold?: boolean
   italic?: boolean
   underline?: boolean
@@ -377,7 +378,7 @@ export function getSyntaxTheme(
     label: { fg: h(resolved.markdownLinkText) },
     spell: { fg: h(resolved.text) },
     nospell: { fg: h(resolved.text) },
-    conceal: { fg: h(resolved.conceal) },
+    conceal: { fg: h(resolved.conceal), bg: h(resolved.backgroundElement) },
     'string.special': { fg: h(resolved.markdownLink), underline: true },
     'string.special.url': { fg: h(resolved.markdownLink), underline: true },
     'string.escape': { fg: h(resolved.syntaxString) },

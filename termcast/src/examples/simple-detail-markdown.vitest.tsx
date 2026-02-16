@@ -30,7 +30,7 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
                                                                                  █
                                                                                  █
-      Architecture Overview
+      Architecture Overview                                                      ▀
 
       This document describes the system architecture.
 
@@ -55,17 +55,11 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
       Configuration Table
 
-      ┌───────────┬───────────┬───────────────────────┐
-      │Setting    │Default    │Description            │
-      │───────────│───────────│───────────────────────│
-      │Host       │localhost  │Database host address  │
-      │───────────│───────────│───────────────────────│
-      │Port       │5432       │Database port number   │
-      │───────────│───────────│───────────────────────│
-      │SSL        │false      │Enable TLS encryption  │
-      │───────────│───────────│───────────────────────│
-      │Pool Size  │10         │Max connections        │
-      └───────────┴───────────┴───────────────────────┘
+      Setting    Default    Description
+      Host       localhost  Database host address
+      Port       5432       Database port number
+      SSL        false      Enable TLS encryption
+      Pool Size  10         Max connections
 
       Flow Diagram
 
@@ -91,9 +85,15 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
       Code Example
 
+      interface Config {
+        host: string
+        port: number
+        ssl: boolean
+      }
 
 
-      esc go back                                              powered by termcast
+
+      esc go back                                          powered by termcast.app
 
     "
   `)
