@@ -149,31 +149,22 @@ function CurrentItemActionsOffscreen(props: {
 }
 
 /**
- * Reads the selected item's detail from the live descendants map via useLayoutEffect.
- * useDescendantsRerender only notifies on structural changes (items added/removed),
- * not prop changes, so we need useLayoutEffect to catch detail prop updates
- * (e.g. when isShowingDetail toggles and items start passing detail).
+ * Reads the selected item's detail directly from committed descendants map.
+ * useDescendantsRerender now notifies on every commit (not just structural changes),
+ * so committedMap always has fresh props including detail.
  */
 function CurrentItemDetail(props: {
   selectedIndex: number
   isShowingDetail?: boolean
 }): any {
   const theme = useTheme()
-  const mapRef = useListDescendantsMap()
-  // Subscribe to structural changes (items added/removed)
-  void useListDescendantsRerender()
-  const [detail, setDetail] = useState<ReactNode>(null)
+  const descendantsMap = useListDescendantsRerender()
 
-  // Read detail from live map after children commit (before paint)
-  useLayoutEffect(() => {
-    if (!props.isShowingDetail) {
-      setDetail(null)
-      return
-    }
-    const currentItem = Object.values(mapRef.current)
-      .find((item) => item.index === props.selectedIndex)
-    setDetail(currentItem?.props?.detail ?? null)
-  })
+  if (!props.isShowingDetail) return null
+
+  const currentItem = Object.values(descendantsMap)
+    .find((item) => item.index === props.selectedIndex)
+  const detail = currentItem?.props?.detail ?? null
 
   if (!detail) return null
 
@@ -1429,28 +1420,14 @@ export const List: ListType = (props) => {
 
 // Wrapper component that only renders children when no visible items exist
 function ShowOnNoItems(props: { children: ReactNode; isCustomEmptyView?: boolean }): any {
-  // Subscribe to re-render when items are added/removed
-  void useListDescendantsRerender()
-  // Get live map ref for reading in useLayoutEffect
-  const map = useListDescendantsMap()
+  const descendantsMap = useListDescendantsRerender()
   const listContext = useContext(ListContext)
-  const [hasVisibleItems, setHasVisibleItems] = useState(true)
 
-  // We must check visibility in useLayoutEffect because:
-  // 1. map.current is cleared by reset() during render, so it's empty if read during render
-  // 2. committedMap is stale - it's a snapshot from the previous render cycle and doesn't
-  //    reflect prop changes like 'visible' (only tracks which items exist, not their props)
-  // 3. Items register in their own useLayoutEffect, so map.current is only populated after
-  //    all items' layout effects have run
-  useLayoutEffect(() => {
-    const items = Object.values(map.current)
-      .filter((item) => item.index !== -1 && item.props?.visible !== false)
-    // For default empty view, also check if custom empty view exists
-    const hasCustomEmptyView = !props.isCustomEmptyView && (listContext?.customEmptyViewRef.current ?? false)
-    setHasVisibleItems(items.length > 0 || hasCustomEmptyView)
-  })
+  const hasVisibleItems = Object.values(descendantsMap)
+    .some((item) => item.index !== -1 && item.props?.visible !== false)
+  const hasCustomEmptyView = !props.isCustomEmptyView && (listContext?.customEmptyViewRef.current ?? false)
 
-  if (hasVisibleItems) return null
+  if (hasVisibleItems || hasCustomEmptyView) return null
 
   return props.children
 }

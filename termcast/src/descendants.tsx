@@ -52,14 +52,15 @@ export function createDescendants<T = any>() {
     // For useSyncExternalStore - opt-in reactivity
     const listeners = React.useRef(new Set<() => void>())
     const snapshotRef = React.useRef('')
-    const prevSnapshotRef = React.useRef('')
-    // Committed map - stable copy of map.current updated only when snapshot changes
+    // Version counter ensures subscribers re-render on every commit, not just when
+    // items are added/removed. This is needed because committedMap props (like detail,
+    // visible) can change without structural changes to the descendant set.
+    const versionRef = React.useRef(0)
+    // Committed map - stable copy of map.current updated on every commit
     // This is what useDescendantsRerender returns, since map.current is cleared on every render
     const committedMapRef = React.useRef<DescendantMap<T>>({})
 
     const reset = () => {
-      // Save previous snapshot before clearing
-      prevSnapshotRef.current = snapshotRef.current
       indexCounter.current = 0
       map.current = {}
     }
@@ -85,15 +86,14 @@ export function createDescendants<T = any>() {
     // Must be stable for useSyncExternalStore
     const getSnapshot = React.useCallback(() => snapshotRef.current, [])
 
-    // Called by provider after all children have registered
+    // Called by provider after all children have registered (in useLayoutEffect)
     const updateSnapshot = React.useCallback(() => {
-      const newSnapshot = Object.keys(map.current).sort().join(',')
-      snapshotRef.current = newSnapshot
-      // Always update committed map so useDescendantsRerender returns fresh data
-      // (map.current is cleared by reset() on every render)
+      // Bump version on every commit so useSyncExternalStore triggers a re-render
+      // for subscribers. This ensures they read fresh committedMap props (detail,
+      // visible, etc) even when no items were added/removed.
+      snapshotRef.current = String(++versionRef.current)
       committedMapRef.current = { ...map.current }
-      // Only notify if there are listeners AND snapshot changed
-      if (listeners.current.size > 0 && newSnapshot !== prevSnapshotRef.current) {
+      if (listeners.current.size > 0) {
         listeners.current.forEach((cb) => {
           cb()
         })
@@ -134,9 +134,9 @@ export function createDescendants<T = any>() {
   }
 
   /**
-   * Opt-in to re-renders when the set of descendant IDs changes.
+   * Opt-in to re-renders when descendants change.
    * Returns the committed map of descendants, readable during render.
-   * Only triggers re-render when descendants are added/removed, not on prop changes.
+   * Triggers a re-render on every commit so props (detail, visible, etc) are always fresh.
    */
   function useDescendantsRerender(): DescendantMap<T> {
     const context = React.useContext(DescendantContext)
