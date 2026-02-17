@@ -270,27 +270,27 @@ test('all tables render without crash - full page snapshot', async () => {
       Done.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       esc go back                                          powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)

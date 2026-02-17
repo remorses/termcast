@@ -132,11 +132,8 @@ function CurrentItemActionsOffscreen(props: {
   const descendantsMap = useListDescendantsRerender()
 
   // Get current item's actions
-  const items = Object.values(descendantsMap)
-    .filter((item) => item.index !== -1)
-    .sort((a, b) => a.index - b.index)
-
-  const currentItem = items.find((item) => item.index === props.selectedIndex)
+  const currentItem = Object.values(descendantsMap)
+    .find((item) => item.index === props.selectedIndex)
   const actions = currentItem?.props?.actions ?? props.fallbackActions ?? null
 
   // Clear first action title when there are no actions
@@ -152,28 +149,48 @@ function CurrentItemActionsOffscreen(props: {
 }
 
 /**
- * Reads the selected item's detail directly from descendants map,
- * no useLayoutEffect needed. Subscribes to descendants changes so it
- * re-renders when items register or the detail prop updates.
+ * Reads the selected item's detail from the live descendants map via useLayoutEffect.
+ * useDescendantsRerender only notifies on structural changes (items added/removed),
+ * not prop changes, so we need useLayoutEffect to catch detail prop updates
+ * (e.g. when isShowingDetail toggles and items start passing detail).
  */
 function CurrentItemDetail(props: {
   selectedIndex: number
   isShowingDetail?: boolean
 }): any {
-  const descendantsMap = useListDescendantsRerender()
+  const theme = useTheme()
+  const mapRef = useListDescendantsMap()
+  // Subscribe to structural changes (items added/removed)
+  void useListDescendantsRerender()
+  const [detail, setDetail] = useState<ReactNode>(null)
 
-  if (!props.isShowingDetail) return null
-
-  const items = Object.values(descendantsMap)
-    .filter((item) => item.index !== -1)
-    .sort((a, b) => a.index - b.index)
-
-  const currentItem = items.find((item) => item.index === props.selectedIndex)
-  const detail = currentItem?.props?.detail ?? null
+  // Read detail from live map after children commit (before paint)
+  useLayoutEffect(() => {
+    if (!props.isShowingDetail) {
+      setDetail(null)
+      return
+    }
+    const currentItem = Object.values(mapRef.current)
+      .find((item) => item.index === props.selectedIndex)
+    setDetail(currentItem?.props?.detail ?? null)
+  })
 
   if (!detail) return null
 
-  return detail
+  return (
+    <box
+      style={{
+        width: '50%',
+        paddingLeft: 1,
+        paddingRight: 1,
+      }}
+      border={['left']}
+      borderStyle='single'
+      borderColor={theme.border}
+    >
+      {detail}
+    </box>
+  )
 }
 
 interface NavigationChildInterface {
@@ -1398,23 +1415,10 @@ export const List: ListType = (props) => {
             </box>
 
             {/* Detail panel on the right */}
-            {isShowingDetail && (
-              <box
-                style={{
-                  width: '50%',
-                  paddingLeft: 1,
-                  paddingRight: 1,
-                }}
-                border={['left']}
-                borderStyle='single'
-                borderColor={theme.border}
-              >
-                <CurrentItemDetail
-                  selectedIndex={selectedIndex}
-                  isShowingDetail={isShowingDetail}
-                />
-              </box>
-            )}
+            <CurrentItemDetail
+              selectedIndex={selectedIndex}
+              isShowingDetail={isShowingDetail}
+            />
           </box>
         </box>
       </ListDescendantsProvider>
