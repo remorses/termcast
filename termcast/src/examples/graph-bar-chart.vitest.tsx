@@ -34,26 +34,26 @@ test('initial render shows bar chart for Monthly Budget', async () => {
 
       ›Monthly Budget Spent / Remaining / Savings     │ ┌Spent: 78.6%┐
        Disk Usage System / Apps / Media / Free        │
-       Investment Portfolio Stocks / Bonds / Cash / C │ ────────────────────────────────────────────
-       CPU Time User / System / IO Wait / Idle        │ Total: $6,174
-       Revenue by Product 6 product lines             │ Spent: 78.6%
-       A/B Test Split Control vs Variant (50/50)      │ Saved: 10.0%
+       Investment Portfolio Stocks / Bonds / Cash / C │
+       CPU Time User / System / IO Wait / Idle        │ ───────────────────────────────────────────
+       Revenue by Product 6 product lines             │
+       A/B Test Split Control vs Variant (50/50)      │ Total: $6,174
        Storage Full 100% used                         │
-       Market Share One dominant + many tiny players  │
+       Market Share One dominant + many tiny players  │ Spent: 78.6%
        Equal Distribution 10 equal segments           │
-       Custom Colors Explicit color per segment       │
+       Custom Colors Explicit color per segment       │ Saved: 10.0%
        Needs vs Wants 50/30/20 budget rule            │
        Stress Test (20 items) Many small equal segmen │
                                                       │
                                                       │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions       │
-
-
-
-
-
-
-
 
     "
   `)
@@ -91,14 +91,14 @@ test('navigate to Market Share - dominant + tiny segments', async () => {
 
        Monthly Budget Spent / Remaining / Savings     │ ┌Leader: 85.0%┐
        Disk Usage System / Apps / Media / Free        │
-       Investment Portfolio Stocks / Bonds / Cash / C │ ────────────────────────────────────────────
-       CPU Time User / System / IO Wait / Idle        │ HHI:      7,264 (monopoly)
-       Revenue by Product 6 product lines             │ Segments: 14 total
-       A/B Test Split Control vs Variant (50/50)      │ Visible:  Tiny ones hidden
+       Investment Portfolio Stocks / Bonds / Cash / C │
+       CPU Time User / System / IO Wait / Idle        │ ────────────────────────────────────────────
+       Revenue by Product 6 product lines             │
+       A/B Test Split Control vs Variant (50/50)      │ HHI:      7,264 (monopoly)
        Storage Full 100% used                         │
-      ›Market Share One dominant + many tiny players  │
+      ›Market Share One dominant + many tiny players  │ Segments: 14 total
        Equal Distribution 10 equal segments           │
-       Custom Colors Explicit color per segment       │
+       Custom Colors Explicit color per segment       │ Visible:  Tiny ones hidden
        Needs vs Wants 50/30/20 budget rule            │
        Stress Test (20 items) Many small equal segmen │
                                                       │
@@ -146,12 +146,12 @@ test('navigate to Equal Distribution - 10 segments', async () => {
        > Search...
 
        Monthly Budget Spent / Remaining / Savings     │
-       Disk Usage System / Apps / Media / Free        │ ────────────────────────────────────────────
-       Investment Portfolio Stocks / Bonds / Cash / C │ Segments: 10
-       CPU Time User / System / IO Wait / Idle        │ Each:     10%
-       Revenue by Product 6 product lines             │
+       Disk Usage System / Apps / Media / Free        │
+       Investment Portfolio Stocks / Bonds / Cash / C │ ────────────────────────────────────────────
+       CPU Time User / System / IO Wait / Idle        │
+       Revenue by Product 6 product lines             │ Segments: 10
        A/B Test Split Control vs Variant (50/50)      │
-       Storage Full 100% used                         │
+       Storage Full 100% used                         │ Each:     10%
        Market Share One dominant + many tiny players  │
       ›Equal Distribution 10 equal segments           │
        Custom Colors Explicit color per segment       │
@@ -202,12 +202,12 @@ test('navigate to Stress Test - 20 segments', async () => {
        > Search...
 
        Monthly Budget Spent / Remaining / Savings     │
-       Disk Usage System / Apps / Media / Free        │ ────────────────────────────────────────────
-       Investment Portfolio Stocks / Bonds / Cash / C │ Segments: 20
-       CPU Time User / System / IO Wait / Idle        │ Colors:   7 (cycling)
-       Revenue by Product 6 product lines             │
+       Disk Usage System / Apps / Media / Free        │
+       Investment Portfolio Stocks / Bonds / Cash / C │ ────────────────────────────────────────────
+       CPU Time User / System / IO Wait / Idle        │
+       Revenue by Product 6 product lines             │ Segments: 20
        A/B Test Split Control vs Variant (50/50)      │
-       Storage Full 100% used                         │
+       Storage Full 100% used                         │ Colors:   7 (cycling)
        Market Share One dominant + many tiny players  │
        Equal Distribution 10 equal segments           │
        Custom Colors Explicit color per segment       │

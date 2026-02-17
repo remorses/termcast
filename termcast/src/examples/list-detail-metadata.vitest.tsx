@@ -41,14 +41,14 @@ test('list detail metadata label renders short values in row layout (key: value)
       ›Short Values                         │ Details
        Long Values                          │
        Colored & Tags                       │ Name:    John Doe
-                                            │ Email:   john@example.com
-                                            │ ──────────────────────────────────
-                                            │ Status:  Active
-                                            │ Website: example.com
                                             │
-       ↑↓ navigate   ^k actions             │
-
-
+                                            │ Email:   john@example.com
+                                            │
+                                            │ ──────────────────────────────────
+                                            │
+                                            │ Status:  Active
+                                            │
+       ↑↓ navigate   ^k actions             │ Website: example.com
 
 
 
@@ -102,18 +102,18 @@ test('list detail metadata renders long values in column layout (key on one line
                                             │              description that
                                             │              would be truncated
                                             │              if shown inline
+                                            │
                                             │ Path:        /Users/username/
                                             │              Documents/Projects/
                                             │              my-project/src/
                                             │              components
+                                            │
                                             │ ──────────────────────────────────
+                                            │
                                             │ Short:       OK
+                                            │
                                             │ URL:         example.com/very/
        ↑↓ navigate   ^k actions             │              long/path
-
-
-
-
 
 
 
@@ -162,22 +162,22 @@ test('list detail metadata renders colored values and tag lists', async () => {
                                             │ state.
                                             │
                                             │ Info
+                                            │
                                             │ Status:   Active
+                                            │
                                             │ Priority: High
+                                            │
                                             │ Type:     Feature
+                                            │
                                             │ ──────────────────────────────────
+                                            │
                                             │ Labels
+                                            │
                                             │ Tags:     bug feature urgent
+                                            │
                                             │ ──────────────────────────────────
+                                            │
        ↑↓ navigate   ^k actions             │ Repo:     github.com/example
-
-
-
-
-
-
-
-
 
 
 
