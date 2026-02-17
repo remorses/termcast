@@ -151,6 +151,31 @@ function CurrentItemActionsOffscreen(props: {
   return <Offscreen>{actions}</Offscreen>
 }
 
+/**
+ * Reads the selected item's detail directly from descendants map,
+ * no useLayoutEffect needed. Subscribes to descendants changes so it
+ * re-renders when items register or the detail prop updates.
+ */
+function CurrentItemDetail(props: {
+  selectedIndex: number
+  isShowingDetail?: boolean
+}): any {
+  const descendantsMap = useListDescendantsRerender()
+
+  if (!props.isShowingDetail) return null
+
+  const items = Object.values(descendantsMap)
+    .filter((item) => item.index !== -1)
+    .sort((a, b) => a.index - b.index)
+
+  const currentItem = items.find((item) => item.index === props.selectedIndex)
+  const detail = currentItem?.props?.detail ?? null
+
+  if (!detail) return null
+
+  return detail
+}
+
 interface NavigationChildInterface {
   navigationTitle?: string
   isLoading?: boolean
@@ -370,7 +395,6 @@ interface ListContextValue {
   setSelectedIndex?: (index: number) => void
   searchText: string
   isFiltering: boolean
-  setCurrentDetail?: (detail: ReactNode) => void
   isShowingDetail?: boolean
   customEmptyViewRef: React.MutableRefObject<boolean>
   isLoading?: boolean
@@ -892,7 +916,7 @@ export const List: ListType = (props) => {
     return currentStackSelectedListIndex ?? 0
   })
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [currentDetail, setCurrentDetail] = useState<ReactNode>(null)
+
 
   const inputRef = useRef<TextareaRenderable>(null)
   const customEmptyViewRef = useRef(false)
@@ -1046,7 +1070,6 @@ export const List: ListType = (props) => {
       setSelectedIndex: setSelectedIndexWithPersistence,
       searchText,
       isFiltering: isFilteringEnabled,
-      setCurrentDetail,
       isShowingDetail,
       customEmptyViewRef,
       isLoading,
@@ -1055,13 +1078,6 @@ export const List: ListType = (props) => {
     }),
     [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading, searchBarAccessory, spacingMode],
   )
-
-  // Clear detail when detail view is hidden (before paint to avoid flash)
-  useLayoutEffect(() => {
-    if (!isShowingDetail) {
-      setCurrentDetail(null)
-    }
-  }, [isShowingDetail])
 
   // Handle selectedItemId prop changes (before paint to avoid flash)
   useLayoutEffect(() => {
@@ -1382,7 +1398,7 @@ export const List: ListType = (props) => {
             </box>
 
             {/* Detail panel on the right */}
-            {isShowingDetail && currentDetail && (
+            {isShowingDetail && (
               <box
                 style={{
                   width: '50%',
@@ -1393,7 +1409,10 @@ export const List: ListType = (props) => {
                 borderStyle='single'
                 borderColor={theme.border}
               >
-                {currentDetail}
+                <CurrentItemDetail
+                  selectedIndex={selectedIndex}
+                  isShowingDetail={isShowingDetail}
+                />
               </box>
             )}
           </box>
@@ -1537,13 +1556,6 @@ const ListItem: ListItemType = (props) => {
   // Check if this item is selected
   const selectedIndex = listContext?.selectedIndex ?? 0
   const isActive = index === selectedIndex
-
-  // Update detail when this item becomes active or detail prop changes (before paint)
-  useLayoutEffect(() => {
-    if (isActive && listContext?.isShowingDetail && listContext?.setCurrentDetail) {
-      listContext.setCurrentDetail(props.detail || null)
-    }
-  }, [isActive, props.detail, listContext?.isShowingDetail, listContext?.setCurrentDetail])
 
   // Don't render if not visible
   if (!isVisible) return null
