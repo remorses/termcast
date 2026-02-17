@@ -11,7 +11,7 @@ import { NavigationProvider } from 'termcast/src/internal/navigation'
 import { CommonProps, termcastMaxContentWidth } from 'termcast/src/utils'
 import { Cache } from 'termcast/src/apis/cache'
 import { logger } from 'termcast/src/logger'
-import { useTheme, initializeTheme } from 'termcast/src/theme'
+import { useTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
 import { useKeyboard, useRenderer } from '@opentui/react'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
@@ -21,9 +21,6 @@ import { Clipboard } from '../apis/clipboard'
 
 // Initialize error handlers at module load time
 initializeErrorHandlers()
-
-// Initialize theme from persisted storage
-initializeTheme()
 
 const queryClient = new QueryClient({
   defaultOptions: {

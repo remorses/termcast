@@ -13,6 +13,7 @@ import {
 } from './package-json'
 import { logger } from './logger'
 import { useStore } from './state'
+import { initializeTheme } from './theme'
 
 export interface RenderWithProvidersOptions {
   extensionName?: string
@@ -52,6 +53,9 @@ export async function renderWithProviders(
     extensionPath,
     extensionPackageJson: packageJson,
   })
+
+  // Load theme after state reset — extensionPath is now set so it reads from the correct DB
+  initializeTheme()
 
   const renderer = await createCliRenderer({
     onDestroy: () => {
