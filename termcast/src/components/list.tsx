@@ -877,6 +877,7 @@ export const List: ListType = (props) => {
     selectedItemId,
     searchBarAccessory,
     spacingMode = 'default',
+    throttle,
     ...otherProps
   } = props
 
@@ -895,6 +896,14 @@ export const List: ListType = (props) => {
 
   const inputRef = useRef<TextareaRenderable>(null)
   const customEmptyViewRef = useRef(false)
+  const throttleTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
+  useEffect(() => {
+    return () => {
+      if (throttleTimeoutRef.current) {
+        clearTimeout(throttleTimeoutRef.current)
+      }
+    }
+  }, [])
 
   // Ref callback that registers the textarea in global state for ESC handling
   const setInputRef = useCallback((node: TextareaRenderable | null) => {
@@ -1243,13 +1252,23 @@ export const List: ListType = (props) => {
   const handleSearchChange = (newValue: string) => {
     if (!inFocus) return
 
-    // Always call onSearchTextChange if provided
-    if (onSearchTextChange) {
-      onSearchTextChange(newValue)
-    }
-
+    // Always update internal state immediately so the textarea and filtering
+    // stay responsive even when throttle delays the parent callback
     if (controlledSearchText === undefined) {
       setInternalSearchText(newValue)
+    }
+
+    if (onSearchTextChange) {
+      if (throttle) {
+        if (throttleTimeoutRef.current) {
+          clearTimeout(throttleTimeoutRef.current)
+        }
+        throttleTimeoutRef.current = setTimeout(() => {
+          onSearchTextChange(newValue)
+        }, 300)
+      } else {
+        onSearchTextChange(newValue)
+      }
     }
   }
 
