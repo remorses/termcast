@@ -33,7 +33,6 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
        Dropdown Default Value Example ───────────────────────────────────────────
 
-
        > Search...                                                        Apple ▾
 
       ›First Item This list has a dropdown
@@ -45,6 +44,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
        ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
+
 
 
 
@@ -77,7 +77,6 @@ test('dropdown opens and shows items', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
-
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Filter by category                                               esc   │
@@ -103,6 +102,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
+
     "
   `)
 
@@ -114,7 +114,6 @@ test('dropdown opens and shows items', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
-
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Filter by category                                               esc   │
@@ -140,6 +139,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
+
     "
   `)
 
@@ -152,7 +152,6 @@ test('dropdown opens and shows items', async () => {
 
        Dropdown Default Value Example ───────────────────────────────────────────
 
-
        > Search...                                                       Banana ▾
 
       ›First Item This list has a dropdown
@@ -164,6 +163,7 @@ test('dropdown opens and shows items', async () => {
 
 
        ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
+
 
 
 
@@ -196,7 +196,6 @@ test('clicking dropdown opens it', async () => {
 
 
        Dropdown Default Value Example ───────────────────────────────────────────
-
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Filter by category                                               esc   │
@@ -222,6 +221,7 @@ test('clicking dropdown opens it', async () => {
 
 
 
+
     "
   `)
 
@@ -234,7 +234,6 @@ test('clicking dropdown opens it', async () => {
 
        Dropdown Default Value Example ───────────────────────────────────────────
 
-
        > Search...                                                       Orange ▾
 
       ›First Item This list has a dropdown
@@ -246,6 +245,7 @@ test('clicking dropdown opens it', async () => {
 
 
        ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
+
 
 
 

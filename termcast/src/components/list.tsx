@@ -1802,7 +1802,6 @@ const ListDropdown: ListDropdownType = (props) => {
         <box
           key={dropdownState.value}
           style={{
-            paddingTop: 1,
             paddingLeft: 2,
             // minWidth: value.length + 4,
             flexDirection: 'row',

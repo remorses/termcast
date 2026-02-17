@@ -35,7 +35,6 @@ test('list with dropdown navigation', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-
        > Search...                                                All ▾
 
       ›Augustiner Helles Beer
@@ -51,6 +50,7 @@ test('list with dropdown navigation', async () => {
 
 
        ↑↓ navigate   ^p dropdown   ^k actions
+
 
 
 
@@ -205,7 +205,6 @@ test('list with dropdown navigation', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-
        > Search...                                               Wine ▾
 
       ›Chateau Margaux Wine
@@ -225,9 +224,53 @@ test('list with dropdown navigation', async () => {
 
 
 
+
     "
   `)
 }, 10000)
+
+test('small screen: dropdown accessory wastes vertical space', async () => {
+  const smallSession = await launchTerminal({
+    command: 'bun',
+    args: ['src/examples/list-with-dropdown.tsx'],
+    cols: 60,
+    rows: 15,
+  })
+
+  try {
+    const snapshot = await smallSession.text({
+      waitFor: (text) => {
+        return (
+          /search beers/i.test(text) &&
+          text.includes('All ▾') &&
+          text.includes('Augustiner Helles')
+        )
+      },
+      timeout: 10000,
+    })
+
+    expect(snapshot).toMatchInlineSnapshot(`
+      "
+
+
+         Search Beers ─────────────────────────────────────────
+
+         > Search...                                      All ▾
+
+        ›Augustiner Helles Beer
+         Camden Hells Beer
+         Leffe Blonde Beer
+         Sierra Nevada IPA Beer
+         Chateau Margaux Wine
+         Pinot Noir Wine
+
+
+         ↑↓ navigate   ^p dropdown   ^k actions"
+    `)
+  } finally {
+    smallSession.close()
+  }
+}, 15000)
 
 test('list with dropdown search and filter', async () => {
   await session.text({
@@ -293,9 +336,9 @@ test('list with dropdown search and filter', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-
        > Search...                                                All ▾
 
+      ›Augustiner Helles Beer
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -308,7 +351,7 @@ test('list with dropdown search and filter', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-       ↑↓ navigate   ^p dropdown   ^k actions
+
 
 
 
@@ -329,7 +372,6 @@ test('list with dropdown search and filter', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-
        > Search...                                               Wine ▾
 
       ›Chateau Margaux Wine
@@ -341,6 +383,7 @@ test('list with dropdown search and filter', async () => {
 
 
        ↑↓ navigate   ^p dropdown   ^k actions
+
 
 
 
@@ -365,7 +408,6 @@ test('list with dropdown search and filter', async () => {
 
        Search Beers ───────────────────────────────────────────────────
 
-
        > pinot                                                   Wine ▾
 
       ›Pinot Noir Wine
@@ -377,6 +419,7 @@ test('list with dropdown search and filter', async () => {
 
 
        ↑↓ navigate   ^p dropdown   ^k actions
+
 
 
 
