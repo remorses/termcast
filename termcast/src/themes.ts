@@ -21,6 +21,7 @@ import material from './themes/material.json'
 import matrix from './themes/matrix.json'
 import mercury from './themes/mercury.json'
 import monokai from './themes/monokai.json'
+import nerv from './themes/nerv.json'
 import nightowl from './themes/nightowl.json'
 import nord from './themes/nord.json'
 import oneDark from './themes/one-dark.json'
@@ -31,7 +32,7 @@ import palenight from './themes/palenight.json'
 import rosepine from './themes/rosepine.json'
 import solarized from './themes/solarized.json'
 import synthwave84 from './themes/synthwave84.json'
-import termcast from './themes/termcast.json'
+// termcast.json is kept for reference but 'termcast' key now aliases to nerv
 import tokyonight from './themes/tokyonight.json'
 import vercel from './themes/vercel.json'
 import vesper from './themes/vesper.json'
@@ -155,6 +156,7 @@ const DEFAULT_THEMES: Record<string, ThemeJson> = {
   matrix,
   mercury,
   monokai,
+  nerv,
   nightowl,
   nord,
   'one-dark': oneDark,
@@ -165,7 +167,7 @@ const DEFAULT_THEMES: Record<string, ThemeJson> = {
   rosepine,
   solarized,
   synthwave84,
-  termcast,
+  termcast: nerv, // alias: 'termcast' resolves to nerv theme for backwards compatibility
   tokyonight,
   vercel,
   vesper,
@@ -296,7 +298,7 @@ export function getResolvedTheme(
   name: string,
   mode: 'dark' | 'light' = 'dark',
 ): ResolvedTheme {
-  const themeJson = DEFAULT_THEMES[name] ?? DEFAULT_THEMES.termcast!
+  const themeJson = DEFAULT_THEMES[name] ?? DEFAULT_THEMES.nerv!
   return resolveTheme(themeJson, mode)
 }
 
@@ -387,4 +389,4 @@ export function getSyntaxTheme(
 
 export const themeNames = Object.keys(DEFAULT_THEMES).sort()
 
-export const defaultThemeName = 'termcast'
+export const defaultThemeName = 'nerv'

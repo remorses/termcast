@@ -110,7 +110,7 @@ export const useStore = create<AppState>(() => ({
   showActionsDialog: false,
   actionsPortalTarget: null,
   // Theme state
-  currentThemeName: 'termcast',
+  currentThemeName: 'nerv',
   // Active search input ref
   activeSearchInputRef: null,
   // Registered action shortcuts
