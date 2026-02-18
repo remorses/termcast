@@ -25,10 +25,10 @@ function TechLogo({ label, path }: { label: string; path: string }) {
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 32' aria-label={label} className='w-full h-full'>
       <g transform='translate(4, 4)'>
         <svg viewBox='0 0 24 24' width='24' height='24'>
-          <path d={path} fill='#71717A' />
+          <path d={path} fill='#a1a1aa' />
         </svg>
       </g>
-      <text x='38' y='21' fill='#71717A' fontSize='13' fontFamily='system-ui, -apple-system, sans-serif' fontWeight='500'>{label}</text>
+      <text x='38' y='21' fill='#a1a1aa' fontSize='13' fontFamily='system-ui, -apple-system, sans-serif' fontWeight='500'>{label}</text>
     </svg>
   )
 }
@@ -85,7 +85,7 @@ function LogoCarousel() {
           className='flex items-center animate-logo-scroll-compact will-change-transform'
         >
           {[...TECH_LOGOS, ...TECH_LOGOS].map((logo, i) => (
-            <div key={i} className='flex-shrink-0 flex items-center justify-center w-[160px] h-[48px] px-2 opacity-30'>
+            <div key={i} className='flex-shrink-0 flex items-center justify-center w-[160px] h-[48px] px-2 opacity-70'>
               <TechLogo label={logo.label} path={logo.path} />
             </div>
           ))}
@@ -108,7 +108,7 @@ function Header() {
           {/* Logo */}
           <a className='flex items-center gap-2.5 group' href='/'>
             <Terminal size={20} className='text-white group-hover:opacity-80 transition-opacity' />
-            <span className='text-[15px] font-bold text-white tracking-[-0.01em]'>
+            <span className='bu-font-mono text-[15px] font-bold text-white'>
               termcast
             </span>
           </a>
@@ -192,9 +192,9 @@ function InstallCommand() {
 
 function Hero() {
   return (
-    <div className='relative z-10 flex flex-col h-[calc(100vh-52px)]'>
-      <div className='flex-1 flex flex-col items-center justify-center px-6'>
-        <div className='flex flex-col items-center text-center -mt-20 sm:-mt-16'>
+    <div className='relative z-10 flex flex-col'>
+      <div className='flex flex-col items-center justify-center px-6 pt-16 sm:pt-24'>
+        <div className='flex flex-col items-center text-center'>
           <h1 className='flex flex-col items-center leading-none'>
             <span className='bu-font-serif text-[72px] sm:text-[100px] md:text-[120px] font-normal uppercase tracking-tight text-white'>
               Raycast
@@ -204,8 +204,8 @@ function Hero() {
             </span>
           </h1>
           <p className='text-zinc-500 bu-font-sans text-sm sm:text-base tracking-wide mt-5 sm:mt-6 max-w-2xl'>
-            Build terminal apps with React. Lists, forms, graphs, markdown, themes.
-            <br className='hidden sm:block' /> Same API as Raycast. Compile to a single binary.
+            The fastest way to build terminal apps. React components, Raycast-compatible API,
+            <br className='hidden sm:block' /> compile to a single binary. Already have a Raycast extension? Port it.
           </p>
           <InstallCommand />
           <div className='flex items-center gap-5 mt-4'>
@@ -220,7 +220,7 @@ function Hero() {
             <a
               target='_blank'
               rel='noopener noreferrer'
-              className='flex items-center gap-1.5 text-[13px] bu-font-mono text-zinc-500 hover:text-white transition-colors'
+              className='flex items-center gap-1.5 text-[13px] bu-font-mono text-zinc-300 hover:text-white transition-colors'
               href={GITHUB_URL}
             >
               <Github size={14} />
@@ -231,7 +231,7 @@ function Hero() {
         </div>
         <a
           href='#features'
-          className='mt-8 flex flex-col items-center gap-1 text-[11px] bu-font-mono text-zinc-600 hover:text-zinc-400 transition-colors'
+          className='mt-6 mb-12 flex flex-col items-center gap-1 text-[11px] bu-font-mono text-zinc-600 hover:text-zinc-400 transition-colors'
         >
           Learn more
           <ArrowDown size={12} />
@@ -292,9 +292,9 @@ function ListsSearchVisual() {
           <span className='text-pumpkin-500 animate-pulse'>▌</span>
         </div>
         {items.map((item) => (
-          <div key={item.title} className={`flex items-center justify-between ${item.active ? 'text-pumpkin-400/80' : 'text-zinc-700'} transition-colors duration-300`}>
-            <span>{item.active ? '› ' : '  '}{item.title}<span className='text-zinc-600 ml-2'>{item.subtitle}</span></span>
-            <span className={item.active ? 'text-pumpkin-500/60' : 'text-zinc-800'}>{item.badge}</span>
+          <div key={item.title} className={`flex items-center justify-between ${item.active ? 'text-pumpkin-400/80' : 'text-zinc-500'} transition-colors duration-300`}>
+            <span>{item.active ? '› ' : '  '}{item.title}<span className='text-zinc-500 ml-2'>{item.subtitle}</span></span>
+            <span className={item.active ? 'text-pumpkin-500/60' : 'text-zinc-600'}>{item.badge}</span>
           </div>
         ))}
       </div>
@@ -323,15 +323,15 @@ function FormsInputsVisual() {
           <span className='text-zinc-400'>{i === 0 ? '› ' : '  '}{f.label}</span>
           <span className={i === 0 ? 'text-white' : 'text-zinc-500'}>
             {f.value}
-            {f.type === 'dropdown' && <span className='text-zinc-700 ml-1'>▾</span>}
+            {f.type === 'dropdown' && <span className='text-zinc-500 ml-1'>▾</span>}
           </span>
         </div>
       ))}
       <div className='border-t border-zinc-800/50 my-2' />
       {checkboxes.map((cb) => (
         <div key={cb.label} className='flex items-center justify-between py-0.5'>
-          <span className={cb.checked ? 'text-zinc-400' : 'text-zinc-700'}>{cb.label}</span>
-          <span className={cb.checked ? 'text-emerald-500/70' : 'text-zinc-800'}>{cb.checked ? '✓' : '○'}</span>
+          <span className={cb.checked ? 'text-zinc-400' : 'text-zinc-500'}>{cb.label}</span>
+          <span className={cb.checked ? 'text-emerald-500/70' : 'text-zinc-600'}>{cb.checked ? '✓' : '○'}</span>
         </div>
       ))}
       <div className='mt-3 text-zinc-600 text-[10px] tracking-wider'>ctrl+enter to submit  ·  tab to next field</div>
@@ -351,14 +351,14 @@ function GraphsChartsVisual() {
       <div className='text-pumpkin-400/70 text-lg tracking-[0.15em] leading-tight'>
         {sparkline1}
       </div>
-      <div className='flex justify-between text-zinc-700 text-[10px] mt-1 mb-4'>
+      <div className='flex justify-between text-zinc-500 text-[10px] mt-1 mb-4'>
         <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
       </div>
       <div className='text-zinc-600 text-[10px] sm:text-xs mb-2 tracking-wider'>MOVING AVERAGE</div>
       <div className='text-emerald-500/50 text-lg tracking-[0.15em] leading-tight'>
         {sparkline2}
       </div>
-      <div className='mt-3 text-zinc-700 text-[10px]'>
+      <div className='mt-3 text-zinc-500 text-[10px]'>
         ■ <span className='text-pumpkin-400/70'>price</span>{'  '}■ <span className='text-emerald-500/50'>avg</span>{'  '}rendered with braille characters (2x4 sub-pixel)
       </div>
     </div>
@@ -368,9 +368,9 @@ function GraphsChartsVisual() {
 function CompileDistributeVisual() {
   const steps = [
     { line: '$ termcast compile', color: 'text-zinc-400' },
-    { line: '  bundling with esbuild...', color: 'text-zinc-600' },
-    { line: '  compiling for darwin-arm64', color: 'text-zinc-600' },
-    { line: '  compiling for linux-x64', color: 'text-zinc-600' },
+    { line: '  bundling with esbuild...', color: 'text-zinc-500' },
+    { line: '  compiling for darwin-arm64', color: 'text-zinc-500' },
+    { line: '  compiling for linux-x64', color: 'text-zinc-500' },
     { line: '✓ my-tool (4.2 MB)', color: 'text-emerald-500/70' },
     { line: '', color: '' },
     { line: '$ termcast release', color: 'text-zinc-400' },
@@ -397,7 +397,7 @@ function CompileDistributeVisual() {
 function Features() {
   return (
     <section id='features' className='relative z-10 py-16 sm:py-40 px-6'>
-      <div className='max-w-5xl mx-auto flex flex-col gap-20 sm:gap-52'>
+      <div className='max-w-5xl mx-auto flex flex-col gap-16 sm:gap-40'>
         <ProductCard
           title='Lists & Search'
           description='Searchable lists with sections, accessories, detail panels, and full keyboard navigation. Built-in fuzzy search, dropdown filters, pagination, and action shortcuts.'
@@ -455,11 +455,11 @@ function DeployTool() {
       <div className='max-w-4xl mx-auto'>
         <div className='text-center mb-10'>
           <h2 className='bu-font-serif text-3xl sm:text-4xl md:text-5xl text-white'>
-            Same API you already know.
+            Familiar API. Zero learning curve.
           </h2>
           <p className='bu-font-sans text-sm sm:text-base text-zinc-500 mt-4 max-w-xl mx-auto'>
-            If you've built a Raycast extension, you already know termcast.
-            Same components, same patterns, same React.
+            Same components as Raycast -- List, Form, Detail, ActionPanel.
+            Import from <code className='bu-font-mono text-zinc-400'>termcast</code> instead of <code className='bu-font-mono text-zinc-400'>@raycast/api</code>.
           </p>
         </div>
         <div className='bg-zinc-950 border border-zinc-800 overflow-hidden'>
@@ -471,8 +471,8 @@ function DeployTool() {
             </div>
             <span className='bu-font-mono text-[11px] text-zinc-600 ml-2'>deploy-tool.tsx</span>
           </div>
-          <pre className='p-5 sm:p-6 overflow-x-auto'>
-            <code className='bu-font-mono text-xs sm:text-sm leading-relaxed'>
+          <pre className='p-3 sm:p-6 overflow-x-auto max-w-full'>
+            <code className='bu-font-mono text-[10px] sm:text-sm leading-relaxed'>
               {code.split('\n').map((line, i) => (
                 <div key={i} className='flex'>
                   <span className='text-zinc-700 select-none w-8 text-right mr-4 flex-shrink-0'>{i + 1}</span>
@@ -560,28 +560,28 @@ function CodeLine({ line }: { line: string }) {
 
 const VALUE_PROPS = [
   {
-    title: 'Raycast API',
-    description: 'Same List, Form, Detail, Action components. Port your existing Raycast extensions or start fresh with a familiar API.',
+    title: 'Raycast-compatible',
+    description: 'Same List, Form, Detail, ActionPanel components. Port existing Raycast extensions or start fresh -- either way, the API is the same.',
   },
   {
-    title: 'Cross-platform',
-    description: 'Runs on macOS and Linux. Deploy on remote servers, CI pipelines, or anywhere with a terminal.',
+    title: 'AI-friendly API',
+    description: 'The Raycast API has thousands of open-source extensions. LLMs and coding agents already know it. They can generate termcast code out of the box.',
   },
   {
     title: 'Single binary',
-    description: 'Compile your extension into one portable executable. Distribute with curl, brew, or GitHub Releases.',
+    description: 'termcast compile produces one portable executable. termcast release publishes to GitHub Releases for macOS, Linux, and Windows.',
+  },
+  {
+    title: 'Cross-platform',
+    description: 'Raycast is macOS-only. Termcast runs on Linux, Docker, CI, remote servers -- anywhere with a terminal.',
+  },
+  {
+    title: 'Built on OpenTUI',
+    description: 'Terminal rendering powered by OpenTUI -- a layout engine with Yoga flexbox, braille graphics, and sub-pixel resolution.',
   },
   {
     title: 'Terminal-native',
-    description: 'Access CWD, stdin, CLI arguments, environment variables. Build tools that integrate with terminal workflows.',
-  },
-  {
-    title: 'Rich components',
-    description: 'Markdown rendering, braille graphs, tables, syntax highlighting, toasts, navigation stack, OAuth. All built in.',
-  },
-  {
-    title: 'React + TypeScript',
-    description: 'Standard React patterns with hooks, JSX, and full TypeScript support. Zustand for state, TanStack Query for data fetching.',
+    description: 'Things Raycast can\'t do: read CWD, accept stdin, parse CLI args, access env vars. Your TUI integrates with terminal workflows.',
   },
 ]
 
@@ -622,7 +622,7 @@ function BottomCTA() {
         </h2>
         <div className='bu-font-mono text-sm text-zinc-500 mt-6 max-w-lg'>
           <div className='mb-4'>
-            <span className='text-zinc-600'>Create a new extension in seconds:</span>
+            <span className='text-zinc-600'>New project or existing Raycast extension -- up and running in seconds:</span>
           </div>
           <div className='bg-zinc-950 border border-zinc-800 px-5 py-3 text-left'>
             <div><span className='text-pumpkin-500'>$</span> <span className='text-zinc-400'>termcast new my-tool</span></div>
@@ -693,7 +693,7 @@ const FOOTER_COLUMNS = [
 
 function Footer() {
   return (
-    <footer id='footer' className='w-full max-w-5xl mx-auto px-6 pt-32 pb-12'>
+    <footer id='footer' className='w-full max-w-5xl mx-auto px-6 pt-16 sm:pt-32 pb-12'>
       <div className='border-t border-zinc-800 pt-12'>
         <div className='grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12'>
           {FOOTER_COLUMNS.map((col) => (
