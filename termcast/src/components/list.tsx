@@ -241,9 +241,11 @@ export type ItemAccessory =
   | {
       tag?:
         | string
+        | null
         | {
             value: string
             color?: Color.ColorLike
+            key?: string
           }
     }
   | {
@@ -335,11 +337,58 @@ export interface ListProps
   selectedItemId?: string
   isShowingDetail?: boolean
   /**
-   * Controls the vertical spacing of list items.
-   * - 'default': Single-line items with title and subtitle on same row
-   * - 'relaxed': Two-line items with title on first row, subtitle below, and padding between items
-   */
+    * Controls the vertical spacing of list items.
+    * - 'default': Single-line items with title and subtitle on same row
+    * - 'relaxed': Two-line items with title on first row, subtitle below, and padding between items
+    */
   spacingMode?: ListSpacingMode
+  /**
+   * Fixed column widths (in terminal characters) for tag accessories,
+   * enabling table-like alignment across all list items.
+   *
+   * Each number in the array defines the display width for the Nth tag
+   * in each item's accessories array. Tags are left-aligned within their
+   * column using `padEnd`. Non-tag accessories (`text`, `date`) are not
+   * affected and render with their natural width.
+   *
+   * **Requirements:**
+   * - All items should have the same number of tag accessories in the
+   *   same order. Use `{ tag: null }` as a placeholder for missing tags
+   *   to preserve column alignment.
+   * - Each width should be at least the length of the longest tag value
+   *   at that position. Tags render as plain text (no brackets added).
+   * - The array length should match the number of tag positions.
+   *
+   * **Example:**
+   * ```tsx
+   * // Widths: comments max "12 comments"=11, status max "In Progress"=11, priority max "P3"=2
+   * <List accessoryTagsLayout={[11, 11, 2]}>
+   *   <List.Item
+   *     title="Fix login bug"
+   *     accessories={[
+   *       { tag: { value: '3 comments', key: 'comments' } },
+   *       { tag: { value: 'Open', color: Color.Green, key: 'status' } },
+   *       { tag: { value: 'P1', color: Color.Red, key: 'priority' } },
+   *       { date: new Date() },
+   *     ]}
+   *   />
+   *   <List.Item
+   *     title="Refactor auth"
+   *     accessories={[
+   *       { tag: { value: '7 comments', key: 'comments' } },
+   *       { tag: { value: 'Closed', color: Color.Purple, key: 'status' } },
+   *       { tag: null },  // placeholder for missing priority column
+   *       { date: new Date() },
+   *     ]}
+   *   />
+   * </List>
+   *
+   * // Renders as:
+   * // Fix login bug     3 comments  Open           P1 1d
+   * // Refactor auth     7 comments  Closed            2w
+   * ```
+   */
+  accessoryTagsLayout?: number[]
 }
 
 interface ListType {
@@ -408,6 +457,7 @@ interface ListContextValue {
   isLoading?: boolean
   hasDropdown?: boolean
   spacingMode: ListSpacingMode
+  accessoryTagWidths?: number[]
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
@@ -435,6 +485,16 @@ function shouldItemBeVisible(
     .toLowerCase()
 
   return searchableText.includes(needle)
+}
+
+// Get the foreground color for a tag accessory (used in both auto and table modes)
+function getTagColor(tag: ItemAccessory, theme: ReturnType<typeof useTheme>, active: boolean): string | undefined {
+  if (active) return theme.background
+  if ('tag' in tag && tag.tag) {
+    const tagColor = typeof tag.tag === 'object' ? tag.tag?.color : undefined
+    return resolveColor(tagColor) || theme.warning
+  }
+  return undefined
 }
 
 // Create descendants for List items
@@ -683,12 +743,14 @@ function ListItemRow(props: {
   const theme = useTheme()
   const listCtx = useContext(ListContext)
   const spacingMode = listCtx?.spacingMode ?? 'default'
+  const accessoryTagWidths = listCtx?.accessoryTagWidths
   const isRelaxed = spacingMode === 'relaxed'
   const { title, subtitle, icon, iconColor, accessories, active, ref } = props
   const [isHovered, setIsHovered] = useState(false)
 
   const accessoryElements: ReactNode[] = []
   if (accessories) {
+    let tagIndex = 0
     accessories.forEach((accessory) => {
       if ('text' in accessory && accessory.text) {
         const textValue =
@@ -710,25 +772,35 @@ function ListItemRow(props: {
           )
         }
       }
-      if ('tag' in accessory && accessory.tag) {
+      if ('tag' in accessory) {
+        const colWidth = accessoryTagWidths?.[tagIndex]
         const tagValue =
           typeof accessory.tag === 'string'
             ? accessory.tag
             : accessory.tag?.value
-        const tagColor =
-          typeof accessory.tag === 'object' ? accessory.tag?.color : undefined
         if (tagValue) {
+          const tagColor = getTagColor(accessory, theme, !!active)
+          const displayText = tagValue
+          const padded = colWidth ? displayText.padEnd(colWidth) : displayText
           accessoryElements.push(
             <text
-              key={`tag-${tagValue}`}
+              key={`tag-${tagIndex}`}
               flexShrink={0}
-              fg={active ? theme.background : resolveColor(tagColor) || theme.warning}
+              fg={tagColor}
               wrapMode="none"
             >
-              [{tagValue}]
+              {padded}
+            </text>,
+          )
+        } else if (colWidth) {
+          // Null/empty tag → empty space placeholder to preserve column alignment
+          accessoryElements.push(
+            <text key={`tag-empty-${tagIndex}`} flexShrink={0} wrapMode="none">
+              {' '.repeat(colWidth)}
             </text>,
           )
         }
+        tagIndex++
       }
       if ('date' in accessory && accessory.date) {
         const dateValue =
@@ -754,6 +826,7 @@ function ListItemRow(props: {
         }
       }
     })
+
   }
 
   // Calculate subtitle indentation to align with title start
@@ -909,6 +982,7 @@ export const List: ListType = (props) => {
     selectedItemId,
     searchBarAccessory,
     spacingMode = 'default',
+    accessoryTagsLayout,
     throttle,
     ...otherProps
   } = props
@@ -1111,8 +1185,9 @@ export const List: ListType = (props) => {
       isLoading,
       hasDropdown: !!searchBarAccessory,
       spacingMode,
+      accessoryTagWidths: accessoryTagsLayout,
     }),
-    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading, searchBarAccessory, spacingMode],
+    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading, searchBarAccessory, spacingMode, accessoryTagsLayout],
   )
 
   // Handle selectedItemId prop changes (before paint to avoid flash)
