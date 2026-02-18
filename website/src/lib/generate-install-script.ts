@@ -125,7 +125,18 @@ fi
 INSTALL_DIR=$HOME/${installDirName}/bin
 mkdir -p "$INSTALL_DIR"
 
-url="https://github.com/${githubRepo}/releases/latest/download/$filename"
+# Find the latest release that contains our binary asset.
+# GitHub API returns releases newest-first. The browser_download_url contains
+# the filename, so we can grep for it directly without jq.
+# This handles repos with mixed release types (npm + binary releases) where
+# /releases/latest might point to an npm release with no binaries.
+releases_url="https://api.github.com/repos/${githubRepo}/releases"
+url=$(curl -sf "$releases_url" | grep -o '"browser_download_url": *"[^"]*'"$filename"'"' | head -1 | sed 's/"browser_download_url": *"//;s/"$//')
+
+if [ -z "$url" ]; then
+    # Fallback to /releases/latest/download/ for repos with only binary releases
+    url="https://github.com/${githubRepo}/releases/latest/download/$filename"
+fi
 
 print_message() {
     local level=$1
