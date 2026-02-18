@@ -196,10 +196,8 @@ const Detail: DetailType = (props) => {
     if (!inFocus) return
 
     if (evt.name === 'k' && evt.ctrl) {
-      // Ctrl+K shows actions dialog via portal
-      if (actions) {
-        useStore.setState({ showActionsDialog: true })
-      }
+      // Always open — built-in actions (Change Theme, etc.) are always available
+      useStore.setState({ showActionsDialog: true })
     } else if (evt.name === 'return' && actions) {
       // Enter auto-executes first action via ActionPanel's layout effect
       useStore.setState({ shouldAutoExecuteFirstAction: true })
@@ -237,11 +235,11 @@ const Detail: DetailType = (props) => {
     <box style={{ flexDirection: 'column', height: '100%', flexGrow: 1 }}>
       {content}
       <DetailFooter
-        hasActions={!!actions}
+        hasActions={true}
         firstActionTitle={firstActionTitle}
       />
-      {/* Render actions offscreen to capture them */}
-      {actions && <Offscreen>{actions}</Offscreen>}
+      {/* Always mount ActionPanel offscreen so built-in actions are available */}
+      <Offscreen>{actions || <ActionPanel />}</Offscreen>
     </box>
   )
 }

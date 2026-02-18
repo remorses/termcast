@@ -331,10 +331,8 @@ export const Form: FormType = ((props) => {
     }
 
     if (evt.name === 'k' && evt.ctrl) {
-      // Ctrl+K shows actions dialog via portal
-      if (props.actions) {
-        useStore.setState({ showActionsDialog: true })
-      }
+      // Always open — built-in actions (Change Theme, etc.) are always available
+      useStore.setState({ showActionsDialog: true })
     } else if ((evt.name === 'return' && evt.ctrl) || (evt.name === 'return' && evt.meta)) {
       // Ctrl+Return or Cmd+Return auto-executes first action via ActionPanel
       if (props.actions) {
@@ -413,8 +411,8 @@ export const Form: FormType = ((props) => {
                   </box>
                 </ScrollBox>
                 <FormFooter />
-                {/* Render actions offscreen to capture them with FormSubmitContext */}
-                {props.actions && <Offscreen>{props.actions}</Offscreen>}
+                {/* Always mount ActionPanel offscreen so built-in actions are available */}
+                <Offscreen>{props.actions || <ActionPanel />}</Offscreen>
               </box>
             </box>
           </FocusContext.Provider>

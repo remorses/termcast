@@ -93,7 +93,7 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
 
 
-      esc go back                                          powered by termcast.app
+      esc go back   ^k actions                             powered by termcast.app
 
     "
   `)

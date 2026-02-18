@@ -136,16 +136,22 @@ function CurrentItemActionsOffscreen(props: {
     .find((item) => item.index === props.selectedIndex)
   const actions = currentItem?.props?.actions ?? props.fallbackActions ?? null
 
-  // Clear first action title when there are no actions
+  const hasExtensionActions = !!actions
+
+  // Clear firstActionTitle when no extension actions exist, so the footer
+  // doesn't show "↵ change theme..." for built-in actions — Enter should only
+  // auto-execute extension-provided actions, not built-in ones like Change Theme.
+  // This runs after ActionPanel's own layoutEffect which would set it to the
+  // first built-in action title.
   useLayoutEffect(() => {
-    if (!actions) {
+    if (!hasExtensionActions) {
       useStore.setState({ firstActionTitle: '' })
     }
-  }, [actions])
+  })
 
-  if (!actions) return null
-
-  return <Offscreen>{actions}</Offscreen>
+  // Always mount ActionPanel offscreen so built-in actions (Change Theme, etc.)
+  // are available via ctrl+k even when extension provides no actions
+  return <Offscreen>{actions || <ActionPanel />}</Offscreen>
 }
 
 /**
@@ -1356,11 +1362,9 @@ export const List: ListType = (props) => {
     const currentItem = items.find((item) => item.index === selectedIndex)
 
     // Handle Ctrl+K to show actions dialog via portal
+    // Always open — built-in actions (Change Theme, etc.) are always available
     if (evt.name === 'k' && evt.ctrl) {
-      const hasActions = currentItem?.props?.actions || props.actions
-      if (hasActions) {
-        useStore.setState({ showActionsDialog: true })
-      }
+      useStore.setState({ showActionsDialog: true })
       return
     }
 
@@ -2174,10 +2178,9 @@ function EmptyViewContent(props: EmptyViewProps): any {
     if (!inFocus) return
 
     // Handle Ctrl+K to show actions dialog via portal
+    // Always open — built-in actions (Change Theme, etc.) are always available
     if (evt.name === 'k' && evt.ctrl) {
-      if (props.actions) {
-        useStore.setState({ showActionsDialog: true })
-      }
+      useStore.setState({ showActionsDialog: true })
       return
     }
 
@@ -2218,8 +2221,8 @@ function EmptyViewContent(props: EmptyViewProps): any {
           {props.description?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
         </text>
       )}
-      {/* Render actions offscreen to capture them */}
-      {props.actions && <Offscreen>{props.actions}</Offscreen>}
+      {/* Always mount ActionPanel offscreen so built-in actions are available */}
+      <Offscreen>{props.actions || <ActionPanel />}</Offscreen>
     </box>
   )
 }
