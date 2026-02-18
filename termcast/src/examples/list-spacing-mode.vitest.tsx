@@ -39,11 +39,11 @@ describe('spacingMode default', () => {
          > Search...
 
          With Icons
-        ›▯ Report Q4 financial summary                            [Draft]
+        ›▯ Report Q4 financial summary                              Draft
          ⟨⟩ API Docs REST endpoints guide                            v2.1
 
          Without Icons
-         Meeting Notes Weekly standup points                  [Important]
+         Meeting Notes Weekly standup points                    Important
 
          No Subtitle
          ★ Favorites
@@ -91,7 +91,7 @@ describe('spacingMode relaxed', () => {
          > Search...
 
          With Icons
-        ›▯ Report                                                 [Draft]
+        ›▯ Report                                                   Draft
            Q4 financial summary
 
          ⟨⟩ API Docs                                                 v2.1
@@ -99,7 +99,7 @@ describe('spacingMode relaxed', () => {
 
 
          Without Icons
-         Meeting Notes                                        [Important]
+         Meeting Notes                                          Important
          Weekly standup points
 
 
@@ -132,7 +132,7 @@ describe('spacingMode relaxed', () => {
          > Search...
 
          With Icons
-         ▯ Report                                                 [Draft]
+         ▯ Report                                                   Draft
            Q4 financial summary
 
         ›⟨⟩ API Docs                                                 v2.1
@@ -140,7 +140,7 @@ describe('spacingMode relaxed', () => {
 
 
          Without Icons
-         Meeting Notes                                        [Important]
+         Meeting Notes                                          Important
          Weekly standup points
 
 

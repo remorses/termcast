@@ -38,12 +38,12 @@ test('shows all inline item features: icon, title, subtitle, text/tag/date acces
        ▷ Icon and Subtitle description
        Text Accessory                                                        info
        Colored Text                                                        orange
-       Tag Accessory                                                       [beta]
-       Colored Tag                                                           [v2]
+       Tag Accessory                                                         beta
+       Colored Tag                                                             v2
        Date Accessory                                                          1d
        Colored Date                                                            1w
-       ⊤ Multiple Accessories all types                             note [new] 1d
-       ● All Colored                                                red [blue] 1w
+       ⊤ Multiple Accessories all types                               note new 1d
+       ● All Colored                                                  red blue 1w
 
 
        ↑↓ navigate   ^k actions                           powered by termcast.app
@@ -59,15 +59,15 @@ test('shows all inline item features: icon, title, subtitle, text/tag/date acces
   expect(snapshot).toContain('a subtitle')
   // text accessory
   expect(snapshot).toContain('info')
-  // tag accessory renders in brackets
-  expect(snapshot).toContain('[beta]')
+  // tag accessory
+  expect(snapshot).toContain('beta')
   // colored tag
-  expect(snapshot).toContain('[v2]')
+  expect(snapshot).toContain('v2')
   // date accessory renders relative time
   expect(snapshot).toContain('1d')
   // multiple accessories on one row
   expect(snapshot).toContain('note')
-  expect(snapshot).toContain('[new]')
+  expect(snapshot).toContain('new')
 }, 15000)
 
 test('navigation through all item types', async () => {
@@ -96,12 +96,12 @@ test('navigation through all item types', async () => {
        ▷ Icon and Subtitle description
        Text Accessory                                                        info
        Colored Text                                                        orange
-       Tag Accessory                                                       [beta]
-       Colored Tag                                                           [v2]
+       Tag Accessory                                                         beta
+       Colored Tag                                                             v2
        Date Accessory                                                          1d
        Colored Date                                                            1w
-       ⊤ Multiple Accessories all types                             note [new] 1d
-       ● All Colored                                                red [blue] 1w
+       ⊤ Multiple Accessories all types                               note new 1d
+       ● All Colored                                                  red blue 1w
 
 
        ↑↓ navigate   ^k actions                           powered by termcast.app

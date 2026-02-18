@@ -161,6 +161,8 @@ useKeyboard((evt) => {
 })
 ```
 
+useKeyboard has evt.stopPropagation() you can use to trap focus in specific cases. Handlers dispatch in useEffect registration order: siblings fire in JSX order, children fire before parents (React useEffect is bottom-up). stopPropagation prevents all handlers registered after the current one from firing.
+
 ## descendants pattern and map.current
 
 ### Why the descendants pattern is useful
@@ -241,8 +243,6 @@ useKeyboard((evt) => {
   // Handle your logic with items, e.g. navigating with up/down
 })
 ```
-
-useKeyboard has evt.stopPropagation() you can use to trap focus in specific cases. event propagate from top to bottom. start to end
 
 You CANNOT use .map.current to render items of a list for example. Instead move the rendering in the items themselves! To handle filtering render null in the item component and pass the search query via context
 
@@ -1239,26 +1239,3 @@ function Item(props: { title: string; isSelected: boolean }) {
 
 See `src/examples/internal/scrollbox-with-descendants.tsx`
 
-
-<!-- opensrc:start -->
-
-## Source Code Reference
-
-Source code for dependencies is available in `opensrc/` for deeper understanding of implementation details.
-
-See `opensrc/sources.json` for the list of available packages and their versions.
-
-Use this source code when you need to understand how a package works internally, not just its types/interface.
-
-### Fetching Additional Source Code
-
-To fetch source code for a package or repository you need to understand, run:
-
-```bash
-npx opensrc <package>           # npm package (e.g., npx opensrc zod)
-npx opensrc pypi:<package>      # Python package (e.g., npx opensrc pypi:requests)
-npx opensrc crates:<package>    # Rust crate (e.g., npx opensrc crates:serde)
-npx opensrc <owner>/<repo>      # GitHub repo (e.g., npx opensrc vercel/ai)
-```
-
-<!-- opensrc:end -->

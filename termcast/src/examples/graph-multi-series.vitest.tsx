@@ -46,7 +46,7 @@ test('multi-series graph renders both lines', async () => {
             Day 1       Day 5        Day 10        Day 15      Day 20
 
 
-      esc go back
+      esc go back   ^k actions
 
 
     "
@@ -71,15 +71,15 @@ test('multi-series uses different colors per series', async () => {
     timeout: 10000,
   })
 
-  // Check that orange-colored braille chars exist (price series)
+  // Check that orange-colored braille chars exist (price series uses Color.Orange = #FF9F43)
   const orangeText = await session.text({
-    only: { foreground: '#ff8000' },
+    only: { foreground: '#ff9f43' },
     timeout: 5000,
   })
 
-  // Check that blue-colored braille chars exist (SMA series)
+  // Check that blue-colored braille chars exist (SMA series uses Color.Blue = #5CB8FF)
   const blueText = await session.text({
-    only: { foreground: '#0080ff' },
+    only: { foreground: '#5cb8ff' },
     timeout: 5000,
   })
 

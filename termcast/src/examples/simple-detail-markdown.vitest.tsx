@@ -127,15 +127,15 @@ test('links have distinct cyan color from bold/heading text', async () => {
     timeout: 10000,
   })
 
-  // Links should be cyan (#56b6c2) 
+  // Links should be green (#2bbd50)
   const linkText = await session.text({
-    only: { foreground: '#56b6c2' },
+    only: { foreground: '#2bbd50' },
     timeout: 5000,
   })
   
-  // Bold/heading text should be primary yellow (#ffc000)
+  // Bold/heading text should be primary orange (#e86500)
   const boldText = await session.text({
-    only: { foreground: '#ffc000' },
+    only: { foreground: '#e86500' },
     timeout: 5000,
   })
 

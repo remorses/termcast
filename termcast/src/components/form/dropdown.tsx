@@ -295,7 +295,6 @@ const DropdownContent = ({
   // Handle keyboard navigation when focused
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
-
     const items = Object.values(descendantsContext.committedMap)
       .filter((item) => item.index !== -1)
       .sort((a, b) => a.index - b.index)

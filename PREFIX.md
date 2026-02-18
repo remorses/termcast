@@ -159,6 +159,8 @@ useKeyboard((evt) => {
 })
 ```
 
+useKeyboard has evt.stopPropagation() you can use to trap focus in specific cases. Handlers dispatch in useEffect registration order: siblings fire in JSX order, children fire before parents (React useEffect is bottom-up). stopPropagation prevents all handlers registered after the current one from firing.
+
 ## descendants pattern and map.current
 
 ### Why the descendants pattern is useful

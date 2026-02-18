@@ -21,6 +21,7 @@ import {
 import { extend } from '@opentui/react'
 import React from 'react'
 import { getMarkdownSyntaxStyle } from 'termcast/src/theme'
+import { useStore } from 'termcast/src/state'
 import { parseInlineMarkdown } from 'termcast/src/markdown-utils'
 
 export type TableCellContent = string | StyledText
@@ -475,9 +476,10 @@ export interface TableProps extends TableLayoutProps {
 export function Table(props: TableProps): any {
   const { headers, rows, wrapText, width = '100%', height, ...layoutProps } = props
 
+  const themeName = useStore((state) => state.currentThemeName)
   const syntaxStyle = React.useMemo(() => {
     return getMarkdownSyntaxStyle()
-  }, [])
+  }, [themeName])
 
   // Parse inline markdown (bold, italic, code, links) in cell strings
   // into StyledText so formatting is preserved in rendered cells.

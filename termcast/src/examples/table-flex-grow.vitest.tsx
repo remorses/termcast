@@ -92,11 +92,11 @@ test('flexGrow header background is wider than width=auto header', async () => {
     timeout: 10000,
   })
 
-  // Header bg is yellow (#ffc000) from the theme.
+  // Header bg is orange (#e86500) from the theme.
   // With flexGrow=1 the header row should span the full remaining width.
   // With width=auto it should be content-sized (narrower).
   const headerBgText = await session.text({
-    only: { background: '#ffc000' },
+    only: { background: '#e86500' },
     timeout: 5000,
   })
 

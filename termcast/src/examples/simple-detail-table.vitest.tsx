@@ -78,7 +78,7 @@ test('markdown tables render with borderless layout', async () => {
 
 
 
-      esc go back                                          powered by termcast.app
+      esc go back   ^k actions                             powered by termcast.app
 
     "
   `)
@@ -111,9 +111,9 @@ test('table headers have distinct background color', async () => {
   })
 
   // Header cells should use inverted heading colors (heading fg becomes bg)
-  // The termcast theme heading fg is yellow (#ffc000), so header bg should be yellow
+  // The termcast theme heading fg is orange (#e86500), so header bg should be orange
   const headerBgText = await session.text({
-    only: { background: '#ffc000' },
+    only: { background: '#e86500' },
     timeout: 5000,
   })
 
@@ -162,7 +162,6 @@ test('two tables render side by side in a Row', async () => {
       ap-south-1  89ms                     /api/health  500
 
 
-      esc go back                                          powered by termcast.app
 
 
 
@@ -179,6 +178,7 @@ test('two tables render side by side in a Row', async () => {
 
 
 
+      esc go back   ^k actions                             powered by termcast.app
 
     "
   `)
