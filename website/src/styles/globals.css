@@ -3,74 +3,66 @@
 
 @plugin "@tailwindcss/typography";
 
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.637 0.237 25.331);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.871 0.006 286.286);
-  --ring: oklch(0.871 0.006 286.286);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.871 0.006 286.286);
-  --sidebar-primary: oklch(0.37 0.013 285.805);
-  --sidebar-primary-foreground: oklch(0.871 0.006 286.286);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.871 0.006 286.286);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.871 0.006 286.286);
+@font-face {
+  font-family: 'Berkeley Mono';
+  src: url('/fonts/BerkeleyMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
-.dark {
-  --background: oklch(0.21 0.006 285.885);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.21 0.006 285.885);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.637 0.237 25.331);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.274 0.006 286.033);
-  --input: oklch(0.274 0.006 286.033);
-  --ring: oklch(0.442 0.017 285.786);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: #000;
-  --sidebar-foreground: oklch(0.871 0.006 286.286);
-  --sidebar-primary: oklch(0.37 0.013 285.805);
-  --sidebar-primary-foreground: oklch(0.871 0.006 286.286);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.871 0.006 286.286);
-  --sidebar-border: oklch(0.274 0.006 286.033);
-  --sidebar-ring: oklch(0.442 0.017 285.786);
+
+@font-face {
+  font-family: 'Berkeley Mono';
+  src: url('/fonts/BerkeleyMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Nerv theme — termcast's default theme from nerv.json
+ * All brand colors are CSS variables so they can be swapped easily.
+ *
+ * Palette reference (from nerv.json):
+ *   primary/orange: #E89500  bright: #FFAA15  dim: #C07800  deep: #A05C00  wash: #FFBB50
+ *   green:          #2BBD50  bright: #44DD66  dim: #1F9940  deep: #167030
+ *   salmon/error:   #F7768E
+ *   bg steps:       #181818 -> #282828 -> #333333 -> #404040 -> #505050 -> #606060 -> #808080
+ *   text:           #FFFFFF  muted: #999999
+ */
+:root {
+  /* Brand colors — change these to retheme the entire site */
+  --brand: #E89500;
+  --brand-bright: #FFAA15;
+  --brand-dim: #C07800;
+  --brand-deep: #A05C00;
+  --brand-wash: #FFBB50;
+  --brand-green: #2BBD50;
+  --brand-green-bright: #44DD66;
+  --brand-salmon: #F7768E;
+
+  /* Semantic surface colors (nerv dark palette) */
+  --background: #0c0c0c;
+  --foreground: #ffffff;
+  --card: #181818;
+  --card-foreground: #ffffff;
+  --popover: #181818;
+  --popover-foreground: #ffffff;
+  --primary: var(--brand);
+  --primary-foreground: #0c0c0c;
+  --secondary: #282828;
+  --secondary-foreground: #ffffff;
+  --muted: #282828;
+  --muted-foreground: #999999;
+  --accent: #282828;
+  --accent-foreground: #ffffff;
+  --destructive: var(--brand-salmon);
+  --destructive-foreground: #ffffff;
+  --border: #333333;
+  --input: #282828;
+  --ring: var(--brand);
+
+  --radius: 0.5rem;
 }
 
 @theme inline {
@@ -101,18 +93,33 @@
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
 
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  /* Brand utilities — use as bg-[var(--color-brand)] or text-[var(--color-brand)] */
+  --color-brand: var(--brand);
+  --color-brand-bright: var(--brand-bright);
+  --color-brand-dim: var(--brand-dim);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-wash: var(--brand-wash);
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-bright: var(--brand-green-bright);
+  --color-brand-salmon: var(--brand-salmon);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+
+  /* Browser Use pumpkin palette */
+  --color-pumpkin-50: #fff8f3;
+  --color-pumpkin-100: #ffddc5;
+  --color-pumpkin-200: #ffc397;
+  --color-pumpkin-300: #ffa969;
+  --color-pumpkin-400: #fe8f3c;
+  --color-pumpkin-500: #fe750e;
+  --color-pumpkin-600: #db6103;
+  --color-pumpkin-700: #ac4e04;
+  --color-pumpkin-800: #7e3b04;
+  --color-pumpkin-900: #512704;
+  --color-pumpkin-950: #251202;
+  --color-page-bg: #09090b;
 }
 
 @layer base {
@@ -121,10 +128,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Berkeley Mono', monospace;
   }
 }
 
-/* Custom scrollbar styles: shadcn-inspired */
+/* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
