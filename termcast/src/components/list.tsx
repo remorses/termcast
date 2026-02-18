@@ -919,12 +919,18 @@ export const List: ListType = (props) => {
     const currentItem = stack[stack.length - 1]
     return currentItem?.selectedListIndex
   })
-  const [internalSearchText, setInternalSearchText] = useState('')
+  const currentStackSearchText = useStore((state) => {
+    const stack = state.navigationStack
+    const currentItem = stack[stack.length - 1]
+    return currentItem?.searchText
+  })
+  const [internalSearchText, setInternalSearchText] = useState(
+    () => currentStackSearchText ?? '',
+  )
   const [selectedIndex, setSelectedIndex] = useState<number>(() => {
     return currentStackSelectedListIndex ?? 0
   })
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-
 
   const inputRef = useRef<TextareaRenderable>(null)
   const customEmptyViewRef = useRef(false)
@@ -1022,6 +1028,28 @@ export const List: ListType = (props) => {
       return {
         navigationStack: nextStack,
       }
+    })
+  }
+
+  // Persist search text in the navigation stack item so it survives push/pop.
+  // Same pattern as persistSelectedIndexInCurrentNavigationItem.
+  const persistSearchTextInCurrentNavigationItem = (text: string) => {
+    useStore.setState((state) => {
+      const stack = state.navigationStack
+      const currentIndex = stack.length - 1
+      const currentItem = stack[currentIndex]
+      if (!currentItem) {
+        return {}
+      }
+      if (currentItem.searchText === text) {
+        return {}
+      }
+      const nextStack = [...stack]
+      nextStack[currentIndex] = {
+        ...currentItem,
+        searchText: text,
+      }
+      return { navigationStack: nextStack }
     })
   }
 
@@ -1281,6 +1309,7 @@ export const List: ListType = (props) => {
     if (controlledSearchText === undefined) {
       setInternalSearchText(newValue)
     }
+    persistSearchTextInCurrentNavigationItem(newValue)
 
     if (onSearchTextChange) {
       if (throttle) {

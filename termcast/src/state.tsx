@@ -45,6 +45,7 @@ export interface NavigationStackItem {
   element: ReactNode
   onPop?: () => void
   selectedListIndex?: number
+  searchText?: string
 }
 
 interface AppState {
