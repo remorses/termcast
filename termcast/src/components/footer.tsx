@@ -1,7 +1,7 @@
 import React, { ReactNode, useState, useEffect } from 'react'
 import { TextAttributes } from '@opentui/core'
 import { useTerminalDimensions, useKeyboard } from '@opentui/react'
-import { colord } from 'colord'
+
 import { useTheme } from 'termcast/src/theme'
 import { openInBrowser } from 'termcast/src/action-utils'
 import { termcastMaxContentWidth } from 'termcast/src/utils'
@@ -88,7 +88,8 @@ function ToastInline({ toast }: { toast: ToastData }): any {
     }
   }
 
-  const getIconColor = () => {
+  // All toast styles use a colored background with contrasting text
+  const toastBg = (() => {
     switch (toast.style) {
       case 'SUCCESS':
         return theme.success
@@ -99,10 +100,8 @@ function ToastInline({ toast }: { toast: ToastData }): any {
       default:
         return theme.success
     }
-  }
-
-  const primaryColor = theme.primary
-  const mutedColor = colord(primaryColor).darken(0.06).toHex()
+  })()
+  const toastFg = theme.background
 
   const maxToastWidth = Math.min(terminalWidth, termcastMaxContentWidth)
   const toastWidth = maxToastWidth - TOAST_MARGIN * 2
@@ -117,6 +116,7 @@ function ToastInline({ toast }: { toast: ToastData }): any {
       flexShrink={0}
       overflow='hidden'
       height={1}
+      backgroundColor={toastBg}
     >
       {/* Title box */}
       <box
@@ -126,12 +126,12 @@ function ToastInline({ toast }: { toast: ToastData }): any {
         overflow='hidden'
         height={1}
       >
-        <text flexShrink={0} fg={getIconColor()} wrapMode='none'>
+        <text flexShrink={0} fg={toastFg} wrapMode='none'>
           {getIcon()}{' '}
         </text>
         <text
           flexShrink={1}
-          fg={primaryColor}
+          fg={toastFg}
           attributes={TextAttributes.BOLD}
           wrapMode='none'
         >
@@ -148,14 +148,13 @@ function ToastInline({ toast }: { toast: ToastData }): any {
         overflow='hidden'
         height={1}
       >
-        <text fg={mutedColor} flexShrink={1} wrapMode='none'>
+        <text fg={toastFg} flexShrink={1} wrapMode='none'>
           {toast.message || ''}
         </text>
       </box>
       {/* Keys box (right aligned, no grow) */}
       <box
         paddingLeft={1}
-
         gap={1}
         flexDirection='row'
         flexShrink={0}
@@ -171,13 +170,13 @@ function ToastInline({ toast }: { toast: ToastData }): any {
             }}
           >
             <text
-              fg={mutedColor}
+              fg={toastFg}
               attributes={TextAttributes.BOLD}
               wrapMode='none'
             >
               {toast.primaryAction.title}
             </text>
-            <text fg={mutedColor} wrapMode='none'>
+            <text fg={toastFg} wrapMode='none'>
               {' '}
               ctrl t
             </text>
@@ -192,13 +191,13 @@ function ToastInline({ toast }: { toast: ToastData }): any {
             }}
           >
             <text
-              fg={mutedColor}
+              fg={toastFg}
               attributes={TextAttributes.BOLD}
               wrapMode='none'
             >
               {toast.secondaryAction.title}
             </text>
-            <text fg={mutedColor} wrapMode='none'>
+            <text fg={toastFg} wrapMode='none'>
               {' '}
               ctrl g
             </text>
