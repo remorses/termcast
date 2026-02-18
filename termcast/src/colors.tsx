@@ -1,11 +1,11 @@
 export enum Color {
-  Blue = '#0080FF',
-  Green = '#00FF80',
-  Magenta = '#FF00FF',
-  Orange = '#FF8000',
-  Purple = '#8000FF',
-  Red = '#FF0000',
-  Yellow = '#FFFF00',
+  Blue = '#5CB8FF',
+  Green = '#34EE7F',
+  Magenta = '#F07FFF',
+  Orange = '#FF9F43',
+  Purple = '#BF8FFF',
+  Red = '#FF7B7B',
+  Yellow = '#FFD534',
   PrimaryText = '#FFFFFF',
   SecondaryText = '#999999',
 }
