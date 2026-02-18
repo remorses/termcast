@@ -1,11 +1,12 @@
 import React from 'react'
 import { colord } from 'colord'
 import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
+import { useTheme } from 'termcast/src/theme'
 
 interface LoadingTextProps {
   children: string
   isLoading?: boolean
-  color: string
+  color?: string
 }
 
 /**
@@ -21,7 +22,8 @@ function generateWaveColors(baseColor: string): string[] {
 }
 
 export function LoadingText(props: LoadingTextProps): any {
-  const { children, isLoading = false, color = '#FFC000' } = props
+  const theme = useTheme()
+  const { children, isLoading = false, color = theme.primary } = props
   const tick = useAnimationTick(isLoading ? TICK_DIVISORS.LOADING_TEXT : 0)
 
   const characters = children.split('')

@@ -79,7 +79,7 @@ export function LoadingBar(props: LoadingBarProps): any {
   const getCharacterColor = (index: number): string => {
     if (!isLoading) {
       // When not loading, use default theme colors
-      return index < title.length ? theme.text : '#626262'
+      return index < title.length ? theme.text : theme.border
     }
 
     // Title text stays static when loading, only animate the bar
@@ -96,8 +96,8 @@ export function LoadingBar(props: LoadingBarProps): any {
       return waveColors[distance]
     }
 
-    // Default muted color for characters outside the wave (xterm 241)
-    return '#626262'
+    // Default muted color for characters outside the wave
+    return theme.border
   }
 
   return (
