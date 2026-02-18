@@ -68,11 +68,17 @@ export function useFormNavigation(
       } else {
         navigateToNext()
       }
+      evt.stopPropagation()
     } else if (handleArrows) {
+      // Prevent the newly-focused field from also processing this arrow.
+      // setFocusedField uses flushSync which updates all useKeyboard handler
+      // refs via useEffectEvent before the next handler in the dispatch loop runs.
       if (evt.name === 'up') {
         navigateToPrevious()
+        evt.stopPropagation()
       } else if (evt.name === 'down') {
         navigateToNext()
+        evt.stopPropagation()
       }
     }
   })

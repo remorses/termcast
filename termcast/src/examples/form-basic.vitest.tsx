@@ -678,3 +678,83 @@ test('form scrolls with mouse wheel', async () => {
     "
   `)
 }, 10000)
+
+test('arrow down from checkbox to dropdown lands on first item', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
+
+  // Navigate to Checkbox via tab: Description → Username → Password → Bio → Checkbox
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+
+  const checkboxFocused = await session.text()
+  expect(checkboxFocused).toContain('Email Preferences')
+
+  // Arrow down from Checkbox should focus the Country dropdown
+  // Bug: the dropdown also processes the arrow and moves cursor to index 1 (Canada)
+  // Expected: cursor stays at index 0 (United States)
+  await session.press('down')
+
+  const afterDown = await session.text()
+  expect(afterDown).toMatchInlineSnapshot(`
+    "
+
+
+
+
+      │  Required field
+      │
+      ◇  Password
+      │  Enter secure password
+      │
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...
+      │
+      │
+      │                                                                █
+      │                                                                ▀
+      │  Maximum 500 characters
+      │
+      ◇  Email Preferences
+      │  ○ Subscribe to newsletter
+      │
+      │  Receive weekly updates
+      │
+      ◆  Country
+      │  Select your country
+      │
+      │  Americas
+      │› ○ United States
+      │  ○ Canada
+      │  ○ Mexico
+      │  Europe
+      │
+      │  Your country of residence
+      │
+      ◇  Empty Dropdown
+      │  No items available
+      │
+      ◇  Minimal Field
+      │  No info text
+      │
+      ◇  Date of Birth
+      │
+      │   ←       2026        →
+      │   ←     February      →
+
+
+       ctrl ↵ submit   tab navigate   ^k actions
+
+    "
+  `)
+
+  // The cursor (›) should be on United States (index 0), not Canada (index 1)
+  expect(afterDown).toMatch(/›.*United States/)
+}, 10000)

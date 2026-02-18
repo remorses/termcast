@@ -110,8 +110,8 @@ test('form dropdown shows inline options', async () => {
       │  TypeScript, Rust                                              █
       │                                                                █
       │  Frontend                                                      █
-      │  ● TypeScript                                                  █
-      │› ○ JavaScript                                                  █
+      │› ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
       │  ○ React                                                       █
       │  ○ Vue                                                         █
       │                                                                █
@@ -169,9 +169,9 @@ test('form dropdown shows inline options', async () => {
       ◆  Programming Languages                                         █
       │  TypeScript, Rust                                              █
       │                                                                █
-      │  ○ Svelte                                                      █
+      │› ○ Svelte                                                      █
       │  Backend                                                       █
-      │› ○ Node.js                                                     █
+      │  ○ Node.js                                                     █
       │  ○ Python                                                      █
       │  ○ Go                                                          █
       │                                                                █
@@ -224,11 +224,11 @@ test('form dropdown shows inline options', async () => {
       │  features                                                      █
       │                                                                █
       ◆  Programming Languages                                         █
-      │  TypeScript, Rust, Node.js                                     █
+      │  TypeScript, Rust, Svelte                                      █
       │                                                                █
-      │  ○ Svelte                                                      █
+      │› ● Svelte                                                      █
       │  Backend                                                       █
-      │› ● Node.js                                                     █
+      │  ○ Node.js                                                     █
       │  ○ Python                                                      █
       │  ○ Go                                                          █
       │                                                                █
@@ -351,11 +351,11 @@ test('form dropdown keyboard navigation', async () => {
       ◆  Programming Languages                                         █
       │  TypeScript, Rust                                              █
       │                                                                █
-      │› ○ Svelte                                                      █
-      │  Backend                                                       █
-      │  ○ Node.js                                                     █
-      │  ○ Python                                                      █
-      │  ○ Go                                                          █
+      │  Frontend                                                      █
+      │  ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │› ○ Vue                                                         █
       │                                                                █
       │  Choose your preferred programming languages                   █
       │                                                                █
@@ -408,9 +408,9 @@ test('form dropdown keyboard navigation', async () => {
       ◆  Programming Languages                                         █
       │  TypeScript, Rust                                              █
       │                                                                █
-      │  ○ Svelte                                                      █
+      │› ○ Svelte                                                      █
       │  Backend                                                       █
-      │› ○ Node.js                                                     █
+      │  ○ Node.js                                                     █
       │  ○ Python                                                      █
       │  ○ Go                                                          █
       │                                                                █
@@ -465,11 +465,11 @@ test('form dropdown keyboard navigation', async () => {
       ◆  Programming Languages                                         █
       │  TypeScript, Rust                                              █
       │                                                                █
-      │› ○ Svelte                                                      █
-      │  Backend                                                       █
-      │  ○ Node.js                                                     █
-      │  ○ Python                                                      █
-      │  ○ Go                                                          █
+      │  Frontend                                                      █
+      │  ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │› ○ Vue                                                         █
       │                                                                █
       │  Choose your preferred programming languages                   █
       │                                                                █
@@ -522,11 +522,11 @@ test('form dropdown keyboard navigation', async () => {
       ◆  Programming Languages                                         █
       │  TypeScript, Rust                                              █
       │                                                                █
-      │› ○ Svelte                                                      █
-      │  Backend                                                       █
-      │  ○ Node.js                                                     █
-      │  ○ Python                                                      █
-      │  ○ Go                                                          █
+      │  Frontend                                                      █
+      │  ● TypeScript                                                  █
+      │  ○ JavaScript                                                  █
+      │  ○ React                                                       █
+      │› ○ Vue                                                         █
       │                                                                █
       │  Choose your preferred programming languages                   █
       │                                                                █
@@ -717,8 +717,8 @@ test('selecting second-to-last visible item should not scroll', async () => {
       │                                                                █
       │  Frontend                                                      █
       │  ● TypeScript                                                  █
-      │  ○ JavaScript                                                  █
-      │› ○ React                                                       █
+      │› ○ JavaScript                                                  █
+      │  ○ React                                                       █
       │  ○ Vue                                                         █
       │                                                                █
       │  Choose your preferred programming languages                   █
@@ -770,12 +770,12 @@ test('selecting second-to-last visible item should not scroll', async () => {
       │  features                                                      █
       │                                                                █
       ◆  Programming Languages                                         █
-      │  TypeScript, Rust, React                                       █
+      │  TypeScript, Rust, JavaScript                                  █
       │                                                                █
       │  Frontend                                                      █
       │  ● TypeScript                                                  █
-      │  ○ JavaScript                                                  █
-      │› ● React                                                       █
+      │› ● JavaScript                                                  █
+      │  ○ React                                                       █
       │  ○ Vue                                                         █
       │                                                                █
       │  Choose your preferred programming languages                   █
