@@ -1,10 +1,9 @@
 /*
- * Browser Use landing page styles
- * Exact recreation of browser-use.com design system
+ * Termcast landing page styles
  *
  * Color system: pumpkin orange accent on zinc-950 dark background
- * Typography: Playfair Display (serif), Geist Sans, Geist Mono
- * Animations: logo carousel scroll, cursor blink
+ * Typography: Playfair Display (serif), system sans, system mono
+ * Animations: logo carousel scroll
  *
  * Pumpkin color palette is defined in globals.css @theme inline block
  * so Tailwind can generate bg-pumpkin-500, text-pumpkin-400 etc.
