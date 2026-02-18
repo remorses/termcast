@@ -11,10 +11,24 @@ import {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html className='' lang='en'>
+    <html lang='en'>
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link
+          rel='preload'
+          as='font'
+          type='font/woff2'
+          href='/fonts/BerkeleyMono-Regular.woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          as='font'
+          type='font/woff2'
+          href='/fonts/BerkeleyMono-Bold.woff2'
+          crossOrigin='anonymous'
+        />
         <Meta />
         <Links />
       </head>
