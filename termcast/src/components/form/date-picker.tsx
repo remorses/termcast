@@ -34,6 +34,9 @@ const DatePickerComponent = (props: DatePickerProps): any => {
   const { control } = useFormContext()
   const focusContext = useFocusContext()
   const { focusedField, setFocusedField } = focusContext
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(
+    props.id,
+  )
   const isFocused = focusedField === props.id
   const isInFocus = useIsInFocus()
 
@@ -71,6 +74,12 @@ const DatePickerComponent = (props: DatePickerProps): any => {
               <DatePickerWidget
                 enableColors={isFocused}
                 initialValue={field.value || undefined}
+                onFirstRowUpKey={() => {
+                  navigateToPrevious()
+                }}
+                onLastRowDownKey={() => {
+                  navigateToNext()
+                }}
                 onChange={(date) => {
                   field.onChange(date)
                   if (props.onChange) {

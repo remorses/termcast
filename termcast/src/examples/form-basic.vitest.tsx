@@ -819,3 +819,101 @@ test('arrow up on first dropdown item moves focus to previous form field', async
   expect(afterBoundaryUpSnapshot).toMatch(/◆\s+Email Preferences/)
   expect(afterBoundaryUpSnapshot).toMatch(/◇\s+Country/)
 }, 10000)
+
+test('date picker down boundary moves focus to next form field', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
+
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+
+  const datePickerFocusedSnapshot = await session.text()
+  expect(datePickerFocusedSnapshot).toMatch(/◆\s+Date of Birth/)
+
+  await session.type('10')
+  await session.press('down')
+
+  const nonBoundaryDownSnapshot = await session.text()
+  expect(nonBoundaryDownSnapshot).toMatch(/◆\s+Date of Birth/)
+  expect(nonBoundaryDownSnapshot).not.toMatch(/◆\s+Upload Documents/)
+
+  await session.press('down')
+  await session.press('down')
+
+  const afterBoundaryDownSnapshot = await session.text()
+  expect(afterBoundaryDownSnapshot).toMatch(/◆\s+Upload Documents/)
+  expect(afterBoundaryDownSnapshot).toMatch(/◇\s+Date of Birth/)
+}, 10000)
+
+test('date picker up boundary moves focus to previous form field', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
+
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+
+  const datePickerFocusedSnapshot = await session.text()
+  expect(datePickerFocusedSnapshot).toMatch(/◆\s+Date of Birth/)
+
+  await session.type('1')
+  await session.press('up')
+
+  const afterFirstUpSnapshot = await session.text()
+  expect(afterFirstUpSnapshot).toMatch(/◆\s+Date of Birth/)
+
+  await session.press('up')
+
+  const afterSecondUpSnapshot = await session.text()
+  expect(afterSecondUpSnapshot).toMatch(/◆\s+Date of Birth/)
+
+  await session.press('up')
+
+  const afterBoundaryUpSnapshot = await session.text()
+  expect(afterBoundaryUpSnapshot).toMatch(/◆\s+Minimal Field/)
+  expect(afterBoundaryUpSnapshot).toMatch(/◇\s+Date of Birth/)
+}, 10000)
+
+test('textarea arrow keys move focus between adjacent form fields', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
+
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+
+  const textareaFocusedSnapshot = await session.text()
+  expect(textareaFocusedSnapshot).toMatch(/◆\s+Biography/)
+
+  await session.type('hello')
+  await session.press('down')
+
+  const afterDownSnapshot = await session.text()
+  expect(afterDownSnapshot).toMatch(/◆\s+Email Preferences/)
+  expect(afterDownSnapshot).toMatch(/◇\s+Biography/)
+
+  await session.press('up')
+
+  const afterUpSnapshot = await session.text()
+  expect(afterUpSnapshot).toMatch(/◆\s+Biography/)
+}, 10000)

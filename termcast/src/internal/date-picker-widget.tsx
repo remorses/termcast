@@ -256,7 +256,9 @@ export function DatePickerWidget({
         } else if (focus === 'year') {
           // At top of widget, trigger callback or cycle to bottom
           if (onFirstRowUpKey) {
+            key.stopPropagation()
             onFirstRowUpKey()
+            return
           } else {
             // Cycle to grid if no callback
             setFocus('grid')
@@ -274,7 +276,9 @@ export function DatePickerWidget({
           if (remainingDays < 7) {
             // At bottom of grid, trigger callback or cycle to top
             if (onLastRowDownKey) {
+              key.stopPropagation()
               onLastRowDownKey()
+              return
             } else {
               // Cycle to year if no callback
               setFocus('year')
