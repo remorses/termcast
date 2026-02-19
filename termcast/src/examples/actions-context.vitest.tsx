@@ -49,7 +49,7 @@ test('actions preserve React context through portal', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │

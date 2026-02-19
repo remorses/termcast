@@ -97,7 +97,7 @@ test('action shortcut is displayed in action panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │

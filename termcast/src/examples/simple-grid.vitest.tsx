@@ -72,8 +72,8 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits
-      ›🍎 Apple
-       🍌 Banana
+       🍎 Apple
+      ›🍌 Banana
        🍒 Cherry
 
        Animals
@@ -148,7 +148,7 @@ test('grid navigation and display', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -533,7 +533,7 @@ test('grid mouse interaction', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -584,7 +584,7 @@ test('grid mouse interaction', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │

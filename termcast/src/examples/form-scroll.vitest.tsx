@@ -74,11 +74,11 @@ test(
 
 
 
-        ◇  Field 1
-        │  First field                                         ▀
+        ▪  Form Scroll Test                                    ▀
+        │  Test scrolling behavior when navigating with Tab
         │
-        ◆  Field 2
-        │  Second field
+        ◆  Field 1
+        │  First field
         │
 
 

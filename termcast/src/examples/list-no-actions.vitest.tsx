@@ -1,6 +1,6 @@
 /**
  * E2E tests for ctrl+k with no extension-provided actions.
- * Verifies that the built-in action panel (Change Theme, See Console Logs)
+ * Verifies that the built-in action panel (Change Theme, Toggle Console Logs)
  * is always accessible via ctrl+k, even when items have no actions prop.
  */
 import { test, expect, afterEach, beforeEach } from 'vitest'
@@ -83,7 +83,7 @@ test('ctrl+k opens built-in actions when item has no actions', async () => {
       │                                                                │
       │   Settings                                                     │
       │  ›Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │

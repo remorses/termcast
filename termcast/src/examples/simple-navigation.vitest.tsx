@@ -306,7 +306,7 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -339,7 +339,7 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -450,7 +450,7 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │

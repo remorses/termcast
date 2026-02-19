@@ -25,9 +25,8 @@ import { Renderable, RGBA } from '@opentui/core'
 import type { RenderableOptions, RenderContext } from '@opentui/core'
 import type { OptimizedBuffer } from '@opentui/core'
 import { extend } from '@opentui/react'
-import { useTheme } from 'termcast/src/theme'
+import { useTheme, getThemePalette } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
-import type { ResolvedTheme } from 'termcast/src/themes'
 
 // ── Graph variant ────────────────────────────────────────────────────
 // Three rendering modes for the plot area:
@@ -391,21 +390,6 @@ declare module '@opentui/react' {
   interface OpenTUIComponents {
     'graph-plot': typeof GraphPlotRenderable
   }
-}
-
-// ── Theme color palette for series (matches BarChart ordering) ───────
-// Ordered by visual prominence, assigned to series in declaration order.
-
-function getThemePalette(theme: ResolvedTheme): string[] {
-  return [
-    theme.accent,
-    theme.info,
-    theme.success,
-    theme.warning,
-    theme.error,
-    theme.secondary,
-    theme.primary,
-  ]
 }
 
 // ── Graph.Line (data-only child, renders null) ───────────────────────

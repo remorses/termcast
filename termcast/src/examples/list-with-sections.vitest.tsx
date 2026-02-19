@@ -456,7 +456,7 @@ test('list actions panel with ctrl+k', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -484,7 +484,7 @@ test('list actions panel with ctrl+k', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
-      │   See Console Logs                                             │
+      │   Toggle Console Logs                                          │
       │                                                                │
       │                                                                │
       │                                                                │

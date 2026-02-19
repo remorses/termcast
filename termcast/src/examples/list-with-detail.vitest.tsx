@@ -176,7 +176,7 @@ test('list with detail view display and navigation', async () => {
       │                                                                          │
       │   Settings                                                               │
       │   Change Theme...                                                        │
-      │   See Console Logs                                                       │
+      │   Toggle Console Logs                                                    │
       │                                                                          │
       │                                                                          │
       │                                                                          │

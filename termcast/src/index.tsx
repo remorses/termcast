@@ -75,6 +75,13 @@ export type {
   BarChartSegmentProps,
 } from 'termcast/src/components/bar-chart'
 
+// Core UI Components - BarGraph
+export { BarGraph } from 'termcast/src/components/bar-graph'
+export type {
+  BarGraphProps,
+  BarGraphSeriesProps,
+} from 'termcast/src/components/bar-graph'
+
 // Form Components
 import {
   Form as FormComponent,

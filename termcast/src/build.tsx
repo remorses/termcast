@@ -4,6 +4,7 @@ import type { BunPlugin } from 'bun'
 import { logger } from './logger'
 import { getCommandsWithFiles, CommandWithFile } from './package-json'
 import * as termcastApi from './index'
+import * as termcastOpentui from './opentui'
 import * as opentuiReact from '@opentui/react'
 import * as opentuiCore from '@opentui/core'
 import * as react from 'react'
@@ -21,6 +22,11 @@ export const aliasPlugin: BunPlugin = {
         path: 'termcast',
         module: termcastApi,
         globalName: 'termcastApi',
+      },
+      {
+        path: 'termcast/opentui',
+        module: termcastOpentui,
+        globalName: 'termcastOpentui',
       },
       {
         path: '@opentui/react',
@@ -59,6 +65,13 @@ export const aliasPlugin: BunPlugin = {
     })
 
     // Resolve external packages to globals namespace
+    build.onResolve({ filter: /^termcast\/opentui$/ }, () => {
+      return {
+        path: 'termcast/opentui',
+        namespace: GLOBALS_NAMESPACE,
+      }
+    })
+
     build.onResolve({ filter: /^termcast/ }, (args) => {
       return {
         path: 'termcast',

@@ -13,24 +13,8 @@
  */
 
 import React, { ReactNode, useMemo } from 'react'
-import { useTheme } from 'termcast/src/theme'
+import { useTheme, getThemePalette } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
-import type { ResolvedTheme } from 'termcast/src/themes'
-
-// ── Theme color palette for auto-assignment ──────────────────────────
-// Ordered by visual prominence, assigned to segments sorted by value descending.
-
-function getThemePalette(theme: ResolvedTheme): string[] {
-  return [
-    theme.accent,
-    theme.info,
-    theme.success,
-    theme.warning,
-    theme.error,
-    theme.secondary,
-    theme.primary,
-  ]
-}
 
 // ── Types ────────────────────────────────────────────────────────────
 

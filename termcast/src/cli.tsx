@@ -23,54 +23,6 @@ import packageJson from '../package.json'
 
 const cli = goke('termcast')
 
-// Auto-update check
-async function checkForUpdates() {
-  try {
-    const currentVersion = packageJson.version
-
-    // Fetch latest release info from GitHub
-    const response = await fetch(
-      'https://api.github.com/repos/remorses/termcast/releases/latest',
-    )
-    if (!response.ok) {
-      return
-    }
-
-    const latestRelease = (await response.json()) as { tag_name?: string }
-    const latestVersion =
-      latestRelease.tag_name?.replace('termcast@', '') ||
-      latestRelease.tag_name?.replace('v', '')
-
-    // Compare versions
-    if (latestVersion && latestVersion !== currentVersion) {
-      // Run the install script in background
-      const updateProcess = spawn(
-        'bash',
-        ['-c', 'curl -sf https://termcast.app/install | bash'],
-        {
-          detached: true,
-          stdio: 'ignore',
-        },
-      )
-
-      updateProcess.on('exit', async (code) => {
-        if (code === 0) {
-          // Show toast notification only on successful completion
-          await showToast({
-            title: 'Update available',
-            message: `Restart to use the new version ${latestVersion}`,
-            style: Toast.Style.Success,
-          })
-        }
-      })
-
-      // updateProcess.unref()
-    }
-  } catch (error) {
-    // Silently fail - don't interrupt the user's workflow
-    logger.log('Failed to check for updates:', error)
-  }
-}
 
 // TODO: re-enable auto-update check once install script temp dir issue is fixed
 // checkForUpdates()

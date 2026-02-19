@@ -914,7 +914,7 @@ const ActionPanel: ActionPanelType = (props) => {
           }}
         />
         <Action
-          title="See Console Logs"
+          title="Toggle Console Logs"
           onAction={() => {
             useStore.setState({ showActionsDialog: false })
             if (renderer) {

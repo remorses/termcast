@@ -58,6 +58,20 @@ export function getMarkdownSyntaxStyle(): SyntaxStyle {
   return SyntaxStyle.fromStyles(getSyntaxTheme(themeName))
 }
 
+// Shared color palette for all chart components (Graph, BarChart, BarGraph).
+// Order: accent, info, success, warning, error, secondary, primary (cycles with %).
+export function getThemePalette(theme: ResolvedTheme): string[] {
+  return [
+    theme.accent,
+    theme.info,
+    theme.success,
+    theme.warning,
+    theme.error,
+    theme.secondary,
+    theme.primary,
+  ]
+}
+
 // For backward compatibility - some code imports markdownSyntaxStyle directly
 // This is a getter that returns the current theme's syntax style
 export const markdownSyntaxStyle = new Proxy({} as SyntaxStyle, {

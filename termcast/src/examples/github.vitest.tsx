@@ -192,7 +192,7 @@ test.skipIf(!extensionExists)('github extension can open actions panel', async (
       │   Settings                                                               │
       │   Configure GitHub...                                             ⌃⇧,    │
       │   Change Theme...                                                        │
-      │   See Console Logs                                                       │
+      │   Toggle Console Logs                                                    │
       │                                                                          │
       │                                                                          │
       │                                                                          │

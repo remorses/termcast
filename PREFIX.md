@@ -345,6 +345,34 @@ if you are inside the termcast/termcast folder (the termcast package) you will u
 - any useEffect that calls setState for **visible UI state** (selection, detail content, dialog open) MUST be useLayoutEffect to avoid single-frame flash. see `termcast/docs/flash-debugging.md` for the full guide
 - NEVER use flushSync followed by a separate setState for state that should update in the same frame. use useLayoutEffect instead to batch both updates before paint
 
+## rendering colored areas in opentui (backgroundColor gotchas)
+
+opentui boxes with `backgroundColor` but no text children will render visually but produce NO visible characters in `session.text()` snapshots. The terminal cells exist but ghostty-opentui only reports cells with actual text content.
+
+To make colored areas visible in both visual rendering and text snapshots:
+
+1. Fill with `█` block characters using `fg={sameColor}` so the text matches the background
+2. Use `position="absolute"` on the text wrapper so it doesn't affect flex layout
+3. Use `overflow="hidden"` on the parent to clip the text to the box bounds
+
+```tsx
+<box flexGrow={value} backgroundColor={color} overflow="hidden">
+  <box position="absolute" width="100%" height="100%" overflow="hidden">
+    <text fg={color}>{'█'.repeat(200)}</text>
+  </box>
+</box>
+```
+
+Without position="absolute", wrapping text drives the box height and overrides flexGrow proportions. The absolute positioning removes the text from flex layout, keeping the parent height purely from flexGrow.
+
+## chart components naming
+
+- `Graph` — line chart (braille/block chars, custom Renderable, with axes)
+- `BarChart` — horizontal stacked bar (flexbox, no axes, proportional segments)
+- `BarGraph` — vertical stacked bar chart (flexbox with `█` fill, gaps between bars, x-axis labels, compact legend)
+
+All three use the same `getThemePalette()` color order: accent, info, success, warning, error, secondary, primary.
+
 ## form components styling
 
 - NEVER make text bold on focus in components. This causes layout shifts when focusing/unfocusing fields. Always maintain consistent text weight regardless of focus state. Instead change background or color or add an unicode character before or after focused text for selection like List does.

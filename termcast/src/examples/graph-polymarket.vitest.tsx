@@ -33,14 +33,14 @@ test('polymarket list with graph detail renders correctly', async () => {
        > Search markets...
 
        Trending Markets                               │ 100%│
-      ›Bitcoin above $100k by EOY Crypto              │     │                              ⣠⣀
-       ETH above $5k by Q2 2026 Crypto                │     │          ⢠⣀       ⢀⣴⣷⡀      ⣰⣿⣿⣷⣀⣤⣴⣦⢀⣴
-       Fed cuts rates below 4% Economics              │     │⣠⣴⡀   ⢀  ⢠⣿⣿⣷⡀ ⣀⣤⣀⣀⣾⣿⣿⣿⣶⣴⣿⣿⣶⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       S&P 500 reaches 6,000 Markets                  │  50%│⣿⣿⣷⣄⢀⣴⣿⣿⣾⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Presidential pardon for SBF Politics           │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       AGI announced by major lab Tech                │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Solana flips Ethereum market cap Crypto        │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       US enters recession in 2026 Economics          │      30d         20d         10d         Now
+      ›Bitcoin above $100k by EOY Crypto              │     │                             ⢠⣀
+       ETH above $5k by Q2 2026 Crypto                │     │          ⣠⡀       ⣠⣾⣆      ⢠⣿⣿⣷⣄⣠⣴⣦⢀⣴
+       Fed cuts rates below 4% Economics              │     │⣠⣴⡀   ⢀  ⣰⣿⣿⣆ ⢀⣠⣄⣀⣰⣿⣿⣿⣷⣦⣾⣿⣷⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       S&P 500 reaches 6,000 Markets                  │  50%│⣿⣿⣷⣄⢠⣾⣿⣿⣾⣿⣿⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Presidential pardon for SBF Politics           │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       AGI announced by major lab Tech                │     │⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Solana flips Ethereum market cap Crypto        │   0%│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       US enters recession in 2026 Economics          │      30d        20d          10d        Now
                                                       │
                                                       │ Odds:   72% Yes
                                                       │
@@ -48,12 +48,12 @@ test('polymarket list with graph detail renders correctly', async () => {
                                                       │
                                                       │ Ends:   Dec 31, 2026
                                                       │
-                                                      │ ────────────────────────────────────────────
+                                                      │ ───────────────────────────────────────────
                                                       │
-       ↵ buy yes   ↑↓ navigate   ^k actions           │ Probability (30d)
-
-
-
+                                                      │ Probability (30d)
+                                                      │
+                                                      │
+       ↵ buy yes   ↑↓ navigate   ^k actions           │
 
     "
   `)
