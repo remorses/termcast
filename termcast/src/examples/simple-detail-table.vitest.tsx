@@ -9,11 +9,15 @@ import { launchTerminal, Session } from 'tuistory/src'
 let session: Session
 
 beforeEach(async () => {
+  const dbSuffix = `simple-detail-table-${process.pid}-${Date.now()}`
   session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/simple-detail-table.tsx'],
     cols: 80,
     rows: 50,
+    env: {
+      TERMCAST_DB_SUFFIX: dbSuffix,
+    },
   })
 })
 
@@ -62,23 +66,23 @@ test('markdown tables render with borderless layout', async () => {
       ap-south-1  89ms                     /api/health  500
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       esc go back   ^k actions                             powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)
@@ -111,9 +115,9 @@ test('table headers have distinct background color', async () => {
   })
 
   // Header cells should use inverted heading colors (heading fg becomes bg)
-  // The termcast theme heading fg is orange (#e86500), so header bg should be orange
+  // The default nerv theme heading fg is orange (#e89500), so header bg should be orange
   const headerBgText = await session.text({
-    only: { background: '#e86500' },
+    only: { background: '#e89500' },
     timeout: 5000,
   })
 

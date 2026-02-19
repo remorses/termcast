@@ -9,11 +9,15 @@ import { launchTerminal, Session } from 'tuistory/src'
 let session: Session
 
 beforeEach(async () => {
+  const dbSuffix = `table-flex-grow-${process.pid}-${Date.now()}`
   session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/table-flex-grow.tsx'],
     cols: 80,
     rows: 40,
+    env: {
+      TERMCAST_DB_SUFFIX: dbSuffix,
+    },
   })
 })
 
@@ -92,11 +96,11 @@ test('flexGrow header background is wider than width=auto header', async () => {
     timeout: 10000,
   })
 
-  // Header bg is orange (#e86500) from the theme.
+  // Header bg is orange (#e89500) from the default nerv theme.
   // With flexGrow=1 the header row should span the full remaining width.
   // With width=auto it should be content-sized (narrower).
   const headerBgText = await session.text({
-    only: { background: '#e86500' },
+    only: { background: '#e89500' },
     timeout: 5000,
   })
 

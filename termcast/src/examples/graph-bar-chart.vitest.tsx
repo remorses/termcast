@@ -47,13 +47,13 @@ test('initial render shows bar chart for Monthly Budget', async () => {
                                                       │
                                                       │
        ↵ open detail   ↑↓ navigate   ^k actions       │
-
-
-
-
-
-
-
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+       ↵ open detail   ↑↓ navigate   ^k actions       │
 
     "
   `)

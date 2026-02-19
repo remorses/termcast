@@ -4,11 +4,15 @@ import { launchTerminal, Session } from 'tuistory/src'
 let session: Session
 
 beforeEach(async () => {
+  const dbSuffix = `simple-detail-markdown-${process.pid}-${Date.now()}`
   session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/simple-detail-markdown.tsx'],
     cols: 80,
     rows: 70,
+    env: {
+      TERMCAST_DB_SUFFIX: dbSuffix,
+    },
   })
 })
 
@@ -133,9 +137,9 @@ test('links have distinct cyan color from bold/heading text', async () => {
     timeout: 5000,
   })
   
-  // Bold/heading text should be primary orange (#e86500)
+  // Bold/heading text should be primary orange from nerv theme (#e89500)
   const boldText = await session.text({
-    only: { foreground: '#e86500' },
+    only: { foreground: '#e89500' },
     timeout: 5000,
   })
 
