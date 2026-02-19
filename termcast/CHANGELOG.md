@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.3.49
+
+### Features
+
+- **BarGraph**: Add vertical stacked bar chart component
+  - New `BarGraph` component with vertical stacked bars, x-axis labels, and compact legend
+  - Extends BoxProps so callers can pass flexGrow, width, etc.
+  - Shared color palette with Graph and BarChart (accent, info, success, warning, error, secondary, primary)
+  - Example: bar-graph-weekly with stress tests for many columns/series and side-by-side layouts
+- **theme**: Extract getThemePalette into theme.tsx
+  - Shared color palette function used by Graph, BarChart, and BarGraph
+  - Consistent color ordering across all chart components
+
+### Fixes
+
+- **form-navigation**: Fix dropdown and date picker boundary navigation
+  - Dropdown: up on first item or down on last item now moves to adjacent form fields
+  - Date picker: boundary callbacks wire to form navigation (up at top focuses previous field, down at bottom focuses next)
+  - Stop key propagation when boundary callbacks fire to prevent double-handling
+- **tests**: Stabilize e2e color assertions and refresh snapshots
+  - Isolate color-sensitive tests from persisted theme state using TERMCAST_DB_SUFFIX
+  - Align theme assertions with default nerv palette (#e89500)
+  - Update tuistory submodule for sqlite cleanup fix
+
+### Improvements
+
+- **actions**: Rename "See Console Logs" to "Toggle Console Logs" in action panel
+- **build**: Add build.tsx for centralized build logic
+- **testing**: Add comprehensive e2e coverage for form boundaries and chart rendering
+
 ## 1.3.48
 
 ### Fixes
