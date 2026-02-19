@@ -198,6 +198,9 @@ const DropdownContent = ({
   const isInFocus = useIsInFocus()
   const focusContext = useFocusContext()
   const { focusedField, setFocusedField } = focusContext
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(
+    props.id,
+  )
   const isFocused = focusedField === props.id
   const [focusedIndex, setFocusedIndex] = useState(0)
 
@@ -302,7 +305,11 @@ const DropdownContent = ({
 
     if (itemCount > 0) {
       if (evt.name === 'down') {
-        if (focusedIndex >= itemCount - 1) return
+        if (focusedIndex >= itemCount - 1) {
+          navigateToNext()
+          evt.stopPropagation()
+          return
+        }
         const nextIndex = focusedIndex + 1
         const nextItem = items[nextIndex]
         if (nextItem) {
@@ -312,7 +319,11 @@ const DropdownContent = ({
           scrollToItemIfNeeded({ item: nextItem, direction: 1 })
         }
       } else if (evt.name === 'up') {
-        if (focusedIndex <= 0) return
+        if (focusedIndex <= 0) {
+          navigateToPrevious()
+          evt.stopPropagation()
+          return
+        }
         const nextIndex = focusedIndex - 1
         const nextItem = items[nextIndex]
         if (nextItem) {

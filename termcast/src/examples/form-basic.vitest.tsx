@@ -758,3 +758,64 @@ test('arrow down from checkbox to dropdown lands on first item', async () => {
   // The cursor (›) should be on United States (index 0), not Canada (index 1)
   expect(afterDown).toMatch(/›.*United States/)
 }, 10000)
+
+test('arrow down on last dropdown item moves focus to next form field', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
+
+  // Description → Username → Password → Biography → Email Preferences
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+
+  // Move from checkbox to country dropdown first item (United States)
+  await session.press('down')
+
+  // Move to last country option (Germany)
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+
+  const focusedLastItemSnapshot = await session.text()
+  expect(focusedLastItemSnapshot).toMatch(/›.*Germany/)
+
+  // Repro: this should move focus to the next form field (Empty Dropdown)
+  await session.press('down')
+
+  const afterBoundaryDownSnapshot = await session.text()
+  expect(afterBoundaryDownSnapshot).toMatch(/◆\s+Empty Dropdown/)
+  expect(afterBoundaryDownSnapshot).toMatch(/◇\s+Country/)
+}, 10000)
+
+test('arrow up on first dropdown item moves focus to previous form field', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
+
+  // Description → Username → Password → Biography → Email Preferences
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+  await session.press('tab')
+
+  // Move from checkbox to country dropdown first item (United States)
+  await session.press('down')
+
+  const firstItemFocusedSnapshot = await session.text()
+  expect(firstItemFocusedSnapshot).toMatch(/›.*United States/)
+
+  // Boundary up should move focus back to previous form field (Email Preferences)
+  await session.press('up')
+
+  const afterBoundaryUpSnapshot = await session.text()
+  expect(afterBoundaryUpSnapshot).toMatch(/◆\s+Email Preferences/)
+  expect(afterBoundaryUpSnapshot).toMatch(/◇\s+Country/)
+}, 10000)
