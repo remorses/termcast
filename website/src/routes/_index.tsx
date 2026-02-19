@@ -7,6 +7,32 @@
 import 'website/src/styles/landing.css'
 import { Github, Menu, ArrowDown, Terminal, Copy, Check } from 'lucide-react'
 import { useState } from 'react'
+import type { MetaFunction } from 'react-router'
+
+const SITE_TITLE = 'Termcast - Build terminal apps with React'
+const SITE_DESCRIPTION =
+  'A Raycast-compatible framework for building terminal UIs with React. Lists, forms, graphs, AI — compiled to a single binary.'
+const OG_IMAGE = 'https://termcast.app/og.png'
+
+export const meta: MetaFunction = () => [
+  { title: SITE_TITLE },
+  { name: 'description', content: SITE_DESCRIPTION },
+
+  // Open Graph (Facebook, Slack, Discord, LinkedIn, etc.)
+  { property: 'og:type', content: 'website' },
+  { property: 'og:url', content: 'https://termcast.app' },
+  { property: 'og:title', content: SITE_TITLE },
+  { property: 'og:description', content: SITE_DESCRIPTION },
+  { property: 'og:image', content: OG_IMAGE },
+  { property: 'og:image:width', content: '1200' },
+  { property: 'og:image:height', content: '630' },
+
+  // Twitter / X (summary_large_image = big card)
+  { name: 'twitter:card', content: 'summary_large_image' },
+  { name: 'twitter:title', content: SITE_TITLE },
+  { name: 'twitter:description', content: SITE_DESCRIPTION },
+  { name: 'twitter:image', content: OG_IMAGE },
+]
 
 const GITHUB_URL = 'https://github.com/remorses/termcast'
 const DOCS_URL = 'https://github.com/remorses/termcast#readme'
