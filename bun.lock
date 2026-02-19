@@ -92,8 +92,6 @@
         "termcast": "./dist/cli.js",
       },
       "dependencies": {
-        "@opentui/core": "0.1.79",
-        "@opentui/react": "0.1.79",
         "@parcel/watcher": "^2.5.6",
         "@tanstack/react-query": "^5.85.5",
         "@tanstack/react-query-persist-client": "^5.85.5",
@@ -113,6 +111,8 @@
         "zustand": "^5.0.8",
       },
       "devDependencies": {
+        "@opentui/core": "^0.1.79",
+        "@opentui/react": "^0.1.79",
         "@raycast/api": "^1.102.5",
         "@raycast/utils": "^2.2.1",
         "@types/bun": "^1.3.9",
@@ -129,6 +129,8 @@
         "@parcel/watcher-linux-x64-glibc": "2.5.1",
       },
       "peerDependencies": {
+        "@opentui/core": "^0.1.79",
+        "@opentui/react": "^0.1.79",
         "react": "*",
       },
     },
