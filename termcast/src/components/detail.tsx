@@ -116,7 +116,11 @@ function DetailFooter({
         <box
           style={{ flexDirection: 'row', gap: 1 }}
           onMouseDown={() => {
-            onGoBack?.()
+            // Defer pop so opentui finishes its mouse event walk before
+            // React unmounts the component tree (avoids Yoga WASM crash)
+            queueMicrotask(() => {
+              onGoBack?.()
+            })
           }}
         >
           <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
