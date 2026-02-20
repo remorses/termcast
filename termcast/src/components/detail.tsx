@@ -7,6 +7,7 @@ import { ActionPanel, Action } from 'termcast/src/components/actions'
 import { Footer } from 'termcast/src/components/footer'
 
 import { useDialog } from 'termcast/src/internal/dialog'
+import { useNavigation } from 'termcast/src/internal/navigation'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 import { useStore } from 'termcast/src/state'
 import { Offscreen } from 'termcast/src/internal/offscreen'
@@ -101,23 +102,35 @@ DetailMetadata.TagList = Metadata.TagList
 function DetailFooter({
   hasActions,
   firstActionTitle,
+  onGoBack,
 }: {
   hasActions?: boolean
   firstActionTitle?: string
+  onGoBack?: () => void
 }): any {
   const theme = useTheme()
 
   return (
     <Footer paddingLeft={0} paddingRight={0}>
       <box style={{ flexDirection: 'row', gap: 3 }}>
-        <box style={{ flexDirection: 'row', gap: 1 }}>
+        <box
+          style={{ flexDirection: 'row', gap: 1 }}
+          onMouseDown={() => {
+            onGoBack?.()
+          }}
+        >
           <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
             esc
           </text>
           <text flexShrink={0} fg={theme.textMuted}>go back</text>
         </box>
         {hasActions && (
-          <box style={{ flexDirection: 'row', gap: 1 }}>
+          <box
+            style={{ flexDirection: 'row', gap: 1 }}
+            onMouseDown={() => {
+              useStore.setState({ showActionsDialog: true })
+            }}
+          >
             <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
               ^k
             </text>
@@ -125,7 +138,12 @@ function DetailFooter({
           </box>
         )}
         {hasActions && firstActionTitle && (
-          <box style={{ flexDirection: 'row', gap: 1 }}>
+          <box
+            style={{ flexDirection: 'row', gap: 1 }}
+            onMouseDown={() => {
+              useStore.setState({ shouldAutoExecuteFirstAction: true })
+            }}
+          >
             <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
               ↵
             </text>
@@ -176,6 +194,7 @@ const Detail: DetailType = (props) => {
   const { actions } = props
   const dialog = useDialog()
   const inFocus = useIsInFocus()
+  const navigation = useNavigation()
 
   const firstActionTitle = useMemo(() => {
     return actions ? getFirstActionTitle(actions) : undefined
@@ -226,6 +245,7 @@ const Detail: DetailType = (props) => {
       <DetailFooter
         hasActions={true}
         firstActionTitle={firstActionTitle}
+        onGoBack={navigation.pop}
       />
       {/* Always mount ActionPanel offscreen so built-in actions are available */}
       <Offscreen>{actions || <ActionPanel />}</Offscreen>

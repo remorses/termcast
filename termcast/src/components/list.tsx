@@ -24,6 +24,7 @@ import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animati
 import { Footer } from 'termcast/src/components/footer'
 import { createDescendants } from 'termcast/src/descendants'
 import { useStore } from 'termcast/src/state'
+import { showToast, Toast } from 'termcast/src/apis/toast'
 import { useDialog } from 'termcast/src/internal/dialog'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { useNavigationPending } from 'termcast/src/internal/navigation'
@@ -94,7 +95,12 @@ function ListFooter(): any {
   const content = hasToast ? null : (
     <box style={{ flexDirection: 'row', gap: 3, flexShrink: 0 }}>
       {firstActionTitle && (
-        <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
+        <box
+          style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}
+          onMouseDown={() => {
+            useStore.setState({ shouldAutoExecuteFirstAction: true })
+          }}
+        >
           <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
             ↵
           </text>
@@ -107,7 +113,12 @@ function ListFooter(): any {
         </text>
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
-      <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
+      <box
+        style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}
+        onMouseDown={() => {
+          useStore.setState({ showActionsDialog: true })
+        }}
+      >
         <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ^k
         </text>
@@ -1691,11 +1702,12 @@ const ListItem: ListItemType = (props) => {
   // Handle mouse click on item
   const handleMouseDown = () => {
     if (listContext && index !== -1) {
-      // If clicking on already selected item, show actions (like pressing Enter)
+      // If clicking on already selected item, execute first action (like pressing Enter)
       if (isActive) {
-        // Show actions dialog via portal
         if (props.actions) {
-          useStore.setState({ showActionsDialog: true })
+          useStore.setState({ shouldAutoExecuteFirstAction: true })
+        } else {
+          showToast({ style: Toast.Style.Failure, title: 'This item has no actions' })
         }
       } else if (listContext.setSelectedIndex) {
         // Otherwise just select the item

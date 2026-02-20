@@ -121,7 +121,12 @@ function FormFooter(): any {
         </text>
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
-      <box style={{ flexDirection: 'row', gap: 1 }}>
+      <box
+        style={{ flexDirection: 'row', gap: 1 }}
+        onMouseDown={() => {
+          useStore.setState({ showActionsDialog: true })
+        }}
+      >
         <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           ^k
         </text>
