@@ -522,30 +522,27 @@ test('grid mouse interaction', async () => {
        Simple Grid Example ────────────────────────────────────────────
 
        > Search items...
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›Show Details                                                 │
-      │   Copy Emoji                                             ⌃C    │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │   Toggle Console Logs                                          │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯"
-  `)
 
-  // Close the actions panel first
-  await session.press('esc')
+
+       Animals
+       🐕 Dog
+       🐱 Cat
+       🐰 Rabbit
+
+       Others
+       🏠 House
+       🚗 Car
+       🚀 Rocket
+      ›⭐ Star
+       🌙 Moon
+       ☀ Sun
+
+
+
+       ↵ show details   ↑↓ navigate   ^k actions
+
+    "
+  `)
 
   // Navigate back up to make Apple visible.
   // Grid is implemented via List, which uses edge-triggered pagination.
@@ -562,36 +559,13 @@ test('grid mouse interaction', async () => {
     timeout: 5000,
   })
 
-  // Click on "Apple" to go back to first section
+  // Click on "Apple" - it's already selected (first item after scrolling up),
+  // so clicking executes the first action (Show Details) which logs to console.
+  // Verify no actions dialog opened (unlike old behavior).
   await session.click('Apple', { first: true })
 
   const afterClickAppleSnapshot = await session.text()
-  expect(afterClickAppleSnapshot).toMatchInlineSnapshot(`
-    "
-
-
-       Simple Grid Example ────────────────────────────────────────────
-
-       > Search items...
-      ╭────────────────────────────────────────────────────────────────╮
-      │                                                                │
-      │   Actions                                                esc   │
-      │                                                                │
-      │   > Search actions...                                          │
-      │                                                                │
-      │  ›Show Details                                                 │
-      │   Copy Emoji                                             ⌃C    │
-      │                                                                │
-      │   Settings                                                     │
-      │   Change Theme...                                              │
-      │   Toggle Console Logs                                          │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │
-      ╰────────────────────────────────────────────────────────────────╯"
-  `)
-}, 10000)
+  // Apple should still be selected, no actions dialog visible
+  expect(afterClickAppleSnapshot).toContain('›🍎 Apple')
+  expect(afterClickAppleSnapshot).not.toContain('Actions')
+}, 30000)

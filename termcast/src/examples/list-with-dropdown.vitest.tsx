@@ -49,7 +49,7 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
-       ↑↓ navigate   ^p All   ^k actions
+       ↑↓ navigate   ^k actions   ^p select drink type
 
 
 
@@ -215,7 +215,7 @@ test('list with dropdown navigation', async () => {
 
 
 
-       ↑↓ navigate   ^p Wine   ^k actions
+       ↑↓ navigate   ^k actions   ^p select drink type
 
 
 
@@ -265,7 +265,7 @@ test('small screen: dropdown accessory wastes vertical space', async () => {
          Pinot Noir Wine
 
 
-         ↑↓ navigate   ^p All   ^k actions"
+         ↑↓ navigate   ^k actions   ^p select drink type"
     `)
   } finally {
     smallSession.close()
@@ -382,7 +382,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate   ^p Wine   ^k actions
+       ↑↓ navigate   ^k actions   ^p select drink type
 
 
 
@@ -418,7 +418,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate   ^p Wine   ^k actions
+       ↑↓ navigate   ^k actions   ^p select drink type
 
 
 

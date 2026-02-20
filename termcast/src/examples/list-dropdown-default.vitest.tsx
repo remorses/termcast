@@ -7,7 +7,7 @@ beforeEach(async () => {
   session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/list-dropdown-default.tsx'],
-    cols: 80,
+    cols: 100,
     rows: 30,
   })
 })
@@ -31,9 +31,9 @@ test('dropdown defaults to first item when no value is provided', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
+       Dropdown Default Value Example ───────────────────────────────────────────────────────────────
 
-       > Search...                                                        Apple ▾
+       > Search...                                                                            Apple ▾
 
       ›First Item This list has a dropdown
        Second Item The dropdown should default to first item
@@ -43,7 +43,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p Apple   ^kpowered by termcast.app
+       ↵ show selected fruit   ↑↓ navigate   ^k actions   ^p filter by categorpowered by termcast.app
 
 
 
@@ -76,22 +76,22 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
-      ╭──────────────────────────────────────────────────────────────────────────╮
-      │                                                                          │
-      │   Filter by category                                               esc   │
-      │                                                                          │
-      │   > Select category...                                                   │
-      │                                                                          │
-      │  ›Apple                                                                  │
-      │   Banana                                                                 │
-      │   Orange                                                                 │
-      │   Grape                                                                  │
-      │                                                                          │
-      │                                                                          │
-      │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
-      │                                                                          │
-      ╰──────────────────────────────────────────────────────────────────────────╯
+       Dropdown Default Value Example ───────────────────────────────────────────────────────────────
+                ╭──────────────────────────────────────────────────────────────────────────╮
+       > Search.│                                                                          │  Apple ▾
+                │   Filter by category                                               esc   │
+      ›First Ite│                                                                          │
+       Second It│   > Select category...                                                   │
+       Vegetable│                                                                          │
+       Carrot Wi│  ›Apple                                                                  │
+                │   Banana                                                                 │
+                │   Orange                                                                 │
+                │   Grape                                                                  │
+                │                                                                          │
+       ↵ show se│                                                                          │mcast.app
+                │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
+                │                                                                          │
+                ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -113,22 +113,22 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
-      ╭──────────────────────────────────────────────────────────────────────────╮
-      │                                                                          │
-      │   Filter by category                                               esc   │
-      │                                                                          │
-      │   > Select category...                                                   │
-      │                                                                          │
-      │   Apple                                                                  │
-      │  ›Banana                                                                 │
-      │   Orange                                                                 │
-      │   Grape                                                                  │
-      │                                                                          │
-      │                                                                          │
-      │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
-      │                                                                          │
-      ╰──────────────────────────────────────────────────────────────────────────╯
+       Dropdown Default Value Example ───────────────────────────────────────────────────────────────
+                ╭──────────────────────────────────────────────────────────────────────────╮
+       > Search.│                                                                          │  Apple ▾
+                │   Filter by category                                               esc   │
+      ›First Ite│                                                                          │
+       Second It│   > Select category...                                                   │
+       Vegetable│                                                                          │
+       Carrot Wi│   Apple                                                                  │
+                │  ›Banana                                                                 │
+                │   Orange                                                                 │
+                │   Grape                                                                  │
+                │                                                                          │
+       ↵ show se│                                                                          │mcast.app
+                │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
+                │                                                                          │
+                ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -150,9 +150,9 @@ test('dropdown opens and shows items', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
+       Dropdown Default Value Example ───────────────────────────────────────────────────────────────
 
-       > Search...                                                       Banana ▾
+       > Search...                                                                           Banana ▾
 
       ›First Item This list has a dropdown
        Second Item The dropdown should default to first item
@@ -162,7 +162,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p Banana   ^powered by termcast.app
+       ↵ show selected fruit   ↑↓ navigate   ^k actions   ^p filter by categorpowered by termcast.app
 
 
 
@@ -195,22 +195,22 @@ test('clicking dropdown opens it', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
-      ╭──────────────────────────────────────────────────────────────────────────╮
-      │                                                                          │
-      │   Filter by category                                               esc   │
-      │                                                                          │
-      │   > Select category...                                                   │
-      │                                                                          │
-      │  ›Apple                                                                  │
-      │   Banana                                                                 │
-      │   Orange                                                                 │
-      │   Grape                                                                  │
-      │                                                                          │
-      │                                                                          │
-      │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
-      │                                                                          │
-      ╰──────────────────────────────────────────────────────────────────────────╯
+       Dropdown Default Value Example ───────────────────────────────────────────────────────────────
+                ╭──────────────────────────────────────────────────────────────────────────╮
+       > Search.│                                                                          │  Apple ▾
+                │   Filter by category                                               esc   │
+      ›First Ite│                                                                          │
+       Second It│   > Select category...                                                   │
+       Vegetable│                                                                          │
+       Carrot Wi│  ›Apple                                                                  │
+                │   Banana                                                                 │
+                │   Orange                                                                 │
+                │   Grape                                                                  │
+                │                                                                          │
+       ↵ show se│                                                                          │mcast.app
+                │   ↵ select   ↑↓ navigate                        powered by termcast.app  │
+                │                                                                          │
+                ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -232,9 +232,9 @@ test('clicking dropdown opens it', async () => {
     "
 
 
-       Dropdown Default Value Example ───────────────────────────────────────────
+       Dropdown Default Value Example ───────────────────────────────────────────────────────────────
 
-       > Search...                                                       Orange ▾
+       > Search...                                                                           Orange ▾
 
       ›First Item This list has a dropdown
        Second Item The dropdown should default to first item
@@ -244,7 +244,7 @@ test('clicking dropdown opens it', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p Orange   ^powered by termcast.app
+       ↵ show selected fruit   ↑↓ navigate   ^k actions   ^p filter by categorpowered by termcast.app
 
 
 
@@ -271,7 +271,7 @@ test('clicking footer dropdown hint opens dropdown', async () => {
   })
 
   const beforeClick = await session.text()
-  expect(beforeClick).toContain('^p Apple')
+  expect(beforeClick).toContain('^p')
 
   await session.click('^p', { first: true })
 

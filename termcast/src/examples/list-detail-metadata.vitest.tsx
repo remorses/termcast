@@ -44,32 +44,32 @@ test('list detail metadata label renders short values in row layout (key: value)
                                             │
                                             │ Email:   john@example.com
                                             │
-                                            │ ──────────────────────────────────
+                                            │ ─────────────────────────────────
                                             │
                                             │ Status:  Active
                                             │
-       ↑↓ navigate   ^k actions             │ Website: example.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                            │ Website: example.com
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)
