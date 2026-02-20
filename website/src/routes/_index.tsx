@@ -425,23 +425,23 @@ function Features() {
     <section id='features' className='relative z-10 py-16 sm:py-40 px-6'>
       <div className='max-w-5xl mx-auto flex flex-col gap-16 sm:gap-40'>
         <ProductCard
-          title='Lists & Search'
+          title='Lists · Search'
           description='Searchable lists with sections, accessories, detail panels, and full keyboard navigation. Built-in fuzzy search, dropdown filters, pagination, and action shortcuts.'
           visual={<ListsSearchVisual />}
         />
         <ProductCard
-          title='Forms & Inputs'
+          title='Forms · Inputs'
           description='Text fields, dropdowns, checkboxes, tag pickers, date pickers, file pickers. Tab to navigate, ctrl+enter to submit. Validation with react-hook-form.'
           visual={<FormsInputsVisual />}
           reversed
         />
         <ProductCard
-          title='Graphs & Charts'
+          title='Graphs · Charts'
           description='Line charts rendered with braille characters at 2x4 sub-pixel resolution per cell. Stacked bar charts, multiple series, color themes. All inside terminal cells.'
           visual={<GraphsChartsVisual />}
         />
         <ProductCard
-          title='Compile & Ship'
+          title='Compile · Ship'
           description='termcast compile builds a standalone binary. termcast release publishes to GitHub Releases for macOS, Linux, and Windows. Users install with a single curl command.'
           visual={<CompileDistributeVisual />}
           reversed
