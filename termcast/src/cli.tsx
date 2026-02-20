@@ -285,6 +285,15 @@ cli
     ) => {
       extensionPath = path.resolve(extensionPath || process.cwd())
 
+      if (options.arch && options.arch !== 'arm64' && options.arch !== 'x64') {
+        console.error(`Invalid --arch "${options.arch}". Must be "arm64" or "x64".`)
+        process.exit(1)
+      }
+      if (options.platform && options.platform !== 'darwin' && options.platform !== 'linux' && options.platform !== 'win32') {
+        console.error(`Invalid --platform "${options.platform}". Must be "darwin", "linux", or "win32".`)
+        process.exit(1)
+      }
+
       try {
         const result = await buildApp({
           extensionPath,
@@ -300,8 +309,8 @@ cli
         console.log(`\nApp built: ${result.appPath}`)
         console.log(`Run it with: open "${result.appPath}"`)
         process.exit(0)
-      } catch (error: any) {
-        console.error('App build failed:', error.message)
+      } catch (error) {
+        console.error('App build failed:', error instanceof Error ? error.message : error)
         process.exit(1)
       }
     },

@@ -7,18 +7,21 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { exec } from 'node:child_process'
+import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { compileExtension, type CompileTarget } from './compile'
 
-const execAsync = promisify(exec)
+const execFileAsync = promisify(execFile)
 
 // Pin to a known-good WezTerm release. Update manually when needed.
 const WEZTERM_TAG = '20240203-110809-5046fc22'
 const WEZTERM_MACOS_ZIP_URL = `https://github.com/wez/wezterm/releases/download/${WEZTERM_TAG}/WezTerm-macos-${WEZTERM_TAG}.zip`
 
-// Bundled default icon (Raycast logo) shipped with termcast source
-const DEFAULT_ICON_PATH = path.join(__dirname, 'assets', 'default-app-icon.png')
+// Bundled default icon shipped with termcast source.
+// __dirname is termcast/src/ in dev or termcast/dist/ when published.
+// The asset lives in src/assets/, so resolve from the package root.
+const termcastRoot = path.resolve(__dirname, '..')
+const DEFAULT_ICON_PATH = path.join(termcastRoot, 'src', 'assets', 'default-app-icon.png')
 
 function getCacheDir(): string {
   return path.join(os.homedir(), '.termcast', 'cache')
@@ -96,9 +99,7 @@ async function getWeztermBinary({ arch }: { arch: 'arm64' | 'x64' }): Promise<st
 
   console.log(`Thinning wezterm-gui to ${archName}...`)
   const tmpThinned = thinnedBinary + `.tmp-${process.pid}`
-  await execAsync(
-    `lipo -thin ${archName} "${universalBinary}" -output "${tmpThinned}"`,
-  )
+  await execFileAsync('lipo', ['-thin', archName, universalBinary, '-output', tmpThinned])
   fs.chmodSync(tmpThinned, 0o755)
   fs.renameSync(tmpThinned, thinnedBinary)
 
@@ -237,15 +238,24 @@ exec "$DIR/wezterm-gui" --config-file "$DIR/../Resources/wezterm.lua"
 `
 }
 
+function escapeXml(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
 function generateInfoPlist({
   appName,
   bundleId,
   version,
+  iconFile = 'app.icns',
 }: {
   appName: string
   bundleId: string
   version: string
+  iconFile?: string
 }): string {
+  const safeBundleId = escapeXml(bundleId)
+  const safeAppName = escapeXml(appName)
+  const safeVersion = escapeXml(version)
   return `\
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
@@ -255,17 +265,17 @@ function generateInfoPlist({
   <key>CFBundleExecutable</key>
   <string>launch</string>
   <key>CFBundleIdentifier</key>
-  <string>${bundleId}</string>
+  <string>${safeBundleId}</string>
   <key>CFBundleName</key>
-  <string>${appName}</string>
+  <string>${safeAppName}</string>
   <key>CFBundleDisplayName</key>
-  <string>${appName}</string>
+  <string>${safeAppName}</string>
   <key>CFBundleIconFile</key>
-  <string>app.icns</string>
+  <string>${iconFile}</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>${version}</string>
+  <string>${safeVersion}</string>
   <key>CFBundleVersion</key>
   <string>1</string>
   <key>NSHighResolutionCapable</key>
@@ -326,10 +336,12 @@ export async function buildApp({
   }
 
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
-  const extensionName: string = packageJson.name
-  if (!extensionName) {
+  const rawExtensionName: string = packageJson.name
+  if (!rawExtensionName) {
     throw new Error('package.json must have a "name" field')
   }
+  // Strip npm scope prefix (@scope/name -> name) for filesystem and lua paths
+  const extensionName = rawExtensionName.replace(/^@[^/]+\//, '')
 
   const appName = name || packageJson.title || extensionName
   const resolvedBundleId =
@@ -394,7 +406,7 @@ export async function buildApp({
   fs.copyFileSync(compileResult.outfile, path.join(resourcesDir, binaryName))
   fs.chmodSync(path.join(resourcesDir, binaryName), 0o755)
 
-  // Write config, launch script, Info.plist
+  // Write config, launch script
   fs.writeFileSync(
     path.join(resourcesDir, 'wezterm.lua'),
     generateWeztermConfig({ binaryName }),
@@ -404,19 +416,21 @@ export async function buildApp({
   fs.writeFileSync(launchPath, generateLaunchScript())
   fs.chmodSync(launchPath, 0o755)
 
-  fs.writeFileSync(
-    path.join(appDir, 'Contents', 'Info.plist'),
-    generateInfoPlist({ appName: safeName, bundleId: resolvedBundleId, version }),
-  )
-
-  // Convert and write icon
+  // Convert and write icon, then write Info.plist with the correct icon filename
+  let iconFile = 'app.icns'
   const icnsPath = path.join(resourcesDir, 'app.icns')
   try {
     convertToIcns({ pngPath: iconPng, outputPath: icnsPath })
-  } catch {
-    console.log('Warning: could not convert icon to .icns, copying PNG as fallback')
-    fs.copyFileSync(iconPng, path.join(resourcesDir, 'app.png'))
+  } catch (e) {
+    console.log(`Warning: could not convert icon to .icns (${e instanceof Error ? e.message : e}), copying PNG as fallback`)
+    iconFile = 'app.png'
+    fs.copyFileSync(iconPng, path.join(resourcesDir, iconFile))
   }
+
+  fs.writeFileSync(
+    path.join(appDir, 'Contents', 'Info.plist'),
+    generateInfoPlist({ appName: safeName, bundleId: resolvedBundleId, version, iconFile }),
+  )
 
   // Clean up intermediate compiled binary + sourcemap
   fs.rmSync(compileResult.outfile, { force: true })
@@ -426,7 +440,7 @@ export async function buildApp({
   // The wezterm-gui binary's original signature is invalid in the new bundle.
   if (process.platform === 'darwin') {
     console.log('Ad-hoc signing...')
-    await execAsync(`codesign --force --deep -s - "${appDir}"`)
+    await execFileAsync('codesign', ['--force', '--deep', '-s', '-', appDir])
   } else {
     console.log('Skipping ad-hoc signing (not on macOS). Sign manually before distributing.')
   }
@@ -438,6 +452,7 @@ export async function buildApp({
   if (release) {
     await uploadToRelease({
       extensionPath: resolvedPath,
+      extensionName,
       appDir,
       appName: safeName,
       arch: resolvedArch,
@@ -463,34 +478,47 @@ function getDirectorySize(dirPath: string): number {
 
 async function uploadToRelease({
   extensionPath,
+  extensionName,
   appDir,
   appName,
   arch,
 }: {
   extensionPath: string
+  extensionName: string
   appDir: string
   appName: string
   arch: CompileTarget['arch']
 }): Promise<void> {
   const distDir = path.dirname(appDir)
 
-  console.log('\nLooking for latest GitHub release...')
+  // Find the latest release whose tag matches the extensionName@ prefix.
+  // This mirrors the install script approach: scan releases for matching assets
+  // rather than trusting --limit 1, which could pick an unrelated release
+  // (e.g. npm-only releases, drafts, or prereleases in repos with mixed tags).
+  console.log(`\nLooking for latest "${extensionName}@*" release...`)
   let latestTag: string
   try {
-    const { stdout } = await execAsync(
-      `gh release list --limit 1 --json tagName --jq '.[0].tagName'`,
+    const { stdout } = await execFileAsync(
+      'gh',
+      ['release', 'list', '--limit', '20', '--json', 'tagName', '--jq', '.[].tagName'],
       { cwd: extensionPath },
     )
-    latestTag = stdout.trim()
-  } catch {
+    const tags = stdout.trim().split('\n').filter(Boolean)
+    const prefix = `${extensionName}@`
+    const matchingTag = tags.find((tag) => {
+      return tag.startsWith(prefix)
+    })
+    latestTag = matchingTag || ''
+  } catch (e) {
     throw new Error(
       'No GitHub releases found. Run `termcast release` first to create a release.',
+      { cause: e },
     )
   }
 
   if (!latestTag) {
     throw new Error(
-      'No GitHub releases found. Run `termcast release` first to create a release.',
+      `No release found matching "${extensionName}@*". Run \`termcast release\` first.`,
     )
   }
 
@@ -530,7 +558,7 @@ async function uploadToRelease({
   fs.writeFileSync(zipPath, zipBuffer)
   console.log(`Created ${zipName}`)
 
-  await execAsync(`gh release upload "${latestTag}" "${zipPath}" --clobber`, {
+  await execFileAsync('gh', ['release', 'upload', latestTag, zipPath, '--clobber'], {
     cwd: extensionPath,
   })
 
