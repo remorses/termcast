@@ -82,6 +82,10 @@ export type {
   BarGraphSeriesProps,
 } from 'termcast/src/components/bar-graph'
 
+// Core UI Components - ProgressBar
+export { ProgressBar } from 'termcast/src/components/progress-bar'
+export type { ProgressBarProps } from 'termcast/src/components/progress-bar'
+
 // Form Components
 import {
   Form as FormComponent,
