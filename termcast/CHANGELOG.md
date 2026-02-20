@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.50
+
+### Fixes
+
+- **deps**: Fix `@termcast/utils` workspace dependency specifier from `workspace:*` to `workspace:^` for proper version resolution on publish
+- **submodules**: Update tuistory and raycast-utils submodules to latest
+
 ## 1.3.49
 
 ### Features
