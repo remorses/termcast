@@ -43,7 +43,7 @@ test('dropdown defaults to first item when no value is provided', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
+       ↵ show selected fruit   ↑↓ navigate   ^p Apple   ^kpowered by termcast.app
 
 
 
@@ -162,7 +162,7 @@ test('dropdown opens and shows items', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
+       ↵ show selected fruit   ↑↓ navigate   ^p Banana   ^powered by termcast.app
 
 
 
@@ -244,7 +244,7 @@ test('clicking dropdown opens it', async () => {
 
 
 
-       ↵ show selected fruit   ↑↓ navigate   ^p dropdown  powered by termcast.app
+       ↵ show selected fruit   ↑↓ navigate   ^p Orange   ^powered by termcast.app
 
 
 
@@ -261,4 +261,24 @@ test('clicking dropdown opens it', async () => {
 
     "
   `)
+}, 10000)
+
+test('clicking footer dropdown hint opens dropdown', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Dropdown Default Value Example/i.test(text)
+    },
+  })
+
+  const beforeClick = await session.text()
+  expect(beforeClick).toContain('^p Apple')
+
+  await session.click('^p', { first: true })
+
+  const afterClick = await session.text({
+    waitFor: (text) => {
+      return /Filter by category/i.test(text)
+    },
+  })
+  expect(afterClick).toContain('Filter by category')
 }, 10000)

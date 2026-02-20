@@ -33,7 +33,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
 
        > Search...                                                All ▾
 
@@ -49,7 +49,7 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
-       ↑↓ navigate   ^p dropdown   ^k actions
+       ↑↓ navigate   ^p All   ^k actions
 
 
 
@@ -69,7 +69,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -103,7 +103,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -135,7 +135,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -167,7 +167,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -203,7 +203,7 @@ test('list with dropdown navigation', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
 
        > Search...                                               Wine ▾
 
@@ -215,7 +215,7 @@ test('list with dropdown navigation', async () => {
 
 
 
-       ↑↓ navigate   ^p dropdown   ^k actions
+       ↑↓ navigate   ^p Wine   ^k actions
 
 
 
@@ -253,7 +253,7 @@ test('small screen: dropdown accessory wastes vertical space', async () => {
       "
 
 
-         Search Beers ─────────────────────────────────────────
+         Search Beers ────────────────────────────────── ◆ Acme
 
          > Search...                                      All ▾
 
@@ -265,7 +265,7 @@ test('small screen: dropdown accessory wastes vertical space', async () => {
          Pinot Noir Wine
 
 
-         ↑↓ navigate   ^p dropdown   ^k actions"
+         ↑↓ navigate   ^p All   ^k actions"
     `)
   } finally {
     smallSession.close()
@@ -292,7 +292,7 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Select Drink Type                                      esc   │
@@ -334,7 +334,7 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
 
        > Search...                                                All ▾
 
@@ -370,7 +370,7 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
 
        > Search...                                               Wine ▾
 
@@ -382,7 +382,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate   ^p dropdown   ^k actions
+       ↑↓ navigate   ^p Wine   ^k actions
 
 
 
@@ -406,7 +406,7 @@ test('list with dropdown search and filter', async () => {
     "
 
 
-       Search Beers ───────────────────────────────────────────────────
+       Search Beers ──────────────────────────────────────────── ◆ Acme
 
        > pinot                                                   Wine ▾
 
@@ -418,7 +418,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate   ^p dropdown   ^k actions
+       ↑↓ navigate   ^p Wine   ^k actions
 
 
 

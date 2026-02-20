@@ -73,6 +73,8 @@ interface AppState {
   shouldAutoExecuteFirstAction: boolean
   // First action title for footer display (set by offscreen ActionPanel)
   firstActionTitle: string
+  // Selected List.Dropdown item title shown in List footer (^p label)
+  dropdownFooterLabel: string
   // Flag to show actions dialog via portal
   showActionsDialog: boolean
   // Portal target node for rendering ActionPanel dialog in the overlay area.
@@ -107,6 +109,7 @@ export const useStore = create<AppState>(() => ({
   // Actions state
   shouldAutoExecuteFirstAction: false,
   firstActionTitle: '',
+  dropdownFooterLabel: '',
   showActionsDialog: false,
   actionsPortalTarget: null,
   // Theme state

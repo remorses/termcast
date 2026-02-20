@@ -78,10 +78,17 @@ interface ActionsInterface {
 function ListFooter(): any {
   const theme = useTheme()
   const firstActionTitle = useStore((s) => s.firstActionTitle)
+  const dropdownFooterLabel = useStore((s) => s.dropdownFooterLabel)
   const hasToast = useStore((s) => s.toast !== null)
   const listContext = useContext(ListContext)
   const isShowingDetail = listContext?.isShowingDetail ?? false
   const hasDropdown = listContext?.hasDropdown ?? false
+  const isDropdownOpen = listContext?.isDropdownOpen ?? false
+  const openDropdownIfClosed = () => {
+    if (!isDropdownOpen) {
+      listContext?.openDropdown()
+    }
+  }
 
   const content = hasToast ? null : (
     <box style={{ flexDirection: 'row', gap: 3, flexShrink: 0 }}>
@@ -100,11 +107,21 @@ function ListFooter(): any {
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
       {hasDropdown && (
-        <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
-          <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
+        <box
+          style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}
+          onMouseDown={openDropdownIfClosed}
+        >
+          <text
+            flexShrink={0}
+            fg={theme.text}
+            attributes={TextAttributes.BOLD}
+            onMouseDown={openDropdownIfClosed}
+          >
             ^p
           </text>
-          <text flexShrink={0} fg={theme.textMuted}>dropdown</text>
+          <text flexShrink={0} fg={theme.textMuted} onMouseDown={openDropdownIfClosed}>
+            {dropdownFooterLabel || 'dropdown'}
+          </text>
         </box>
       )}
       <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
@@ -1836,6 +1853,11 @@ const ListDropdown: ListDropdownType = (props) => {
   }
 
   const { isDropdownOpen, setIsDropdownOpen } = listContext
+
+  const setDropdownSelection = (props: { value: string; title: string }) => {
+    setDropdownState({ value: props.value, title: props.title })
+    useStore.setState({ dropdownFooterLabel: props.title || 'dropdown' })
+  }
   // Store both value and title together
   const [dropdownState, setDropdownState] = useState<{
     value: string
@@ -1861,12 +1883,17 @@ const ListDropdown: ListDropdownType = (props) => {
 
       if (items.length > 0) {
         const firstItem = items[0].props as DropdownItemDescendant
-        setDropdownState({ value: firstItem.value, title: firstItem.title })
+        setDropdownSelection({ value: firstItem.value, title: firstItem.title })
         return
       }
     }
 
-    if (!valueToUse) return
+    if (!valueToUse) {
+      useStore.setState({
+        dropdownFooterLabel: dropdownState.title || 'dropdown',
+      })
+      return
+    }
 
     // Try to find the title for this value
     let title = valueToUse
@@ -1880,8 +1907,11 @@ const ListDropdown: ListDropdownType = (props) => {
 
     // Only update if something changed
     if (dropdownState.value !== valueToUse || dropdownState.title !== title) {
-      setDropdownState({ value: valueToUse, title })
+      setDropdownSelection({ value: valueToUse, title })
+      return
     }
+
+    useStore.setState({ dropdownFooterLabel: title || 'dropdown' })
   }, [props.value]) // Run when props.value changes and on mount
 
   const dropdownContextValue = useMemo<DropdownContextValue>(
@@ -1910,7 +1940,7 @@ const ListDropdown: ListDropdownType = (props) => {
                   break
                 }
               }
-              setDropdownState({ value: newValue, title })
+              setDropdownSelection({ value: newValue, title })
               setIsDropdownOpen(false)
               dialog.clear()
               if (props.onChange) {
@@ -1933,6 +1963,11 @@ const ListDropdown: ListDropdownType = (props) => {
 
   // Display the title from our state
   const displayValue = dropdownState.title || 'All'
+  const openDropdownIfClosed = () => {
+    if (!isDropdownOpen) {
+      listContext.openDropdown()
+    }
+  }
 
   return (
     <DropdownDescendantsProvider value={descendantsContext}>
@@ -1951,23 +1986,21 @@ const ListDropdown: ListDropdownType = (props) => {
           }}
           onMouseMove={() => setIsHovered(true)}
           onMouseOut={() => setIsHovered(false)}
-          onMouseDown={() => {
-            // Open dropdown when clicked
-            if (!isDropdownOpen) {
-              listContext.openDropdown()
-            }
-          }}
+          onMouseDown={openDropdownIfClosed}
         >
           {/*<text >^p </text>*/}
           {listContext.isLoading ? (
-            <LoadingText isLoading color={isHovered ? theme.text : theme.textMuted}>
-              {displayValue || 'Loading...'}
-            </LoadingText>
+            <box onMouseDown={openDropdownIfClosed}>
+              <LoadingText isLoading color={isHovered ? theme.text : theme.textMuted}>
+                {displayValue || 'Loading...'}
+              </LoadingText>
+            </box>
           ) : (
             <text
               flexShrink={0}
               fg={isHovered ? theme.text : theme.textMuted}
               selectable={false}
+              onMouseDown={openDropdownIfClosed}
             >
               {displayValue}
             </text>
@@ -1976,6 +2009,7 @@ const ListDropdown: ListDropdownType = (props) => {
             flexShrink={0}
             fg={isHovered ? theme.text : theme.textMuted}
             selectable={false}
+            onMouseDown={openDropdownIfClosed}
           >
             {' '}
             ▾
