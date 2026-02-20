@@ -61,7 +61,7 @@ export const TextField = (props: TextFieldProps): any => {
   const fieldError = formState.errors[props.id]
 
   return (
-    <box ref={elementRef} flexDirection="column">
+    <box ref={elementRef} flexDirection="column" onMouseDown={() => { setFocusedField(props.id) }}>
       <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
         <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
           <box

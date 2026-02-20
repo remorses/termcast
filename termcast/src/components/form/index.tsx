@@ -15,7 +15,7 @@ import { useDialog } from 'termcast/src/internal/dialog'
 import { Offscreen } from 'termcast/src/internal/offscreen'
 import { useTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
-import { Footer } from 'termcast/src/components/footer'
+import { Footer, Hoverable } from 'termcast/src/components/footer'
 import {
   TextAttributes,
   ScrollBoxRenderable,
@@ -121,8 +121,7 @@ function FormFooter(): any {
         </text>
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
-      <box
-        style={{ flexDirection: 'row', gap: 1 }}
+      <Hoverable
         onMouseDown={() => {
           useStore.setState({ showActionsDialog: true })
         }}
@@ -131,7 +130,7 @@ function FormFooter(): any {
           ^k
         </text>
         <text flexShrink={0} fg={theme.textMuted}>actions</text>
-      </box>
+      </Hoverable>
     </box>
   )
 

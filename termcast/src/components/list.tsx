@@ -21,7 +21,7 @@ import { LoadingBar } from 'termcast/src/components/loading-bar'
 import { LoadingText } from 'termcast/src/components/loading-text'
 import { Spinner } from 'termcast/src/components/spinner'
 import { useAnimationTick, TICK_DIVISORS } from 'termcast/src/components/animation-tick'
-import { Footer } from 'termcast/src/components/footer'
+import { Footer, Hoverable } from 'termcast/src/components/footer'
 import { createDescendants } from 'termcast/src/descendants'
 import { useStore } from 'termcast/src/state'
 import { showToast, Toast } from 'termcast/src/apis/toast'
@@ -95,8 +95,7 @@ function ListFooter(): any {
   const content = hasToast ? null : (
     <box style={{ flexDirection: 'row', gap: 3, flexShrink: 0 }}>
       {firstActionTitle && (
-        <box
-          style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}
+        <Hoverable
           onMouseDown={() => {
             useStore.setState({ shouldAutoExecuteFirstAction: true })
           }}
@@ -105,7 +104,7 @@ function ListFooter(): any {
             ↵
           </text>
           <text flexShrink={0} fg={theme.textMuted}>{firstActionTitle.toLowerCase()}</text>
-        </box>
+        </Hoverable>
       )}
       <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
         <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
@@ -113,8 +112,7 @@ function ListFooter(): any {
         </text>
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
-      <box
-        style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}
+      <Hoverable
         onMouseDown={() => {
           useStore.setState({ showActionsDialog: true })
         }}
@@ -123,24 +121,16 @@ function ListFooter(): any {
           ^k
         </text>
         <text flexShrink={0} fg={theme.textMuted}>actions</text>
-      </box>
+      </Hoverable>
       {hasDropdown && (
-        <box
-          style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}
-          onMouseDown={openDropdownIfClosed}
-        >
-          <text
-            flexShrink={0}
-            fg={theme.text}
-            attributes={TextAttributes.BOLD}
-            onMouseDown={openDropdownIfClosed}
-          >
+        <Hoverable onMouseDown={openDropdownIfClosed}>
+          <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
             ^p
           </text>
-          <text flexShrink={0} fg={theme.textMuted} onMouseDown={openDropdownIfClosed}>
+          <text flexShrink={0} fg={theme.textMuted}>
             {(dropdownTooltip || dropdownFooterLabel || 'dropdown').toLowerCase()}
           </text>
-        </box>
+        </Hoverable>
       )}
     </box>
   )
@@ -784,6 +774,35 @@ function ListItemRow(props: {
   const isRelaxed = spacingMode === 'relaxed'
   const { title, subtitle, icon, iconColor, accessories, active, ref } = props
   const [isHovered, setIsHovered] = useState(false)
+  // Suppress the immediately following click only when the latest hover move
+  // selected this row. This keeps click-to-execute working for already-selected
+  // rows while preserving hover-to-select behavior.
+  const shouldSuppressClickAfterHover = useRef(false)
+
+  const handleMouseMove = () => {
+    setIsHovered(true)
+    // Select item on hover, like dropdown does
+    if (!active && props.index !== undefined && props.index !== -1 && listCtx?.setSelectedIndex) {
+      shouldSuppressClickAfterHover.current = true
+      listCtx.setSelectedIndex(props.index)
+      return
+    }
+    shouldSuppressClickAfterHover.current = false
+  }
+
+  const handleMouseDown = () => {
+    if (shouldSuppressClickAfterHover.current) {
+      // Item was just selected by hover — don't execute action on first click
+      shouldSuppressClickAfterHover.current = false
+      return
+    }
+    props.onMouseDown?.()
+  }
+
+  const handleMouseOut = () => {
+    setIsHovered(false)
+    shouldSuppressClickAfterHover.current = false
+  }
 
   const accessoryElements: ReactNode[] = []
   if (accessories) {
@@ -889,13 +908,9 @@ function ListItemRow(props: {
           marginBottom: 1,
         }}
         border={false}
-        onMouseMove={() => {
-          setIsHovered(true)
-        }}
-        onMouseOut={() => {
-          setIsHovered(false)
-        }}
-        onMouseDown={props.onMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseOut={handleMouseOut}
+        onMouseDown={handleMouseDown}
       >
         {/* Line 1: marker + icon + title + accessories */}
         <box style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 1 }}>
@@ -958,13 +973,9 @@ function ListItemRow(props: {
         gap: 1,
       }}
       border={false}
-      onMouseMove={() => {
-        setIsHovered(true)
-      }}
-      onMouseOut={() => {
-        setIsHovered(false)
-      }}
-      onMouseDown={props.onMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseOut={handleMouseOut}
+      onMouseDown={handleMouseDown}
     >
       <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1, overflow: 'hidden', gap: 1 }}>
         <box style={{ flexDirection: 'row', flexShrink: 0 }}>

@@ -4,7 +4,7 @@ import { useKeyboard, useTerminalDimensions } from '@opentui/react'
 import { useTheme } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { ActionPanel, Action } from 'termcast/src/components/actions'
-import { Footer } from 'termcast/src/components/footer'
+import { Footer, Hoverable } from 'termcast/src/components/footer'
 
 import { useDialog } from 'termcast/src/internal/dialog'
 import { useNavigation } from 'termcast/src/internal/navigation'
@@ -113,8 +113,7 @@ function DetailFooter({
   return (
     <Footer paddingLeft={0} paddingRight={0}>
       <box style={{ flexDirection: 'row', gap: 3 }}>
-        <box
-          style={{ flexDirection: 'row', gap: 1 }}
+        <Hoverable
           onMouseDown={() => {
             // Defer pop so opentui finishes its mouse event walk before
             // React unmounts the component tree (avoids Yoga WASM crash)
@@ -127,10 +126,9 @@ function DetailFooter({
             esc
           </text>
           <text flexShrink={0} fg={theme.textMuted}>go back</text>
-        </box>
+        </Hoverable>
         {hasActions && (
-          <box
-            style={{ flexDirection: 'row', gap: 1 }}
+          <Hoverable
             onMouseDown={() => {
               useStore.setState({ showActionsDialog: true })
             }}
@@ -139,11 +137,10 @@ function DetailFooter({
               ^k
             </text>
             <text flexShrink={0} fg={theme.textMuted}>actions</text>
-          </box>
+          </Hoverable>
         )}
         {hasActions && firstActionTitle && (
-          <box
-            style={{ flexDirection: 'row', gap: 1 }}
+          <Hoverable
             onMouseDown={() => {
               useStore.setState({ shouldAutoExecuteFirstAction: true })
             }}
@@ -152,7 +149,7 @@ function DetailFooter({
               ↵
             </text>
             <text flexShrink={0} fg={theme.textMuted}>{firstActionTitle}</text>
-          </box>
+          </Hoverable>
         )}
       </box>
     </Footer>

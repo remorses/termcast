@@ -55,7 +55,7 @@ const DatePickerComponent = (props: DatePickerProps): any => {
       defaultValue={props.defaultValue || props.value || null}
       render={({ field, fieldState, formState }) => {
         return (
-          <box ref={elementRef} flexDirection='column'>
+          <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id) }}>
             <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
               <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
                 <box

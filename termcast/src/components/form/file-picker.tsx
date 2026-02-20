@@ -252,7 +252,7 @@ export const FilePicker = (props: FilePickerProps): any => {
       defaultValue={props.defaultValue || props.value || []}
       render={(renderProps) => {
         return (
-          <box ref={elementRef} flexDirection='column'>
+          <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id) }}>
             <FilePickerField
               {...renderProps}
               props={props}

@@ -13,6 +13,32 @@ import {
 } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 
+interface HoverableProps {
+  children: ReactNode
+  onMouseDown?: () => void
+  flexShrink?: number
+}
+
+// Clickable box that shows a subtle background on hover.
+// Keeps hover state local to each label for minimal re-renders.
+export function Hoverable({ children, onMouseDown, flexShrink = 0 }: HoverableProps): any {
+  const [isHovered, setIsHovered] = useState(false)
+  const theme = useTheme()
+  return (
+    <box
+      flexDirection='row'
+      gap={1}
+      flexShrink={flexShrink}
+      backgroundColor={isHovered ? theme.backgroundElement : undefined}
+      onMouseMove={() => { setIsHovered(true) }}
+      onMouseOut={() => { setIsHovered(false) }}
+      onMouseDown={onMouseDown}
+    >
+      {children}
+    </box>
+  )
+}
+
 interface FooterProps {
   children?: ReactNode
   paddingLeft?: number
@@ -244,21 +270,22 @@ export function Footer({
             {children}
           </box>
           {showPoweredBy && (
-            <box flexDirection='row' gap={1} flexShrink={0}>
+            <Hoverable
+              onMouseDown={() => {
+                openInBrowser('https://termcast.app')
+              }}
+            >
               <text flexShrink={0} fg={theme.textMuted}>
                 powered by
               </text>
               <text
                 flexShrink={0}
-                onMouseDown={() => {
-                  openInBrowser('https://termcast.app')
-                }}
                 fg={theme.textMuted}
                 attributes={TextAttributes.BOLD}
               >
                 termcast.app
               </text>
-            </box>
+            </Hoverable>
           )}
         </>
       )}

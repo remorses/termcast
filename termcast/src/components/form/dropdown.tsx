@@ -428,7 +428,7 @@ const DropdownContent = ({
   return (
     <FormDropdownDescendantsProvider value={descendantsContext}>
       <FormDropdownContext.Provider value={contextValue}>
-        <box ref={elementRef} flexDirection='column'>
+        <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id) }}>
           <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
             <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
               <box
