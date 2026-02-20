@@ -7,7 +7,7 @@ function ItemDetail({ title }: { title: string }) {
 
   return (
     <Detail
-      markdown={`# ${title}\n\nCounter: ${counter}\n\nMarker: NAV_MARKER_VALUE`}
+      markdown={`# ${title}\n\nCounter: ${counter}\n\nMarker: UPDATED_NAV_357704`}
       actions={
         <ActionPanel>
           <Action title="Increment Counter" onAction={() => setCounter((c) => c + 1)} />

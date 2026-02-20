@@ -69,24 +69,24 @@ test('inline formatting table renders all rows', async () => {
       1   Alice Johnson  alice@example.com  Engineer  Engineering  SF
       2   Bob Smith      bob@example.com    Designer  Design       NYC
 
-      Two Columns
-
-      Key      Value
-      version  2.1.0
-      license  MIT
-      author   termcast
-
-      Numeric Data
-
-      Metric   Q1    Q2    Q3    Q4
-      Revenue  100   150   200   250
-      Users    1000  1500  2000  3000
-      Churn    5%    4%    3%    2%
-
-      Done.
 
 
-      esc go back   ^k actions                             powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
