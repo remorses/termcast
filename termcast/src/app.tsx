@@ -1,7 +1,8 @@
-// Build standalone macOS .app bundles that wrap WezTerm + a compiled termcast extension.
-// The .app contains: wezterm-gui binary, baked wezterm.lua config, compiled extension,
-// a thin launch script, and a custom icon. Multiple apps run fully isolated because
-// --config-file triggers WezTerm's NoConnectNoPublish mode (separate PID sockets).
+// Build standalone desktop app bundles (macOS .app, Windows folder) that wrap WezTerm
+// + a compiled termcast extension. Each bundle contains: wezterm-gui binary, baked
+// wezterm.lua config, compiled extension, a platform launcher, and a custom icon.
+// Multiple apps run fully isolated because --config-file triggers WezTerm's
+// NoConnectNoPublish mode (separate PID sockets per process).
 // See termcast/docs/wezterm-fork.md for the full architecture.
 
 import fs from 'node:fs'
@@ -16,6 +17,18 @@ const execFileAsync = promisify(execFile)
 // Pin to a known-good WezTerm release. Update manually when needed.
 const WEZTERM_TAG = '20240203-110809-5046fc22'
 const WEZTERM_MACOS_ZIP_URL = `https://github.com/wez/wezterm/releases/download/${WEZTERM_TAG}/WezTerm-macos-${WEZTERM_TAG}.zip`
+const WEZTERM_WINDOWS_ZIP_URL = `https://github.com/wez/wezterm/releases/download/${WEZTERM_TAG}/WezTerm-windows-${WEZTERM_TAG}.zip`
+
+// Files to extract from the Windows WezTerm zip. wezterm-gui.exe is the main binary,
+// conpty.dll + OpenConsole.exe are required for PTY support, and the ANGLE DLLs
+// (libEGL/libGLESv2) provide WebGpu/OpenGL on machines with older GPU drivers.
+const WEZTERM_WINDOWS_FILES = [
+  'wezterm-gui.exe',
+  'conpty.dll',
+  'OpenConsole.exe',
+  'libEGL.dll',
+  'libGLESv2.dll',
+]
 
 // Bundled default icon shipped with termcast source.
 // __dirname is termcast/src/ in dev or termcast/dist/ when published.
@@ -108,6 +121,68 @@ async function getWeztermBinary({ arch }: { arch: 'arm64' | 'x64' }): Promise<st
   return thinnedBinary
 }
 
+// Download and cache WezTerm Windows files from official release.
+// Returns a map of filename -> cached file path for the needed DLLs and executables.
+async function downloadWeztermWindows(): Promise<Map<string, string>> {
+  const cacheDir = path.join(getCacheDir(), 'wezterm', WEZTERM_TAG, 'windows')
+  const sentinel = path.join(cacheDir, '.complete')
+
+  // Check if all files are already cached. Verify each file exists
+  // in case of partial cleanup or corruption.
+  if (fs.existsSync(sentinel)) {
+    const allExist = WEZTERM_WINDOWS_FILES.every((name) => {
+      return fs.existsSync(path.join(cacheDir, name))
+    })
+    if (allExist) {
+      const result = new Map<string, string>()
+      for (const name of WEZTERM_WINDOWS_FILES) {
+        result.set(name, path.join(cacheDir, name))
+      }
+      return result
+    }
+    // Sentinel exists but files are missing — remove sentinel and re-download
+    fs.unlinkSync(sentinel)
+  }
+
+  console.log(`Downloading WezTerm Windows ${WEZTERM_TAG}...`)
+  fs.mkdirSync(cacheDir, { recursive: true })
+
+  const response = await fetch(WEZTERM_WINDOWS_ZIP_URL)
+  if (!response.ok) {
+    throw new Error(
+      `Failed to download WezTerm Windows: ${response.status} ${response.statusText}`,
+    )
+  }
+
+  const buffer = await response.arrayBuffer()
+  console.log(`Downloaded ${(buffer.byteLength / 1024 / 1024).toFixed(1)}MB`)
+
+  console.log('Extracting WezTerm Windows files...')
+  const JSZip = (await import('jszip')).default
+  const zip = await JSZip.loadAsync(buffer)
+
+  const result = new Map<string, string>()
+  for (const name of WEZTERM_WINDOWS_FILES) {
+    const zipEntry = Object.keys(zip.files).find((entry) => {
+      return entry.endsWith('/' + name) || entry === name
+    })
+    if (!zipEntry) {
+      throw new Error(`Could not find ${name} in WezTerm Windows archive`)
+    }
+    const data = await zip.files[zipEntry].async('nodebuffer')
+    const outPath = path.join(cacheDir, name)
+    const tmpPath = outPath + `.tmp-${process.pid}`
+    fs.writeFileSync(tmpPath, data)
+    fs.renameSync(tmpPath, outPath)
+    result.set(name, outPath)
+  }
+
+  // Write sentinel after all files are extracted successfully
+  fs.writeFileSync(sentinel, '')
+  console.log(`Cached WezTerm Windows files at ${cacheDir}`)
+  return result
+}
+
 // Resolve the icon to use. Returns path to a PNG file.
 // Priority: --icon flag > package.json icon field > bundled default
 function resolveIcon({
@@ -189,6 +264,115 @@ function convertToIcns({
   fs.writeFileSync(outputPath, icns)
 }
 
+// Build a .ico file from a PNG buffer. Pure TypeScript, no native deps.
+// Modern Windows ICO files accept embedded PNG data (since Vista).
+// Format: ICO header (6B) + directory entries (16B each) + PNG data blocks.
+// We embed the same PNG at standard sizes (256, 128, 64, 48, 32, 16).
+// Windows handles scaling from the provided PNG at each entry.
+function buildIcoFromPng(pngData: Buffer): Buffer {
+  const sizes = [256, 128, 64, 48, 32, 16]
+
+  // ICO header: reserved(2) + type(2, 1=ICO) + count(2)
+  const header = Buffer.alloc(6)
+  header.writeUInt16LE(0, 0)          // reserved
+  header.writeUInt16LE(1, 2)          // type = ICO
+  header.writeUInt16LE(sizes.length, 4) // image count
+
+  // Directory entries come right after header, then PNG data blocks
+  const dirEntrySize = 16
+  const dataOffset = 6 + dirEntrySize * sizes.length
+
+  const dirEntries: Buffer[] = []
+  let currentOffset = dataOffset
+
+  for (const size of sizes) {
+    const entry = Buffer.alloc(16)
+    // width/height: 0 means 256 in ICO format
+    entry.writeUInt8(size >= 256 ? 0 : size, 0)   // width
+    entry.writeUInt8(size >= 256 ? 0 : size, 1)   // height
+    entry.writeUInt8(0, 2)                          // color palette count
+    entry.writeUInt8(0, 3)                          // reserved
+    entry.writeUInt16LE(1, 4)                       // color planes
+    entry.writeUInt16LE(32, 6)                      // bits per pixel
+    entry.writeUInt32LE(pngData.length, 8)          // image data size
+    entry.writeUInt32LE(currentOffset, 12)          // offset to image data
+    dirEntries.push(entry)
+    currentOffset += pngData.length
+  }
+
+  // Each size entry points to the same PNG data (Windows scales as needed)
+  const pngBlocks = sizes.map(() => pngData)
+
+  return Buffer.concat([header, ...dirEntries, ...pngBlocks])
+}
+
+function convertToIco({
+  pngPath,
+  outputPath,
+}: {
+  pngPath: string
+  outputPath: string
+}): void {
+  const pngData = fs.readFileSync(pngPath)
+
+  if (pngData[0] !== 0x89 || pngData[1] !== 0x50 || pngData[2] !== 0x4e || pngData[3] !== 0x47) {
+    throw new Error(`File is not a valid PNG: ${pngPath}`)
+  }
+
+  const ico = buildIcoFromPng(pngData)
+  fs.writeFileSync(outputPath, ico)
+}
+
+// Generate the C source for the Windows launcher. This tiny program hides the console
+// window (via WinMain + windows subsystem) and launches wezterm-gui.exe with the
+// baked config file. All WezTerm/extension files live in a runtime/ subdirectory so
+// the user only sees the launcher .exe at the top level. Cross-compiled with `zig cc`.
+function generateLauncherC(): string {
+  return `\
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <wchar.h>
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+    (void)hInstance; (void)hPrevInstance; (void)lpCmdLine; (void)nCmdShow;
+
+    WCHAR dir[MAX_PATH];
+    GetModuleFileNameW(NULL, dir, MAX_PATH);
+    /* Strip executable name to get the directory */
+    for (int i = (int)wcslen(dir) - 1; i >= 0; i--) {
+        if (dir[i] == L'\\\\') { dir[i + 1] = L'\\0'; break; }
+    }
+
+    WCHAR cmdline[MAX_PATH * 3];
+    wsprintfW(cmdline,
+        L"\\"%sruntime\\\\wezterm-gui.exe\\" --config-file \\"%sruntime\\\\config\\\\wezterm.lua\\"",
+        dir, dir);
+
+    STARTUPINFOW si;
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&pi, sizeof(pi));
+
+    if (!CreateProcessW(NULL, cmdline, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+        MessageBoxW(NULL, L"Failed to launch wezterm-gui.exe", L"Launch Error", 0x10);
+        return 1;
+    }
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+    return 0;
+}
+`
+}
+
+// Generate the .rc resource file that embeds the icon into the launcher .exe.
+// The icon ID 1 is used by Windows Explorer to display the app icon.
+function generateLauncherRc({ icoPath }: { icoPath: string }): string {
+  // Use forward slashes in the .rc file — the Windows resource compiler accepts them
+  const normalizedPath = icoPath.replace(/\\/g, '/')
+  return `1 ICON "${normalizedPath}"\n`
+}
+
 function generateWeztermConfig({ binaryName }: { binaryName: string }): string {
   return `\
 local wezterm = require 'wezterm'
@@ -235,6 +419,49 @@ function generateLaunchScript(): string {
 #!/bin/bash
 DIR="$(cd "$(dirname "$0")" && pwd)"
 exec "$DIR/wezterm-gui" --config-file "$DIR/../Resources/wezterm.lua"
+`
+}
+
+// Windows wezterm.lua: backslash paths, CTRL copy/paste (no SUPER/Cmd on Windows),
+// Windows-style file quoting for drag-and-drop.
+function generateWeztermConfigWindows({ binaryName }: { binaryName: string }): string {
+  return `\
+local wezterm = require 'wezterm'
+local config = wezterm.config_builder()
+
+local config_dir = wezterm.config_dir
+config.default_prog = { config_dir .. '\\\\..\\\\${binaryName}' }
+
+-- Strip all chrome
+config.enable_tab_bar = false
+config.window_decorations = 'RESIZE'
+config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
+
+-- Snap resize to cell grid
+config.use_resize_increments = true
+
+-- Kitty protocols
+config.enable_kitty_graphics = true
+config.enable_kitty_keyboard = true
+
+-- Rendering
+config.front_end = 'WebGpu'
+config.webgpu_power_preference = 'HighPerformance'
+config.max_fps = 120
+config.freetype_render_target = 'HorizontalLcd'
+config.freetype_load_target = 'Light'
+
+-- Termcast controls all key bindings.
+-- On Windows there is no SUPER/Cmd modifier, so use CTRL for copy/paste.
+config.disable_default_key_bindings = true
+config.keys = {
+  { key = 'c', mods = 'CTRL', action = wezterm.action.CopyTo 'Clipboard' },
+  { key = 'v', mods = 'CTRL', action = wezterm.action.PasteFrom 'Clipboard' },
+}
+
+config.quote_dropped_files = 'Windows'
+
+return config
 `
 }
 
@@ -296,7 +523,7 @@ export interface BuildAppOptions {
   bundleId?: string
   release?: boolean
   entry?: string
-  /** Target OS: 'darwin' | 'linux' | 'win32'. Only 'darwin' is supported for now. */
+  /** Target OS: 'darwin' | 'linux' | 'win32'. */
   platform?: CompileTarget['os']
   /** Target arch: 'arm64' | 'x64'. Defaults to current machine arch. */
   arch?: CompileTarget['arch']
@@ -307,27 +534,35 @@ export interface BuildAppResult {
   appName: string
 }
 
-export async function buildApp({
+// Shared setup for all platforms: resolve paths, read package.json, compile extension.
+interface ResolvedBuildContext {
+  resolvedPath: string
+  extensionName: string
+  appName: string
+  safeName: string
+  version: string
+  resolvedArch: CompileTarget['arch']
+  target: CompileTarget
+  distDir: string
+  compileResult: { outfile: string }
+  iconPng: string
+  packageJson: Record<string, string>
+  resolvedBundleId: string
+}
+
+async function resolveBuildContext({
   extensionPath,
   name,
   icon,
   bundleId,
-  release = false,
   entry,
   platform,
   arch,
-}: BuildAppOptions): Promise<BuildAppResult> {
+}: BuildAppOptions & { platform: CompileTarget['os'] }): Promise<ResolvedBuildContext> {
   const resolvedPath = path.resolve(extensionPath)
 
   if (!fs.existsSync(resolvedPath)) {
     throw new Error(`Extension path does not exist: ${resolvedPath}`)
-  }
-
-  const resolvedPlatform = platform || (process.platform as CompileTarget['os'])
-  if (resolvedPlatform !== 'darwin') {
-    throw new Error(
-      `Platform "${resolvedPlatform}" is not supported yet. Only macOS (darwin) app bundles are implemented.`,
-    )
   }
 
   const packageJsonPath = path.join(resolvedPath, 'package.json')
@@ -348,23 +583,25 @@ export async function buildApp({
     bundleId || `com.termcast.${extensionName.replace(/[^a-zA-Z0-9.-]/g, '-')}`
   const version: string = packageJson.version || '1.0.0'
   const resolvedArch: CompileTarget['arch'] = arch || (process.arch === 'arm64' ? 'arm64' : 'x64')
-  const target: CompileTarget = { os: resolvedPlatform, arch: resolvedArch }
+  // For Windows x64, always use baseline (no AVX2 requirement) so the app runs on
+  // all x64 CPUs. The default bun-windows-x64 target requires AVX2 (Haswell 2013+)
+  // which causes silent crashes on older machines.
+  const avx2 = platform === 'win32' ? false as const : undefined
+  const target: CompileTarget = { os: platform, arch: resolvedArch, avx2 }
 
-  console.log(`Building app "${appName}" for ${resolvedPlatform}-${resolvedArch}...`)
+  console.log(`Building app "${appName}" for ${platform}-${resolvedArch}...`)
 
-  // Step 1: Download/cache WezTerm and thin to target arch (~65MB instead of ~130MB)
-  const weztermBinary = await getWeztermBinary({ arch: resolvedArch })
-
-  // Step 2: Compile the termcast extension
+  // Compile the termcast extension
   console.log(`Compiling termcast extension...`)
   const distDir = path.join(resolvedPath, 'dist')
   fs.mkdirSync(distDir, { recursive: true })
-  // Ensure dist/ is gitignored (same as release.tsx)
   const distGitignore = path.join(distDir, '.gitignore')
   if (!fs.existsSync(distGitignore)) {
     fs.writeFileSync(distGitignore, '*\n')
   }
-  const compiledBinaryPath = path.join(distDir, `${extensionName}-app-binary-${resolvedArch}`)
+  // Bun.build with compile appends .exe for Windows targets, so include it in the path
+  const exeSuffix = platform === 'win32' ? '.exe' : ''
+  const compiledBinaryPath = path.join(distDir, `${extensionName}-app-binary-${resolvedArch}${exeSuffix}`)
 
   const compileResult = await compileExtension({
     extensionPath: resolvedPath,
@@ -374,17 +611,62 @@ export async function buildApp({
     entry,
   })
 
-  // Step 3: Resolve icon
   const iconPng = resolveIcon({
     extensionPath: resolvedPath,
     iconOverride: icon,
     packageJson,
   })
 
-  // Step 4: Assemble .app bundle
-  const safeName = appName.replace(/[/\\]/g, '-')
-  const archSuffix = resolvedArch === 'x64' ? 'x86_64' : 'arm64'
-  const appDir = path.join(distDir, `${safeName}-${archSuffix}.app`)
+  // Replace slashes, spaces, and other problematic chars with hyphens.
+  // Spaces in filenames break PowerShell (WezTerm's default shell on Windows)
+  // because PowerShell splits unquoted paths on whitespace.
+  const safeName = appName.replace(/[/\\\s]+/g, '-').replace(/^-+|-+$/g, '')
+
+  return {
+    resolvedPath,
+    extensionName,
+    appName,
+    safeName,
+    version,
+    resolvedArch,
+    target,
+    distDir,
+    compileResult,
+    iconPng,
+    packageJson,
+    resolvedBundleId,
+  }
+}
+
+export async function buildApp(options: BuildAppOptions): Promise<BuildAppResult> {
+  const resolvedPlatform = options.platform || (process.platform as CompileTarget['os'])
+
+  if (resolvedPlatform === 'darwin') {
+    return buildDarwinApp(options, resolvedPlatform)
+  }
+  if (resolvedPlatform === 'win32') {
+    return buildWin32App(options, resolvedPlatform)
+  }
+
+  throw new Error(
+    `Platform "${resolvedPlatform}" is not supported yet. Supported: darwin, win32.`,
+  )
+}
+
+// ── macOS .app bundle ────────────────────────────────────────────────────────
+
+async function buildDarwinApp(
+  options: BuildAppOptions,
+  resolvedPlatform: 'darwin',
+): Promise<BuildAppResult> {
+  const ctx = await resolveBuildContext({ ...options, platform: resolvedPlatform })
+
+  // Download/cache WezTerm and thin to target arch (~65MB instead of ~130MB)
+  const weztermBinary = await getWeztermBinary({ arch: ctx.resolvedArch })
+
+  // Assemble .app bundle
+  const archSuffix = ctx.resolvedArch === 'x64' ? 'x86_64' : 'arm64'
+  const appDir = path.join(ctx.distDir, `${ctx.safeName}-${archSuffix}.app`)
 
   if (fs.existsSync(appDir)) {
     fs.rmSync(appDir, { recursive: true, force: true })
@@ -402,8 +684,8 @@ export async function buildApp({
   fs.chmodSync(path.join(macosDir, 'wezterm-gui'), 0o755)
 
   // Copy compiled extension binary
-  const binaryName = extensionName
-  fs.copyFileSync(compileResult.outfile, path.join(resourcesDir, binaryName))
+  const binaryName = ctx.extensionName
+  fs.copyFileSync(ctx.compileResult.outfile, path.join(resourcesDir, binaryName))
   fs.chmodSync(path.join(resourcesDir, binaryName), 0o755)
 
   // Write config, launch script
@@ -420,21 +702,21 @@ export async function buildApp({
   let iconFile = 'app.icns'
   const icnsPath = path.join(resourcesDir, 'app.icns')
   try {
-    convertToIcns({ pngPath: iconPng, outputPath: icnsPath })
+    convertToIcns({ pngPath: ctx.iconPng, outputPath: icnsPath })
   } catch (e) {
     console.log(`Warning: could not convert icon to .icns (${e instanceof Error ? e.message : e}), copying PNG as fallback`)
     iconFile = 'app.png'
-    fs.copyFileSync(iconPng, path.join(resourcesDir, iconFile))
+    fs.copyFileSync(ctx.iconPng, path.join(resourcesDir, iconFile))
   }
 
   fs.writeFileSync(
     path.join(appDir, 'Contents', 'Info.plist'),
-    generateInfoPlist({ appName: safeName, bundleId: resolvedBundleId, version, iconFile }),
+    generateInfoPlist({ appName: ctx.safeName, bundleId: ctx.resolvedBundleId, version: ctx.version, iconFile }),
   )
 
   // Clean up intermediate compiled binary + sourcemap
-  fs.rmSync(compileResult.outfile, { force: true })
-  fs.rmSync(compileResult.outfile + '.map', { force: true })
+  fs.rmSync(ctx.compileResult.outfile, { force: true })
+  fs.rmSync(ctx.compileResult.outfile + '.map', { force: true })
 
   // Ad-hoc sign — only on macOS where codesign is available.
   // The wezterm-gui binary's original signature is invalid in the new bundle.
@@ -445,21 +727,168 @@ export async function buildApp({
     console.log('Skipping ad-hoc signing (not on macOS). Sign manually before distributing.')
   }
 
-  const appSize = await getDirectorySize(appDir)
+  const appSize = getDirectorySize(appDir)
   console.log(`\nBuilt: ${appDir} (${(appSize / 1024 / 1024).toFixed(0)}MB)`)
 
-  // Step 5: --release: zip and upload to GitHub release
-  if (release) {
+  if (options.release) {
     await uploadToRelease({
-      extensionPath: resolvedPath,
-      extensionName,
+      extensionPath: ctx.resolvedPath,
+      extensionName: ctx.extensionName,
       appDir,
-      appName: safeName,
-      arch: resolvedArch,
+      appName: ctx.safeName,
+      arch: ctx.resolvedArch,
+      platform: 'darwin',
     })
   }
 
-  return { appPath: appDir, appName: safeName }
+  return { appPath: appDir, appName: ctx.safeName }
+}
+
+// ── Windows folder bundle ────────────────────────────────────────────────────
+// TODO: Windows standalone executables compiled with Bun --compile segfault on
+// launch. This is a known Bun bug (not our code), tracked across multiple issues:
+//   https://github.com/oven-sh/bun/issues/26862
+//   https://github.com/oven-sh/bun/issues/26853
+//   https://github.com/oven-sh/bun/issues/17406
+// Crash report: https://bun.report/1.3.9/w_1cf6cdbbEggggCq6l3vCA2AoxG
+//   panic(main thread): Segmentation fault at address 0xD14
+//   Bun v1.3.9 on windows x86_64, Features: standalone_executable, jsc
+// Until Bun fixes this, Windows app builds will produce a valid folder structure
+// but the extension binary will crash on launch. Possible workaround: ship bun.exe
+// + the JS bundle instead of a compiled standalone exe.
+//
+// Produces a clean folder where the user only sees the launcher exe at root.
+// All WezTerm/extension files live in runtime/ so it's obvious what to click.
+//   MyApp/
+//     MyApp.exe             ← tiny Zig-compiled launcher (hides console, has icon)
+//     runtime/
+//       wezterm-gui.exe     ← from WezTerm release
+//       conpty.dll          ← required for PTY
+//       OpenConsole.exe     ← required for PTY
+//       libEGL.dll          ← ANGLE (WebGpu/OpenGL compat)
+//       libGLESv2.dll       ← ANGLE
+//       my-app.exe          ← compiled termcast extension binary
+//       config/
+//         wezterm.lua       ← baked config
+
+async function buildWin32App(
+  options: BuildAppOptions,
+  resolvedPlatform: 'win32',
+): Promise<BuildAppResult> {
+  const ctx = await resolveBuildContext({ ...options, platform: resolvedPlatform })
+
+  // Only x64 is supported for Windows (WezTerm doesn't ship arm64 Windows builds)
+  if (ctx.resolvedArch !== 'x64') {
+    throw new Error(
+      `Windows app build only supports x64 architecture. WezTerm does not ship arm64 Windows binaries.`,
+    )
+  }
+
+  // Download/cache WezTerm Windows files
+  const weztermFiles = await downloadWeztermWindows()
+
+  // Assemble folder structure: launcher at root, everything else in runtime/
+  const appDir = path.join(ctx.distDir, ctx.safeName)
+
+  if (fs.existsSync(appDir)) {
+    fs.rmSync(appDir, { recursive: true, force: true })
+  }
+
+  const runtimeDir = path.join(appDir, 'runtime')
+  const configDir = path.join(runtimeDir, 'config')
+  fs.mkdirSync(configDir, { recursive: true })
+
+  console.log('Assembling Windows app folder...')
+
+  // Copy WezTerm files into runtime/ (wezterm-gui.exe, conpty.dll, OpenConsole.exe, ANGLE DLLs)
+  for (const [name, cachedPath] of weztermFiles) {
+    fs.copyFileSync(cachedPath, path.join(runtimeDir, name))
+  }
+
+  // Copy compiled extension binary into runtime/ (with .exe extension)
+  const binaryName = ctx.extensionName + '.exe'
+  fs.copyFileSync(ctx.compileResult.outfile, path.join(runtimeDir, binaryName))
+
+  // Write wezterm.lua config
+  fs.writeFileSync(
+    path.join(configDir, 'wezterm.lua'),
+    generateWeztermConfigWindows({ binaryName }),
+  )
+
+  // Build the launcher .exe with Zig cross-compilation:
+  // 1. Write launcher.c source
+  // 2. Convert PNG icon to .ico
+  // 3. Write .rc resource file referencing the .ico
+  // 4. Cross-compile with: zig cc launcher.c launcher.rc -o MyApp.exe
+  //    targeting x86_64-windows-gnu with --subsystem windows
+  const buildTmpDir = path.join(ctx.distDir, `.win-build-tmp-${process.pid}`)
+  fs.mkdirSync(buildTmpDir, { recursive: true })
+
+  try {
+    const launcherCPath = path.join(buildTmpDir, 'launcher.c')
+    fs.writeFileSync(launcherCPath, generateLauncherC())
+
+    // Convert PNG → ICO → RC → RES for icon embedding.
+    // zig rc compiles .rc to .res, then zig cc links .res into the exe.
+    const icoPath = path.join(buildTmpDir, 'app.ico')
+    const rcPath = path.join(buildTmpDir, 'launcher.rc')
+    const resPath = path.join(buildTmpDir, 'launcher.res')
+    let hasIcon = false
+
+    try {
+      convertToIco({ pngPath: ctx.iconPng, outputPath: icoPath })
+      fs.writeFileSync(rcPath, generateLauncherRc({ icoPath }))
+      await execFileAsync('zig', ['rc', rcPath, resPath])
+      hasIcon = true
+    } catch (e) {
+      console.log(`Warning: could not build icon resource (${e instanceof Error ? e.message : e}), launcher will have no custom icon`)
+    }
+
+    const launcherExePath = path.join(appDir, `${ctx.safeName}.exe`)
+
+    // Zig cross-compiles C to Windows x64 from any host platform.
+    // -Wl,--subsystem,windows hides the console window on launch (GUI subsystem).
+    // -Os optimizes for size, -s strips symbols. Result is ~19-29KB.
+    const zigArgs = [
+      'cc',
+      launcherCPath,
+      ...(hasIcon ? [resPath] : []),
+      '-o', launcherExePath,
+      '-target', 'x86_64-windows-gnu',
+      '-Os',
+      '-s',
+      '-Wl,--subsystem,windows',
+    ]
+
+    console.log('Cross-compiling Windows launcher with Zig...')
+    await execFileAsync('zig', zigArgs)
+
+    const launcherSize = fs.statSync(launcherExePath).size
+    console.log(`Launcher: ${ctx.safeName}.exe (${(launcherSize / 1024).toFixed(0)}KB)`)
+  } finally {
+    // Clean up build temp directory
+    fs.rmSync(buildTmpDir, { recursive: true, force: true })
+  }
+
+  // Clean up intermediate compiled binary + sourcemap
+  fs.rmSync(ctx.compileResult.outfile, { force: true })
+  fs.rmSync(ctx.compileResult.outfile + '.map', { force: true })
+
+  const appSize = getDirectorySize(appDir)
+  console.log(`\nBuilt: ${appDir} (${(appSize / 1024 / 1024).toFixed(0)}MB)`)
+
+  if (options.release) {
+    await uploadToRelease({
+      extensionPath: ctx.resolvedPath,
+      extensionName: ctx.extensionName,
+      appDir,
+      appName: ctx.safeName,
+      arch: ctx.resolvedArch,
+      platform: 'win32',
+    })
+  }
+
+  return { appPath: appDir, appName: ctx.safeName }
 }
 
 function getDirectorySize(dirPath: string): number {
@@ -482,12 +911,14 @@ async function uploadToRelease({
   appDir,
   appName,
   arch,
+  platform,
 }: {
   extensionPath: string
   extensionName: string
   appDir: string
   appName: string
   arch: CompileTarget['arch']
+  platform: CompileTarget['os']
 }): Promise<void> {
   const distDir = path.dirname(appDir)
 
@@ -524,14 +955,19 @@ async function uploadToRelease({
 
   console.log(`Uploading to release ${latestTag}...`)
 
-  // Zip the .app bundle using JSZip (cross-platform)
-  const zipName = `${appName}-darwin-${arch}.zip`
+  // Zip the app bundle using JSZip (cross-platform).
+  // Platform name in the zip: darwin, windows (not win32).
+  const platformName = platform === 'win32' ? 'windows' : platform
+  const zipName = `${appName}-${platformName}-${arch}.zip`
   const zipPath = path.join(distDir, zipName)
   fs.rmSync(zipPath, { force: true })
 
   const JSZip = (await import('jszip')).default
   const zip = new JSZip()
   const appBasename = path.basename(appDir)
+
+  // Use UNIX platform for macOS (preserves executable permissions) and DOS for Windows
+  const zipPlatform = platform === 'win32' ? 'DOS' : 'UNIX'
 
   const addDirToZip = (dirPath: string, zipPrefix: string) => {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true })
@@ -553,7 +989,7 @@ async function uploadToRelease({
 
   const zipBuffer = await zip.generateAsync({
     type: 'nodebuffer',
-    platform: 'UNIX',
+    platform: zipPlatform as 'UNIX' | 'DOS',
   })
   fs.writeFileSync(zipPath, zipBuffer)
   console.log(`Created ${zipName}`)
