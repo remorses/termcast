@@ -425,23 +425,23 @@ function Features() {
     <section id='features' className='relative z-10 py-16 sm:py-40 px-6'>
       <div className='max-w-5xl mx-auto flex flex-col gap-16 sm:gap-40'>
         <ProductCard
-          title='Lists · Search'
+          title='lists · search'
           description='Searchable lists with sections, accessories, detail panels, and full keyboard navigation. Built-in fuzzy search, dropdown filters, pagination, and action shortcuts.'
           visual={<ListsSearchVisual />}
         />
         <ProductCard
-          title='Forms · Inputs'
+          title='forms · inputs'
           description='Text fields, dropdowns, checkboxes, tag pickers, date pickers, file pickers. Tab to navigate, ctrl+enter to submit. Validation with react-hook-form.'
           visual={<FormsInputsVisual />}
           reversed
         />
         <ProductCard
-          title='Graphs · Charts'
+          title='graphs · charts'
           description='Line charts rendered with braille characters at 2x4 sub-pixel resolution per cell. Stacked bar charts, multiple series, color themes. All inside terminal cells.'
           visual={<GraphsChartsVisual />}
         />
         <ProductCard
-          title='Compile · Ship'
+          title='compile · ship'
           description='termcast compile builds a standalone binary. termcast release publishes to GitHub Releases for macOS, Linux, and Windows. Users install with a single curl command.'
           visual={<CompileDistributeVisual />}
           reversed
@@ -481,7 +481,7 @@ function DeployTool() {
       <div className='max-w-4xl mx-auto'>
         <div className='text-center mb-10'>
           <h2 className='bu-font-serif text-3xl sm:text-4xl md:text-5xl text-white'>
-            Familiar API. Zero learning curve.
+            familiar API. zero learning curve.
           </h2>
           <p className='bu-font-sans text-sm sm:text-base text-zinc-500 mt-4 max-w-xl mx-auto'>
             Same components as Raycast -- List, Form, Detail, ActionPanel.
@@ -617,7 +617,7 @@ function WhyTermcast() {
       <div className='max-w-5xl mx-auto'>
         <div className='text-center mb-12'>
           <h2 className='bu-font-serif text-3xl sm:text-4xl md:text-5xl text-white'>
-            Why termcast?
+            why termcast?
           </h2>
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10'>
@@ -644,7 +644,7 @@ function BottomCTA() {
     <section className='relative z-10 py-12 sm:py-32 px-6'>
       <div className='flex flex-col items-center text-center'>
         <h2 className='bu-font-serif italic text-3xl sm:text-4xl md:text-5xl text-white'>
-          Start building.
+           start building.
         </h2>
         <div className='bu-font-mono text-sm text-zinc-500 mt-6 max-w-lg'>
           <div className='mb-4'>
