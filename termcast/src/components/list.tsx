@@ -337,6 +337,8 @@ export interface ListProps
   children?: ReactNode
   onSelectionChange?: (id: string | null) => void
   searchBarAccessory?: ReactElement<DropdownProps> | null
+  /** Custom ReactNode rendered on the right edge of the search bar row, after the dropdown if present. */
+  logo?: ReactNode
   searchText?: string
   enableFiltering?: boolean
   searchBarPlaceholder?: string
@@ -987,6 +989,7 @@ export const List: ListType = (props) => {
     isShowingDetail,
     selectedItemId,
     searchBarAccessory,
+    logo,
     spacingMode = 'default',
     accessoryTagsLayout,
     throttle,
@@ -1410,7 +1413,7 @@ export const List: ListType = (props) => {
         <box style={{ flexDirection: 'column', flexGrow: 1 }}>
           {/* Cannot mount focused actions here - would need to be handled differently */}
 
-          {navigationTitle && (
+          {(navigationTitle || logo) && (
             <box
               border={false}
               style={{
@@ -1419,12 +1422,25 @@ export const List: ListType = (props) => {
                 paddingLeft: 1,
                 paddingRight: 1,
                 overflow: 'hidden',
+                flexDirection: 'row',
+                alignItems: 'center',
               }}
             >
-              <LoadingBar
-                title={navigationTitle}
-                isLoading={isLoading || navigationPending}
-              />
+              {navigationTitle ? (
+                <box flexGrow={1} flexShrink={1} overflow='hidden'>
+                  <LoadingBar
+                    title={navigationTitle}
+                    isLoading={isLoading || navigationPending}
+                  />
+                </box>
+              ) : (
+                <box flexGrow={1} />
+              )}
+              {logo ? (
+                <box flexShrink={0} paddingLeft={1}>
+                  {logo}
+                </box>
+              ) : null}
             </box>
           )}
 

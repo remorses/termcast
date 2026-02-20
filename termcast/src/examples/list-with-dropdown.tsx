@@ -1,5 +1,5 @@
 import React, { useState, ReactElement } from 'react'
-import { List, renderWithProviders } from 'termcast'
+import { List, renderWithProviders, Color } from 'termcast'
 import type { DropdownProps } from 'termcast/src/components/list'
 
 function DrinkDropdown(props: {
@@ -73,7 +73,7 @@ function ListWithDropdownExample() {
   return (
     <List
       navigationTitle='Search Beers'
-      // searchBarPlaceholder="Search your favorite drink"
+      logo={<text fg={Color.Orange}>◆ Acme</text>}
       searchBarAccessory={
         (
           <DrinkDropdown
