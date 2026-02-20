@@ -1413,7 +1413,7 @@ export const List: ListType = (props) => {
         <box style={{ flexDirection: 'column', flexGrow: 1 }}>
           {/* Cannot mount focused actions here - would need to be handled differently */}
 
-          {(navigationTitle || logo) && (
+          {(navigationTitle || (logo && searchBarAccessory)) && (
             <box
               border={false}
               style={{
@@ -1489,6 +1489,11 @@ export const List: ListType = (props) => {
                 />
               </box>
               {searchBarAccessory}
+              {!navigationTitle && !searchBarAccessory && logo ? (
+                <box flexShrink={0} paddingLeft={2}>
+                  {logo}
+                </box>
+              ) : null}
             </box>
           </box>
 
