@@ -82,6 +82,14 @@ export type {
   BarGraphSeriesProps,
 } from 'termcast/src/components/bar-graph'
 
+// Core UI Components - Heatmap
+export { Heatmap } from 'termcast/src/components/heatmap'
+export type {
+  HeatmapProps,
+  HeatmapData,
+  HeatmapCellChar,
+} from 'termcast/src/components/heatmap'
+
 // Core UI Components - ProgressBar
 export { ProgressBar } from 'termcast/src/components/progress-bar'
 export type { ProgressBarProps } from 'termcast/src/components/progress-bar'
