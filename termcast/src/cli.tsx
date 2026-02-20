@@ -17,6 +17,7 @@ import './globals'
 import { startDevMode, triggerRebuild } from './extensions/dev'
 import { compileExtension } from './compile'
 import { releaseExtension } from './release'
+import { buildApp } from './app'
 import { runHomeCommand } from './extensions/home'
 import { showToast, Toast } from './apis/toast'
 import packageJson from '../package.json'
@@ -256,6 +257,55 @@ cli
       process.exit(1)
     }
   })
+
+cli
+  .command(
+    'app build [path]',
+    'Build a standalone macOS .app bundle from a termcast extension',
+  )
+  .option('--name <name>', 'App display name (default: package.json title)')
+  .option('--icon <path>', 'Custom icon PNG path (default: extension icon or bundled default)')
+  .option('--bundle-id <id>', 'macOS bundle identifier (default: com.termcast.{name})')
+  .option('--release', 'Upload the .app zip to the latest GitHub release')
+  .option('--entry <file>', 'Custom entry file (instead of auto-generated one)')
+  .option('--platform <platform>', 'Target platform: darwin (default, only supported for now)')
+  .option('--arch <arch>', 'Target architecture: arm64 or x64 (default: current machine)')
+  .action(
+    async (
+      extensionPath: string,
+      options: {
+        name?: string
+        icon?: string
+        bundleId?: string
+        release?: boolean
+        entry?: string
+        platform?: string
+        arch?: string
+      },
+    ) => {
+      extensionPath = path.resolve(extensionPath || process.cwd())
+
+      try {
+        const result = await buildApp({
+          extensionPath,
+          name: options.name,
+          icon: options.icon,
+          bundleId: options.bundleId,
+          release: options.release,
+          entry: options.entry,
+          platform: options.platform as 'darwin' | 'linux' | 'win32' | undefined,
+          arch: options.arch as 'arm64' | 'x64' | undefined,
+        })
+
+        console.log(`\nApp built: ${result.appPath}`)
+        console.log(`Run it with: open "${result.appPath}"`)
+        process.exit(0)
+      } catch (error: any) {
+        console.error('App build failed:', error.message)
+        process.exit(1)
+      }
+    },
+  )
 
 cli
   .command(
