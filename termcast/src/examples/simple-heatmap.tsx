@@ -1,7 +1,8 @@
 // Example: Heatmap component showcase with various color combinations.
 // Shows month splits, width-based truncation, and different color palettes.
+// Demonstrates Markdown component interleaved with Heatmaps for descriptions.
 
-import { Color, Detail, Heatmap } from 'termcast'
+import { Color, Detail, Heatmap, Markdown } from 'termcast'
 import type { HeatmapData } from 'termcast'
 import { renderWithProviders } from '../utils'
 
@@ -41,11 +42,17 @@ function SimpleHeatmap() {
       ].join('\n')}
       metadata={
         <Detail.Metadata>
+          <Markdown content="**Long history** — 5 years of daily data in purple. Months that don't fit the terminal width are truncated from the left." />
           <Heatmap data={longHistoryData} color={Color.Purple} />
+          <Markdown content="**Journal** — summer + winter entries in green, with a fall gap between the two ranges." />
           <Heatmap data={journalData} color={Color.Green} />
+          <Markdown content="**Recent activity** — last 150 days in red, showing the sine-wave pattern clearly." />
           <Heatmap data={recentData} color={Color.Red} />
+          <Markdown content="**Short burst** — 180 days in blue on a purple empty background." />
           <Heatmap data={shortBurst} color={Color.Blue} emptyColor={Color.Purple} />
+          <Markdown content="**Warm tones** — orange cells on magenta empty, same journal data." />
           <Heatmap data={journalData} color={Color.Orange} emptyColor={Color.Magenta} />
+          <Markdown content="**Yellow on blue** — high-contrast palette for the recent data set." />
           <Heatmap data={recentData} color={Color.Yellow} emptyColor={Color.Blue} />
         </Detail.Metadata>
       }

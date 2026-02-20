@@ -45,6 +45,10 @@ export type {
   ActionPanelSectionProps,
 } from 'termcast/src/components/actions'
 
+// Core UI Components - Markdown
+export { Markdown } from 'termcast/src/components/markdown'
+export type { MarkdownProps } from 'termcast/src/components/markdown'
+
 // Core UI Components - Detail
 export { Detail } from 'termcast/src/components/detail'
 export type {

@@ -32,12 +32,15 @@ test('renders heatmaps with various color combinations', async () => {
 
 
                                                                                          █
-                                                                                         ▀
+
       Heatmap Color Showcase
 
       Each heatmap demonstrates a different color combination.
       Data has a late-fall gap to show that empty weeks are skipped.
       Last heatmap renders multi-year data to verify width truncation.
+
+      Long history — 5 years of daily data in purple. Months that don't fit the
+      terminal width are truncated from the left.
 
       May      Jun        Jul      Aug        Sep      Oct      Nov
       ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼
@@ -49,6 +52,9 @@ test('renders heatmaps with various color combinations', async () => {
       ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼
                                                        Less ◼ ◼ ◼ ◼ ◼ More
 
+      Journal — summer + winter entries in green, with a fall gap between the two
+      ranges.
+
       Jun        Jul      Aug        Sep  Jan      Feb
       ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼
       ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼  Mon
@@ -59,6 +65,8 @@ test('renders heatmaps with various color combinations', async () => {
       ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼
                                       Less ◼ ◼ ◼ ◼ ◼ More
 
+      Recent activity — last 150 days in red, showing the sine-wave pattern clearly.
+
       Se Oct      Nov        Dec      Jan      Feb
       ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼
       ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  Mon
@@ -66,14 +74,6 @@ test('renders heatmaps with various color combinations', async () => {
       ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  Wed
       ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼
       ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  Fri
-      ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼
-                                    Less ◼ ◼ ◼ ◼ ◼ More
-
-      Au Sep      Oct      Nov        Dec      Jan      Feb
-      ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼
-      ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  Mon
-      ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼
-      ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  ◼ ◼ ◼ ◼  Wed
 
 
       esc go back   ^k actions                                     powered by termcast.app

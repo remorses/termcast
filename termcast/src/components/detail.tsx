@@ -1,7 +1,7 @@
 import React, { ReactNode, useMemo, ReactElement } from 'react'
 import { TextAttributes } from '@opentui/core'
-import { useKeyboard, useTerminalDimensions, useRenderer } from '@opentui/react'
-import { useTheme, markdownSyntaxStyle } from 'termcast/src/theme'
+import { useKeyboard, useTerminalDimensions } from '@opentui/react'
+import { useTheme } from 'termcast/src/theme'
 import { InFocus, useIsInFocus } from 'termcast/src/internal/focus-context'
 import { ActionPanel, Action } from 'termcast/src/components/actions'
 import { Footer } from 'termcast/src/components/footer'
@@ -12,7 +12,7 @@ import { useStore } from 'termcast/src/state'
 import { Offscreen } from 'termcast/src/internal/offscreen'
 import { Metadata, MetadataContext, extractTitleLengths, defaultConfig } from 'termcast/src/components/metadata'
 import type { LabelProps, SeparatorProps, LinkProps, TagListProps, TagListItemProps, MetadataConfig } from 'termcast/src/components/metadata'
-import { createMarkdownRenderNode } from 'termcast/src/markdown-utils'
+import { Markdown } from 'termcast/src/components/markdown'
 
 interface ActionsInterface {
   actions?: ReactNode
@@ -170,18 +170,7 @@ function getFirstActionTitle(actions: ReactNode): string | undefined {
   return firstTitle
 }
 
-// Renders markdown with link URL stripping via renderNode.
-// Links show only their title text (bold, primary) with click-to-open.
-function MarkdownContent({ markdown }: { markdown: string }): any {
-  const renderer = useRenderer()
-  const renderNode = useMemo(() => {
-    return createMarkdownRenderNode(renderer)
-  }, [renderer])
 
-  return (
-    <markdown content={markdown} syntaxStyle={markdownSyntaxStyle} conceal renderNode={renderNode} />
-  )
-}
 
 const Detail: DetailType = (props) => {
   const { actions } = props
@@ -224,7 +213,7 @@ const Detail: DetailType = (props) => {
         }}
       >
         {props.markdown && (
-          <MarkdownContent markdown={props.markdown} />
+          <Markdown content={props.markdown} />
         )}
         {props.metadata}
       </box>
