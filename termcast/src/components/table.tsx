@@ -79,7 +79,9 @@ export class TableRenderable extends Renderable {
   }
 
   set rows(value: TableCellContent[][]) {
-    const structureChanged = value.length !== this._rows.length
+    const newColCount = value[0]?.length || 0
+    const oldColCount = this._rows[0]?.length || 0
+    const structureChanged = value.length !== this._rows.length || newColCount !== oldColCount
     this._rows = value
     this._tableDirty = true
     if (structureChanged) this._tableStructureDirty = true
@@ -164,7 +166,7 @@ export class TableRenderable extends Renderable {
       this.remove(child.id)
     }
 
-    const colCount = this._headers.length
+    const colCount = this._headers.length || this._rows[0]?.length || 0
     if (colCount === 0 || this._rows.length === 0) return
 
     const headingStyle =
@@ -193,31 +195,35 @@ export class TableRenderable extends Renderable {
     headerFg: StyleDefinition['fg'],
     stripeBg: StyleDefinition['fg'],
   ): void {
+    const hasHeaders = this._headers.length > 0
+
     for (let col = 0; col < colCount; col++) {
       const columnBox = new BoxRenderable(this.ctx, {
         id: `${this.id}-col-${col}`,
         flexDirection: 'column',
       })
 
-      const headerContent = this._headers[col] ?? ''
-      let headerStyledText = this.toStyledText(headerContent)
-      headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
+      if (hasHeaders) {
+        const headerContent = this._headers[col] ?? ''
+        let headerStyledText = this.toStyledText(headerContent)
+        headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
 
-      const headerBox = new BoxRenderable(this.ctx, {
-        id: `${this.id}-col-${col}-header-box`,
-        backgroundColor: headerBg,
-      })
-      headerBox.add(
-        new TextRenderable(this.ctx, {
-          id: `${this.id}-col-${col}-header`,
-          content: headerStyledText,
-          height: 1,
-          overflow: 'hidden',
-          paddingLeft: 1,
-          paddingRight: 1,
-        }),
-      )
-      columnBox.add(headerBox)
+        const headerBox = new BoxRenderable(this.ctx, {
+          id: `${this.id}-col-${col}-header-box`,
+          backgroundColor: headerBg,
+        })
+        headerBox.add(
+          new TextRenderable(this.ctx, {
+            id: `${this.id}-col-${col}-header`,
+            content: headerStyledText,
+            height: 1,
+            overflow: 'hidden',
+            paddingLeft: 1,
+            paddingRight: 1,
+          }),
+        )
+        columnBox.add(headerBox)
+      }
 
       for (let row = 0; row < this._rows.length; row++) {
         const cell = this._rows[row]?.[col] ?? ''
@@ -254,28 +260,30 @@ export class TableRenderable extends Renderable {
     headerFg: StyleDefinition['fg'],
     stripeBg: StyleDefinition['fg'],
   ): void {
-    const headerRow = new BoxRenderable(this.ctx, {
-      id: `${this.id}-header-row`,
-      flexDirection: 'row',
-      backgroundColor: headerBg,
-    })
-    for (let col = 0; col < colCount; col++) {
-      const headerContent = this._headers[col] ?? ''
-      let headerStyledText = this.toStyledText(headerContent)
-      headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
+    if (this._headers.length > 0) {
+      const headerRow = new BoxRenderable(this.ctx, {
+        id: `${this.id}-header-row`,
+        flexDirection: 'row',
+        backgroundColor: headerBg,
+      })
+      for (let col = 0; col < colCount; col++) {
+        const headerContent = this._headers[col] ?? ''
+        let headerStyledText = this.toStyledText(headerContent)
+        headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
 
-      headerRow.add(
-        new TextRenderable(this.ctx, {
-          id: `${this.id}-header-${col}`,
-          content: headerStyledText,
-          flexGrow: 1,
-          flexBasis: 0,
-          paddingLeft: 1,
-          paddingRight: 1,
-        }),
-      )
+        headerRow.add(
+          new TextRenderable(this.ctx, {
+            id: `${this.id}-header-${col}`,
+            content: headerStyledText,
+            flexGrow: 1,
+            flexBasis: 0,
+            paddingLeft: 1,
+            paddingRight: 1,
+          }),
+        )
+      }
+      this.add(headerRow)
     }
-    this.add(headerRow)
 
     for (let row = 0; row < this._rows.length; row++) {
       const isOddRow = row % 2 === 1
@@ -322,7 +330,8 @@ export class TableRenderable extends Renderable {
     const stripeBg = concealStyle?.bg
 
     const columns = (this as any)._childrenInLayoutOrder as Renderable[]
-    const colCount = this._headers.length
+    const colCount = this._headers.length || this._rows[0]?.length || 0
+    const hasHeaders = this._headers.length > 0
 
     for (let col = 0; col < colCount; col++) {
       const columnBox = columns[col]
@@ -330,23 +339,26 @@ export class TableRenderable extends Renderable {
 
       const columnChildren = (columnBox as any)._childrenInLayoutOrder as Renderable[]
 
-      // Update header
-      const headerBox = columnChildren[0]
-      if (headerBox instanceof BoxRenderable) {
-        headerBox.backgroundColor = headerBg ?? 'transparent'
-        const headerChildren = (headerBox as any)._childrenInLayoutOrder as Renderable[]
-        const headerText = headerChildren[0]
-        if (headerText instanceof TextRenderable) {
-          const headerContent = this._headers[col] ?? ''
-          let headerStyledText = this.toStyledText(headerContent)
-          headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
-          headerText.content = headerStyledText
+      if (hasHeaders) {
+        // Update header
+        const headerBox = columnChildren[0]
+        if (headerBox instanceof BoxRenderable) {
+          headerBox.backgroundColor = headerBg ?? 'transparent'
+          const headerChildren = (headerBox as any)._childrenInLayoutOrder as Renderable[]
+          const headerText = headerChildren[0]
+          if (headerText instanceof TextRenderable) {
+            const headerContent = this._headers[col] ?? ''
+            let headerStyledText = this.toStyledText(headerContent)
+            headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
+            headerText.content = headerStyledText
+          }
         }
       }
 
       // Update data rows
+      const rowOffset = hasHeaders ? 1 : 0
       for (let row = 0; row < this._rows.length; row++) {
-        const cellContainer = columnChildren[row + 1]
+        const cellContainer = columnChildren[row + rowOffset]
         if (cellContainer instanceof BoxRenderable) {
           const isOddRow = row % 2 === 1
           cellContainer.backgroundColor = isOddRow && stripeBg ? stripeBg : 'transparent'
@@ -370,25 +382,29 @@ export class TableRenderable extends Renderable {
     const stripeBg = concealStyle?.bg
 
     const allRows = (this as any)._childrenInLayoutOrder as Renderable[]
-    const colCount = this._headers.length
+    const colCount = this._headers.length || this._rows[0]?.length || 0
+    const hasHeaders = this._headers.length > 0
 
-    const headerRow = allRows[0]
-    if (headerRow instanceof BoxRenderable) {
-      headerRow.backgroundColor = headerBg ?? 'transparent'
-      const headerCells = (headerRow as any)._childrenInLayoutOrder as Renderable[]
-      for (let col = 0; col < colCount; col++) {
-        const headerText = headerCells[col]
-        if (headerText instanceof TextRenderable) {
-          const headerContent = this._headers[col] ?? ''
-          let headerStyledText = this.toStyledText(headerContent)
-          headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
-          headerText.content = headerStyledText
+    if (hasHeaders) {
+      const headerRow = allRows[0]
+      if (headerRow instanceof BoxRenderable) {
+        headerRow.backgroundColor = headerBg ?? 'transparent'
+        const headerCells = (headerRow as any)._childrenInLayoutOrder as Renderable[]
+        for (let col = 0; col < colCount; col++) {
+          const headerText = headerCells[col]
+          if (headerText instanceof TextRenderable) {
+            const headerContent = this._headers[col] ?? ''
+            let headerStyledText = this.toStyledText(headerContent)
+            headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
+            headerText.content = headerStyledText
+          }
         }
       }
     }
 
+    const rowOffset = hasHeaders ? 1 : 0
     for (let row = 0; row < this._rows.length; row++) {
-      const rowBox = allRows[row + 1]
+      const rowBox = allRows[row + rowOffset]
       if (!(rowBox instanceof BoxRenderable)) continue
 
       const isOddRow = row % 2 === 1
@@ -461,8 +477,9 @@ type TableLayoutProps = Partial<
 >
 
 export interface TableProps extends TableLayoutProps {
-  /** Column header labels */
-  headers: string[]
+  /** Column header labels. When omitted, no header row is rendered — useful for
+   *  key-value tables where headers like "Field"/"Value" add no information. */
+  headers?: string[]
   /** Row data – each inner array is one row of cell strings */
   rows: string[][]
   /** When true, cell text wraps instead of being truncated to one line. Default false. */
@@ -474,7 +491,7 @@ export interface TableProps extends TableLayoutProps {
 }
 
 export function Table(props: TableProps): any {
-  const { headers, rows, wrapText, width = '100%', height, ...layoutProps } = props
+  const { headers = [], rows, wrapText, width = '100%', height, ...layoutProps } = props
 
   const themeName = useStore((state) => state.currentThemeName)
   const syntaxStyle = React.useMemo(() => {
