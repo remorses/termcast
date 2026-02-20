@@ -79,6 +79,7 @@ function ListFooter(): any {
   const theme = useTheme()
   const firstActionTitle = useStore((s) => s.firstActionTitle)
   const dropdownFooterLabel = useStore((s) => s.dropdownFooterLabel)
+  const dropdownTooltip = useStore((s) => s.dropdownTooltip)
   const hasToast = useStore((s) => s.toast !== null)
   const listContext = useContext(ListContext)
   const isShowingDetail = listContext?.isShowingDetail ?? false
@@ -106,6 +107,12 @@ function ListFooter(): any {
         </text>
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
+      <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
+        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
+          ^k
+        </text>
+        <text flexShrink={0} fg={theme.textMuted}>actions</text>
+      </box>
       {hasDropdown && (
         <box
           style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}
@@ -120,16 +127,10 @@ function ListFooter(): any {
             ^p
           </text>
           <text flexShrink={0} fg={theme.textMuted} onMouseDown={openDropdownIfClosed}>
-            {dropdownFooterLabel || 'dropdown'}
+            {(dropdownTooltip || dropdownFooterLabel || 'dropdown').toLowerCase()}
           </text>
         </box>
       )}
-      <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
-        <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
-          ^k
-        </text>
-        <text flexShrink={0} fg={theme.textMuted}>actions</text>
-      </box>
     </box>
   )
 
@@ -1859,6 +1860,11 @@ const ListDropdown: ListDropdownType = (props) => {
   const descendantsContext = useDropdownDescendants()
   const dialog = useDialog()
   const inFocus = useIsInFocus()
+
+  // Store dropdown tooltip in zustand for footer display
+  useLayoutEffect(() => {
+    useStore.setState({ dropdownTooltip: props.tooltip || '' })
+  }, [props.tooltip])
 
   // Update value and find its title
   useLayoutEffect(() => {

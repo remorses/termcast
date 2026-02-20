@@ -75,6 +75,8 @@ interface AppState {
   firstActionTitle: string
   // Selected List.Dropdown item title shown in List footer (^p label)
   dropdownFooterLabel: string
+  // List.Dropdown tooltip shown in footer as ^p label (preferred over dropdownFooterLabel)
+  dropdownTooltip: string
   // Flag to show actions dialog via portal
   showActionsDialog: boolean
   // Portal target node for rendering ActionPanel dialog in the overlay area.
@@ -110,6 +112,7 @@ export const useStore = create<AppState>(() => ({
   shouldAutoExecuteFirstAction: false,
   firstActionTitle: '',
   dropdownFooterLabel: '',
+  dropdownTooltip: '',
   showActionsDialog: false,
   actionsPortalTarget: null,
   // Theme state
