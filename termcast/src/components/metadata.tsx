@@ -13,6 +13,7 @@ import { TextAttributes } from '@opentui/core'
 import { useTheme } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
 import type { ImageLike } from 'termcast/src/components/image'
+import { openInBrowser } from 'termcast/src/action-utils'
 
 interface MetadataConfig {
   /**
@@ -174,8 +175,14 @@ const MetadataLink = (props: LinkProps): any => {
       <text flexShrink={0} fg={theme.textMuted} style={{ minWidth: config.titleMinWidth }}>
         {props.title}:{' '}
       </text>
-      <text fg={theme.accent} attributes={TextAttributes.UNDERLINE}>
-        {props.text}
+      <text
+        fg={theme.accent}
+        attributes={TextAttributes.UNDERLINE}
+        onMouseDown={() => {
+          void openInBrowser(props.target)
+        }}
+      >
+        <a href={props.target}>{props.text}</a>
       </text>
     </box>
   )

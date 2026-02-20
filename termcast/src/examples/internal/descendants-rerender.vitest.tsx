@@ -30,17 +30,29 @@ test(
         [1] Banana (without hook, renders: 8)
         [2] Cherry (without hook, renders: 9)
 
-        ┌──────────────────────────────────────────────────────────────────────────┐
-        │                                                                          │
-        │ Render Counts:                                                           │
-        │   parent: 1                                                              │
-        │   parentWithHook: 0                                                      │
-        │   independentChild: 0                                                    │
-        │   independentChildWithHook: 0                                            │
-        │   descendantItem: 3                                                      │
-        │   descendantItemWithHook: 0                                              │
-        │                                                                          │
-        └──────────────────────────────────────────────────────────────────────────┘
+        ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+        │                                                                                                                  │
+        │ Render Counts:                                                                                                   │
+        │   parent: 1                                                                                                      │
+        │   parentWithHook: 0                                                                                              │
+        │   independentChild: 0                                                                                            │
+        │   independentChildWithHook: 0                                                                                    │
+        │   descendantItem: 3                                                                                              │
+        │   descendantItemWithHook: 0                                                                                      │
+        │                                                                                                                  │
+        └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       "
@@ -75,17 +87,29 @@ test(
         [1] Banana (without hook, renders: 8)
         [2] Cherry (without hook, renders: 9)
 
-        ┌──────────────────────────────────────────────────────────────────────────┐
-        │                                                                          │
-        │ Render Counts:                                                           │
-        │   parent: 0                                                              │
-        │   parentWithHook: 1                                                      │
-        │   independentChild: 0                                                    │
-        │   independentChildWithHook: 0                                            │
-        │   descendantItem: 3                                                      │
-        │   descendantItemWithHook: 0                                              │
-        │                                                                          │
-        └──────────────────────────────────────────────────────────────────────────┘
+        ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+        │                                                                                                                  │
+        │ Render Counts:                                                                                                   │
+        │   parent: 0                                                                                                      │
+        │   parentWithHook: 1                                                                                              │
+        │   independentChild: 0                                                                                            │
+        │   independentChildWithHook: 0                                                                                    │
+        │   descendantItem: 3                                                                                              │
+        │   descendantItemWithHook: 0                                                                                      │
+        │                                                                                                                  │
+        └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+
+
 
       "
     `)
@@ -115,26 +139,38 @@ test(
       "
 
 
-        Items:i3:|i[a]padde|t[d]ideleteh|h[r] reset counts
-
+        Scenario: independent-child-with-hook
+        Items: 3 | [a] add | [d] delete | [r] reset counts
 
         Parent without hook - renders: 2
         Independent child with hook - renders: 3, items: 3
-        [0]eApplen(withoutwhook,trenders:r7)ders: 2
+        Independent child without hook - renders: 2
+        [0] Apple (without hook, renders: 7)
         [1] Banana (without hook, renders: 8)
         [2] Cherry (without hook, renders: 9)
 
+        ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+        │                                                                                                                  │
+        │ Render Counts:                                                                                                   │
+        │   parent: 1                                                                                                      │
+        │   parentWithHook: 0                                                                                              │
+        │   independentChild: 1                                                                                            │
+        │   independentChildWithHook: 1                                                                                    │
+        │   descendantItem: 3                                                                                              │
+        │   descendantItemWithHook: 0                                                                                      │
+        │                                                                                                                  │
+        └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-        ┌──────────────────────────────────────────────────────────────────────────┐
-        │                                                                          │
-        │ Reparent:u1ts:                                                           │
-        │   parentWithHook: 0                                                      │
-        │   independentChild: 1                                                    │
-        │   independentChildWithHook: 1                                            │
-        │   descendantItem: 3                                                      │
-        │   descendantItemWithHook: 0                                              │
-        │                                                                          │
-        └──────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
 
       "
     `)
@@ -172,17 +208,29 @@ test(
         [1] Banana (with hook, renders: 8, total: 3)
         [2] Cherry (with hook, renders: 9, total: 3)
 
-        ┌──────────────────────────────────────────────────────────────────────────┐
-        │                                                                          │
-        │ Render Counts:                                                           │
-        │   parent: 1                                                              │
-        │   parentWithHook: 0                                                      │
-        │   independentChild: 0                                                    │
-        │   independentChildWithHook: 0                                            │
-        │   descendantItem: 0                                                      │
-        │   descendantItemWithHook: 3                                              │
-        │                                                                          │
-        └──────────────────────────────────────────────────────────────────────────┘
+        ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+        │                                                                                                                  │
+        │ Render Counts:                                                                                                   │
+        │   parent: 1                                                                                                      │
+        │   parentWithHook: 0                                                                                              │
+        │   independentChild: 0                                                                                            │
+        │   independentChildWithHook: 0                                                                                    │
+        │   descendantItem: 0                                                                                              │
+        │   descendantItemWithHook: 3                                                                                      │
+        │                                                                                                                  │
+        └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       "
