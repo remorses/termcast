@@ -128,9 +128,23 @@ export function diagramToDebugString(parsed: ParsedDiagramLine[]): string {
 
 /**
  * Convert ASCII diagram characters to Unicode box-drawing equivalents.
- * Eliminates visual gaps between lines.
- * - `|` -> `│` (vertical lines)
- * - `--` or more -> `──` (horizontal lines, but not single hyphens in text)
+ *
+ * ASCII glyphs have visible gaps in monospaced fonts because they don't
+ * fill the entire terminal cell:
+ *   `|`  — the pipe glyph is shorter than the cell height, so stacked
+ *          pipes show a gap between every row.
+ *   `-`  — the hyphen glyph is narrower than the cell width and sits
+ *          centered, so consecutive hyphens show gaps between each cell.
+ *
+ * Unicode box-drawing characters are designed to span the full cell,
+ * connecting seamlessly with adjacent cells:
+ *   `│` (U+2502) — fills full cell height, no vertical gaps.
+ *   `─` (U+2500) — fills full cell width, no horizontal gaps.
+ *
+ * Replacements:
+ *   `|`        -> `│`  (every occurrence)
+ *   `--` (2+)  -> `──` (only runs of 2+ to avoid converting single
+ *                       hyphens in regular text like "e-mail")
  */
 export function convertAsciiToUnicode(content: string): string {
   return content
