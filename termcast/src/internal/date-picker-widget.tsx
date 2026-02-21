@@ -485,6 +485,7 @@ export function DatePickerWidget({
                       setSelected(d)
                       setFocus('grid')
                       ensureVisibleFor(d)
+                      onChange?.(d)
                     }}
                   >
                     <text

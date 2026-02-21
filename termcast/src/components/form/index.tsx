@@ -77,7 +77,7 @@ export const useFormScrollContext = () => {
 // Context for managing focused field and loading state
 interface FocusContextValue {
   focusedField: string | null
-  setFocusedField: (id: string | null) => void
+  setFocusedField: (id: string | null, opts?: { skipScroll?: boolean }) => void
   isLoading: boolean
 }
 
@@ -225,11 +225,11 @@ export const Form: FormType = ((props) => {
     scrollBox.scrollTo(Math.max(0, targetScrollTop))
   }
 
-  const setFocusedField = (id: string | null) => {
+  const setFocusedField = (id: string | null, opts?: { skipScroll?: boolean }) => {
     flushSync(() => {
       setFocusedFieldRaw(id)
     })
-    if (id) {
+    if (id && !opts?.skipScroll) {
       scrollToField(id)
     }
   }

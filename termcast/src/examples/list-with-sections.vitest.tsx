@@ -334,67 +334,79 @@ test('list click functionality', async () => {
     },
   })
 
-  // Click on "Banana" item (visible in initial view)
+  // Click on "Banana" — should immediately execute first action (navigate to detail)
   await session.click('Banana', { first: true })
 
-  const afterClickBananaSnapshot = await session.text()
-  expect(afterClickBananaSnapshot).toMatchInlineSnapshot(`
+  const afterClickBanana = await session.text()
+  expect(afterClickBanana).toMatchInlineSnapshot(`
     "
 
 
-       Simple List Example ────────────────────────────────────────────
-
-       > Search items...
-
-       Fruits
-       Apple Red and sweet                                Fresh Popular
-      ›Banana Yellow and nutritious                                Ripe
-       Orange Citrus and juicy                                    Fresh
-       Grape Sweet clusters                                    Seasonal
-       Mango Tropical delight                                  Imported
-       Pineapple Sweet and tangy
-       Strawberry Red and sweet                                 Popular
 
 
+      Banana
 
-       ↵ view details   ↑↓ navigate   ^k actions
+      A yellow tropical fruit that's nutritious and energy-rich.
+
+      Benefits
+
+      - High in potassium
+      - Natural energy booster
+      - Aids digestion
+
+
+
+      esc go back   ^k actions
+
 
     "
   `)
+  expect(afterClickBanana).toContain('Banana')
+  expect(afterClickBanana).toContain('go back')
 
-  // Click on "Apple" item
+  // Go back to list
+  await session.press('escape')
+  await session.text({ waitFor: (text) => /search/i.test(text) })
+
+  // Click on "Apple" — should also immediately execute (Apple has actions)
   await session.click('Apple', { first: true })
 
-  const afterClickAppleSnapshot = await session.text()
-  expect(afterClickAppleSnapshot).toMatchInlineSnapshot(`
+  const afterClickApple = await session.text()
+  expect(afterClickApple).toMatchInlineSnapshot(`
     "
 
 
-       Simple List Example ────────────────────────────────────────────
-
-       > Search items...
-
-       Fruits
-      ›Apple Red and sweet                                Fresh Popular
-       Banana Yellow and nutritious                                Ripe
-       Orange Citrus and juicy                                    Fresh
-       Grape Sweet clusters                                    Seasonal
-       Mango Tropical delight                                  Imported
-       Pineapple Sweet and tangy
-       Strawberry Red and sweet                                 Popular
 
 
+      Apple
 
-       ↵ view details   ↑↓ navigate   ^k actions
+      A delicious red fruit that's sweet and crunchy.
+
+      Nutrition Facts
+
+      - High in fiber
+      - Rich in antioxidants
+      - Good source of vitamin C
+
+
+
+      esc go back   ^k actions
+
 
     "
   `)
+  expect(afterClickApple).toContain('Apple')
+  expect(afterClickApple).toContain('go back')
 
-  // Click on "Grape" item (visible in initial view)
+  // Go back to list
+  await session.press('escape')
+  await session.text({ waitFor: (text) => /search/i.test(text) })
+
+  // Click on "Grape" — no actions, should just select
   await session.click('Grape', { first: true })
 
-  const afterClickGrapeSnapshot = await session.text()
-  expect(afterClickGrapeSnapshot).toMatchInlineSnapshot(`
+  const afterClickGrape = await session.text()
+  expect(afterClickGrape).toMatchInlineSnapshot(`
     "
 
 
@@ -417,7 +429,8 @@ test('list click functionality', async () => {
 
     "
   `)
-}, 10000)
+  expect(afterClickGrape).toContain('Grape')
+}, 15000)
 
 test('list actions panel with ctrl+k', async () => {
   await session.text({

@@ -61,12 +61,12 @@ export const TextField = (props: TextFieldProps): any => {
   const fieldError = formState.errors[props.id]
 
   return (
-    <box ref={elementRef} flexDirection="column" onMouseDown={() => { setFocusedField(props.id) }}>
+    <box ref={elementRef} flexDirection="column" onMouseDown={() => { setFocusedField(props.id, { skipScroll: true }) }}>
       <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
         <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
           <box
             onMouseDown={() => {
-              setFocusedField(props.id)
+              setFocusedField(props.id, { skipScroll: true })
             }}
           >
             <LoadingText
@@ -90,7 +90,7 @@ export const TextField = (props: TextFieldProps): any => {
           placeholder={props.placeholder}
           focused={isFocused}
           onMouseDown={() => {
-            setFocusedField(props.id)
+            setFocusedField(props.id, { skipScroll: true })
           }}
         />
         {(fieldError || props.error || props.info) && <box height={1} />}

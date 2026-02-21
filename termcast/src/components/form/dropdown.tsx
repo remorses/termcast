@@ -268,6 +268,11 @@ const DropdownContent = ({
     const item = descendantsContext.committedMap[descendantId]
     const title = item?.props?.title || value
 
+    // Sync focusedIndex so keyboard nav continues from clicked item
+    if (item && item.index !== -1) {
+      setFocusedIndex(item.index)
+    }
+
     if (props.hasMultipleSelection) {
       const currentValues = Array.isArray(field.value) ? [...field.value] : []
       const index = currentValues.indexOf(value)
@@ -428,12 +433,12 @@ const DropdownContent = ({
   return (
     <FormDropdownDescendantsProvider value={descendantsContext}>
       <FormDropdownContext.Provider value={contextValue}>
-        <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id) }}>
+        <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id, { skipScroll: true }) }}>
           <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
             <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
               <box
                 onMouseDown={() => {
-                  setFocusedField(props.id)
+                  setFocusedField(props.id, { skipScroll: true })
                 }}
               >
                 <LoadingText
@@ -448,7 +453,7 @@ const DropdownContent = ({
               fg={selectedTitles.length > 0 ? theme.text : theme.textMuted}
               selectable={false}
               onMouseDown={() => {
-                setFocusedField(props.id)
+                setFocusedField(props.id, { skipScroll: true })
               }}
             >
               {selectedTitles.length > 0

@@ -59,19 +59,10 @@ export const Checkbox = (props: CheckboxProps): any => {
       defaultValue={props.defaultValue || props.value || false}
       render={({ field, fieldState, formState }) => {
         return (
-          <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id) }}>
+          <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id, { skipScroll: true }); handleToggle() }}>
             <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
               <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
-                <box
-                  onMouseDown={() => {
-                    // Always focus the field when clicked
-                    if (!isFocused) {
-                      setFocusedField(props.id)
-                    }
-                    // Always toggle the value when clicked
-                    handleToggle()
-                  }}
-                >
+                <box>
                   <LoadingText
                     isLoading={isFocused && focusContext.isLoading}
                     color={isFocused ? theme.primary : theme.text}
@@ -83,12 +74,6 @@ export const Checkbox = (props: CheckboxProps): any => {
               <text
                 fg={isFocused ? theme.accent : theme.text}
                 selectable={false}
-                onMouseDown={() => {
-                  if (!isFocused) {
-                    setFocusedField(props.id)
-                  }
-                  handleToggle()
-                }}
               >
                 {field.value ? '●' : '○'} {props.label}
               </text>

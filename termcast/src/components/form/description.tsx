@@ -39,7 +39,7 @@ export const Description = (props: DescriptionProps): any => {
       flexDirection='column'
       maxWidth={FORM_MAX_WIDTH}
       onMouseDown={() => {
-        focusContext.setFocusedField(id)
+        focusContext.setFocusedField(id, { skipScroll: true })
       }}
     >
       <WithLeftBorder isFocused={isFocused} paddingBottom={1}>

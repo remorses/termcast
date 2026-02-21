@@ -40,12 +40,12 @@ export const PasswordField = (props: PasswordFieldProps): any => {
         const displayValue = '*'.repeat(displayLength)
 
         return (
-          <box ref={elementRef} flexDirection="column" onMouseDown={() => { setFocusedField(props.id) }}>
+          <box ref={elementRef} flexDirection="column" onMouseDown={() => { setFocusedField(props.id, { skipScroll: true }) }}>
             <WithLeftBorder isFocused={isFocused} paddingBottom={1}>
               <TitleIndicator isFocused={isFocused} isLoading={focusContext.isLoading}>
                 <box
                   onMouseDown={() => {
-                    setFocusedField(props.id)
+                    setFocusedField(props.id, { skipScroll: true })
                   }}
                 >
                   <LoadingText
@@ -83,7 +83,7 @@ export const PasswordField = (props: PasswordFieldProps): any => {
                 placeholder={props.placeholder}
                 focused={isFocused}
                 onMouseDown={() => {
-                  setFocusedField(props.id)
+                  setFocusedField(props.id, { skipScroll: true })
                 }}
               />
               {(fieldState.error || props.error || props.info) && <box height={1} />}

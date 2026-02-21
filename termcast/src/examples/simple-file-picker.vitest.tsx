@@ -271,7 +271,7 @@ test('selecting first item with enter adds it to the list', async () => {
       │  Enter file path...
       │
       │  Selected files:
-      │  • /Users/morse/Documents/GitHub/termcast/termcast/src
+      │  • /Users/morse/Documents/GitHub/termcast/termcast/src ✕
       │  Choose a folder for output
       │
       ◇  Select Single File

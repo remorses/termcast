@@ -774,34 +774,20 @@ function ListItemRow(props: {
   const isRelaxed = spacingMode === 'relaxed'
   const { title, subtitle, icon, iconColor, accessories, active, ref } = props
   const [isHovered, setIsHovered] = useState(false)
-  // Suppress the immediately following click only when the latest hover move
-  // selected this row. This keeps click-to-execute working for already-selected
-  // rows while preserving hover-to-select behavior.
-  const shouldSuppressClickAfterHover = useRef(false)
-
   const handleMouseMove = () => {
     setIsHovered(true)
-    // Select item on hover, like dropdown does
+    // Select item on hover
     if (!active && props.index !== undefined && props.index !== -1 && listCtx?.setSelectedIndex) {
-      shouldSuppressClickAfterHover.current = true
       listCtx.setSelectedIndex(props.index)
-      return
     }
-    shouldSuppressClickAfterHover.current = false
   }
 
   const handleMouseDown = () => {
-    if (shouldSuppressClickAfterHover.current) {
-      // Item was just selected by hover — don't execute action on first click
-      shouldSuppressClickAfterHover.current = false
-      return
-    }
     props.onMouseDown?.()
   }
 
   const handleMouseOut = () => {
     setIsHovered(false)
-    shouldSuppressClickAfterHover.current = false
   }
 
   const accessoryElements: ReactNode[] = []
@@ -1710,19 +1696,19 @@ const ListItem: ListItemType = (props) => {
   // Don't render if not visible
   if (!isVisible) return null
 
-  // Handle mouse click on item
+  // Handle mouse click on item — always select and execute first action.
+  // flushSync ensures React commits the new selectedIndex before Zustand
+  // triggers auto-execute, so ActionPanel picks up the clicked item's actions.
   const handleMouseDown = () => {
     if (listContext && index !== -1) {
-      // If clicking on already selected item, execute first action (like pressing Enter)
-      if (isActive) {
-        if (props.actions) {
-          useStore.setState({ shouldAutoExecuteFirstAction: true })
-        } else {
-          showToast({ style: Toast.Style.Failure, title: 'This item has no actions' })
-        }
-      } else if (listContext.setSelectedIndex) {
-        // Otherwise just select the item
-        listContext.setSelectedIndex(index)
+      if (!isActive && listContext.setSelectedIndex) {
+        const setIdx = listContext.setSelectedIndex
+        flushSync(() => {
+          setIdx(index)
+        })
+      }
+      if (props.actions) {
+        useStore.setState({ shouldAutoExecuteFirstAction: true })
       }
     }
   }

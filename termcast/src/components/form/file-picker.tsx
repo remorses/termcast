@@ -62,7 +62,7 @@ const FilePickerField = ({
   formState: any
   props: FilePickerProps
   isFocused: boolean
-  setFocusedField: (id: string) => void
+  setFocusedField: (id: string, opts?: { skipScroll?: boolean }) => void
   isFormLoading: boolean
 }): any => {
   const theme = useTheme()
@@ -173,10 +173,10 @@ const FilePickerField = ({
         <TitleIndicator isFocused={isFocused} isLoading={isFormLoading}>
           <box
             onMouseDown={() => {
-              setFocusedField(props.id)
-            }}
-          >
-            <LoadingText
+                  setFocusedField(props.id, { skipScroll: true })
+                }}
+              >
+                <LoadingText
               isLoading={isFocused && isFormLoading}
               color={isFocused ? theme.primary : theme.text}
             >
@@ -197,7 +197,7 @@ const FilePickerField = ({
             placeholder={props.placeholder || 'Enter file path...'}
             focused={isFocused}
             showCursor={dialog.stack.length === 0}
-            onMouseDown={() => setFocusedField(props.id)}
+            onMouseDown={() => setFocusedField(props.id, { skipScroll: true })}
             onContentChange={() => {
               const value = inputRef.current?.plainText || ''
               store.setState({ filter: value })
@@ -209,9 +209,19 @@ const FilePickerField = ({
           {selectedFiles.length > 0 && (
             <box flexDirection='column' marginTop={1}>
               <text fg={theme.textMuted}>Selected files:</text>
-              {selectedFiles.map((file: string, index: number) => (
-                <text key={index} fg={theme.text}>
-                  • {file}
+              {selectedFiles.map((file: string, idx: number) => (
+                <text
+                  key={idx}
+                  fg={theme.text}
+                  onMouseDown={() => {
+                    const newFiles = selectedFiles.filter((_: string, i: number) => i !== idx)
+                    field.onChange(newFiles)
+                    if (props.onChange) {
+                      props.onChange(newFiles)
+                    }
+                  }}
+                >
+                  • {file} ✕
                 </text>
               ))}
             </box>
@@ -252,7 +262,7 @@ export const FilePicker = (props: FilePickerProps): any => {
       defaultValue={props.defaultValue || props.value || []}
       render={(renderProps) => {
         return (
-          <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id) }}>
+          <box ref={elementRef} flexDirection='column' onMouseDown={() => { setFocusedField(props.id, { skipScroll: true }) }}>
             <FilePickerField
               {...renderProps}
               props={props}
