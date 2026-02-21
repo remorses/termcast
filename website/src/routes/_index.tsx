@@ -291,134 +291,29 @@ function ProductCard({
         </p>
       </div>
       <div
-        className={`${reversed ? 'order-2 md:order-1' : 'order-2 md:order-2'} max-h-[320px] md:max-h-none overflow-hidden relative`}
+        className={`${reversed ? 'order-2 md:order-1' : 'order-2 md:order-2'} overflow-hidden relative`}
       >
         {visual}
-        <div className='absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-page-bg to-transparent pointer-events-none md:hidden' />
       </div>
     </div>
   )
 }
 
-function ListsSearchVisual() {
-  const items = [
-    { title: 'Deploy to production', subtitle: 'v2.4.1', badge: 'ready', active: true },
-    { title: 'Run test suite', subtitle: '142 tests', badge: 'pass', active: false },
-    { title: 'Check server logs', subtitle: 'us-east-1', badge: '3 errors', active: false },
-    { title: 'Review pull request', subtitle: '#847', badge: 'pending', active: false },
-    { title: 'Update dependencies', subtitle: 'package.json', badge: '12 outdated', active: false },
-  ]
-
+function ShowcaseImage({ name, alt }: { name: string; alt: string }) {
   return (
-    <div className='relative min-h-[280px] md:min-h-0'>
-      <div className='bu-font-mono text-xs sm:text-sm leading-loose'>
-        <div className='flex items-center gap-2 mb-3 text-zinc-500 border-b border-zinc-800 pb-2'>
-          <span className='text-pumpkin-500'>{'>'}</span>
-          <span>deploy</span>
-          <span className='text-pumpkin-500 animate-pulse'>▌</span>
-        </div>
-        {items.map((item) => (
-          <div key={item.title} className={`flex items-center justify-between ${item.active ? 'text-pumpkin-400/80' : 'text-zinc-500'} transition-colors duration-300`}>
-            <span>{item.active ? '› ' : '  '}{item.title}<span className='text-zinc-500 ml-2'>{item.subtitle}</span></span>
-            <span className={item.active ? 'text-pumpkin-500/60' : 'text-zinc-600'}>{item.badge}</span>
-          </div>
-        ))}
-      </div>
-      <div className='absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-zinc-950 to-transparent pointer-events-none' />
+    <div className='relative'>
+      <img
+        src={`/${name}-2x.png`}
+        srcSet={`/${name}-2x.png 2x, /${name}-3x.png 3x`}
+        alt={alt}
+        className='w-full h-auto rounded-sm border border-zinc-800/50'
+        loading='lazy'
+      />
     </div>
   )
 }
 
-function FormsInputsVisual() {
-  const fields = [
-    { label: 'name', value: 'my-extension', type: 'text' as const },
-    { label: 'template', value: 'list', type: 'dropdown' as const },
-    { label: 'language', value: 'TypeScript', type: 'dropdown' as const },
-    { label: 'description', value: 'A CLI for managing...', type: 'text' as const },
-  ]
-  const checkboxes = [
-    { label: 'include examples', checked: true },
-    { label: 'setup git repo', checked: true },
-    { label: 'enable OAuth', checked: false },
-  ]
 
-  return (
-    <div className='bu-font-mono text-xs sm:text-sm leading-relaxed relative max-w-[340px] min-h-[280px] md:min-h-0'>
-      {fields.map((f, i) => (
-        <div key={f.label} className={`flex items-center justify-between py-0.5 ${i === 0 ? 'text-pumpkin-400/80' : ''}`}>
-          <span className='text-zinc-400'>{i === 0 ? '› ' : '  '}{f.label}</span>
-          <span className={i === 0 ? 'text-white' : 'text-zinc-500'}>
-            {f.value}
-            {f.type === 'dropdown' && <span className='text-zinc-500 ml-1'>▾</span>}
-          </span>
-        </div>
-      ))}
-      <div className='border-t border-zinc-800/50 my-2' />
-      {checkboxes.map((cb) => (
-        <div key={cb.label} className='flex items-center justify-between py-0.5'>
-          <span className={cb.checked ? 'text-zinc-400' : 'text-zinc-500'}>{cb.label}</span>
-          <span className={cb.checked ? 'text-emerald-500/70' : 'text-zinc-600'}>{cb.checked ? '✓' : '○'}</span>
-        </div>
-      ))}
-      <div className='mt-3 text-zinc-600 text-[10px] tracking-wider'>ctrl+enter to submit  ·  tab to next field</div>
-    </div>
-  )
-}
-
-function GraphsChartsVisual() {
-  // Braille sparkline rendering - same technique termcast uses
-  const brailleChars = '⣀⣤⣴⣶⣾⣿⡿⠿⠛⠉'
-  const sparkline1 = '⣀⣠⣤⣴⣶⣾⣿⣿⡿⠿⠛⠋⠉⠉⠙⠛⠿⣿⣿⣾⣶⣴⣤⣠⣀'
-  const sparkline2 = '⠉⠙⠛⠿⣿⣿⣷⣶⣤⣄⣀⣀⣠⣤⣶⣷⣿⣿⠿⠛⠙⠉'
-
-  return (
-    <div className='bu-font-mono text-xs sm:text-sm leading-relaxed relative max-w-[360px] min-h-[220px] md:min-h-0'>
-      <div className='text-zinc-600 text-[10px] sm:text-xs mb-2 tracking-wider'>STOCK PRICE</div>
-      <div className='text-pumpkin-400/70 text-lg tracking-[0.15em] leading-tight'>
-        {sparkline1}
-      </div>
-      <div className='flex justify-between text-zinc-500 text-[10px] mt-1 mb-4'>
-        <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
-      </div>
-      <div className='text-zinc-600 text-[10px] sm:text-xs mb-2 tracking-wider'>MOVING AVERAGE</div>
-      <div className='text-emerald-500/50 text-lg tracking-[0.15em] leading-tight'>
-        {sparkline2}
-      </div>
-      <div className='mt-3 text-zinc-500 text-[10px]'>
-        ■ <span className='text-pumpkin-400/70'>price</span>{'  '}■ <span className='text-emerald-500/50'>avg</span>{'  '}rendered with braille characters (2x4 sub-pixel)
-      </div>
-    </div>
-  )
-}
-
-function CompileDistributeVisual() {
-  const steps = [
-    { line: '$ termcast compile', color: 'text-zinc-400' },
-    { line: '  bundling with esbuild...', color: 'text-zinc-500' },
-    { line: '  compiling for darwin-arm64', color: 'text-zinc-500' },
-    { line: '  compiling for linux-x64', color: 'text-zinc-500' },
-    { line: '✓ my-tool (4.2 MB)', color: 'text-emerald-500/70' },
-    { line: '', color: '' },
-    { line: '$ termcast release', color: 'text-zinc-400' },
-    { line: '✓ Published to GitHub Releases', color: 'text-emerald-500/70' },
-  ]
-
-  return (
-    <div className='bu-font-mono text-xs sm:text-sm leading-loose relative text-left min-h-[200px] md:min-h-0'>
-      {steps.map((s, i) => (
-        <div key={i} className={`${s.color} transition-colors duration-300`}>
-          {s.line || '\u00A0'}
-        </div>
-      ))}
-      <div className='text-zinc-500 mt-1 border-t border-zinc-800/50 pt-2'>
-        <span className='text-zinc-600'>Install anywhere:</span>
-      </div>
-      <div className='text-pumpkin-400/80'>
-        $ curl -sf https://termcast.app/r/my-tool/install | bash
-      </div>
-    </div>
-  )
-}
 
 function Features() {
   return (
@@ -427,23 +322,23 @@ function Features() {
         <ProductCard
           title='lists · search'
           description='Searchable lists with sections, accessories, detail panels, and full keyboard navigation. Built-in fuzzy search, dropdown filters, pagination, and action shortcuts.'
-          visual={<ListsSearchVisual />}
+          visual={<ShowcaseImage name='showcase-list' alt='Termcast list with sections, search, and graph detail panel' />}
         />
         <ProductCard
           title='forms · inputs'
           description='Text fields, dropdowns, checkboxes, tag pickers, date pickers, file pickers. Tab to navigate, ctrl+enter to submit. Validation with react-hook-form.'
-          visual={<FormsInputsVisual />}
+          visual={<ShowcaseImage name='showcase-form' alt='Termcast form with text fields, password, checkboxes, and dropdowns' />}
           reversed
         />
         <ProductCard
           title='graphs · charts'
           description='Line charts rendered with braille characters at 2x4 sub-pixel resolution per cell. Stacked bar charts, multiple series, color themes. All inside terminal cells.'
-          visual={<GraphsChartsVisual />}
+          visual={<ShowcaseImage name='showcase-charts' alt='Termcast bar chart and line graph with colored segments and metadata' />}
         />
         <ProductCard
-          title='compile · ship'
-          description='termcast compile builds a standalone binary. termcast release publishes to GitHub Releases for macOS, Linux, and Windows. Users install with a single curl command.'
-          visual={<CompileDistributeVisual />}
+          title='heatmaps · data'
+          description='Calendar heatmaps, progress bars, tables, and data visualization components. GitHub-style contribution grids with customizable color palettes and date ranges.'
+          visual={<ShowcaseImage name='showcase-heatmap' alt='Termcast calendar heatmap with purple color gradients and month labels' />}
           reversed
         />
       </div>
