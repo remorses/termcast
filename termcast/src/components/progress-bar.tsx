@@ -32,6 +32,10 @@ export interface ProgressBarProps extends BoxProps {
   trackColor?: Color.ColorLike
   /** Optional formatter for percentage value */
   formatPercentage?: (percentage: number) => string
+  /** Character used for the filled portion of the bar (default: '█') */
+  barCharacter?: string
+  /** Character used for the empty/track portion of the bar (default: '░') */
+  trackCharacter?: string
 }
 
 function clamp({ value, min, max }: { value: number; min: number; max: number }): number {
@@ -56,6 +60,8 @@ function ProgressBar(props: ProgressBarProps): any {
     color,
     trackColor,
     formatPercentage,
+    barCharacter = '█',
+    trackCharacter = '░',
     ...rest
   } = props
 
@@ -85,12 +91,12 @@ function ProgressBar(props: ProgressBarProps): any {
         <box flexDirection="row" flexGrow={1} overflow="hidden">
           {filledGrow > 0 && (
             <box flexGrow={filledGrow} flexBasis={0} flexShrink={1} overflow="hidden">
-              <text fg={filledColor} wrapMode="none">{'█'.repeat(300)}</text>
+              <text fg={filledColor} wrapMode="none">{barCharacter.repeat(300)}</text>
             </box>
           )}
           {trackGrow > 0 && (
             <box flexGrow={trackGrow} flexBasis={0} flexShrink={1} overflow="hidden">
-              <text fg={resolvedTrackColor} wrapMode="none">{'░'.repeat(300)}</text>
+              <text fg={resolvedTrackColor} wrapMode="none">{trackCharacter.repeat(300)}</text>
             </box>
           )}
         </box>

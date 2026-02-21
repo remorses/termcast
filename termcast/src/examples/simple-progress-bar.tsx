@@ -65,6 +65,8 @@ function SimpleProgressBar() {
                       value={item.weekUsage}
                       percentageSuffix="used"
                       label={item.weekReset}
+                      barCharacter="▁"
+                      trackCharacter="▁"
                     />
                   </List.Item.Detail.Metadata>
                 }

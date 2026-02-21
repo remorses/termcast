@@ -40,7 +40,7 @@ test('progress bars render in detail metadata and update on selection', async ()
        Google account sandbox workspace     │ Resets 9pm (Asia/Bangkok)
                                             │
                                             │ Current week (all models)
-                                            │ ██░░░░░░░░░░░░░░░░░░░░░░░░ 7% used
+                                            │ ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ 7% used
                                             │ Resets Feb 27, 1pm (Asia/Bangkok)
                                             │
        ↑↓ navigate   ^k actions             │
