@@ -377,7 +377,6 @@ export function DatePickerWidget({
             enableColors && focus === 'year' ? Theme.primary : undefined,
           marginBottom: 0,
         }}
-        onMouseDown={() => setFocus('year')}
       >
         <box
           style={{
@@ -387,11 +386,17 @@ export function DatePickerWidget({
             width: headerWidth,
           }}
         >
-          <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>←</text>
-          <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>
-            {String(y)}
-          </text>
-          <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>→</text>
+          <box onMouseDown={() => { changeYear(-1); setFocus('year') }}>
+            <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>←</text>
+          </box>
+          <box onMouseDown={() => { setFocus('year') }}>
+            <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>
+              {String(y)}
+            </text>
+          </box>
+          <box onMouseDown={() => { changeYear(+1); setFocus('year') }}>
+            <text fg={focus === 'year' ? Theme.text : Theme.textMuted}>→</text>
+          </box>
         </box>
       </box>
 
@@ -404,7 +409,6 @@ export function DatePickerWidget({
             enableColors && focus === 'month' ? Theme.primary : undefined,
           marginBottom: 1,
         }}
-        onMouseDown={() => setFocus('month')}
       >
         <box
           style={{
@@ -414,11 +418,17 @@ export function DatePickerWidget({
             width: headerWidth,
           }}
         >
-          <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>←</text>
-          <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>
-            {MONTHS[m]}
-          </text>
-          <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>→</text>
+          <box onMouseDown={() => { changeMonth(-1); setFocus('month') }}>
+            <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>←</text>
+          </box>
+          <box onMouseDown={() => { setFocus('month') }}>
+            <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>
+              {MONTHS[m]}
+            </text>
+          </box>
+          <box onMouseDown={() => { changeMonth(+1); setFocus('month') }}>
+            <text fg={focus === 'month' ? Theme.text : Theme.textMuted}>→</text>
+          </box>
         </box>
       </box>
 
