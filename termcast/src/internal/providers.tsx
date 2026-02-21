@@ -125,6 +125,7 @@ const ErrorBoundary = ErrorBoundaryClass as any
 export function TermcastProvider(props: ProvidersProps): any {
   const theme = useTheme()
   const renderer = useRenderer()
+
   useKeyboard((key) => {
     if (!renderer) return
     if (key.ctrl && key.name === 'd') {
@@ -133,6 +134,26 @@ export function TermcastProvider(props: ProvidersProps): any {
       }
       renderer?.toggleDebugOverlay()
       renderer?.console.toggle()
+    }
+  })
+
+  // Cmd+C (super+c): if there's an active selection, copy it to clipboard and clear.
+  // Otherwise let the key propagate to the TUI for other handlers.
+  // In standalone apps, WezTerm forwards Cmd+C via SendKey so it arrives as super modifier.
+  useKeyboard((key) => {
+    if (!renderer) return
+    if (key.super && key.name === 'c') {
+      if (renderer.hasSelection) {
+        const selection = renderer.getSelection()
+        if (selection) {
+          const text = selection.getSelectedText()
+          if (text) {
+            Clipboard.copy(text)
+            renderer.clearSelection()
+            key.stopPropagation()
+          }
+        }
+      }
     }
   })
 

@@ -28,7 +28,8 @@ export function loadPersistedTheme(): string {
   } catch {
     // Ignore errors on load
   }
-  return defaultThemeName
+  // TERMCAST_DEFAULT_THEME is set by the app launcher to override the default theme
+  return process.env.TERMCAST_DEFAULT_THEME || defaultThemeName
 }
 
 export function persistTheme(name: string): void {

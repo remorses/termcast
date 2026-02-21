@@ -11,6 +11,7 @@ import path from 'node:path'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { compileExtension, type CompileTarget } from './compile'
+import { getResolvedTheme, themeNames, defaultThemeName } from './themes'
 
 const execFileAsync = promisify(execFile)
 
@@ -222,21 +223,56 @@ function resolveIcon({
   )
 }
 
-// Build a .icns file from a PNG buffer. Pure TypeScript, no native deps.
-// Modern macOS icns files are just a container wrapping PNG data at various sizes.
+// Try to load sharp (optional dependency). Returns null if not installed.
+// sharp provides high-quality Lanczos3 resizing for icon generation.
+// Without it, the original PNG is embedded at all sizes and the OS handles scaling.
+let _sharpModule: typeof import('sharp') | null | undefined
+async function getSharp(): Promise<typeof import('sharp') | null> {
+  if (_sharpModule !== undefined) {
+    return _sharpModule
+  }
+  try {
+    _sharpModule = (await import('sharp')).default as typeof import('sharp')
+  } catch {
+    _sharpModule = null
+    console.log('Note: sharp not installed, icons will not be resized. Install sharp for higher quality icons.')
+  }
+  return _sharpModule
+}
+
+// Resize a PNG buffer to a square target size using sharp (Lanczos3 for downscale).
+// Returns a new PNG buffer at the target dimensions.
+// If sharp is not available or the source is already the target size, returns unchanged.
+async function resizePng({ pngData, size }: { pngData: Buffer; size: number }): Promise<Buffer> {
+  const sharpFn = await getSharp()
+  if (!sharpFn) {
+    return pngData
+  }
+  const metadata = await sharpFn(pngData).metadata()
+  if (metadata.width === size && metadata.height === size) {
+    return pngData
+  }
+  return sharpFn(pngData)
+    .resize(size, size, {
+      fit: 'contain',
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+      kernel: 'lanczos3',
+    })
+    .png()
+    .toBuffer()
+}
+
+// Build a .icns file from properly sized PNG buffers. Each entry gets its own
+// correctly sized PNG for sharp rendering at that resolution.
 // The format is: 'icns' magic (4B) + total file size (4B BE) + entries.
 // Each entry: type code (4B) + entry size including header (4B BE) + PNG data.
-// Type codes: ic07=128, ic08=256, ic09=512, ic10=1024 (retina 512).
-// macOS handles scaling from the provided PNG, so we embed the original at all
-// sizes. This produces a valid .icns without any image resizing tools.
-function buildIcnsFromPng(pngData: Buffer): Buffer {
-  const types = ['ic10', 'ic09', 'ic08', 'ic07']
-
-  const entries: Buffer[] = types.map((type) => {
+// Type codes: ic10=1024 (retina 512@2x), ic09=512, ic08=256, ic07=128.
+function buildIcnsFromPngs(sizedPngs: { type: string; data: Buffer }[]): Buffer {
+  const entries: Buffer[] = sizedPngs.map(({ type, data }) => {
     const header = Buffer.alloc(8)
     header.write(type, 0, 4, 'ascii')
-    header.writeUInt32BE(8 + pngData.length, 4)
-    return Buffer.concat([header, pngData])
+    header.writeUInt32BE(8 + data.length, 4)
+    return Buffer.concat([header, data])
   })
 
   const totalEntrySize = entries.reduce((sum, e) => sum + e.length, 0)
@@ -247,79 +283,102 @@ function buildIcnsFromPng(pngData: Buffer): Buffer {
   return Buffer.concat([fileHeader, ...entries])
 }
 
-function convertToIcns({
+// icns type codes and their required pixel sizes
+const ICNS_SIZES: { type: string; size: number }[] = [
+  { type: 'ic10', size: 1024 },
+  { type: 'ic09', size: 512 },
+  { type: 'ic08', size: 256 },
+  { type: 'ic07', size: 128 },
+]
+
+async function convertToIcns({
   pngPath,
   outputPath,
 }: {
   pngPath: string
   outputPath: string
-}): void {
+}): Promise<void> {
   const pngData = fs.readFileSync(pngPath)
 
   if (pngData[0] !== 0x89 || pngData[1] !== 0x50 || pngData[2] !== 0x4e || pngData[3] !== 0x47) {
     throw new Error(`File is not a valid PNG: ${pngPath}`)
   }
 
-  const icns = buildIcnsFromPng(pngData)
+  // Resize source PNG to each required size in parallel
+  const sizedPngs = await Promise.all(
+    ICNS_SIZES.map(async ({ type, size }) => {
+      const data = await resizePng({ pngData, size })
+      return { type, data }
+    }),
+  )
+
+  const icns = buildIcnsFromPngs(sizedPngs)
   fs.writeFileSync(outputPath, icns)
 }
 
-// Build a .ico file from a PNG buffer. Pure TypeScript, no native deps.
+// Standard ICO sizes: 256 for high-DPI/Explorer, smaller ones for taskbar/title bar
+const ICO_SIZES = [256, 128, 64, 48, 32, 16]
+
+// Build a .ico file from properly sized PNG buffers. Each directory entry
+// points to its own correctly sized PNG data for crisp rendering at that size.
 // Modern Windows ICO files accept embedded PNG data (since Vista).
 // Format: ICO header (6B) + directory entries (16B each) + PNG data blocks.
-// We embed the same PNG at standard sizes (256, 128, 64, 48, 32, 16).
-// Windows handles scaling from the provided PNG at each entry.
-function buildIcoFromPng(pngData: Buffer): Buffer {
-  const sizes = [256, 128, 64, 48, 32, 16]
-
+function buildIcoFromPngs(sizedPngs: { size: number; data: Buffer }[]): Buffer {
   // ICO header: reserved(2) + type(2, 1=ICO) + count(2)
   const header = Buffer.alloc(6)
-  header.writeUInt16LE(0, 0)          // reserved
-  header.writeUInt16LE(1, 2)          // type = ICO
-  header.writeUInt16LE(sizes.length, 4) // image count
+  header.writeUInt16LE(0, 0)
+  header.writeUInt16LE(1, 2)
+  header.writeUInt16LE(sizedPngs.length, 4)
 
   // Directory entries come right after header, then PNG data blocks
   const dirEntrySize = 16
-  const dataOffset = 6 + dirEntrySize * sizes.length
+  const dataOffset = 6 + dirEntrySize * sizedPngs.length
 
   const dirEntries: Buffer[] = []
   let currentOffset = dataOffset
 
-  for (const size of sizes) {
+  for (const { size, data } of sizedPngs) {
     const entry = Buffer.alloc(16)
     // width/height: 0 means 256 in ICO format
-    entry.writeUInt8(size >= 256 ? 0 : size, 0)   // width
-    entry.writeUInt8(size >= 256 ? 0 : size, 1)   // height
+    entry.writeUInt8(size >= 256 ? 0 : size, 0)
+    entry.writeUInt8(size >= 256 ? 0 : size, 1)
     entry.writeUInt8(0, 2)                          // color palette count
     entry.writeUInt8(0, 3)                          // reserved
     entry.writeUInt16LE(1, 4)                       // color planes
     entry.writeUInt16LE(32, 6)                      // bits per pixel
-    entry.writeUInt32LE(pngData.length, 8)          // image data size
-    entry.writeUInt32LE(currentOffset, 12)          // offset to image data
+    entry.writeUInt32LE(data.length, 8)
+    entry.writeUInt32LE(currentOffset, 12)
     dirEntries.push(entry)
-    currentOffset += pngData.length
+    currentOffset += data.length
   }
 
-  // Each size entry points to the same PNG data (Windows scales as needed)
-  const pngBlocks = sizes.map(() => pngData)
+  const pngBlocks = sizedPngs.map(({ data }) => data)
 
   return Buffer.concat([header, ...dirEntries, ...pngBlocks])
 }
 
-function convertToIco({
+async function convertToIco({
   pngPath,
   outputPath,
 }: {
   pngPath: string
   outputPath: string
-}): void {
+}): Promise<void> {
   const pngData = fs.readFileSync(pngPath)
 
   if (pngData[0] !== 0x89 || pngData[1] !== 0x50 || pngData[2] !== 0x4e || pngData[3] !== 0x47) {
     throw new Error(`File is not a valid PNG: ${pngPath}`)
   }
 
-  const ico = buildIcoFromPng(pngData)
+  // Resize source PNG to each required size in parallel
+  const sizedPngs = await Promise.all(
+    ICO_SIZES.map(async (size) => {
+      const data = await resizePng({ pngData, size })
+      return { size, data }
+    }),
+  )
+
+  const ico = buildIcoFromPngs(sizedPngs)
   fs.writeFileSync(outputPath, ico)
 }
 
@@ -327,7 +386,7 @@ function convertToIco({
 // window (via WinMain + windows subsystem) and launches wezterm-gui.exe with the
 // baked config file. All WezTerm/extension files live in a runtime/ subdirectory so
 // the user only sees the launcher .exe at the top level. Cross-compiled with `zig cc`.
-function generateLauncherC(): string {
+function generateLauncherC({ themeName }: { themeName: string }): string {
   return `\
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -342,6 +401,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     for (int i = (int)wcslen(dir) - 1; i >= 0; i--) {
         if (dir[i] == L'\\\\') { dir[i + 1] = L'\\0'; break; }
     }
+
+    /* Set TERMCAST_WEZTERM_CONFIG env var so the TUI can rewrite the config on theme change */
+    WCHAR configPath[MAX_PATH * 2];
+    wsprintfW(configPath, L"%sruntime\\\\config\\\\wezterm.lua", dir);
+    SetEnvironmentVariableW(L"TERMCAST_WEZTERM_CONFIG", configPath);
+
+    /* Set default theme name baked at build time */
+    SetEnvironmentVariableW(L"TERMCAST_DEFAULT_THEME", L"${themeName}");
+
+    /* Mark as standalone app mode (disables ESC-to-exit, etc.) */
+    SetEnvironmentVariableW(L"TERMCAST_APP_MODE", L"1");
 
     WCHAR cmdline[MAX_PATH * 3];
     wsprintfW(cmdline,
@@ -417,84 +487,63 @@ function generateFontConfig(opts: WeztermFontOptions): string {
   return lines.join('\n')
 }
 
-function generateWeztermConfig({ binaryName, font }: { binaryName: string; font?: WeztermFontOptions }): string {
-  return `\
-local wezterm = require 'wezterm'
-local config = wezterm.config_builder()
+// Single config generator for both macOS and Windows. Only 4 things differ:
+// - default_prog path separator
+// - key bindings (SUPER on mac, none on Windows since Cmd doesn't exist)
+// - quote_dropped_files (Posix vs Windows)
+// - rendering comment
+function generateWeztermConfig({
+  binaryName,
+  font,
+  platform,
+  backgroundColor,
+}: {
+  binaryName: string
+  font?: WeztermFontOptions
+  platform: 'darwin' | 'win32'
+  backgroundColor: string
+}): string {
+  const defaultProg = platform === 'win32'
+    ? `config_dir .. '\\\\..\\\\${binaryName}'`
+    : `config_dir .. '/${binaryName}'`
 
-local config_dir = wezterm.config_dir
-config.default_prog = { config_dir .. '/${binaryName}' }
-
--- Strip all chrome
-config.enable_tab_bar = false
-config.window_decorations = 'RESIZE'
-config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
-
--- Default window size: 120x36 is comfortable for TUI apps (WezTerm default is 80x24)
-config.initial_cols = 120
-config.initial_rows = 36
-
--- Snap resize to cell grid
-config.use_resize_increments = true
-
--- Kitty protocols
-config.enable_kitty_graphics = true
-config.enable_kitty_keyboard = true
-
--- Memory optimization: TUI controls its own scrolling
-config.scrollback_lines = 0
-
--- Reduce font rasterizer memory (no ligatures needed in TUI)
-config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-
--- No cursor blink or visual bell animations needed
-config.animation_fps = 1
-
-${generateFontConfig(font ?? {})}
-
--- Crisp macOS rendering
-config.front_end = 'WebGpu'
-config.webgpu_power_preference = 'HighPerformance'
-config.max_fps = 60
-config.freetype_render_target = 'HorizontalLcd'
-config.freetype_load_target = 'Light'
-
--- Termcast controls all key bindings
-config.disable_default_key_bindings = true
+  // On macOS, forward Cmd+C and Cmd+Arrows to the TUI instead of WezTerm handling them.
+  // On Windows there is no Cmd key, so no key overrides needed.
+  const keysBlock = platform === 'darwin'
+    ? `
+-- Forward Cmd+C and Cmd+Arrows to the TUI instead of WezTerm handling them.
+-- Cmd+C: prevents WezTerm copy, lets TUI handle selection copy
+-- Cmd+Left/Right: lets TUI text areas move cursor to start/end of line
+-- Cmd+Up/Down: lets TUI text areas move cursor to start/end of content
 config.keys = {
   { key = 'c', mods = 'SUPER', action = wezterm.action.SendKey { key = 'c', mods = 'SUPER' } },
-  { key = 'v', mods = 'SUPER', action = wezterm.action.SendKey { key = 'v', mods = 'SUPER' } },
-  { key = 'q', mods = 'SUPER', action = wezterm.action.QuitApplication },
+  { key = 'LeftArrow', mods = 'SUPER', action = wezterm.action.SendKey { key = 'LeftArrow', mods = 'SUPER' } },
+  { key = 'RightArrow', mods = 'SUPER', action = wezterm.action.SendKey { key = 'RightArrow', mods = 'SUPER' } },
+  { key = 'UpArrow', mods = 'SUPER', action = wezterm.action.SendKey { key = 'UpArrow', mods = 'SUPER' } },
+  { key = 'DownArrow', mods = 'SUPER', action = wezterm.action.SendKey { key = 'DownArrow', mods = 'SUPER' } },
 }
-
-config.quote_dropped_files = 'Posix'
-
-return config
 `
-}
+    : ''
 
-function generateLaunchScript({ weztermBinaryName }: { weztermBinaryName: string }): string {
-  return `\
-#!/bin/bash
-DIR="$(cd "$(dirname "$0")" && pwd)"
-exec "$DIR/${weztermBinaryName}" --config-file "$DIR/../Resources/wezterm.lua"
-`
-}
+  const quoteDroppedFiles = platform === 'win32' ? 'Windows' : 'Posix'
 
-// Windows wezterm.lua: backslash paths, CTRL copy/paste (no SUPER/Cmd on Windows),
-// Windows-style file quoting for drag-and-drop.
-function generateWeztermConfigWindows({ binaryName, font }: { binaryName: string; font?: WeztermFontOptions }): string {
   return `\
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 local config_dir = wezterm.config_dir
-config.default_prog = { config_dir .. '\\\\..\\\\${binaryName}' }
+config.default_prog = { ${defaultProg} }
 
 -- Strip all chrome
 config.enable_tab_bar = false
 config.window_decorations = 'RESIZE'
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
+config.window_close_confirmation = 'NeverPrompt'
+
+-- Background color matching the configured termcast theme.
+-- The TUI rewrites this file on theme change so WezTerm auto-reloads it,
+-- keeping the window edges/padding in sync with the active theme.
+config.colors = { background = '${backgroundColor}' }
 
 -- Default window size: 120x36 is comfortable for TUI apps (WezTerm default is 80x24)
 config.initial_cols = 120
@@ -513,8 +562,7 @@ config.scrollback_lines = 0
 -- Reduce font rasterizer memory (no ligatures needed in TUI)
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
--- No cursor blink or visual bell animations needed
-config.animation_fps = 1
+
 
 ${generateFontConfig(font ?? {})}
 
@@ -525,17 +573,21 @@ config.max_fps = 60
 config.freetype_render_target = 'HorizontalLcd'
 config.freetype_load_target = 'Light'
 
--- Termcast controls all key bindings.
--- On Windows there is no SUPER/Cmd modifier, so use CTRL for copy/paste.
-config.disable_default_key_bindings = true
-config.keys = {
-  { key = 'c', mods = 'CTRL', action = wezterm.action.CopyTo 'Clipboard' },
-  { key = 'v', mods = 'CTRL', action = wezterm.action.PasteFrom 'Clipboard' },
-}
-
-config.quote_dropped_files = 'Windows'
+${keysBlock}
+config.quote_dropped_files = '${quoteDroppedFiles}'
 
 return config
+`
+}
+
+function generateLaunchScript({ weztermBinaryName, themeName }: { weztermBinaryName: string; themeName: string }): string {
+  return `\
+#!/bin/bash
+DIR="$(cd "$(dirname "$0")" && pwd)"
+export TERMCAST_WEZTERM_CONFIG="$DIR/../Resources/wezterm.lua"
+export TERMCAST_DEFAULT_THEME="${themeName}"
+export TERMCAST_APP_MODE=1
+exec "$DIR/${weztermBinaryName}" --config-file "$TERMCAST_WEZTERM_CONFIG"
 `
 }
 
@@ -828,6 +880,8 @@ export interface BuildAppOptions {
   fontSize?: number
   /** Line height multiplier. 1.0 = tight, 1.2 = comfortable. Default: 1.2 */
   lineHeight?: number
+  /** Default theme name (e.g. 'nerv', 'catppuccin-mocha'). Default: 'nerv' */
+  theme?: string
 }
 
 export interface BuildAppResult {
@@ -1050,21 +1104,25 @@ async function buildDarwinApp(
     console.log(`Bundled ${fontFiles.length} font file(s)`)
   }
 
+  // Resolve theme for config background and env var
+  const themeName = options.theme || defaultThemeName
+  const themeBackground = getResolvedTheme(themeName).background
+
   // Write config, launch script
   fs.writeFileSync(
     path.join(resourcesDir, 'wezterm.lua'),
-    generateWeztermConfig({ binaryName, font: ctx.fontOptions }),
+    generateWeztermConfig({ binaryName, font: ctx.fontOptions, platform: 'darwin', backgroundColor: themeBackground }),
   )
 
   const launchPath = path.join(macosDir, 'launch')
-  fs.writeFileSync(launchPath, generateLaunchScript({ weztermBinaryName }))
+  fs.writeFileSync(launchPath, generateLaunchScript({ weztermBinaryName, themeName }))
   fs.chmodSync(launchPath, 0o755)
 
   // Convert and write icon, then write Info.plist with the correct icon filename
   let iconFile = 'app.icns'
   const icnsPath = path.join(resourcesDir, 'app.icns')
   try {
-    convertToIcns({ pngPath: ctx.iconPng, outputPath: icnsPath })
+    await convertToIcns({ pngPath: ctx.iconPng, outputPath: icnsPath })
   } catch (e) {
     console.log(`Warning: could not convert icon to .icns (${e instanceof Error ? e.message : e}), copying PNG as fallback`)
     iconFile = 'app.png'
@@ -1188,10 +1246,14 @@ async function buildWin32App(
     console.log(`Bundled ${fontFiles.length} font file(s)`)
   }
 
+  // Resolve theme for config background and env var
+  const themeName = options.theme || defaultThemeName
+  const themeBackground = getResolvedTheme(themeName).background
+
   // Write wezterm.lua config
   fs.writeFileSync(
     path.join(configDir, 'wezterm.lua'),
-    generateWeztermConfigWindows({ binaryName, font: ctx.fontOptions }),
+    generateWeztermConfig({ binaryName, font: ctx.fontOptions, platform: 'win32', backgroundColor: themeBackground }),
   )
 
   // Build the launcher .exe with Zig cross-compilation:
@@ -1212,7 +1274,7 @@ async function buildWin32App(
 
   try {
     const launcherCPath = path.join(buildTmpDir, 'launcher.c')
-    fs.writeFileSync(launcherCPath, generateLauncherC())
+    fs.writeFileSync(launcherCPath, generateLauncherC({ themeName }))
 
     // Convert PNG → ICO → RC → RES for icon embedding.
     // zig rc compiles .rc to .res, then zig cc links .res into the exe.
@@ -1221,7 +1283,7 @@ async function buildWin32App(
     const resPath = path.join(buildTmpDir, 'launcher.res')
 
     try {
-      convertToIco({ pngPath: ctx.iconPng, outputPath: icoPath })
+      await convertToIco({ pngPath: ctx.iconPng, outputPath: icoPath })
       // Also persist for NSIS (the buildTmpDir gets cleaned up)
       fs.copyFileSync(icoPath, persistedIcoPath)
       fs.writeFileSync(rcPath, generateLauncherRc({ icoPath }))

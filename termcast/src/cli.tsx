@@ -18,6 +18,7 @@ import { startDevMode, triggerRebuild } from './extensions/dev'
 import { compileExtension } from './compile'
 import { releaseExtension } from './release'
 import { buildApp } from './app'
+import { themeNames } from './themes'
 import { runHomeCommand } from './extensions/home'
 import { showToast, Toast } from './apis/toast'
 import packageJson from '../package.json'
@@ -275,6 +276,7 @@ cli
   .option('--font-dir <path>', 'Directory of .ttf/.otf files to bundle (auto-detects fonts/ in extension)')
   .option('--font-size <size>', 'Font size in points (default: 14)')
   .option('--line-height <height>', 'Line height multiplier (default: 1.2)')
+  .option('--theme <name>', 'Default theme name (default: nerv)')
   .action(
     async (
       extensionPath: string,
@@ -291,6 +293,7 @@ cli
         fontDir?: string
         fontSize?: string
         lineHeight?: string
+        theme?: string
       },
     ) => {
       extensionPath = path.resolve(extensionPath || process.cwd())
@@ -315,6 +318,11 @@ cli
         process.exit(1)
       }
 
+      if (options.theme && !themeNames.includes(options.theme)) {
+        console.error(`Invalid --theme "${options.theme}". Available themes: ${themeNames.join(', ')}`)
+        process.exit(1)
+      }
+
       try {
         const result = await buildApp({
           extensionPath,
@@ -331,6 +339,7 @@ cli
           fontDir: options.fontDir,
           fontSize,
           lineHeight,
+          theme: options.theme,
         })
 
         const resolvedPlatform = options.platform || process.platform

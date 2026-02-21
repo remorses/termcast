@@ -177,6 +177,12 @@ class EnvironmentImpl implements Environment {
 
 export const environment = new EnvironmentImpl()
 
+// Whether the TUI is running inside a standalone desktop app built with `termcast app build`.
+// In app mode, ESC at root level does not exit the process.
+export function isAppMode(): boolean {
+  return process.env.TERMCAST_APP_MODE === '1'
+}
+
 export async function getSelectedFinderItems(): Promise<string[]> {
   // TODO: Improve cross-platform support
   // Currently only works on macOS using AppleScript

@@ -13,6 +13,7 @@ import { CommonProps } from 'termcast/src/utils'
 import { useStore, type NavigationStackItem } from 'termcast/src/state'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { logger } from '../logger'
+import { isAppMode } from '../apis/environment'
 
 interface Navigation {
   push: (element: ReactNode, onPop?: () => void) => void
@@ -172,8 +173,12 @@ export function NavigationProvider(props: NavigationProviderProps): any {
           activeSearchInputRef.setText('')
           return
         }
-        // At root with no dialogs and no search text - exit the CLI
-        renderer.destroy()
+        // At root with no dialogs and no search text - exit the CLI.
+        // In app mode (standalone desktop app), ESC at root is a no-op
+        // since destroying the renderer would kill the entire application.
+        if (!isAppMode()) {
+          renderer.destroy()
+        }
       }
     }
   })

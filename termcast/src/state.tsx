@@ -1,8 +1,11 @@
+import fs from 'node:fs'
 import { create } from 'zustand'
 import { type ReactNode } from 'react'
 import type { TextareaRenderable } from '@opentui/core'
 import type { RaycastPackageJson } from './package-json'
 import type { KeyboardKeyEquivalent, KeyboardKeyModifier } from 'termcast/src/keyboard'
+import { getResolvedTheme } from './themes'
+import { logger } from './logger'
 
 // Registered action shortcuts for global keyboard handling
 // Stored by ActionPanel, consumed by List/Detail/Form keyboard handlers
@@ -115,10 +118,37 @@ export const useStore = create<AppState>(() => ({
   dropdownTooltip: '',
   showActionsDialog: false,
   actionsPortalTarget: null,
-  // Theme state
-  currentThemeName: 'nerv',
+  // Theme state — TERMCAST_DEFAULT_THEME env var is set by the app launcher
+  currentThemeName: process.env.TERMCAST_DEFAULT_THEME || 'nerv',
   // Active search input ref
   activeSearchInputRef: null,
   // Registered action shortcuts
   registeredActionShortcuts: [],
 }))
+
+// Sync WezTerm's window background with the active termcast theme.
+// When the theme changes, rewrite the background color in wezterm.lua.
+// WezTerm auto-reloads the config on file change, updating the window edges/padding.
+// The config path is passed from the launcher via TERMCAST_WEZTERM_CONFIG env var.
+const weztermConfigPath = process.env.TERMCAST_WEZTERM_CONFIG
+if (weztermConfigPath) {
+  useStore.subscribe((state, prevState) => {
+    if (state.currentThemeName === prevState.currentThemeName) {
+      return
+    }
+    try {
+      const theme = getResolvedTheme(state.currentThemeName)
+      const content = fs.readFileSync(weztermConfigPath, 'utf-8')
+      // Replace the background hex in: config.colors = { background = '#xxxxxx' }
+      const updated = content.replace(
+        /background\s*=\s*'#[0-9a-fA-F]{6}'/,
+        `background = '${theme.background}'`,
+      )
+      if (updated !== content) {
+        fs.writeFileSync(weztermConfigPath, updated)
+      }
+    } catch (e) {
+      logger.log('Failed to update wezterm config background:', e)
+    }
+  })
+}
