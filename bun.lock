@@ -23,7 +23,7 @@
     },
     "ghostty-opentui": {
       "name": "ghostty-opentui",
-      "version": "1.4.0",
+      "version": "1.4.3",
       "dependencies": {
         "strip-ansi": "^7.1.2",
       },
