@@ -54,9 +54,9 @@ test('bar graph renders bars, labels, and legend', async () => {
 
 
 
-                                            │
-                                            │
-       ↵ open detail   ↑↓ navigate   ^k act │
+
+
+
 
     "
   `)
@@ -87,10 +87,10 @@ test('many columns (20) clips with overflow hidden', async () => {
 
        > Search...
 
-       Weekly Traffic 3 channels across 6 d │     ███         ███
-       Revenue by Region EMEA / APAC / Amer │     ███     ███ ███
-       Server Load CPU / Memory / IO        │ ███ ███     ███ ███     ███
-      ›Many Columns (20) Overflow test with │ ███ ███ ███ ███ ███ ███ ███ ███
+       Weekly Traffic 3 channels across 6 d │
+       Revenue by Region EMEA / APAC / Amer │                             ███
+       Server Load CPU / Memory / IO        │ ███ ███             ███     ███ ██
+      ›Many Columns (20) Overflow test with │ ███ ███     ███     ███ ███ ███ ██
        Many Series (8) Legend overflow test │ ███ ███ ███ ███ ███ ███ ███ ███ ██
        Long Labels Labels wider than bar co │ ███ ███ ███ ███ ███ ███ ███ ███ ██
        Week 1 vs Week 2 Two graphs in a Row │ ███ ███ ███ ███ ███ ███ ███ ███ ██

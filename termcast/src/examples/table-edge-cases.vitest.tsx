@@ -86,27 +86,27 @@ test('inline formatting table renders all rows', async () => {
       Done.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       esc go back   ^k actions                             powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)
