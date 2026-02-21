@@ -2,7 +2,7 @@
 // Wraps opentui's <markdown> element with termcast's custom renderNode hook
 // (link URL stripping, borderless tables, OSC 8 hyperlinks) and automatic
 // theme-aware syntax highlighting. Accepts BoxProps so it can be composed
-// with Row, Heatmap, Graph, etc.
+// with Row, CalendarHeatmap, Graph, etc.
 
 import { useMemo } from 'react'
 import { useRenderer } from '@opentui/react'

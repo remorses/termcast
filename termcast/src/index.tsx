@@ -86,9 +86,12 @@ export type {
   BarGraphSeriesProps,
 } from 'termcast/src/components/bar-graph'
 
-// Core UI Components - Heatmap
-export { Heatmap } from 'termcast/src/components/heatmap'
+// Core UI Components - CalendarHeatmap
+export { CalendarHeatmap, Heatmap } from 'termcast/src/components/heatmap'
 export type {
+  CalendarHeatmapProps,
+  CalendarHeatmapData,
+  CalendarHeatmapCellChar,
   HeatmapProps,
   HeatmapData,
   HeatmapCellChar,

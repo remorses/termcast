@@ -1,5 +1,5 @@
 /**
- * Heatmap component for rendering GitHub-style contribution/journal grids.
+ * CalendarHeatmap component for rendering GitHub-style contribution/journal grids.
  *
  * Uses a custom opentui Renderable for performance: cells are drawn directly
  * to OptimizedBuffer with month grouping, day labels, and legend support.
@@ -43,16 +43,16 @@ interface MonthSection {
   weeks: PreparedWeek[]
 }
 
-export interface HeatmapData {
+export interface CalendarHeatmapData {
   date: Date | string
   value: number
 }
 
-export type HeatmapCellChar = '◼' | '■' | '█' | '▪'
+export type CalendarHeatmapCellChar = '◼' | '■' | '█' | '▪'
 
-export interface HeatmapGridOptions extends RenderableOptions {
-  data?: HeatmapData[]
-  cellChar?: HeatmapCellChar
+export interface CalendarHeatmapGridOptions extends RenderableOptions {
+  data?: CalendarHeatmapData[]
+  cellChar?: CalendarHeatmapCellChar
   cellColor?: string
   backgroundColor?: string
   emptyColor?: string
@@ -90,7 +90,7 @@ function normalizeDate(input: Date | string): Date | null {
   return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate())
 }
 
-function normalizePoint(point: HeatmapData): NormalizedPoint | null {
+function normalizePoint(point: CalendarHeatmapData): NormalizedPoint | null {
   const normalizedDate = normalizeDate(point.date)
   if (!normalizedDate) {
     return null
@@ -143,9 +143,9 @@ function getSectionsGridWidth(sections: MonthSection[]): number {
   }, 0)
 }
 
-export class HeatmapRenderable extends Renderable {
-  private _data: HeatmapData[] = []
-  private _cellChar: HeatmapCellChar = DEFAULT_CELL_CHAR
+export class CalendarHeatmapRenderable extends Renderable {
+  private _data: CalendarHeatmapData[] = []
+  private _cellChar: CalendarHeatmapCellChar = DEFAULT_CELL_CHAR
   private _cellColor = '#00AA55'
   private _backgroundColor = '#000000'
   private _emptyColor = '#2B2B2B'
@@ -157,7 +157,7 @@ export class HeatmapRenderable extends Renderable {
   private _sections: MonthSection[] = []
   private _maxValue = 0
 
-  constructor(ctx: RenderContext, options: HeatmapGridOptions) {
+  constructor(ctx: RenderContext, options: CalendarHeatmapGridOptions) {
     super(ctx, options)
 
     if (options.data) {
@@ -191,7 +191,7 @@ export class HeatmapRenderable extends Renderable {
     this.recomputeData()
   }
 
-  set data(value: HeatmapData[]) {
+  set data(value: CalendarHeatmapData[]) {
     this._data = value
     this.recomputeData()
     this.requestRender()
@@ -202,7 +202,7 @@ export class HeatmapRenderable extends Renderable {
     this.requestRender()
   }
 
-  set cellChar(value: HeatmapCellChar) {
+  set cellChar(value: CalendarHeatmapCellChar) {
     this._cellChar = value
     this.requestRender()
   }
@@ -522,17 +522,17 @@ export class HeatmapRenderable extends Renderable {
   }
 }
 
-extend({ 'heatmap-grid': HeatmapRenderable })
+extend({ 'heatmap-grid': CalendarHeatmapRenderable })
 
 declare module '@opentui/react' {
   interface OpenTUIComponents {
-    'heatmap-grid': typeof HeatmapRenderable
+    'heatmap-grid': typeof CalendarHeatmapRenderable
   }
 }
 
-export interface HeatmapProps {
-  data: HeatmapData[]
-  cellChar?: HeatmapCellChar
+export interface CalendarHeatmapProps {
+  data: CalendarHeatmapData[]
+  cellChar?: CalendarHeatmapCellChar
   color?: Color.ColorLike
   emptyColor?: Color.ColorLike
   showMonthLabels?: boolean
@@ -540,11 +540,11 @@ export interface HeatmapProps {
   showLegend?: boolean
 }
 
-interface HeatmapType {
-  (props: HeatmapProps): any
+interface CalendarHeatmapType {
+  (props: CalendarHeatmapProps): any
 }
 
-const Heatmap: HeatmapType = (props) => {
+const CalendarHeatmap: CalendarHeatmapType = (props) => {
   const theme = useTheme()
   const {
     data,
@@ -577,4 +577,8 @@ const Heatmap: HeatmapType = (props) => {
   )
 }
 
-export { Heatmap }
+export type HeatmapData = CalendarHeatmapData
+export type HeatmapCellChar = CalendarHeatmapCellChar
+export type HeatmapProps = CalendarHeatmapProps
+
+export { CalendarHeatmap, CalendarHeatmap as Heatmap }

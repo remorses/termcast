@@ -1,4 +1,4 @@
-// E2E tests for Heatmap with normal and overflow data ranges.
+// E2E tests for CalendarHeatmap with normal and overflow data ranges.
 // Verifies month truncation does not overflow terminal width.
 
 import { test, expect, afterEach, beforeEach } from 'vitest'
@@ -19,10 +19,10 @@ afterEach(() => {
   session?.close()
 })
 
-test('renders heatmaps with various color combinations', async () => {
+test('renders calendar heatmaps with various color combinations', async () => {
   const text = await session.text({
     waitFor: (text) => {
-      return text.includes('Heatmap Color Showcase') && text.includes('Less')
+      return text.includes('Calendar Heatmap Color Showcase') && text.includes('Less')
     },
     timeout: 10000,
   })
@@ -33,7 +33,7 @@ test('renders heatmaps with various color combinations', async () => {
 
                                                                                          █
 
-      Heatmap Color Showcase
+      Calendar Heatmap Color Showcase
 
       Each heatmap demonstrates a different color combination.
       Data has a late-fall gap to show that empty weeks are skipped.
