@@ -3,6 +3,22 @@ import { launchTerminal, Session } from 'tuistory/src'
 
 let session: Session
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function focusedFieldRegex(title: string) {
+  return new RegExp(`◆\\s+${escapeRegExp(title)}`, 'm')
+}
+
+async function waitForFocusedField(title: string) {
+  return session.text({
+    waitFor: (text) => {
+      return focusedFieldRegex(title).test(text)
+    },
+  })
+}
+
 beforeEach(async () => {
   session = await launchTerminal({
     command: 'bun',
@@ -204,8 +220,8 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2026        →
-      │   ←     February      →
+      │   ←        2026       →
+      │   ←      February     →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -262,8 +278,8 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2026        →
-      │   ←     February      →
+      │   ←        2026       →
+      │   ←      February     →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -321,8 +337,8 @@ test('form date picker selection with space and enter', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2026        →
-      │   ←     February      →
+      │   ←        2026       →
+      │   ←      February     →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -396,8 +412,8 @@ test('form dropdown navigation', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2026        →
-      │   ←     February      →
+      │   ←        2026       →
+      │   ←      February     →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -454,8 +470,8 @@ test('form dropdown navigation', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2026        →
-      │   ←     February      →
+      │   ←        2026       →
+      │   ←      February     →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -514,8 +530,8 @@ test('form dropdown navigation', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2026        →
-      │   ←     February      →
+      │   ←        2026       →
+      │   ←      February     →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -572,8 +588,8 @@ test('form dropdown navigation', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2026        →
-      │   ←     February      →
+      │   ←        2026       →
+      │   ←      February     →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -746,8 +762,8 @@ test('arrow down from checkbox to dropdown lands on first item', async () => {
       │
       ◇  Date of Birth
       │
-      │   ←       2026        →
-      │   ←     February      →
+      │   ←        2026       →
+      │   ←      February     →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -917,3 +933,88 @@ test('textarea arrow keys move focus between adjacent form fields', async () => 
   const afterUpSnapshot = await session.text()
   expect(afterUpSnapshot).toMatch(/◆\s+Biography/)
 }, 10000)
+
+test('arrow up/down navigates all form inputs and respects widget edges', async () => {
+  await session.text({
+    waitFor: (text) => {
+      return /Form Component Demo/i.test(text)
+    },
+  })
+
+  await session.press('tab')
+  let text = await waitForFocusedField('Username')
+  expect(text).toMatch(/◆\s+Username/)
+
+  await session.press('down')
+  text = await waitForFocusedField('Password')
+
+  await session.press('down')
+  text = await waitForFocusedField('Biography')
+
+  await session.type('line 1')
+  await session.press('enter')
+  await session.type('line 2')
+
+  await session.press('up')
+  text = await waitForFocusedField('Biography')
+
+  await session.press('up')
+  text = await waitForFocusedField('Password')
+
+  await session.press('down')
+  text = await waitForFocusedField('Biography')
+
+  await session.press('down')
+  text = await waitForFocusedField('Biography')
+
+  await session.press('down')
+  text = await waitForFocusedField('Email Preferences')
+
+  await session.press('down')
+  text = await waitForFocusedField('Country')
+  expect(text).toMatch(/›.*United States/)
+
+  await session.press('up')
+  text = await waitForFocusedField('Email Preferences')
+
+  await session.press('down')
+  text = await waitForFocusedField('Country')
+  expect(text).toMatch(/›.*United States/)
+
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+  await session.press('down')
+
+  text = await waitForFocusedField('Country')
+  expect(text).toMatch(/›.*Germany/)
+
+  await session.press('down')
+  text = await waitForFocusedField('Empty Dropdown')
+
+  await session.press('down')
+  text = await waitForFocusedField('Minimal Field')
+
+  await session.press('down')
+  text = await waitForFocusedField('Date of Birth')
+
+  await session.press('down')
+  text = await waitForFocusedField('Date of Birth')
+
+  let reachedFilePicker = false
+  for (let i = 0; i < 8; i++) {
+    await session.press('down')
+    const nextText = await session.text()
+    if (focusedFieldRegex('Upload Documents').test(nextText)) {
+      reachedFilePicker = true
+      break
+    }
+  }
+
+  expect(reachedFilePicker).toBe(true)
+
+  await session.press('up')
+  text = await waitForFocusedField('Date of Birth')
+  expect(text).toMatch(/◆\s+Date of Birth/)
+}, 20000)

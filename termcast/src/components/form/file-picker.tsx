@@ -86,6 +86,7 @@ const FilePickerField = ({
   }, [])
 
   const dialog = useDialog()
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
 
   // Create store once for sharing state with dialog
   const [store] = React.useState(() => createFileAutocompleteStore())
@@ -128,6 +129,18 @@ const FilePickerField = ({
   useKeyboard((evt) => {
     if (!isFocused || !isInFocus) return
     if (dialog.stack.length > 0) return // Let autocomplete handle keys
+
+    if (evt.name === 'up') {
+      navigateToPrevious()
+      evt.stopPropagation()
+      return
+    }
+
+    if (evt.name === 'down') {
+      navigateToNext()
+      evt.stopPropagation()
+      return
+    }
 
     // Left arrow removes last selected file when input is empty
     if (evt.name === 'left') {

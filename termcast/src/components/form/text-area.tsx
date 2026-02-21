@@ -1,12 +1,14 @@
 import React, { useRef, useCallback } from 'react'
 import { BoxRenderable, TextareaRenderable } from '@opentui/core'
+import { useKeyboard } from '@opentui/react'
 import { useFormContext } from 'react-hook-form'
 import { useFocusContext, useFormFieldDescendant } from './index'
 import { FormItemProps, FormItemRef } from './types'
 import { useTheme } from 'termcast/src/theme'
 import { WithLeftBorder, TitleIndicator } from './with-left-border'
-import { useFormNavigation } from './use-form-navigation'
+import { useFormNavigation, useFormNavigationHelpers } from './use-form-navigation'
 import { createTextareaFormRef } from './form-ref'
+import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { LoadingText } from 'termcast/src/components/loading-text'
 
 export interface TextAreaProps extends FormItemProps<string> {
@@ -21,7 +23,9 @@ export const TextArea = (props: TextAreaProps): any => {
   const { register, formState } = useFormContext()
   const focusContext = useFocusContext()
   const { focusedField, setFocusedField } = focusContext
+  const isInFocus = useIsInFocus()
   const isFocused = focusedField === props.id
+  const { navigateToPrevious, navigateToNext } = useFormNavigationHelpers(props.id)
 
   const elementRef = useRef<BoxRenderable>(null)
   const textareaRef = useRef<TextareaRenderable>(null)
@@ -32,8 +36,29 @@ export const TextArea = (props: TextAreaProps): any => {
     elementRef: elementRef.current,
   })
 
-  // TODO in textarea arrows should probably go to lines instead of other forms
-  useFormNavigation(props.id)
+  useFormNavigation(props.id, { handleArrows: false })
+
+  useKeyboard((evt) => {
+    if (!isFocused || !isInFocus) return
+    if (evt.name !== 'up' && evt.name !== 'down') return
+
+    const textarea = textareaRef.current
+    if (!textarea) return
+
+    const cursorLine = textarea.logicalCursor.row
+    const lastLine = textarea.lineCount - 1
+
+    if (evt.name === 'up' && cursorLine <= 0) {
+      navigateToPrevious()
+      evt.stopPropagation()
+      return
+    }
+
+    if (evt.name === 'down' && cursorLine >= lastLine) {
+      navigateToNext()
+      evt.stopPropagation()
+    }
+  })
 
   // Get register props
   const registration = register(props.id)

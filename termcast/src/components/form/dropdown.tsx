@@ -355,6 +355,20 @@ const DropdownContent = ({
       }
     }
 
+    if (itemCount === 0) {
+      if (evt.name === 'down') {
+        navigateToNext()
+        evt.stopPropagation()
+        return
+      }
+
+      if (evt.name === 'up') {
+        navigateToPrevious()
+        evt.stopPropagation()
+        return
+      }
+    }
+
     // Type-ahead search
     if (
       evt.name.length === 1 &&
