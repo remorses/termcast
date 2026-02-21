@@ -373,7 +373,51 @@ function generateLauncherRc({ icoPath }: { icoPath: string }): string {
   return `1 ICON "${normalizedPath}"\n`
 }
 
-function generateWeztermConfig({ binaryName }: { binaryName: string }): string {
+// Font/typography options passed through to the generated wezterm.lua config.
+// All are optional — sensible defaults are used when omitted.
+interface WeztermFontOptions {
+  /** Font family name (e.g. 'Inter Mono', 'Fira Code'). Uses WezTerm built-in JetBrains Mono if unset. */
+  fontFamily?: string
+  /** Font size in points. Default: 14 */
+  fontSize?: number
+  /** Vertical line spacing multiplier. 1.0 = default, 1.2 = 20% more. Default: 1.2 */
+  lineHeight?: number
+  /** Horizontal cell width multiplier. 1.0 = default. Default: 1.0 */
+  cellWidth?: number
+  /** Whether bundled fonts exist in the fonts/ dir (enables font_dirs in config). */
+  hasBundledFonts?: boolean
+}
+
+// Generate the font/typography portion of wezterm.lua, shared by macOS and Windows configs.
+function generateFontConfig(opts: WeztermFontOptions): string {
+  const fontSize = opts.fontSize ?? 14
+  const lineHeight = opts.lineHeight ?? 1.3
+  const cellWidth = opts.cellWidth ?? 1.05
+
+  const lines: string[] = []
+  lines.push(`-- Typography`)
+  lines.push(`config.font_size = ${fontSize}`)
+  lines.push(`config.line_height = ${lineHeight}`)
+  if (cellWidth !== 1.0) {
+    lines.push(`config.cell_width = ${cellWidth}`)
+  }
+
+  if (opts.fontFamily) {
+    // Escape single quotes for Lua string literal
+    const escapedFamily = opts.fontFamily.replace(/'/g, "\\'")
+    lines.push(`config.font = wezterm.font '${escapedFamily}'`)
+  }
+
+  if (opts.hasBundledFonts) {
+    lines.push(``)
+    lines.push(`-- Load bundled fonts from the fonts/ directory next to this config`)
+    lines.push(`config.font_dirs = { config_dir .. '/fonts' }`)
+  }
+
+  return lines.join('\n')
+}
+
+function generateWeztermConfig({ binaryName, font }: { binaryName: string; font?: WeztermFontOptions }): string {
   return `\
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
@@ -386,6 +430,10 @@ config.enable_tab_bar = false
 config.window_decorations = 'RESIZE'
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 
+-- Default window size: 120x36 is comfortable for TUI apps (WezTerm default is 80x24)
+config.initial_cols = 120
+config.initial_rows = 36
+
 -- Snap resize to cell grid
 config.use_resize_increments = true
 
@@ -393,10 +441,21 @@ config.use_resize_increments = true
 config.enable_kitty_graphics = true
 config.enable_kitty_keyboard = true
 
+-- Memory optimization: TUI controls its own scrolling
+config.scrollback_lines = 0
+
+-- Reduce font rasterizer memory (no ligatures needed in TUI)
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+
+-- No cursor blink or visual bell animations needed
+config.animation_fps = 1
+
+${generateFontConfig(font ?? {})}
+
 -- Crisp macOS rendering
 config.front_end = 'WebGpu'
 config.webgpu_power_preference = 'HighPerformance'
-config.max_fps = 120
+config.max_fps = 60
 config.freetype_render_target = 'HorizontalLcd'
 config.freetype_load_target = 'Light'
 
@@ -414,17 +473,17 @@ return config
 `
 }
 
-function generateLaunchScript(): string {
+function generateLaunchScript({ weztermBinaryName }: { weztermBinaryName: string }): string {
   return `\
 #!/bin/bash
 DIR="$(cd "$(dirname "$0")" && pwd)"
-exec "$DIR/wezterm-gui" --config-file "$DIR/../Resources/wezterm.lua"
+exec "$DIR/${weztermBinaryName}" --config-file "$DIR/../Resources/wezterm.lua"
 `
 }
 
 // Windows wezterm.lua: backslash paths, CTRL copy/paste (no SUPER/Cmd on Windows),
 // Windows-style file quoting for drag-and-drop.
-function generateWeztermConfigWindows({ binaryName }: { binaryName: string }): string {
+function generateWeztermConfigWindows({ binaryName, font }: { binaryName: string; font?: WeztermFontOptions }): string {
   return `\
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
@@ -437,6 +496,10 @@ config.enable_tab_bar = false
 config.window_decorations = 'RESIZE'
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 
+-- Default window size: 120x36 is comfortable for TUI apps (WezTerm default is 80x24)
+config.initial_cols = 120
+config.initial_rows = 36
+
 -- Snap resize to cell grid
 config.use_resize_increments = true
 
@@ -444,10 +507,21 @@ config.use_resize_increments = true
 config.enable_kitty_graphics = true
 config.enable_kitty_keyboard = true
 
+-- Memory optimization: TUI controls its own scrolling
+config.scrollback_lines = 0
+
+-- Reduce font rasterizer memory (no ligatures needed in TUI)
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+
+-- No cursor blink or visual bell animations needed
+config.animation_fps = 1
+
+${generateFontConfig(font ?? {})}
+
 -- Rendering
 config.front_end = 'WebGpu'
 config.webgpu_power_preference = 'HighPerformance'
-config.max_fps = 120
+config.max_fps = 60
 config.freetype_render_target = 'HorizontalLcd'
 config.freetype_load_target = 'Light'
 
@@ -463,6 +537,223 @@ config.quote_dropped_files = 'Windows'
 
 return config
 `
+}
+
+// Generate an NSIS installer script (.nsi) for a Windows app folder.
+// NSIS (Nullsoft Scriptable Install System) cross-compiles on macOS via `makensis`.
+// The installer:
+//   - Copies all files from the app folder to Program Files
+//   - Creates Start Menu shortcuts (launcher exe + uninstaller)
+//   - Creates a Desktop shortcut for the launcher
+//   - Registers uninstaller in Windows Add/Remove Programs
+//   - Embeds the app icon in installer/uninstaller/shortcuts
+// RequestExecutionLevel admin is required for Program Files write access.
+function generateNsisScript({
+  appName,
+  safeName,
+  version,
+  appDir,
+  launcherExeName,
+  icoPath,
+  outFile,
+}: {
+  appName: string
+  safeName: string
+  version: string
+  appDir: string
+  launcherExeName: string
+  icoPath?: string
+  /** Absolute path for the output installer exe. */
+  outFile: string
+}): string {
+  // NSIS !define MUI_ICON uses build-host paths (POSIX on macOS/Linux).
+  // Do NOT convert to backslashes — makensis reads source files using host OS paths.
+  const iconDirective = icoPath
+    ? `!define MUI_ICON "${icoPath}"\n!define MUI_UNICON "${icoPath}"`
+    : ''
+
+  // Escape special NSIS characters in display strings.
+  // NSIS treats $ as variable prefix and " as string delimiter.
+  const escapeNsis = (s: string): string => {
+    return s.replace(/\$/g, '$$$$').replace(/"/g, '$\\"')
+  }
+  const safeAppName = escapeNsis(appName)
+  const safeSafeName = escapeNsis(safeName)
+
+  // Collect all files from the app folder to generate File commands.
+  // We recursively walk the directory and emit SetOutPath + File for each subdir.
+  // File paths in the install section are build-host paths (POSIX) — makensis
+  // reads them on the host OS. Install-target paths ($INSTDIR\...) use backslashes.
+  const installFileCommands: string[] = []
+  const uninstallFileCommands: string[] = []
+  const uninstallDirCommands: string[] = []
+
+  const walkDir = (dir: string, relPrefix: string) => {
+    const entries = fs.readdirSync(dir, { withFileTypes: true })
+    const files = entries.filter((e) => !e.isDirectory())
+    const dirs = entries.filter((e) => e.isDirectory())
+
+    if (files.length > 0) {
+      installFileCommands.push(`  SetOutPath "$INSTDIR${relPrefix ? '\\' + relPrefix : ''}"`)
+      for (const file of files) {
+        // Build-host path: keep POSIX slashes for makensis to read the file
+        const fullPath = path.join(dir, file.name)
+        installFileCommands.push(`  File "${fullPath}"`)
+        uninstallFileCommands.push(`  Delete "$INSTDIR${relPrefix ? '\\' + relPrefix : ''}\\${file.name}"`)
+      }
+    }
+
+    for (const subdir of dirs) {
+      const newRel = relPrefix ? `${relPrefix}\\${subdir.name}` : subdir.name
+      walkDir(path.join(dir, subdir.name), newRel)
+    }
+
+    // Post-order: push AFTER recursing into children, so children dirs
+    // appear earlier in the array and get removed first by RMDir.
+    if (relPrefix) {
+      uninstallDirCommands.push(`  RMDir "$INSTDIR\\${relPrefix}"`)
+    }
+  }
+
+  walkDir(appDir, '')
+
+  return `\
+; NSIS installer script for ${safeAppName}
+; Generated by termcast app build. Do not edit manually.
+Unicode True
+!include "MUI2.nsh"
+
+Name "${safeAppName}"
+OutFile "${outFile}"
+InstallDir "$PROGRAMFILES64\\${safeAppName}"
+InstallDirRegKey HKLM "Software\\${safeSafeName}" "InstallDir"
+RequestExecutionLevel admin
+
+${iconDirective}
+
+!define MUI_ABORTWARNING
+
+; Pages
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+
+!insertmacro MUI_LANGUAGE "English"
+
+Section "Install"
+  SetShellVarContext all
+
+${installFileCommands.join('\n')}
+
+  ; Store install dir in registry
+  WriteRegStr HKLM "Software\\${safeSafeName}" "InstallDir" "$INSTDIR"
+
+  ; Create uninstaller
+  WriteUninstaller "$INSTDIR\\Uninstall.exe"
+
+  ; Add/Remove Programs entry
+  WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${safeSafeName}" "DisplayName" "${safeAppName}"
+  WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${safeSafeName}" "UninstallString" '"$INSTDIR\\Uninstall.exe"'
+  WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${safeSafeName}" "DisplayVersion" "${version}"
+  WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${safeSafeName}" "Publisher" "termcast"
+${icoPath ? `  WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${safeSafeName}" "DisplayIcon" "$INSTDIR\\${launcherExeName}"` : ''}
+  WriteRegDWORD HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${safeSafeName}" "NoModify" 1
+  WriteRegDWORD HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${safeSafeName}" "NoRepair" 1
+
+  ; Start Menu shortcuts
+  CreateDirectory "$SMPROGRAMS\\${safeAppName}"
+  CreateShortcut "$SMPROGRAMS\\${safeAppName}\\${safeAppName}.lnk" "$INSTDIR\\${launcherExeName}"
+  CreateShortcut "$SMPROGRAMS\\${safeAppName}\\Uninstall ${safeAppName}.lnk" "$INSTDIR\\Uninstall.exe"
+
+  ; Desktop shortcut
+  CreateShortcut "$DESKTOP\\${safeAppName}.lnk" "$INSTDIR\\${launcherExeName}"
+SectionEnd
+
+Section "Uninstall"
+  SetShellVarContext all
+
+${uninstallFileCommands.join('\n')}
+  Delete "$INSTDIR\\Uninstall.exe"
+
+${uninstallDirCommands.join('\n')}
+  RMDir "$INSTDIR"
+
+  ; Remove Start Menu shortcuts
+  Delete "$SMPROGRAMS\\${safeAppName}\\${safeAppName}.lnk"
+  Delete "$SMPROGRAMS\\${safeAppName}\\Uninstall ${safeAppName}.lnk"
+  RMDir "$SMPROGRAMS\\${safeAppName}"
+
+  ; Remove Desktop shortcut
+  Delete "$DESKTOP\\${safeAppName}.lnk"
+
+  ; Remove registry keys
+  DeleteRegKey HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${safeSafeName}"
+  DeleteRegKey HKLM "Software\\${safeSafeName}"
+SectionEnd
+`
+}
+
+// Build an NSIS installer (.exe) from the assembled app folder.
+// Writes a temp .nsi script, runs makensis to compile it, and returns the
+// path to the resulting Setup exe. Requires `makensis` in PATH (brew install nsis).
+async function buildNsisInstaller({
+  appName,
+  safeName,
+  version,
+  appDir,
+  launcherExeName,
+  icoPath,
+  distDir,
+}: {
+  appName: string
+  safeName: string
+  version: string
+  appDir: string
+  launcherExeName: string
+  icoPath?: string
+  distDir: string
+}): Promise<string> {
+  const installerExeName = `${safeName}-Setup-x64.exe`
+  const installerPath = path.join(distDir, installerExeName)
+
+  const nsiScript = generateNsisScript({
+    appName,
+    safeName,
+    version,
+    appDir,
+    launcherExeName,
+    icoPath,
+    outFile: installerPath,
+  })
+
+  const buildTmpDir = path.join(distDir, `.nsis-tmp-${process.pid}`)
+  fs.mkdirSync(buildTmpDir, { recursive: true })
+
+  const nsiPath = path.join(buildTmpDir, 'installer.nsi')
+  fs.writeFileSync(nsiPath, nsiScript)
+
+  console.log('Building NSIS installer...')
+  try {
+    await execFileAsync('makensis', [nsiPath])
+  } catch (e) {
+    // makensis might not be installed — warn but don't fail the build
+    const msg = e instanceof Error ? e.message : String(e)
+    if (msg.includes('ENOENT') || msg.includes('not found')) {
+      console.log('Warning: makensis not found. Install NSIS to generate Windows installers:')
+      console.log('  macOS:  brew install nsis')
+      console.log('  Linux:  apt install nsis')
+      return ''
+    }
+    throw new Error(`NSIS installer build failed`, { cause: e })
+  } finally {
+    fs.rmSync(buildTmpDir, { recursive: true, force: true })
+  }
+
+  const installerSize = fs.statSync(installerPath).size
+  console.log(`Installer: ${installerExeName} (${(installerSize / 1024 / 1024).toFixed(1)}MB)`)
+  return installerPath
 }
 
 function escapeXml(str: string): string {
@@ -527,11 +818,23 @@ export interface BuildAppOptions {
   platform?: CompileTarget['os']
   /** Target arch: 'arm64' | 'x64'. Defaults to current machine arch. */
   arch?: CompileTarget['arch']
+  /** Skip NSIS installer generation on Windows (default: false, installer is built). */
+  noInstaller?: boolean
+  /** Font family name to use (e.g. 'Inter Mono'). Default: WezTerm built-in JetBrains Mono. */
+  fontFamily?: string
+  /** Directory of .ttf/.otf font files to bundle in the app. Enables font_dirs in wezterm config. */
+  fontDir?: string
+  /** Font size in points. Default: 14 */
+  fontSize?: number
+  /** Line height multiplier. 1.0 = tight, 1.2 = comfortable. Default: 1.2 */
+  lineHeight?: number
 }
 
 export interface BuildAppResult {
   appPath: string
   appName: string
+  /** Path to NSIS installer exe (Windows only, absent if --no-installer or makensis missing). */
+  installerPath?: string
 }
 
 // Shared setup for all platforms: resolve paths, read package.json, compile extension.
@@ -548,6 +851,9 @@ interface ResolvedBuildContext {
   iconPng: string
   packageJson: Record<string, string>
   resolvedBundleId: string
+  fontOptions: WeztermFontOptions
+  /** Resolved absolute path to font directory, if provided and exists. */
+  fontDirPath?: string
 }
 
 async function resolveBuildContext({
@@ -558,6 +864,10 @@ async function resolveBuildContext({
   entry,
   platform,
   arch,
+  fontFamily,
+  fontDir,
+  fontSize,
+  lineHeight,
 }: BuildAppOptions & { platform: CompileTarget['os'] }): Promise<ResolvedBuildContext> {
   const resolvedPath = path.resolve(extensionPath)
 
@@ -622,6 +932,36 @@ async function resolveBuildContext({
   // because PowerShell splits unquoted paths on whitespace.
   const safeName = appName.replace(/[/\\\s]+/g, '-').replace(/^-+|-+$/g, '')
 
+  // Resolve font directory: --font-dir flag, or fonts/ in extension root.
+  // --font-dir is resolved relative to the extension path (not cwd) for consistency.
+  const fontDirPath = (() => {
+    if (fontDir) {
+      const resolved = path.isAbsolute(fontDir)
+        ? fontDir
+        : path.resolve(resolvedPath, fontDir)
+      if (!fs.existsSync(resolved)) {
+        throw new Error(`Font directory not found: ${resolved}`)
+      }
+      if (!fs.statSync(resolved).isDirectory()) {
+        throw new Error(`--font-dir must be a directory, not a file: ${resolved}`)
+      }
+      return resolved
+    }
+    // Auto-detect fonts/ directory in extension root
+    const defaultFontDir = path.join(resolvedPath, 'fonts')
+    if (fs.existsSync(defaultFontDir) && fs.statSync(defaultFontDir).isDirectory()) {
+      return defaultFontDir
+    }
+    return undefined
+  })()
+
+  const fontOptions: WeztermFontOptions = {
+    fontFamily,
+    fontSize,
+    lineHeight,
+    hasBundledFonts: !!fontDirPath,
+  }
+
   return {
     resolvedPath,
     extensionName,
@@ -635,6 +975,8 @@ async function resolveBuildContext({
     iconPng,
     packageJson,
     resolvedBundleId,
+    fontOptions,
+    fontDirPath,
   }
 }
 
@@ -679,23 +1021,43 @@ async function buildDarwinApp(
 
   console.log('Assembling .app bundle...')
 
-  // Copy wezterm-gui binary (thinned to target arch)
-  fs.copyFileSync(weztermBinary, path.join(macosDir, 'wezterm-gui'))
-  fs.chmodSync(path.join(macosDir, 'wezterm-gui'), 0o755)
+  // Copy wezterm-gui binary renamed to the app name so macOS Activity Monitor
+  // shows the app name instead of "wezterm-gui" (exec replaces the process image,
+  // and the OS derives the display name from the binary filename).
+  const weztermBinaryName = ctx.safeName
+  fs.copyFileSync(weztermBinary, path.join(macosDir, weztermBinaryName))
+  fs.chmodSync(path.join(macosDir, weztermBinaryName), 0o755)
 
   // Copy compiled extension binary
   const binaryName = ctx.extensionName
   fs.copyFileSync(ctx.compileResult.outfile, path.join(resourcesDir, binaryName))
   fs.chmodSync(path.join(resourcesDir, binaryName), 0o755)
 
+  // Bundle custom fonts if a font directory was provided/detected.
+  // Copies all .ttf/.otf files into Resources/fonts/ so wezterm's font_dirs can find them.
+  if (ctx.fontDirPath) {
+    const bundledFontsDir = path.join(resourcesDir, 'fonts')
+    fs.mkdirSync(bundledFontsDir, { recursive: true })
+    const fontFiles = fs.readdirSync(ctx.fontDirPath).filter((f) => {
+      return /\.(ttf|otf|woff2?)$/i.test(f)
+    })
+    for (const fontFile of fontFiles) {
+      fs.copyFileSync(
+        path.join(ctx.fontDirPath, fontFile),
+        path.join(bundledFontsDir, fontFile),
+      )
+    }
+    console.log(`Bundled ${fontFiles.length} font file(s)`)
+  }
+
   // Write config, launch script
   fs.writeFileSync(
     path.join(resourcesDir, 'wezterm.lua'),
-    generateWeztermConfig({ binaryName }),
+    generateWeztermConfig({ binaryName, font: ctx.fontOptions }),
   )
 
   const launchPath = path.join(macosDir, 'launch')
-  fs.writeFileSync(launchPath, generateLaunchScript())
+  fs.writeFileSync(launchPath, generateLaunchScript({ weztermBinaryName }))
   fs.chmodSync(launchPath, 0o755)
 
   // Convert and write icon, then write Info.plist with the correct icon filename
@@ -809,10 +1171,27 @@ async function buildWin32App(
   const binaryName = ctx.extensionName + '.exe'
   fs.copyFileSync(ctx.compileResult.outfile, path.join(runtimeDir, binaryName))
 
+  // Bundle custom fonts if a font directory was provided/detected.
+  // Copies all .ttf/.otf files into runtime/fonts/ so wezterm's font_dirs can find them.
+  if (ctx.fontDirPath) {
+    const bundledFontsDir = path.join(configDir, 'fonts')
+    fs.mkdirSync(bundledFontsDir, { recursive: true })
+    const fontFiles = fs.readdirSync(ctx.fontDirPath).filter((f) => {
+      return /\.(ttf|otf|woff2?)$/i.test(f)
+    })
+    for (const fontFile of fontFiles) {
+      fs.copyFileSync(
+        path.join(ctx.fontDirPath, fontFile),
+        path.join(bundledFontsDir, fontFile),
+      )
+    }
+    console.log(`Bundled ${fontFiles.length} font file(s)`)
+  }
+
   // Write wezterm.lua config
   fs.writeFileSync(
     path.join(configDir, 'wezterm.lua'),
-    generateWeztermConfigWindows({ binaryName }),
+    generateWeztermConfigWindows({ binaryName, font: ctx.fontOptions }),
   )
 
   // Build the launcher .exe with Zig cross-compilation:
@@ -824,6 +1203,13 @@ async function buildWin32App(
   const buildTmpDir = path.join(ctx.distDir, `.win-build-tmp-${process.pid}`)
   fs.mkdirSync(buildTmpDir, { recursive: true })
 
+  // Persist the .ico in a dedicated temp dir (NOT inside appDir, to avoid it being
+  // included in the NSIS installer payload during folder walk).
+  const icoTmpDir = path.join(ctx.distDir, `.ico-tmp-${process.pid}`)
+  fs.mkdirSync(icoTmpDir, { recursive: true })
+  const persistedIcoPath = path.join(icoTmpDir, 'app.ico')
+  let hasIcon = false
+
   try {
     const launcherCPath = path.join(buildTmpDir, 'launcher.c')
     fs.writeFileSync(launcherCPath, generateLauncherC())
@@ -833,10 +1219,11 @@ async function buildWin32App(
     const icoPath = path.join(buildTmpDir, 'app.ico')
     const rcPath = path.join(buildTmpDir, 'launcher.rc')
     const resPath = path.join(buildTmpDir, 'launcher.res')
-    let hasIcon = false
 
     try {
       convertToIco({ pngPath: ctx.iconPng, outputPath: icoPath })
+      // Also persist for NSIS (the buildTmpDir gets cleaned up)
+      fs.copyFileSync(icoPath, persistedIcoPath)
       fs.writeFileSync(rcPath, generateLauncherRc({ icoPath }))
       await execFileAsync('zig', ['rc', rcPath, resPath])
       hasIcon = true
@@ -877,6 +1264,29 @@ async function buildWin32App(
   const appSize = getDirectorySize(appDir)
   console.log(`\nBuilt: ${appDir} (${(appSize / 1024 / 1024).toFixed(0)}MB)`)
 
+  // Build NSIS installer by default. Skip with --no-installer.
+  // Always clean up the .ico temp dir afterward, even if NSIS fails.
+  const launcherExeName = `${ctx.safeName}.exe`
+  let installerPath: string | undefined
+  try {
+    if (!options.noInstaller) {
+      const result = await buildNsisInstaller({
+        appName: ctx.appName,
+        safeName: ctx.safeName,
+        version: ctx.version,
+        appDir,
+        launcherExeName,
+        icoPath: hasIcon ? persistedIcoPath : undefined,
+        distDir: ctx.distDir,
+      })
+      if (result) {
+        installerPath = result
+      }
+    }
+  } finally {
+    fs.rmSync(icoTmpDir, { recursive: true, force: true })
+  }
+
   if (options.release) {
     await uploadToRelease({
       extensionPath: ctx.resolvedPath,
@@ -885,10 +1295,11 @@ async function buildWin32App(
       appName: ctx.safeName,
       arch: ctx.resolvedArch,
       platform: 'win32',
+      installerPath,
     })
   }
 
-  return { appPath: appDir, appName: ctx.safeName }
+  return { appPath: appDir, appName: ctx.safeName, installerPath }
 }
 
 function getDirectorySize(dirPath: string): number {
@@ -912,6 +1323,7 @@ async function uploadToRelease({
   appName,
   arch,
   platform,
+  installerPath,
 }: {
   extensionPath: string
   extensionName: string
@@ -919,6 +1331,7 @@ async function uploadToRelease({
   appName: string
   arch: CompileTarget['arch']
   platform: CompileTarget['os']
+  installerPath?: string
 }): Promise<void> {
   const distDir = path.dirname(appDir)
 
@@ -1000,4 +1413,13 @@ async function uploadToRelease({
 
   console.log(`Uploaded ${zipName} to release ${latestTag}`)
   fs.unlinkSync(zipPath)
+
+  // Upload NSIS installer alongside the zip if available
+  if (installerPath && fs.existsSync(installerPath)) {
+    const installerName = path.basename(installerPath)
+    await execFileAsync('gh', ['release', 'upload', latestTag, installerPath, '--clobber'], {
+      cwd: extensionPath,
+    })
+    console.log(`Uploaded ${installerName} to release ${latestTag}`)
+  }
 }

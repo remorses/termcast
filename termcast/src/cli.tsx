@@ -270,6 +270,11 @@ cli
   .option('--entry <file>', 'Custom entry file (instead of auto-generated one)')
   .option('--platform <platform>', 'Target platform: darwin or win32 (default: current OS)')
   .option('--arch <arch>', 'Target architecture: arm64 or x64 (default: current machine)')
+  .option('--no-installer', 'Skip NSIS installer generation on Windows')
+  .option('--font <family>', 'Font family name (e.g. "Inter Mono", "Fira Code")')
+  .option('--font-dir <path>', 'Directory of .ttf/.otf files to bundle (auto-detects fonts/ in extension)')
+  .option('--font-size <size>', 'Font size in points (default: 14)')
+  .option('--line-height <height>', 'Line height multiplier (default: 1.2)')
   .action(
     async (
       extensionPath: string,
@@ -281,6 +286,11 @@ cli
         entry?: string
         platform?: string
         arch?: string
+        installer?: boolean
+        font?: string
+        fontDir?: string
+        fontSize?: string
+        lineHeight?: string
       },
     ) => {
       extensionPath = path.resolve(extensionPath || process.cwd())
@@ -294,6 +304,17 @@ cli
         process.exit(1)
       }
 
+      const fontSize = options.fontSize ? parseFloat(options.fontSize) : undefined
+      if (fontSize !== undefined && !Number.isFinite(fontSize)) {
+        console.error(`Invalid --font-size "${options.fontSize}". Must be a number.`)
+        process.exit(1)
+      }
+      const lineHeight = options.lineHeight ? parseFloat(options.lineHeight) : undefined
+      if (lineHeight !== undefined && !Number.isFinite(lineHeight)) {
+        console.error(`Invalid --line-height "${options.lineHeight}". Must be a number.`)
+        process.exit(1)
+      }
+
       try {
         const result = await buildApp({
           extensionPath,
@@ -304,12 +325,23 @@ cli
           entry: options.entry,
           platform: options.platform as 'darwin' | 'win32' | undefined,
           arch: options.arch as 'arm64' | 'x64' | undefined,
+          // goke parses --no-installer as installer:false
+          noInstaller: options.installer === false,
+          fontFamily: options.font,
+          fontDir: options.fontDir,
+          fontSize,
+          lineHeight,
         })
 
         const resolvedPlatform = options.platform || process.platform
         console.log(`\nApp built: ${result.appPath}`)
         if (resolvedPlatform === 'win32') {
-          console.log(`Distribute the folder as a zip. Users run: ${result.appName}.exe`)
+          if (result.installerPath) {
+            console.log(`Installer: ${result.installerPath}`)
+            console.log(`Distribute the installer .exe. Users double-click to install.`)
+          } else {
+            console.log(`Distribute the folder as a zip. Users run: ${result.appName}.exe`)
+          }
         } else {
           console.log(`Run it with: open "${result.appPath}"`)
         }
