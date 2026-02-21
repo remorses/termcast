@@ -86,6 +86,7 @@ class ErrorBoundaryClass extends Component<
   constructor(props: { children: ReactNode }) {
     super(props)
     this.state = { hasError: false, error: null }
+    this.reset = this.reset.bind(this)
   }
 
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
@@ -100,21 +101,44 @@ class ErrorBoundaryClass extends Component<
     })
   }
 
+  reset(): void {
+    // Clear navigation and dialog stacks so the app returns to the root view
+    // instead of re-rendering the same crashed component
+    useStore.setState({
+      navigationStack: [],
+      dialogStack: [],
+      toast: null,
+      toastWithPrimaryAction: false,
+      showActionsDialog: false,
+    })
+    this.setState({ hasError: false, error: null })
+  }
+
   render(): any {
     if (this.state.hasError) {
-      return <ErrorDisplay error={this.state.error} />
+      return <ErrorDisplay error={this.state.error} onRetry={this.reset} />
     }
 
     return this.props.children
   }
 }
 
-function ErrorDisplay({ error }: { error: Error | null }): any {
+function ErrorDisplay({ error, onRetry }: { error: Error | null; onRetry: () => void }): any {
   const theme = useTheme()
+
+  useKeyboard((evt) => {
+    if (evt.name === 'return') {
+      onRetry()
+    }
+  })
+
   return (
-    <box padding={2}>
+    <box padding={2} flexDirection="column" gap={1}>
       <text fg={theme.error} wrapMode='none'>
         {error?.stack}
+      </text>
+      <text fg={theme.textMuted}>
+        Press Enter to retry
       </text>
     </box>
   )

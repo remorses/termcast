@@ -66,7 +66,12 @@ process.on('uncaughtException', (error: Error) => {
   } else {
     logger.error('Uncaught Exception:', serialize(error))
   }
-  process.exit(1)
+  // In app mode, don't exit on uncaught exceptions — the error boundary
+  // will catch React errors, and crashing the whole app is worse than
+  // a broken screen the user can recover from.
+  if (process.env.TERMCAST_APP_MODE !== '1') {
+    process.exit(1)
+  }
 })
 
 process.on('unhandledRejection', async (reason: any, promise: Promise<any>) => {

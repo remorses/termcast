@@ -14,6 +14,7 @@ import {
 import { logger } from './logger'
 import { useStore } from './state'
 import { initializeTheme } from './theme'
+import { isAppMode } from './apis/environment'
 
 export interface RenderWithProvidersOptions {
   extensionName?: string
@@ -59,7 +60,11 @@ export async function renderWithProviders(
 
   const renderer = await createCliRenderer({
     onDestroy: () => {
-      process.exit(0)
+      // In app mode, destroying the renderer should not kill the process.
+      // The app launcher manages the process lifecycle.
+      if (!isAppMode()) {
+        process.exit(0)
+      }
     },
   })
 
