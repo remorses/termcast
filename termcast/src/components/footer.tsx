@@ -143,6 +143,7 @@ function ToastInline({ toast }: { toast: ToastData }): any {
       overflow='hidden'
       height={1}
       backgroundColor={toastBg}
+      onMouseDown={() => { toast.onHide() }}
     >
       {/* Title box */}
       <box
@@ -191,7 +192,8 @@ function ToastInline({ toast }: { toast: ToastData }): any {
           <box
             flexShrink={0}
             flexDirection='row'
-            onMouseDown={() => {
+            onMouseDown={(evt) => {
+              evt.stopPropagation()
               toast.primaryAction?.onAction()
             }}
           >
@@ -212,7 +214,8 @@ function ToastInline({ toast }: { toast: ToastData }): any {
           <box
             flexShrink={0}
             flexDirection='row'
-            onMouseDown={() => {
+            onMouseDown={(evt) => {
+              evt.stopPropagation()
               toast.secondaryAction?.onAction()
             }}
           >
