@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.3.51
+
+### Features
+
+- **app build**: Add `termcast app build` command to create standalone macOS `.app` and Windows folder bundles
+  - Wraps WezTerm + a compiled termcast extension into a portable desktop app
+  - macOS: produces a proper `.app` bundle with multi-size icons (`.icns`) and WezTerm background color sync
+  - Windows: bundles `wezterm-gui.exe`, PTY support DLLs, and ANGLE GPU DLLs
+  - `--theme` option to bake a theme into the app
+  - `--font` option for font customization
+  - `--icon` option with fallback to built-in default icon
+  - App mode: ESC at root does not exit, process.exit guarded, error boundary with retry
+- **mouse**: Full mouse interaction support for list items, form fields, and footer labels
+  - Click list items to select, hover to highlight, click to activate
+  - Form fields clickable to focus, form dropdowns navigable by click
+  - Footer labels and dropdown hints are mouse-clickable
+  - `Hoverable` component for custom hover-to-select patterns
+  - Click toast to dismiss
+- **CalendarHeatmap**: New `CalendarHeatmap` component (renamed from `Heatmap`, alias kept)
+  - GitHub-style contribution grid with color intensity encoding
+  - Month grouping, day labels, legend support
+  - Various color combinations showcase in examples
+- **Markdown**: Expose standalone `Markdown` component
+  - Themed markdown rendering with custom renderNode hook
+  - Link URL stripping, borderless tables, OSC 8 hyperlinks
+  - Accepts `BoxProps` for composition with Row, CalendarHeatmap, Graph, etc.
+- **ProgressBar**: Add `barCharacter` and `trackCharacter` props for custom bar fill glyphs
+- **List**: Add `logo` prop for custom content on the right edge of the title bar
+- **Table**: Make table headers optional
+
+### Fixes
+
+- **form-navigation**: Fix arrow navigation at widget boundaries (dropdown/date picker)
+- **date-picker**: Fix arrow key mouse navigation
+- **hover-contrast**: Improve hover contrast for interactive rows
+- **navigation**: Defer `navigation.pop()` in mouse handler to avoid Yoga WASM crash
+- **app-build**: Harden app build against shell injection, icon path issues, scoped names, and release lookup
+
 ## 1.3.50
 
 ### Fixes
