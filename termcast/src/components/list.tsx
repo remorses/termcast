@@ -34,7 +34,7 @@ import { ScrollBox } from 'termcast/src/internal/scrollbox'
 import { Color, resolveColor } from 'termcast/src/colors'
 import { getIconEmoji, getIconValue } from 'termcast/src/components/icon'
 import { ActionPanel, matchesShortcut } from 'termcast/src/components/actions'
-import { useTheme } from 'termcast/src/theme'
+import { getInteractiveHoverBackground, useTheme } from 'termcast/src/theme'
 import { Markdown } from 'termcast/src/components/markdown'
 import { CommonProps } from 'termcast/src/utils'
 
@@ -773,6 +773,7 @@ function ListItemRow(props: {
   const accessoryTagWidths = listCtx?.accessoryTagWidths
   const isRelaxed = spacingMode === 'relaxed'
   const { title, subtitle, icon, iconColor, accessories, active, ref } = props
+  const hoverBackgroundColor = getInteractiveHoverBackground(theme)
   const [isHovered, setIsHovered] = useState(false)
   const handleMouseMove = () => {
     setIsHovered(true)
@@ -887,7 +888,7 @@ function ListItemRow(props: {
           backgroundColor: active
             ? theme.primary
             : isHovered
-              ? theme.backgroundPanel
+              ? hoverBackgroundColor
               : undefined,
           paddingLeft: 0,
           paddingRight: 1,
@@ -952,7 +953,7 @@ function ListItemRow(props: {
         backgroundColor: active
           ? theme.primary
           : isHovered
-            ? theme.backgroundPanel
+            ? hoverBackgroundColor
             : undefined,
         paddingLeft: 0,
         paddingRight: 1,
@@ -1845,6 +1846,7 @@ ListItem.Detail = ListItemDetail
 const ListDropdown: ListDropdownType = (props) => {
   const theme = useTheme()
   const listContext = useContext(ListContext)
+  const hoverBackgroundColor = getInteractiveHoverBackground(theme)
   const [isHovered, setIsHovered] = useState(false)
 
   // If not inside a List, just render nothing (for type safety)
@@ -1987,7 +1989,7 @@ const ListDropdown: ListDropdownType = (props) => {
             // minWidth: value.length + 4,
             flexDirection: 'row',
             flexShrink: 0,
-            backgroundColor: isHovered ? theme.backgroundPanel : undefined,
+            backgroundColor: isHovered ? hoverBackgroundColor : undefined,
           }}
           onMouseMove={() => setIsHovered(true)}
           onMouseOut={() => setIsHovered(false)}
@@ -2027,6 +2029,7 @@ const ListDropdown: ListDropdownType = (props) => {
 
 ListDropdown.Item = (props) => {
   const theme = useTheme()
+  const hoverBackgroundColor = getInteractiveHoverBackground(theme)
   const dropdownContext = useContext(DropdownContext)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -2092,7 +2095,7 @@ ListDropdown.Item = (props) => {
           backgroundColor: isActive
             ? theme.primary
             : isHovered
-              ? theme.backgroundPanel
+              ? hoverBackgroundColor
               : undefined,
           paddingLeft: isActive ? 0 : 1,
           paddingRight: 1,

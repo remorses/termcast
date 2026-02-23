@@ -59,6 +59,30 @@ export function getMarkdownSyntaxStyle(): SyntaxStyle {
   return SyntaxStyle.fromStyles(getSyntaxTheme(themeName))
 }
 
+// Resolve a visible but subtle hover background for interactive rows.
+// Some themes map background and backgroundPanel to the same value.
+export function getInteractiveHoverBackground(theme: ResolvedTheme): string {
+  const normalize = (color: string): string => {
+    return color.toLowerCase()
+  }
+  const background = normalize(theme.background)
+
+  if (normalize(theme.backgroundElement) !== background) {
+    return theme.backgroundElement
+  }
+  if (normalize(theme.backgroundPanel) !== background) {
+    return theme.backgroundPanel
+  }
+  if (normalize(theme.borderSubtle) !== background) {
+    return theme.borderSubtle
+  }
+  if (normalize(theme.border) !== background) {
+    return theme.border
+  }
+
+  return theme.primary
+}
+
 // Shared color palette for all chart components (Graph, BarChart, BarGraph).
 // Order: accent, info, success, warning, error, secondary, primary (cycles with %).
 export function getThemePalette(theme: ResolvedTheme): string[] {
@@ -80,5 +104,4 @@ export const markdownSyntaxStyle = new Proxy({} as SyntaxStyle, {
     return getMarkdownSyntaxStyle()[prop as keyof SyntaxStyle]
   },
 })
-
 

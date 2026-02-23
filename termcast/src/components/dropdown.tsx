@@ -14,7 +14,7 @@ import {
   ScrollBoxRenderable,
   TextareaRenderable,
 } from '@opentui/core'
-import { useTheme } from 'termcast/src/theme'
+import { getInteractiveHoverBackground, useTheme } from 'termcast/src/theme'
 import { getIconValue } from 'termcast/src/components/icon'
 import { logger } from 'termcast/src/logger'
 import { useStore } from 'termcast/src/state'
@@ -441,6 +441,7 @@ function ItemOption(props: {
   elementRef?: React.Ref<any>
 }) {
   const theme = useTheme()
+  const hoverBackgroundColor = getInteractiveHoverBackground(theme)
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -451,7 +452,7 @@ function ItemOption(props: {
         backgroundColor: props.active
           ? theme.primary
           : isHovered
-            ? theme.backgroundPanel
+            ? hoverBackgroundColor
             : undefined,
         paddingLeft: props.active ? 0 : 1,
         paddingRight: 1,
