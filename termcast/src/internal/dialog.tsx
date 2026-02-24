@@ -123,9 +123,11 @@ export function DialogProvider(props: DialogProviderProps): any {
           activeSearchInputRef.setText('')
           return
         }
+        const top = state.dialogStack[state.dialogStack.length - 1]
         useStore.setState({
           dialogStack: state.dialogStack.slice(0, -1),
         })
+        top?.onClose?.()
       }
     }
   })
@@ -184,9 +186,11 @@ export function DialogOverlay(): any {
               onClickOutside={() => {
                 const state = useStore.getState()
                 if (state.dialogStack.length > 0) {
+                  const top = state.dialogStack[state.dialogStack.length - 1]
                   useStore.setState({
                     dialogStack: state.dialogStack.slice(0, -1),
                   })
+                  top?.onClose?.()
                 }
               }}
             >
@@ -231,6 +235,7 @@ export function useDialog() {
     element: ReactNode
     position?: DialogPosition
     type?: 'actions'
+    onClose?: () => void
   }) => {
     const state = useStore.getState()
     useStore.setState({

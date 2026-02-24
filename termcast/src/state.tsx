@@ -42,6 +42,7 @@ export interface DialogStackItem {
   element: ReactNode
   position?: DialogPosition
   type?: DialogStackItemType
+  onClose?: () => void
 }
 
 export interface NavigationStackItem {

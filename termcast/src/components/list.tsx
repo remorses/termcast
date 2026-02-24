@@ -1970,6 +1970,9 @@ const ListDropdown: ListDropdownType = (props) => {
           </ListDropdownDialog>
         ),
         position: 'center',
+        onClose: () => {
+          setIsDropdownOpen(false)
+        },
       })
     }
   }, [isDropdownOpen, props.children])
