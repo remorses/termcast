@@ -19,6 +19,9 @@ const execFileAsync = promisify(execFile)
 const WEZTERM_TAG = '20240203-110809-5046fc22'
 const WEZTERM_MACOS_ZIP_URL = `https://github.com/wez/wezterm/releases/download/${WEZTERM_TAG}/WezTerm-macos-${WEZTERM_TAG}.zip`
 const WEZTERM_WINDOWS_ZIP_URL = `https://github.com/wez/wezterm/releases/download/${WEZTERM_TAG}/WezTerm-windows-${WEZTERM_TAG}.zip`
+// Ubuntu 20.04 build targets older glibc for broadest compatibility across Linux distros.
+// The tar.xz contains usr/bin/wezterm-gui and other binaries in a standard FHS layout.
+const WEZTERM_LINUX_TAR_URL = `https://github.com/wez/wezterm/releases/download/${WEZTERM_TAG}/wezterm-${WEZTERM_TAG}.Ubuntu20.04.tar.xz`
 
 // Files to extract from the Windows WezTerm zip. wezterm-gui.exe is the main binary,
 // conpty.dll + OpenConsole.exe are required for PTY support, and the ANGLE DLLs
@@ -182,6 +185,65 @@ async function downloadWeztermWindows(): Promise<Map<string, string>> {
   fs.writeFileSync(sentinel, '')
   console.log(`Cached WezTerm Windows files at ${cacheDir}`)
   return result
+}
+
+// Download and cache the Linux wezterm-gui binary from the Ubuntu 20.04 tar.xz release.
+// Uses `tar xJf` to extract only wezterm-gui from the archive. Works on macOS (bsdtar
+// with xz support since Catalina) and Linux. Returns path to cached binary.
+async function downloadWeztermLinux(): Promise<string> {
+  const cacheDir = path.join(getCacheDir(), 'wezterm', WEZTERM_TAG, 'linux')
+  const cachedBinary = path.join(cacheDir, 'wezterm-gui')
+
+  if (fs.existsSync(cachedBinary)) {
+    return cachedBinary
+  }
+
+  console.log(`Downloading WezTerm Linux ${WEZTERM_TAG}...`)
+  fs.mkdirSync(cacheDir, { recursive: true })
+
+  const response = await fetch(WEZTERM_LINUX_TAR_URL)
+  if (!response.ok) {
+    throw new Error(
+      `Failed to download WezTerm Linux: ${response.status} ${response.statusText}`,
+    )
+  }
+
+  const buffer = await response.arrayBuffer()
+  console.log(`Downloaded ${(buffer.byteLength / 1024 / 1024).toFixed(1)}MB`)
+
+  // Write the tar.xz to a temp file so we can extract with system tar.
+  // The archive layout is: wezterm-<tag>.<distro>/usr/bin/wezterm-gui
+  const tmpTar = path.join(cacheDir, `wezterm-linux.tmp-${process.pid}.tar.xz`)
+  fs.writeFileSync(tmpTar, Buffer.from(buffer))
+
+  console.log('Extracting wezterm-gui from tar.xz...')
+  try {
+    // Extract wezterm-gui using wildcard match on the nested path.
+    // --strip-components=3 removes the top-level dir + usr/bin/ prefix.
+    await execFileAsync('tar', [
+      'xJf', tmpTar,
+      '--strip-components=3',
+      '--include=*/usr/bin/wezterm-gui',
+      '-C', cacheDir,
+    ])
+  } catch (e) {
+    throw new Error(
+      `Failed to extract wezterm-gui from tar.xz. Ensure tar with xz support is available.`,
+      { cause: e },
+    )
+  } finally {
+    fs.rmSync(tmpTar, { force: true })
+  }
+
+  if (!fs.existsSync(cachedBinary)) {
+    throw new Error(`Extraction succeeded but wezterm-gui not found at ${cachedBinary}`)
+  }
+
+  fs.chmodSync(cachedBinary, 0o755)
+
+  const stat = fs.statSync(cachedBinary)
+  console.log(`Cached wezterm-gui at ${cacheDir} (${(stat.size / 1024 / 1024).toFixed(1)}MB)`)
+  return cachedBinary
 }
 
 // Resolve the icon to use. Returns path to a PNG file.
@@ -487,11 +549,11 @@ function generateFontConfig(opts: WeztermFontOptions): string {
   return lines.join('\n')
 }
 
-// Single config generator for both macOS and Windows. Only 4 things differ:
-// - default_prog path separator
-// - key bindings (SUPER on mac, none on Windows since Cmd doesn't exist)
-// - quote_dropped_files (Posix vs Windows)
-// - rendering comment
+// Single config generator for macOS, Windows, and Linux. Platform differences:
+// - default_prog path separator (backslash on Windows, forward slash on macOS/Linux)
+// - key bindings (SUPER on macOS only — no Cmd key on Windows/Linux)
+// - quote_dropped_files (Posix on macOS/Linux, Windows on win32)
+// - window_decorations (TITLE|RESIZE on macOS, RESIZE on Windows/Linux)
 function generateWeztermConfig({
   binaryName,
   font,
@@ -500,7 +562,7 @@ function generateWeztermConfig({
 }: {
   binaryName: string
   font?: WeztermFontOptions
-  platform: 'darwin' | 'win32'
+  platform: 'darwin' | 'win32' | 'linux'
   backgroundColor: string
 }): string {
   const defaultProg = platform === 'win32'
@@ -512,7 +574,7 @@ function generateWeztermConfig({
   // — WezTerm treats SUPER as a window-manager modifier and doesn't encode it into
   // kitty protocol sequences. Raw CSI sequences bypass this limitation.
   // Kitty modifier encoding: SUPER = bit 3 (value 8), encoded field = bitmask + 1 = 9.
-  // On Windows there is no Cmd key, so no key overrides needed.
+  // On Windows/Linux there is no Cmd key, so no key overrides needed.
   const keysBlock = platform === 'darwin'
     ? `
 -- Forward Cmd keys to the TUI using raw kitty protocol CSI sequences.
@@ -593,6 +655,44 @@ export TERMCAST_WEZTERM_CONFIG="$DIR/../Resources/wezterm.lua"
 export TERMCAST_DEFAULT_THEME="${themeName}"
 export TERMCAST_APP_MODE=1
 exec "$DIR/${weztermBinaryName}" --config-file "$TERMCAST_WEZTERM_CONFIG"
+`
+}
+
+// Linux launch script. Lives at the app root (MyApp/MyApp) and launches
+// wezterm-gui from the runtime/ subdirectory with the baked config.
+function generateLinuxLaunchScript({ themeName }: { themeName: string }): string {
+  return `\
+#!/bin/bash
+DIR="$(cd "$(dirname "$0")" && pwd)"
+export TERMCAST_WEZTERM_CONFIG="$DIR/runtime/config/wezterm.lua"
+export TERMCAST_DEFAULT_THEME="${themeName}"
+export TERMCAST_APP_MODE=1
+exec "$DIR/runtime/wezterm-gui" --config-file "$TERMCAST_WEZTERM_CONFIG"
+`
+}
+
+// Generate a freedesktop .desktop entry for Linux app launcher integration.
+// Users can copy this to ~/.local/share/applications/ to get the app in their
+// desktop environment's application menu.
+function generateDesktopFile({
+  appName,
+  safeName,
+  comment,
+}: {
+  appName: string
+  safeName: string
+  comment?: string
+}): string {
+  return `\
+[Desktop Entry]
+Type=Application
+Name=${appName}
+Comment=${comment || `${appName} - built with termcast`}
+Exec=%INSTALL_DIR%/${safeName}
+Icon=%INSTALL_DIR%/share/icons/${safeName}.png
+Terminal=false
+Categories=Utility;
+StartupWMClass=${safeName}
 `
 }
 
@@ -1048,9 +1148,12 @@ export async function buildApp(options: BuildAppOptions): Promise<BuildAppResult
   if (resolvedPlatform === 'win32') {
     return buildWin32App(options, resolvedPlatform)
   }
+  if (resolvedPlatform === 'linux') {
+    return buildLinuxApp(options, resolvedPlatform)
+  }
 
   throw new Error(
-    `Platform "${resolvedPlatform}" is not supported yet. Supported: darwin, win32.`,
+    `Platform "${resolvedPlatform}" is not supported yet. Supported: darwin, linux, win32.`,
   )
 }
 
@@ -1367,6 +1470,134 @@ async function buildWin32App(
   }
 
   return { appPath: appDir, appName: ctx.safeName, installerPath }
+}
+
+// ── Linux tar.gz folder bundle ───────────────────────────────────────────────
+// Produces a self-contained folder with a bash launcher at the root.
+// All WezTerm/extension files live in runtime/ so the structure is clean.
+// The .desktop file and icon are placed in share/ for optional system integration.
+//   MyApp/
+//     MyApp                ← bash launcher script
+//     runtime/
+//       wezterm-gui        ← from WezTerm Ubuntu 20.04 tar.xz
+//       myapp              ← compiled termcast extension
+//       config/
+//         wezterm.lua      ← baked config
+//         fonts/           ← optional bundled fonts
+//     share/
+//       applications/
+//         myapp.desktop    ← freedesktop .desktop entry
+//       icons/
+//         myapp.png        ← app icon
+
+async function buildLinuxApp(
+  options: BuildAppOptions,
+  resolvedPlatform: 'linux',
+): Promise<BuildAppResult> {
+  const ctx = await resolveBuildContext({ ...options, platform: resolvedPlatform })
+
+  // Only x64 is supported for now — the Ubuntu 20.04 tar.xz is x64 only.
+  // arm64 Linux would need the Debian12.arm64.deb which has a different extraction flow.
+  if (ctx.resolvedArch !== 'x64') {
+    throw new Error(
+      `Linux app build currently only supports x64 architecture. The WezTerm Ubuntu 20.04 tar.xz is x64 only.`,
+    )
+  }
+
+  // Download/cache WezTerm Linux binary
+  const weztermBinary = await downloadWeztermLinux()
+
+  // Assemble folder structure
+  const appDir = path.join(ctx.distDir, ctx.safeName)
+
+  if (fs.existsSync(appDir)) {
+    fs.rmSync(appDir, { recursive: true, force: true })
+  }
+
+  const runtimeDir = path.join(appDir, 'runtime')
+  const configDir = path.join(runtimeDir, 'config')
+  const shareAppsDir = path.join(appDir, 'share', 'applications')
+  const shareIconsDir = path.join(appDir, 'share', 'icons')
+  fs.mkdirSync(configDir, { recursive: true })
+  fs.mkdirSync(shareAppsDir, { recursive: true })
+  fs.mkdirSync(shareIconsDir, { recursive: true })
+
+  console.log('Assembling Linux app folder...')
+
+  // Copy wezterm-gui into runtime/
+  fs.copyFileSync(weztermBinary, path.join(runtimeDir, 'wezterm-gui'))
+  fs.chmodSync(path.join(runtimeDir, 'wezterm-gui'), 0o755)
+
+  // Copy compiled extension binary into runtime/
+  const binaryName = ctx.extensionName
+  fs.copyFileSync(ctx.compileResult.outfile, path.join(runtimeDir, binaryName))
+  fs.chmodSync(path.join(runtimeDir, binaryName), 0o755)
+
+  // Bundle custom fonts if a font directory was provided/detected
+  if (ctx.fontDirPath) {
+    const bundledFontsDir = path.join(configDir, 'fonts')
+    fs.mkdirSync(bundledFontsDir, { recursive: true })
+    const fontFiles = fs.readdirSync(ctx.fontDirPath).filter((f) => {
+      return /\.(ttf|otf|woff2?)$/i.test(f)
+    })
+    for (const fontFile of fontFiles) {
+      fs.copyFileSync(
+        path.join(ctx.fontDirPath, fontFile),
+        path.join(bundledFontsDir, fontFile),
+      )
+    }
+    console.log(`Bundled ${fontFiles.length} font file(s)`)
+  }
+
+  // Resolve theme for config background and env var
+  const themeName = options.theme || defaultThemeName
+  const themeBackground = getResolvedTheme(themeName).background
+
+  // Write wezterm.lua config
+  fs.writeFileSync(
+    path.join(configDir, 'wezterm.lua'),
+    generateWeztermConfig({ binaryName, font: ctx.fontOptions, platform: 'linux', backgroundColor: themeBackground }),
+  )
+
+  // Write bash launcher at app root
+  const launcherPath = path.join(appDir, ctx.safeName)
+  fs.writeFileSync(launcherPath, generateLinuxLaunchScript({ themeName }))
+  fs.chmodSync(launcherPath, 0o755)
+
+  // Copy icon
+  fs.copyFileSync(ctx.iconPng, path.join(shareIconsDir, `${ctx.safeName}.png`))
+
+  // Write .desktop file. The Exec/Icon paths use a placeholder that the user
+  // replaces with the actual install directory (or we substitute at install time).
+  const desktopContent = generateDesktopFile({
+    appName: ctx.appName,
+    safeName: ctx.safeName,
+  })
+  fs.writeFileSync(path.join(shareAppsDir, `${ctx.safeName}.desktop`), desktopContent)
+
+  // Clean up intermediate compiled binary + sourcemap
+  fs.rmSync(ctx.compileResult.outfile, { force: true })
+  fs.rmSync(ctx.compileResult.outfile + '.map', { force: true })
+
+  const appSize = getDirectorySize(appDir)
+  console.log(`\nBuilt: ${appDir} (${(appSize / 1024 / 1024).toFixed(0)}MB)`)
+  console.log(`\nTo install on Linux:`)
+  console.log(`  1. Extract and run: ./${ctx.safeName}/${ctx.safeName}`)
+  console.log(`  2. Optional: copy ${ctx.safeName}.desktop to ~/.local/share/applications/`)
+  console.log(`     and update Exec/Icon paths for app launcher integration.`)
+
+  if (options.release) {
+    await uploadToRelease({
+      extensionPath: ctx.resolvedPath,
+      extensionName: ctx.extensionName,
+      appDir,
+      appName: ctx.safeName,
+      arch: ctx.resolvedArch,
+      platform: 'linux',
+    })
+  }
+
+  return { appPath: appDir, appName: ctx.safeName }
 }
 
 function getDirectorySize(dirPath: string): number {

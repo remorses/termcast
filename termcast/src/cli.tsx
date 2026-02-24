@@ -262,14 +262,14 @@ cli
 cli
   .command(
     'app build [path]',
-    'Build a standalone desktop app from a termcast extension (macOS .app or Windows folder)',
+    'Build a standalone desktop app from a termcast extension (macOS .app, Linux folder, or Windows folder)',
   )
   .option('--name <name>', 'App display name (default: package.json title)')
   .option('--icon <path>', 'Custom icon PNG path (default: extension icon or bundled default)')
   .option('--bundle-id <id>', 'macOS bundle identifier (default: com.termcast.{name})')
   .option('--release', 'Upload the app zip to the latest GitHub release')
   .option('--entry <file>', 'Custom entry file (instead of auto-generated one)')
-  .option('--platform <platform>', 'Target platform: darwin or win32 (default: current OS)')
+  .option('--platform <platform>', 'Target platform: darwin, linux, or win32 (default: current OS)')
   .option('--arch <arch>', 'Target architecture: arm64 or x64 (default: current machine)')
   .option('--no-installer', 'Skip NSIS installer generation on Windows')
   .option('--font <family>', 'Font family name (e.g. "Inter Mono", "Fira Code")')
@@ -302,8 +302,8 @@ cli
         console.error(`Invalid --arch "${options.arch}". Must be "arm64" or "x64".`)
         process.exit(1)
       }
-      if (options.platform && options.platform !== 'darwin' && options.platform !== 'win32') {
-        console.error(`Invalid --platform "${options.platform}". Must be "darwin" or "win32".`)
+      if (options.platform && options.platform !== 'darwin' && options.platform !== 'linux' && options.platform !== 'win32') {
+        console.error(`Invalid --platform "${options.platform}". Must be "darwin", "linux", or "win32".`)
         process.exit(1)
       }
 
@@ -331,7 +331,7 @@ cli
           bundleId: options.bundleId,
           release: options.release,
           entry: options.entry,
-          platform: options.platform as 'darwin' | 'win32' | undefined,
+          platform: options.platform as 'darwin' | 'linux' | 'win32' | undefined,
           arch: options.arch as 'arm64' | 'x64' | undefined,
           // goke parses --no-installer as installer:false
           noInstaller: options.installer === false,
