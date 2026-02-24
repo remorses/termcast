@@ -38,14 +38,15 @@ import { Color, resolveColor } from 'termcast/src/colors'
 export type GraphVariant = 'area' | 'filled' | 'striped'
 
 // ── Block characters for Filled/Striped modes ───────────────────────
-// We use ▀/▄ with fg+bg color encoding to eliminate the tiny gaps
-// some terminals show between adjacent █ rows.
-// ▀ = top half drawn with fg, bottom half shows bg
-// ▄ = bottom half drawn with fg, top half shows bg
-// ▁ = lower 1/8 block, used as a thin baseline for zero/minimum values
-const UPPER_HALF = '▀'    // U+2580
-const LOWER_HALF = '▄'    // U+2584
-const LOWER_EIGHTH = '▁'  // U+2581
+// We use left-half and quadrant characters so each bar column is 50%
+// cell width, creating visible vertical gaps between adjacent bars.
+// ▌ = left half block (full height, left 50%)
+// ▘ = quadrant upper left (top half height, left 50%)
+// ▖ = quadrant lower left (bottom half height, left 50%)
+// All three align at left 50%, maintaining 2x vertical sub-row resolution.
+const LEFT_HALF = '▌'     // U+258C
+const QUAD_UL = '▘'       // U+2598
+const QUAD_LL = '▖'       // U+2596
 
 // ── Braille bit map ──────────────────────────────────────────────────
 // Maps (subCol, subRow) to the braille bit for that dot position.
@@ -287,8 +288,8 @@ export class GraphPlotRenderable extends Renderable {
   }
 
   // ── Style: Filled / Striped (block characters) ───────────────
-  // Always uses ▀ (upper-half block) with fg=top color, bg=bottom color.
-  // This eliminates the tiny gaps some terminals show between adjacent █ rows.
+  // Uses left-half and quadrant characters for thin bars with visible gaps.
+  // ▌ (left half) for full rows, ▘/▖ (quadrants) for top/bottom edge rows.
   // Filled: every column uses the series color.
   // Striped: all columns filled, even cols = stripeColor1, odd = stripeColor2.
   //          Pass a transparent color to skip those columns (gap-style bars).
@@ -323,10 +324,10 @@ export class GraphPlotRenderable extends Renderable {
         const topVRow = lineY[col]!
         if (topVRow >= virtualH) continue
 
-        // Fill from topVRow down to virtualH-1 using ▀/▄ with fg+bg encoding.
-        // ▀: fg paints top half, bg paints bottom half.
-        // ▄: fg paints bottom half, bg paints top half.
-        // We never set fg=transparent on a visible glyph part (would show as black).
+        // Fill from topVRow down using left-half/quadrant chars.
+        // ▌: full height left-half (both sub-rows filled)
+        // ▘: upper-left quadrant (top sub-row only)
+        // ▖: lower-left quadrant (bottom sub-row only)
         for (let row = 0; row < plotH; row++) {
           const vTop = row * 2       // virtual row for top half
           const vBot = row * 2 + 1   // virtual row for bottom half
@@ -336,18 +337,14 @@ export class GraphPlotRenderable extends Renderable {
           if (!topFilled && !botFilled) continue
 
           if (topFilled && botFilled) {
-            // Both halves: ▀ with fg=color, bg=color → seamless full block
-            buffer.setCell(plotX + col, plotY + row, UPPER_HALF, fillColor, fillColor)
+            // Both halves: ▌ left half block
+            buffer.setCell(plotX + col, plotY + row, LEFT_HALF, fillColor, transparent)
           } else if (topFilled) {
-            // Top only: ▀ with fg=color, bg=transparent
-            buffer.setCell(plotX + col, plotY + row, UPPER_HALF, fillColor, transparent)
-          } else if (topVRow >= virtualH - 1) {
-            // Minimum fill: only the very last virtual row is filled (zero/min value).
-            // Use ▁ (lower 1/8 block) for a thin baseline indicator.
-            buffer.setCell(plotX + col, plotY + row, LOWER_EIGHTH, fillColor, transparent)
+            // Top only: ▘ quadrant upper left
+            buffer.setCell(plotX + col, plotY + row, QUAD_UL, fillColor, transparent)
           } else {
-            // Bottom only: ▄ with fg=color, bg=transparent
-            buffer.setCell(plotX + col, plotY + row, LOWER_HALF, fillColor, transparent)
+            // Bottom only: ▖ quadrant lower left
+            buffer.setCell(plotX + col, plotY + row, QUAD_LL, fillColor, transparent)
           }
         }
       }

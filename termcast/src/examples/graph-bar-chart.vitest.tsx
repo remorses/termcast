@@ -35,7 +35,7 @@ test('initial render shows bar chart for Monthly Budget', async () => {
       ›Monthly Budget Spent / Remaining / Savings     │ ┌Spent: 78.6%┐
        Disk Usage System / Apps / Media / Free        │
        Investment Portfolio Stocks / Bonds / Cash / C │
-       CPU Time User / System / IO Wait / Idle        │ ───────────────────────────────────────────
+       CPU Time User / System / IO Wait / Idle        │ ────────────────────────────────────────────
        Revenue by Product 6 product lines             │
        A/B Test Split Control vs Variant (50/50)      │ Total: $6,174
        Storage Full 100% used                         │
@@ -46,14 +46,14 @@ test('initial render shows bar chart for Monthly Budget', async () => {
        Stress Test (20 items) Many small equal segmen │
                                                       │
                                                       │
-                                                      │
-                                                      │
-                                                      │
-                                                      │
-                                                      │
-                                                      │
-                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions       │
+
+
+
+
+
+
+
 
     "
   `)

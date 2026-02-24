@@ -93,18 +93,18 @@ test('filled style renders block characters', async () => {
        Filled - Yellow CPU High contrast on │ Q2: $25k  → Q3: $50k (+100%)
        Filled - Magenta Waves Smooth curve  │ Q3: $50k  → Q4: $75k (+50%)
        Striped - Purple/Orange Warm alterna │
-       Striped - Blue/Red High contrast str │ 78│                             ▄
-       Striped - Theme Default primary + ac │   │                         ▄▀▄▀▀
-       Striped - Green/Yellow Nature-inspir │   │                     ▄▄▄▀▀▀▀▀▀
-       Striped - Red/Magenta Warm gradient  │ 54│                   ▄▀▀▀▀▀▀▀▀▀▀
-                                            │   │               ▄▄▄▀▀▀▀▀▀▀▀▀▀▀▀
-                                            │   │           ▄ ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-       ↵ open detail   ↑↓ navigate   ^k act │ 31│         ▄▀▀▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▼
+       Striped - Blue/Red High contrast str │ 78│                             ▖
+       Striped - Theme Default primary + ac │   │                         ▖▌▖▌▌
+       Striped - Green/Yellow Nature-inspir │   │                     ▖▖▖▌▌▌▌▌▌
+       Striped - Red/Magenta Warm gradient  │ 54│                   ▖▌▌▌▌▌▌▌▌▌▌
+                                            │   │               ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌
+                                            │   │           ▖ ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       ↵ open detail   ↑↓ navigate   ^k act │ 31│         ▖▌▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌ ▼
 
     "
   `)
 
-  expect(text).toMatch(/[▄▀]/)
+  expect(text).toMatch(/[▌▘▖]/)
   expect(text).toContain('›Filled - Red')
 }, 30000)
 
@@ -136,16 +136,16 @@ test('striped style renders alternating columns', async () => {
 
        > Search...
 
-       Area - Stock Price Orange braille do │ 211│                            ▄ ▲
-       Area - Multi Series CPU + Memory ove │    │                         ▄▄▀▀ █
-       Area - Waves Purple + Magenta sine/c │    │                     ▄▄▄▀▀▀▀▀ █
-       Area - Blue Revenue Single series, a │ 189│                ▄▄▀▄▀▀▀▀▀▀▀▀▀
-       Filled - Red Revenue Solid block gro │    │             ▄▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Filled - Green Temp Daily temperatur │    │           ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Filled - Yellow CPU High contrast on │ 167│       ▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Filled - Magenta Waves Smooth curve  │    │    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-      ›Striped - Purple/Orange Warm alterna │    │▄▀▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-       Striped - Blue/Red High contrast str │ 145│▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+       Area - Stock Price Orange braille do │ 211│                            ▖ ▲
+       Area - Multi Series CPU + Memory ove │    │                         ▖▖▌▌ █
+       Area - Waves Purple + Magenta sine/c │    │                     ▖▖▖▌▌▌▌▌ █
+       Area - Blue Revenue Single series, a │ 189│                ▖▖▌▖▌▌▌▌▌▌▌▌▌
+       Filled - Red Revenue Solid block gro │    │             ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled - Green Temp Daily temperatur │    │           ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled - Yellow CPU High contrast on │ 167│       ▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled - Magenta Waves Smooth curve  │    │    ▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+      ›Striped - Purple/Orange Warm alterna │    │▖▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Striped - Blue/Red High contrast str │ 145│▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
        Striped - Theme Default primary + ac │     1      5     10     15     20
        Striped - Green/Yellow Nature-inspir │
        Striped - Red/Magenta Warm gradient  │ ─────────────────────────────────
@@ -156,7 +156,7 @@ test('striped style renders alternating columns', async () => {
     "
   `)
 
-  expect(text).toMatch(/[▄▀]/)
+  expect(text).toMatch(/[▌▘▖]/)
   expect(text).toContain('›Striped - Purple')
 }, 30000)
 
