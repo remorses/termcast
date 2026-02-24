@@ -15,7 +15,11 @@ import { Color, resolveColor } from 'termcast/src/colors'
 import { useTheme } from 'termcast/src/theme'
 
 const GRID_ROWS = 7
-const DEFAULT_CELL_CHAR = '◼'
+const DEFAULT_CELL_CHAR = '■'
+// ◼ (U+25FC) and ■ (U+25A0) look visually identical in terminal fonts, but
+// are different codepoints. AI agents reading text output can distinguish
+// low-intensity cells (◼) from high-intensity (■) without needing color info.
+const HALF_CELL_CHAR = '◼'
 const CELL_STRIDE = 2
 const MONTH_GAP = 1
 
@@ -470,9 +474,17 @@ export class CalendarHeatmapRenderable extends Renderable {
       section.weeks.forEach((week) => {
         week.values.forEach((value, rowIndex) => {
           const level = this.valueToLevel(value)
+          if (level === 0) {
+            // Skip rendering — leave as background space so AI agents
+            // can see which days had no activity from text alone
+            return
+          }
           const color = levelColors[level]
+          // Level 1-2 uses ◼ (U+25FC), level 3-4 uses the full cellChar (■ U+25A0).
+          // Visually identical in terminal fonts, but different codepoints for agents.
+          const char = level <= 2 ? HALF_CELL_CHAR : this._cellChar
           const y = gridStartY + rowIndex
-          buffer.setCell(cursorX, y, this._cellChar, color, cellBackground)
+          buffer.setCell(cursorX, y, char, color, cellBackground)
         })
         cursorX += CELL_STRIDE
       })
@@ -510,9 +522,15 @@ export class CalendarHeatmapRenderable extends Renderable {
 
     let legendCursorX = legendX + legendPrefix.length
     for (let level = 0; level <= 4; level++) {
-      const color = levelColors[level]
-      buffer.setCell(legendCursorX, legendY, this._cellChar, color, cellBackground)
-      legendCursorX += 1
+      if (level === 0) {
+        // Space for level 0 (matches the grid: no char for zero activity)
+        legendCursorX += 1
+      } else {
+        const color = levelColors[level]
+        const char = level <= 2 ? HALF_CELL_CHAR : this._cellChar
+        buffer.setCell(legendCursorX, legendY, char, color, cellBackground)
+        legendCursorX += 1
+      }
       if (level < 4) {
         legendCursorX += 1
       }
