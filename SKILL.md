@@ -1,3 +1,8 @@
+---
+name: termcast
+description: Build TUIs with a Raycast-like React API using termcast. Implements @raycast/api components (List, Detail, Form, Action) rendered to the terminal via opentui.
+---
+
 # termcast — Build TUIs with a Raycast-like React API
 
 termcast is a framework for building terminal user interfaces using React. It implements the Raycast extension API (`@raycast/api`) but renders to the terminal via opentui. If you know Raycast, you know termcast.
