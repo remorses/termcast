@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.3.52
+
+### Features
+
+- **List**: Right-click on list items opens the actions dialog (mirrors desktop context-menu UX)
+  - Left-click still selects + auto-executes the first action (unchanged)
+  - Right-click selects the item and opens the full `ActionPanel`
+
+- **Heatmap**: Cells now use distinct Unicode codepoints so AI agents can read intensity from text alone
+  - Level 0 (no activity): space — cell omitted entirely
+  - Level 1–2 (low): `◼` U+25FC black medium square
+  - Level 3–4 (high): `■` U+25A0 black square
+  - Human view is unchanged (same colored grid); only text extraction reveals the tiers
+
+- **Graph**: Filled/striped bar columns use thinner left-half block + quadrant characters
+  ```
+  ▌ U+258C  left half block       → both sub-rows filled
+  ▘ U+2598  quadrant upper-left   → top sub-row only
+  ▖ U+2596  quadrant lower-left   → bottom sub-row only
+  ```
+  Each column now occupies 50% cell-width, giving visible gaps between adjacent bars
+
+### Fixes
+
+- **app build (macOS)**: Built `.app` bundles now show the native macOS title bar with traffic-light semaphore buttons instead of a chromeless window
+- **app build**: Cmd shortcuts (`Cmd+C`, `Cmd+K`, `Cmd+Arrow`) now work correctly inside standalone WezTerm apps
+  - WezTerm's `SendKey` drops the SUPER modifier; replaced with raw kitty CSI sequences (`\x1b[99;9u` etc.) that encode it directly
+  - `matchesShortcut()` now accepts both `evt.super` and `evt.hyper` for the `cmd` modifier, so shortcuts fire in both normal terminals and standalone apps
+- **compile**: Resolve the compile plugin entry from `src/` instead of `__dirname` — fixes extension bundling when running from an installed global binary
+- **toast**: Clicking anywhere on a toast now dismisses it — inner child boxes (title, message, keys) previously swallowed mouse events without dismissing
+
 ## 1.3.51
 
 ### Features
