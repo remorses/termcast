@@ -700,12 +700,13 @@ function formatShortcut(
 /**
  * Check if a keyboard event matches an action shortcut.
  * Handles modifier mapping:
- * - 'cmd' maps to ctrl (terminals can't intercept cmd)
+ * - 'cmd' maps to ctrl, super, or hyper (ctrl in normal terminals,
+ *   super/hyper in standalone apps where WezTerm forwards Cmd via kitty protocol)
  * - 'alt'/'opt' checks evt.meta (opentui uses meta for alt on Linux/Windows)
  *   and evt.option (opentui uses option for alt on macOS)
  */
 export function matchesShortcut(
-  evt: { name: string; ctrl?: boolean; alt?: boolean; shift?: boolean; meta?: boolean; option?: boolean },
+  evt: { name: string; ctrl?: boolean; alt?: boolean; shift?: boolean; meta?: boolean; option?: boolean; super?: boolean; hyper?: boolean },
   shortcut: { modifiers?: KeyboardKeyModifier[]; key: KeyboardKeyEquivalent },
 ): boolean {
   // Check key name matches (case-insensitive)
@@ -715,10 +716,12 @@ export function matchesShortcut(
 
   const modifiers = shortcut.modifiers || []
 
-  // Map cmd to ctrl (terminals can't intercept cmd)
-  const needsCtrl = modifiers.some((m) =>
+  // Map cmd to ctrl, super, or hyper. In normal terminals cmd arrives as ctrl.
+  // In standalone apps WezTerm forwards Cmd as super via kitty protocol.
+  const needsCmd = modifiers.some((m) =>
     ['cmd', 'ctrl', 'control'].includes(m.toLowerCase()),
   )
+  const hasCmd = Boolean(evt.ctrl || evt.super || evt.hyper)
   // alt/opt in shortcuts - opentui uses meta (Linux/Windows) or option (macOS) for alt key
   const needsAlt = modifiers.some((m) =>
     ['alt', 'opt', 'option'].includes(m.toLowerCase()),
@@ -726,14 +729,14 @@ export function matchesShortcut(
   const needsShift = modifiers.includes('shift')
 
   // Check all required modifiers are pressed
-  if (needsCtrl && !evt.ctrl) return false
+  if (needsCmd && !hasCmd) return false
   // For alt, check both meta and option (opentui platform differences)
   const hasAlt = evt.alt || evt.meta || evt.option
   if (needsAlt && !hasAlt) return false
   if (needsShift && !evt.shift) return false
 
   // Check no extra modifiers are pressed (excluding ones that match)
-  if (evt.ctrl && !needsCtrl) return false
+  if (hasCmd && !needsCmd) return false
   if (hasAlt && !needsAlt) return false
   if (evt.shift && !needsShift) return false
 

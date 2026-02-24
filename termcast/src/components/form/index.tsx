@@ -334,7 +334,7 @@ export const Form: FormType = ((props) => {
       return
     }
 
-    if (evt.name === 'k' && evt.ctrl) {
+    if (evt.name === 'k' && (evt.ctrl || evt.super)) {
       // Always open — built-in actions (Change Theme, etc.) are always available
       useStore.setState({ showActionsDialog: true })
     } else if ((evt.name === 'return' && evt.ctrl) || (evt.name === 'return' && evt.meta)) {

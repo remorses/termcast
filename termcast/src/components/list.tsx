@@ -1391,9 +1391,9 @@ export const List: ListType = (props) => {
       .sort((a, b) => a.index - b.index)
     const currentItem = items.find((item) => item.index === selectedIndex)
 
-    // Handle Ctrl+K to show actions dialog via portal
+    // Handle Ctrl+K / Cmd+K to show actions dialog via portal
     // Always open — built-in actions (Change Theme, etc.) are always available
-    if (evt.name === 'k' && evt.ctrl) {
+    if (evt.name === 'k' && (evt.ctrl || evt.super)) {
       useStore.setState({ showActionsDialog: true })
       return
     }
@@ -2240,9 +2240,9 @@ function EmptyViewContent(props: EmptyViewProps): any {
   useKeyboard((evt) => {
     if (!inFocus) return
 
-    // Handle Ctrl+K to show actions dialog via portal
+    // Handle Ctrl+K / Cmd+K to show actions dialog via portal
     // Always open — built-in actions (Change Theme, etc.) are always available
-    if (evt.name === 'k' && evt.ctrl) {
+    if (evt.name === 'k' && (evt.ctrl || evt.super)) {
       useStore.setState({ showActionsDialog: true })
       return
     }

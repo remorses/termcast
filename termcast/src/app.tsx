@@ -507,20 +507,25 @@ function generateWeztermConfig({
     ? `config_dir .. '\\\\..\\\\${binaryName}'`
     : `config_dir .. '/${binaryName}'`
 
-  // On macOS, forward Cmd+C and Cmd+Arrows to the TUI instead of WezTerm handling them.
+  // On macOS, forward Cmd+C, Cmd+K, and Cmd+Arrows to the TUI instead of WezTerm handling them.
+  // Uses SendString with raw kitty CSI sequences because SendKey drops the SUPER modifier
+  // — WezTerm treats SUPER as a window-manager modifier and doesn't encode it into
+  // kitty protocol sequences. Raw CSI sequences bypass this limitation.
+  // Kitty modifier encoding: SUPER = bit 3 (value 8), encoded field = bitmask + 1 = 9.
   // On Windows there is no Cmd key, so no key overrides needed.
   const keysBlock = platform === 'darwin'
     ? `
--- Forward Cmd+C and Cmd+Arrows to the TUI instead of WezTerm handling them.
--- Cmd+C: prevents WezTerm copy, lets TUI handle selection copy
--- Cmd+Left/Right: lets TUI text areas move cursor to start/end of line
--- Cmd+Up/Down: lets TUI text areas move cursor to start/end of content
+-- Forward Cmd keys to the TUI using raw kitty protocol CSI sequences.
+-- SendKey { mods = 'SUPER' } doesn't encode SUPER in kitty protocol, so we
+-- use SendString with the exact CSI bytes that opentui's kitty parser expects.
+-- Kitty modifier 9 = SUPER(8) + 1 (base offset per kitty spec).
 config.keys = {
-  { key = 'c', mods = 'SUPER', action = wezterm.action.SendKey { key = 'c', mods = 'SUPER' } },
-  { key = 'LeftArrow', mods = 'SUPER', action = wezterm.action.SendKey { key = 'LeftArrow', mods = 'SUPER' } },
-  { key = 'RightArrow', mods = 'SUPER', action = wezterm.action.SendKey { key = 'RightArrow', mods = 'SUPER' } },
-  { key = 'UpArrow', mods = 'SUPER', action = wezterm.action.SendKey { key = 'UpArrow', mods = 'SUPER' } },
-  { key = 'DownArrow', mods = 'SUPER', action = wezterm.action.SendKey { key = 'DownArrow', mods = 'SUPER' } },
+  { key = 'c', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[99;9u') },
+  { key = 'k', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[107;9u') },
+  { key = 'LeftArrow', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[1;9D') },
+  { key = 'RightArrow', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[1;9C') },
+  { key = 'UpArrow', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[1;9A') },
+  { key = 'DownArrow', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[1;9B') },
 }
 `
     : ''
