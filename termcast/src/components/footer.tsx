@@ -152,6 +152,7 @@ function ToastInline({ toast }: { toast: ToastData }): any {
         paddingRight={1}
         overflow='hidden'
         height={1}
+        onMouseDown={() => { toast.onHide() }}
       >
         <text flexShrink={0} fg={toastFg} wrapMode='none'>
           {getIcon()}{' '}
@@ -174,6 +175,7 @@ function ToastInline({ toast }: { toast: ToastData }): any {
         flexDirection='row'
         overflow='hidden'
         height={1}
+        onMouseDown={() => { toast.onHide() }}
       >
         <text fg={toastFg} flexShrink={1} wrapMode='none'>
           {toast.message || ''}
@@ -187,6 +189,7 @@ function ToastInline({ toast }: { toast: ToastData }): any {
         flexShrink={0}
         overflow='hidden'
         height={1}
+        onMouseDown={() => { toast.onHide() }}
       >
         {toast.primaryAction?.title && (
           <box
