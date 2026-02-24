@@ -1,9 +1,11 @@
 import {
   BoxRenderable,
+  MouseButton,
   ScrollBoxRenderable,
   TextAttributes,
   TextareaRenderable,
 } from '@opentui/core'
+import type { MouseEvent as OpenTUIMouseEvent } from '@opentui/core'
 import { useKeyboard, flushSync } from '@opentui/react'
 import React, {
     ReactElement,
@@ -763,7 +765,7 @@ function ListItemRow(props: {
   accessories?: ItemAccessory[]
   active?: boolean
   isShowingDetail?: boolean
-  onMouseDown?: () => void
+  onMouseDown?: (evt: OpenTUIMouseEvent) => void
   index?: number
   ref?: React.Ref<BoxRenderable>
 }) {
@@ -783,8 +785,8 @@ function ListItemRow(props: {
     }
   }
 
-  const handleMouseDown = () => {
-    props.onMouseDown?.()
+  const handleMouseDown = (evt: OpenTUIMouseEvent) => {
+    props.onMouseDown?.(evt)
   }
 
   const handleMouseOut = () => {
@@ -1697,10 +1699,11 @@ const ListItem: ListItemType = (props) => {
   // Don't render if not visible
   if (!isVisible) return null
 
-  // Handle mouse click on item — always select and execute first action.
+  // Handle mouse click on item — left-click selects and executes first action,
+  // right-click selects and opens the actions dialog.
   // flushSync ensures React commits the new selectedIndex before Zustand
   // triggers auto-execute, so ActionPanel picks up the clicked item's actions.
-  const handleMouseDown = () => {
+  const handleMouseDown = (evt: OpenTUIMouseEvent) => {
     if (listContext && index !== -1) {
       if (!isActive && listContext.setSelectedIndex) {
         const setIdx = listContext.setSelectedIndex
@@ -1708,7 +1711,10 @@ const ListItem: ListItemType = (props) => {
           setIdx(index)
         })
       }
-      if (props.actions) {
+      if (evt.button === MouseButton.RIGHT) {
+        // Right-click opens the actions dialog
+        useStore.setState({ showActionsDialog: true })
+      } else if (props.actions) {
         useStore.setState({ shouldAutoExecuteFirstAction: true })
       }
     }
