@@ -1,5 +1,33 @@
 # Changelog
 
+## 1.3.53
+
+### Features
+
+- **app build**: Add Linux platform support to `termcast app build`
+  - Produces a self-contained folder bundle cross-compiled from macOS or Linux
+  - Uses the WezTerm Ubuntu 20.04 `tar.xz` release for broadest glibc compatibility
+  - `--platform linux` flag (x64 only for now)
+  - Bundle structure:
+    ```
+    MyApp/
+      MyApp              ← bash launcher
+      runtime/
+        wezterm-gui      ← WezTerm binary
+        myapp            ← compiled extension
+        config/
+          wezterm.lua
+      share/
+        applications/myapp.desktop   ← freedesktop .desktop entry
+        icons/myapp.png
+    ```
+  - Includes a freedesktop `.desktop` file for optional app launcher integration
+
+### Fixes
+
+- **Dialog**: `useDialog()` now accepts an `onClose` callback, called when the dialog is dismissed via ESC or click-outside
+- **List dropdown**: Dropdown open state now syncs correctly when dismissed via ESC or click-outside — previously the dropdown could get stuck open after being closed externally
+
 ## 1.3.52
 
 ### Features
