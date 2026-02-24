@@ -128,14 +128,14 @@
     },
     "tuistory": {
       "name": "tuistory",
-      "version": "0.0.15",
+      "version": "0.0.16",
       "bin": {
         "tuistory": "./dist/cli.js",
       },
       "dependencies": {
         "@hono/node-server": "^1.19.9",
         "errore": "^0.11.0",
-        "ghostty-opentui": "workspace:^",
+        "ghostty-opentui": "^1.4.4",
         "goke": "^6.1.3",
         "hono": "^4.11.7",
         "kill-port-process": "^3.2.1",
