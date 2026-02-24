@@ -6,13 +6,16 @@ import { getCommandsWithFiles } from './package-json'
 import { swiftLoaderPlugin } from './swift-loader'
 
 // compile.tsx lives at termcast/src/compile.tsx, so __dirname is termcast/src/
+// When running from dist/, __dirname is termcast/dist/ — always resolve to src/index.tsx
+// so the plugin works both in dev and from the published package.
 const termcastRoot = path.resolve(__dirname, '..')
+const termcastEntry = path.join(termcastRoot, 'src', 'index.tsx')
 
 const raycastAliasPlugin: BunPlugin = {
   name: 'raycast-to-termcast',
   setup(build) {
     build.onResolve({ filter: /@raycast\/api/ }, () => ({
-      path: path.join(__dirname, 'index.tsx'),
+      path: termcastEntry,
     }))
     build.onResolve({ filter: /@raycast\/utils/ }, () => ({
       path: require.resolve('@termcast/utils'),
@@ -20,7 +23,7 @@ const raycastAliasPlugin: BunPlugin = {
     // termcast and termcast/* — resolve directly from the package source
     build.onResolve({ filter: /^termcast/ }, (args) => ({
       path: args.path === 'termcast'
-        ? path.join(__dirname, 'index.tsx')
+        ? termcastEntry
         : require.resolve(args.path, { paths: [termcastRoot] }),
     }))
     build.onResolve({ filter: /^react(\/|$)/ }, (args) => ({
