@@ -218,17 +218,47 @@ async function downloadWeztermLinux(): Promise<string> {
 
   console.log('Extracting wezterm-gui from tar.xz...')
   try {
-    // Extract wezterm-gui using wildcard match on the nested path.
-    // --strip-components=3 removes the top-level dir + usr/bin/ prefix.
+    // List archive entries first, then extract by exact path.
+    // This works on both GNU tar (Linux) and bsdtar (macOS).
+    const { stdout: entriesOutput } = await execFileAsync('tar', ['-tJf', tmpTar])
+    const archiveEntry = entriesOutput
+      .split('\n')
+      .map((entry) => {
+        return entry.trim()
+      })
+      .find((entry) => {
+        return entry.endsWith('/usr/bin/wezterm-gui')
+      })
+
+    if (!archiveEntry) {
+      const firstEntries = entriesOutput
+        .split('\n')
+        .map((entry) => {
+          return entry.trim()
+        })
+        .filter((entry) => {
+          return entry.length > 0
+        })
+        .slice(0, 20)
+        .join('\n  ')
+      throw new Error(
+        `Could not find usr/bin/wezterm-gui in Linux archive. First entries:\n  ${firstEntries}`,
+      )
+    }
+
+    const stripComponentsCount = archiveEntry.split('/').length - 1
+
+    // Removes the prefix directories (e.g. top-level dir + usr/bin/),
+    // yielding cacheDir/wezterm-gui directly.
     await execFileAsync('tar', [
       'xJf', tmpTar,
-      '--strip-components=3',
-      '--include=*/usr/bin/wezterm-gui',
+      `--strip-components=${stripComponentsCount}`,
       '-C', cacheDir,
+      archiveEntry,
     ])
   } catch (e) {
     throw new Error(
-      `Failed to extract wezterm-gui from tar.xz. Ensure tar with xz support is available.`,
+      `Failed to extract wezterm-gui from tar.xz. Ensure tar with xz support is available and functional.`,
       { cause: e },
     )
   } finally {
