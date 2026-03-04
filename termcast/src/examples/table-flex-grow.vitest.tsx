@@ -40,18 +40,18 @@ test('flexGrow table fills remaining space next to fixed-width label', async () 
 
         With flexGrow=1 + wrapText (fills remaining space)
 
-        Config:     Key                           Value
-                    version                       2.1.0
-                    license                       MIT
-                    author                        termcast
+        Config:     Key                         Value
+                    version                     2.1.0
+                    license                     MIT
+                    author                      termcast
 
 
         Width=auto + wrapText (content-sized, no stretch)
 
-        Config:     KeVa
-                    ve2.
-                    liMI
-                    aute
+        Config:     Key      Value
+                    version  2.1.0
+                    license  MIT
+                    author   termcast
 
 
         With flexGrow=1 no wrapText (column-based)

@@ -159,6 +159,33 @@ export class TableRenderable extends Renderable {
     return new StyledText(styledChunks)
   }
 
+  private getCellContentWidth(content: TableCellContent): number {
+    return this.toStyledText(content).chunks.reduce((width, chunk) => {
+      return width + chunk.text.length
+    }, 0)
+  }
+
+  private getColumnWidths({ colCount }: { colCount: number }): number[] {
+    const minColumnWidth = 3
+    const maxColumnWidth = 32
+    const headerWidths = Array.from({ length: colCount }, (_, col) => {
+      const headerContent = this._headers[col] ?? ''
+      return this.getCellContentWidth(headerContent) + 2
+    })
+
+    const rowWidths = this._rows.reduce((widths, row) => {
+      return widths.map((currentWidth, col) => {
+        const cellContent = row[col] ?? ''
+        const cellWidth = this.getCellContentWidth(cellContent) + 2
+        return Math.max(currentWidth, cellWidth)
+      })
+    }, headerWidths)
+
+    return rowWidths.map((width) => {
+      return Math.min(maxColumnWidth, Math.max(minColumnWidth, width))
+    })
+  }
+
   private rebuild(): void {
     // Remove all existing children (copy array since remove mutates it)
     const children = [...(this as any)._childrenInLayoutOrder] as Renderable[]
@@ -260,6 +287,8 @@ export class TableRenderable extends Renderable {
     headerFg: StyleDefinition['fg'],
     stripeBg: StyleDefinition['fg'],
   ): void {
+    const columnWidths = this.getColumnWidths({ colCount })
+
     if (this._headers.length > 0) {
       const headerRow = new BoxRenderable(this.ctx, {
         id: `${this.id}-header-row`,
@@ -267,6 +296,7 @@ export class TableRenderable extends Renderable {
         backgroundColor: headerBg,
       })
       for (let col = 0; col < colCount; col++) {
+        const columnWidth = columnWidths[col] ?? 1
         const headerContent = this._headers[col] ?? ''
         let headerStyledText = this.toStyledText(headerContent)
         headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
@@ -275,8 +305,9 @@ export class TableRenderable extends Renderable {
           new TextRenderable(this.ctx, {
             id: `${this.id}-header-${col}`,
             content: headerStyledText,
-            flexGrow: 1,
-            flexBasis: 0,
+            flexGrow: columnWidth,
+            flexShrink: 1,
+            flexBasis: columnWidth,
             paddingLeft: 1,
             paddingRight: 1,
           }),
@@ -294,6 +325,7 @@ export class TableRenderable extends Renderable {
       })
 
       for (let col = 0; col < colCount; col++) {
+        const columnWidth = columnWidths[col] ?? 1
         const cell = this._rows[row]?.[col] ?? ''
         const cellContent = this.toStyledText(cell)
 
@@ -301,8 +333,9 @@ export class TableRenderable extends Renderable {
           new TextRenderable(this.ctx, {
             id: `${this.id}-row-${row}-col-${col}`,
             content: cellContent,
-            flexGrow: 1,
-            flexBasis: 0,
+            flexGrow: columnWidth,
+            flexShrink: 1,
+            flexBasis: columnWidth,
             paddingLeft: 1,
             paddingRight: 1,
           }),
@@ -384,6 +417,7 @@ export class TableRenderable extends Renderable {
     const allRows = (this as any)._childrenInLayoutOrder as Renderable[]
     const colCount = this._headers.length || this._rows[0]?.length || 0
     const hasHeaders = this._headers.length > 0
+    const columnWidths = this.getColumnWidths({ colCount })
 
     if (hasHeaders) {
       const headerRow = allRows[0]
@@ -391,11 +425,15 @@ export class TableRenderable extends Renderable {
         headerRow.backgroundColor = headerBg ?? 'transparent'
         const headerCells = (headerRow as any)._childrenInLayoutOrder as Renderable[]
         for (let col = 0; col < colCount; col++) {
+          const columnWidth = columnWidths[col] ?? 1
           const headerText = headerCells[col]
           if (headerText instanceof TextRenderable) {
             const headerContent = this._headers[col] ?? ''
             let headerStyledText = this.toStyledText(headerContent)
             headerStyledText = this.styledHeaderChunks(headerStyledText, headingStyle, headerFg)
+            headerText.flexGrow = columnWidth
+            headerText.flexShrink = 1
+            headerText.flexBasis = columnWidth
             headerText.content = headerStyledText
           }
         }
@@ -412,9 +450,13 @@ export class TableRenderable extends Renderable {
 
       const rowCells = (rowBox as any)._childrenInLayoutOrder as Renderable[]
       for (let col = 0; col < colCount; col++) {
+        const columnWidth = columnWidths[col] ?? 1
         const cellText = rowCells[col]
         if (cellText instanceof TextRenderable) {
           const cell = this._rows[row]?.[col] ?? ''
+          cellText.flexGrow = columnWidth
+          cellText.flexShrink = 1
+          cellText.flexBasis = columnWidth
           cellText.content = this.toStyledText(cell)
         }
       }

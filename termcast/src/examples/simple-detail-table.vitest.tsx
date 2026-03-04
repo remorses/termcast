@@ -66,23 +66,23 @@ test('markdown tables render with borderless layout', async () => {
       ap-south-1  89ms                     /api/health  500
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       esc go back   ^k actions                             powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)
@@ -166,23 +166,23 @@ test('two tables render side by side in a Row', async () => {
       ap-south-1  89ms                     /api/health  500
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       esc go back   ^k actions                             powered by termcast.app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "
   `)

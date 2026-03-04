@@ -35,25 +35,20 @@ test('wrapText table shows full prose across multiple lines', async () => {
 
         Wrapping Table
 
-        Feature                             Description
-        OAuth Proxy                         Handles the full OAuth
-                                            authorization code flow including
-                                            PKCE verification, token exchange,
-                                            and refresh. The proxy keeps client
-                                            secrets server-side so CLI tools
-                                            never need to store them locally.
-
-        Hot Reload                          Watches source files for changes
-                                            and rebuilds the extension bundle
-                                            automatically. The TUI updates in
-                                            place without losing navigation
-                                            state or scroll position.
-        Compiled Mode                       Extensions can be compiled into
-                                            standalone binaries that embed the
-                                            package.json and all command
-                                            components. No filesystem paths are
-                                            hardcoded, making the binary fully
-                                            portable.
+        Feature               Description
+        OAuth Proxy           Handles the full OAuth authorization code flow
+                              including PKCE verification, token exchange, and
+                              refresh. The proxy keeps client secrets server-
+                              side so CLI tools never need to store them
+                              locally.
+        Hot Reload            Watches source files for changes and rebuilds the
+                              extension bundle automatically. The TUI updates
+                              in place without losing navigation state or
+                              scroll position.
+        Compiled Mode         Extensions can be compiled into standalone
+                              binaries that embed the package.json and all
+                              command components. No filesystem paths are
+                              hardcoded, making the binary fully portable.
 
         Non-wrapping Table (default)
 
@@ -61,6 +56,11 @@ test('wrapText table shows full prose across multiple lines', async () => {
         OAuth Proxy  Handles the full OAuth authorization code flow including
         Hot Reload   Watches source files for changes and rebuilds the extension
         Compiled ModeExtensions can be compiled into standalone binaries that
+
+
+
+
+
 
 
 
