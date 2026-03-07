@@ -1,5 +1,34 @@
 # Changelog
 
+## 1.3.54
+
+### Features
+
+1. **CandleChart component** — new trading-style OHLC candlestick chart for terminal UIs:
+
+   Renders one candle per terminal column using block characters with 2× vertical sub-row resolution:
+   - Body (open-to-close): `▌` / `▘` / `▖` block chars for precise positioning
+   - Wick (high-to-low): `│` thin vertical line extending above/below body
+   - Green = bullish (close ≥ open), red = bearish (close < open)
+
+   When data exceeds the plot width, adjacent candles are aggregated into OHLC buckets automatically. Candles are right-aligned so the latest data sits at the right edge.
+
+   ```tsx
+   import { CandleChart } from 'termcast'
+
+   <CandleChart
+     data={candles}          // { open, high, low, close, timestamp }[]
+     bullColor="#26a69a"
+     bearColor="#ef5350"
+   />
+   ```
+
+   Works in `List.Item.Detail` side panels, full-page `Detail` views, and `Row` side-by-side layouts. Can be mixed with `Graph` line overlays and `BarChart` volume bars.
+
+### Fixes
+
+2. **Table `wrapText` column sizing** — wrap-mode tables now size columns by content width instead of equal-width splits. Short columns no longer waste space and long columns get proportionally more room. Per-column widths are computed from header and cell content with min/max guards.
+
 ## 1.3.53
 
 ### Features
