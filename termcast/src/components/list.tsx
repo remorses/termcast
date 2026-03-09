@@ -1532,6 +1532,7 @@ export const List: ListType = (props) => {
     }
 
     // ── Vim search mode: Enter confirms, Esc clears and exits ──
+    // Ctrl+K and Ctrl+P still work while searching (fall through to shared handlers below).
     if (inputMode === 'vim' && vimInputSubMode === 'search') {
       if (evt.name === 'return') {
         // Confirm search: keep search text, return to normal mode
@@ -1549,8 +1550,10 @@ export const List: ListType = (props) => {
         evt.stopPropagation()
         return
       }
-      // Let textarea handle all other keys in search mode
-      return
+      // Let Ctrl+K, Ctrl+P, and registered shortcuts fall through to shared handlers.
+      // All other keys (text input) are handled by the focused textarea.
+      const isSharedShortcut = (evt.ctrl || evt.super || evt.meta)
+      if (!isSharedShortcut) return
     }
 
     // ── Shared: Ctrl+P for dropdown ──
@@ -1559,41 +1562,15 @@ export const List: ListType = (props) => {
       return
     }
 
-    // ── Shared: registered action shortcuts ──
-    const registeredShortcuts = useStore.getState().registeredActionShortcuts
-    for (const { shortcut, execute } of registeredShortcuts) {
-      if (matchesShortcut(evt, shortcut)) {
-        execute()
-        return
-      }
-    }
-
-    // Get current item by selectedIndex (which is a descendant index)
-    const items = Object.values(descendantsContext.map.current)
-      .filter((item) => item.index !== -1)
-      .sort((a, b) => a.index - b.index)
-    const currentItem = items.find((item) => item.index === selectedIndex)
-
     // ── Shared: Ctrl+K / Cmd+K for actions dialog ──
     if (evt.name === 'k' && (evt.ctrl || evt.super)) {
       useStore.setState({ showActionsDialog: true })
       return
     }
 
-    // ── Shared: arrow keys ──
-    if (evt.name === 'up') move(-1)
-    if (evt.name === 'down') move(1)
-
-    // ── Shared: Enter to auto-execute first action ──
-    if (evt.name === 'return') {
-      if (!currentItem?.props) return
-      if (currentItem.props.actions) {
-        useStore.setState({ shouldAutoExecuteFirstAction: true })
-      }
-      return
-    }
-
     // ── Vim mode keybindings (only in default sub-mode) ──
+    // Checked before registered action shortcuts so extensions can't hijack
+    // core vim motions like j/k with unmodified single-letter shortcuts.
     if (inputMode === 'vim' && vimInputSubMode === 'default') {
       // j/k for navigation
       if (evt.name === 'j' && !evt.ctrl && !evt.meta) {
@@ -1657,6 +1634,34 @@ export const List: ListType = (props) => {
         evt.stopPropagation()
         return
       }
+    }
+
+    // ── Shared: registered action shortcuts ──
+    const registeredShortcuts = useStore.getState().registeredActionShortcuts
+    for (const { shortcut, execute } of registeredShortcuts) {
+      if (matchesShortcut(evt, shortcut)) {
+        execute()
+        return
+      }
+    }
+
+    // Get current item by selectedIndex (which is a descendant index)
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1)
+      .sort((a, b) => a.index - b.index)
+    const currentItem = items.find((item) => item.index === selectedIndex)
+
+    // ── Shared: arrow keys ──
+    if (evt.name === 'up') move(-1)
+    if (evt.name === 'down') move(1)
+
+    // ── Shared: Enter to auto-execute first action ──
+    if (evt.name === 'return') {
+      if (!currentItem?.props) return
+      if (currentItem.props.actions) {
+        useStore.setState({ shouldAutoExecuteFirstAction: true })
+      }
+      return
     }
   })
 
