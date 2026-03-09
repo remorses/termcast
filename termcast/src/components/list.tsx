@@ -39,6 +39,8 @@ import { ActionPanel, matchesShortcut } from 'termcast/src/components/actions'
 import { getInteractiveHoverBackground, useTheme } from 'termcast/src/theme'
 import { Markdown } from 'termcast/src/components/markdown'
 import { CommonProps } from 'termcast/src/utils'
+import { getMatchingCommands, executeVimCommand } from 'termcast/src/vim-mode'
+import { ThemePicker } from 'termcast/src/components/theme-picker'
 
 export { Color }
 
@@ -84,6 +86,9 @@ function ListFooter(): any {
   const dropdownFooterLabel = useStore((s) => s.dropdownFooterLabel)
   const dropdownTooltip = useStore((s) => s.dropdownTooltip)
   const hasToast = useStore((s) => s.toast !== null)
+  const inputMode = useStore((s) => s.inputMode)
+  const vimInputSubMode = useStore((s) => s.vimInputSubMode)
+  const vimCommandText = useStore((s) => s.vimCommandText)
   const listContext = useContext(ListContext)
   const isShowingDetail = listContext?.isShowingDetail ?? false
   const hasDropdown = listContext?.hasDropdown ?? false
@@ -93,6 +98,23 @@ function ListFooter(): any {
       listContext?.openDropdown()
     }
   }
+
+  // When in command mode, show the command input in the footer
+  if (vimInputSubMode === 'command' && !hasToast) {
+    const matchingCommands = getMatchingCommands(vimCommandText)
+    return (
+      <Footer hidePoweredBy={isShowingDetail}>
+        <box style={{ flexDirection: 'row', gap: 2, flexShrink: 0, flexGrow: 1 }}>
+          <text flexShrink={0} fg={theme.text}>:{vimCommandText}</text>
+          <text flexShrink={0} fg={theme.textMuted}>
+            {matchingCommands.map((cmd) => cmd.name).join(' · ')}
+          </text>
+        </box>
+      </Footer>
+    )
+  }
+
+  const isVim = inputMode === 'vim'
 
   const content = hasToast ? null : (
     <box style={{ flexDirection: 'row', gap: 3, flexShrink: 0 }}>
@@ -110,10 +132,18 @@ function ListFooter(): any {
       )}
       <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
         <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
-          ↑↓
+          {isVim ? 'j/k' : '↑↓'}
         </text>
         <text flexShrink={0} fg={theme.textMuted}>navigate</text>
       </box>
+      {isVim && (
+        <box style={{ flexDirection: 'row', gap: 1, flexShrink: 0 }}>
+          <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
+            /
+          </text>
+          <text flexShrink={0} fg={theme.textMuted}>search</text>
+        </box>
+      )}
       <Hoverable
         onMouseDown={() => {
           useStore.setState({ showActionsDialog: true })
@@ -132,6 +162,15 @@ function ListFooter(): any {
           <text flexShrink={0} fg={theme.textMuted}>
             {(dropdownTooltip || dropdownFooterLabel || 'dropdown').toLowerCase()}
           </text>
+        </Hoverable>
+      )}
+      {!isVim && (
+        <Hoverable
+          onMouseDown={() => {
+            executeVimCommand('vim')
+          }}
+        >
+          <text flexShrink={0} fg={theme.textMuted}>:vim</text>
         </Hoverable>
       )}
     </box>
@@ -1367,18 +1406,160 @@ export const List: ListType = (props) => {
 
   const inFocus = useIsInFocus()
   const dialog = useDialog()
+  const inputMode = useStore((s) => s.inputMode)
+  const vimInputSubMode = useStore((s) => s.vimInputSubMode)
+
+  // Textarea is focused when:
+  // - raycast mode default (always focused for type-to-search)
+  // - vim mode search (user pressed /)
+  // - NOT in command mode (command input lives in footer, not textarea)
+  const searchBarFocused = vimInputSubMode !== 'command' && (inputMode === 'raycast' || vimInputSubMode === 'search')
+
+  // Timestamp-based gg sequence detection in vim mode.
+  // If two 'g' presses happen within 500ms, jump to first item.
+  // Using timestamps instead of setTimeout avoids cleanup on unmount.
+  const lastGPressedAtRef = useRef(0)
+
+  // Helper: jump to first visible item
+  const moveToFirst = () => {
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      .sort((a, b) => a.index - b.index)
+    if (items[0]) {
+      flushSync(() => {
+        setSelectedIndex(items[0].index)
+      })
+      persistSelectedIndexInCurrentNavigationItem(items[0].index)
+      scrollToItemIfNeeded({ item: items[0], direction: -1 })
+    }
+  }
+
+  // Helper: jump to last visible item
+  const moveToLast = () => {
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      .sort((a, b) => a.index - b.index)
+    const lastItem = items[items.length - 1]
+    if (lastItem) {
+      flushSync(() => {
+        setSelectedIndex(lastItem.index)
+      })
+      persistSelectedIndexInCurrentNavigationItem(lastItem.index)
+      scrollToItemIfNeeded({ item: lastItem, direction: 1 })
+    }
+  }
+
+  // Helper: move by N items (for half-page jumps)
+  const moveByN = (n: number) => {
+    const items = Object.values(descendantsContext.map.current)
+      .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      .sort((a, b) => a.index - b.index)
+    if (items.length === 0) return
+
+    const currentVisibleIndex = items.findIndex((item) => item.index === selectedIndex)
+    if (currentVisibleIndex === -1) return
+
+    const nextVisibleIndex = Math.max(0, Math.min(items.length - 1, currentVisibleIndex + n))
+    const nextItem = items[nextVisibleIndex]
+    if (nextItem) {
+      flushSync(() => {
+        setSelectedIndex(nextItem.index)
+      })
+      persistSelectedIndexInCurrentNavigationItem(nextItem.index)
+      scrollToItemIfNeeded({ item: nextItem, direction: n > 0 ? 1 : -1 })
+    }
+  }
 
   useKeyboard((evt) => {
     if (!inFocus) return
 
-    // Handle Ctrl+P for dropdown
+    const { inputMode, vimInputSubMode } = useStore.getState()
+
+    // ── Command mode: trap all keys ──
+    // When ':' command input is active, all keystrokes are handled here.
+    // Enter executes, Esc cancels, backspace deletes, printable chars append.
+    // Auto-exit command mode if a toast appeared (toast needs its own key handlers).
+    if (vimInputSubMode === 'command') {
+      if (useStore.getState().toast) {
+        useStore.setState({ vimInputSubMode: 'default', vimCommandText: '' })
+        return
+      }
+      evt.stopPropagation()
+
+      if (evt.name === 'return') {
+        const text = useStore.getState().vimCommandText
+        const result = executeVimCommand(text)
+        if (result === 'theme') {
+          dialog.push({ element: <ThemePicker /> })
+        } else if (result === 'actions') {
+          useStore.setState({ showActionsDialog: true })
+        } else if (result === 'filter') {
+          if (searchBarAccessory && !isDropdownOpen) {
+            openDropdown()
+          }
+        }
+        useStore.setState({ vimInputSubMode: 'default', vimCommandText: '' })
+        return
+      }
+      if (evt.name === 'escape') {
+        useStore.setState({ vimInputSubMode: 'default', vimCommandText: '' })
+        return
+      }
+      if (evt.name === 'backspace') {
+        const current = useStore.getState().vimCommandText
+        if (current.length === 0) {
+          // Backspace on empty exits command mode
+          useStore.setState({ vimInputSubMode: 'default' })
+        } else {
+          useStore.setState({ vimCommandText: current.slice(0, -1) })
+        }
+        return
+      }
+      if (evt.name === 'tab') {
+        // Tab-complete: fill in the first matching command
+        const current = useStore.getState().vimCommandText
+        const matches = getMatchingCommands(current)
+        if (matches.length > 0 && matches[0]) {
+          useStore.setState({ vimCommandText: matches[0].name })
+        }
+        return
+      }
+      // Append printable characters (single char, no modifiers except shift)
+      if (evt.sequence.length === 1 && !evt.ctrl && !evt.meta) {
+        useStore.setState({ vimCommandText: useStore.getState().vimCommandText + evt.sequence })
+      }
+      return
+    }
+
+    // ── Vim search mode: Enter confirms, Esc clears and exits ──
+    if (inputMode === 'vim' && vimInputSubMode === 'search') {
+      if (evt.name === 'return') {
+        // Confirm search: keep search text, return to normal mode
+        useStore.setState({ vimInputSubMode: 'default' })
+        evt.stopPropagation()
+        return
+      }
+      if (evt.name === 'escape') {
+        // Clear search and return to normal mode
+        useStore.setState({ vimInputSubMode: 'default' })
+        if (inputRef.current) {
+          inputRef.current.clear()
+        }
+        handleSearchChange('')
+        evt.stopPropagation()
+        return
+      }
+      // Let textarea handle all other keys in search mode
+      return
+    }
+
+    // ── Shared: Ctrl+P for dropdown ──
     if (evt.ctrl && evt.name === 'p' && searchBarAccessory && !isDropdownOpen) {
       openDropdown()
       return
     }
 
-    // Check if key matches any registered action shortcut
-    // This enables direct execution of actions via their shortcuts (e.g., ctrl+r for Refresh)
+    // ── Shared: registered action shortcuts ──
     const registeredShortcuts = useStore.getState().registeredActionShortcuts
     for (const { shortcut, execute } of registeredShortcuts) {
       if (matchesShortcut(evt, shortcut)) {
@@ -1393,27 +1574,106 @@ export const List: ListType = (props) => {
       .sort((a, b) => a.index - b.index)
     const currentItem = items.find((item) => item.index === selectedIndex)
 
-    // Handle Ctrl+K / Cmd+K to show actions dialog via portal
-    // Always open — built-in actions (Change Theme, etc.) are always available
+    // ── Shared: Ctrl+K / Cmd+K for actions dialog ──
     if (evt.name === 'k' && (evt.ctrl || evt.super)) {
       useStore.setState({ showActionsDialog: true })
       return
     }
 
+    // ── Shared: arrow keys ──
     if (evt.name === 'up') move(-1)
     if (evt.name === 'down') move(1)
-    // Handle Enter to auto-execute first action via ActionPanel
+
+    // ── Shared: Enter to auto-execute first action ──
     if (evt.name === 'return') {
       if (!currentItem?.props) return
-
       if (currentItem.props.actions) {
         useStore.setState({ shouldAutoExecuteFirstAction: true })
+      }
+      return
+    }
+
+    // ── Vim mode keybindings (only in default sub-mode) ──
+    if (inputMode === 'vim' && vimInputSubMode === 'default') {
+      // j/k for navigation
+      if (evt.name === 'j' && !evt.ctrl && !evt.meta) {
+        move(1)
+        evt.stopPropagation()
+        return
+      }
+      if (evt.name === 'k' && !evt.ctrl && !evt.meta) {
+        move(-1)
+        evt.stopPropagation()
+        return
+      }
+
+      // G (shift+g) for last item
+      if (evt.name === 'g' && evt.shift) {
+        moveToLast()
+        evt.stopPropagation()
+        return
+      }
+
+      // g then g for first item (gg sequence).
+      // Two 'g' presses within 500ms triggers jump to first item.
+      if (evt.name === 'g' && !evt.shift && !evt.ctrl && !evt.meta) {
+        const now = Date.now()
+        if (now - lastGPressedAtRef.current < 500) {
+          // Second g within window: jump to first
+          lastGPressedAtRef.current = 0
+          moveToFirst()
+        } else {
+          // First g: record timestamp, wait for second
+          lastGPressedAtRef.current = now
+        }
+        evt.stopPropagation()
+        return
+      }
+
+      // Ctrl+d for half-page down, Ctrl+u for half-page up
+      if (evt.ctrl && evt.name === 'd') {
+        const viewportHeight = scrollBoxRef.current?.viewport?.height || 20
+        moveByN(Math.floor(viewportHeight / 2))
+        evt.stopPropagation()
+        return
+      }
+      if (evt.ctrl && evt.name === 'u') {
+        const viewportHeight = scrollBoxRef.current?.viewport?.height || 20
+        moveByN(-Math.floor(viewportHeight / 2))
+        evt.stopPropagation()
+        return
+      }
+
+      // / to enter search mode
+      if (evt.sequence === '/' && !evt.ctrl && !evt.meta) {
+        useStore.setState({ vimInputSubMode: 'search' })
+        evt.stopPropagation()
+        return
+      }
+
+      // : to enter command mode
+      if (evt.sequence === ':' && !evt.ctrl && !evt.meta) {
+        useStore.setState({ vimInputSubMode: 'command', vimCommandText: '' })
+        evt.stopPropagation()
+        return
       }
     }
   })
 
   const handleSearchChange = (newValue: string) => {
     if (!inFocus) return
+
+    // Intercept ':' in raycast mode: when the search bar was empty and user typed ':',
+    // enter command mode instead of searching. Clear the textarea back to empty.
+    // Only triggers from truly empty state (not from editing "foo" to ":").
+    const wasEmpty = searchText.length === 0
+    if (inputMode === 'raycast' && wasEmpty && newValue === ':') {
+      if (inputRef.current) {
+        inputRef.current.clear()
+      }
+      useStore.setState({ vimInputSubMode: 'command', vimCommandText: '' })
+      return
+    }
 
     // Always update internal state immediately so the textarea and filtering
     // stay responsive even when throttle delays the parent callback
@@ -1506,7 +1766,7 @@ export const List: ListType = (props) => {
                     { name: 'linefeed', action: 'submit' },
                   ]}
                   placeholder={searchBarPlaceholder}
-                  focused={inFocus && !isDropdownOpen}
+                  focused={inFocus && !isDropdownOpen && searchBarFocused}
                   initialValue={searchText}
                   onContentChange={() => {
                     const value = inputRef.current?.plainText || ''

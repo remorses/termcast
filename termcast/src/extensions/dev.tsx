@@ -15,6 +15,7 @@ import { TermcastProvider } from 'termcast/src/internal/providers'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { Icon } from 'termcast'
 import { useTheme, initializeTheme } from 'termcast/src/theme'
+import { initializeVimMode } from 'termcast/src/vim-mode'
 import { logger } from '../logger'
 import { getCommandsWithFiles, CommandWithFile, RaycastPackageJson } from '../package-json'
 import { buildExtensionCommands } from '../build'
@@ -226,8 +227,9 @@ export async function startDevMode({
     devRebuildCount: 1,
   })
 
-  // Load theme after state reset — extensionPath is now set so it reads from the correct DB
+  // Load theme and vim mode after state reset — extensionPath is now set so it reads from the correct DB
   initializeTheme()
+  initializeVimMode()
 
   function App(): any {
     const devElement = useStore((state) => state.devElement)
@@ -299,8 +301,9 @@ export async function startCompiledExtension({
     devRebuildCount: 1,
   })
 
-  // Load theme after state reset — extensionPath is now set so it reads from the correct DB
+  // Load theme and vim mode after state reset — extensionPath is now set so it reads from the correct DB
   initializeTheme()
+  initializeVimMode()
 
   function App(): any {
     const devElement = useStore((state) => state.devElement)

@@ -14,6 +14,7 @@ import {
 import { logger } from './logger'
 import { useStore } from './state'
 import { initializeTheme } from './theme'
+import { initializeVimMode } from './vim-mode'
 import { isAppMode } from './apis/environment'
 
 export interface RenderWithProvidersOptions {
@@ -55,8 +56,9 @@ export async function renderWithProviders(
     extensionPackageJson: packageJson,
   })
 
-  // Load theme after state reset — extensionPath is now set so it reads from the correct DB
+  // Load theme and vim mode after state reset — extensionPath is now set so it reads from the correct DB
   initializeTheme()
+  initializeVimMode()
 
   const renderer = await createCliRenderer({
     onDestroy: () => {

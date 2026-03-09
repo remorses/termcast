@@ -52,7 +52,17 @@ export interface NavigationStackItem {
   searchText?: string
 }
 
+// Vim mode types
+// inputMode: global mode persisted across sessions
+// vimInputSubMode: transient sub-state within the current mode
+export type InputMode = 'raycast' | 'vim'
+export type VimInputSubMode = 'default' | 'search' | 'command'
+
 interface AppState {
+  // Vim mode state
+  inputMode: InputMode
+  vimInputSubMode: VimInputSubMode
+  vimCommandText: string
   toast: ToastData | null
   toastWithPrimaryAction: boolean
   dialogStack: DialogStackItem[]
@@ -96,6 +106,10 @@ interface AppState {
 }
 
 export const useStore = create<AppState>(() => ({
+  // Vim mode — initialized from persistence in initializeVimMode()
+  inputMode: 'raycast',
+  vimInputSubMode: 'default',
+  vimCommandText: '',
   toast: null,
   toastWithPrimaryAction: false,
   dialogStack: [],

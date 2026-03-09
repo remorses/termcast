@@ -22,6 +22,7 @@ import { Dropdown } from 'termcast/src/components/dropdown'
 import { ExtensionPreferences } from 'termcast/src/components/extension-preferences'
 import { ThemePicker } from 'termcast/src/components/theme-picker'
 import { useStore } from 'termcast/src/state'
+import { toggleVimMode } from 'termcast/src/vim-mode'
 import { InFocus } from 'termcast/src/internal/focus-context'
 import { Onscreen, useIsOffscreen } from 'termcast/src/internal/offscreen'
 import { CommonProps } from 'termcast/src/utils'
@@ -743,6 +744,21 @@ export function matchesShortcut(
   return true
 }
 
+// Separate component so the inputMode selector is reactive and the label
+// updates when vim mode is toggled without reopening the action panel.
+function VimModeAction(): any {
+  const inputMode = useStore((s) => s.inputMode)
+  return (
+    <Action
+      title={inputMode === 'vim' ? 'Disable Vim Mode' : 'Enable Vim Mode'}
+      onAction={() => {
+        useStore.setState({ showActionsDialog: false })
+        toggleVimMode()
+      }}
+    />
+  )
+}
+
 /**
  * ActionPanel uses React portals to render its dialog content in the overlay
  * area while staying in the original React tree. This preserves all React
@@ -916,6 +932,7 @@ const ActionPanel: ActionPanelType = (props) => {
             dialog.push({ element: <ThemePicker /> })
           }}
         />
+        <VimModeAction />
         <Action
           title="Toggle Console Logs"
           onAction={() => {
