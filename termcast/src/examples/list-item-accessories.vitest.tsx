@@ -46,7 +46,7 @@ test('shows all inline item features: icon, title, subtitle, text/tag/date acces
        ● All Colored                                                  red blue 1w
 
 
-       ↑↓ navigate   ^k actions                           powered by termcast.app
+       ↑↓ navigate   ^k actions   :vim                    powered by termcast.app
 
 
 
@@ -104,7 +104,7 @@ test('navigation through all item types', async () => {
        ● All Colored                                                  red blue 1w
 
 
-       ↑↓ navigate   ^k actions                           powered by termcast.app
+       ↑↓ navigate   ^k actions   :vim                    powered by termcast.app
 
 
 

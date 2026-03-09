@@ -49,8 +49,8 @@ test('actions preserve React context through portal', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │

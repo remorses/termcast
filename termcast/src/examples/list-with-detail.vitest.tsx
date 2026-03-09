@@ -176,8 +176,8 @@ test('list with detail view display and navigation', async () => {
       │                                                                          │
       │   Settings                                                               │
       │   Change Theme...                                                        │
+      │   Enable Vim Mode                                                        │
       │   Toggle Console Logs                                                    │
-      │                                                                          │
       │                                                                          │
       │                                                                          │
       │                                                                          │
@@ -214,7 +214,7 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                                                       Water
 
 
-       ↵ toggle detail   ↑↓ navigate   ^k actions         powered by termcast.app
+       ↵ toggle detail   ↑↓ navigate   ^k actions   :vim  powered by termcast.app
 
 
 
@@ -573,7 +573,7 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │
                                             │
                                             │
-       ↑↓ navigate   ^k actions             │
+       ↑↓ navigate   ^k actions   :vim      │
 
 
 
@@ -609,7 +609,7 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │ More content here to ensure we
                                             │ have enough text to cause
                                             │ vertical overflow in the detail
-       ↑↓ navigate   ^k actions             │ panel scrollbox.                  ▼
+       ↑↓ navigate   ^k actions   :vim      │ panel scrollbox.                  ▼
 
     "
   `)

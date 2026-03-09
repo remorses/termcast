@@ -46,7 +46,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -80,7 +80,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -118,7 +118,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -160,7 +160,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -194,7 +194,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -227,7 +227,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -266,7 +266,7 @@ test('navigation between main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -306,8 +306,8 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -339,8 +339,8 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -419,7 +419,7 @@ test('navigation with actions panel', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -450,8 +450,8 @@ test('navigation with actions panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -489,7 +489,7 @@ test('navigation with actions panel', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -535,7 +535,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -573,7 +573,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -613,7 +613,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -650,7 +650,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ go back   ↑↓ navigate   ^k actions
+       ↵ go back   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -687,7 +687,7 @@ test('search functionality in main and detail views', async () => {
 
 
 
-       ↵ open details   ↑↓ navigate   ^k actions
+       ↵ open details   ↑↓ navigate   ^k actions   :vim
 
 
 

@@ -46,7 +46,7 @@ test('footer does not show stale action title from built-in actions', async () =
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -83,8 +83,8 @@ test('ctrl+k opens built-in actions when item has no actions', async () => {
       │                                                                │
       │   Settings                                                     │
       │  ›Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │

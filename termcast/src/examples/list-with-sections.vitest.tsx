@@ -59,7 +59,7 @@ test('list with sections navigation', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -92,7 +92,7 @@ test('list with sections navigation', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -119,7 +119,7 @@ test('list with sections navigation', async () => {
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -150,7 +150,7 @@ test('list with sections navigation', async () => {
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -191,7 +191,7 @@ test('list with sections search functionality', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -227,7 +227,7 @@ test('list with sections search functionality', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -260,7 +260,7 @@ test('list with sections search functionality', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -290,7 +290,7 @@ test('list with sections search functionality', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -425,7 +425,7 @@ test('list click functionality', async () => {
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -469,8 +469,8 @@ test('list actions panel with ctrl+k', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -497,8 +497,8 @@ test('list actions panel with ctrl+k', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -579,7 +579,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -607,7 +607,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -635,7 +635,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -663,7 +663,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -702,7 +702,7 @@ test('list scrollbox scrolling with sections', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -735,7 +735,7 @@ test('list scrollbox scrolling with sections', async () => {
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -765,7 +765,7 @@ test('list scrollbox scrolling with sections', async () => {
        Bread Freshly baked                                    Today New
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -797,7 +797,7 @@ test('list scrollbox scrolling with sections', async () => {
       ›Bread Freshly baked                                    Today New
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -827,7 +827,7 @@ test('list scrollbox scrolling with sections', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -901,7 +901,7 @@ test('list does not wrap at top boundary', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions
+       ↵ view details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)

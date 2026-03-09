@@ -57,7 +57,7 @@ test('ctrl+r shortcut should trigger Refresh action directly', async () => {
 
 
 
-       ↵ refresh   ↑↓ navigate   ^k actions
+       ↵ refresh   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -97,8 +97,8 @@ test('action shortcut is displayed in action panel', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │

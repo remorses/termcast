@@ -53,7 +53,7 @@ test('side detail shows two graphs in a row', async () => {
                                                       │
                                                       │ CPU Peak: 90%
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Mem Peak: 86%
+       ↵ open detail   ↑↓ navigate   ^k actions   :vi │ Mem Peak: 86%
 
     "
   `)
@@ -172,7 +172,7 @@ test('esc returns from detail to list', async () => {
                                                       │
                                                       │ CPU Peak: 90%
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Mem Peak: 86%
+       ↵ open detail   ↑↓ navigate   ^k actions   :vi │ Mem Peak: 86%
 
     "
   `)
@@ -229,7 +229,7 @@ test('sparse data with zeros shows baseline', async () => {
                                                       │
                                                       │ Zeros: 12 of 20
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Peak:  90
+       ↵ open detail   ↑↓ navigate   ^k actions   :vi │ Peak:  90
 
     "
   `)
@@ -285,7 +285,7 @@ test('navigate to striped pair', async () => {
                                                       │
                                                       │ ───────────────────────────────────────────
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Revenue:  $75k                              ▼
+       ↵ open detail   ↑↓ navigate   ^k actions   :vi │ Revenue:  $75k                              ▼
 
     "
   `)

@@ -65,7 +65,7 @@ test('dev command shows extension commands list', async () => {
        Show State Shows the current application state in view
 
 
-       ↵ run command   ↑↓ navigate   ^k actions
+       ↵ run command   ↑↓ navigate   ^k actions   :vim
     "
   `)
 }, 30000)
@@ -101,7 +101,7 @@ test('selecting command with arguments shows arguments form', async () => {
 
 
 
-       ↵ run command   ↑↓ navigate   ^k actions
+       ↵ run command   ↑↓ navigate   ^k actions   :vim
     "
   `)
 
@@ -217,7 +217,7 @@ test('can fill arguments and run command', async () => {
 
 
 
-       ↵ copy value   ↑↓ navigate   ^k actions
+       ↵ copy value   ↑↓ navigate   ^k actions   :vim
     "
   `)
 }, 30000)

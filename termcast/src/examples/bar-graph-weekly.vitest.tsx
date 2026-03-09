@@ -54,9 +54,9 @@ test('bar graph renders bars, labels, and legend', async () => {
 
 
 
-
-
-
+                                            │
+                                            │
+       ↵ open detail   ↑↓ navigate   ^k act │
 
     "
   `)
@@ -87,17 +87,17 @@ test('many columns (20) clips with overflow hidden', async () => {
 
        > Search...
 
-       Weekly Traffic 3 channels across 6 d │ ███
-       Revenue by Region EMEA / APAC / Amer │ ███
-       Server Load CPU / Memory / IO        │ ███ ███         ███ ███ ███
-      ›Many Columns (20) Overflow test with │ ███ ███         ███ ███ ███ ███ ██
+       Weekly Traffic 3 channels across 6 d │
+       Revenue by Region EMEA / APAC / Amer │                         ███
+       Server Load CPU / Memory / IO        │ ███     ███ ███         ███
+      ›Many Columns (20) Overflow test with │ ███     ███ ███ ███     ███ ███ ██
        Many Series (8) Legend overflow test │ ███ ███ ███ ███ ███ ███ ███ ███ ██
        Long Labels Labels wider than bar co │ ███ ███ ███ ███ ███ ███ ███ ███ ██
        Week 1 vs Week 2 Two graphs in a Row │ ███ ███ ███ ███ ███ ███ ███ ███ ██
                                             │ ███ ███ ███ ███ ███ ███ ███ ███ ██
                                             │ ███ ███ ███ ███ ███ ███ ███ ███ ██
                                             │ D1  D2  D3  D4  D5  D6  D7  D8  D9
-       ↑↓ navigate   ^k actions             │ ■ A ■ B
+       ↑↓ navigate   ^k actions   :vim      │ ■ A ■ B
 
 
 
@@ -149,7 +149,7 @@ test('many series (8) legend clips on one line', async () => {
                                             │ ███ ███ ███ ███ ███ ███
                                             │ ███ ███ ███ ███ ███ ███
                                             │ Mon Tue Wed Thu Fri Sat
-       ↑↓ navigate   ^k actions             │ ■ Series 1 ■ Series 2 ■ Series 3 ■
+       ↑↓ navigate   ^k actions   :vim      │ ■ Series 1 ■ Series 2 ■ Series 3 ■
 
 
 
@@ -202,7 +202,7 @@ test('long labels truncated by overflow hidden', async () => {
                                             │ ███ ███ ███ ███ ███ ███
                                             │ ███ ███ ███ ███ ███ ███
                                             │ Mon Tue Wed Thu Fri Sat
-       ↑↓ navigate   ^k actions             │ ■ Views ■ Clicks
+       ↑↓ navigate   ^k actions   :vim      │ ■ Views ■ Clicks
 
 
 

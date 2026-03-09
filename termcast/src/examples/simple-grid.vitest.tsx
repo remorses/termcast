@@ -54,7 +54,7 @@ test('grid navigation and display', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -87,7 +87,7 @@ test('grid navigation and display', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -121,7 +121,7 @@ test('grid navigation and display', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -148,8 +148,8 @@ test('grid navigation and display', async () => {
       │                                                                │
       │   Settings                                                     │
       │   Change Theme...                                              │
+      │   Enable Vim Mode                                              │
       │   Toggle Console Logs                                          │
-      │                                                                │
       │                                                                │
       │                                                                │
       │                                                                │
@@ -187,7 +187,7 @@ test('grid navigation and display', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -231,7 +231,7 @@ test('grid search functionality', async () => {
        ☀ Sun
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -271,7 +271,7 @@ test('grid search functionality', async () => {
        ☀ Sun
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -310,7 +310,7 @@ test('grid search functionality', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -345,7 +345,7 @@ test('grid search functionality', async () => {
        ☀ Sun
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -389,7 +389,7 @@ test('grid item selection and actions', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -422,7 +422,7 @@ test('grid item selection and actions', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -455,7 +455,7 @@ test('grid item selection and actions', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -497,7 +497,7 @@ test('grid mouse interaction', async () => {
        🚀 Rocket
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)
@@ -539,7 +539,7 @@ test('grid mouse interaction', async () => {
 
 
 
-       ↵ show details   ↑↓ navigate   ^k actions
+       ↵ show details   ↑↓ navigate   ^k actions   :vim
 
     "
   `)

@@ -97,7 +97,7 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
 
 
 
-       ↵ run command   ↑↓ navigate   ^k actions           powered by termcast.app
+       ↵ run command   ↑↓ navigate   ^k actions   :vim    powered by termcast.app
 
 
 
@@ -146,7 +146,7 @@ test.skipIf(!extensionExists)('github extension can navigate commands', async ()
 
 
 
-       ↵ run command   ↑↓ navigate   ^k actions           powered by termcast.app
+       ↵ run command   ↑↓ navigate   ^k actions   :vim    powered by termcast.app
 
 
 
@@ -192,8 +192,8 @@ test.skipIf(!extensionExists)('github extension can open actions panel', async (
       │   Settings                                                               │
       │   Configure GitHub...                                             ⌃⇧,    │
       │   Change Theme...                                                        │
+      │   Enable Vim Mode                                                        │
       │   Toggle Console Logs                                                    │
-      │                                                                          │
       │                                                                          │
       │                                                                          │
       │   ↵ select   ↑↓ navigate                                                 │
@@ -239,7 +239,7 @@ test.skipIf(!extensionExists)('github extension can search commands', async () =
 
 
 
-       ↵ run command   ↑↓ navigate   ^k actions           powered by termcast.app
+       ↵ run command   ↑↓ navigate   ^k actions   :vim    powered by termcast.app
 
 
 

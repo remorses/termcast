@@ -49,7 +49,7 @@ describe('spacingMode default', () => {
          ★ Favorites
 
 
-         ↑↓ navigate   ^k actions
+         ↑↓ navigate   ^k actions   :vim
 
       "
     `)
@@ -106,7 +106,7 @@ describe('spacingMode relaxed', () => {
          No Subtitle
 
 
-         ↑↓ navigate   ^k actions
+         ↑↓ navigate   ^k actions   :vim
 
       "
     `)
@@ -147,7 +147,7 @@ describe('spacingMode relaxed', () => {
          No Subtitle
 
 
-         ↑↓ navigate   ^k actions
+         ↑↓ navigate   ^k actions   :vim
 
       "
     `)

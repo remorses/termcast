@@ -43,7 +43,7 @@ test('progress bars render in detail metadata and update on selection', async ()
                                             │ ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ 7% used
                                             │ Resets Feb 27, 1pm (Asia/Bangkok)
                                             │
-       ↑↓ navigate   ^k actions             │
+       ↑↓ navigate   ^k actions   :vim      │
 
 
 

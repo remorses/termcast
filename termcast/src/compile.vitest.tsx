@@ -96,7 +96,7 @@ test('compile extension and run executable', async () => {
        Show State Shows the current application state in view
 
 
-       ↵ run command   ↑↓ navigate   ^k actions
+       ↵ run command   ↑↓ navigate   ^k actions   :vim
     "
   `)
 }, 60000)
@@ -198,7 +198,7 @@ test('compiled executable can navigate back', async () => {
        ○ Fifth Item This is the fifth item
 
 
-       ↵ copy item title   ↑↓ navigate   ^k actions
+       ↵ copy item title   ↑↓ navigate   ^k actions   :vim
     "
   `)
 }, 60000)

@@ -58,7 +58,7 @@ test('candle chart renders in list detail with axes', async () => {
                                                       │
                                                       │ ────────────────────────────────────────────
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ BTC-USD Hourly OHLC
+       ↵ open detail   ↑↓ navigate   ^k actions   :vi │ BTC-USD Hourly OHLC
 
 
     "
@@ -161,7 +161,7 @@ test('candle + line overlay (mixed components)', async () => {
                                                       │
                                                       │ Price:  $1,971
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Change: -0.3%
+       ↵ open detail   ↑↓ navigate   ^k actions   :vi │ Change: -0.3%
 
     "
   `)
@@ -206,7 +206,7 @@ test('candle + volume bar chart (mixed components)', async () => {
                                                       │
                                                       │ Price:  $83.31
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │ Change: -0.4%
+       ↵ open detail   ↑↓ navigate   ^k actions   :vi │ Change: -0.4%
 
 
 
@@ -255,7 +255,7 @@ test('side-by-side candle charts in Row', async () => {
                                                       │ Change: -0.2%
                                                       │
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions       │
+       ↵ open detail   ↑↓ navigate   ^k actions   :vi │
 
 
 

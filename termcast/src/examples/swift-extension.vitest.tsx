@@ -102,7 +102,7 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
 
 
 
-       ↵ run command   ↑↓ navigate   ^k actions
+       ↵ run command   ↑↓ navigate   ^k actions   :vim
 
 
 
@@ -153,7 +153,7 @@ test.skipIf(isLinux)('swift extension runs Swift List command and shows items', 
 
 
 
-       ↑↓ navigate   ^k actions
+       ↑↓ navigate   ^k actions   :vim
 
 
 
