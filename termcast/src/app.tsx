@@ -613,6 +613,8 @@ config.keys = {
   { key = 'RightArrow', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[1;9C') },
   { key = 'UpArrow', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[1;9A') },
   { key = 'DownArrow', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[1;9B') },
+  -- Cmd+Backspace -> delete to line start (backspace codepoint = 127, super modifier = 9)
+  { key = 'Backspace', mods = 'SUPER', action = wezterm.action.SendString('\\x1b[127;9u') },
 }
 `
     : ''
@@ -1114,8 +1116,9 @@ async function resolveBuildContext({
   // because PowerShell splits unquoted paths on whitespace.
   const safeName = appName.replace(/[/\\\s]+/g, '-').replace(/^-+|-+$/g, '')
 
-  // Resolve font directory: --font-dir flag, or fonts/ in extension root.
-  // --font-dir is resolved relative to the extension path (not cwd) for consistency.
+  // Resolve font directory: --font-dir flag, fonts/ in extension root, or termcast's
+  // built-in fonts/ as fallback. The built-in Inconsolata font ships with termcast so
+  // every app has a guaranteed monospace font without depending on system fonts.
   const fontDirPath = (() => {
     if (fontDir) {
       const resolved = path.isAbsolute(fontDir)
@@ -1134,11 +1137,16 @@ async function resolveBuildContext({
     if (fs.existsSync(defaultFontDir) && fs.statSync(defaultFontDir).isDirectory()) {
       return defaultFontDir
     }
+    // Fall back to termcast's built-in fonts/ directory (contains Inconsolata)
+    const builtinFontDir = path.join(__dirname, '..', 'fonts')
+    if (fs.existsSync(builtinFontDir) && fs.statSync(builtinFontDir).isDirectory()) {
+      return builtinFontDir
+    }
     return undefined
   })()
 
   const fontOptions: WeztermFontOptions = {
-    fontFamily,
+    fontFamily: fontFamily ?? 'Inconsolata',
     fontSize,
     lineHeight,
     hasBundledFonts: !!fontDirPath,

@@ -35,7 +35,8 @@
   "files": [
     "dist",
     "src",
-    "esm"
+    "esm",
+    "fonts"
   ],
   "keywords": [],
   "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",

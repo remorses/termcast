@@ -150,6 +150,24 @@ export function TermcastProvider(props: ProvidersProps): any {
   const theme = useTheme()
   const renderer = useRenderer()
 
+  // Translate Cmd+Backspace (kitty CSI \x1b[127;9u) to Ctrl+U (\x15) so opentui's
+  // textarea keybinding for delete-to-line-start handles it. opentui doesn't have a
+  // super+backspace binding, so we remap at the input level before key dispatch.
+  React.useLayoutEffect(() => {
+    if (!renderer) return
+    const handler = (sequence: string) => {
+      if (sequence === '\x1b[127;9u') {
+        renderer.stdin.emit('data', '\x15')
+        return true
+      }
+      return false
+    }
+    renderer.prependInputHandler(handler)
+    return () => {
+      renderer.removeInputHandler(handler)
+    }
+  }, [renderer])
+
   // Sync terminal background with the active termcast theme via OSC 11 (standard escape
   // sequence to set terminal background color). This works on WezTerm, iTerm2, kitty, etc.
   // WezTerm's set_config_overrides for colors has a bug (#5451) where it only hot-reloads
@@ -157,11 +175,12 @@ export function TermcastProvider(props: ProvidersProps): any {
   // Uses renderer's realStdoutWrite to bypass opentui's stdout interception.
   React.useLayoutEffect(() => {
     if (!renderer) return
-    const realWrite = (renderer as any).realStdoutWrite as typeof process.stdout.write
+    const realWrite = (renderer as any).realStdoutWrite as typeof process.stdout.write | undefined
+    const write = realWrite ?? process.stdout.write
     // OSC 11 ; color ST — sets terminal default background color
     const sequence = `\x1b]11;${theme.background}\x07`
-    realWrite.call(process.stdout, sequence)
-  }, [theme.background])
+    write.call(process.stdout, sequence)
+  }, [renderer, theme.background])
 
   useKeyboard((key) => {
     if (!renderer) return
