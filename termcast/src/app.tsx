@@ -494,11 +494,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         if (dir[i] == L'\\\\') { dir[i + 1] = L'\\0'; break; }
     }
 
-    /* Set TERMCAST_WEZTERM_CONFIG env var so the TUI can rewrite the config on theme change */
-    WCHAR configPath[MAX_PATH * 2];
-    wsprintfW(configPath, L"%sruntime\\\\config\\\\wezterm.lua", dir);
-    SetEnvironmentVariableW(L"TERMCAST_WEZTERM_CONFIG", configPath);
-
     /* Set default theme name baked at build time */
     SetEnvironmentVariableW(L"TERMCAST_DEFAULT_THEME", L"${themeName}");
 
@@ -637,9 +632,9 @@ config.window_decorations = '${platform === 'darwin' ? 'TITLE|RESIZE' : 'RESIZE'
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 config.window_close_confirmation = 'NeverPrompt'
 
--- Background color matching the configured termcast theme.
--- The TUI rewrites this file on theme change so WezTerm auto-reloads it,
--- keeping the window edges/padding in sync with the active theme.
+-- Background color: the TUI sets this dynamically via OSC 11 escape sequence
+-- on startup and every theme change, so the window edges/padding always match.
+-- This initial value comes from the theme configured at build time.
 config.colors = { background = '${backgroundColor}' }
 
 -- Default window size: 120x36 is comfortable for TUI apps (WezTerm default is 80x24)
@@ -681,10 +676,9 @@ function generateLaunchScript({ weztermBinaryName, themeName }: { weztermBinaryN
   return `\
 #!/bin/bash
 DIR="$(cd "$(dirname "$0")" && pwd)"
-export TERMCAST_WEZTERM_CONFIG="$DIR/../Resources/wezterm.lua"
 export TERMCAST_DEFAULT_THEME="${themeName}"
 export TERMCAST_APP_MODE=1
-exec "$DIR/${weztermBinaryName}" --config-file "$TERMCAST_WEZTERM_CONFIG"
+exec "$DIR/${weztermBinaryName}" --config-file "$DIR/../Resources/wezterm.lua"
 `
 }
 
@@ -694,10 +688,9 @@ function generateLinuxLaunchScript({ themeName }: { themeName: string }): string
   return `\
 #!/bin/bash
 DIR="$(cd "$(dirname "$0")" && pwd)"
-export TERMCAST_WEZTERM_CONFIG="$DIR/runtime/config/wezterm.lua"
 export TERMCAST_DEFAULT_THEME="${themeName}"
 export TERMCAST_APP_MODE=1
-exec "$DIR/runtime/wezterm-gui" --config-file "$TERMCAST_WEZTERM_CONFIG"
+exec "$DIR/runtime/wezterm-gui" --config-file "$DIR/runtime/config/wezterm.lua"
 `
 }
 

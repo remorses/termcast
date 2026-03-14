@@ -150,6 +150,19 @@ export function TermcastProvider(props: ProvidersProps): any {
   const theme = useTheme()
   const renderer = useRenderer()
 
+  // Sync terminal background with the active termcast theme via OSC 11 (standard escape
+  // sequence to set terminal background color). This works on WezTerm, iTerm2, kitty, etc.
+  // WezTerm's set_config_overrides for colors has a bug (#5451) where it only hot-reloads
+  // non-focused windows, so we use OSC 11 instead which updates immediately.
+  // Uses renderer's realStdoutWrite to bypass opentui's stdout interception.
+  React.useLayoutEffect(() => {
+    if (!renderer) return
+    const realWrite = (renderer as any).realStdoutWrite as typeof process.stdout.write
+    // OSC 11 ; color ST — sets terminal default background color
+    const sequence = `\x1b]11;${theme.background}\x07`
+    realWrite.call(process.stdout, sequence)
+  }, [theme.background])
+
   useKeyboard((key) => {
     if (!renderer) return
     if (key.ctrl && key.name === 'd') {
