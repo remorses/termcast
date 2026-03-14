@@ -150,6 +150,8 @@ export function TermcastProvider(props: ProvidersProps): any {
   const theme = useTheme()
   const renderer = useRenderer()
 
+  // TODO: Remove this when opentui adds { name: "backspace", super: true, action: "delete-to-line-start" }
+  // to defaultTextareaKeybindings in packages/core/src/renderables/Textarea.ts
   // Translate Cmd+Backspace (kitty CSI \x1b[127;9u) to Ctrl+U (\x15) so opentui's
   // textarea keybinding for delete-to-line-start handles it. opentui doesn't have a
   // super+backspace binding, so we remap at the input level before key dispatch.
