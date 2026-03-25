@@ -16,6 +16,44 @@
   "bin": {
     "termcast": "./dist/cli.js"
   },
+  "imports": {
+    "#platform/cache": {
+      "bun": "./src/platform/node/cache.ts",
+      "node": {
+        "types": "./src/platform/node/cache.ts",
+        "default": "./dist/platform/node/cache.js"
+      },
+      "browser": "./src/platform/browser/cache.ts",
+      "default": {
+        "types": "./src/platform/node/cache.ts",
+        "default": "./dist/platform/node/cache.js"
+      }
+    },
+    "#platform/localstorage": {
+      "bun": "./src/platform/node/localstorage.ts",
+      "node": {
+        "types": "./src/platform/node/localstorage.ts",
+        "default": "./dist/platform/node/localstorage.js"
+      },
+      "browser": "./src/platform/browser/localstorage.ts",
+      "default": {
+        "types": "./src/platform/node/localstorage.ts",
+        "default": "./dist/platform/node/localstorage.js"
+      }
+    },
+    "#platform/runtime": {
+      "bun": "./src/platform/node/runtime.ts",
+      "node": {
+        "types": "./src/platform/node/runtime.ts",
+        "default": "./dist/platform/node/runtime.js"
+      },
+      "browser": "./src/platform/browser/runtime.ts",
+      "default": {
+        "types": "./src/platform/node/runtime.ts",
+        "default": "./dist/platform/node/runtime.js"
+      }
+    }
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
