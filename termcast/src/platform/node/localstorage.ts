@@ -3,12 +3,12 @@
  * Moved from apis/localstorage.tsx.
  */
 
-import { Database } from '#sqlite'
+import { Database, type DatabaseInstance } from '#sqlite'
 import { joinPath, dirname, ensureDir } from '#platform/runtime'
 import { logger } from '../../logger'
 import { useStore } from '../../state'
 
-let db: Database | null = null
+let db: DatabaseInstance | null = null
 let currentDbPath: string | null = null
 
 function getCurrentDatabasePath(): string {
@@ -21,7 +21,7 @@ function getCurrentDatabasePath(): string {
   return joinPath(extensionPath, '.termcast-bundle', 'data.db')
 }
 
-function getDatabase(): Database {
+function getDatabase(): DatabaseInstance {
   const dbPath = getCurrentDatabasePath()
 
   // Check if we need to reconnect due to path change

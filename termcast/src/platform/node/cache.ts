@@ -3,7 +3,7 @@
  * Moved from apis/cache.tsx — this is the platform-specific storage layer.
  */
 
-import { Database } from '#sqlite'
+import { Database, type DatabaseInstance } from '#sqlite'
 import { joinPath, dirname, homedir, ensureDir, byteLength } from '#platform/runtime'
 import { logger } from '../../logger'
 import { useStore } from '../../state'
@@ -45,7 +45,7 @@ function getNamespace(namespace?: string): string {
   return namespace || DEFAULT_NAMESPACE
 }
 
-function initializeDatabaseOnce({ db, dbPath }: { db: Database; dbPath: string }): void {
+function initializeDatabaseOnce({ db, dbPath }: { db: DatabaseInstance; dbPath: string }): void {
   if (initializedDatabasePaths.has(dbPath)) {
     return
   }
@@ -75,7 +75,7 @@ function initializeDatabaseOnce({ db, dbPath }: { db: Database; dbPath: string }
   initializedDatabasePaths.add(dbPath)
 }
 
-function cleanupLegacyCacheTables(db: Database): void {
+function cleanupLegacyCacheTables(db: DatabaseInstance): void {
   const rows = db
     .prepare(
       `SELECT name FROM sqlite_master
@@ -146,7 +146,7 @@ export class Cache {
     return 10 * 1024 * 1024 // 10 MB
   }
 
-  private db: Database
+  private db: DatabaseInstance
   private capacity: number
   private namespace: string
   private subscribers: Cache.Subscriber[] = []
