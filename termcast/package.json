@@ -54,7 +54,7 @@
       }
     },
     "#sqlite": {
-      "bun": "./src/platform/node/sqlite.ts",
+      "bun": "./src/platform/bun/sqlite.ts",
       "node": {
         "types": "./src/platform/node/sqlite.ts",
         "default": "./dist/platform/node/sqlite.js"
