@@ -1,6 +1,5 @@
 import React from 'react'
-import fs from 'node:fs'
-import path from 'node:path'
+import { fileExists, readFileSync, joinPath, dirname } from '#platform/runtime'
 import { useQuery } from '@tanstack/react-query'
 import { Form } from './form'
 import { showToast, Toast } from '../apis/toast'
@@ -55,20 +54,20 @@ export function ExtensionPreferences({
         if (extensionPackageJson?.name === extensionName) {
           // Dev mode or compiled extension - use package.json from state
           packageJson = extensionPackageJson
-        } else if (extensionPath && fs.existsSync(path.join(extensionPath, 'package.json'))) {
+        } else if (extensionPath && fileExists(joinPath(extensionPath, 'package.json'))) {
           // Dev mode with extensionPath - read from disk
-          packageJson = JSON.parse(fs.readFileSync(path.join(extensionPath, 'package.json'), 'utf-8'))
+          packageJson = JSON.parse(readFileSync(joinPath(extensionPath, 'package.json')))
         } else {
           // Store extension - read from store directory
           const storeDir = getStoreDirectory()
-          const extensionDir = path.join(storeDir, extensionName)
-          const packageJsonPath = path.join(extensionDir, 'package.json')
+          const extensionDir = joinPath(storeDir, extensionName)
+          const packageJsonPath = joinPath(extensionDir, 'package.json')
 
-          if (!fs.existsSync(packageJsonPath)) {
+          if (!fileExists(packageJsonPath)) {
             throw new Error(`Extension ${extensionName} not found`)
           }
 
-          packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
+          packageJson = JSON.parse(readFileSync(packageJsonPath))
         }
 
         let prefsToUse: PreferenceManifest[] = []

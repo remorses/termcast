@@ -15,6 +15,7 @@ import { useTheme } from 'termcast/src/theme'
 import { useStore } from 'termcast/src/state'
 import { useKeyboard, useRenderer } from '@opentui/react'
 import { initializeErrorHandlers } from 'termcast/src/internal/error-handler'
+import { stdoutWrite } from '#platform/runtime'
 
 import { InFocus } from './focus-context'
 import { Clipboard } from '../apis/clipboard'
@@ -177,11 +178,15 @@ export function TermcastProvider(props: ProvidersProps): any {
   // Uses renderer's realStdoutWrite to bypass opentui's stdout interception.
   React.useLayoutEffect(() => {
     if (!renderer) return
-    const realWrite = (renderer as any).realStdoutWrite as typeof process.stdout.write | undefined
-    const write = realWrite ?? process.stdout.write
     // OSC 11 ; color ST — sets terminal default background color
     const sequence = `\x1b]11;${theme.background}\x07`
-    write.call(process.stdout, sequence)
+    const realWrite = (renderer as any).realStdoutWrite as typeof process.stdout.write | undefined
+    if (realWrite) {
+      // realStdoutWrite needs process.stdout as `this` context
+      realWrite.call(process.stdout, sequence)
+    } else {
+      stdoutWrite(sequence)
+    }
   }, [renderer, theme.background])
 
   useKeyboard((key) => {

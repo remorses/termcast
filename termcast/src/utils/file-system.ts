@@ -1,6 +1,4 @@
-import * as fs from 'fs/promises'
-import * as path from 'path'
-import * as os from 'os'
+import { homedir, isAbsolute, resolvePath, joinPath, cwd, relativePath, readdirAsync, accessAsync } from '#platform/runtime'
 
 export interface FileSystemItem {
   name: string
@@ -26,18 +24,18 @@ export async function listAllFiles({
   
   // Resolve ~ to home directory
   if (basePath.startsWith('~')) {
-    basePath = basePath.replace('~', os.homedir())
+    basePath = basePath.replace('~', homedir())
   }
   
-  const resolvedBase = path.isAbsolute(basePath)
+  const resolvedBase = isAbsolute(basePath)
     ? basePath
-    : path.resolve(process.cwd(), basePath)
+    : resolvePath(cwd(), basePath)
 
   async function walk(dir: string, depth: number) {
     if (depth > maxDepth || results.length >= maxFiles) return
     
     try {
-      const entries = await fs.readdir(dir, { withFileTypes: true })
+      const entries = await readdirAsync(dir)
       
       for (const entry of entries) {
         if (results.length >= maxFiles) break
@@ -48,16 +46,16 @@ export async function listAllFiles({
         if (entry.name === 'dist') continue
         if (entry.name === 'build') continue
         
-        const fullPath = path.join(dir, entry.name)
-        const relativePath = path.relative(resolvedBase, fullPath)
+        const fullPath = joinPath(dir, entry.name)
+        const relPath = relativePath(resolvedBase, fullPath)
         
         if (entry.isDirectory()) {
           if (includeDirectories) {
-            results.push(relativePath + '/')
+            results.push(relPath + '/')
           }
           await walk(fullPath, depth + 1)
         } else {
-          results.push(relativePath)
+          results.push(relPath)
         }
       }
     } catch {
@@ -76,23 +74,20 @@ export async function searchFiles(
   try {
     // Resolve ~ to home directory
     if (searchPath.startsWith('~')) {
-      searchPath = searchPath.replace('~', os.homedir())
+      searchPath = searchPath.replace('~', homedir())
     }
 
     // Handle absolute vs relative paths
-    const basePath = path.isAbsolute(searchPath)
+    const basePath = isAbsolute(searchPath)
       ? searchPath
-      : path.resolve(process.cwd(), searchPath || '.')
+      : resolvePath(cwd(), searchPath || '.')
 
     // Check if directory exists
-    try {
-      await fs.access(basePath)
-    } catch {
-      return []
-    }
+    const exists = await accessAsync(basePath)
+    if (!exists) return []
 
     // List files and directories
-    const entries = await fs.readdir(basePath, { withFileTypes: true })
+    const entries = await readdirAsync(basePath)
 
     const items: FileSystemItem[] = []
 
@@ -107,7 +102,7 @@ export async function searchFiles(
       ) {
         items.push({
           name: entry.name,
-          path: path.join(basePath, entry.name),
+          path: joinPath(basePath, entry.name),
           isDirectory: entry.isDirectory(),
         })
       }
@@ -130,7 +125,7 @@ export async function searchFiles(
 export function parsePath(input: string): { basePath: string; prefix: string } {
   // Handle ~ expansion
   if (input.startsWith('~')) {
-    input = input.replace('~', os.homedir())
+    input = input.replace('~', homedir())
   }
 
   const lastSlashIndex = input.lastIndexOf('/')

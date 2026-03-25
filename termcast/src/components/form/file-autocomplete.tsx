@@ -5,9 +5,9 @@ import { searchFiles, parsePath } from '../../utils/file-system'
 import { useKeyboard } from '@opentui/react'
 import { useIsInFocus } from 'termcast/src/internal/focus-context'
 import { createStore, useStore } from 'zustand'
-import os from 'os'
+import { homedir as getHomedir } from '#platform/runtime'
 
-const homedir = os.homedir()
+const homedir = getHomedir()
 
 interface FileAutocompleteState {
   filter: string

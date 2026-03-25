@@ -1,14 +1,19 @@
-import * as fs from 'fs'
-import * as path from 'path'
-import util from 'node:util'
+import {
+  joinPath,
+  cwd,
+  unlinkIfExists,
+  appendToFile,
+  inspectValue,
+  getEnv,
+  exit,
+  setupErrorHandlers,
+} from '#platform/runtime'
 import { useEffect } from 'react'
 
-const LOG_FILE = path.join(process.cwd(), 'app.log')
+const LOG_FILE = joinPath(cwd(), 'app.log')
 
 // Delete log file on process start
-if (fs.existsSync(LOG_FILE)) {
-  fs.unlinkSync(LOG_FILE)
-}
+unlinkIfExists(LOG_FILE)
 
 function serialize(msg: any): string {
   if (msg instanceof Error) {
@@ -17,7 +22,7 @@ function serialize(msg: any): string {
   if (typeof msg === 'string') {
     return msg
   }
-  return util.inspect(msg, { depth: 3 })
+  return inspectValue(msg, 3)
 }
 
 export const logger = {
@@ -25,21 +30,21 @@ export const logger = {
     const timestamp = new Date().toISOString()
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] ${formattedMessages}\n`
-    fs.appendFileSync(LOG_FILE, logEntry)
+    appendToFile(LOG_FILE, logEntry)
     console.log(...messages)
   },
   error: (...messages: any[]) => {
     const timestamp = new Date().toISOString()
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] ERROR: ${formattedMessages}\n`
-    fs.appendFileSync(LOG_FILE, logEntry)
+    appendToFile(LOG_FILE, logEntry)
     console.error(...messages)
   },
   warn: (...messages: any[]) => {
     const timestamp = new Date().toISOString()
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] WARN: ${formattedMessages}\n`
-    fs.appendFileSync(LOG_FILE, logEntry)
+    appendToFile(LOG_FILE, logEntry)
     console.warn(...messages)
   },
   trace: (...messages: any[]) => {
@@ -54,41 +59,33 @@ export const logger = {
     }
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] TRACE: ${formattedMessages}\n${stack}\n`
-    fs.appendFileSync(LOG_FILE, logEntry)
+    appendToFile(LOG_FILE, logEntry)
     console.trace(...messages)
   },
 }
 
 // Catch unhandled errors and exceptions
-process.on('uncaughtException', (error: Error) => {
-  if (error instanceof Error) {
-    logger.error('Uncaught Exception:', error.message, error.stack)
+setupErrorHandlers((error, type) => {
+  if (type === 'uncaughtException') {
+    if (error instanceof Error) {
+      logger.error('Uncaught Exception:', error.message, error.stack)
+    } else {
+      logger.error('Uncaught Exception:', serialize(error))
+    }
+    // In app mode, don't exit on uncaught exceptions — the error boundary
+    // will catch React errors, and crashing the whole app is worse than
+    // a broken screen the user can recover from.
+    if (getEnv('TERMCAST_APP_MODE') !== '1') {
+      exit(1)
+    }
+  } else if (type === 'unhandledRejection') {
+    if (error instanceof Error) {
+      logger.error('Unhandled Rejection:', error.message, error.stack)
+    } else {
+      logger.error('Unhandled Rejection:', serialize(error))
+    }
   } else {
-    logger.error('Uncaught Exception:', serialize(error))
-  }
-  // In app mode, don't exit on uncaught exceptions — the error boundary
-  // will catch React errors, and crashing the whole app is worse than
-  // a broken screen the user can recover from.
-  if (process.env.TERMCAST_APP_MODE !== '1') {
-    process.exit(1)
-  }
-})
-
-process.on('unhandledRejection', async (reason: any, promise: Promise<any>) => {
-  if (reason instanceof Error) {
-    logger.error(
-      'Unhandled Rejection at:',
-      promise,
-      'reason:',
-      reason.message,
-      reason.stack,
-    )
-  } else {
-    logger.error(
-      'Unhandled Rejection at:',
-      promise,
-      'reason:',
-      serialize(reason),
-    )
+    // uncaughtExceptionMonitor
+    logger.error(`Uncaught exception from ${type}:`, error)
   }
 })

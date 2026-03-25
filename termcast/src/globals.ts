@@ -2,8 +2,9 @@
 // Set up global references for external packages
 //
 import { logger } from './logger'
+import { setEnv } from '#platform/runtime'
 
-process.env.TERMCAST = 'true'
+setEnv('TERMCAST', 'true')
 
 import * as opentuiCore from '@opentui/core'
 import * as opentuiReact from '@opentui/react'

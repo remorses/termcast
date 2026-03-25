@@ -1,3 +1,4 @@
+import { platform } from '#platform/runtime'
 import React, {
   type ReactNode,
   type ReactElement,
@@ -588,7 +589,7 @@ Action.ToggleQuickLook = (props) => {
         return
       }
 
-      if (process.platform !== 'darwin') {
+      if (platform !== 'darwin') {
         showToast({
           title: 'Quick Look',
           message: 'Quick Look is only supported on macOS',

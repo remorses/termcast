@@ -15,10 +15,17 @@
  * - System integration (selected Finder items, selected text)
  */
 
-import os from 'node:os'
-import path from 'node:path'
-import fs from 'node:fs'
-import { execSync } from 'node:child_process'
+import {
+  homedir,
+  joinPath,
+  basename,
+  platform,
+  getEnv,
+  ensureDir,
+  fileExists,
+  execCommand,
+  getSystemAppearance,
+} from '#platform/runtime'
 import { useStore } from '../state'
 
 export interface Environment {
@@ -57,28 +64,16 @@ class EnvironmentImpl implements Environment {
   }
 
   get appearance(): 'dark' | 'light' {
-    // Try to detect system theme on macOS
-    if (process.platform === 'darwin') {
-      try {
-        const result = execSync(
-          'defaults read -g AppleInterfaceStyle 2>/dev/null',
-          { encoding: 'utf8' },
-        )
-        return result.includes('Dark') ? 'dark' : 'light'
-      } catch {
-        return 'light'
-      }
-    }
-    return 'light'
+    return getSystemAppearance()
   }
 
   get assetsPath(): string {
     const state = useStore.getState()
     if (state.extensionPath) {
-      return path.join(state.extensionPath, 'assets')
+      return joinPath(state.extensionPath, 'assets')
     }
     // TODO: Fallback for non-dev mode extensions
-    return path.join(os.homedir(), '.termcast', 'assets')
+    return joinPath(homedir(), '.termcast', 'assets')
   }
 
   get commandMode(): 'view' | 'no-view' | 'menu-bar' {
@@ -108,7 +103,7 @@ class EnvironmentImpl implements Environment {
       return state.extensionPackageJson.name
     }
     if (state.extensionPath) {
-      return path.basename(state.extensionPath)
+      return basename(state.extensionPath)
     }
     return ''
   }
@@ -143,17 +138,14 @@ class EnvironmentImpl implements Environment {
 
   get supportPath(): string {
     // Create a support directory in the user's data directory
-    const baseDir = path.join(
-      os.homedir(),
+    const baseDir = joinPath(
+      homedir(),
       '.termcast',
       'support',
       this.extensionName,
     )
 
-    // Ensure the directory exists
-    if (!fs.existsSync(baseDir)) {
-      fs.mkdirSync(baseDir, { recursive: true })
-    }
+    ensureDir(baseDir)
 
     return baseDir
   }
@@ -180,18 +172,13 @@ export const environment = new EnvironmentImpl()
 // Whether the TUI is running inside a standalone desktop app built with `termcast app build`.
 // In app mode, ESC at root level does not exit the process.
 export function isAppMode(): boolean {
-  return process.env.TERMCAST_APP_MODE === '1'
+  return getEnv('TERMCAST_APP_MODE') === '1'
 }
 
 export async function getSelectedFinderItems(): Promise<string[]> {
   // TODO: Improve cross-platform support
-  // Currently only works on macOS using AppleScript
-  // Should add support for:
-  // 1. Windows Explorer selection (via PowerShell or COM)
-  // 2. Linux file managers (Nautilus, Dolphin, etc.)
-  if (process.platform === 'darwin') {
+  if (platform === 'darwin') {
     try {
-      // Use AppleScript to get selected Finder items
       const script = `
         tell application "Finder"
           set theSelection to selection
@@ -202,15 +189,12 @@ export async function getSelectedFinderItems(): Promise<string[]> {
           return thePaths
         end tell
       `
-      const result = execSync(`osascript -e '${script}'`, {
-        encoding: 'utf8',
-      })
+      const result = await execCommand(`osascript -e '${script}'`)
       return result.trim().split(', ').filter(Boolean)
     } catch {
       return []
     }
   }
-  // TODO: Implement for other platforms
   return []
 }
 
@@ -243,9 +227,9 @@ export async function launchCommand(options: LaunchOptions): Promise<void> {
     throw new Error(`Command '${options.name}' not found in extension`)
   }
 
-  const bundledPath = path.join(extensionPath, '.termcast-bundle', `${options.name}.js`)
+  const bundledPath = joinPath(extensionPath, '.termcast-bundle', `${options.name}.js`)
 
-  if (!fs.existsSync(bundledPath)) {
+  if (!fileExists(bundledPath)) {
     throw new Error(`Command '${options.name}' has not been built`)
   }
 
@@ -281,16 +265,8 @@ export async function launchCommand(options: LaunchOptions): Promise<void> {
 }
 
 export async function getSelectedText(): Promise<string> {
-  // TODO: Improve implementation and cross-platform support
-  // Current implementation has issues:
-  // 1. Modifies the clipboard (should preserve original content)
-  // 2. Uses delay which may not be reliable
-  // 3. Only works on macOS
-  // Should add support for Windows and Linux
-  if (process.platform === 'darwin') {
+  if (platform === 'darwin') {
     try {
-      // TODO: Save and restore clipboard contents to avoid side effects
-      // Use AppleScript to get selected text from frontmost application
       const script = `
         tell application "System Events"
           keystroke "c" using command down
@@ -298,14 +274,11 @@ export async function getSelectedText(): Promise<string> {
           return (the clipboard)
         end tell
       `
-      const result = execSync(`osascript -e '${script}'`, {
-        encoding: 'utf8',
-      })
+      const result = await execCommand(`osascript -e '${script}'`)
       return result.trim()
     } catch {
       return ''
     }
   }
-  // TODO: Implement for Windows (via PowerShell) and Linux (xclip/xsel)
   return ''
 }

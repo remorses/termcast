@@ -1,43 +1,43 @@
-import type { PathLike } from 'node:fs'
-import fs from 'node:fs'
-import path from 'node:path'
-import { exec } from 'child_process'
-import { promisify } from 'util'
+import {
+  platform,
+  getEnv,
+  fileExists,
+  resolvePath,
+  copyToClipboard as platformCopy,
+  readClipboard as platformRead,
+  execCommand,
+  execWithInput,
+} from '#platform/runtime'
 import { copyToClipboard, pasteContent } from 'termcast/src/action-utils'
 import { logger } from 'termcast/src/logger'
 
-const execAsync = promisify(exec)
-const platform = process.platform
-
 async function copyFileToClipboard(filePath: string): Promise<void> {
-  const absolutePath = path.resolve(filePath)
+  const absolutePath = resolvePath(filePath)
 
-  if (process.env.VITEST) {
+  if (getEnv('VITEST')) {
     logger.log(`📋 [VITEST] Skipping copy file to clipboard: ${filePath}`)
     return
   }
 
-  if (!fs.existsSync(absolutePath)) {
+  if (!fileExists(absolutePath)) {
     throw new Error(`File not found: ${absolutePath}`)
   }
 
   try {
     if (platform === 'darwin') {
-      // macOS: Use osascript to copy file to clipboard
       const script = `osascript -e 'set the clipboard to (POSIX file "${absolutePath}")'`
-      await execAsync(script)
+      await execCommand(script)
       logger.log(`📋 Copied file to clipboard: ${filePath}`)
     } else if (platform === 'linux') {
-      // Linux: Copy file path as text and file URI
       const fileUri = `file://${absolutePath}`
-      await execAsync(
-        `echo '${fileUri}' | xclip -selection clipboard -t text/uri-list`,
+      await execWithInput(
+        'xclip -selection clipboard -t text/uri-list',
+        fileUri,
       )
       logger.log(`📋 Copied file to clipboard: ${filePath}`)
     } else if (platform === 'win32') {
-      // Windows: Use PowerShell to copy file to clipboard
       const script = `powershell -command "Set-Clipboard -Path '${absolutePath}'"`
-      await execAsync(script)
+      await execCommand(script)
       logger.log(`📋 Copied file to clipboard: ${filePath}`)
     } else {
       logger.log(`📋 File copy not supported on ${platform}: ${filePath}`)
@@ -116,24 +116,20 @@ export const Clipboard: ClipboardType = {
       let file: string | undefined
 
       if (platform === 'darwin') {
-        // Try to get file first
         try {
           const fileCheckScript = `osascript -e 'try' -e 'get the clipboard as «class furl»' -e 'POSIX path of result' -e 'end try'`
-          const { stdout: filePath } = await execAsync(fileCheckScript)
+          const filePath = await execCommand(fileCheckScript)
           if (filePath && filePath.trim()) {
             file = filePath.trim()
           }
         } catch {
-          // No file in clipboard, try text
+          // No file in clipboard
         }
 
-        // Get text content
-        const { stdout } = await execAsync('pbpaste')
-        text = stdout
+        text = await platformRead()
       } else if (platform === 'linux') {
-        // Check for file URIs
         try {
-          const { stdout: fileUri } = await execAsync(
+          const fileUri = await execCommand(
             'xclip -selection clipboard -t text/uri-list -o',
           )
           if (fileUri && fileUri.startsWith('file://')) {
@@ -143,24 +139,19 @@ export const Clipboard: ClipboardType = {
           // No file in clipboard
         }
 
-        // Get text content
         try {
-          const { stdout } = await execAsync('xclip -selection clipboard -o')
-          text = stdout
+          text = await platformRead()
         } catch {
           // No text in clipboard
         }
       } else if (platform === 'win32') {
-        // Windows: Get clipboard content
-        const { stdout } = await execAsync(
-          'powershell -command "Get-Clipboard"',
-        )
-        text = stdout
-
-        // Check if it's a file path
-        if (text && fs.existsSync(text.trim())) {
+        text = await platformRead()
+        if (text && fileExists(text.trim())) {
           file = text.trim()
         }
+      } else {
+        // browser or other
+        text = await platformRead()
       }
 
       return { text, file }
@@ -188,7 +179,7 @@ export namespace Clipboard {
         text: string
       }
     | {
-        file: PathLike
+        file: string | { href: string; toString(): string }
       }
     | {
         html: string

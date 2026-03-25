@@ -5,6 +5,7 @@ import type { RaycastPackageJson } from './package-json'
 import type { KeyboardKeyEquivalent, KeyboardKeyModifier } from 'termcast/src/keyboard'
 import { getResolvedTheme } from './themes'
 import { logger } from './logger'
+import { getEnv } from '#platform/runtime'
 
 // Registered action shortcuts for global keyboard handling
 // Stored by ActionPanel, consumed by List/Detail/Form keyboard handlers
@@ -133,7 +134,7 @@ export const useStore = create<AppState>(() => ({
   showActionsDialog: false,
   actionsPortalTarget: null,
   // Theme state — TERMCAST_DEFAULT_THEME env var is set by the app launcher
-  currentThemeName: process.env.TERMCAST_DEFAULT_THEME || 'nerv',
+  currentThemeName: getEnv('TERMCAST_DEFAULT_THEME') || 'nerv',
   // Active search input ref
   activeSearchInputRef: null,
   // Registered action shortcuts

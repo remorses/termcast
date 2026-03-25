@@ -2,9 +2,22 @@ import React, { type ReactNode } from 'react'
 import { createRoot } from '@opentui/react'
 import { createCliRenderer } from '@opentui/core'
 import { TermcastProvider } from 'termcast/src/internal/providers'
-import path from 'node:path'
-import fs from 'node:fs'
-import os from 'node:os'
+import {
+  joinPath,
+  basename,
+  resolvePath,
+  homedir,
+  platform,
+  exit,
+  fileExists,
+  readFileSync,
+  ensureDir,
+  execCommand,
+  readdirSync,
+  rmSync,
+  mkdirSync,
+  cpSync,
+} from '#platform/runtime'
 import {
   parsePackageJson,
   type RaycastPackageJson,
@@ -40,7 +53,7 @@ export async function renderWithProviders(
   const extensionName = options?.extensionName || 'termcast-app'
   const extensionPath =
     options?.extensionPath ||
-    path.join(os.homedir(), '.termcast', 'compiled', extensionName)
+    joinPath(homedir(), '.termcast', 'compiled', extensionName)
   const packageJson: RaycastPackageJson = options?.packageJson || {
     name: extensionName,
     title: extensionName,
@@ -65,7 +78,7 @@ export async function renderWithProviders(
       // In app mode, destroying the renderer should not kill the process.
       // The app launcher manages the process lifecycle.
       if (!isAppMode()) {
-        process.exit(0)
+        exit(0)
       }
     },
   })
@@ -73,7 +86,7 @@ export async function renderWithProviders(
   createRoot(renderer).render(<TermcastProvider>{element}</TermcastProvider>)
 }
 
-export const termcastMaxContentWidth = 140
+export const termcastMaxContentWidth = 240
 
 export type CommonProps = {
   key?: any
@@ -94,7 +107,7 @@ export function sleep(ms: number): Promise<void> {
 }
 
 export async function getApplications(path?: PathLike): Promise<Application[]> {
-  if (process.platform !== 'darwin') {
+  if (platform !== 'darwin') {
     // Windows/Linux: return empty for now
     return []
   }
@@ -119,7 +132,7 @@ export async function getApplications(path?: PathLike): Promise<Application[]> {
       try {
         const infoPlistPath = `${appPath}/Contents/Info.plist`
 
-        if (!fs.existsSync(infoPlistPath)) {
+        if (!fileExists(infoPlistPath)) {
           continue
         }
 
@@ -166,7 +179,7 @@ export async function getDefaultApplication(
 }
 
 export async function getFrontmostApplication(): Promise<Application> {
-  if (process.platform !== 'darwin') {
+  if (platform !== 'darwin') {
     throw new Error('getFrontmostApplication is only supported on macOS')
   }
 
@@ -198,10 +211,10 @@ export async function getFrontmostApplication(): Promise<Application> {
 export async function showInFinder(path: PathLike): Promise<void> {
   const pathStr = typeof path === 'string' ? path : path.toString()
 
-  if (process.platform !== 'darwin') {
+  if (platform !== 'darwin') {
     // On non-macOS, just open the parent directory
-    const { dirname } = await import('node:path')
-    return open(dirname(pathStr))
+    const { dirname: pathDirname } = await import('node:path')
+    return open(pathDirname(pathStr))
   }
 
   const { spawn } = await import('node:child_process')
@@ -224,7 +237,7 @@ export async function trash(path: PathLike | PathLike[]): Promise<void> {
   const paths = Array.isArray(path) ? path : [path]
   const pathStrs = paths.map((p) => (typeof p === 'string' ? p : p.toString()))
 
-  if (process.platform === 'darwin') {
+  if (platform === 'darwin') {
     const { execSync } = await import('node:child_process')
 
     for (const filePath of pathStrs) {
@@ -234,7 +247,7 @@ export async function trash(path: PathLike | PathLike[]): Promise<void> {
         { stdio: 'ignore' },
       )
     }
-  } else if (process.platform === 'win32') {
+  } else if (platform === 'win32') {
     // Windows: use PowerShell to move to recycle bin
     const { execSync } = await import('node:child_process')
 
@@ -278,11 +291,11 @@ export async function open(
     let cmd: string
     let args: string[]
 
-    if (process.platform === 'darwin') {
+    if (platform === 'darwin') {
       // macOS
       cmd = 'open'
       args = appName ? ['-a', appName, target] : [target]
-    } else if (process.platform === 'win32') {
+    } else if (platform === 'win32') {
       // Windows
       cmd = 'cmd'
       args = ['/c', 'start', '', target]
@@ -306,11 +319,11 @@ export function captureException(exception: unknown): void {
 
 export function getExtensionPath(extensionName: string): string {
   const storeDir = getStoreDirectory()
-  return path.join(storeDir, extensionName)
+  return joinPath(storeDir, extensionName)
 }
 
 export function getExtensionPackageJsonPath(extensionName: string): string {
-  return path.join(getExtensionPath(extensionName), 'package.json')
+  return joinPath(getExtensionPath(extensionName), 'package.json')
 }
 
 export function getExtensionPackageJson(
@@ -318,7 +331,7 @@ export function getExtensionPackageJson(
 ): RaycastPackageJson | null {
   const packageJsonPath = getExtensionPackageJsonPath(extensionName)
 
-  if (!fs.existsSync(packageJsonPath)) {
+  if (!fileExists(packageJsonPath)) {
     return null
   }
 
@@ -396,15 +409,15 @@ export function resolveCommandPath({
   dir: string
 }): string {
   // First check for .termcast-bundle directory
-  const bundleDir = path.join(dir, '.termcast-bundle')
-  const bundledPath = path.join(bundleDir, `${commandName}.js`)
-  if (fs.existsSync(bundledPath)) {
+  const bundleDir = joinPath(dir, '.termcast-bundle')
+  const bundledPath = joinPath(bundleDir, `${commandName}.js`)
+  if (fileExists(bundledPath)) {
     return bundledPath
   }
 
   // Then check for top-level command file
-  const topLevelPath = path.join(dir, `${commandName}.js`)
-  if (fs.existsSync(topLevelPath)) {
+  const topLevelPath = joinPath(dir, `${commandName}.js`)
+  if (fileExists(topLevelPath)) {
     return topLevelPath
   }
 
@@ -413,13 +426,11 @@ export function resolveCommandPath({
 }
 
 export function getStoreDirectory(): string {
-  const homeDir = os.homedir()
-  const storeDir = path.join(homeDir, '.termcast', 'store')
+  const homeDir = homedir()
+  const storeDir = joinPath(homeDir, '.termcast', 'store')
 
   // Ensure store directory exists
-  if (!fs.existsSync(storeDir)) {
-    fs.mkdirSync(storeDir, { recursive: true })
-  }
+  ensureDir(storeDir)
 
   return storeDir
 }
@@ -432,18 +443,14 @@ export function installExtension({
   extensionSourcePath: string
 }): void {
   const storeDir = getStoreDirectory()
-  const extensionDir = path.join(storeDir, extensionName)
+  const extensionDir = joinPath(storeDir, extensionName)
 
-  // Remove existing extension directory if it exists
-  if (fs.existsSync(extensionDir)) {
-    fs.rmSync(extensionDir, { recursive: true, force: true })
+  if (fileExists(extensionDir)) {
+    rmSync(extensionDir)
   }
 
-  // Create extension directory
-  fs.mkdirSync(extensionDir, { recursive: true })
-
-  // Copy entire extension source directory
-  fs.cpSync(extensionSourcePath, extensionDir, { recursive: true })
+  mkdirSync(extensionDir)
+  cpSync(extensionSourcePath, extensionDir)
 
   logger.log(`Extension '${extensionName}' installed to ${extensionDir}`)
 }
@@ -452,19 +459,19 @@ export function getStoredExtensions(): StoredExtension[] {
   const storeDir = getStoreDirectory()
   const extensions: StoredExtension[] = []
 
-  if (!fs.existsSync(storeDir)) {
+  if (!fileExists(storeDir)) {
     return extensions
   }
 
-  const entries = fs.readdirSync(storeDir, { withFileTypes: true })
+  const entries = readdirSync(storeDir)
 
   for (const entry of entries) {
     if (!entry.isDirectory()) continue
 
-    const extensionDir = path.join(storeDir, entry.name)
-    const packageJsonPath = path.join(extensionDir, 'package.json')
+    const extensionDir = joinPath(storeDir, entry.name)
+    const packageJsonPath = joinPath(extensionDir, 'package.json')
 
-    if (!fs.existsSync(packageJsonPath)) {
+    if (!fileExists(packageJsonPath)) {
       logger.log(`Skipping ${entry.name}: no package.json found`)
       continue
     }
@@ -562,7 +569,7 @@ export async function runAppleScript<T = string>(
   arguments_?: string[],
   options?: ExecuteOptions<T>,
 ): Promise<T> {
-  if (process.platform !== 'darwin') {
+  if (platform !== 'darwin') {
     throw new Error('runAppleScript is only supported on macOS')
   }
 
@@ -823,9 +830,10 @@ export async function executeSQL<T = unknown>(
   databasePath: string,
   query: string,
 ): Promise<T[]> {
-  const { Database } = await import('./apis/sqlite')
+  // executeSQL is Node/Bun-only — uses bun:sqlite directly
+  const { Database } = await import('bun:sqlite')
 
-  if (!fs.existsSync(databasePath)) {
+  if (!fileExists(databasePath)) {
     throw new Error(`Database file not found: ${databasePath}`)
   }
 
