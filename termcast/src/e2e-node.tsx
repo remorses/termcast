@@ -1,11 +1,9 @@
-// TODO node-pty has bugs, not all text is shown
-
-import * as pty from 'node-pty'
+import { spawn as zigSpawn } from 'zigpty'
 import { Terminal } from '@xterm/headless'
 import { SerializeAddon } from '@xterm/addon-serialize'
 
 export class NodeTuiDriver {
-  private pty?: pty.IPty
+  private pty?: ReturnType<typeof zigSpawn>
   private term: Terminal
   private serialize: SerializeAddon
   private cols: number
@@ -51,16 +49,18 @@ export class NodeTuiDriver {
       TERM: 'xterm-truecolor',
       COLORTERM: 'truecolor',
     }
-    this.pty = pty.spawn(this.cmd, this.args, {
+    this.pty = zigSpawn(this.cmd, this.args, {
       name: 'xterm-truecolor',
       cols,
       rows,
       cwd,
-      env: envWithTerm as any,
+      env: envWithTerm as Record<string, string>,
     })
 
     this.pty.onData((data) => {
-      this.term.write(data)
+      // zigpty onData can return string or Buffer
+      const str = typeof data === 'string' ? data : data.toString()
+      this.term.write(str)
       clearTimeout(this.idleTimer)
       this.idleTimer = setTimeout(() => {
         const r = this.idleResolvers.splice(0)
