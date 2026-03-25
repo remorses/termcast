@@ -1,9 +1,9 @@
 /**
- * Node/Bun Cache implementation backed by SQLite (bun:sqlite).
+ * Node/Bun Cache implementation backed by SQLite.
  * Moved from apis/cache.tsx — this is the platform-specific storage layer.
  */
 
-import { Database } from 'bun:sqlite'
+import { Database } from '#sqlite'
 import { joinPath, dirname, homedir, ensureDir, byteLength } from '#platform/runtime'
 import { logger } from '../../logger'
 import { useStore } from '../../state'

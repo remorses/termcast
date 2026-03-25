@@ -52,6 +52,17 @@
         "types": "./src/platform/node/runtime.ts",
         "default": "./dist/platform/node/runtime.js"
       }
+    },
+    "#sqlite": {
+      "bun": "./src/platform/node/sqlite.ts",
+      "node": {
+        "types": "./src/platform/node/sqlite.ts",
+        "default": "./dist/platform/node/sqlite.js"
+      },
+      "default": {
+        "types": "./src/platform/node/sqlite.ts",
+        "default": "./dist/platform/node/sqlite.js"
+      }
     }
   },
   "exports": {

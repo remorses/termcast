@@ -1,9 +1,9 @@
 /**
- * Node/Bun LocalStorage implementation backed by SQLite (bun:sqlite).
+ * Node/Bun LocalStorage implementation backed by SQLite.
  * Moved from apis/localstorage.tsx.
  */
 
-import { Database } from 'bun:sqlite'
+import { Database } from '#sqlite'
 import { joinPath, dirname, ensureDir } from '#platform/runtime'
 import { logger } from '../../logger'
 import { useStore } from '../../state'

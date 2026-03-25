@@ -830,8 +830,7 @@ export async function executeSQL<T = unknown>(
   databasePath: string,
   query: string,
 ): Promise<T[]> {
-  // executeSQL is Node/Bun-only — uses bun:sqlite directly
-  const { Database } = await import('bun:sqlite')
+  const { Database } = await import('#sqlite')
 
   if (!fileExists(databasePath)) {
     throw new Error(`Database file not found: ${databasePath}`)
