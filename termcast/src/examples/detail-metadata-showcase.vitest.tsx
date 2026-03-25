@@ -48,39 +48,31 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
       Project Update: Q1 2024 Review
 
+
       This detail view demonstrates markdown content alongside metadata.
-
       ---
-
       Summary
 
-      The project has made significant progress this quarter. Key highlights include:
 
+      The project has made significant progress this quarter. Key highlights include:
       - Completed the new authentication system
       - Migrated 85% of users to the new platform
       - Reduced API response time by 40%
-
-
       Technical Details
 
-      The refactoring effort focused on three main areas:
 
+      The refactoring effort focused on three main areas:
       1. Database optimization - Indexed frequently queried columns
       2. Caching layer - Added Redis for session management
       3. Code cleanup - Removed deprecated endpoints
-
-
       Next Steps
 
-      We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
 
+      We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
-
-
       ---
-
       Last updated: January 20, 2024
 
       Basic Information
@@ -148,6 +140,14 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
 
       esc go back   ^k actions                                                 powered by termcast.app
+
+
+
+
+
+
+
+
 
 
 
@@ -219,39 +219,31 @@ test('detail metadata renders long values in column layout', async () => {
 
       Project Update: Q1 2024 Review
 
+
       This detail view demonstrates markdown content alongside metadata.
-
       ---
-
       Summary
 
-      The project has made significant progress this quarter. Key highlights include:
 
+      The project has made significant progress this quarter. Key highlights include:
       - Completed the new authentication system
       - Migrated 85% of users to the new platform
       - Reduced API response time by 40%
-
-
       Technical Details
 
-      The refactoring effort focused on three main areas:
 
+      The refactoring effort focused on three main areas:
       1. Database optimization - Indexed frequently queried columns
       2. Caching layer - Added Redis for session management
       3. Code cleanup - Removed deprecated endpoints
-
-
       Next Steps
 
-      We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
 
+      We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
-
-
       ---
-
       Last updated: January 20, 2024
 
       Basic Information
@@ -319,6 +311,14 @@ test('detail metadata renders long values in column layout', async () => {
 
 
       esc go back   ^k actions                                                 powered by termcast.app
+
+
+
+
+
+
+
+
 
 
 
@@ -400,39 +400,31 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
       Project Update: Q1 2024 Review
 
+
       This detail view demonstrates markdown content alongside metadata.
-
       ---
-
       Summary
 
-      The project has made significant progress this quarter. Key highlights include:
 
+      The project has made significant progress this quarter. Key highlights include:
       - Completed the new authentication system
       - Migrated 85% of users to the new platform
       - Reduced API response time by 40%
-
-
       Technical Details
 
-      The refactoring effort focused on three main areas:
 
+      The refactoring effort focused on three main areas:
       1. Database optimization - Indexed frequently queried columns
       2. Caching layer - Added Redis for session management
       3. Code cleanup - Removed deprecated endpoints
-
-
       Next Steps
 
-      We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
 
+      We will continue with Phase 2 in the upcoming sprint. The team should prioritize:
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
-
-
       ---
-
       Last updated: January 20, 2024
 
       Basic Information
@@ -500,6 +492,14 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
 
       esc go back   ^k actions                                                 powered by termcast.app
+
+
+
+
+
+
+
+
 
 
 

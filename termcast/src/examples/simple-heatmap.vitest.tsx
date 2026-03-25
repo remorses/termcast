@@ -35,6 +35,7 @@ test('renders calendar heatmaps with various color combinations', async () => {
 
       Calendar Heatmap Color Showcase
 
+
       Each heatmap demonstrates a different color combination.
       Data has a late-fall gap to show that empty weeks are skipped.
       Last heatmap renders multi-year data to verify width truncation.
@@ -73,7 +74,6 @@ test('renders calendar heatmaps with various color combinations', async () => {
          ■ ◼ ◼ ◼  ■ ■ ■ ◼ ◼  ■ ■ ■ ◼  ◼ ◼ ■ ■  ◼ ◼ ◼ ■
       ■  ■ ◼ ◼ ◼  ■ ■ ■ ◼ ◼  ■ ■ ■ ◼  ◼ ◼ ■ ■  ◼ ◼ ◼ ■  Wed
       ■  ■ ◼ ◼ ◼  ■ ■ ◼ ◼ ◼  ■ ■ ■ ◼  ◼ ◼ ■ ■  ◼ ◼ ◼ ■
-      ■  ■ ◼ ◼ ◼  ■ ■ ◼ ◼ ◼  ■ ■ ■ ◼  ◼ ■ ■ ■  ◼ ◼ ◼ ■  Fri
 
 
       esc go back   ^k actions                                     powered by termcast.app

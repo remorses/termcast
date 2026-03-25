@@ -71,8 +71,8 @@ test('list shows initial items after fetch', async () => {
        > Search...
 
        Icons
-      ›Home Icon Category: Icons
-       User Icon Category: Icons
+       Home Icon Category: Icons
+      ›User Icon Category: Icons
        Settings Icon Category: Icons
 
        Illustrations

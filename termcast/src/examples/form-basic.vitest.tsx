@@ -648,17 +648,17 @@ test('form scrolls with mouse wheel', async () => {
 
 
 
-      │  This demonstrates all available form input types. Use arrow   ▀
-      │  keys or Tab to navigate between fields.
-      │
-      ◇  Username
       │  Enter your username
-      │
+      │                                                                ▀
       │  Required field
       │
       ◇  Password
       │  Enter secure password
       │
+      │  Must be at least 8 characters
+      │
+      ◇  Biography
+      │  Tell us about yourself...
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -676,9 +676,7 @@ test('form scrolls with mouse wheel', async () => {
 
 
 
-      ■  Form Component Demo                                           ▀
-      │  This demonstrates all available form input types. Use arrow
-      │  keys or Tab to navigate between fields.
+      │  keys or Tab to navigate between fields.                       ▄
       │
       ◇  Username
       │  Enter your username
@@ -687,6 +685,8 @@ test('form scrolls with mouse wheel', async () => {
       │
       ◇  Password
       │  Enter secure password
+      │
+      │  Must be at least 8 characters
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -862,6 +862,7 @@ test('date picker down boundary moves focus to next form field', async () => {
   expect(nonBoundaryDownSnapshot).toMatch(/◆\s+Date of Birth/)
   expect(nonBoundaryDownSnapshot).not.toMatch(/◆\s+Upload Documents/)
 
+  await session.press('down')
   await session.press('down')
   await session.press('down')
 

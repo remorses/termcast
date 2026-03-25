@@ -34,20 +34,19 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
                                                                                  █
                                                                                  █
-      Architecture Overview                                                      ▀
+      Architecture Overview                                                      █
+
 
       This document describes the system architecture.
-
       Components
 
-      The system has three main components:
 
+      The system has three main components:
       - Client - handles user interaction
       - Server - processes requests
       - Database - stores data
-
-
       Links
+
 
       Check out the GitHub repository for the source code.
 
@@ -59,6 +58,7 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
       Configuration Table
 
+
       Setting    Default    Description
       Host       localhost  Database host address
       Port       5432       Database port number
@@ -67,11 +67,13 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
       Flow Diagram
 
+
       ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
       │   Client    │────▶│   Server    │────▶│  Database   │
       └─────────────┘     └─────────────┘     └─────────────┘
 
       Vertical Flow
+
 
            ┌─────────┐
            │  Start  │
@@ -89,12 +91,10 @@ test('detail renders markdown with headings, lists, links, tables, code and diag
 
       Code Example
 
+
       interface Config {
         host: string
         port: number
-        ssl: boolean
-      }
-
 
 
       esc go back   ^k actions                             powered by termcast.app

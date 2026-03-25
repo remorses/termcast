@@ -35,7 +35,9 @@ test('inline formatting table renders all rows', async () => {
 
       Table Edge Cases
 
+
       Inline Formatting
+
 
       Feature  Syntax           Result
       Bold     text             bold text
@@ -46,6 +48,7 @@ test('inline formatting table renders all rows', async () => {
 
       Single Column
 
+
       Name
       Alice
       Bob
@@ -53,10 +56,12 @@ test('inline formatting table renders all rows', async () => {
 
       Single Row
 
+
       A  B  C  D  E
       1  2  3  4  5
 
       Empty Cells
+
 
       Key   Value      Notes
       host  localhost
@@ -65,11 +70,13 @@ test('inline formatting table renders all rows', async () => {
 
       Wide Table
 
+
       ID  Name           Email              Role      Department   Location
       1   Alice Johnson  alice@example.com  Engineer  Engineering  SF
       2   Bob Smith      bob@example.com    Designer  Design       NYC
 
       Two Columns
+
 
       Key      Value
       version  2.1.0
@@ -77,6 +84,7 @@ test('inline formatting table renders all rows', async () => {
       author   termcast
 
       Numeric Data
+
 
       Metric   Q1    Q2    Q3    Q4
       Revenue  100   150   200   250
@@ -86,16 +94,8 @@ test('inline formatting table renders all rows', async () => {
       Done.
 
 
+
       esc go back   ^k actions                             powered by termcast.app
-
-
-
-
-
-
-
-
-
 
 
 
@@ -219,7 +219,9 @@ test('all tables render without crash - full page snapshot', async () => {
 
       Table Edge Cases
 
+
       Inline Formatting
+
 
       Feature  Syntax           Result
       Bold     text             bold text
@@ -230,6 +232,7 @@ test('all tables render without crash - full page snapshot', async () => {
 
       Single Column
 
+
       Name
       Alice
       Bob
@@ -237,10 +240,12 @@ test('all tables render without crash - full page snapshot', async () => {
 
       Single Row
 
+
       A  B  C  D  E
       1  2  3  4  5
 
       Empty Cells
+
 
       Key   Value      Notes
       host  localhost
@@ -249,11 +254,13 @@ test('all tables render without crash - full page snapshot', async () => {
 
       Wide Table
 
+
       ID  Name           Email              Role      Department   Location
       1   Alice Johnson  alice@example.com  Engineer  Engineering  SF
       2   Bob Smith      bob@example.com    Designer  Design       NYC
 
       Two Columns
+
 
       Key      Value
       version  2.1.0
@@ -261,6 +268,7 @@ test('all tables render without crash - full page snapshot', async () => {
       author   termcast
 
       Numeric Data
+
 
       Metric   Q1    Q2    Q3    Q4
       Revenue  100   150   200   250
@@ -270,16 +278,8 @@ test('all tables render without crash - full page snapshot', async () => {
       Done.
 
 
+
       esc go back   ^k actions                             powered by termcast.app
-
-
-
-
-
-
-
-
-
 
 
 

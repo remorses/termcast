@@ -5,6 +5,8 @@ test('simple scrollbox navigation and scrolling', async () => {
   const session = await launchTerminal({
     command: 'bun',
     args: ['src/examples/internal/simple-scrollbox.tsx'],
+    cols: 80,
+    rows: 20,
   })
 
   // Wait for initial render with Item 1 visible
@@ -23,34 +25,18 @@ test('simple scrollbox navigation and scrolling', async () => {
 
 
        Simple ScrollBox Demo
-                                                                                                                         ▀
-       Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                                                 ▀
+       Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet,
+       consectetur adipiscing elit.
 
 
 
-       Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+       Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet,
+       consectetur adipiscing elit.
 
 
 
-       Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
-       Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
-       Item 5 - This is content for item number 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
-       Item 6 - This is content for item number 6. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
-       Item 7 - This is content for item number 7. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
+       Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet,
 
        Use mouse scroll or arrow keys | Press [q] to quit
 
@@ -71,34 +57,18 @@ test('simple scrollbox navigation and scrolling', async () => {
 
 
        Simple ScrollBox Demo
-       Item 1 - This is content for item number 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.              ▄
+                                                                                 ▄
+       Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet,
+       consectetur adipiscing elit.
 
 
 
-       Item 2 - This is content for item number 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+       Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet,
+       consectetur adipiscing elit.
 
 
 
-       Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
-       Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
-       Item 5 - This is content for item number 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
-       Item 6 - This is content for item number 6. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
-       Item 7 - This is content for item number 7. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-
-
+       Item 4 - This is content for item number 4. Lorem ipsum dolor sit amet,
 
        Use mouse scroll or arrow keys | Press [q] to quit
 
@@ -131,10 +101,6 @@ test('simple scrollbox navigation and scrolling', async () => {
 
 
        Item 3 - This is content for item number 3. Lorem ipsum dolor sit amet,
-       consectetur adipiscing elit.
-
-
-
 
        Use mouse scroll or arrow keys | Press [q] to quit
 

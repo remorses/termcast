@@ -17,12 +17,14 @@ afterEach(() => {
 })
 
 test('initial render shows bar chart for Monthly Budget', async () => {
-  const text = await session.text({
+  await session.text({
     waitFor: (text) => {
       return text.includes('Monthly Budget') && text.includes('Spent')
     },
     timeout: 10000,
   })
+  await session.waitIdle()
+  const text = await session.text()
 
   expect(text).toMatchInlineSnapshot(`
     "
@@ -253,18 +255,16 @@ test('enter pushes full detail view with bar chart', async () => {
                                                                                                      █
                                                                                                      █
       Monthly Budget                                                                                 █
-                                                                                                     ▀
-      Spent / Remaining / Savings
-
+                                                                                                     █
+                                                                                                     █
+      Spent / Remaining / Savings                                                                    ▀
       Monthly Budget
 
-      Budget allocation for the current month.
 
+      Budget allocation for the current month.
       - Spent: $4,850 (78.6%)
       - Remaining: $707 (11.5%)
       - Savings: $617 (10.0%)
-
-
       Segments: 3
       Total: 6,174
 
@@ -272,6 +272,8 @@ test('enter pushes full detail view with bar chart', async () => {
 
 
       ────────────────────────────────────────────────────────────────────────────────────────────
+
+      Total: $6,174
 
 
 

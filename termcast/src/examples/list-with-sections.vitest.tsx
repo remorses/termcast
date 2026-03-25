@@ -310,8 +310,8 @@ test('list with sections search functionality', async () => {
 
       Bread
 
-      Freshly baked bread from our bakery.
 
+      Freshly baked bread from our bakery.
       Product Details
 
       - Baked fresh daily
@@ -320,8 +320,8 @@ test('list with sections search functionality', async () => {
       - Perfect for sandwiches or toast
 
 
-
       esc go back   ^k actions
+
 
     "
   `)
@@ -346,8 +346,8 @@ test('list click functionality', async () => {
 
       Banana
 
-      A yellow tropical fruit that's nutritious and energy-rich.
 
+      A yellow tropical fruit that's nutritious and energy-rich.
       Benefits
 
       - High in potassium
@@ -355,8 +355,8 @@ test('list click functionality', async () => {
       - Aids digestion
 
 
-
       esc go back   ^k actions
+
 
 
     "
@@ -380,8 +380,8 @@ test('list click functionality', async () => {
 
       Apple
 
-      A delicious red fruit that's sweet and crunchy.
 
+      A delicious red fruit that's sweet and crunchy.
       Nutrition Facts
 
       - High in fiber
@@ -389,8 +389,8 @@ test('list click functionality', async () => {
       - Good source of vitamin C
 
 
-
       esc go back   ^k actions
+
 
 
     "

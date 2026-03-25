@@ -88,13 +88,11 @@ test('push to full-page detail view on Enter', async () => {
 
       BTC - Bitcoin
 
-      Category: Store of Value
 
+      Category: Store of Value
       Price: $67,641
       24h change: -0.2%
-
       Mode: candle-only
-
       300 hourly candles from Coinbase Exchange, frozen so the example stays deterministic.
 
       $74,678│                                                                │
@@ -107,6 +105,8 @@ test('push to full-page detail view on Enter', async () => {
              │                ▌▘▌▌▘▌▖│  ││           │         ▌││▘▌▖│▌▌▖▖▌               ▌▖▖▖▖▖▖▖
              │               ▖▌ │││ ▌▌▘▌▌▌         │▖▖▖ ││ ││  ▌   │▌│▌││▘▘               ││  ▘▘│▘
       $66,197│▖▖▖         │  ▌      ▘▘ │ ▘▌▖      │▌▘ ▘▌▌▌│▖▌▌▖▌    ▘▌▌
+             │▘│▌▖        ▖▖▖▌            │▘▌▌▘▌ │▌▘│    ▘▌▌││▌▌
+             │  │▌▖▖   ││ ▌││              │││ ▌ ▖▌       ││
 
 
       esc go back   ^k actions   ↵ Go Back                                     powered by termcast.app
