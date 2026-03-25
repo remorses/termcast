@@ -6,7 +6,7 @@ import {
   executeSQL,
   runAppleScript,
 } from './utils'
-import { Database } from './apis/sqlite'
+import { Database } from 'bun:sqlite'
 import * as fs from 'fs'
 import * as os from 'os'
 import * as path from 'path'
