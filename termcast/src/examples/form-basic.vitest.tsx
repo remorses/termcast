@@ -191,9 +191,9 @@ test('form date picker selection with space and enter', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │                                                                ▄
-      │                                                                █
       │
+      │                                                                █
+      │                                                                ▀
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -221,7 +221,7 @@ test('form date picker selection with space and enter', async () => {
       ◇  Date of Birth
       │
       │   ←        2026       →
-      │   ←       March       →
+      │   ←       April       →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -249,9 +249,9 @@ test('form date picker selection with space and enter', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │                                                                ▄
-      │                                                                █
       │
+      │                                                                █
+      │                                                                ▀
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -279,7 +279,7 @@ test('form date picker selection with space and enter', async () => {
       ◇  Date of Birth
       │
       │   ←        2026       →
-      │   ←       March       →
+      │   ←       April       →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -308,9 +308,9 @@ test('form date picker selection with space and enter', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │                                                                ▄
-      │                                                                █
       │
+      │                                                                █
+      │                                                                ▀
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -338,7 +338,7 @@ test('form date picker selection with space and enter', async () => {
       ◇  Date of Birth
       │
       │   ←        2026       →
-      │   ←       March       →
+      │   ←       April       →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -383,9 +383,9 @@ test('form dropdown navigation', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │                                                                ▄
-      │                                                                █
       │
+      │                                                                █
+      │                                                                ▀
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -413,7 +413,7 @@ test('form dropdown navigation', async () => {
       ◇  Date of Birth
       │
       │   ←        2026       →
-      │   ←       March       →
+      │   ←       April       →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -441,9 +441,9 @@ test('form dropdown navigation', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │                                                                ▄
-      │                                                                █
       │
+      │                                                                █
+      │                                                                ▀
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -471,7 +471,7 @@ test('form dropdown navigation', async () => {
       ◇  Date of Birth
       │
       │   ←        2026       →
-      │   ←       March       →
+      │   ←       April       →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -501,9 +501,9 @@ test('form dropdown navigation', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │                                                                ▄
-      │                                                                █
       │
+      │                                                                █
+      │                                                                ▀
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -531,7 +531,7 @@ test('form dropdown navigation', async () => {
       ◇  Date of Birth
       │
       │   ←        2026       →
-      │   ←       March       →
+      │   ←       April       →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -559,9 +559,9 @@ test('form dropdown navigation', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │                                                                ▄
-      │                                                                █
       │
+      │                                                                █
+      │                                                                ▀
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -589,7 +589,7 @@ test('form dropdown navigation', async () => {
       ◇  Date of Birth
       │
       │   ←        2026       →
-      │   ←       March       →
+      │   ←       April       →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -733,9 +733,9 @@ test('arrow down from checkbox to dropdown lands on first item', async () => {
       ◇  Biography
       │  Tell us about yourself...
       │
-      │                                                                ▄
-      │                                                                █
       │
+      │                                                                █
+      │                                                                ▀
       │  Maximum 500 characters
       │
       ◇  Email Preferences
@@ -763,7 +763,7 @@ test('arrow down from checkbox to dropdown lands on first item', async () => {
       ◇  Date of Birth
       │
       │   ←        2026       →
-      │   ←       March       →
+      │   ←       April       →
 
 
        ctrl ↵ submit   tab navigate   ^k actions
@@ -855,7 +855,10 @@ test('date picker down boundary moves focus to next form field', async () => {
   const datePickerFocusedSnapshot = await session.text()
   expect(datePickerFocusedSnapshot).toMatch(/◆\s+Date of Birth/)
 
-  await session.type('10')
+  // Type day 5: always needs exactly 4 downs to exit the calendar
+  // regardless of month length (5→12→19→26→exit works for 28-31 day months).
+  // Day 10 is month-dependent: 4 downs in 31-day months, 3 downs in 30-day months.
+  await session.type('5')
   await session.press('down')
 
   const nonBoundaryDownSnapshot = await session.text()
