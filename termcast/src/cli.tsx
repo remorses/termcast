@@ -239,13 +239,13 @@ cli
   .command('release [path]', 'Build and publish extension to GitHub releases')
   .option('--single', 'Only compile for the current platform')
   .option('--entry <file>', 'Custom entry file (instead of auto-generated one)')
-  .action(async (extensionPath: string, options: { single?: boolean; entry?: string }) => {
-    extensionPath = path.resolve(extensionPath || process.cwd())
+  .action(async (extensionPath: string | undefined, options: { single?: boolean; entry?: string }) => {
+    const resolvedPath = path.resolve(extensionPath || process.cwd())
 
     console.log('Building and releasing extension...')
     try {
       const result = await releaseExtension({
-        extensionPath,
+        extensionPath: resolvedPath,
         single: options.single,
         entry: options.entry,
       })
@@ -279,7 +279,7 @@ cli
   .option('--theme <name>', 'Default theme name (default: nerv)')
   .action(
     async (
-      extensionPath: string,
+      extensionPath: string | undefined,
       options: {
         name?: string
         icon?: string
@@ -294,6 +294,8 @@ cli
         fontSize?: string
         lineHeight?: string
         theme?: string
+        // `--no-installer` adds noInstaller to the inferred type
+        noInstaller?: boolean
       },
     ) => {
       extensionPath = path.resolve(extensionPath || process.cwd())
@@ -597,9 +599,12 @@ cli
     'Search for extensions in the Raycast store',
   )
   .option('-n, --limit [number]', 'Number of results to show (default: 10)')
-  .action(async (query: string, options: { limit?: string }) => {
+  .action(async (query: string, options: { limit?: string | boolean }) => {
     try {
-      const limit = parseInt(options.limit || '10', 10)
+      // Optional-value flag ([number]) can be string | boolean in goke
+      const limitRaw =
+        typeof options.limit === 'string' ? options.limit : '10'
+      const limit = parseInt(limitRaw, 10)
       const result = await searchStoreListings({ query, perPage: limit })
 
       if (result.data.length === 0) {
@@ -645,12 +650,16 @@ cli
   .action(
     async (
       extensionName: string,
-      options: { output?: string; dir: boolean },
+      options: { output?: string | boolean; noDir?: boolean },
     ) => {
       try {
-        const destPath = path.resolve(options.output || '.')
-        // When --no-dir is passed, dir is false; put files directly in destPath
-        const extensionDir = options.dir
+        // Optional-value flag ([path]) can be string | boolean when bare
+        const outputOpt =
+          typeof options.output === 'string' ? options.output : undefined
+        const destPath = path.resolve(outputOpt || '.')
+        // When --no-dir is passed, noDir is true; put files directly in destPath
+        const useSubdir = !options.noDir
+        const extensionDir = useSubdir
           ? path.join(destPath, extensionName)
           : destPath
         const tempCloneDir = path.join(
@@ -662,7 +671,7 @@ cli
           `Downloading extension '${extensionName}' from raycast/extensions...`,
         )
 
-        if (options.dir && fs.existsSync(extensionDir)) {
+        if (useSubdir && fs.existsSync(extensionDir)) {
           console.log(`Removing existing directory: ${extensionDir}`)
           fs.rmSync(extensionDir, { recursive: true, force: true })
         }
@@ -724,7 +733,7 @@ cli
         }
 
         // Move files to final destination
-        if (options.dir) {
+        if (useSubdir) {
           fs.mkdirSync(extensionDir, { recursive: true })
         }
         const filesToMove = fs.readdirSync(extensionPath)
@@ -755,7 +764,7 @@ cli
 
 cli
   .command('new [name]', 'Create a new termcast extension')
-  .action(async (name: string) => {
+  .action(async (name: string | undefined) => {
     if (!name) {
       console.log('Usage: termcast new <extension-name>\n')
       console.log('Create a new termcast extension with the given name.\n')
