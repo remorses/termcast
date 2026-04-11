@@ -1,5 +1,40 @@
 # Changelog
 
+## 1.4.0
+
+1. **Vim mode for List component** — global keyboard mode with native vim motions, persisted across sessions:
+
+   Keybindings in vim mode:
+   - `j` / `k` — up/down navigation
+   - `gg` / `G` — jump to first/last item
+   - `Ctrl+d` / `Ctrl+u` — half-page jumps
+   - `/` — activate live search (focuses textarea, Enter confirms, Esc clears)
+   - `:` — command mode (shows matching commands in the footer)
+
+   Command mode works in both raycast and vim modes via `:` from an empty search bar:
+   - `:vim` — enable vim mode (shown in the raycast footer for discoverability)
+   - `:theme` — open theme picker
+   - `:actions` — open action panel (same as `Ctrl+K`)
+   - `:filter` — open dropdown filter (same as `Ctrl+P`)
+   - `:q` — quit
+
+   The footer adapts per mode:
+   - Raycast: `↑↓ navigate ^k actions :vim`
+   - Vim: `j/k navigate / search ^k actions`
+   - Command mode replaces the footer with `:input matching · commands`
+
+   An **Enable/Disable Vim Mode** toggle is also available under the Settings section of the action panel.
+
+2. **Terminal background syncs with the active theme** — termcast now emits the standard OSC 11 escape sequence on every theme change, so the surrounding terminal background stays in sync with the termcast UI. Works on WezTerm, iTerm2, kitty, and most modern terminals. This replaces the previous WezTerm-config-rewriting approach and avoids WezTerm issue #5451 where color overrides only hot-reloaded non-focused windows.
+
+3. **Default Inconsolata font bundled with termcast** — shipped apps no longer depend on the system having a specific monospace font installed. Termcast falls back to the built-in `fonts/` directory when an extension doesn't provide its own, so `termcast app build` produces self-contained bundles.
+
+4. **Cmd+Backspace deletes to line start in inputs** — `Cmd+Backspace` now deletes from the cursor to the start of the line (same as macOS native inputs). WezTerm forwards the key as a kitty CSI sequence which termcast remaps internally to `Ctrl+U`.
+
+5. **Node.js runtime support via better-sqlite3** — termcast now ships a platform abstraction layer with a `#sqlite` import map that swaps between `bun:sqlite` and `better-sqlite3` depending on the runtime. Extensions using termcast's built-in storage (Cache, LocalStorage, preferences) now work under both Bun and Node.js.
+
+6. **Fixed vim search mode: `Ctrl+K` and `Ctrl+P` work inside `/` search** — both action panel and dropdown filter shortcuts now fall through to their shared handlers while `/` search is active. Vim default-mode keys (`j`/`k`/`gg`/`G`/`^d`/`^u`) are also now checked before registered action shortcuts, so extensions can't hijack core vim motions with unmodified single-letter shortcuts.
+
 ## 1.3.54
 
 ### Features
