@@ -20,47 +20,47 @@
     "#platform/cache": {
       "bun": "./src/platform/node/cache.ts",
       "node": {
-        "types": "./src/platform/node/cache.ts",
+        "types": "./dist/platform/node/cache.d.ts",
         "default": "./dist/platform/node/cache.js"
       },
       "browser": "./src/platform/browser/cache.ts",
       "default": {
-        "types": "./src/platform/node/cache.ts",
+        "types": "./dist/platform/node/cache.d.ts",
         "default": "./dist/platform/node/cache.js"
       }
     },
     "#platform/localstorage": {
       "bun": "./src/platform/node/localstorage.ts",
       "node": {
-        "types": "./src/platform/node/localstorage.ts",
+        "types": "./dist/platform/node/localstorage.d.ts",
         "default": "./dist/platform/node/localstorage.js"
       },
       "browser": "./src/platform/browser/localstorage.ts",
       "default": {
-        "types": "./src/platform/node/localstorage.ts",
+        "types": "./dist/platform/node/localstorage.d.ts",
         "default": "./dist/platform/node/localstorage.js"
       }
     },
     "#platform/runtime": {
       "bun": "./src/platform/node/runtime.ts",
       "node": {
-        "types": "./src/platform/node/runtime.ts",
+        "types": "./dist/platform/node/runtime.d.ts",
         "default": "./dist/platform/node/runtime.js"
       },
       "browser": "./src/platform/browser/runtime.ts",
       "default": {
-        "types": "./src/platform/node/runtime.ts",
+        "types": "./dist/platform/node/runtime.d.ts",
         "default": "./dist/platform/node/runtime.js"
       }
     },
     "#sqlite": {
       "bun": "./src/platform/bun/sqlite.ts",
       "node": {
-        "types": "./src/platform/node/sqlite.ts",
+        "types": "./dist/platform/node/sqlite.d.ts",
         "default": "./dist/platform/node/sqlite.js"
       },
       "default": {
-        "types": "./src/platform/node/sqlite.ts",
+        "types": "./dist/platform/node/sqlite.d.ts",
         "default": "./dist/platform/node/sqlite.js"
       }
     }
