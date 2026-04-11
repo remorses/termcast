@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "tsc && chmod +x dist/cli.js",
+    "prepublishOnly": "bun x tsc && chmod +x dist/cli.js",
     "release": "cd .. && bun changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
     "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
     "play": "bun src/cli.tsx",
