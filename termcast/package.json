@@ -97,7 +97,7 @@
     "@termcast/utils": "workspace:^",
     "change-case": "^5.4.4",
     "colord": "^2.9.3",
-    "goke": "^6.5.2",
+    "goke": "^6.6.0",
     "google-auth-library": "^10.3.0",
     "jszip": "^3.10.1",
     "marked": "^17.0.2",

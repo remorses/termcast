@@ -599,12 +599,9 @@ cli
     'Search for extensions in the Raycast store',
   )
   .option('-n, --limit [number]', 'Number of results to show (default: 10)')
-  .action(async (query: string, options: { limit?: string | boolean }) => {
+  .action(async (query, options) => {
     try {
-      // Optional-value flag ([number]) can be string | boolean in goke
-      const limitRaw =
-        typeof options.limit === 'string' ? options.limit : '10'
-      const limit = parseInt(limitRaw, 10)
+      const limit = parseInt(options.limit || '10', 10)
       const result = await searchStoreListings({ query, perPage: limit })
 
       if (result.data.length === 0) {
@@ -647,16 +644,9 @@ cli
     '--no-dir',
     'Put files directly in output directory instead of creating extension subdirectory',
   )
-  .action(
-    async (
-      extensionName: string,
-      options: { output?: string | boolean; noDir?: boolean },
-    ) => {
+  .action(async (extensionName, options) => {
       try {
-        // Optional-value flag ([path]) can be string | boolean when bare
-        const outputOpt =
-          typeof options.output === 'string' ? options.output : undefined
-        const destPath = path.resolve(outputOpt || '.')
+        const destPath = path.resolve(options.output || '.')
         // When --no-dir is passed, noDir is true; put files directly in destPath
         const useSubdir = !options.noDir
         const extensionDir = useSubdir
