@@ -105,8 +105,8 @@
         "zustand": "^5.0.8",
       },
       "devDependencies": {
-        "@opentui/core": "^0.1.88",
-        "@opentui/react": "^0.1.88",
+        "@opentui/core": "^0.1.102",
+        "@opentui/react": "^0.1.102",
         "@raycast/api": "^1.102.5",
         "@raycast/utils": "^2.2.1",
         "@types/better-sqlite3": "^7.6.13",
@@ -124,8 +124,8 @@
         "sharp": "^0.34.5",
       },
       "peerDependencies": {
-        "@opentui/core": "^0.1.79",
-        "@opentui/react": "^0.1.79",
+        "@opentui/core": "^0.1.102",
+        "@opentui/react": "^0.1.102",
         "react": "*",
       },
     },

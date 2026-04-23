@@ -674,9 +674,10 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
+
       │
-      │
-      │  keys or Tab to navigate between fields.                       ▄
+      │  This demonstrates all available form input types. Use arrow   ▀
+      │  keys or Tab to navigate between fields.
       │
       ◇  Username
       │  Enter your username
@@ -686,7 +687,6 @@ test('form scrolls with mouse wheel', async () => {
       ◇  Password
       │  Enter secure password
       │
-      │  Must be at least 8 characters
 
 
        ctrl ↵ submit   tab navigate   ^k actions
