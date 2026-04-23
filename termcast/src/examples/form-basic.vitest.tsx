@@ -178,9 +178,9 @@ test('form date picker selection with space and enter', async () => {
   expect(datePickerFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
-
-
-
+      │
+      │
+      │
       │  Required field
       │
       ◇  Password
@@ -236,9 +236,9 @@ test('form date picker selection with space and enter', async () => {
   expect(afterSpaceSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-
-
-
+      │
+      │
+      │
       │  Required field
       │
       ◇  Password
@@ -295,9 +295,9 @@ test('form date picker selection with space and enter', async () => {
   expect(afterEnterSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-
-
-
+      │
+      │
+      │
       │  Required field
       │
       ◇  Password
@@ -370,9 +370,9 @@ test('form dropdown navigation', async () => {
   expect(dropdownFocusedSnapshot).toMatchInlineSnapshot(`
     "
 
-
-
-
+      │
+      │
+      │
       │  Required field
       │
       ◇  Password
@@ -428,9 +428,9 @@ test('form dropdown navigation', async () => {
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
-
-
-
+      │
+      │
+      │
       │  Required field
       │
       ◇  Password
@@ -488,9 +488,9 @@ test('form dropdown navigation', async () => {
   expect(europeSelectionSnapshot).toMatchInlineSnapshot(`
     "
 
-
-
-
+      │
+      │
+      │
       │  Required field
       │
       ◇  Password
@@ -546,9 +546,9 @@ test('form dropdown navigation', async () => {
   expect(afterFranceSelectSnapshot).toMatchInlineSnapshot(`
     "
 
-
-
-
+      │
+      │
+      │
       │  Required field
       │
       ◇  Password
@@ -647,7 +647,7 @@ test('form scrolls with mouse wheel', async () => {
 
 
 
-
+      │
       │  Enter your username
       │                                                                ▀
       │  Required field
@@ -674,8 +674,8 @@ test('form scrolls with mouse wheel', async () => {
     "
 
 
-
-
+      │
+      │
       │  keys or Tab to navigate between fields.                       ▄
       │
       ◇  Username
@@ -720,9 +720,9 @@ test('arrow down from checkbox to dropdown lands on first item', async () => {
   expect(afterDown).toMatchInlineSnapshot(`
     "
 
-
-
-
+      │
+      │
+      │
       │  Required field
       │
       ◇  Password

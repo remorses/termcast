@@ -33,11 +33,11 @@ test('empty view shows spinner when list is loading', async () => {
 
        Loading Empty View ───────────────────────────────────
 
-       • Search...
+         Search...
 
 
 
-                            • loading...
+                              loading...
 
 
 

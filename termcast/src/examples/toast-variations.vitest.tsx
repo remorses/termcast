@@ -137,7 +137,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-     ✗ Error  This is a very long error message that should wrap to multiple line
+     ✗ Error  This is a very long error message that should wrap to multiple li
     "
   `)
 
@@ -167,7 +167,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-     ✗ Warning  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do e
+     ✗ Warning  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
     "
   `)
 
@@ -227,7 +227,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-     ✓ Update Available  Version 2.0 is ready to install  Install ctrl t Later ct
+     ✓ Update Available  Version 2.0 is ready to ins  Install ctrl t Later ctrl g
     "
   `)
 
@@ -257,7 +257,7 @@ test('toast variations display correctly', async () => {
        Error with Retry
 
 
-     ✓ Operation Completed Successfully  All files have been processed  View Resu
+     ✓ Operation Completed Successfully  All   View Results ctrl t Dismiss ctrl g
     "
   `)
 
@@ -319,7 +319,7 @@ test('toast variations display correctly', async () => {
       ›Error with Retry
 
 
-     ✗ Connection Failed  Unable to connect to the server. Please check your inte
+     ✗ Connection Failed  Unable to connect to the server. Please c  Retry ctrl t
     "
   `)
 }, 30000)
