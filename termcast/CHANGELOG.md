@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.1
+
+1. **`app.log` is now opt-in with `TERMCAST_DEBUG=1`** — termcast no longer deletes or writes `app.log` in the current working directory during normal commands. Enable debug file logging only when needed:
+
+   ```bash
+   TERMCAST_DEBUG=1 termcast dev
+   ```
+
+2. **Fixed installed package type resolution** — the package import maps now point Node-style type resolution at `dist/`, while TypeScript source builds still remap correctly to `src/`.
+
+3. **Updated OpenTUI to `0.1.102`** — termcast now builds against the latest OpenTUI core/react versions used by this release.
+
 ## 1.4.0
 
 1. **Vim mode for List component** — global keyboard mode with native vim motions, persisted across sessions:

@@ -11,9 +11,19 @@ import {
 import { useEffect } from 'react'
 
 const LOG_FILE = joinPath(cwd(), 'app.log')
+const isDebugLoggingEnabled = getEnv('TERMCAST_DEBUG') === '1'
 
-// Delete log file on process start
-unlinkIfExists(LOG_FILE)
+if (isDebugLoggingEnabled) {
+  // Delete log file on process start
+  unlinkIfExists(LOG_FILE)
+}
+
+function appendLogEntry(logEntry: string): void {
+  if (!isDebugLoggingEnabled) {
+    return
+  }
+  appendToFile(LOG_FILE, logEntry)
+}
 
 function serialize(msg: any): string {
   if (msg instanceof Error) {
@@ -30,21 +40,21 @@ export const logger = {
     const timestamp = new Date().toISOString()
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] ${formattedMessages}\n`
-    appendToFile(LOG_FILE, logEntry)
+    appendLogEntry(logEntry)
     console.log(...messages)
   },
   error: (...messages: any[]) => {
     const timestamp = new Date().toISOString()
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] ERROR: ${formattedMessages}\n`
-    appendToFile(LOG_FILE, logEntry)
+    appendLogEntry(logEntry)
     console.error(...messages)
   },
   warn: (...messages: any[]) => {
     const timestamp = new Date().toISOString()
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] WARN: ${formattedMessages}\n`
-    appendToFile(LOG_FILE, logEntry)
+    appendLogEntry(logEntry)
     console.warn(...messages)
   },
   trace: (...messages: any[]) => {
@@ -59,7 +69,7 @@ export const logger = {
     }
     const formattedMessages = messages.map(serialize).join(' ')
     const logEntry = `[${timestamp}] TRACE: ${formattedMessages}\n${stack}\n`
-    appendToFile(LOG_FILE, logEntry)
+    appendLogEntry(logEntry)
     console.trace(...messages)
   },
 }
