@@ -4,8 +4,8 @@
  * Each row displays a colored dot, label, count, percentage, and a horizontal
  * bar made of repeated characters. Includes optional header and totals footer.
  *
- * Colors can be set per-item via props, or auto-assigned by hashing the label
- * string against the theme palette for deterministic coloring without manual config.
+ * Colors can be set per-item via props, or auto-assigned from the theme palette
+ * in row order (cycling when there are more items than palette colors).
  */
 
 import React, { ReactNode, useMemo } from 'react'
@@ -34,6 +34,8 @@ export interface HistogramProps {
   showTotal?: boolean
   /** Show the percentage column (default: true) */
   showPercentage?: boolean
+  /** Max display width for labels; longer labels are truncated (default: 24) */
+  maxLabelWidth?: number
   /** Histogram.Item children */
   children: ReactNode
 }
@@ -47,19 +49,39 @@ interface HistogramType {
 
 interface ItemData {
   label: string
+  /** Display label (possibly truncated) */
+  displayLabel: string
   value: number
   color?: string
 }
 
-// ── Hash function for deterministic color from label ─────────────────
+// ── Collect children recursively (handles fragments) ─────────────────
 
-function hashString(str: string): number {
-  let hash = 0
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i)
-    hash = ((hash << 5) - hash + char) | 0
+function collectItems(children: ReactNode, maxLabelWidth: number): ItemData[] {
+  const result: ItemData[] = []
+  const flatten = (node: ReactNode) => {
+    React.Children.forEach(node, (child) => {
+      if (!React.isValidElement(child)) return
+      // Traverse fragments
+      if (child.type === React.Fragment) {
+        flatten(child.props.children)
+        return
+      }
+      const p = child.props as HistogramItemProps
+      if (p.label === undefined || p.value === undefined) return
+      const displayLabel = p.label.length > maxLabelWidth
+        ? p.label.slice(0, maxLabelWidth - 1) + '…'
+        : p.label
+      result.push({
+        label: p.label,
+        displayLabel,
+        value: p.value,
+        color: resolveColor(p.color),
+      })
+    })
   }
-  return Math.abs(hash)
+  flatten(children)
+  return result
 }
 
 // ── Histogram.Item (data-only, renders null like BarChart.Segment) ───
@@ -78,32 +100,22 @@ const Histogram: HistogramType = (props) => {
     showHeader = true,
     showTotal = true,
     showPercentage = true,
+    maxLabelWidth = 24,
     children,
   } = props
 
   const palette = getThemePalette(theme)
 
-  // Collect item data from children
+  // Collect item data from children (traverses fragments)
   const items = useMemo<ItemData[]>(() => {
-    const result: ItemData[] = []
-    React.Children.forEach(children, (child) => {
-      if (!React.isValidElement(child)) return
-      const p = child.props as HistogramItemProps
-      if (p.label === undefined || p.value === undefined) return
-      result.push({
-        label: p.label,
-        value: p.value,
-        color: resolveColor(p.color),
-      })
-    })
-    return result
-  }, [children])
+    return collectItems(children, maxLabelWidth)
+  }, [children, maxLabelWidth])
 
-  // Resolve colors: explicit prop > hash-based palette assignment
+  // Resolve colors: explicit prop > row-order palette assignment
   const coloredItems = useMemo(() => {
-    return items.map((item) => ({
+    return items.map((item, index) => ({
       ...item,
-      resolvedColor: item.color || palette[hashString(item.label) % palette.length]!,
+      resolvedColor: item.color || palette[index % palette.length]!,
     }))
   }, [items, palette])
 
@@ -112,13 +124,13 @@ const Histogram: HistogramType = (props) => {
   }, [coloredItems])
 
   const maxValue = useMemo(() => {
-    return Math.max(...coloredItems.map((item) => item.value), 1)
+    return Math.max(...coloredItems.map((item) => item.value))
   }, [coloredItems])
 
   if (coloredItems.length === 0 || total === 0) return null
 
   // Compute column widths from data
-  const labelWidth = Math.max(...coloredItems.map((item) => item.label.length), 5)
+  const labelWidth = Math.max(...coloredItems.map((item) => item.displayLabel.length), 5)
   const countWidth = Math.max(
     ...coloredItems.map((item) => String(item.value).length),
     String(total).length,
@@ -142,14 +154,15 @@ const Histogram: HistogramType = (props) => {
   }
 
   function makeBar(value: number): string {
+    if (value <= 0 || maxValue <= 0) return ''
     const barLen = Math.max(1, Math.round((value / maxValue) * maxBarWidth))
     return barCharacter.repeat(barLen)
   }
 
   // ── Separator line ───────────────────────────────────────────────
 
-  // dot(2) + label + gap(2) + count + gap(2) + pct + gap(2) + some bar
-  const separatorWidth = 2 + labelWidth + 2 + countWidth + 2 + pctWidth + 2 + maxBarWidth
+  const percentageWidth = showPercentage ? 2 + pctWidth : 0
+  const separatorWidth = 2 + labelWidth + 2 + countWidth + percentageWidth + 2 + maxBarWidth
   const separator = '─'.repeat(separatorWidth)
 
   // Build header text as a single string
@@ -160,15 +173,8 @@ const Histogram: HistogramType = (props) => {
 
   // Build each data row as a single line string (without dot and bar)
   function buildRowMiddle(item: ItemData & { resolvedColor: string }): string {
-    return `${padRight(item.label, labelWidth)}  ${padLeft(String(item.value), countWidth)}${showPercentage ? `  ${padLeft(formatPct(item.value), pctWidth)}` : ''}  `
+    return `${padRight(item.displayLabel, labelWidth)}  ${padLeft(String(item.value), countWidth)}${showPercentage ? `  ${padLeft(formatPct(item.value), pctWidth)}` : ''}  `
   }
-
-  // Each row rendered as a single <text> with the bar appended.
-  // We use a single text per row to avoid flex splitting issues.
-  // The dot color is the only part that differs, so we render:
-  // <box><text colored>● </text><text>label count % bar</text></box>
-  // But that had alignment issues. Instead, render each row as a single line
-  // where the prefix is plain text and we just put the colored bar in a box after.
 
   return (
     <box flexDirection="column" flexShrink={0}>
@@ -176,10 +182,10 @@ const Histogram: HistogramType = (props) => {
       {showHeader && (
         <>
           <box height={1} flexShrink={0}>
-            <text fg={theme.textMuted}>{headerText}</text>
+            <text fg={theme.textMuted} wrapMode="none">{headerText}</text>
           </box>
           <box height={1} flexShrink={0}>
-            <text fg={theme.borderSubtle}>{separator}</text>
+            <text fg={theme.borderSubtle} wrapMode="none">{separator}</text>
           </box>
         </>
       )}
@@ -193,10 +199,10 @@ const Histogram: HistogramType = (props) => {
         return (
           <box key={i} flexDirection="row" height={1} flexShrink={0}>
             <box width={prefixWidth} flexShrink={0} flexDirection="row">
-              <text fg={item.resolvedColor}>{'● '}</text>
-              <text fg={theme.text}>{middle}</text>
+              <text fg={item.resolvedColor} wrapMode="none">{'● '}</text>
+              <text fg={theme.text} wrapMode="none">{middle}</text>
             </box>
-            <text fg={item.resolvedColor}>{bar}</text>
+            {bar && <text fg={item.resolvedColor} wrapMode="none">{bar}</text>}
           </box>
         )
       })}
@@ -205,10 +211,10 @@ const Histogram: HistogramType = (props) => {
       {showTotal && (
         <>
           <box height={1} flexShrink={0}>
-            <text fg={theme.borderSubtle}>{separator}</text>
+            <text fg={theme.borderSubtle} wrapMode="none">{separator}</text>
           </box>
           <box height={1} flexShrink={0}>
-            <text fg={theme.textMuted}>{totalText}</text>
+            <text fg={theme.textMuted} wrapMode="none">{totalText}</text>
           </box>
         </>
       )}
