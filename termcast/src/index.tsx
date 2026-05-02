@@ -104,6 +104,13 @@ export type {
   HeatmapCellChar,
 } from 'termcast/src/components/heatmap'
 
+// Core UI Components - Histogram
+export { Histogram } from 'termcast/src/components/histogram'
+export type {
+  HistogramProps,
+  HistogramItemProps,
+} from 'termcast/src/components/histogram'
+
 // Core UI Components - ProgressBar
 export { ProgressBar } from 'termcast/src/components/progress-bar'
 export type { ProgressBarProps } from 'termcast/src/components/progress-bar'
