@@ -20,9 +20,7 @@ ALWAYS use .tsx extension for every new file.
 
 NEVER use mocks in vitest tests
 
-When running the e2e vitest suite, ALWAYS use the repo scripts (`bun e2e`, `bun e2e <file>`, `bun e2e -u`). NEVER run `vitest` directly. e2e already passes -u so no need to pass again.
-
-after running e2e see git diff to make sure we don't see unexpected changes in snapshots
+When running the e2e vitest suite, ALWAYS use the repo scripts (`bun e2e`, `bun e2e <file>`, `bun e2e -u`). NEVER run `vitest` directly.
 
 prefer object args instead of positional args. as a way to implement named arguments, put the typescript definition inline
 
@@ -676,7 +674,7 @@ do something like this for every new element you want to use and not know about,
 
 ## keys
 
-cmd modifier (named hyper in opentui) cannot be intercepted in opentui. because parent terminal app will not forward it. instead use alt or ctrl
+cmd modifier (named super in opentui/kitty protocol, bit 8) cannot be intercepted in opentui when running inside a regular terminal. because parent terminal app will not forward it. instead use alt or ctrl. however, in termcast standalone apps (built with `termcast app build`), wezterm is configured to forward cmd+key via SendKey, so super modifier events DO arrive in opentui.
 
 enter key is named return in opentui. alt is option.
 
@@ -1152,7 +1150,58 @@ sometimes tests work directly on database data, using prisma. to run these tests
 
 never write tests yourself that call prisma or interact with database or emails. for these, ask the user to write them for you.
 
-changelogs.md
+# changesets
+
+After completing a fix or feature for a **public package** (has `version` in package.json, not `private: true`), add a changeset file in `.changeset/` at the repo root. Never edit CHANGELOG.md directly; it is generated automatically at publish time when changesets are consumed.
+
+Never run the `changeset` CLI command interactively. Always create the file manually.
+
+Create a `.md` file with a random kebab-case name (e.g. `cool-lions-dance.md`):
+
+```md
+---
+'package-name': patch
+---
+
+Description of what changed, with code examples if applicable.
+```
+
+Multiple packages can be listed in one changeset:
+
+```md
+---
+'spiceflow': minor
+'create-spiceflow': patch
+---
+
+Add federation support for remote RSC components.
+```
+
+## rules
+
+- **Never use `major`.** Use `patch` for fixes and `minor` for new features.
+- **Never edit CHANGELOG.md directly.** It is generated from changesets at publish time.
+- **Never bump `package.json` version manually.** Versions are bumped automatically.
+- **Never run the changeset CLI.** Write the `.md` file yourself.
+- **Only public packages.** Skip changesets for packages marked `private: true` or without a `version` field.
+- **Present tense.** Write "add support for X", "fix bug with Y".
+- **One changeset per logical change.** Two unrelated changes get two files.
+
+## rich content
+
+Changeset descriptions become the public changelog. Write them as rich content aimed at end users:
+
+- Code examples showing new APIs or changed behavior
+- Migration steps if the user needs to update their code
+- Diagrams explaining architecture changes
+- Before/after comparisons
+
+## private packages
+
+For **private packages** (`private: true`, no version), skip changesets entirely. These do not get published.
+
+Load the `changesets` skill for full workflow details.
+
 # writing docs
 
 when generating a .md or .mdx file to document things, always add a frontmatter with title and description. also add a prompt field with the exact prompt used to generate the doc. use @ to reference files and urls and provide any context necessary to be able to recreate this file from scratch using a model. if you used urls also reference them. reference all files you had to read to create the doc. use yaml | syntax to add this prompt and never go over the column width of 80
@@ -1269,26 +1318,3 @@ function Item(props: { title: string; isSelected: boolean }) {
 
 See `src/examples/internal/scrollbox-with-descendants.tsx`
 
-
-<!-- opensrc:start -->
-
-## Source Code Reference
-
-Source code for dependencies is available in `opensrc/` for deeper understanding of implementation details.
-
-See `opensrc/sources.json` for the list of available packages and their versions.
-
-Use this source code when you need to understand how a package works internally, not just its types/interface.
-
-### Fetching Additional Source Code
-
-To fetch source code for a package or repository you need to understand, run:
-
-```bash
-npx opensrc <package>           # npm package (e.g., npx opensrc zod)
-npx opensrc pypi:<package>      # Python package (e.g., npx opensrc pypi:requests)
-npx opensrc crates:<package>    # Rust crate (e.g., npx opensrc crates:serde)
-npx opensrc <owner>/<repo>      # GitHub repo (e.g., npx opensrc vercel/ai)
-```
-
-<!-- opensrc:end -->
