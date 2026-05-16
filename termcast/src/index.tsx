@@ -86,6 +86,13 @@ export type {
   BarGraphSeriesProps,
 } from 'termcast/src/components/bar-graph'
 
+// Core UI Components - HorizontalBarGraph
+export { HorizontalBarGraph } from 'termcast/src/components/horizontal-bar-graph'
+export type {
+  HorizontalBarGraphProps,
+  HorizontalBarGraphSeriesProps,
+} from 'termcast/src/components/horizontal-bar-graph'
+
 // Core UI Components - CandleChart
 export { CandleChart } from 'termcast/src/components/candle-chart'
 export type {

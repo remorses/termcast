@@ -2,6 +2,7 @@ import { SyntaxStyle } from '@opentui/core'
 import { getResolvedTheme, getSyntaxTheme, type ResolvedTheme, defaultThemeName, themeNames } from './themes'
 import { useStore } from './state'
 import { Cache } from './apis/cache'
+import { Color } from './colors'
 
 // Global cache for theme persistence (no namespace = global storage).
 // Tracks extensionPath so the cache is recreated if the path changes.
@@ -83,17 +84,18 @@ export function getInteractiveHoverBackground(theme: ResolvedTheme): string {
   return theme.primary
 }
 
-// Shared color palette for all chart components (Graph, BarChart, BarGraph).
-// Order: accent, info, success, warning, error, secondary, primary (cycles with %).
+// Shared color palette for chart components.
+// Based on the original Histogram showcase colors, which read better than a
+// strictly semantic theme order for categorical data.
 export function getThemePalette(theme: ResolvedTheme): string[] {
   return [
-    theme.accent,
-    theme.info,
-    theme.success,
-    theme.warning,
-    theme.error,
-    theme.secondary,
-    theme.primary,
+    Color.Orange,
+    Color.SecondaryText,
+    '#00CCCC',
+    Color.Purple,
+    Color.Yellow,
+    Color.Green,
+    Color.Blue,
   ]
 }
 
@@ -104,4 +106,3 @@ export const markdownSyntaxStyle = new Proxy({} as SyntaxStyle, {
     return getMarkdownSyntaxStyle()[prop as keyof SyntaxStyle]
   },
 })
-
