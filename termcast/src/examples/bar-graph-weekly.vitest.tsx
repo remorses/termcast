@@ -45,7 +45,7 @@ test('bar graph renders bars, labels, and legend', async () => {
                                             │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │   0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │       Mon Tue Wed Thu Fri Sat
-       ↵ open detail   ↑↓ navigate   ^k act │ Direct ■  Organic ■  Referral ■
+       ↵ open detail   ↑↓ navigate   ^k act │ ■ Direct  ■ Organic  ■ Referral
 
 
 
@@ -123,7 +123,7 @@ test('many series (8) bottom legend clips on one row', async () => {
                                             │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │   0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │       Mon Tue Wed Thu Fri Sat
-       ↑↓ navigate   ^k actions   :vim      │ Series 1 ■  Series 2 ■  Series 3 ■
+       ↑↓ navigate   ^k actions   :vim      │ ■ Series 1  ■ Series 2  ■ Series 3
 
 
 
@@ -177,7 +177,7 @@ test('long labels truncated by overflow hidden', async () => {
                                             │     │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │  0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │      Monday   Thursday
-       ↑↓ navigate   ^k actions   :vim      │ Views ■  Clicks ■
+       ↑↓ navigate   ^k actions   :vim      │ ■ Views  ■ Clicks
 
 
 
@@ -230,7 +230,7 @@ test('side-by-side bar graphs in a Row', async () => {
                                             │      │▃▃▃ ▃▃▃ ▃▃▃      │▃▃▃ ▃▃▃ ▃▃
                                             │   0.0│▃▃▃ ▃▃▃ ▃▃▃   0.0│▃▃▃ ▃▃▃ ▃▃
                                             │       Mon Tue Wed       Mon Tue We
-       ↵ open detail   ↑↓ navigate   ^k act │ Direct ■  Organic Direct ■  Organi
+       ↵ open detail   ↑↓ navigate   ^k act │ ■ Direct  ■ Organ ■ Direct  ■ Orga
 
 
 

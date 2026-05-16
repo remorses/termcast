@@ -302,8 +302,8 @@ const BarGraph: {
               const separator = index < legendRows.length - 1 ? '  ' : ''
               return (
                 <React.Fragment key={index}>
-                  <span fg={theme.textMuted}>{series.title} </span>
                   <span fg={series.color}>■</span>
+                  <span fg={theme.textMuted}> {series.title}</span>
                   <span fg={theme.textMuted}>{separator}</span>
                 </React.Fragment>
               )

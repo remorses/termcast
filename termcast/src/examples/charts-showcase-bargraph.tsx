@@ -80,7 +80,6 @@ function ChartsShowcaseBarGraph() {
               labels={labels}
               barGap={1}
               yFormat={(value) => `$${value.toFixed(0)}`}
-              legendPosition="right"
               showLegend
             >
               {modelSpend.map((series) => {
