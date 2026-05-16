@@ -33,6 +33,12 @@ export interface HorizontalBarGraphProps extends BoxProps {
   showLegend?: boolean
   /** Max display width for labels; longer labels are truncated. Default 16. */
   maxLabelWidth?: number
+  /** Header text for the category column. Default "category". */
+  categoryTitle?: string
+  /** Header text for the bar column. Default "distribution". */
+  distributionTitle?: string
+  /** Header text for the legend column. Default "legend". */
+  legendTitle?: string
   /** HorizontalBarGraph.Series children. */
   children: ReactNode
 }
@@ -40,25 +46,6 @@ export interface HorizontalBarGraphProps extends BoxProps {
 interface HorizontalBarGraphType {
   (props: HorizontalBarGraphProps): any
   Series: (props: HorizontalBarGraphSeriesProps) => any
-}
-
-interface CollectedSeries {
-  data: number[]
-  color: string
-  title?: string
-}
-
-interface RowData {
-  label: string
-  total: number
-  values: number[]
-}
-
-interface LegendRow {
-  title: string
-  color: string
-  percentage: string
-  total: number
 }
 
 function truncateLabel(label: string, maxLabelWidth: number): string {
@@ -102,13 +89,16 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
     showHeader = true,
     showLegend,
     maxLabelWidth = 16,
+    categoryTitle = 'category',
+    distributionTitle = 'distribution',
+    legendTitle = 'legend',
     children,
     ...rest
   } = props
 
   const palette = getThemePalette(theme)
 
-  const seriesList = useMemo<CollectedSeries[]>(() => {
+  const seriesList = useMemo<Array<{ data: number[]; color: string; title?: string }>>(() => {
     const childArray = React.Children.toArray(children)
     return childArray
       .filter(React.isValidElement)
@@ -129,7 +119,7 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
     return Math.max(labels.length, ...seriesList.map((series) => series.data.length), 0)
   }, [labels, seriesList])
 
-  const rows = useMemo<RowData[]>(() => {
+  const rows = useMemo<Array<{ label: string; total: number; values: number[] }>>(() => {
     return Array.from({ length: rowCount }, (_, rowIndex) => {
       const values = seriesList.map((series) => {
         return series.data[rowIndex] || 0
@@ -153,7 +143,7 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
     return Math.max(0, ...rows.map((row) => row.total))
   }, [rows])
 
-  const legendRows = useMemo<LegendRow[]>(() => {
+  const legendRows = useMemo<Array<{ title: string; color: string; percentage: string; total: number }>>(() => {
     const grandTotal = rows.reduce((sum, row) => {
       return sum + row.total
     }, 0)
@@ -188,7 +178,8 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
   const displayLabels = visibleRows.map((row) => {
     return truncateLabel(row.label, maxLabelWidth)
   })
-  const labelWidth = Math.max(5, ...displayLabels.map((label) => label.length))
+  const displayCategoryTitle = truncateLabel(categoryTitle, maxLabelWidth)
+  const labelWidth = Math.max(5, displayCategoryTitle.length, ...displayLabels.map((label) => label.length))
 
   const legendGap = 2
   const legendTitleWidth = Math.max(6, ...legendRows.map((row) => row.title.length))
@@ -202,18 +193,22 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
       {showHeader && (
         <>
           <box flexDirection="row" height={1} flexShrink={0}>
-            <box flexGrow={1} flexShrink={1} flexDirection="row" overflow="hidden">
-              <text fg={theme.textMuted} wrapMode="none">
-                {padRight('category', labelWidth)}  distribution
-              </text>
+            <box width={labelWidth + 2} flexShrink={0} overflow="hidden">
+              <text fg={theme.textMuted} wrapMode="none">{padRight(displayCategoryTitle, labelWidth)}  </text>
+            </box>
+            <box flexGrow={1} flexShrink={1} overflow="hidden">
+              <text fg={theme.textMuted} wrapMode="none">{distributionTitle}</text>
             </box>
             {legendVisible && (
               <box width={legendWidth} flexShrink={0} overflow="hidden">
-                <text fg={theme.textMuted} wrapMode="none">{' '.repeat(legendGap)}legend</text>
+                <text fg={theme.textMuted} wrapMode="none">{' '.repeat(legendGap)}{legendTitle}</text>
               </box>
             )}
           </box>
           <box flexDirection="row" height={1} flexShrink={0}>
+            <box width={labelWidth + 2} flexShrink={0} overflow="hidden">
+              <text fg={theme.borderSubtle} wrapMode="none">{'─'.repeat(labelWidth)}  </text>
+            </box>
             <box flexGrow={1} flexShrink={1} overflow="hidden">
               <text fg={theme.borderSubtle} wrapMode="none">{'─'.repeat(200)}</text>
             </box>

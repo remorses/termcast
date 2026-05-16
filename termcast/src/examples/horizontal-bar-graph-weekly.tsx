@@ -11,6 +11,9 @@ interface DataSet {
   title: string
   subtitle: string
   labels: string[]
+  categoryTitle?: string
+  distributionTitle?: string
+  legendTitle?: string
   series: Array<{ data: number[]; title: string }>
 }
 
@@ -39,6 +42,9 @@ const dataSets: DataSet[] = [
     title: 'Long Labels',
     subtitle: 'The left label column truncates without stealing legend space',
     labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday & Sunday'],
+    categoryTitle: 'day',
+    distributionTitle: 'traffic',
+    legendTitle: 'source',
     series: [
       { data: [40, 30, 25, 15, 50, 40], title: 'Views' },
       { data: [20, 25, 10, 10, 25, 20], title: 'Clicks' },
@@ -59,7 +65,13 @@ const dataSets: DataSet[] = [
 
 function Chart({ item, height }: { item: DataSet; height: number }): any {
   return (
-    <HorizontalBarGraph labels={item.labels} height={height}>
+    <HorizontalBarGraph
+      labels={item.labels}
+      height={height}
+      categoryTitle={item.categoryTitle}
+      distributionTitle={item.distributionTitle}
+      legendTitle={item.legendTitle}
+    >
       {item.series.map((series) => {
         return <HorizontalBarGraph.Series key={series.title} data={series.data} title={series.title} />
       })}

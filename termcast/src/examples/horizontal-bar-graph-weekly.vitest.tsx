@@ -35,13 +35,13 @@ test('renders horizontal stacked rows and compact legend', async () => {
        > Search...
 
       ›Weekly Traffic Direct / Organic / Referra │ category  distribution  legend
-       Revenue by Region Americas / EMEA / APAC  │ ──────────────────────  ───────────────
-       Long Labels The left label column truncat │ Mon    ╻╻╻╻╻╻╻╻╻╻╻╻     ● Direct    42%
-       Many Series Legend grows only as wide as  │ Tue    ╻╻╻╻╻╻╻╻╻╻╻╻     ● Organic   35%
-                                                 │ Wed    ╻╻╻╻╻╻╻          ● Referral  23%
-                                                 │ Thu    ╻╻╻╻╻╻
-                                                 │ Fri    ╻╻╻╻╻╻╻╻╻╻╻╻╻╻╻
-                                                 │ Sat    ╻╻╻╻╻╻╻╻╻╻╻╻
+       Revenue by Region Americas / EMEA / APAC  │ ────────  ────────────  ───────────────
+       Long Labels The left label column truncat │ Mon       ╻╻╻╻╻╻╻╻╻╻    ● Direct    42%
+       Many Series Legend grows only as wide as  │ Tue       ╻╻╻╻╻╻╻╻╻╻    ● Organic   35%
+                                                 │ Wed       ╻╻╻╻╻         ● Referral  23%
+                                                 │ Thu       ╻╻╻╻╻
+                                                 │ Fri       ╻╻╻╻╻╻╻╻╻╻╻╻
+                                                 │ Sat       ╻╻╻╻╻╻╻╻╻╻
        ↵ open detail   ↑↓ navigate   ^k actions  │
 
 
@@ -84,8 +84,8 @@ test('long labels truncate and leave legend visible', async () => {
 
        > Search...
 
-       Weekly Traffic Direct / Organic / Referra │ category          distri  legend
-       Revenue by Region Americas / EMEA / APAC  │ ────────────────────────  ─────────────
+       Weekly Traffic Direct / Organic / Referra │ day               traffi  source
+       Revenue by Region Americas / EMEA / APAC  │ ────────────────  ──────  ─────────────
       ›Long Labels The left label column truncat │ Monday            ╻╻╻╻╻   ● Views   65%
        Many Series Legend grows only as wide as  │ Tuesday           ╻╻╻╻    ● Clicks  35%
                                                  │ Wednesday         ╻╻╻
@@ -135,13 +135,13 @@ test('many series keeps bars readable and clips legend vertically', async () => 
        > Search...
 
        Weekly Traffic Direct / Organic / Referra │ category  distribution  legend
-       Revenue by Region Americas / EMEA / APAC  │ ──────────────────────  ───────────────
-       Long Labels The left label column truncat │ Mon    ╻╻╻╻╻╻╻╻╻╻       ● Series 8  20%
-      ›Many Series Legend grows only as wide as  │ Tue    ╻╻╻╻╻╻╻╻╻        ● Series 7  18%
-                                                 │ Wed    ╻╻╻╻╻╻╻╻         ● Series 6  16%
-                                                 │ Thu    ╻╻╻╻╻╻╻          ● Series 5  14%
-                                                 │ Fri    ╻╻╻╻╻╻╻╻╻╻╻╻╻╻╻  ● Series 4  11%
-                                                 │ Sat    ╻╻╻╻╻╻╻╻╻╻╻      ● Series 3   9%
+       Revenue by Region Americas / EMEA / APAC  │ ────────  ────────────  ───────────────
+       Long Labels The left label column truncat │ Mon       ╻╻╻╻╻╻╻╻      ● Series 8  20%
+      ›Many Series Legend grows only as wide as  │ Tue       ╻╻╻╻╻╻╻       ● Series 7  18%
+                                                 │ Wed       ╻╻╻╻╻╻        ● Series 6  16%
+                                                 │ Thu       ╻╻╻╻╻╻        ● Series 5  14%
+                                                 │ Fri       ╻╻╻╻╻╻╻╻╻╻╻╻  ● Series 4  11%
+                                                 │ Sat       ╻╻╻╻╻╻╻╻╻     ● Series 3   9%
        ↵ open detail   ↑↓ navigate   ^k actions  │
 
 
