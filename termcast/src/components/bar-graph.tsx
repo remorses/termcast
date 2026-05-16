@@ -3,7 +3,9 @@
  *
  * Pure React/opentui implementation using <box> elements with justifyContent
  * "space-evenly" for bar distribution. Each bar is a column of stacked colored
- * segments sized via flexGrow. Labels sit below each bar, truncated with
+ * segments sized via flexGrow. Segments render with a thin lower-block glyph
+ * instead of painted backgrounds, which keeps the chart airy like Histogram.
+ * Labels sit below each bar, truncated with
  * overflow="hidden" when the bar is narrower than the label text.
  *
  * Legend is a compact row of ■ Title pairs, no border.
@@ -33,6 +35,8 @@ export interface BarGraphProps extends BoxProps {
   height?: number
   /** X-axis labels, one per bar position */
   labels?: string[]
+  /** Character used for bar cells (default: "▁") */
+  barCharacter?: string
   /** Show compact legend below the chart (default: true when any series has a title) */
   showLegend?: boolean
   /** BarGraph.Series children */
@@ -62,7 +66,7 @@ const BarGraphSeries = (_props: BarGraphSeriesProps): any => {
 
 const BarGraph: BarGraphType = (props) => {
   const theme = useTheme()
-  const { height = 15, labels = [], showLegend, children, ...rest } = props
+  const { height = 15, labels = [], barCharacter = '▃', showLegend, children, ...rest } = props
 
   const palette = getThemePalette(theme)
 
@@ -149,10 +153,9 @@ const BarGraph: BarGraphType = (props) => {
                 {emptyGrow > 0 && (
                   <box flexGrow={emptyGrow} />
                 )}
-                {/* Segments: last series at top, first at bottom.
-                    Each segment uses backgroundColor for the visual fill, plus
-                    a single █ with matching fg so bars appear in text snapshots.
-                    wrapMode="none" prevents text from expanding the segment height. */}
+                {/* Segments: last series at top, first at bottom. The repeated
+                    lower-block glyph wraps inside the fixed-width segment, so it
+                    stays visible in snapshots without filling the whole cell. */}
                 {[...seriesList].reverse().map((series, reverseIdx) => {
                   const value = series.data[barIdx] || 0
                   if (value <= 0) {
@@ -162,7 +165,6 @@ const BarGraph: BarGraphType = (props) => {
                     <box
                       key={reverseIdx}
                       flexGrow={value}
-                      backgroundColor={series.color}
                       width="100%"
                       minHeight={1}
                       overflow="hidden"
@@ -170,8 +172,8 @@ const BarGraph: BarGraphType = (props) => {
                       {/* Absolute-positioned text doesn't affect flex layout.
                           The parent height is purely from flexGrow. The text
                           wraps to fill the area and gets clipped. */}
-                      <box position="absolute" width="100%" height="100%" overflow="hidden">
-                        <text fg={series.color}>{'█'.repeat(200)}</text>
+                      <box position="absolute" width="70%" height="100%" overflow="hidden">
+                        <text fg={series.color}>{barCharacter.repeat(200)}</text>
                       </box>
                     </box>
                   )
