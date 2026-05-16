@@ -64,6 +64,13 @@ export type {
   GraphVariant,
 } from 'termcast/src/components/graph'
 
+// Core UI Components - DottedLineGraph
+export { DottedLineGraph } from 'termcast/src/components/dotted-line-graph'
+export type {
+  DottedLineGraphProps,
+  DottedLineGraphSeriesProps,
+} from 'termcast/src/components/dotted-line-graph'
+
 // Core UI Components - Row
 export { Row } from 'termcast/src/components/row'
 export type { RowProps } from 'termcast/src/components/row'
