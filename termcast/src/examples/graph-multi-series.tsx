@@ -24,7 +24,7 @@ function GraphMultiSeries() {
     <Detail
       markdown="# Multi-Series Chart"
       metadata={
-        <Graph height={12} xLabels={xLabels} yTicks={5}>
+        <Graph variant='area' height={12} xLabels={xLabels} yTicks={5}>
           <Graph.Line data={prices} color={Color.Orange} title="Price" />
           <Graph.Line data={sma} color={Color.Blue} title="SMA(5)" />
         </Graph>
