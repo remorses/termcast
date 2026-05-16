@@ -5,13 +5,12 @@
  * "space-evenly" for bar distribution. Each bar is a column of stacked colored
  * segments sized via flexGrow. Segments render with a thin lower-block glyph
  * instead of painted backgrounds, which keeps the chart airy like Histogram.
- * Labels sit below each bar, truncated with
+ * Y-axis labels render on the left. X-axis labels sit below each bar, truncated with
  * overflow="hidden" when the bar is narrower than the label text.
  *
- * Legend is a compact row of ■ Title pairs, no border.
+ * Legend is a compact right-side column of ■ Title rows, no border.
  *
- * Color palette (same as Graph and BarChart):
- *   accent, info, success, warning, error, secondary, primary (cycles with %)
+ * Color palette comes from getThemePalette() and cycles with %.
  */
 
 import React, { ReactNode, useMemo } from 'react'
@@ -35,26 +34,25 @@ export interface BarGraphProps extends BoxProps {
   height?: number
   /** X-axis labels, one per bar position */
   labels?: string[]
-  /** Character used for bar cells (default: "▁") */
+  /** Width of each bar in terminal columns (default: 3) */
+  barWidth?: number
+  /** Gap between bars in terminal columns (default: 1) */
+  barGap?: number
+  /** Character used for bar cells (default: "▃") */
   barCharacter?: string
-  /** Show compact legend below the chart (default: true when any series has a title) */
+  /** Show Y-axis labels and separator (default: true) */
+  showYAxis?: boolean
+  /** Number of Y-axis tick labels (default: 5) */
+  yTicks?: number
+  /** Custom Y-axis label formatter */
+  yFormat?: (value: number) => string
+  /** Show compact legend on the right of the chart (default: true when any series has a title) */
   showLegend?: boolean
   /** BarGraph.Series children */
   children: ReactNode
 }
 
-interface BarGraphType {
-  (props: BarGraphProps): any
-  Series: (props: BarGraphSeriesProps) => any
-}
-
 // ── Internal types ───────────────────────────────────────────────────
-
-interface CollectedSeries {
-  data: number[]
-  color: string
-  title?: string
-}
 
 // ── BarGraph.Series (data-only, renders null like Graph.Line) ────────
 
@@ -64,33 +62,42 @@ const BarGraphSeries = (_props: BarGraphSeriesProps): any => {
 
 // ── Main BarGraph component ──────────────────────────────────────────
 
-const BarGraph: BarGraphType = (props) => {
+const BarGraph: {
+  (props: BarGraphProps): any
+  Series: (props: BarGraphSeriesProps) => any
+} = (props) => {
   const theme = useTheme()
-  const { height = 15, labels = [], barCharacter = '▃', showLegend, children, ...rest } = props
+  const {
+    height = 15,
+    labels = [],
+    barWidth = 3,
+    barGap = 1,
+    barCharacter = '▃',
+    showYAxis = true,
+    yTicks = 5,
+    yFormat,
+    showLegend,
+    children,
+    ...rest
+  } = props
 
   const palette = getThemePalette(theme)
 
   // Collect series from children
-  const seriesList = useMemo<CollectedSeries[]>(() => {
-    const result: CollectedSeries[] = []
-    let colorIndex = 0
-    React.Children.forEach(children, (child) => {
-      if (!React.isValidElement(child)) {
-        return
-      }
-      const childProps = child.props as BarGraphSeriesProps
-      if (!childProps.data) {
-        return
-      }
-      const color = resolveColor(childProps.color) || palette[colorIndex % palette.length]!
-      result.push({
-        data: childProps.data,
-        color,
-        title: childProps.title,
+  const seriesList = useMemo<Array<{ data: number[]; color: string; title?: string }>>(() => {
+    return React.Children.toArray(children)
+      .filter(React.isValidElement)
+      .map((child, index) => {
+        const childProps = child.props as BarGraphSeriesProps
+        return {
+          data: childProps.data,
+          color: resolveColor(childProps.color) || palette[index % palette.length]!,
+          title: childProps.title,
+        }
       })
-      colorIndex++
-    })
-    return result
+      .filter((series) => {
+        return Array.isArray(series.data)
+      })
   }, [children, palette])
 
   // Compute number of bars from max data length across series
@@ -114,97 +121,172 @@ const BarGraph: BarGraphType = (props) => {
 
   // Whether to show legend: explicit prop, or auto when any series has a title
   const legendVisible = showLegend ?? seriesList.some((s) => s.title)
+  const legendRows = seriesList.filter((series) => {
+    return Boolean(series.title)
+  })
+  const legendTitleWidth = Math.max(0, ...legendRows.map((series) => {
+    return series.title?.length || 0
+  }))
+  const legendGap = 1
+  const legendWidth = legendVisible ? legendGap + 2 + legendTitleWidth : 0
+  const hasLabels = labels.length > 0
+  const plotHeight = Math.max(1, height - (hasLabels ? 1 : 0))
+  const safeBarWidth = Math.max(1, Math.floor(barWidth))
+  const safeBarGap = Math.max(0, Math.floor(barGap))
+  const safeYTicks = Math.max(2, Math.floor(yTicks))
+  const formatYValue = yFormat || ((value: number) => {
+    return value >= 1000 ? value.toFixed(0) : value.toFixed(1)
+  })
+  const yAxisLabels = Array.from({ length: safeYTicks }, (_, index) => {
+    const value = maxTotal * (1 - index / (safeYTicks - 1))
+    return formatYValue(value)
+  })
+  const yAxisWidth = showYAxis ? Math.max(...yAxisLabels.map((label) => label.length)) : 0
+  const yAxisLabelByRow = new Map(yAxisLabels.map((label, index) => {
+    const row = Math.round((index / (safeYTicks - 1)) * (plotHeight - 1))
+    return [row, label] as const
+  }))
+  const xAxisWidth = numBars * safeBarWidth + Math.max(0, numBars - 1) * safeBarGap
+  const xAxisLabelLine = (() => {
+    const chars = Array.from({ length: xAxisWidth }, () => ' ')
+    let occupiedEnd = -1
+
+    labels.forEach((label, index) => {
+      if (!label) {
+        return
+      }
+      const visibleLabel = label.slice(0, xAxisWidth)
+      const barStart = index * (safeBarWidth + safeBarGap)
+      const barCenter = barStart + Math.floor(safeBarWidth / 2)
+      const labelStart = Math.max(0, Math.min(
+        barCenter - Math.floor(visibleLabel.length / 2),
+        xAxisWidth - visibleLabel.length,
+      ))
+
+      if (labelStart <= occupiedEnd) {
+        return
+      }
+
+      Array.from(visibleLabel).forEach((char, charIndex) => {
+        chars[labelStart + charIndex] = char
+      })
+      occupiedEnd = labelStart + visibleLabel.length - 1
+    })
+
+    return chars.join('')
+  })()
 
   if (numBars === 0 || maxTotal === 0) {
     return null
   }
 
   return (
-    <box flexDirection="column" {...rest}>
-      {/* Bars area: overflow="hidden" clips excess bars when there are too many.
-          alignItems="flex-start" left-aligns bars in wide containers. */}
-      <box flexDirection="row" height={height} width="100%" alignItems="flex-start" overflow="hidden">
-        {Array.from({ length: numBars }, (_, barIdx) => {
-          const barTotal = stackedTotals[barIdx]!
-          const emptyGrow = maxTotal - barTotal
-          const label = labels[barIdx]
+    <box flexDirection="row" {...rest}>
+      <box flexDirection="column" flexGrow={1} flexShrink={1} overflow="hidden">
+        <box flexDirection="row" height={height} width="100%" alignItems="flex-start" overflow="hidden">
+          {showYAxis ? (
+            <box flexDirection="column" width={yAxisWidth + 1} height={height} flexShrink={0} overflow="hidden">
+              {Array.from({ length: plotHeight }, (_, row) => {
+                const label = yAxisLabelByRow.get(row) || ''
+                return (
+                  <box key={row} flexDirection="row" height={1} flexShrink={0} overflow="hidden">
+                    <box width={yAxisWidth} overflow="hidden" flexShrink={0}>
+                      <text wrapMode="none" fg={theme.textMuted}>{label.padStart(yAxisWidth)}</text>
+                    </box>
+                    <text wrapMode="none" fg={theme.textMuted}>│</text>
+                  </box>
+                )
+              })}
+              {hasLabels ? <box height={1} flexShrink={0} /> : null}
+            </box>
+          ) : null}
 
-          const barElements: any[] = []
+          <box flexDirection="column" height={height} flexGrow={1} flexShrink={1} overflow="hidden">
+            {/* Bars area: overflow="hidden" clips excess bars when there are too many.
+                alignItems="flex-start" left-aligns bars in wide containers. */}
+            <box flexDirection="row" height={plotHeight} width="100%" alignItems="flex-start" overflow="hidden">
+              {Array.from({ length: numBars }, (_, barIdx) => {
+                const barTotal = stackedTotals[barIdx]!
+                const emptyGrow = maxTotal - barTotal
 
-          // Min 1-col gap between bars (not before the first bar)
-          if (barIdx > 0) {
-            barElements.push(
-              <box key={`gap-${barIdx}`} width={1} flexShrink={0} />
-            )
-          }
-
-          barElements.push(
-            <box
-              key={barIdx}
-              flexDirection="column"
-              height="100%"
-              flexGrow={0}
-              flexShrink={0}
-              width={3}
-            >
-              {/* Plot area: spacer on top pushes colored segments to the bottom
-                  so all bars are bottom-aligned regardless of total value. */}
-              <box flexDirection="column" flexGrow={1} width="100%">
-                {emptyGrow > 0 && (
-                  <box flexGrow={emptyGrow} />
-                )}
-                {/* Segments: last series at top, first at bottom. The repeated
-                    lower-block glyph wraps inside the fixed-width segment, so it
-                    stays visible in snapshots without filling the whole cell. */}
-                {[...seriesList].reverse().map((series, reverseIdx) => {
-                  const value = series.data[barIdx] || 0
-                  if (value <= 0) {
-                    return null
-                  }
-                  return (
+                return (
+                  <React.Fragment key={barIdx}>
+                    {barIdx > 0 && safeBarGap > 0 ? <box width={safeBarGap} flexShrink={0} /> : null}
                     <box
-                      key={reverseIdx}
-                      flexGrow={value}
-                      width="100%"
-                      minHeight={1}
-                      overflow="hidden"
+                      flexDirection="column"
+                      height="100%"
+                      flexGrow={0}
+                      flexShrink={0}
+                      width={safeBarWidth}
                     >
-                      {/* Absolute-positioned text doesn't affect flex layout.
-                          The parent height is purely from flexGrow. The text
-                          wraps to fill the area and gets clipped. */}
-                      <box position="absolute" width="70%" height="100%" overflow="hidden">
-                        <text fg={series.color}>{barCharacter.repeat(200)}</text>
+                      {/* Plot area: spacer on top pushes colored segments to the bottom
+                          so all bars are bottom-aligned regardless of total value. */}
+                      <box flexDirection="column" flexGrow={1} width="100%">
+                        {emptyGrow > 0 && (
+                          <box flexGrow={emptyGrow} />
+                        )}
+                        {/* Segments: last series at top, first at bottom. The repeated
+                            lower-block glyph wraps inside the fixed-width segment, so it
+                            stays visible in snapshots without filling the whole cell. */}
+                        {[...seriesList].reverse().map((series, reverseIdx) => {
+                          const value = series.data[barIdx] || 0
+                          if (value <= 0) {
+                            return null
+                          }
+                          return (
+                            <box
+                              key={reverseIdx}
+                              flexGrow={value}
+                              width="100%"
+                              minHeight={1}
+                              overflow="hidden"
+                            >
+                              {/* Absolute-positioned text doesn't affect flex layout.
+                                  The parent height is purely from flexGrow. The text
+                                  wraps to fill the area and gets clipped. */}
+                              <box position="absolute" width="100%" height="100%" overflow="hidden">
+                                <text fg={series.color}>{barCharacter.repeat(200)}</text>
+                              </box>
+                            </box>
+                          )
+                        })}
                       </box>
                     </box>
-                  )
-                })}
-              </box>
-              {/* X-axis label */}
-              {label !== undefined && (
-                <box height={1} width="100%" overflow="hidden" flexShrink={0}>
-                  <text wrapMode="none" fg={theme.textMuted}>{label}</text>
-                </box>
-              )}
+                  </React.Fragment>
+                )
+              })}
             </box>
-          )
-
-          return barElements
-        })}
+            {hasLabels ? (
+              <box height={1} width="100%" overflow="hidden" flexShrink={0}>
+                <text wrapMode="none" fg={theme.textMuted}>{xAxisLabelLine}</text>
+              </box>
+            ) : null}
+          </box>
+        </box>
       </box>
-      {/* Legend: single line, no wrap, clips when too many series */}
+
+      {/* Legend: right side. Labels stay left-aligned, color swatches sit on the right. */}
       {legendVisible && (
-        <box height={1} width="100%" flexShrink={0} overflow="hidden">
-          <text wrapMode="none">
-            {seriesList.filter((s) => s.title).map((series, i, arr) => {
-              const sep = i < arr.length - 1 ? ' ' : ''
+        <box
+          flexDirection="column"
+          width={legendWidth}
+          height={height}
+          flexShrink={0}
+          overflow="hidden"
+        >
+          <box flexDirection="column" height={height} justifyContent="flex-end" overflow="hidden">
+            {legendRows.map((series, index) => {
               return (
-                <React.Fragment key={i}>
-                  <span fg={series.color}>■ </span>
-                  <span fg={theme.textMuted}>{series.title}{sep}</span>
-                </React.Fragment>
+                <box key={index} flexDirection="row" height={1} flexShrink={0} overflow="hidden">
+                  <box width={legendGap} flexShrink={0} />
+                  <box width={legendTitleWidth} overflow="hidden" flexShrink={0}>
+                    <text fg={theme.textMuted} wrapMode="none">{series.title}</text>
+                  </box>
+                  <text fg={series.color} wrapMode="none"> ■</text>
+                </box>
               )
             })}
-          </text>
+          </box>
         </box>
       )}
     </box>

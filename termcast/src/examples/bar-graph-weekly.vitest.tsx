@@ -1,5 +1,5 @@
 // E2E tests for BarGraph vertical stacked bar chart.
-// Bar segments are filled with █ chars so they show in text snapshots.
+// Bar segments use ▃ chars so they show in text snapshots without filling cells.
 
 import { test, expect, afterEach, beforeEach } from 'vitest'
 import { launchTerminal, Session } from 'tuistory/src'
@@ -22,7 +22,7 @@ afterEach(() => {
 test('bar graph renders bars, labels, and legend', async () => {
   const text = await session.text({
     waitFor: (text) => {
-      return text.includes('Mon') && text.includes('Sat') && text.includes('Direct')
+      return text.includes('Mon') && text.includes('Direct') && text.includes('0.0│')
     },
     timeout: 10000,
   })
@@ -35,17 +35,17 @@ test('bar graph renders bars, labels, and legend', async () => {
 
        > Search...
 
-      ›Weekly Traffic 3 channels across 6 d │                 ███
-       Revenue by Region EMEA / APAC / Amer │ ███ ███         ███ ███
-       Server Load CPU / Memory / IO        │ ███ ███         ███ ███
-       Many Columns (20) Overflow test with │ ███ ███ ███     ███ ███
-       Many Series (8) Legend overflow test │ ███ ███ ███ ███ ███ ███
-       Long Labels Labels wider than bar co │ ███ ███ ███ ███ ███ ███
-       Week 1 vs Week 2 Two graphs in a Row │ ███ ███ ███ ███ ███ ███
-                                            │ ███ ███ ███ ███ ███ ███
-                                            │ ███ ███ ███ ███ ███ ███
-                                            │ Mon Tue Wed Thu Fri Sat
-       ↵ open detail   ↑↓ navigate   ^k act │ ■ Direct ■ Organic ■ Referral
+      ›Weekly Traffic 3 channels across 6 d │ 110.0│                ▃
+       Revenue by Region EMEA / APAC / Amer │      │▃▃▃ ▃▃▃         ▃
+       Server Load CPU / Memory / IO        │  82.5│▃▃▃ ▃▃▃         ▃
+       Many Columns (20) Overflow test with │      │▃▃▃ ▃▃▃ ▃▃▃     ▃
+       Many Series (8) Legend overflow test │  55.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃
+       Long Labels Labels wider than bar co │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃
+       Week 1 vs Week 2 Two graphs in a Row │  27.5│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃
+                                            │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Direct   ■
+                                            │   0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Organic  ■
+       ↵ open detail   ↑↓ navigate   ^k act │       Mon Tue Wed Thu F Referral ■
+
 
 
 
@@ -62,9 +62,9 @@ test('bar graph renders bars, labels, and legend', async () => {
   `)
 
   expect(text).toContain('Mon')
-  expect(text).toContain('Sat')
   expect(text).toContain('Direct')
-  expect(text).toContain('█')
+  expect(text).toContain('0.0│')
+  expect(text).toContain('▃')
 }, 30000)
 
 test('many columns (20) clips with overflow hidden', async () => {
@@ -85,14 +85,14 @@ test('many columns (20) clips with overflow hidden', async () => {
   // instead of inline snapshot for the bars area
   expect(text).toContain('›Many Columns')
   expect(text).toContain('BarGraph Showcase')
-  expect(text).toContain('███')
+  expect(text).toContain('▃')
 
   // Some labels visible, overflow clips the rest
-  expect(text).toContain('D1')
-  expect(text).toContain('█')
+  expect(text).toContain('D')
+  expect(text).toContain('▃')
 }, 30000)
 
-test('many series (8) legend clips on one line', async () => {
+test('many series (8) legend renders as a right column', async () => {
   await session.text({ waitFor: (t) => t.includes('Many Series'), timeout: 10000 })
   // Navigate: Weekly, Revenue, Server, Many Columns, Many Series = 4 downs
   session.sendKey('down')
@@ -113,17 +113,17 @@ test('many series (8) legend clips on one line', async () => {
 
        > Search...
 
-       Weekly Traffic 3 channels across 6 d │ ███ ███ ███     ███ ███
-       Revenue by Region EMEA / APAC / Amer │ ███ ███ ███ ███ ███ ███
-       Server Load CPU / Memory / IO        │ ███ ███ ███ ███ ███ ███
-       Many Columns (20) Overflow test with │ ███ ███ ███ ███ ███ ███
-      ›Many Series (8) Legend overflow test │ ███ ███ ███ ███ ███ ███
-       Long Labels Labels wider than bar co │ ███ ███ ███ ███ ███ ███
-       Week 1 vs Week 2 Two graphs in a Row │ ███ ███ ███ ███ ███ ███
-                                            │ ███ ███ ███ ███ ███ ███
-                                            │ ███ ███ ███ ███ ███ ███
-                                            │ Mon Tue Wed Thu Fri Sat
-       ↑↓ navigate   ^k actions   :vim      │ ■ Series 1 ■ Series 2 ■ Series 3 ■
+       Weekly Traffic 3 channels across 6 d │ 328.0│▃▃▃ ▃▃▃ ▃▃▃     ▃
+       Revenue by Region EMEA / APAC / Amer │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃
+       Server Load CPU / Memory / IO        │ 246.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Series 1 ■
+       Many Columns (20) Overflow test with │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Series 2 ■
+      ›Many Series (8) Legend overflow test │ 164.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Series 3 ■
+       Long Labels Labels wider than bar co │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Series 4 ■
+       Week 1 vs Week 2 Two graphs in a Row │  82.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Series 5 ■
+                                            │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Series 6 ■
+                                            │   0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃ Series 7 ■
+       ↑↓ navigate   ^k actions   :vim      │       Mon Tue Wed Thu F Series 8 ■
+
 
 
 
@@ -139,9 +139,10 @@ test('many series (8) legend clips on one line', async () => {
     "
   `)
 
-  // First series visible in legend
+  // Legend stays visible as a right-side column.
   expect(text).toContain('Series 1')
-  expect(text).toContain('█')
+  expect(text).toContain('Series 8')
+  expect(text).toContain('▃')
 }, 30000)
 
 test('long labels truncated by overflow hidden', async () => {
@@ -166,17 +167,17 @@ test('long labels truncated by overflow hidden', async () => {
 
        > Search...
 
-       Weekly Traffic 3 channels across 6 d │                 ███
-       Revenue by Region EMEA / APAC / Amer │ ███             ███ ███
-       Server Load CPU / Memory / IO        │ ███ ███         ███ ███
-       Many Columns (20) Overflow test with │ ███ ███         ███ ███
-       Many Series (8) Legend overflow test │ ███ ███ ███     ███ ███
-      ›Long Labels Labels wider than bar co │ ███ ███ ███ ███ ███ ███
-       Week 1 vs Week 2 Two graphs in a Row │ ███ ███ ███ ███ ███ ███
-                                            │ ███ ███ ███ ███ ███ ███
-                                            │ ███ ███ ███ ███ ███ ███
-                                            │ Mon Tue Wed Thu Fri Sat
-       ↑↓ navigate   ^k actions   :vim      │ ■ Views ■ Clicks
+       Weekly Traffic 3 channels across 6 d │ 75.0│                ▃▃▃
+       Revenue by Region EMEA / APAC / Amer │     │▃▃▃             ▃▃▃
+       Server Load CPU / Memory / IO        │ 56.3│▃▃▃ ▃▃▃         ▃▃▃
+       Many Columns (20) Overflow test with │     │▃▃▃ ▃▃▃         ▃▃▃
+       Many Series (8) Legend overflow test │ 37.5│▃▃▃ ▃▃▃ ▃▃▃     ▃▃▃
+      ›Long Labels Labels wider than bar co │     │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
+       Week 1 vs Week 2 Two graphs in a Row │ 18.8│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
+                                            │     │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
+                                            │  0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃  Views  ■
+       ↑↓ navigate   ^k actions   :vim      │      Monday   Thursday    Clicks ■
+
 
 
 
@@ -193,7 +194,7 @@ test('long labels truncated by overflow hidden', async () => {
   `)
 
   expect(text).toContain('Long Labels')
-  expect(text).toContain('█')
+  expect(text).toContain('▃')
 }, 30000)
 
 test('side-by-side bar graphs in a Row', async () => {
@@ -219,17 +220,17 @@ test('side-by-side bar graphs in a Row', async () => {
 
        > Search...
 
-       Weekly Traffic 3 channels across 6 d │                 █
-       Revenue by Region EMEA / APAC / Amer │ ███ ███         █ ███
-       Server Load CPU / Memory / IO        │ ███ ███         █ ███ ███
-       Many Columns (20) Overflow test with │ ███ ███ ███     █ ███ ███ ███ ███
-       Many Series (8) Legend overflow test │ ███ ███ ███ ███ █ ███ ███ ███ ███
-       Long Labels Labels wider than bar co │ ███ ███ ███ ███ █ ███ ███ ███ ███
-      ›Week 1 vs Week 2 Two graphs in a Row │ ███ ███ ███ ███ █ ███ ███ ███ ███
-                                            │ ███ ███ ███ ███ █ ███ ███ ███ ███
-                                            │ ███ ███ ███ ███ █ ███ ███ ███ ███
-                                            │ Mon Tue Wed Thu F Mon Tue Wed Thu
-       ↵ open detail   ↑↓ navigate   ^k act │ ■ Direct ■ Organi ■ Direct ■ Organ
+       Weekly Traffic 3 channels across 6 d │ 110.0│            130.0
+       Revenue by Region EMEA / APAC / Amer │      │
+       Server Load CPU / Memory / IO        │  82.5│             97.5
+       Many Columns (20) Overflow test with │      │
+       Many Series (8) Legend overflow test │  55.0│             65.0
+       Long Labels Labels wider than bar co │      │
+      ›Week 1 vs Week 2 Two graphs in a Row │  27.5│             32.5
+                                            │      │ Direct   ■        Direct   ■
+                                            │   0.0│ Organic  ■   0.0  Organic  ■
+       ↵ open detail   ↑↓ navigate   ^k act │        Referral ■        Referral ■
+
 
 
 
@@ -245,5 +246,5 @@ test('side-by-side bar graphs in a Row', async () => {
     "
   `)
 
-  expect(text).toContain('Mon')
+  expect(text).toContain('Direct')
 }, 30000)

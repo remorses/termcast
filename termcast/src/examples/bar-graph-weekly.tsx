@@ -151,7 +151,7 @@ function BarGraphWeeklyExample() {
           <List.Item.Detail
             metadata={
               <List.Item.Detail.Metadata>
-                <BarGraph height={10} labels={manyColsLabels}>
+                <BarGraph height={10} labels={manyColsLabels} barWidth={1}>
                   {manyColsSeries.map((s, i) => {
                     return <BarGraph.Series key={i} data={s.data} title={s.title} />
                   })}
@@ -261,4 +261,4 @@ function BarGraphWeeklyExample() {
   )
 }
 
-renderWithProviders(<BarGraphWeeklyExample />)
+void renderWithProviders(<BarGraphWeeklyExample />)
