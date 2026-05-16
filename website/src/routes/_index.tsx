@@ -6,8 +6,14 @@
  */
 import 'website/src/styles/landing.css'
 import { Github, Menu, ArrowDown, Terminal, Copy, Check } from 'lucide-react'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import type { MetaFunction } from 'react-router'
+
+const DottedVideoBackground = lazy(() =>
+  import('website/src/components/dotted-video-background').then((m) => ({
+    default: m.DottedVideoBackground,
+  })),
+)
 
 const SITE_TITLE = 'Termcast - Build terminal apps with React'
 const SITE_DESCRIPTION =
@@ -219,7 +225,26 @@ function InstallCommand() {
 function Hero() {
   return (
     <div className='relative z-10 flex flex-col'>
-      <div className='flex flex-col items-center justify-center px-6 pt-16 sm:pt-24'>
+      {/* Dotted video background behind the hero */}
+      <div className='absolute inset-0 w-full h-full z-0 overflow-hidden' style={{ maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)' }}>
+        <Suspense fallback={null}>
+          <DottedVideoBackground
+            className='w-full h-full opacity-60'
+            config={{
+              dotColor: '#fe750e',
+              dotSize: 6,
+              minDotSize: 1,
+              dotMargin: 1,
+              animSpeed: 3,
+              gamma: 0.8,
+              enableMask: false,
+              fluidStrength: 0.2,
+              fluidCurl: 80,
+            }}
+          />
+        </Suspense>
+      </div>
+      <div className='relative z-10 flex flex-col items-center justify-center px-6 pt-16 sm:pt-24'>
         <div className='flex flex-col items-center text-center'>
           <h1 className='flex flex-col items-center leading-none'>
             <span className='bu-font-serif text-[72px] sm:text-[100px] md:text-[120px] font-normal uppercase tracking-tight text-white'>
