@@ -8,7 +8,8 @@
  * Y-axis labels render on the left. X-axis labels sit below each bar, truncated with
  * overflow="hidden" when the bar is narrower than the label text.
  *
- * Legend is a compact right-side column of ■ Title rows, no border.
+ * Legend is a compact bottom row by default. Use legendPosition="right"
+ * for a right-side column.
  *
  * Color palette comes from getThemePalette() and cycles with %.
  */
@@ -46,8 +47,10 @@ export interface BarGraphProps extends BoxProps {
   yTicks?: number
   /** Custom Y-axis label formatter */
   yFormat?: (value: number) => string
-  /** Show compact legend on the right of the chart (default: true when any series has a title) */
+  /** Show compact legend (default: true when any series has a title) */
   showLegend?: boolean
+  /** Legend placement (default: "bottom") */
+  legendPosition?: 'bottom' | 'right'
   /** BarGraph.Series children */
   children: ReactNode
 }
@@ -77,6 +80,7 @@ const BarGraph: {
     yTicks = 5,
     yFormat,
     showLegend,
+    legendPosition = 'bottom',
     children,
     ...rest
   } = props
@@ -129,6 +133,8 @@ const BarGraph: {
   }))
   const legendGap = 1
   const legendWidth = legendVisible ? legendGap + 2 + legendTitleWidth : 0
+  const legendOnRight = legendVisible && legendPosition === 'right'
+  const legendOnBottom = legendVisible && legendPosition === 'bottom'
   const hasLabels = labels.length > 0
   const plotHeight = Math.max(1, height - (hasLabels ? 1 : 0))
   const safeBarWidth = Math.max(1, Math.floor(barWidth))
@@ -181,7 +187,7 @@ const BarGraph: {
   }
 
   return (
-    <box flexDirection="row" {...rest}>
+    <box flexDirection={legendOnRight ? 'row' : 'column'} {...rest}>
       <box flexDirection="column" flexGrow={1} flexShrink={1} overflow="hidden">
         <box flexDirection="row" height={height} width="100%" alignItems="flex-start" overflow="hidden">
           {showYAxis ? (
@@ -266,7 +272,7 @@ const BarGraph: {
       </box>
 
       {/* Legend: right side. Labels stay left-aligned, color swatches sit on the right. */}
-      {legendVisible && (
+      {legendOnRight && (
         <box
           flexDirection="column"
           width={legendWidth}
@@ -287,6 +293,22 @@ const BarGraph: {
               )
             })}
           </box>
+        </box>
+      )}
+      {legendOnBottom && (
+        <box height={1} width="100%" flexShrink={0} overflow="hidden">
+          <text wrapMode="none">
+            {legendRows.map((series, index) => {
+              const separator = index < legendRows.length - 1 ? '  ' : ''
+              return (
+                <React.Fragment key={index}>
+                  <span fg={theme.textMuted}>{series.title} </span>
+                  <span fg={series.color}>■</span>
+                  <span fg={theme.textMuted}>{separator}</span>
+                </React.Fragment>
+              )
+            })}
+          </text>
         </box>
       )}
     </box>
