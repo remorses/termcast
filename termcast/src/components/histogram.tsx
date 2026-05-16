@@ -64,7 +64,8 @@ function collectItems(children: ReactNode, maxLabelWidth: number): ItemData[] {
       if (!React.isValidElement(child)) return
       // Traverse fragments
       if (child.type === React.Fragment) {
-        flatten(child.props.children)
+        const fragmentProps = child.props as { children?: ReactNode }
+        flatten(fragmentProps.children)
         return
       }
       const p = child.props as HistogramItemProps
@@ -96,7 +97,7 @@ const Histogram: HistogramType = (props) => {
   const theme = useTheme()
   const {
     maxBarWidth = 30,
-    barCharacter = '│',
+    barCharacter = '╻',
     showHeader = true,
     showTotal = true,
     showPercentage = true,
