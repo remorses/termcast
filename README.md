@@ -2,34 +2,118 @@
     <br/>
     <br/>
     <h3>termcast</h3>
-    <p>Build terminal user interfaces with React and a Raycast APIs</p>
+    <p>Build terminal apps with React and Raycast-like APIs</p>
     <br/>
     <br/>
 </div>
 
-Termcast is a framework for building terminal user interfaces (TUIs) using React and an API inspired by Raycast. It's designed for developers who want to create TUI applications, especially those who already have Raycast extensions and want to port them to the terminal.
-
-## Install
+Termcast is a framework for building terminal user interfaces (TUIs) using React. It implements the [Raycast extension API](https://developers.raycast.com) for the terminal, so you can port existing Raycast extensions or build new TUIs with a familiar, battle-tested component model.
 
 ```sh
-# IMPORTANT! this package requires Bun. does not work in Node.js
-bun install -g termcast 
+bun install -g termcast
 ```
 
-## What is Termcast?
+> Requires [Bun](https://bun.sh). Does not work with Node.js.
 
-Termcast provides a Raycast-like API for building terminal applications. If you're familiar with Raycast extension development, you can use that knowledge to create TUIs that run anywhere—including Linux and remote servers.
+## Two ways to build TUIs
 
-This is **not** a way to run arbitrary Raycast extensions in the terminal. Instead, it's a tool for developers who want to:
+### 1. Standalone extension
 
-- Build TUIs using a familiar, React-based API
-- Port existing Raycast extension code to the terminal
-- Create standalone CLI tools that can be distributed independently
-- Take advantage of terminal-native capabilities
+The simplest way. Create a folder with a `package.json` and React components. Termcast handles dev server, compilation, and distribution.
+
+```
+my-app/
+  package.json      # name, commands, preferences
+  src/
+    index.tsx        # default export is a React component
+```
+
+```tsx
+// src/index.tsx
+import { List, Action, ActionPanel, showToast, Toast } from 'termcast'
+
+export default function Command() {
+  return (
+    <List searchBarPlaceholder="Search items...">
+      <List.Item
+        title="Hello World"
+        actions={
+          <ActionPanel>
+            <Action
+              title="Greet"
+              onAction={async () => {
+                await showToast({ style: Toast.Style.Success, title: 'Hi!' })
+              }}
+            />
+          </ActionPanel>
+        }
+      />
+    </List>
+  )
+}
+```
+
+Run it:
+
+```sh
+termcast dev
+```
+
+### Raycast import compatibility
+
+If you're porting a Raycast extension, imports from `@raycast/api` and `@raycast/utils` work out of the box. Termcast aliases them at build time, so existing code runs without changes. For new code, import from `termcast` and `@termcast/utils` instead.
+
+### 2. Library inside a CLI
+
+For CLIs that combine regular commands with a TUI mode. Use any CLI framework (like [goke](https://github.com/remorses/goke)) and call `renderWithProviders` when you need a TUI screen.
+
+This is how [zele](https://github.com/remorses/zele) (a Gmail CLI) works: regular commands for sending, searching, and archiving emails, plus a TUI mode for browsing your inbox.
+
+```tsx
+// src/cli.ts
+import { goke } from 'goke'
+
+const cli = goke('myapp')
+
+cli.command('list', 'List items as text').action(async () => {
+  console.log('item 1\nitem 2\nitem 3')
+})
+
+cli.command('', 'Browse items in TUI').action(async () => {
+  const { renderWithProviders } = await import('termcast')
+  const { default: BrowseItems } = await import('./browse.js')
+  const React = await import('react')
+  await renderWithProviders(React.createElement(BrowseItems), {
+    extensionName: 'myapp',
+  })
+})
+
+cli.help()
+cli.parse()
+```
+
+```tsx
+// src/browse.tsx
+import { List, Detail, Action, ActionPanel, useNavigation } from 'termcast'
+import { useCachedPromise } from '@termcast/utils'
+
+export default function BrowseItems() {
+  const { data, isLoading } = useCachedPromise(async () => {
+    const res = await fetch('https://api.example.com/items')
+    return res.json()
+  }, [])
+
+  return (
+    <List isLoading={isLoading} searchBarPlaceholder="Search...">
+      {data?.map((item) => (
+        <List.Item key={item.id} title={item.name} subtitle={item.status} />
+      ))}
+    </List>
+  )
+}
+```
 
 ## Quick Start
-
-Create a new extension and start developing:
 
 ```sh
 termcast new my-extension
@@ -37,66 +121,210 @@ cd my-extension
 termcast dev
 ```
 
-## Usage
+`termcast new` scaffolds an extension from a template with a List, Form, actions, and search. `termcast dev` starts the TUI with **hot module reloading**: edit your code and the UI updates instantly without restarting.
 
-### New
+## CLI Commands
 
-Create a new extension from the template:
+### `termcast dev [path]`
 
-```sh
-termcast new <name>
-```
-
-### Development
-
-Run your extension in dev mode with hot reloading:
+Run an extension in development mode with HMR. Watches for file changes and rebuilds automatically. This is what you use during development.
 
 ```sh
-termcast dev
+termcast dev              # current directory
+termcast dev ./my-app     # specific path
 ```
 
-This watches for file changes and rebuilds automatically.
+### `termcast compile [path]`
 
-### Compile
-
-Build a standalone executable:
+Compile the extension into a **standalone executable**. The output is a single binary that includes Bun, your code, and all dependencies. No runtime needed on the target machine.
 
 ```sh
 termcast compile
+termcast compile -o ./bin/myapp
 ```
 
-### Release
+### `termcast release [path]`
 
-Build and publish to GitHub releases for all platforms:
+Compile for **all platforms** (macOS arm64/x64, Linux arm64/x64, Windows) and upload the binaries to a GitHub release. After publishing, you get an install script URL:
 
 ```sh
 termcast release
 ```
-
-This creates binaries for macOS (arm64, x64), Linux (arm64, x64), and Windows, then uploads them to a GitHub release. After release, you'll get an install script URL:
 
 ```
 Install script:
    curl -sf https://termcast.app/owner/repo/install | bash
 ```
 
-Share this URL so others can install your TUI with a single command.
+Share this URL so anyone can install your TUI with one command. See [tuitube](https://github.com/remorses/tuitube) for a real example:
 
-## Library Usage
+```sh
+curl -sf https://termcast.app/r/tuitube | bash
+```
 
-You can use termcast as a library to render TUI components programmatically, without the CLI or extension system. Use `renderWithProviders` to mount any React component with all termcast infrastructure (navigation, dialogs, storage, query cache, theme):
+### `termcast app build [path]`
+
+Build a **standalone desktop app** (macOS `.app`, Linux, Windows) with a bundled terminal emulator. No terminal needed to run the app.
+
+```sh
+termcast app build
+termcast app build --name "My App" --icon ./icon.png
+termcast app build --release    # upload to GitHub release
+```
+
+Options: `--font`, `--font-size`, `--theme`, `--bundle-id`, `--platform`, `--arch`.
+
+### `termcast new [name]`
+
+Scaffold a new extension from the built-in template.
+
+```sh
+termcast new my-extension
+```
+
+## Core Components
+
+### List
+
+The primary component. Shows a searchable, navigable list of items with optional detail panel, sections, dropdown filters, and pagination.
 
 ```tsx
-import { renderWithProviders, List, Action, ActionPanel } from 'termcast'
+import { List, Action, ActionPanel, Icon, Color } from 'termcast'
 
-function MyApp() {
+function Repos() {
+  return (
+    <List
+      isShowingDetail={true}
+      searchBarPlaceholder="Search repos..."
+      navigationTitle="My Repos"
+    >
+      <List.Section title="Active">
+        <List.Item
+          title="termcast"
+          subtitle="TUI framework"
+          icon={Icon.Star}
+          accessories={[
+            { tag: { value: 'TypeScript', color: Color.Blue } },
+            { text: '2 days ago' },
+          ]}
+          detail={
+            <List.Item.Detail
+              markdown="# termcast\n\nBuild terminal apps with React."
+              metadata={
+                <List.Item.Detail.Metadata>
+                  <List.Item.Detail.Metadata.Label title="Stars" text="420" />
+                  <List.Item.Detail.Metadata.Separator />
+                  <List.Item.Detail.Metadata.TagList title="Topics">
+                    <List.Item.Detail.Metadata.TagList.Item text="react" color={Color.Blue} />
+                    <List.Item.Detail.Metadata.TagList.Item text="tui" color={Color.Green} />
+                  </List.Item.Detail.Metadata.TagList>
+                </List.Item.Detail.Metadata>
+              }
+            />
+          }
+          actions={
+            <ActionPanel>
+              <Action title="Open" onAction={() => {}} />
+              <Action.CopyToClipboard title="Copy URL" content="https://github.com/..." />
+            </ActionPanel>
+          }
+        />
+      </List.Section>
+    </List>
+  )
+}
+```
+
+**List features:** search bar, sections, dropdown filter (`List.Dropdown`), detail panel with markdown + metadata, accessories (tags, text, icons), keyboard navigation, infinite scroll pagination.
+
+### Detail
+
+Full-screen markdown view with optional metadata sidebar. Use for displaying rich content like documentation, email threads, or reports.
+
+```tsx
+import { Detail, Color } from 'termcast'
+
+function ServerStatus() {
+  return (
+    <Detail
+      markdown={`# Server Status\n\nAll systems operational.\n\n| Service | Status |\n|---|---|\n| API | ✓ Running |\n| DB | ✓ Running |`}
+      metadata={
+        <Detail.Metadata>
+          <Detail.Metadata.Label title="Uptime" text="14d 3h" />
+          <Detail.Metadata.Label
+            title="CPU"
+            text={{ value: '42%', color: Color.Orange }}
+          />
+          <Detail.Metadata.Separator />
+          <Detail.Metadata.TagList title="Regions">
+            <Detail.Metadata.TagList.Item text="us-east-1" color={Color.Green} />
+            <Detail.Metadata.TagList.Item text="eu-west-1" color={Color.Blue} />
+          </Detail.Metadata.TagList>
+        </Detail.Metadata>
+      }
+    />
+  )
+}
+```
+
+### Form
+
+Collect user input with text fields, dropdowns, checkboxes, tag pickers, date pickers, and file pickers.
+
+```tsx
+import { Form, Action, ActionPanel, showToast, Toast } from 'termcast'
+
+function CreateIssue() {
+  return (
+    <Form
+      actions={
+        <ActionPanel>
+          <Action.SubmitForm
+            title="Create Issue"
+            onSubmit={async (values) => {
+              await showToast({ style: Toast.Style.Success, title: `Created: ${values.title}` })
+            }}
+          />
+        </ActionPanel>
+      }
+    >
+      <Form.TextField id="title" title="Title" placeholder="Bug report..." />
+      <Form.TextArea id="description" title="Description" />
+      <Form.Dropdown id="priority" title="Priority" defaultValue="medium">
+        <Form.Dropdown.Item value="low" title="Low" />
+        <Form.Dropdown.Item value="medium" title="Medium" />
+        <Form.Dropdown.Item value="high" title="High" />
+      </Form.Dropdown>
+      <Form.Checkbox id="blocking" title="Blocking" label="Blocks release" />
+      <Form.DatePicker id="due" title="Due Date" />
+    </Form>
+  )
+}
+```
+
+**Form controls:** `TextField`, `TextArea`, `Dropdown`, `Checkbox`, `DatePicker`, `TagPicker`, `FilePicker`, `PasswordField`, `Separator`, `Description`.
+
+### Navigation
+
+Push and pop views onto a stack, like a mobile app.
+
+```tsx
+import { List, Detail, Action, ActionPanel, useNavigation } from 'termcast'
+
+function ItemList() {
+  const { push } = useNavigation()
+
   return (
     <List>
       <List.Item
-        title="Hello World"
+        title="View Details"
         actions={
           <ActionPanel>
-            <Action title="Greet" onAction={() => console.log('hi')} />
+            <Action.Push title="Open" target={<ItemDetail />} />
+            <Action
+              title="Open Programmatically"
+              onAction={() => { push(<ItemDetail />) }}
+            />
           </ActionPanel>
         }
       />
@@ -104,48 +332,339 @@ function MyApp() {
   )
 }
 
+function ItemDetail() {
+  const { pop } = useNavigation()
+  return (
+    <Detail
+      markdown="# Item Detail"
+      actions={
+        <ActionPanel>
+          <Action title="Go Back" onAction={() => { pop() }} />
+        </ActionPanel>
+      }
+    />
+  )
+}
+```
+
+### Actions
+
+Actions appear in a panel when you press `Ctrl+P`. They support keyboard shortcuts, sections, and built-in types like copy, push, open URL, and submit form.
+
+```tsx
+<ActionPanel>
+  <ActionPanel.Section title="Primary">
+    <Action title="Open" onAction={() => {}} />
+    <Action title="Edit" shortcut={{ modifiers: ['ctrl'], key: 'e' }} onAction={() => {}} />
+  </ActionPanel.Section>
+  <ActionPanel.Section title="Clipboard">
+    <Action.CopyToClipboard title="Copy ID" content="abc-123" />
+    <Action.Paste title="Paste" content="hello" />
+  </ActionPanel.Section>
+  <ActionPanel.Section>
+    <Action.Push title="View Details" target={<Detail markdown="..." />} />
+    <Action.OpenInBrowser title="GitHub" url="https://github.com" />
+    <Action.SubmitForm title="Save" onSubmit={handleSubmit} />
+  </ActionPanel.Section>
+</ActionPanel>
+```
+
+### Toast
+
+Non-blocking notifications. Supports animated (loading), success, and failure styles with optional actions.
+
+```tsx
+import { showToast, Toast } from 'termcast'
+
+// Simple
+await showToast({ style: Toast.Style.Success, title: 'Saved' })
+
+// With loading state
+const toast = await showToast({ style: Toast.Style.Animated, title: 'Downloading...', message: '0%' })
+// ... update progress
+toast.message = '50%'
+// ... done
+toast.style = Toast.Style.Success
+toast.title = 'Downloaded'
+```
+
+## Data Fetching
+
+The `@termcast/utils` package provides hooks for async data loading, caching, and form management.
+
+### useCachedPromise
+
+Fetches data with automatic caching, revalidation, and loading state. Supports pagination for infinite scroll lists.
+
+```tsx
+import { List } from 'termcast'
+import { useCachedPromise } from '@termcast/utils'
+
+function EmailList() {
+  const { data, isLoading, revalidate, pagination } = useCachedPromise(
+    (query: string) => async ({ cursor }) => {
+      const res = await fetchEmails({ query, pageToken: cursor })
+      return {
+        data: res.emails,
+        hasMore: !!res.nextPageToken,
+        cursor: res.nextPageToken,
+      }
+    },
+    [''],
+    { keepPreviousData: true },
+  )
+
+  return (
+    <List isLoading={isLoading} pagination={pagination}>
+      {data?.map((email) => (
+        <List.Item key={email.id} title={email.subject} subtitle={email.from} />
+      ))}
+    </List>
+  )
+}
+```
+
+### useCachedState
+
+Persistent state that survives across restarts. Backed by SQLite.
+
+```tsx
+import { useCachedState } from '@termcast/utils'
+
+const [selectedFolder, setSelectedFolder] = useCachedState('activeFolder', 'inbox', {
+  cacheNamespace: 'mail',
+})
+```
+
+### usePromise
+
+Like `useCachedPromise` but without caching. Good for one-shot fetches.
+
+```tsx
+import { usePromise } from '@termcast/utils'
+
+const { data: video, isLoading } = usePromise(
+  async (url: string) => {
+    const result = await fetchVideoMetadata(url)
+    return result
+  },
+  [videoUrl],
+  {
+    onError(error) {
+      showToast({ style: Toast.Style.Failure, title: 'Not found', message: error.message })
+    },
+  },
+)
+```
+
+### useForm
+
+Form validation and submission handling.
+
+```tsx
+import { useForm } from '@termcast/utils'
+
+const { handleSubmit, itemProps } = useForm({
+  onSubmit: async (values) => {
+    await saveItem(values)
+  },
+  validation: {
+    url: (value) => {
+      if (!value) return 'URL is required'
+      if (!isValidUrl(value)) return 'Invalid URL'
+    },
+  },
+})
+```
+
+### Error handling
+
+```tsx
+import { showFailureToast } from '@termcast/utils'
+
+try {
+  await riskyOperation()
+} catch (error) {
+  await showFailureToast(error, { title: 'Operation failed' })
+}
+```
+
+## Terminal-only Components
+
+These components go beyond the Raycast API. They render natively in the terminal using braille characters, block elements, and box-drawing characters.
+
+### Graph (line/area charts)
+
+Renders line charts using braille characters. Supports multiple series, Y-axis labels, and area fill.
+
+```tsx
+import { Detail, Graph, Color } from 'termcast'
+
+<Detail
+  markdown="# Stock Price"
+  metadata={
+    <Graph height={15} xLabels={['Jan', 'Apr', 'Jul', 'Oct']} yTicks={6} yFormat={(v) => `$${v.toFixed(0)}`}>
+      <Graph.Line data={[150, 162, 175, 190, 185, 201]} color={Color.Orange} title="AAPL" />
+    </Graph>
+  }
+/>
+```
+
+Variants: `"line"` (default), `"area"` (filled area below the line).
+
+### BarChart (horizontal stacked bars)
+
+Proportional horizontal bar with labeled segments. Good for budgets, disk usage, portfolios.
+
+```tsx
+import { BarChart, Color } from 'termcast'
+
+<BarChart height={1}>
+  <BarChart.Segment value={4850} label="Spent" />
+  <BarChart.Segment value={707} label="Remaining" />
+  <BarChart.Segment value={617} label="Savings" color={Color.Green} />
+</BarChart>
+```
+
+### BarGraph (vertical stacked bars)
+
+Vertical bar chart with `█` fill, gaps between bars, X-axis labels, and a compact legend.
+
+```tsx
+import { BarGraph } from 'termcast'
+
+<BarGraph height={15} labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri']}>
+  <BarGraph.Series data={[40, 30, 25, 15, 50]} title="Direct" />
+  <BarGraph.Series data={[30, 35, 15, 20, 35]} title="Organic" />
+</BarGraph>
+```
+
+### HorizontalBarGraph
+
+Like BarGraph but horizontal. Each row is a stacked bar with a label column and right-side legend.
+
+```tsx
+import { HorizontalBarGraph } from 'termcast'
+
+<HorizontalBarGraph height={10} labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri']}>
+  <HorizontalBarGraph.Series data={[40, 30, 25, 15, 50]} title="Views" />
+  <HorizontalBarGraph.Series data={[20, 25, 10, 10, 25]} title="Clicks" />
+</HorizontalBarGraph>
+```
+
+### CandleChart (OHLC financial charts)
+
+Candlestick charts for financial data. Green bars are bullish (close >= open), red bars are bearish.
+
+```tsx
+import { CandleChart } from 'termcast'
+
+<CandleChart
+  data={candles}  // Array<{ open, close, high, low }>
+  height={12}
+  xLabels={['12d', '8d', '4d', 'Now']}
+  yTicks={4}
+  yFormat={(v) => `$${v.toFixed(2)}`}
+/>
+```
+
+### CalendarHeatmap
+
+GitHub-style contribution heatmap. Shows daily activity over months with configurable colors.
+
+```tsx
+import { CalendarHeatmap, Color } from 'termcast'
+
+<CalendarHeatmap
+  data={dailyData}  // Array<{ date: Date, value: number }>
+  color={Color.Green}
+/>
+```
+
+### Table
+
+Rich tables with markdown formatting in cells (bold, italic, links, code).
+
+```tsx
+import { Table } from 'termcast'
+
+<Table
+  headers={['Region', 'Latency', 'Status']}
+  rows={[
+    ['us-east-1', '**12ms**', '`ok`'],
+    ['eu-west-1', '*45ms*', '`ok`'],
+    ['ap-south-1', '`89ms`', '`warn`'],
+  ]}
+/>
+```
+
+### ProgressBar
+
+Usage-style progress bar with percentage and label.
+
+```tsx
+import { ProgressBar } from 'termcast'
+
+<ProgressBar title="Current session" value={37} percentageSuffix="used" label="Resets 9pm" />
+```
+
+### Row
+
+Place components side by side. Useful for comparing charts, tables, or any metadata.
+
+```tsx
+import { Row, BarGraph } from 'termcast'
+
+<Row>
+  <BarGraph height={10} labels={['Mon', 'Tue', 'Wed']}>
+    <BarGraph.Series data={[40, 30, 25]} title="Week 1" />
+  </BarGraph>
+  <BarGraph height={10} labels={['Mon', 'Tue', 'Wed']}>
+    <BarGraph.Series data={[50, 40, 35]} title="Week 2" />
+  </BarGraph>
+</Row>
+```
+
+### Markdown
+
+Inline markdown rendering inside metadata panels.
+
+```tsx
+import { Markdown } from 'termcast'
+
+<Detail.Metadata>
+  <Markdown content="**Status:** All systems operational. See [docs](https://example.com) for details." />
+</Detail.Metadata>
+```
+
+## Library Usage
+
+Use termcast as a library without the CLI or extension system. Call `renderWithProviders` to mount any React component with all termcast infrastructure (navigation, storage, query cache, theme):
+
+```tsx
+import { renderWithProviders, List } from 'termcast'
+
+function MyApp() {
+  return <List><List.Item title="Hello" /></List>
+}
+
 await renderWithProviders(<MyApp />, {
   extensionName: 'my-app',
 })
 ```
 
-**Options:**
-
 | Option | Default | Description |
 |---|---|---|
-| `extensionName` | `'termcast-app'` | Used to derive storage paths and extension metadata |
-| `extensionPath` | `~/.termcast/compiled/{extensionName}` | Where LocalStorage, Cache, and data.db are stored |
-| `packageJson` | `{ name, title, description: '', commands: [] }` | Extension metadata for preferences, environment, etc. |
-
-All options are optional. Without any options, storage goes to `~/.termcast/compiled/termcast-app/`.
-
-Pass `extensionName` to isolate storage between different apps. Pass `packageJson` if you need preferences or command metadata.
-
-## Why Termcast?
-
-Raycast extensions are limited to macOS and the Raycast app. Termcast lets you use similar patterns to build terminal applications that work cross-platform.
-
-Termcast is a **superset** of the Raycast API—it supports what makes sense in a terminal context, while also enabling terminal-native features that Raycast can't provide:
-
-- **Current working directory** — your TUI knows where it was invoked from
-- **Command-line arguments** — accept input directly from the command line
-- **stdin** — pipe data into your application
-- **Environment context** — full access to the terminal environment
-
-These capabilities make Termcast ideal for building developer tools that integrate naturally with terminal workflows.
-
-## Use Case
-
-If your team already has a Raycast extension, you can use Termcast to create a terminal version that shares code with your existing extension. For example:
-
-- A deployment tool that works both as a Raycast extension and a CLI
-- An internal tool that needs to run on Linux servers
-- A utility you want to distribute without requiring users to install Raycast
+| `extensionName` | `'termcast-app'` | Derives storage paths and extension metadata |
+| `extensionPath` | `~/.termcast/compiled/{extensionName}` | Where LocalStorage and Cache are stored |
+| `packageJson` | `{ name, title, description: '', commands: [] }` | Extension metadata for preferences |
 
 ## Differences from Raycast
 
-- Uses Bun instead of Node
-- Renders in a terminal instead of a macOS app
-- Cross-platform (macOS, Linux)
-- No store—distribute your TUI however you want
-- Best-effort API compatibility (not a drop-in replacement)
+- Uses **Bun** instead of Node
+- Renders in a **terminal** instead of a macOS app
+- **Cross-platform**: macOS, Linux, Windows
+- Compiles to **standalone executables**
+- Can be bundled as a **desktop app** (`.app` on macOS)
+- **Superset** of the Raycast API with terminal-native components (charts, tables, heatmaps)
+- Best-effort API compatibility, not a drop-in replacement
