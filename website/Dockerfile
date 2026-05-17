@@ -8,11 +8,11 @@ COPY docker.package.json ./package.json
 
 RUN npm install
 
-COPY ./build /app/build
+COPY ./dist /app/dist
 COPY ./public /app/public
 
 ENV PORT=8041
 
 EXPOSE $PORT
 
-CMD ["node", "./build/server/server.js"]
+CMD ["node", "./dist/rsc/index.js"]

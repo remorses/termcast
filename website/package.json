@@ -3,11 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun run react-router typegen && pnpm tsc && bun run react-router build",
-    "vercel-build": "react-router typegen && pnpm tsc && react-router build",
-    "dev": "dotenv -- bun run react-router dev --port 8041",
-    "start": "node ./build/server/server.js",
-    "typecheck": "react-router typegen && tsc"
+    "build": "tsc && vite build",
+    "dev": "vite dev --port 8041",
+    "start": "node dist/rsc/index.js",
+    "typecheck": "tsc"
   },
   "exports": {
     "./*": "./*"
@@ -16,37 +15,29 @@
     "@ascii-kit/font": "^0.0.6",
     "@ascii-kit/fonts-flf": "^0.0.6",
     "@radix-ui/react-slot": "^1.2.3",
-    "@react-router/fs-routes": "^7.8.2",
-    "@react-router/node": "^7.8.2",
     "@sentry/node": "^10.32.1",
     "@tailwindcss/typography": "^0.5.16",
+    "@vitejs/plugin-react": "^6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "isbot": "^5.1.30",
     "lucide-react": "^0.542.0",
     "react": "^19.1.1",
     "react-dom": "^19.2.4",
-    "react-router": "^7.8.2",
     "sentries": "^0.2.2",
+    "spiceflow": "1.25.1-rsc.0",
     "tailwind-merge": "^3.3.1",
     "three": "^0.184.0",
     "tw-animate-css": "^1.3.7"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.11.0",
     "@tailwindcss/vite": "^4.1.12",
     "@types/node": "^25.2.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.1.9",
     "@types/three": "^0.184.1",
-    "@vitejs/plugin-react": "^5.0.2",
-    "@xmorse/deployment-utils": "^0.7.4",
-    "dotenv-cli": "^11.0.0",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.9.2",
-    "vite": "^7.3.1",
-    "vite-plugin-environment": "^1.1.3",
-    "vite-tsconfig-paths": "^5.1.4",
+    "vite": "^8",
     "vitest": "^4.0.16"
   }
 }

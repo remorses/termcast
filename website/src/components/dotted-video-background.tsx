@@ -9,6 +9,8 @@
  * - Fluid dye is additively blended with the video before luminance calc
  * - Mouse movement creates splats in the fluid sim
  */
+'use client'
+
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
