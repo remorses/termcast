@@ -32,13 +32,13 @@ test('side detail shows two graphs in a row', async () => {
 
        > Search...
 
-      ›CPU vs Memory Area + Filled side by side       │ CPU vs Memory                               ▲
+      ›CPU vs Memory Area + Filled side by side       │                                             ▲
        Disk I/O Read vs Write operations              │                                             █
        Revenue vs Expenses Striped comparison         │                                             █
-       Weather Station Temperature + Humidity         │ Area chart (left) shows CPU with high       █
-       Mixed Variants Area left, Striped right        │ variance.                                   █
-       Sparse Data (Zeros) Filled vs Striped with zer │ Filled chart (right) shows memory steadily  █
-                                                      │ climbing.                                   █
+       Weather Station Temperature + Humidity         │                                             █
+       Mixed Variants Area left, Striped right        │                                             █
+       Sparse Data (Zeros) Filled vs Striped with zer │                                             █
+                                                      │                                             █
                                                       │                                             █
                                                       │ 100│            ⡀     100│                  █
                                                       │    │     ⡄     ⣼⣷⡀       │             ▖▖▌▌ █

@@ -157,10 +157,8 @@ test('list detail metadata renders colored values and tag lists', async () => {
        > Search...
 
        Short Values                         │ Project Status
-       Long Values                          │
-      ›Colored & Tags                       │
-                                            │ Overview of the current project
-                                            │ state.
+       Long Values                          │ Overview of the current project
+      ›Colored & Tags                       │ state.
                                             │
                                             │ Info
                                             │
@@ -179,6 +177,8 @@ test('list detail metadata renders colored values and tag lists', async () => {
                                             │ ──────────────────────────────────
                                             │
        ↑↓ navigate   ^k actions   :vim      │ Repo:     github.com/example
+
+
 
 
 

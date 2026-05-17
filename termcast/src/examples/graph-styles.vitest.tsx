@@ -194,7 +194,7 @@ test('markdown + metadata detail view in list', async () => {
        Filled - Green Temp Daily temperatur │ - Peak CPU at 90% around 15h
        Filled - Yellow CPU High contrast on │ - Memory steadily climbing to 86%
        Filled - Magenta Waves Smooth curve  │ - CPU has high variance, memory
-       Striped - Purple/Orange Warm alterna │ is monotonic
+       Striped - Purple/Orange Warm alterna │   is monotonic
        Striped - Blue/Red High contrast str │
        Striped - Theme Default primary + ac │ 100│
        Striped - Green/Yellow Nature-inspir │    │                   ⣠⣶⣧   ⣀⣠⣤⣶

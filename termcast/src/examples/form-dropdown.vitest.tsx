@@ -102,7 +102,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -162,7 +162,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -219,7 +219,7 @@ test('form dropdown shows inline options', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -344,7 +344,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -401,7 +401,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -458,7 +458,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -515,7 +515,7 @@ test('form dropdown keyboard navigation', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -580,7 +580,7 @@ test('form dropdown with default value', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -637,7 +637,7 @@ test('form dropdown with default value', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -708,7 +708,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █
@@ -765,7 +765,7 @@ test('selecting second-to-last visible item should not scroll', async () => {
 
 
 
-      ▪  Dropdown Component Demo                                       █
+      ▪︎  Dropdown Component Demo                                       █
       │  Test dropdown with sections, multiple selection, and more     █
       │  features                                                      █
       │                                                                █

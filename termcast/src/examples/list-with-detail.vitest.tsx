@@ -80,13 +80,11 @@ test('list with detail view display and navigation', async () => {
        > Search Pokemon...
 
        bulbasaur #001                       │ ivysaur                           ▲
-      ›ivysaur #002                         │                                   █
-       charmander #004                      │
-       charmeleon #005                      │ Illustration
-       squirtle #007                        │ Types
-       wartortle #008                       │
-                                            │ Grass / Poison
-                                            │ Characteristics
+      ›ivysaur #002                         │ Illustration                      █
+       charmander #004                      │ Types
+       charmeleon #005                      │
+       squirtle #007                        │ Grass / Poison
+       wartortle #008                       │ Characteristics
                                             │
                                             │ - Height: 1m
                                             │ - Weight: 13kg
@@ -103,7 +101,9 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │ Poison
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
+                                            │ ─────────────────────────────────
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ Characteristics                   ▼
 
     "
   `)
@@ -120,13 +120,11 @@ test('list with detail view display and navigation', async () => {
        > Search Pokemon...
 
        bulbasaur #001                       │ charmander                        ▲
-       ivysaur #002                         │                                   █
-      ›charmander #004                      │                                   ▀
-       charmeleon #005                      │ Illustration
-       squirtle #007                        │ Types
-       wartortle #008                       │
-                                            │ Fire
-                                            │ Characteristics
+       ivysaur #002                         │ Illustration                      █
+      ›charmander #004                      │ Types                             ▀
+       charmeleon #005                      │
+       squirtle #007                        │ Fire
+       wartortle #008                       │ Characteristics
                                             │
                                             │ - Height: 0.6m
                                             │ - Weight: 8.5kg
@@ -143,7 +141,9 @@ test('list with detail view display and navigation', async () => {
                                             │
                                             │ Characteristics
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:      0.6m                 ▼
+                                            │ Height:      0.6m
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -163,8 +163,8 @@ test('list with detail view display and navigation', async () => {
        > Search Pokemon...
 
        bulbasaur #001                       │ charmander                        ▲
-       ivysaur #002                         │                                   █
-      ›charmander #004                      │                                   ▀
+       ivysaur #002                         │ Illustration                      █
+      ›charmander #004                      │ Types                             ▀
       ╭──────────────────────────────────────────────────────────────────────────╮
       │                                                                          │
       │   Actions                                                          esc   │
@@ -186,7 +186,7 @@ test('list with detail view display and navigation', async () => {
       │                                                                          │
       ╰──────────────────────────────────────────────────────────────────────────╯
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:      0.6m                 ▼
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -304,10 +304,8 @@ test('list detail view search functionality', async () => {
        > char
 
       ›charmander #004                      │ charmander                        ▲
-       charmeleon #005                      │                                   █
-                                            │                                   ▀
-                                            │ Illustration
-                                            │ Types
+       charmeleon #005                      │ Illustration                      █
+                                            │ Types                             ▀
                                             │
                                             │ Fire
                                             │ Characteristics
@@ -327,7 +325,9 @@ test('list detail view search functionality', async () => {
                                             │
                                             │ Characteristics
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:      0.6m                 ▼
+                                            │ Height:      0.6m
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -353,10 +353,8 @@ test('list detail view search functionality', async () => {
        > water
 
                                             │ wartortle                         ▲
-                                            │                                   █
-                  No items found            │                                   ▀
-                                            │ Illustration
-                                            │ Types
+                                            │ Illustration                      █
+                  No items found            │ Types                             ▀
                                             │
                                             │ Water
                                             │ Characteristics
@@ -376,7 +374,9 @@ test('list detail view search functionality', async () => {
                                             │
                                             │ Characteristics
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:    1m                     ▼
+                                            │ Height:    1m
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -393,10 +393,8 @@ test('list detail view search functionality', async () => {
        > water
 
                                             │ wartortle                         ▲
-                                            │                                   █
-                  No items found            │                                   ▀
-                                            │ Illustration
-                                            │ Types
+                                            │ Illustration                      █
+                  No items found            │ Types                             ▀
                                             │
                                             │ Water
                                             │ Characteristics
@@ -416,7 +414,9 @@ test('list detail view search functionality', async () => {
                                             │
                                             │ Characteristics
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:    1m                     ▼
+                                            │ Height:    1m
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -492,13 +492,11 @@ test('list detail metadata rendering', async () => {
        > Search Pokemon...
 
        bulbasaur #001                       │ squirtle                          ▲
-       ivysaur #002                         │                                   █
-       charmander #004                      │                                   ▀
-       charmeleon #005                      │ Illustration
-      ›squirtle #007                        │ Types
-       wartortle #008                       │
-                                            │ Water
-                                            │ Characteristics
+       ivysaur #002                         │ Illustration                      █
+       charmander #004                      │ Types                             ▀
+       charmeleon #005                      │
+      ›squirtle #007                        │ Water
+       wartortle #008                       │ Characteristics
                                             │
                                             │ - Height: 0.5m
                                             │ - Weight: 9kg
@@ -515,7 +513,9 @@ test('list detail metadata rendering', async () => {
                                             │
                                             │ Characteristics
                                             │
-       ↵ toggle detail   ↑↓ navigate   ^k a │ Height:    0.5m                   ▼
+                                            │ Height:    0.5m
+                                            │
+       ↵ toggle detail   ↑↓ navigate   ^k a │ ───────────────────────────────── ▼
 
     "
   `)
@@ -595,9 +595,7 @@ test('list with detail layout consistency - short vs long detail content', async
 
        Short Detail                         │ This item has extensive detail    ▲
       ›Long Detail                          │ content                           ▀
-       Another Item                         │
-                                            │
-                                            │ Section 1
+       Another Item                         │ Section 1
                                             │
                                             │ This is a very long description
                                             │ that contains multiple paragraphs
@@ -609,7 +607,9 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │ More content here to ensure we
                                             │ have enough text to cause
                                             │ vertical overflow in the detail
-       ↑↓ navigate   ^k actions   :vim      │ panel scrollbox.                  ▼
+                                            │ panel scrollbox.
+                                            │ Section 3
+       ↑↓ navigate   ^k actions   :vim      │                                   ▼
 
     "
   `)

@@ -147,7 +147,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -207,7 +207,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -264,7 +264,7 @@ test('form tagpicker shows inline options', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -389,7 +389,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -446,7 +446,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -503,7 +503,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -560,7 +560,7 @@ test('form tagpicker keyboard navigation', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -625,7 +625,7 @@ test('form tagpicker with default value', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -682,7 +682,7 @@ test('form tagpicker with default value', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -746,7 +746,7 @@ test('form tagpicker with default value', async () => {
 
 
 
-      ▪  TagPicker Component Demo
+      ▪︎  TagPicker Component Demo
       │  Test tag picker with multiple selection support
       │
       ◆  Favorite Sport
@@ -770,7 +770,7 @@ test('form tagpicker with default value', async () => {
       │  ○ Poland
       │
       │
-      ▪  Submitted Data
+      ▪︎  Submitted Data
       │  {
       │    "sports": [
       │      "basketball"

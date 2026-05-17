@@ -228,7 +228,7 @@ test('grid search functionality', async () => {
        🚀 Rocket
        ⭐ Star
        🌙 Moon
-       ☀ Sun
+       ☀️ Sun
 
 
        ↵ show details   ↑↓ navigate   ^k actions   :vim
@@ -268,7 +268,7 @@ test('grid search functionality', async () => {
        🚀 Rocket
        ⭐ Star
        🌙 Moon
-       ☀ Sun
+       ☀️ Sun
 
 
        ↵ show details   ↑↓ navigate   ^k actions   :vim
@@ -342,7 +342,7 @@ test('grid search functionality', async () => {
        🚀 Rocket
        ⭐ Star
        🌙 Moon
-       ☀ Sun
+       ☀️ Sun
 
 
        ↵ show details   ↑↓ navigate   ^k actions   :vim
@@ -535,7 +535,7 @@ test('grid mouse interaction', async () => {
        🚀 Rocket
       ›⭐ Star
        🌙 Moon
-       ☀ Sun
+       ☀️ Sun
 
 
 

@@ -131,20 +131,21 @@ export const aliasPlugin: BunPlugin = {
         // Handle regular packages
         const pkg = packages.find((p) => p.path === args.path)
         if (pkg) {
+          if (pkg.path === 'react') {
+            return {
+              contents: `module.exports = globalThis.${pkg.globalName};`,
+              loader: 'js',
+              pure: true,
+            }
+          }
+
           const exports: string[] = []
 
           for (const key in pkg.module) {
             if (key === 'default') {
-              // Special handling for react default export
-              if (pkg.path === 'react') {
-                exports.push(
-                  `export default /* @__PURE__ */ globalThis.${pkg.globalName};`,
-                )
-              } else {
-                exports.push(
-                  `export default /* @__PURE__ */ globalThis.${pkg.globalName}.default;`,
-                )
-              }
+              exports.push(
+                `export default /* @__PURE__ */ globalThis.${pkg.globalName}.default;`,
+              )
             } else {
               exports.push(
                 `export const ${key} = /* @__PURE__ */ globalThis.${pkg.globalName}.${key};`,
