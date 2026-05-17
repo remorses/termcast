@@ -13,10 +13,6 @@ import {
   readFileSync,
   ensureDir,
   execCommand,
-  readdirSync,
-  rmSync,
-  mkdirSync,
-  cpSync,
 } from '#platform/runtime'
 import {
   parsePackageJson,
@@ -317,88 +313,9 @@ export function captureException(exception: unknown): void {
   console.error('[captureException] Exception captured:', exception)
 }
 
-export function getExtensionPath(extensionName: string): string {
-  const storeDir = getStoreDirectory()
-  return joinPath(storeDir, extensionName)
-}
-
-export function getExtensionPackageJsonPath(extensionName: string): string {
-  return joinPath(getExtensionPath(extensionName), 'package.json')
-}
-
-export function getExtensionPackageJson(
-  extensionName: string,
-): RaycastPackageJson | null {
-  const packageJsonPath = getExtensionPackageJsonPath(extensionName)
-
-  if (!fileExists(packageJsonPath)) {
-    return null
-  }
-
-  try {
-    return parsePackageJson({ packageJsonPath })
-  } catch (error) {
-    console.error(`Failed to parse package.json for ${extensionName}:`, error)
-    return null
-  }
-}
-
 export interface ExtensionPreferencesInfo {
   hasPreferences: boolean
   hasRequiredPreferences: boolean
-}
-
-export function checkExtensionPreferences(
-  extensionName: string,
-): ExtensionPreferencesInfo {
-  const packageJson = getExtensionPackageJson(extensionName)
-
-  if (!packageJson) {
-    return { hasPreferences: false, hasRequiredPreferences: false }
-  }
-
-  // Check for extension-wide preferences
-  const hasExtensionPreferences =
-    packageJson.preferences && packageJson.preferences.length > 0
-
-  // Check if any command has preferences
-  const commandsWithPreferences = (packageJson.commands || []).filter(
-    (cmd) => cmd.preferences && cmd.preferences.length > 0,
-  )
-
-  const hasPreferences =
-    hasExtensionPreferences || commandsWithPreferences.length > 0
-
-  // Check for required extension-wide preferences
-  const requiredExtensionPrefs = (packageJson.preferences || []).filter(
-    (pref) => pref.required,
-  )
-
-  // Check if any command has required preferences
-  const commandsWithRequiredPrefs = (packageJson.commands || []).filter(
-    (cmd) => {
-      const requiredPrefs = (cmd.preferences || []).filter(
-        (pref) => pref.required,
-      )
-      return requiredPrefs.length > 0
-    },
-  )
-
-  const hasRequiredPreferences =
-    requiredExtensionPrefs.length > 0 || commandsWithRequiredPrefs.length > 0
-
-  return { hasPreferences, hasRequiredPreferences }
-}
-
-// Store management types
-interface BundledCommand extends CommandWithFile {
-  bundledPath: string
-}
-
-interface StoredExtension {
-  name: string
-  packageJsonPath: string
-  commands: BundledCommand[]
 }
 
 export function resolveCommandPath({
@@ -425,87 +342,7 @@ export function resolveCommandPath({
   return ''
 }
 
-export function getStoreDirectory(): string {
-  const homeDir = homedir()
-  const storeDir = joinPath(homeDir, '.termcast', 'store')
 
-  // Ensure store directory exists
-  ensureDir(storeDir)
-
-  return storeDir
-}
-
-export function installExtension({
-  extensionName,
-  extensionSourcePath,
-}: {
-  extensionName: string
-  extensionSourcePath: string
-}): void {
-  const storeDir = getStoreDirectory()
-  const extensionDir = joinPath(storeDir, extensionName)
-
-  if (fileExists(extensionDir)) {
-    rmSync(extensionDir)
-  }
-
-  mkdirSync(extensionDir)
-  cpSync(extensionSourcePath, extensionDir)
-
-  logger.log(`Extension '${extensionName}' installed to ${extensionDir}`)
-}
-
-export function getStoredExtensions(): StoredExtension[] {
-  const storeDir = getStoreDirectory()
-  const extensions: StoredExtension[] = []
-
-  if (!fileExists(storeDir)) {
-    return extensions
-  }
-
-  const entries = readdirSync(storeDir)
-
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue
-
-    const extensionDir = joinPath(storeDir, entry.name)
-    const packageJsonPath = joinPath(extensionDir, 'package.json')
-
-    if (!fileExists(packageJsonPath)) {
-      logger.log(`Skipping ${entry.name}: no package.json found`)
-      continue
-    }
-
-    try {
-      const commandsData = getCommandsWithFiles({ packageJsonPath })
-
-      // Map commands to bundled commands using the resolver
-      const bundledCommands: BundledCommand[] = commandsData.commands.map(
-        (command) => {
-          const bundledPath = resolveCommandPath({
-            commandName: command.name,
-            dir: extensionDir,
-          })
-
-          return {
-            ...command,
-            bundledPath,
-          }
-        },
-      )
-
-      extensions.push({
-        name: entry.name,
-        packageJsonPath,
-        commands: bundledCommands,
-      })
-    } catch (error: any) {
-      logger.error(`Failed to load extension ${entry.name}:`, error.message)
-    }
-  }
-
-  return extensions
-}
 
 export type ParseExecOutputHandler<T = any> = (args: { stdout: string }) => T
 

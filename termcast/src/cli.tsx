@@ -11,7 +11,7 @@ import { goke } from 'goke'
 import { getWatcher } from './watcher'
 import { buildExtensionCommands } from './build'
 import { logger } from './logger'
-import { installExtension } from './utils'
+
 import { searchStoreListings } from './store-api/search'
 import './globals'
 import { startDevMode, triggerRebuild } from './extensions/dev'
@@ -19,7 +19,7 @@ import { compileExtension } from './compile'
 import { releaseExtension } from './release'
 import { buildApp } from './app'
 import { themeNames } from './themes'
-import { runHomeCommand } from './extensions/home'
+
 import { showToast, Toast } from './apis/toast'
 import packageJson from '../package.json'
 
@@ -174,40 +174,7 @@ cli
     await runDevAction(rawExtensionPath)
   })
 
-cli
-  .command('build [path]', 'Build and install the extension to user store')
-  .action(async (extensionPath, options) => {
-    extensionPath = path.resolve(extensionPath || process.cwd())
 
-    console.log('Building extension...')
-    try {
-      const buildResult = await buildExtensionCommands({
-        extensionPath,
-        format: 'esm',
-        target: 'bun',
-      })
-      console.log(`Successfully built ${buildResult.commands.length} commands`)
-
-      for (const cmd of buildResult.commands) {
-        if (cmd.bundledPath) {
-          console.log(`  ✓ ${cmd.name}`)
-        }
-      }
-
-      const packageJsonPath = path.join(extensionPath, 'package.json')
-      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
-      const extensionName = packageJson.name || path.basename(extensionPath)
-      installExtension({
-        extensionName,
-        extensionSourcePath: extensionPath,
-      })
-      console.log(`\nExtension installed to store as '${extensionName}'`)
-      process.exit(0)
-    } catch (error: any) {
-      console.error('Build failed:', error.message)
-      process.exit(1)
-    }
-  })
 
 cli
   .command('compile [path]', 'Compile the extension to a standalone executable')
@@ -846,11 +813,7 @@ cli
     }
   })
 
-cli
-  .command('legacy-raycast-store', 'List and run installed extensions')
-  .action(async () => {
-    await runHomeCommand()
-  })
+
 
 
 

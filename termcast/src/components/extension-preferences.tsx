@@ -7,7 +7,7 @@ import { ActionPanel, Action } from './actions'
 import { LocalStorage } from 'termcast/src/apis/localstorage'
 import { useNavigation } from 'termcast/src/internal/navigation'
 import { logger } from 'termcast/src/logger'
-import { getStoreDirectory } from 'termcast/src/utils'
+
 import { useStore } from 'termcast/src/state'
 import type { RaycastPackageJson } from 'termcast/src/package-json'
 
@@ -46,7 +46,6 @@ export function ExtensionPreferences({
     queryKey: ['extension-preferences', extensionName, commandName],
     queryFn: async () => {
       try {
-        // First check extensionPath from state (dev mode), then fall back to store directory
         const { extensionPath, extensionPackageJson } = useStore.getState()
 
         let packageJson: RaycastPackageJson
@@ -58,16 +57,7 @@ export function ExtensionPreferences({
           // Dev mode with extensionPath - read from disk
           packageJson = JSON.parse(readFileSync(joinPath(extensionPath, 'package.json')))
         } else {
-          // Store extension - read from store directory
-          const storeDir = getStoreDirectory()
-          const extensionDir = joinPath(storeDir, extensionName)
-          const packageJsonPath = joinPath(extensionDir, 'package.json')
-
-          if (!fileExists(packageJsonPath)) {
-            throw new Error(`Extension ${extensionName} not found`)
-          }
-
-          packageJson = JSON.parse(readFileSync(packageJsonPath))
+          throw new Error(`Extension ${extensionName} not found`)
         }
 
         let prefsToUse: PreferenceManifest[] = []
