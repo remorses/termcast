@@ -171,15 +171,19 @@ export class GraphPlotRenderable extends Renderable {
       }
     }
 
-    // X-axis labels
+    // X-axis labels (skip labels that would overlap the previous one)
     if (this._xLabels.length > 0) {
       const xAxisRow = plotY + plotH
       const labelCount = this._xLabels.length
+      let occupiedEnd = -1
       for (let i = 0; i < labelCount; i++) {
         const label = this._xLabels[i]!
+        if (!label) continue
         const labelX = plotX + Math.round((i / Math.max(1, labelCount - 1)) * (plotW - 1))
         const centeredX = Math.max(plotX, Math.min(labelX - Math.floor(label.length / 2), plotX + plotW - label.length))
+        if (centeredX <= occupiedEnd) continue
         buffer.drawText(label, centeredX, xAxisRow, axisRgba)
+        occupiedEnd = centeredX + label.length
       }
     }
   }

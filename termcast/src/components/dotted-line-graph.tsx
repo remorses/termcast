@@ -125,10 +125,15 @@ class DottedLineGraphPlotRenderable extends Renderable {
       }
     }
 
+    // X-axis labels (skip labels that would overlap the previous one)
+    let occupiedEnd = -1
     this._xLabels.forEach((label, index) => {
+      if (!label) return
       const labelX = plotX + Math.round((index / Math.max(1, this._xLabels.length - 1)) * (plotW - 1))
       const centeredX = Math.max(plotX, Math.min(labelX - Math.floor(label.length / 2), plotX + plotW - label.length))
+      if (centeredX <= occupiedEnd) return
       buffer.drawText(label, centeredX, plotY + plotH, axisColor)
+      occupiedEnd = centeredX + label.length
     })
   }
 
