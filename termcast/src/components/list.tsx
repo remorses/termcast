@@ -374,6 +374,8 @@ export interface DropdownProps extends SearchBarInterface, CommonProps {
   storeValue?: boolean
   value?: string
   defaultValue?: string
+  /** Override the text shown in the search bar for the active selection. When set, this is displayed instead of the selected item's title. Useful for managed state where the display label doesn't match any dropdown item. */
+  displayValue?: string
   onChange?: (newValue: string) => void
   children?: ReactNode
 }
@@ -2127,9 +2129,9 @@ const ListDropdown: ListDropdownType = (props) => {
 
   const { isDropdownOpen, setIsDropdownOpen } = listContext
 
-  const setDropdownSelection = (props: { value: string; title: string }) => {
-    setDropdownState({ value: props.value, title: props.title })
-    useStore.setState({ dropdownFooterLabel: props.title || 'dropdown' })
+  const setDropdownSelection = (selectionProps: { value: string; title: string }) => {
+    setDropdownState({ value: selectionProps.value, title: selectionProps.title })
+    useStore.setState({ dropdownFooterLabel: props.displayValue ?? (selectionProps.title || 'dropdown') })
   }
   // Store both value and title together
   const [dropdownState, setDropdownState] = useState<{
@@ -2168,7 +2170,7 @@ const ListDropdown: ListDropdownType = (props) => {
 
     if (!valueToUse) {
       useStore.setState({
-        dropdownFooterLabel: dropdownState.title || 'dropdown',
+        dropdownFooterLabel: props.displayValue ?? (dropdownState.title || 'dropdown'),
       })
       return
     }
@@ -2189,8 +2191,8 @@ const ListDropdown: ListDropdownType = (props) => {
       return
     }
 
-    useStore.setState({ dropdownFooterLabel: title || 'dropdown' })
-  }, [props.value]) // Run when props.value changes and on mount
+    useStore.setState({ dropdownFooterLabel: props.displayValue ?? (title || 'dropdown') })
+  }, [props.value, props.displayValue]) // Run when props.value or displayValue changes and on mount
 
   const dropdownContextValue = useMemo<DropdownContextValue>(
     () => ({
@@ -2242,8 +2244,8 @@ const ListDropdown: ListDropdownType = (props) => {
     }
   }, [isDropdownOpen, props.children])
 
-  // Display the title from our state
-  const displayValue = dropdownState.title || 'All'
+  // Display the title from our state, or use the caller's override
+  const displayValue = props.displayValue ?? (dropdownState.title || 'All')
   const openDropdownIfClosed = () => {
     if (!isDropdownOpen) {
       listContext.openDropdown()
