@@ -1,4 +1,4 @@
-import { List, Form, Action, ActionPanel, showToast, Toast } from '@raycast/api'
+import { List, Form, Action, ActionPanel, showToast, Toast } from 'termcast'
 import { useState } from 'react'
 
 interface Item {
