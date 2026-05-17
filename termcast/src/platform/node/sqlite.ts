@@ -1,13 +1,14 @@
 /**
- * SQLite Database for Node.js — uses better-sqlite3.
+ * SQLite Database for Node.js — uses the built-in node:sqlite module.
  *
- * Translates bun:sqlite constructor options ({ create, readwrite })
- * to better-sqlite3 options ({ fileMustExist, readonly }).
- * All other APIs (prepare/get/all/run/exec/transaction/close) are
- * identical between the two libraries.
+ * Translates bun:sqlite constructor options ({ create, readwrite, readonly })
+ * to node:sqlite DatabaseSync options ({ readOnly }).
+ * Adds a transaction() polyfill since node:sqlite lacks a built-in one.
+ *
+ * Requires Node.js >= 22.13.0 (node:sqlite without --experimental-sqlite flag).
  */
 
-import BetterSqlite3 from 'better-sqlite3'
+import { DatabaseSync } from 'node:sqlite'
 
 interface DatabaseOptions {
   create?: boolean
@@ -16,16 +17,31 @@ interface DatabaseOptions {
 }
 
 function NodeDatabase(path: string, options?: DatabaseOptions) {
-  const betterOpts: { fileMustExist?: boolean; readonly?: boolean } = {}
+  const readOnly = options?.readonly === true || options?.readwrite === false
 
-  if (options?.create === false) {
-    betterOpts.fileMustExist = true
-  }
-  if (options?.readonly === true || options?.readwrite === false) {
-    betterOpts.readonly = true
+  const db = new DatabaseSync(path, {
+    readOnly,
+  })
+
+  // node:sqlite's DatabaseSync lacks a transaction() helper.
+  // Polyfill it to match better-sqlite3 / bun:sqlite behavior:
+  // transaction(fn) returns a new function that wraps fn in BEGIN/COMMIT/ROLLBACK.
+  const dbAny = db as any
+  dbAny.transaction = <T>(fn: () => T): (() => T) => {
+    return () => {
+      db.exec('BEGIN')
+      try {
+        const result = fn()
+        db.exec('COMMIT')
+        return result
+      } catch (e) {
+        db.exec('ROLLBACK')
+        throw e
+      }
+    }
   }
 
-  return new BetterSqlite3(path, betterOpts)
+  return db
 }
 
 export const Database: new (path: string, options?: DatabaseOptions) => DatabaseInstance = NodeDatabase as any
