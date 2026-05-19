@@ -34,10 +34,10 @@ test('renders horizontal stacked rows and compact legend', async () => {
 
        > Search...
 
-      ›Weekly Traffic Direct / Organic / Referra │ category  distribution  legend
+      ›Wee...fficDirect / Organ... across 6 days │ category  distribution  legend
        Revenue by Region Americas / EMEA / APAC  │ ────────  ────────────  ───────────────
-       Long Labels The left label column truncat │ Mon       ╻╻╻╻╻╻╻╻╻╻    ● Direct    42%
-       Many Series Legend grows only as wide as  │ Tue       ╻╻╻╻╻╻╻╻╻╻    ● Organic   35%
+       Lon...el The left label...ng legend space │ Mon       ╻╻╻╻╻╻╻╻╻╻    ● Direct    42%
+       Man...ie Legend grows o...s content needs │ Tue       ╻╻╻╻╻╻╻╻╻╻    ● Organic   35%
                                                  │ Wed       ╻╻╻╻╻         ● Referral  23%
                                                  │ Thu       ╻╻╻╻╻
                                                  │ Fri       ╻╻╻╻╻╻╻╻╻╻╻╻
@@ -65,13 +65,13 @@ test('renders horizontal stacked rows and compact legend', async () => {
 }, 30000)
 
 test('long labels truncate and leave legend visible', async () => {
-  await session.text({ waitFor: (content) => content.includes('Long Labels'), timeout: 10000 })
+  await session.text({ waitFor: (content) => content.includes('Lon...el'), timeout: 10000 })
   session.sendKey('down')
   session.sendKey('down')
 
   const text = await session.text({
     waitFor: (content) => {
-      return content.includes('›Long Labels') && content.includes('Views')
+      return content.includes('›Lon...el') && content.includes('Views')
     },
     timeout: 10000,
   })
@@ -84,10 +84,10 @@ test('long labels truncate and leave legend visible', async () => {
 
        > Search...
 
-       Weekly Traffic Direct / Organic / Referra │ day               traffi  source
+       Wee...fficDirect / Organ... across 6 days │ day               traffi  source
        Revenue by Region Americas / EMEA / APAC  │ ────────────────  ──────  ─────────────
-      ›Long Labels The left label column truncat │ Monday            ╻╻╻╻╻   ● Views   65%
-       Many Series Legend grows only as wide as  │ Tuesday           ╻╻╻╻    ● Clicks  35%
+      ›Lon...el The left label...ng legend space │ Monday            ╻╻╻╻╻   ● Views   65%
+       Man...ie Legend grows o...s content needs │ Tuesday           ╻╻╻╻    ● Clicks  35%
                                                  │ Wednesday         ╻╻╻
                                                  │ Thursday          ╻╻
                                                  │ Friday            ╻╻╻╻╻╻
@@ -114,14 +114,14 @@ test('long labels truncate and leave legend visible', async () => {
 }, 30000)
 
 test('many series keeps bars readable and clips legend vertically', async () => {
-  await session.text({ waitFor: (content) => content.includes('Many Series'), timeout: 10000 })
+  await session.text({ waitFor: (content) => content.includes('Man...ie'), timeout: 10000 })
   session.sendKey('down')
   session.sendKey('down')
   session.sendKey('down')
 
   const text = await session.text({
     waitFor: (content) => {
-      return content.includes('›Many Series') && content.includes('Series 8')
+      return content.includes('›Man...ie') && content.includes('Series 8')
     },
     timeout: 10000,
   })
@@ -134,10 +134,10 @@ test('many series keeps bars readable and clips legend vertically', async () => 
 
        > Search...
 
-       Weekly Traffic Direct / Organic / Referra │ category  distribution  legend
+       Wee...fficDirect / Organ... across 6 days │ category  distribution  legend
        Revenue by Region Americas / EMEA / APAC  │ ────────  ────────────  ───────────────
-       Long Labels The left label column truncat │ Mon       ╻╻╻╻╻╻╻╻      ● Series 8  20%
-      ›Many Series Legend grows only as wide as  │ Tue       ╻╻╻╻╻╻╻       ● Series 7  18%
+       Lon...el The left label...ng legend space │ Mon       ╻╻╻╻╻╻╻╻      ● Series 8  20%
+      ›Man...ie Legend grows o...s content needs │ Tue       ╻╻╻╻╻╻╻       ● Series 7  18%
                                                  │ Wed       ╻╻╻╻╻╻        ● Series 6  16%
                                                  │ Thu       ╻╻╻╻╻╻        ● Series 5  14%
                                                  │ Fri       ╻╻╻╻╻╻╻╻╻╻╻╻  ● Series 4  11%

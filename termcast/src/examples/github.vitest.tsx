@@ -57,19 +57,19 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
   // Wait for command list to appear (extension has multiple commands)
   // Don't match "Commands" alone - it falsely matches "Building 18 commands..." build log
   const initialView = await session.text({
-    waitFor: (text) => /My Pull Requests|Search Repositories/i.test(text),
+    waitFor: (text) => /My Pu.*uest|Search .*sitories/i.test(text),
     timeout: 30000,
   })
 
   // Wait for the full command list to render.
   // The list can paint the first item before all descendants are registered.
   await session.text({
-    waitFor: (text) => text.includes('My Pull Requests') && text.includes('Search Repositories'),
+    waitFor: (text) => text.includes('My Pu...uest') && text.includes('Search ...sitories'),
     timeout: 30000,
   })
 
-  expect(initialView).toContain('My Pull Requests')
-  expect(initialView).toContain('Search Repositories')
+  expect(initialView).toContain('My Pu...uest')
+  expect(initialView).toContain('Search ...sitories')
   expect(initialView).toMatchInlineSnapshot(`
     "
 
@@ -79,19 +79,19 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
        > Search commands...
 
        Commands
-      ›My Pull Requests List pull requests you created, participated in, or  view
-       Search Pull Requests Search recent pull requests globally in all repo view
-       Create Pull Request Create a pull request in one of your GitHub repos view
-       My Issues List issues created by you, assigned to you or mentioning y view
+      ›My Pu...uest List pull requests you cre...d in, or were mentioned in. view
+       Search ...RequestsSearch recent pull reque...lly in all repositories. view
+       Create ...RequestCreate a pull request in...your GitHub repositories. view
+       My IssuesList issues created by you, ...ned to you or mentioning you. view
        Search Issues Search recent issues globally in all repositories.      view
        Create Issue Create an issue in one of your GitHub repositories.      view
        Create Branch Create a branch in one of your GitHub repositories      view
-       Search Repositories Search in your public or private repositories by  view
+       Search ...sitoriesSearch in your public or...te repositories by name. view
        My Latest Repositories List your repositories by latest updated       view
        My Starred Repositories List repositories you have starred            view
        Workflow Runs Manage workflow runs for a selected GitHub repository.  view
-       Notifications List inbox notifications from all repositories or a sel view
-       Search Discussions Search recent Discussions globally in all reposito view
+       Noti...ionsList inbox notifications fr...es or a selected repository. view
+       Search ...ussionsSearch recent Discussion...bally in all repositories view
        My Discussions Show your Discussions                                  view
        My Projects Show your Projects                                        view
 
@@ -108,7 +108,7 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
 test.skipIf(!extensionExists)('github extension can navigate commands', async () => {
   // Wait for command list
   await session.text({
-    waitFor: (text) => text.includes('My Pull Requests') && text.includes('Search Repositories'),
+    waitFor: (text) => text.includes('My Pu...uest') && text.includes('Search ...sitories'),
     timeout: 30000,
   })
 
@@ -128,19 +128,19 @@ test.skipIf(!extensionExists)('github extension can navigate commands', async ()
        > Search commands...
 
        Commands
-       My Pull Requests List pull requests you created, participated in, or  view
-       Search Pull Requests Search recent pull requests globally in all repo view
-      ›Create Pull Request Create a pull request in one of your GitHub repos view
-       My Issues List issues created by you, assigned to you or mentioning y view
+       My Pu...uest List pull requests you cre...d in, or were mentioned in. view
+       Search ...RequestsSearch recent pull reque...lly in all repositories. view
+      ›Create ...RequestCreate a pull request in...your GitHub repositories. view
+       My IssuesList issues created by you, ...ned to you or mentioning you. view
        Search Issues Search recent issues globally in all repositories.      view
        Create Issue Create an issue in one of your GitHub repositories.      view
        Create Branch Create a branch in one of your GitHub repositories      view
-       Search Repositories Search in your public or private repositories by  view
+       Search ...sitoriesSearch in your public or...te repositories by name. view
        My Latest Repositories List your repositories by latest updated       view
        My Starred Repositories List repositories you have starred            view
        Workflow Runs Manage workflow runs for a selected GitHub repository.  view
-       Notifications List inbox notifications from all repositories or a sel view
-       Search Discussions Search recent Discussions globally in all reposito view
+       Noti...ionsList inbox notifications fr...es or a selected repository. view
+       Search ...ussionsSearch recent Discussion...bally in all repositories view
        My Discussions Show your Discussions                                  view
        My Projects Show your Projects                                        view
 
@@ -157,7 +157,7 @@ test.skipIf(!extensionExists)('github extension can navigate commands', async ()
 test.skipIf(!extensionExists)('github extension can open actions panel', async () => {
   // Wait for command list
   await session.text({
-    waitFor: (text) => /My Pull Requests|Search Repositories/i.test(text),
+    waitFor: (text) => /My Pu.*uest|Search .*sitories/i.test(text),
     timeout: 30000,
   })
 
@@ -209,7 +209,7 @@ test.skipIf(!extensionExists)('github extension can open actions panel', async (
 test.skipIf(!extensionExists)('github extension can search commands', async () => {
   // Wait for command list
   await session.text({
-    waitFor: (text) => /My Pull Requests|Search Repositories/i.test(text),
+    waitFor: (text) => /My Pu.*uest|Search .*sitories/i.test(text),
     timeout: 30000,
   })
 
@@ -219,7 +219,7 @@ test.skipIf(!extensionExists)('github extension can search commands', async () =
   await session.type('workflow')
 
   const filteredList = await session.text({
-    waitFor: (text) => /Workflow Runs/i.test(text) && !/My Pull Requests/i.test(text),
+    waitFor: (text) => /Workflow Runs/i.test(text) && !/My Pu.*uest/i.test(text),
     timeout: 5000,
   })
 

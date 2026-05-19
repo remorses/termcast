@@ -948,9 +948,9 @@ function ListItemRow(props: {
             <text flexShrink={0} fg={active ? theme.background : theme.text} attributes={active ? TextAttributes.BOLD : undefined} selectable={false} wrapMode="none">{active ? '›' : ' '}</text>
             {icon && <text flexShrink={0} fg={active ? theme.background : iconColor || theme.text} selectable={false} wrapMode="none">{getIconEmoji(icon)} </text>}
             <text
-              flexShrink={0}
+              flexShrink={1}
+              truncate
               fg={active ? theme.background : theme.text}
-
               attributes={TextAttributes.BOLD}
               selectable={false}
               wrapMode="none"
@@ -971,9 +971,10 @@ function ListItemRow(props: {
         </box>
         {/* Line 2: subtitle indented to align with title */}
         {subtitle && (
-          <box style={{ paddingLeft: subtitleIndent }}>
+          <box style={{ paddingLeft: subtitleIndent, overflow: 'hidden' }}>
             <text
-              flexShrink={0}
+              flexShrink={1}
+              truncate
               fg={active ? theme.background : theme.text}
               selectable={false}
               wrapMode="none"
@@ -1008,11 +1009,12 @@ function ListItemRow(props: {
       onMouseDown={handleMouseDown}
     >
       <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1, overflow: 'hidden', gap: 1 }}>
-        <box style={{ flexDirection: 'row', flexShrink: 0 }}>
+        <box style={{ flexDirection: 'row', flexShrink: 1, overflow: 'hidden' }}>
           <text flexShrink={0} fg={active ? theme.background : theme.text} attributes={active ? TextAttributes.BOLD : undefined} selectable={false} wrapMode="none">{active ? '›' : ' '}</text>
           {icon && <text flexShrink={0} fg={active ? theme.background : iconColor || theme.text} selectable={false} wrapMode="none">{getIconEmoji(icon)} </text>}
           <text
-            flexShrink={0}
+            flexShrink={1}
+            truncate
             fg={active ? theme.background : theme.text}
             attributes={active ? TextAttributes.BOLD : undefined}
             selectable={false}
@@ -1023,7 +1025,8 @@ function ListItemRow(props: {
         </box>
         {subtitle && (
           <text
-            flexShrink={0}
+            flexShrink={3}
+            truncate
             fg={active ? theme.background : theme.textMuted}
             selectable={false}
             wrapMode="none"

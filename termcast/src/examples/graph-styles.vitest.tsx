@@ -19,7 +19,7 @@ afterEach(() => {
 test('area style renders braille characters', async () => {
   const text = await session.text({
     waitFor: (text) => {
-      return text.includes('Area - Stock') && text.includes('│')
+      return /Area.*Price/i.test(text) && text.includes('│')
     },
     timeout: 10000,
   })
@@ -32,19 +32,19 @@ test('area style renders braille characters', async () => {
 
        > Search...
 
-      ›Area - Stock Price Orange braille do │ 211│                            ⣠ ▲
-       Area - Multi Series CPU + Memory ove │    │                        ⢀⣴⣦⣼⣿ █
-       Area - Waves Purple + Magenta sine/c │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
-       Area - Blue Revenue Single series, a │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
-       Filled - Red Revenue Solid block gro │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
-       Filled - Green Temp Daily temperatur │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled - Yellow CPU High contrast on │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled - Magenta Waves Smooth curve  │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Purple/Orange Warm alterna │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Blue/Red High contrast str │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Theme Default primary + ac │     1      5     10     15     20
-       Striped - Green/Yellow Nature-inspir │
-       Striped - Red/Magenta Warm gradient  │ ─────────────────────────────────
+      ›Area - ...k Price Orange ...lle dots │ 211│                            ⣠ ▲
+       Area - ... Series CPU + M... overlay │    │                        ⢀⣴⣦⣼⣿ █
+       Area...ave Purple + Ma...sine/cosine │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
+       Area -...evenue Single s...uto range │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
+       Filled...RevenueSolid bl...wth chart │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
+       Filled...en TempDaily te...ure curve │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled ...low CPUHigh con... on dark │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled ...a WavesSmooth c...h blocks │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped...e/Orang Warm al...g colors │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped...lue/Re High con... stripes │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped...Defaul primary ...no prop) │     1      5     10     15     20
+       Striped -...en/YellowNature-inspired │
+       Striped .../MagentaWarm gr...nt feel │ ─────────────────────────────────
                                             │
                                             │ Variant: area
        ↵ open detail   ↑↓ navigate   ^k act │                                   ▼
@@ -53,7 +53,7 @@ test('area style renders braille characters', async () => {
   `)
 
   expect(text).toMatch(/[\u2800-\u28FF]/)
-  expect(text).toContain('Stock Price')
+  expect(text).toContain('Price')
 }, 30000)
 
 test('filled style renders block characters', async () => {
@@ -71,7 +71,7 @@ test('filled style renders block characters', async () => {
 
   const text = await session.text({
     waitFor: (text) => {
-      return text.includes('›Filled - Red')
+      return /›Filled.*Revenue/i.test(text)
     },
     timeout: 5000,
   })
@@ -84,19 +84,19 @@ test('filled style renders block characters', async () => {
 
        > Search...
 
-       Area - Stock Price Orange braille do │ Revenue Growth                    ▲
-       Area - Multi Series CPU + Memory ove │                                   █
-       Area - Waves Purple + Magenta sine/c │
-       Area - Blue Revenue Single series, a │ Quarterly revenue from $10k** to
-      ›Filled - Red Revenue Solid block gro │ **$75k.
-       Filled - Green Temp Daily temperatur │ Q1: $10k  → Q2: $25k (+150%)
-       Filled - Yellow CPU High contrast on │ Q2: $25k  → Q3: $50k (+100%)
-       Filled - Magenta Waves Smooth curve  │ Q3: $50k  → Q4: $75k (+50%)
-       Striped - Purple/Orange Warm alterna │
-       Striped - Blue/Red High contrast str │ 78│                             ▖
-       Striped - Theme Default primary + ac │   │                         ▖▌▖▌▌
-       Striped - Green/Yellow Nature-inspir │   │                     ▖▖▖▌▌▌▌▌▌
-       Striped - Red/Magenta Warm gradient  │ 54│                   ▖▌▌▌▌▌▌▌▌▌▌
+       Area - ...k Price Orange ...lle dots │ Revenue Growth                    ▲
+       Area - ... Series CPU + M... overlay │                                   █
+       Area...ave Purple + Ma...sine/cosine │
+       Area -...evenue Single s...uto range │ Quarterly revenue from $10k** to
+      ›Filled...RevenueSolid bl...wth chart │ **$75k.
+       Filled...en TempDaily te...ure curve │ Q1: $10k  → Q2: $25k (+150%)
+       Filled ...low CPUHigh con... on dark │ Q2: $25k  → Q3: $50k (+100%)
+       Filled ...a WavesSmooth c...h blocks │ Q3: $50k  → Q4: $75k (+50%)
+       Striped...e/Orang Warm al...g colors │
+       Striped...lue/Re High con... stripes │ 78│                             ▖
+       Striped...Defaul primary ...no prop) │   │                         ▖▌▖▌▌
+       Striped -...en/YellowNature-inspired │   │                     ▖▖▖▌▌▌▌▌▌
+       Striped .../MagentaWarm gr...nt feel │ 54│                   ▖▌▌▌▌▌▌▌▌▌▌
                                             │   │               ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌
                                             │   │           ▖ ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
        ↵ open detail   ↑↓ navigate   ^k act │ 31│         ▖▌▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌ ▼
@@ -105,7 +105,7 @@ test('filled style renders block characters', async () => {
   `)
 
   expect(text).toMatch(/[▌▘▖]/)
-  expect(text).toContain('›Filled - Red')
+  expect(text).toContain('›Filled')
 }, 30000)
 
 test('striped style renders alternating columns', async () => {
@@ -123,7 +123,7 @@ test('striped style renders alternating columns', async () => {
 
   const text = await session.text({
     waitFor: (text) => {
-      return text.includes('›Striped - Purple')
+      return /›Striped.*Warm/i.test(text)
     },
     timeout: 5000,
   })
@@ -136,19 +136,19 @@ test('striped style renders alternating columns', async () => {
 
        > Search...
 
-       Area - Stock Price Orange braille do │ 211│                            ▖ ▲
-       Area - Multi Series CPU + Memory ove │    │                         ▖▖▌▌ █
-       Area - Waves Purple + Magenta sine/c │    │                     ▖▖▖▌▌▌▌▌ █
-       Area - Blue Revenue Single series, a │ 189│                ▖▖▌▖▌▌▌▌▌▌▌▌▌
-       Filled - Red Revenue Solid block gro │    │             ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Filled - Green Temp Daily temperatur │    │           ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Filled - Yellow CPU High contrast on │ 167│       ▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Filled - Magenta Waves Smooth curve  │    │    ▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-      ›Striped - Purple/Orange Warm alterna │    │▖▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Striped - Blue/Red High contrast str │ 145│▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Striped - Theme Default primary + ac │     1      5     10     15     20
-       Striped - Green/Yellow Nature-inspir │
-       Striped - Red/Magenta Warm gradient  │ ─────────────────────────────────
+       Area - ...k Price Orange ...lle dots │ 211│                            ▖ ▲
+       Area - ... Series CPU + M... overlay │    │                         ▖▖▌▌ █
+       Area...ave Purple + Ma...sine/cosine │    │                     ▖▖▖▌▌▌▌▌ █
+       Area -...evenue Single s...uto range │ 189│                ▖▖▌▖▌▌▌▌▌▌▌▌▌
+       Filled...RevenueSolid bl...wth chart │    │             ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled...en TempDaily te...ure curve │    │           ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled ...low CPUHigh con... on dark │ 167│       ▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled ...a WavesSmooth c...h blocks │    │    ▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+      ›Striped...e/Orang Warm al...g colors │    │▖▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Striped...lue/Re High con... stripes │ 145│▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Striped...Defaul primary ...no prop) │     1      5     10     15     20
+       Striped -...en/YellowNature-inspired │
+       Striped .../MagentaWarm gr...nt feel │ ─────────────────────────────────
                                             │
                                             │ Even cols: Purple
        ↵ open detail   ↑↓ navigate   ^k act │                                   ▼
@@ -157,13 +157,13 @@ test('striped style renders alternating columns', async () => {
   `)
 
   expect(text).toMatch(/[▌▘▖]/)
-  expect(text).toContain('›Striped - Purple')
+  expect(text).toContain('›Striped')
 }, 30000)
 
 test('markdown + metadata detail view in list', async () => {
   await session.text({
     waitFor: (text) => {
-      return text.includes('Area - Multi') && text.includes('│')
+      return /Area.*Series/i.test(text) && text.includes('│')
     },
     timeout: 10000,
   })
@@ -173,7 +173,7 @@ test('markdown + metadata detail view in list', async () => {
 
   const text = await session.text({
     waitFor: (text) => {
-      return text.includes('›Area - Multi') && text.includes('System Metrics')
+      return /›Area.*Series/i.test(text) && text.includes('System Metrics')
     },
     timeout: 5000,
   })
@@ -186,19 +186,19 @@ test('markdown + metadata detail view in list', async () => {
 
        > Search...
 
-       Area - Stock Price Orange braille do │ System Metrics                    ▲
-      ›Area - Multi Series CPU + Memory ove │                                   ▀
-       Area - Waves Purple + Magenta sine/c │
-       Area - Blue Revenue Single series, a │ CPU usage (blue) vs memory usage (
-       Filled - Red Revenue Solid block gro │ green) over 24 hours.
-       Filled - Green Temp Daily temperatur │ - Peak CPU at 90% around 15h
-       Filled - Yellow CPU High contrast on │ - Memory steadily climbing to 86%
-       Filled - Magenta Waves Smooth curve  │ - CPU has high variance, memory
-       Striped - Purple/Orange Warm alterna │   is monotonic
-       Striped - Blue/Red High contrast str │
-       Striped - Theme Default primary + ac │ 100│
-       Striped - Green/Yellow Nature-inspir │    │                   ⣠⣶⣧   ⣀⣠⣤⣶
-       Striped - Red/Magenta Warm gradient  │  75│       ⢀⣴⣧       ⢀⣰⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿
+       Area - ...k Price Orange ...lle dots │ System Metrics                    ▲
+      ›Area - ... Series CPU + M... overlay │                                   ▀
+       Area...ave Purple + Ma...sine/cosine │
+       Area -...evenue Single s...uto range │ CPU usage (blue) vs memory usage (
+       Filled...RevenueSolid bl...wth chart │ green) over 24 hours.
+       Filled...en TempDaily te...ure curve │ - Peak CPU at 90% around 15h
+       Filled ...low CPUHigh con... on dark │ - Memory steadily climbing to 86%
+       Filled ...a WavesSmooth c...h blocks │ - CPU has high variance, memory
+       Striped...e/Orang Warm al...g colors │   is monotonic
+       Striped...lue/Re High con... stripes │
+       Striped...Defaul primary ...no prop) │ 100│
+       Striped -...en/YellowNature-inspired │    │                   ⣠⣶⣧   ⣀⣠⣤⣶
+       Striped .../MagentaWarm gr...nt feel │  75│       ⢀⣴⣧       ⢀⣰⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿
                                             │    │      ⢀⣾⣿⣿⣧⢀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                             │    │   ⢀⣾⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
        ↵ open detail   ↑↓ navigate   ^k act │  50│⣀⣀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▼
@@ -213,7 +213,7 @@ test('markdown + metadata detail view in list', async () => {
 test('enter pushes full detail view with graph', async () => {
   await session.text({
     waitFor: (text) => {
-      return text.includes('Area - Stock') && text.includes('│')
+      return /Area.*Price/i.test(text) && text.includes('│')
     },
     timeout: 10000,
   })
@@ -265,7 +265,7 @@ test('enter pushes full detail view with graph', async () => {
 test('esc returns from detail to list', async () => {
   await session.text({
     waitFor: (text) => {
-      return text.includes('Area - Stock') && text.includes('│')
+      return /Area.*Price/i.test(text) && text.includes('│')
     },
     timeout: 10000,
   })
@@ -284,7 +284,7 @@ test('esc returns from detail to list', async () => {
 
   const text = await session.text({
     waitFor: (text) => {
-      return text.includes('›Area - Stock Price') && text.includes('Graph Styles')
+      return /›Area.*Price/i.test(text) && text.includes('Graph Styles')
     },
     timeout: 5000,
   })
@@ -297,19 +297,19 @@ test('esc returns from detail to list', async () => {
 
        > Search...
 
-      ›Area - Stock Price Orange braille do │ 211│                            ⣠ ▲
-       Area - Multi Series CPU + Memory ove │    │                        ⢀⣴⣦⣼⣿ █
-       Area - Waves Purple + Magenta sine/c │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
-       Area - Blue Revenue Single series, a │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
-       Filled - Red Revenue Solid block gro │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
-       Filled - Green Temp Daily temperatur │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled - Yellow CPU High contrast on │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled - Magenta Waves Smooth curve  │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Purple/Orange Warm alterna │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Blue/Red High contrast str │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped - Theme Default primary + ac │     1      5     10     15     20
-       Striped - Green/Yellow Nature-inspir │
-       Striped - Red/Magenta Warm gradient  │ ─────────────────────────────────
+      ›Area - ...k Price Orange ...lle dots │ 211│                            ⣠ ▲
+       Area - ... Series CPU + M... overlay │    │                        ⢀⣴⣦⣼⣿ █
+       Area...ave Purple + Ma...sine/cosine │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
+       Area -...evenue Single s...uto range │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
+       Filled...RevenueSolid bl...wth chart │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
+       Filled...en TempDaily te...ure curve │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled ...low CPUHigh con... on dark │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled ...a WavesSmooth c...h blocks │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped...e/Orang Warm al...g colors │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped...lue/Re High con... stripes │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped...Defaul primary ...no prop) │     1      5     10     15     20
+       Striped -...en/YellowNature-inspired │
+       Striped .../MagentaWarm gr...nt feel │ ─────────────────────────────────
                                             │
                                             │ Variant: area
        ↵ open detail   ↑↓ navigate   ^k act │                                   ▼
@@ -317,6 +317,6 @@ test('esc returns from detail to list', async () => {
     "
   `)
 
-  expect(text).toContain('›Area - Stock')
+  expect(text).toContain('›Area')
   expect(text).toContain('Graph Styles')
 }, 30000)

@@ -111,7 +111,7 @@ test('navigation between main and detail views', async () => {
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the detail view for Second Item Press Enter to go back o
+      ›This is the d...r Second ItemPress Enter to g...to navigate back
 
 
 
@@ -220,7 +220,7 @@ test('navigation between main and detail views', async () => {
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the detail view for Third Item Press Enter to go back or
+      ›This is the d...or Third Ite Press Enter to g...to navigate back
 
 
 
@@ -412,7 +412,7 @@ test('navigation with actions panel', async () => {
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the detail view for Second Item Press Enter to go back o
+      ›This is the d...r Second ItemPress Enter to g...to navigate back
 
 
 
@@ -606,7 +606,7 @@ test('search functionality in main and detail views', async () => {
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the detail view for First Item Press Enter to go back or
+      ›This is the d...or First Ite Press Enter to g...to navigate back
 
 
 

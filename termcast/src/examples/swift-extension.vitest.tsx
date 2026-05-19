@@ -82,7 +82,7 @@ afterEach(() => {
 test.skipIf(isLinux)('swift extension dev mode shows command list', async () => {
   // Wait for command list to appear
   const commandList = await session.text({
-    waitFor: (text) => /Swift List/i.test(text),
+    waitFor: (text) => /Swift Lis/i.test(text),
     timeout: 30000,
   })
 
@@ -96,7 +96,7 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
 
        Commands
       ›List Items Displays a simple list with some items           view
-       Swift List Displays a list of items returned by a Swift fun view
+       Swift Lis Displays a list of item...ned by a Swift function view
 
 
 
@@ -119,7 +119,7 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
 test.skipIf(isLinux)('swift extension runs Swift List command and shows items', async () => {
   // Wait for command list to appear
   await session.text({
-    waitFor: (text) => /Swift List/i.test(text),
+    waitFor: (text) => /Swift Lis/i.test(text),
     timeout: 30000,
   })
 

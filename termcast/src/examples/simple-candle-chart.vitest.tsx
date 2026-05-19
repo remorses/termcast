@@ -49,9 +49,9 @@ test('candle chart renders in list detail with axes', async () => {
        Mixed Components                               │        │ │▌▌▘▘        ▘▘
        BTC - Candles Real BTC/USD hourly candles      │ $61,957│  ││
        ETH - Candle + Line Candles plus closing line  │         12d        8d         4d         Now
-       SOL - Candle + Volume Candles plus volume spli │
+       SOL - Candle + VolumeCandles plus volume split │
        BTC vs ETH Side-by-side crypto leaders         │ Price:    $67,641
-       DOGE - Candle + Line Low-priced asset formatti │
+       DOGE - Candle + Lin Low-priced ...t formatting │
                                                       │ Change:   -0.2%
                                                       │
                                                       │ Category: Store of Value
@@ -151,9 +151,9 @@ test('candle + line overlay (mixed components)', async () => {
        Mixed Components                               │        12d        8d          4d         Now
        BTC - Candles Real BTC/USD hourly candles      │
       ›ETH - Candle + Line Candles plus closing line  │ $2,197│                           ⢠⣆⣠⡀
-       SOL - Candle + Volume Candles plus volume spli │       │       ⣴⣤⣤ ⣀         ⢠⣀   ⢠⣿⣿⣿⣷⣶⣦⡀
+       SOL - Candle + VolumeCandles plus volume split │       │       ⣴⣤⣤ ⣀         ⢠⣀   ⢠⣿⣿⣿⣷⣶⣦⡀
        BTC vs ETH Side-by-side crypto leaders         │ $1,997│      ⢰⣿⣿⣿⣿⣿⣇   ⣠⣷⣴⣄⣀⢸⣿⣶⣠⣤⣼⣿⣿⣿⣿⣿⣿⣧⣤⣤⣤
-       DOGE - Candle + Line Low-priced asset formatti │       │⣶⡄   ⣦⣾⣿⣿⣿⣿⣿⣿⣶⣶⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       DOGE - Candle + Lin Low-priced ...t formatting │       │⣶⡄   ⣦⣾⣿⣿⣿⣿⣿⣿⣶⣶⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                                       │ $1,797│⣿⣿⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                                       │        12d        8d          4d         Now
                                                       │
@@ -200,9 +200,9 @@ test('candle + volume bar chart (mixed components)', async () => {
        Mixed Components                               │        12d        8d          4d         Now
        BTC - Candles Real BTC/USD hourly candles      │
        ETH - Candle + Line Candles plus closing line  │   ┌Second half: 95.3%┐
-      ›SOL - Candle + Volume Candles plus volume spli │
+      ›SOL - Candle + VolumeCandles plus volume split │
        BTC vs ETH Side-by-side crypto leaders         │
-       DOGE - Candle + Line Low-priced asset formatti │ ────────────────────────────────────────────
+       DOGE - Candle + Lin Low-priced ...t formatting │ ────────────────────────────────────────────
                                                       │
                                                       │ Price:  $83.31
                                                       │
@@ -249,9 +249,9 @@ test('side-by-side candle charts in Row', async () => {
        Mixed Components                               │         30d        Now        30d        Now
        BTC - Candles Real BTC/USD hourly candles      │
        ETH - Candle + Line Candles plus closing line  │ ────────────────────────────────────────────
-       SOL - Candle + Volume Candles plus volume spli │
+       SOL - Candle + VolumeCandles plus volume split │
       ›BTC vs ETH Side-by-side crypto leaders         │ Price:  $67,641
-       DOGE - Candle + Line Low-priced asset formatti │
+       DOGE - Candle + Lin Low-priced ...t formatting │
                                                       │ Change: -0.2%
                                                       │
                                                       │

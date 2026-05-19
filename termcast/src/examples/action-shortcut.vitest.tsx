@@ -27,18 +27,18 @@ afterEach(() => {
 test('ctrl+r shortcut should trigger Refresh action directly', async () => {
   // Wait for list to render
   await session.text({
-    waitFor: (text) => /Refresh count: 0/.test(text),
+    waitFor: (text) => /nt: 0/.test(text),
   })
 
   const initial = await session.text()
-  expect(initial).toContain('Refresh count: 0')
+  expect(initial).toContain('nt: 0')
 
   // Press ctrl+r directly to trigger Refresh action
   await session.press(['ctrl', 'r'])
 
   // Wait for the refresh to take effect
   const afterCtrlR = await session.text({
-    waitFor: (text) => /Refresh count: 1/.test(text),
+    waitFor: (text) => /nt: 1/.test(text),
     timeout: 5000,
   })
   expect(afterCtrlR).toMatchInlineSnapshot(`
@@ -49,7 +49,7 @@ test('ctrl+r shortcut should trigger Refresh action directly', async () => {
 
        > Search...
 
-      ›Refresh count: 1 Press ctrl+r to refresh (shortcut) or Enter the
+      ›Refre...nt: 1Press ctrl+r to refresh ...nter then select Refresh
 
 
 
@@ -69,7 +69,7 @@ test('ctrl+r shortcut should trigger Refresh action directly', async () => {
 test('action shortcut is displayed in action panel', async () => {
   // Wait for list to render
   await session.text({
-    waitFor: (text) => /Refresh count: 0/.test(text),
+    waitFor: (text) => /nt: 0/.test(text),
   })
 
   // Open action panel with ctrl+k
@@ -110,30 +110,30 @@ test('action shortcut is displayed in action panel', async () => {
 test('action works via Enter (auto-execute first action)', async () => {
   // Wait for list to render
   await session.text({
-    waitFor: (text) => /Refresh count: 0/.test(text),
+    waitFor: (text) => /nt: 0/.test(text),
   })
 
   // Press Enter to auto-execute first action (Refresh)
   await session.press('return')
 
   const afterEnter = await session.text({
-    waitFor: (text) => /Refresh count: 1/.test(text),
+    waitFor: (text) => /nt: 1/.test(text),
     timeout: 5000,
   })
 
-  expect(afterEnter).toContain('Refresh count: 1')
+  expect(afterEnter).toContain('nt: 1')
 }, 30000)
 
 test('ctrl+x shortcut should trigger Reset action directly', async () => {
   // Wait for list to render and increment once via Enter
   await session.text({
-    waitFor: (text) => /Refresh count: 0/.test(text),
+    waitFor: (text) => /nt: 0/.test(text),
   })
 
   // Increment via Enter first
   await session.press('return')
   await session.text({
-    waitFor: (text) => /Refresh count: 1/.test(text),
+    waitFor: (text) => /nt: 1/.test(text),
     timeout: 5000,
   })
 
@@ -142,27 +142,27 @@ test('ctrl+x shortcut should trigger Reset action directly', async () => {
 
   // Wait for the reset to take effect
   const afterCtrlX = await session.text({
-    waitFor: (text) => /Refresh count: 0/.test(text),
+    waitFor: (text) => /nt: 0/.test(text),
     timeout: 5000,
   })
-  expect(afterCtrlX).toContain('Refresh count: 0')
+  expect(afterCtrlX).toContain('nt: 0')
 }, 30000)
 
 test('alt+d shortcut should trigger Double action directly', async () => {
   // Wait for list to render
   await session.text({
-    waitFor: (text) => /Refresh count: 0/.test(text),
+    waitFor: (text) => /nt: 0/.test(text),
   })
 
   // Increment twice via Enter to get count=2
   await session.press('return')
   await session.text({
-    waitFor: (text) => /Refresh count: 1/.test(text),
+    waitFor: (text) => /nt: 1/.test(text),
     timeout: 5000,
   })
   await session.press('return')
   await session.text({
-    waitFor: (text) => /Refresh count: 2/.test(text),
+    waitFor: (text) => /nt: 2/.test(text),
     timeout: 5000,
   })
 
@@ -171,8 +171,8 @@ test('alt+d shortcut should trigger Double action directly', async () => {
 
   // Wait for the double to take effect
   const afterAltD = await session.text({
-    waitFor: (text) => /Refresh count: 4/.test(text),
+    waitFor: (text) => /nt: 4/.test(text),
     timeout: 5000,
   })
-  expect(afterAltD).toContain('Refresh count: 4')
+  expect(afterAltD).toContain('nt: 4')
 }, 30000)

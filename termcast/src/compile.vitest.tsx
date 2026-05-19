@@ -90,10 +90,10 @@ test('compile extension and run executable', async () => {
 
        Commands
       ›List Items Displays a simple list with some items view
-       Search Items Search and filter through a list of  view
+       Sear...temsSearch and filter...gh a list of items view
        Google Oauth                                      view
-       usePromise Demo Shows how to use the usePromise h view
-       Show State Shows the current application state in view
+       useP...DemoShows how to use ...rom @raycast/utils view
+       Sh...ateShows the current a...tate in JSON format view
 
 
        ↵ run command   ↑↓ navigate   ^k actions   :vim
