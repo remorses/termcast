@@ -49,8 +49,8 @@ describe('spacingMode default', () => {
          ★ Favorites
 
 
-         ↑↓ navigate   ^k actions   :vim
 
+         ↑↓ navigate   ^k actions   :vim
       "
     `)
 

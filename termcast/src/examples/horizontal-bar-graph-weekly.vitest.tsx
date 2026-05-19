@@ -34,19 +34,19 @@ test('renders horizontal stacked rows and compact legend', async () => {
 
        > Search...
 
-      ›Wee...fficDirect / Organ... across 6 days │ category  distribution  legend
+      ›Weekl...affi Direct / Org...across 6 days │ category  distribution  legend
        Revenue by Region Americas / EMEA / APAC  │ ────────  ────────────  ───────────────
-       Lon...el The left label...ng legend space │ Mon       ╻╻╻╻╻╻╻╻╻╻    ● Direct    42%
-       Man...ie Legend grows o...s content needs │ Tue       ╻╻╻╻╻╻╻╻╻╻    ● Organic   35%
+       Lon...belsThe left label...g legend space │ Mon       ╻╻╻╻╻╻╻╻╻╻    ● Direct    42%
+       Man...riesLegend grows o... content needs │ Tue       ╻╻╻╻╻╻╻╻╻╻    ● Organic   35%
                                                  │ Wed       ╻╻╻╻╻         ● Referral  23%
                                                  │ Thu       ╻╻╻╻╻
                                                  │ Fri       ╻╻╻╻╻╻╻╻╻╻╻╻
                                                  │ Sat       ╻╻╻╻╻╻╻╻╻╻
+                                                 │
+                                                 │
+                                                 │
+                                                 │
        ↵ open detail   ↑↓ navigate   ^k actions  │
-
-
-
-
 
 
 

@@ -90,13 +90,13 @@ test('compile extension and run executable', async () => {
 
        Commands
       ›List Items Displays a simple list with some items view
-       Sear...temsSearch and filter...gh a list of items view
+       Search ItemsSearch and filter...h a list of items view
        Google Oauth                                      view
-       useP...DemoShows how to use ...rom @raycast/utils view
-       Sh...ateShows the current a...tate in JSON format view
-
-
-       ↵ run command   ↑↓ navigate   ^k actions   :vim
+       usePr...e Dem Shows how to use...m @raycast/utils view
+       Show Stat Shows the current ...ate in JSON format view
+       With ...mentsDemonstrates com...ssword, dropdown) view
+       Quic...tionCopies current t...t showing a view no-view
+       Throw ErrorCommand that thro...rror at root scope view
     "
   `)
 }, 60000)
@@ -142,7 +142,7 @@ test('compiled executable can run command', async () => {
        ○ Fifth Item This is the fifth item
 
 
-     ✓ Copied to Clipboard  First Item
+
     "
   `)
 }, 60000)
@@ -198,7 +198,7 @@ test('compiled executable can navigate back', async () => {
        ○ Fifth Item This is the fifth item
 
 
-       ↵ copy item title   ↑↓ navigate   ^k actions   :vim
+
     "
   `)
 }, 60000)

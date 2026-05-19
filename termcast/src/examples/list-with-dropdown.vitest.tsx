@@ -215,11 +215,11 @@ test('list with dropdown navigation', async () => {
 
 
 
+
+
+
+
        ↑↓ navigate   ^k actions   ^p select drink type   :vim
-
-
-
-
 
 
 
@@ -263,9 +263,9 @@ test('small screen: dropdown accessory wastes vertical space', async () => {
          Sierra Nevada IPA Beer
          Chateau Margaux Wine
          Pinot Noir Wine
-
-
-         ↑↓ navigate   ^k actions   ^p select drink type   :vim"
+         Coca Cola Soda
+         Sprite Soda
+         Orange Juice Juice"
     `)
   } finally {
     smallSession.close()
@@ -382,11 +382,11 @@ test('list with dropdown search and filter', async () => {
 
 
 
+
+
+
+
        ↑↓ navigate   ^k actions   ^p select drink type   :vim
-
-
-
-
 
 
 
@@ -418,11 +418,11 @@ test('list with dropdown search and filter', async () => {
 
 
 
+
+
+
+
        ↑↓ navigate   ^k actions   ^p select drink type   :vim
-
-
-
-
 
 
 

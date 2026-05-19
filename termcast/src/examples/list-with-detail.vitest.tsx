@@ -214,11 +214,11 @@ test('list with detail view display and navigation', async () => {
        wartortle #008                                                       Water
 
 
+
+
+
+
        ↵ toggle detail   ↑↓ navigate   ^k actions   :vim  powered by termcast.app
-
-
-
-
 
 
 
@@ -573,11 +573,11 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │
                                             │
                                             │
+                                            │
+                                            │
+                                            │
+                                            │
        ↑↓ navigate   ^k actions   :vim      │
-
-
-
-
 
 
 

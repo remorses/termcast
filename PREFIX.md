@@ -320,6 +320,10 @@ expect(afterEnter).toContain('Undone')
 
 make sure to pass an adeguate timeout in the test, passing a number as second arg of test
 
+## showing diffs after changes
+
+when showing diffs with critique, ALWAYS include the full diff (all changed files including updated snapshots). never use `--filter` to exclude snapshot files. the user wants to see everything that changed.
+
 ## npm diffs
 
 you can see diffs for different npm packages versions using

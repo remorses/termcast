@@ -32,19 +32,19 @@ test('area style renders braille characters', async () => {
 
        > Search...
 
-      ›Area - ...k Price Orange ...lle dots │ 211│                            ⣠ ▲
-       Area - ... Series CPU + M... overlay │    │                        ⢀⣴⣦⣼⣿ █
-       Area...ave Purple + Ma...sine/cosine │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
-       Area -...evenue Single s...uto range │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
-       Filled...RevenueSolid bl...wth chart │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
-       Filled...en TempDaily te...ure curve │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled ...low CPUHigh con... on dark │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled ...a WavesSmooth c...h blocks │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped...e/Orang Warm al...g colors │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped...lue/Re High con... stripes │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped...Defaul primary ...no prop) │     1      5     10     15     20
-       Striped -...en/YellowNature-inspired │
-       Striped .../MagentaWarm gr...nt feel │ ─────────────────────────────────
+      ›Area - Stock PriceOrange ...lle dots │ 211│                            ⣠ ▲
+       Area - ...i Series CPU + M...overlay │    │                        ⢀⣴⣦⣼⣿ █
+       Area - Wave Purple + M...sine/cosine │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
+       Area - ... Revenu Single ...to range │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
+       Filled ... RevenueSolid b...th chart │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
+       Filled ...een Tem Daily t...re curve │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled ...llow CPUHigh co... on dark │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled -...nta Wave Smooth... blocks │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped -...le/Orang Warm a...colors │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped - Blue/Re High co... stripes │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped ...e Defaultprimar...o prop) │     1      5     10     15     20
+       Striped - Green/Yello Natur...spired │
+       Striped ...d/MagentaWarm g...nt feel │ ─────────────────────────────────
                                             │
                                             │ Variant: area
        ↵ open detail   ↑↓ navigate   ^k act │                                   ▼
@@ -84,19 +84,19 @@ test('filled style renders block characters', async () => {
 
        > Search...
 
-       Area - ...k Price Orange ...lle dots │ Revenue Growth                    ▲
-       Area - ... Series CPU + M... overlay │                                   █
-       Area...ave Purple + Ma...sine/cosine │
-       Area -...evenue Single s...uto range │ Quarterly revenue from $10k** to
-      ›Filled...RevenueSolid bl...wth chart │ **$75k.
-       Filled...en TempDaily te...ure curve │ Q1: $10k  → Q2: $25k (+150%)
-       Filled ...low CPUHigh con... on dark │ Q2: $25k  → Q3: $50k (+100%)
-       Filled ...a WavesSmooth c...h blocks │ Q3: $50k  → Q4: $75k (+50%)
-       Striped...e/Orang Warm al...g colors │
-       Striped...lue/Re High con... stripes │ 78│                             ▖
-       Striped...Defaul primary ...no prop) │   │                         ▖▌▖▌▌
-       Striped -...en/YellowNature-inspired │   │                     ▖▖▖▌▌▌▌▌▌
-       Striped .../MagentaWarm gr...nt feel │ 54│                   ▖▌▌▌▌▌▌▌▌▌▌
+       Area - Stock PriceOrange ...lle dots │ Revenue Growth                    ▲
+       Area - ...i Series CPU + M...overlay │                                   █
+       Area - Wave Purple + M...sine/cosine │
+       Area - ... Revenu Single ...to range │ Quarterly revenue from $10k** to
+      ›Filled ... RevenueSolid b...th chart │ **$75k.
+       Filled ...een Tem Daily t...re curve │ Q1: $10k  → Q2: $25k (+150%)
+       Filled ...llow CPUHigh co... on dark │ Q2: $25k  → Q3: $50k (+100%)
+       Filled -...nta Wave Smooth... blocks │ Q3: $50k  → Q4: $75k (+50%)
+       Striped -...le/Orang Warm a...colors │
+       Striped - Blue/Re High co... stripes │ 78│                             ▖
+       Striped ...e Defaultprimar...o prop) │   │                         ▖▌▖▌▌
+       Striped - Green/Yello Natur...spired │   │                     ▖▖▖▌▌▌▌▌▌
+       Striped ...d/MagentaWarm g...nt feel │ 54│                   ▖▌▌▌▌▌▌▌▌▌▌
                                             │   │               ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌
                                             │   │           ▖ ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
        ↵ open detail   ↑↓ navigate   ^k act │ 31│         ▖▌▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌ ▼
@@ -136,19 +136,19 @@ test('striped style renders alternating columns', async () => {
 
        > Search...
 
-       Area - ...k Price Orange ...lle dots │ 211│                            ▖ ▲
-       Area - ... Series CPU + M... overlay │    │                         ▖▖▌▌ █
-       Area...ave Purple + Ma...sine/cosine │    │                     ▖▖▖▌▌▌▌▌ █
-       Area -...evenue Single s...uto range │ 189│                ▖▖▌▖▌▌▌▌▌▌▌▌▌
-       Filled...RevenueSolid bl...wth chart │    │             ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Filled...en TempDaily te...ure curve │    │           ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Filled ...low CPUHigh con... on dark │ 167│       ▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Filled ...a WavesSmooth c...h blocks │    │    ▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-      ›Striped...e/Orang Warm al...g colors │    │▖▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Striped...lue/Re High con... stripes │ 145│▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       Striped...Defaul primary ...no prop) │     1      5     10     15     20
-       Striped -...en/YellowNature-inspired │
-       Striped .../MagentaWarm gr...nt feel │ ─────────────────────────────────
+       Area - Stock PriceOrange ...lle dots │ 211│                            ▖ ▲
+       Area - ...i Series CPU + M...overlay │    │                         ▖▖▌▌ █
+       Area - Wave Purple + M...sine/cosine │    │                     ▖▖▖▌▌▌▌▌ █
+       Area - ... Revenu Single ...to range │ 189│                ▖▖▌▖▌▌▌▌▌▌▌▌▌
+       Filled ... RevenueSolid b...th chart │    │             ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled ...een Tem Daily t...re curve │    │           ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled ...llow CPUHigh co... on dark │ 167│       ▖▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Filled -...nta Wave Smooth... blocks │    │    ▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+      ›Striped -...le/Orang Warm a...colors │    │▖▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Striped - Blue/Re High co... stripes │ 145│▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
+       Striped ...e Defaultprimar...o prop) │     1      5     10     15     20
+       Striped - Green/Yello Natur...spired │
+       Striped ...d/MagentaWarm g...nt feel │ ─────────────────────────────────
                                             │
                                             │ Even cols: Purple
        ↵ open detail   ↑↓ navigate   ^k act │                                   ▼
@@ -186,19 +186,19 @@ test('markdown + metadata detail view in list', async () => {
 
        > Search...
 
-       Area - ...k Price Orange ...lle dots │ System Metrics                    ▲
-      ›Area - ... Series CPU + M... overlay │                                   ▀
-       Area...ave Purple + Ma...sine/cosine │
-       Area -...evenue Single s...uto range │ CPU usage (blue) vs memory usage (
-       Filled...RevenueSolid bl...wth chart │ green) over 24 hours.
-       Filled...en TempDaily te...ure curve │ - Peak CPU at 90% around 15h
-       Filled ...low CPUHigh con... on dark │ - Memory steadily climbing to 86%
-       Filled ...a WavesSmooth c...h blocks │ - CPU has high variance, memory
-       Striped...e/Orang Warm al...g colors │   is monotonic
-       Striped...lue/Re High con... stripes │
-       Striped...Defaul primary ...no prop) │ 100│
-       Striped -...en/YellowNature-inspired │    │                   ⣠⣶⣧   ⣀⣠⣤⣶
-       Striped .../MagentaWarm gr...nt feel │  75│       ⢀⣴⣧       ⢀⣰⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿
+       Area - Stock PriceOrange ...lle dots │ System Metrics                    ▲
+      ›Area - ...i Series CPU + M...overlay │                                   ▀
+       Area - Wave Purple + M...sine/cosine │
+       Area - ... Revenu Single ...to range │ CPU usage (blue) vs memory usage (
+       Filled ... RevenueSolid b...th chart │ green) over 24 hours.
+       Filled ...een Tem Daily t...re curve │ - Peak CPU at 90% around 15h
+       Filled ...llow CPUHigh co... on dark │ - Memory steadily climbing to 86%
+       Filled -...nta Wave Smooth... blocks │ - CPU has high variance, memory
+       Striped -...le/Orang Warm a...colors │   is monotonic
+       Striped - Blue/Re High co... stripes │
+       Striped ...e Defaultprimar...o prop) │ 100│
+       Striped - Green/Yello Natur...spired │    │                   ⣠⣶⣧   ⣀⣠⣤⣶
+       Striped ...d/MagentaWarm g...nt feel │  75│       ⢀⣴⣧       ⢀⣰⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿
                                             │    │      ⢀⣾⣿⣿⣧⢀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                             │    │   ⢀⣾⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
        ↵ open detail   ↑↓ navigate   ^k act │  50│⣀⣀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▼
@@ -297,19 +297,19 @@ test('esc returns from detail to list', async () => {
 
        > Search...
 
-      ›Area - ...k Price Orange ...lle dots │ 211│                            ⣠ ▲
-       Area - ... Series CPU + M... overlay │    │                        ⢀⣴⣦⣼⣿ █
-       Area...ave Purple + Ma...sine/cosine │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
-       Area -...evenue Single s...uto range │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
-       Filled...RevenueSolid bl...wth chart │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
-       Filled...en TempDaily te...ure curve │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled ...low CPUHigh con... on dark │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Filled ...a WavesSmooth c...h blocks │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped...e/Orang Warm al...g colors │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped...lue/Re High con... stripes │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-       Striped...Defaul primary ...no prop) │     1      5     10     15     20
-       Striped -...en/YellowNature-inspired │
-       Striped .../MagentaWarm gr...nt feel │ ─────────────────────────────────
+      ›Area - Stock PriceOrange ...lle dots │ 211│                            ⣠ ▲
+       Area - ...i Series CPU + M...overlay │    │                        ⢀⣴⣦⣼⣿ █
+       Area - Wave Purple + M...sine/cosine │    │                    ⢠⣦⣄⣴⣿⣿⣿⣿⣿ █
+       Area - ... Revenu Single ...to range │ 189│                ⢀⣴⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿ █
+       Filled ... RevenueSolid b...th chart │    │             ⣠⣀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ▀
+       Filled ...een Tem Daily t...re curve │    │           ⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled ...llow CPUHigh co... on dark │ 167│       ⢀⣴⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Filled -...nta Wave Smooth... blocks │    │    ⣰⣤⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped -...le/Orang Warm a...colors │    │⢀⣴⡄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped - Blue/Re High co... stripes │ 145│⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       Striped ...e Defaultprimar...o prop) │     1      5     10     15     20
+       Striped - Green/Yello Natur...spired │
+       Striped ...d/MagentaWarm g...nt feel │ ─────────────────────────────────
                                             │
                                             │ Variant: area
        ↵ open detail   ↑↓ navigate   ^k act │                                   ▼

@@ -96,17 +96,17 @@ test.skipIf(isLinux)('swift extension dev mode shows command list', async () => 
 
        Commands
       ›List Items Displays a simple list with some items           view
-       Swift Lis Displays a list of item...ned by a Swift function view
+       Swift ListDisplays a list of item...ned by a Swift function view
+
+
+
+
 
 
 
 
 
        ↵ run command   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -153,11 +153,11 @@ test.skipIf(isLinux)('swift extension runs Swift List command and shows items', 
 
 
 
+
+
+
+
        ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 

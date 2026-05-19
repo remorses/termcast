@@ -46,11 +46,11 @@ test('navigation between main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -80,11 +80,11 @@ test('navigation between main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -111,7 +111,11 @@ test('navigation between main and detail views', async () => {
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the d...r Second ItemPress Enter to g...to navigate back
+      ›This is the deta... for Second Ite Press Enter t...navigate back
+
+
+
+
 
 
 
@@ -119,10 +123,6 @@ test('navigation between main and detail views', async () => {
 
 
        ↵ go back   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -160,11 +160,11 @@ test('navigation between main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -194,11 +194,11 @@ test('navigation between main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -220,7 +220,11 @@ test('navigation between main and detail views', async () => {
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the d...or Third Ite Press Enter to g...to navigate back
+      ›This is the det...w for Third Ite Press Enter t... navigate back
+
+
+
+
 
 
 
@@ -228,10 +232,6 @@ test('navigation between main and detail views', async () => {
 
 
        ↵ go back   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -266,11 +266,11 @@ test('navigation between main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -295,6 +295,8 @@ test('navigation with actions panel', async () => {
   expect(actionsOpenSnapshot).toMatchInlineSnapshot(`
     "
 
+
+       Navigation Example ─────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -316,8 +318,6 @@ test('navigation with actions panel', async () => {
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
 
-
-
     "
   `)
 
@@ -328,6 +328,8 @@ test('navigation with actions panel', async () => {
   expect(secondActionSnapshot).toMatchInlineSnapshot(`
     "
 
+
+       Navigation Example ─────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -348,8 +350,6 @@ test('navigation with actions panel', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
-
 
     "
   `)
@@ -374,11 +374,11 @@ test('navigation with actions panel', async () => {
 
 
 
+
+
+
+
      ✓ Copied to Clipboard  First Item
-
-
-
-
 
 
 
@@ -412,7 +412,11 @@ test('navigation with actions panel', async () => {
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the d...r Second ItemPress Enter to g...to navigate back
+      ›This is the deta... for Second Ite Press Enter t...navigate back
+
+
+
+
 
 
 
@@ -420,10 +424,6 @@ test('navigation with actions panel', async () => {
 
 
        ↵ go back   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -439,6 +439,8 @@ test('navigation with actions panel', async () => {
   expect(detailActionsSnapshot).toMatchInlineSnapshot(`
     "
 
+
+       Detail: Second Item ────────────────────────────────────────────
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -459,8 +461,6 @@ test('navigation with actions panel', async () => {
       │   ↵ select   ↑↓ navigate                                       │
       │                                                                │
       ╰────────────────────────────────────────────────────────────────╯
-
-
 
     "
   `)
@@ -489,11 +489,11 @@ test('navigation with actions panel', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -535,11 +535,11 @@ test('search functionality in main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -573,11 +573,11 @@ test('search functionality in main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -606,7 +606,11 @@ test('search functionality in main and detail views', async () => {
        > Detail view - Press ESC to go back
 
        Details
-      ›This is the d...or First Ite Press Enter to g...to navigate back
+      ›This is the det...w for First Ite Press Enter t... navigate back
+
+
+
+
 
 
 
@@ -614,10 +618,6 @@ test('search functionality in main and detail views', async () => {
 
 
        ↵ go back   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -650,11 +650,11 @@ test('search functionality in main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ go back   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 
@@ -687,11 +687,11 @@ test('search functionality in main and detail views', async () => {
 
 
 
+
+
+
+
        ↵ open details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
 
 
 

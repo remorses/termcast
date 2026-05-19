@@ -45,11 +45,11 @@ test('pressing enter triggers primary action on toast', async () => {
 
 
 
+
+
+
+
      ✓ File Deleted  document.pdf was moved to trash        Undo ctrl t
-
-
-
-
     "
   `)
 
@@ -78,11 +78,11 @@ test('pressing enter triggers primary action on toast', async () => {
 
 
 
+
+
+
+
      ✓ Undone  File restored
-
-
-
-
     "
   `)
 
@@ -124,11 +124,11 @@ test('pressing escape hides the toast', async () => {
 
 
 
+
+
+
+
        ↵ show toast   ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 
@@ -238,11 +238,11 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
 
 
 
+
+
+
+
        ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 }, 30000)

@@ -37,7 +37,7 @@ test('side detail shows two graphs in a row', async () => {
        Revenue vs Expenses Striped comparison         │                                             █
        Weather Station Temperature + Humidity         │ Area chart (left) shows CPU with high       █
        Mixed Variants Area left, Striped right        │ variance.                                   █
-       Sparse ...(Zeros Filled vs Str...h zero values │ Filled chart (right) shows memory steadily  █
+       Sparse ... (Zeros)Filled vs St...h zero values │ Filled chart (right) shows memory steadily  █
                                                       │ climbing.                                   █
                                                       │                                             █
                                                       │ 100│            ⡀     100│                  █
@@ -156,7 +156,7 @@ test('esc returns from detail to list', async () => {
        Revenue vs Expenses Striped comparison         │                                             █
        Weather Station Temperature + Humidity         │ Area chart (left) shows CPU with high       █
        Mixed Variants Area left, Striped right        │ variance.                                   █
-       Sparse ...(Zeros Filled vs Str...h zero values │ Filled chart (right) shows memory steadily  █
+       Sparse ... (Zeros)Filled vs St...h zero values │ Filled chart (right) shows memory steadily  █
                                                       │ climbing.                                   █
                                                       │                                             █
                                                       │ 100│            ⡀     100│                  █
@@ -213,7 +213,7 @@ test('sparse data with zeros shows baseline', async () => {
        Revenue vs Expenses Striped comparison         │                                             █
        Weather Station Temperature + Humidity         │ Data with many zero values should show a    █
        Mixed Variants Area left, Striped right        │ thin                                        █
-      ›Sparse ...(Zeros Filled vs Str...h zero values │ baseline line so bars are visible even at   █
+      ›Sparse ... (Zeros)Filled vs St...h zero values │ baseline line so bars are visible even at   █
                                                       │ zero.                                       █
                                                       │                                             █
                                                       │ 100│              ▖   100│              ▖   █
@@ -269,7 +269,7 @@ test('navigate to striped pair', async () => {
       ›Revenue vs Expenses Striped comparison         │                                             █
        Weather Station Temperature + Humidity         │ Revenue growing faster than expenses.       █
        Mixed Variants Area left, Striped right        │ Profit margin widening over the year.       █
-       Sparse ...(Zeros Filled vs Str...h zero values │ - Revenue: $10k** to **$75k                 █
+       Sparse ... (Zeros)Filled vs St...h zero values │ - Revenue: $10k** to **$75k                 █
                                                       │ - Expenses: $8k** to **$45k
                                                       │
                                                       │ 78│                 ▖ 47│                 ▖

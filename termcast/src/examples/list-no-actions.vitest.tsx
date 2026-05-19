@@ -46,11 +46,11 @@ test('footer does not show stale action title from built-in actions', async () =
 
 
 
+
+
+
+
        ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 }, 30000)
@@ -74,6 +74,7 @@ test('ctrl+k opens built-in actions when item has no actions', async () => {
   expect(actionsPanel).toMatchInlineSnapshot(`
     "
 
+
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -91,7 +92,6 @@ test('ctrl+k opens built-in actions when item has no actions', async () => {
       │                                                                │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+      │   ↵ select   ↑↓ navigate                                       │"
   `)
 }, 30000)

@@ -36,7 +36,7 @@ test('initial render shows bar chart for Monthly Budget', async () => {
 
       ›Monthly Budget Spent / Remaining / Savings     │ ┌Spent: 78.6%┐
        Disk Usage System / Apps / Media / Free        │
-       Inves...tfolioStocks / Bonds...o / Real Estate │
+       Investm...ortfoli Stocks / Bon.../ Real Estate │
        CPU Time User / System / IO Wait / Idle        │ ────────────────────────────────────────────
        Revenue by Product 6 product lines             │
        A/B Test Split Control vs Variant (50/50)      │ Total: $6,174
@@ -45,7 +45,7 @@ test('initial render shows bar chart for Monthly Budget', async () => {
        Equal Distribution 10 equal segments           │
        Custom Colors Explicit color per segment       │ Saved: 10.0%
        Needs vs Wants 50/30/20 budget rule            │
-       Stress Test (20 items Many small...al segments │
+       Stress Test (20 items)Many small...al segments │
                                                       │
                                                       │
        ↵ open detail   ↑↓ navigate   ^k actions   :vi │
@@ -93,7 +93,7 @@ test('navigate to Market Share - dominant + tiny segments', async () => {
 
        Monthly Budget Spent / Remaining / Savings     │ ┌Leader: 85.0%┐
        Disk Usage System / Apps / Media / Free        │
-       Inves...tfolioStocks / Bonds...o / Real Estate │
+       Investm...ortfoli Stocks / Bon.../ Real Estate │
        CPU Time User / System / IO Wait / Idle        │ ────────────────────────────────────────────
        Revenue by Product 6 product lines             │
        A/B Test Split Control vs Variant (50/50)      │ HHI:      7,264 (monopoly)
@@ -102,7 +102,7 @@ test('navigate to Market Share - dominant + tiny segments', async () => {
        Equal Distribution 10 equal segments           │
        Custom Colors Explicit color per segment       │ Visible:  Tiny ones hidden
        Needs vs Wants 50/30/20 budget rule            │
-       Stress Test (20 items Many small...al segments │
+       Stress Test (20 items)Many small...al segments │
                                                       │
                                                       │
        ↵ open detail   ↑↓ navigate   ^k actions   :vi │
@@ -149,7 +149,7 @@ test('navigate to Equal Distribution - 10 segments', async () => {
 
        Monthly Budget Spent / Remaining / Savings     │
        Disk Usage System / Apps / Media / Free        │
-       Inves...tfolioStocks / Bonds...o / Real Estate │ ────────────────────────────────────────────
+       Investm...ortfoli Stocks / Bon.../ Real Estate │ ────────────────────────────────────────────
        CPU Time User / System / IO Wait / Idle        │
        Revenue by Product 6 product lines             │ Segments: 10
        A/B Test Split Control vs Variant (50/50)      │
@@ -158,7 +158,7 @@ test('navigate to Equal Distribution - 10 segments', async () => {
       ›Equal Distribution 10 equal segments           │
        Custom Colors Explicit color per segment       │
        Needs vs Wants 50/30/20 budget rule            │
-       Stress Test (20 items Many small...al segments │
+       Stress Test (20 items)Many small...al segments │
                                                       │
                                                       │
        ↵ open detail   ↑↓ navigate   ^k actions   :vi │
@@ -205,7 +205,7 @@ test('navigate to Stress Test - 20 segments', async () => {
 
        Monthly Budget Spent / Remaining / Savings     │
        Disk Usage System / Apps / Media / Free        │
-       Inves...tfolioStocks / Bonds...o / Real Estate │ ────────────────────────────────────────────
+       Investm...ortfoli Stocks / Bon.../ Real Estate │ ────────────────────────────────────────────
        CPU Time User / System / IO Wait / Idle        │
        Revenue by Product 6 product lines             │ Segments: 20
        A/B Test Split Control vs Variant (50/50)      │
@@ -214,7 +214,7 @@ test('navigate to Stress Test - 20 segments', async () => {
        Equal Distribution 10 equal segments           │
        Custom Colors Explicit color per segment       │
        Needs vs Wants 50/30/20 budget rule            │
-      ›Stress Test (20 items Many small...al segments │
+      ›Stress Test (20 items)Many small...al segments │
                                                       │
                                                       │
        ↵ open detail   ↑↓ navigate   ^k actions   :vi │

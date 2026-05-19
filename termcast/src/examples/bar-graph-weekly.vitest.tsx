@@ -35,19 +35,19 @@ test('bar graph renders bars, labels, and legend', async () => {
 
        > Search...
 
-      ›Weekl...affic3 channels...oss 6 days │ 110.0│                ▃▃▃
-       Revenu... Regio EMEA / A... Americas │      │▃▃▃ ▃▃▃         ▃▃▃ ▃▃▃
+      ›Weekly Traffi 3 channel...oss 6 days │ 110.0│                ▃▃▃
+       Revenue by Regio EMEA / A...Americas │      │▃▃▃ ▃▃▃         ▃▃▃ ▃▃▃
        Server Load CPU / Memory / IO        │  82.5│▃▃▃ ▃▃▃         ▃▃▃ ▃▃▃
-       Many ...s (20)Overflow ...th 20 bars │      │▃▃▃ ▃▃▃ ▃▃▃     ▃▃▃ ▃▃▃
+       Many C...ns (20)Overflow...h 20 bars │      │▃▃▃ ▃▃▃ ▃▃▃     ▃▃▃ ▃▃▃
        Many Series (8) Legend overflow test │  55.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
-       Lon...belsLabels wide... bar columns │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
+       Long Label Labels wide...bar columns │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
        Week 1 vs Week 2 Two graphs in a Row │  27.5│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │   0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │       Mon Tue Wed Thu Fri Sat
-       ↵ open detail   ↑↓ navigate   ^k act │ ■ Direct  ■ Organic  ■ Referral
-
-
+                                            │ ■ Direct  ■ Organic  ■ Referral
+                                            │
+       ↵ open detail   ↑↓ navigate   ^k act │
 
 
 
@@ -113,19 +113,19 @@ test('many series (8) bottom legend clips on one row', async () => {
 
        > Search...
 
-       Weekl...affic3 channels...oss 6 days │ 328.0│▃▃▃ ▃▃▃ ▃▃▃     ▃▃▃ ▃▃▃
-       Revenu... Regio EMEA / A... Americas │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
+       Weekly Traffi 3 channel...oss 6 days │ 328.0│▃▃▃ ▃▃▃ ▃▃▃     ▃▃▃ ▃▃▃
+       Revenue by Regio EMEA / A...Americas │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
        Server Load CPU / Memory / IO        │ 246.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
-       Many ...s (20)Overflow ...th 20 bars │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
+       Many C...ns (20)Overflow...h 20 bars │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
       ›Many Series (8) Legend overflow test │ 164.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
-       Lon...belsLabels wide... bar columns │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
+       Long Label Labels wide...bar columns │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
        Week 1 vs Week 2 Two graphs in a Row │  82.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │      │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │   0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │       Mon Tue Wed Thu Fri Sat
-       ↑↓ navigate   ^k actions   :vim      │ ■ Series 1  ■ Series 2  ■ Series 3
-
-
+                                            │ ■ Series 1  ■ Series 2  ■ Series 3
+                                            │
+       ↑↓ navigate   ^k actions   :vim      │
 
 
 
@@ -220,19 +220,19 @@ test('side-by-side bar graphs in a Row', async () => {
 
        > Search...
 
-       Weekl...affic3 channels...oss 6 days │ 110.0│            130.0│
-       Revenu... Regio EMEA / A... Americas │      │▃▃▃ ▃▃▃          │▃▃▃
+       Weekly Traffi 3 channel...oss 6 days │ 110.0│            130.0│
+       Revenue by Regio EMEA / A...Americas │      │▃▃▃ ▃▃▃          │▃▃▃
        Server Load CPU / Memory / IO        │  82.5│▃▃▃ ▃▃▃      97.5│▃▃▃ ▃▃▃
-       Many ...s (20)Overflow ...th 20 bars │      │▃▃▃ ▃▃▃ ▃▃▃      │▃▃▃ ▃▃▃ ▃▃
+       Many C...ns (20)Overflow...h 20 bars │      │▃▃▃ ▃▃▃ ▃▃▃      │▃▃▃ ▃▃▃ ▃▃
        Many Series (8) Legend overflow test │  55.0│▃▃▃ ▃▃▃ ▃▃▃  65.0│▃▃▃ ▃▃▃ ▃▃
-       Lon...belsLabels wide... bar columns │      │▃▃▃ ▃▃▃ ▃▃▃      │▃▃▃ ▃▃▃ ▃▃
+       Long Label Labels wide...bar columns │      │▃▃▃ ▃▃▃ ▃▃▃      │▃▃▃ ▃▃▃ ▃▃
       ›Week 1 vs Week 2 Two graphs in a Row │  27.5│▃▃▃ ▃▃▃ ▃▃▃  32.5│▃▃▃ ▃▃▃ ▃▃
                                             │      │▃▃▃ ▃▃▃ ▃▃▃      │▃▃▃ ▃▃▃ ▃▃
                                             │   0.0│▃▃▃ ▃▃▃ ▃▃▃   0.0│▃▃▃ ▃▃▃ ▃▃
                                             │       Mon Tue Wed       Mon Tue We
-       ↵ open detail   ↑↓ navigate   ^k act │ ■ Direct  ■ Organ ■ Direct  ■ Orga
-
-
+                                            │ ■ Direct  ■ Organ ■ Direct  ■ Orga
+                                            │
+       ↵ open detail   ↑↓ navigate   ^k act │
 
 
 

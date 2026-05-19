@@ -57,10 +57,10 @@ test('list with sections navigation', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -90,10 +90,10 @@ test('list with sections navigation', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -117,10 +117,10 @@ test('list with sections navigation', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -148,10 +148,10 @@ test('list with sections navigation', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -191,11 +191,11 @@ test('list with sections search functionality', async () => {
 
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 
@@ -227,11 +227,11 @@ test('list with sections search functionality', async () => {
 
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 
@@ -258,10 +258,10 @@ test('list with sections search functionality', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -290,11 +290,11 @@ test('list with sections search functionality', async () => {
 
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 
@@ -423,10 +423,10 @@ test('list click functionality', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↑↓ navigate   ^k actions   :vim
-
     "
   `)
   expect(afterClickGrape).toContain('Grape')
@@ -527,10 +527,10 @@ test('list actions panel with ctrl+k', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
      ✓ Added to Cart  Apple has been added to your cart
-
     "
   `)
 }, 10000)
@@ -579,11 +579,11 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
+
+
+
+
        ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 
@@ -607,11 +607,11 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 
@@ -635,11 +635,11 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 
@@ -663,11 +663,11 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
+
+
+
+
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
   // Verify Carrot is still selected (not wrapped to Orange)
@@ -700,10 +700,10 @@ test('list scrollbox scrolling with sections', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -733,10 +733,10 @@ test('list scrollbox scrolling with sections', async () => {
        Pineapple Sweet and tangy
       ›Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -754,6 +754,7 @@ test('list scrollbox scrolling with sections', async () => {
 
        > Search items...
 
+       Vegetables
        Carrot Orange and crunchy                                Healthy
        Lettuce Green and fresh
       ›Broccoli Green florets                                   Healthy
@@ -766,7 +767,6 @@ test('list scrollbox scrolling with sections', async () => {
 
 
        ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -786,6 +786,7 @@ test('list scrollbox scrolling with sections', async () => {
 
        > Search items...
 
+       Vegetables
        Carrot Orange and crunchy                                Healthy
        Lettuce Green and fresh
        Broccoli Green florets                                   Healthy
@@ -798,7 +799,6 @@ test('list scrollbox scrolling with sections', async () => {
 
 
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 
@@ -825,10 +825,10 @@ test('list scrollbox scrolling with sections', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
     "
   `)
 }, 15000)
@@ -899,10 +899,10 @@ test('list does not wrap at top boundary', async () => {
        Pineapple Sweet and tangy
        Strawberry Red and sweet                                 Popular
 
+       Vegetables
 
 
        ↵ view details   ↑↓ navigate   ^k actions   :vim
-
     "
   `)
   expect(afterUpSnapshot).toContain('›Apple')

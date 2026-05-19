@@ -239,11 +239,11 @@ test.skipIf(!extensionExists)('github extension can search commands', async () =
 
 
 
+
+
+
+
        ↵ run command   ↑↓ navigate   ^k actions   :vim    powered by termcast.app
-
-
-
-
 
 
 

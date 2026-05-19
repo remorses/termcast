@@ -49,7 +49,11 @@ test('ctrl+r shortcut should trigger Refresh action directly', async () => {
 
        > Search...
 
-      ›Refre...nt: 1Press ctrl+r to refresh ...nter then select Refresh
+      ›Refres...unt: 1Press ctrl+r to refresh...ter then select Refresh
+
+
+
+
 
 
 
@@ -58,10 +62,6 @@ test('ctrl+r shortcut should trigger Refresh action directly', async () => {
 
 
        ↵ refresh   ↑↓ navigate   ^k actions   :vim
-
-
-
-
     "
   `)
 }, 30000)
@@ -85,6 +85,7 @@ test('action shortcut is displayed in action panel', async () => {
   expect(actionsPanel).toMatchInlineSnapshot(`
     "
 
+
       ╭────────────────────────────────────────────────────────────────╮
       │                                                                │
       │   Actions                                                esc   │
@@ -102,8 +103,7 @@ test('action shortcut is displayed in action panel', async () => {
       │                                                                │
       │                                                                │
       │                                                                │
-      │   ↵ select   ↑↓ navigate                                       │
-      │                                                                │"
+      │   ↵ select   ↑↓ navigate                                       │"
   `)
 }, 30000)
 

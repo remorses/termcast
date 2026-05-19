@@ -51,7 +51,7 @@ test('candle chart renders in list detail with axes', async () => {
        ETH - Candle + Line Candles plus closing line  │         12d        8d         4d         Now
        SOL - Candle + VolumeCandles plus volume split │
        BTC vs ETH Side-by-side crypto leaders         │ Price:    $67,641
-       DOGE - Candle + Lin Low-priced ...t formatting │
+       DOGE - Candle + LineLow-priced ...t formatting │
                                                       │ Change:   -0.2%
                                                       │
                                                       │ Category: Store of Value
@@ -153,7 +153,7 @@ test('candle + line overlay (mixed components)', async () => {
       ›ETH - Candle + Line Candles plus closing line  │ $2,197│                           ⢠⣆⣠⡀
        SOL - Candle + VolumeCandles plus volume split │       │       ⣴⣤⣤ ⣀         ⢠⣀   ⢠⣿⣿⣿⣷⣶⣦⡀
        BTC vs ETH Side-by-side crypto leaders         │ $1,997│      ⢰⣿⣿⣿⣿⣿⣇   ⣠⣷⣴⣄⣀⢸⣿⣶⣠⣤⣼⣿⣿⣿⣿⣿⣿⣧⣤⣤⣤
-       DOGE - Candle + Lin Low-priced ...t formatting │       │⣶⡄   ⣦⣾⣿⣿⣿⣿⣿⣿⣶⣶⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       DOGE - Candle + LineLow-priced ...t formatting │       │⣶⡄   ⣦⣾⣿⣿⣿⣿⣿⣿⣶⣶⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                                       │ $1,797│⣿⣿⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                                       │        12d        8d          4d         Now
                                                       │
@@ -202,7 +202,7 @@ test('candle + volume bar chart (mixed components)', async () => {
        ETH - Candle + Line Candles plus closing line  │   ┌Second half: 95.3%┐
       ›SOL - Candle + VolumeCandles plus volume split │
        BTC vs ETH Side-by-side crypto leaders         │
-       DOGE - Candle + Lin Low-priced ...t formatting │ ────────────────────────────────────────────
+       DOGE - Candle + LineLow-priced ...t formatting │ ────────────────────────────────────────────
                                                       │
                                                       │ Price:  $83.31
                                                       │
@@ -251,7 +251,7 @@ test('side-by-side candle charts in Row', async () => {
        ETH - Candle + Line Candles plus closing line  │ ────────────────────────────────────────────
        SOL - Candle + VolumeCandles plus volume split │
       ›BTC vs ETH Side-by-side crypto leaders         │ Price:  $67,641
-       DOGE - Candle + Lin Low-priced ...t formatting │
+       DOGE - Candle + LineLow-priced ...t formatting │
                                                       │ Change: -0.2%
                                                       │
                                                       │

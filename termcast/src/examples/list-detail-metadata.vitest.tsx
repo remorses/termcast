@@ -48,9 +48,9 @@ test('list detail metadata label renders short values in row layout (key: value)
                                             │
                                             │ Status:  Active
                                             │
-       ↑↓ navigate   ^k actions   :vim      │ Website: example.com
-
-
+                                            │ Website: example.com
+                                            │
+       ↑↓ navigate   ^k actions   :vim      │
 
 
 

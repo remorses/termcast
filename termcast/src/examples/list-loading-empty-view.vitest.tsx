@@ -43,7 +43,7 @@ test('empty view shows spinner when list is loading', async () => {
 
 
 
-       ↑↓ navigate   ^k actions   :vim"
+    "
   `)
   expect(text).toMatch(/[·• ]\s*loading\.\.\./)
 }, 10000)
