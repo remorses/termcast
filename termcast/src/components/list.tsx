@@ -6,7 +6,7 @@ import {
   TextareaRenderable,
 } from '@opentui/core'
 import type { MouseEvent as OpenTUIMouseEvent } from '@opentui/core'
-import { useKeyboard, flushSync } from '@opentui/react'
+import { useKeyboard, flushSync, useTerminalDimensions } from '@opentui/react'
 import React, {
     ReactElement,
     ReactNode,
@@ -406,6 +406,13 @@ export interface ListProps
   searchBarPlaceholder?: string
   selectedItemId?: string
   isShowingDetail?: boolean
+  /**
+   * Minimum terminal width in columns required to show the detail panel.
+   * When the terminal is narrower than this value, the detail panel is
+   * automatically hidden even if `isShowingDetail` is true.
+   * @default 80
+   */
+  detailMinWidth?: number
   /**
     * Controls the vertical spacing of list items.
     * - 'default': Single-line items with title and subtitle on same row
@@ -1060,6 +1067,7 @@ export const List: ListType = (props) => {
     isLoading,
     navigationTitle,
     isShowingDetail,
+    detailMinWidth = 80,
     selectedItemId,
     searchBarAccessory,
     logo,
@@ -1070,6 +1078,9 @@ export const List: ListType = (props) => {
   } = props
 
   const theme = useTheme()
+  const { width: terminalWidth } = useTerminalDimensions()
+  const effectiveIsShowingDetail = isShowingDetail && terminalWidth >= detailMinWidth
+
   const currentStackSelectedListIndex = useStore((state) => {
     const stack = state.navigationStack
     const currentItem = stack[stack.length - 1]
@@ -1262,14 +1273,14 @@ export const List: ListType = (props) => {
       setSelectedIndex: setSelectedIndexWithPersistence,
       searchText,
       isFiltering: isFilteringEnabled,
-      isShowingDetail,
+      isShowingDetail: effectiveIsShowingDetail,
       customEmptyViewRef,
       isLoading,
       hasDropdown: !!searchBarAccessory,
       spacingMode,
       accessoryTagWidths: accessoryTagsLayout,
     }),
-    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, isShowingDetail, isLoading, searchBarAccessory, spacingMode, accessoryTagsLayout],
+    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, effectiveIsShowingDetail, isLoading, searchBarAccessory, spacingMode, accessoryTagsLayout],
   )
 
   // Handle selectedItemId prop changes (before paint to avoid flash)
@@ -1799,7 +1810,7 @@ export const List: ListType = (props) => {
           {/* Main content area with optional detail view */}
           <box style={{ flexDirection: 'row', flexGrow: 1, flexShrink: 1 }}>
             {/* List content - render children which will register themselves */}
-            <box style={{ width: isShowingDetail ? '50%' : '100%', flexGrow: 1, flexShrink: 1, flexDirection: 'column' }}>
+            <box style={{ width: effectiveIsShowingDetail ? '50%' : '100%', flexGrow: 1, flexShrink: 1, flexDirection: 'column' }}>
               {/* Scrollable list items */}
               <ScrollBox
                 ref={scrollBoxRef}
@@ -1836,7 +1847,7 @@ export const List: ListType = (props) => {
             {/* Detail panel on the right */}
             <CurrentItemDetail
               selectedIndex={selectedIndex}
-              isShowingDetail={isShowingDetail}
+              isShowingDetail={effectiveIsShowingDetail}
             />
           </box>
         </box>
@@ -1990,8 +2001,7 @@ const ListItem: ListItemType = (props) => {
     }
   }
 
-  // Don't show accessories if we're showing detail
-  const showAccessories = !props.detail && props.accessories
+  const showAccessories = Boolean(props.accessories)
 
   // Get icon string and color from props.icon (can be string or object with value/tintColor)
   const { iconValue, iconColor } = (() => {

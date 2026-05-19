@@ -39,19 +39,19 @@ test('candle chart renders in list detail with axes', async () => {
        > Search markets...
 
        Watchlist                                      │ $74,678│                           │
-      ›BTC Bitcoin                                    │        │                          ▌▌▖│
-       ETH Ethereum                                   │        │                          ▌│▘▌▖│
-       SOL Solana                                     │ $70,438│       │             │    ▌  │▘▘▌
-       XRP XRP                                        │        │      ▖▖▖▖           ▌▌ ▖▖▌     ▌││
-       DOGE Dogecoin                                  │        │      ▌││▌▖▖    ▖▖│││▌▘▌▌│      ▘▘▘▌
-       BNB BNB                                        │ $66,197│▖▖   │▌  ▘▘▘▌▖▖▌▘▌▖▌▌▌ ▘▘
+      ›BTC Bitcoin                      $67,641 -0.2% │        │                          ▌▌▖│
+       ETH Ethereum                      $1,971 -0.3% │        │                          ▌│▘▌▖│
+       SOL Solana                        $83.31 -0.4% │ $70,438│       │             │    ▌  │▘▘▌
+       XRP XRP                            $1.36 -0.4% │        │      ▖▖▖▖           ▌▌ ▖▖▌     ▌││
+       DOGE Dogecoin                    $0.0901 -0.5% │        │      ▌││▌▖▖    ▖▖│││▌▘▌▌│      ▘▘▘▌
+       BNB BNB                             $622 -0.3% │ $66,197│▖▖   │▌  ▘▘▘▌▖▖▌▘▌▖▌▌▌ ▘▘
                                                       │        ││▌▖ │▌▘     ▘▘▌▌  ▘▘▘▘
        Mixed Components                               │        │ │▌▌▘▘        ▘▘
-       BTC - Candles Real BTC/USD hourly candles      │ $61,957│  ││
-       ETH - Candle + Line Candles plus closing line  │         12d        8d         4d         Now
-       SOL - Candle + VolumeCandles plus volume split │
-       BTC vs ETH Side-by-side crypto leaders         │ Price:    $67,641
-       DOGE - Candle + LineLow-priced ...t formatting │
+       BTC - CandlesReal BTC/US...rly candles $67,641 │ $61,957│  ││
+       ETH - C...e + LineCandles p...sing line $1,971 │         12d        8d         4d         Now
+       SOL - Ca... + Volum Candles ...me split $83.31 │
+       BTC vs ETH Side-by-side crypto leaders $67,641 │ Price:    $67,641
+       DOGE - ...e + LineLow-pric...ormatting $0.0901 │
                                                       │ Change:   -0.2%
                                                       │
                                                       │ Category: Store of Value
@@ -239,19 +239,19 @@ test('side-by-side candle charts in Row', async () => {
        > Search markets...
 
        Watchlist                                      │ $74,678│          ││   $2,220│          │
-       BTC Bitcoin                                    │        │          ▌▌         │  │       ││
-       ETH Ethereum                                   │        │  │     │ ▌▘▌        │  ▖▖│   │ ▌▌▖
-       SOL Solana                                     │        │  ▖▖    ││▌ ▌│       │  ▌▘▌ ││││▌│▌
-       XRP XRP                                        │ $68,318│  ▌▘▌ ││▌▘▘ ▘▘ $2,000│  ▌│▌ ▌▌▌▌▌ ▘▘
-       DOGE Dogecoin                                  │        │▖ ▌│▌▖▌▘▘│           ││ ▌ ▘▌▌│││
-       BNB BNB                                        │        │▌▌▘  ▘▘              │▌▖▌  ││
+       BTC Bitcoin                      $67,641 -0.2% │        │          ▌▌         │  │       ││
+       ETH Ethereum                      $1,971 -0.3% │        │  │     │ ▌▘▌        │  ▖▖│   │ ▌▌▖
+       SOL Solana                        $83.31 -0.4% │        │  ▖▖    ││▌ ▌│       │  ▌▘▌ ││││▌│▌
+       XRP XRP                            $1.36 -0.4% │ $68,318│  ▌▘▌ ││▌▘▘ ▘▘ $2,000│  ▌│▌ ▌▌▌▌▌ ▘▘
+       DOGE Dogecoin                    $0.0901 -0.5% │        │▖ ▌│▌▖▌▘▘│           ││ ▌ ▘▌▌│││
+       BNB BNB                             $622 -0.3% │        │▌▌▘  ▘▘              │▌▖▌  ││
                                                       │ $61,957│ │   │         $1,780│││
        Mixed Components                               │         30d        Now        30d        Now
-       BTC - Candles Real BTC/USD hourly candles      │
-       ETH - Candle + Line Candles plus closing line  │ ────────────────────────────────────────────
-       SOL - Candle + VolumeCandles plus volume split │
-      ›BTC vs ETH Side-by-side crypto leaders         │ Price:  $67,641
-       DOGE - Candle + LineLow-priced ...t formatting │
+       BTC - CandlesReal BTC/US...rly candles $67,641 │
+       ETH - C...e + LineCandles p...sing line $1,971 │ ────────────────────────────────────────────
+       SOL - Ca... + Volum Candles ...me split $83.31 │
+      ›BTC vs ETH Side-by-side crypto leaders $67,641 │ Price:  $67,641
+       DOGE - ...e + LineLow-pric...ormatting $0.0901 │
                                                       │ Change: -0.2%
                                                       │
                                                       │
