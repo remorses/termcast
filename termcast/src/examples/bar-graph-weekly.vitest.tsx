@@ -75,7 +75,7 @@ test('many columns (20) clips with overflow hidden', async () => {
   session.sendKey('down')
 
   await session.text({
-    waitFor: (t) => t.includes('›Many ...s (20)'),
+    waitFor: (t) => t.includes('›Many') && t.includes('(20)'),
     timeout: 10000,
   })
   await session.waitIdle()
@@ -83,7 +83,7 @@ test('many columns (20) clips with overflow hidden', async () => {
 
   // Bar graph rendering has non-deterministic ANSI highlights, so use toContain checks
   // instead of inline snapshot for the bars area
-  expect(text).toContain('›Many ...s (20)')
+  expect(text).toContain('›Many')
   expect(text).toContain('BarGraph Showcase')
   expect(text).toContain('▃')
 
@@ -146,7 +146,7 @@ test('many series (8) bottom legend clips on one row', async () => {
 }, 30000)
 
 test('long labels truncated by overflow hidden', async () => {
-  await session.text({ waitFor: (t) => t.includes('Lon...bels'), timeout: 10000 })
+  await session.text({ waitFor: (t) => t.includes('Labels wide'), timeout: 10000 })
   // Navigate: Weekly, Revenue, Server, Many Columns, Many Series, Long Labels = 5 downs
   session.sendKey('down')
   session.sendKey('down')
@@ -155,7 +155,7 @@ test('long labels truncated by overflow hidden', async () => {
   session.sendKey('down')
 
   const text = await session.text({
-    waitFor: (t) => t.includes('›Lon...bels'),
+    waitFor: (t) => t.includes('›Long Label') || t.includes('›Lon...bels'),
     timeout: 10000,
   })
 
@@ -167,19 +167,19 @@ test('long labels truncated by overflow hidden', async () => {
 
        > Search...
 
-       Weekl...affic3 channels...oss 6 days │ 75.0│                ▃▃▃
-       Revenu... Regio EMEA / A... Americas │     │▃▃▃             ▃▃▃ ▃▃▃
+       Weekly Traffi 3 channel...oss 6 days │ 75.0│                ▃▃▃
+       Revenue by Regio EMEA / A...Americas │     │▃▃▃             ▃▃▃ ▃▃▃
        Server Load CPU / Memory / IO        │ 56.3│▃▃▃ ▃▃▃         ▃▃▃ ▃▃▃
-       Many ...s (20)Overflow ...th 20 bars │     │▃▃▃ ▃▃▃         ▃▃▃ ▃▃▃
+       Many C...ns (20)Overflow...h 20 bars │     │▃▃▃ ▃▃▃         ▃▃▃ ▃▃▃
        Many Series (8) Legend overflow test │ 37.5│▃▃▃ ▃▃▃ ▃▃▃     ▃▃▃ ▃▃▃
-      ›Lon...belsLabels wide... bar columns │     │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
+      ›Long Label Labels wide...bar columns │     │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
        Week 1 vs Week 2 Two graphs in a Row │ 18.8│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │     │▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │  0.0│▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃ ▃▃▃
                                             │      Monday   Thursday
-       ↑↓ navigate   ^k actions   :vim      │ ■ Views  ■ Clicks
-
-
+                                            │ ■ Views  ■ Clicks
+                                            │
+       ↑↓ navigate   ^k actions   :vim      │
 
 
 
@@ -193,7 +193,7 @@ test('long labels truncated by overflow hidden', async () => {
     "
   `)
 
-  expect(text).toContain('›Lon...bels')
+  expect(text).toContain('Labels wide')
   expect(text).toContain('▃')
 }, 30000)
 

@@ -65,13 +65,13 @@ test('renders horizontal stacked rows and compact legend', async () => {
 }, 30000)
 
 test('long labels truncate and leave legend visible', async () => {
-  await session.text({ waitFor: (content) => content.includes('Lon...el'), timeout: 10000 })
+  await session.text({ waitFor: (content) => content.includes('The left label'), timeout: 10000 })
   session.sendKey('down')
   session.sendKey('down')
 
   const text = await session.text({
     waitFor: (content) => {
-      return content.includes('›Lon...el') && content.includes('Views')
+      return content.includes('›Lon') && content.includes('Views')
     },
     timeout: 10000,
   })
@@ -84,19 +84,19 @@ test('long labels truncate and leave legend visible', async () => {
 
        > Search...
 
-       Wee...fficDirect / Organ... across 6 days │ day               traffi  source
+       Weekl...affi Direct / Org...across 6 days │ day               traffi  source
        Revenue by Region Americas / EMEA / APAC  │ ────────────────  ──────  ─────────────
-      ›Lon...el The left label...ng legend space │ Monday            ╻╻╻╻╻   ● Views   65%
-       Man...ie Legend grows o...s content needs │ Tuesday           ╻╻╻╻    ● Clicks  35%
+      ›Lon...belsThe left label...g legend space │ Monday            ╻╻╻╻╻   ● Views   65%
+       Man...riesLegend grows o... content needs │ Tuesday           ╻╻╻╻    ● Clicks  35%
                                                  │ Wednesday         ╻╻╻
                                                  │ Thursday          ╻╻
                                                  │ Friday            ╻╻╻╻╻╻
                                                  │ Saturday & Sund…  ╻╻╻╻╻
+                                                 │
+                                                 │
+                                                 │
+                                                 │
        ↵ open detail   ↑↓ navigate   ^k actions  │
-
-
-
-
 
 
 
@@ -114,14 +114,14 @@ test('long labels truncate and leave legend visible', async () => {
 }, 30000)
 
 test('many series keeps bars readable and clips legend vertically', async () => {
-  await session.text({ waitFor: (content) => content.includes('Man...ie'), timeout: 10000 })
+  await session.text({ waitFor: (content) => content.includes('Legend grows'), timeout: 10000 })
   session.sendKey('down')
   session.sendKey('down')
   session.sendKey('down')
 
   const text = await session.text({
     waitFor: (content) => {
-      return content.includes('›Man...ie') && content.includes('Series 8')
+      return content.includes('›Man') && content.includes('Series 8')
     },
     timeout: 10000,
   })
@@ -134,19 +134,19 @@ test('many series keeps bars readable and clips legend vertically', async () => 
 
        > Search...
 
-       Wee...fficDirect / Organ... across 6 days │ category  distribution  legend
+       Weekl...affi Direct / Org...across 6 days │ category  distribution  legend
        Revenue by Region Americas / EMEA / APAC  │ ────────  ────────────  ───────────────
-       Lon...el The left label...ng legend space │ Mon       ╻╻╻╻╻╻╻╻      ● Series 8  20%
-      ›Man...ie Legend grows o...s content needs │ Tue       ╻╻╻╻╻╻╻       ● Series 7  18%
+       Lon...belsThe left label...g legend space │ Mon       ╻╻╻╻╻╻╻╻      ● Series 8  20%
+      ›Man...riesLegend grows o... content needs │ Tue       ╻╻╻╻╻╻╻       ● Series 7  18%
                                                  │ Wed       ╻╻╻╻╻╻        ● Series 6  16%
                                                  │ Thu       ╻╻╻╻╻╻        ● Series 5  14%
                                                  │ Fri       ╻╻╻╻╻╻╻╻╻╻╻╻  ● Series 4  11%
                                                  │ Sat       ╻╻╻╻╻╻╻╻╻     ● Series 3   9%
+                                                 │
+                                                 │
+                                                 │
+                                                 │
        ↵ open detail   ↑↓ navigate   ^k actions  │
-
-
-
-
 
 
 

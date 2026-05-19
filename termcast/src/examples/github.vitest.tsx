@@ -54,22 +54,13 @@ afterEach(() => {
 })
 
 test.skipIf(!extensionExists)('github extension shows command list on launch', async () => {
-  // Wait for command list to appear (extension has multiple commands)
-  // Don't match "Commands" alone - it falsely matches "Building 18 commands..." build log
   const initialView = await session.text({
-    waitFor: (text) => /My Pu.*uest|Search .*sitories/i.test(text),
+    waitFor: (text) => text.includes('My Pul...quests') && text.includes('Search Repositorie'),
     timeout: 30000,
   })
 
-  // Wait for the full command list to render.
-  // The list can paint the first item before all descendants are registered.
-  await session.text({
-    waitFor: (text) => text.includes('My Pu...uest') && text.includes('Search ...sitories'),
-    timeout: 30000,
-  })
-
-  expect(initialView).toContain('My Pu...uest')
-  expect(initialView).toContain('Search ...sitories')
+  expect(initialView).toContain('My Pul...quests')
+  expect(initialView).toContain('Search Repositorie')
   expect(initialView).toMatchInlineSnapshot(`
     "
 
@@ -79,19 +70,19 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
        > Search commands...
 
        Commands
-      ›My Pu...uest List pull requests you cre...d in, or were mentioned in. view
-       Search ...RequestsSearch recent pull reque...lly in all repositories. view
-       Create ...RequestCreate a pull request in...your GitHub repositories. view
+      ›My Pul...questsList pull requests you cr... in, or were mentioned in. view
+       Search Pull Request Search recent pull requ...ly in all repositories. view
+       Create Pull Reques Create a pull request i...our GitHub repositories. view
        My IssuesList issues created by you, ...ned to you or mentioning you. view
        Search Issues Search recent issues globally in all repositories.      view
        Create Issue Create an issue in one of your GitHub repositories.      view
        Create Branch Create a branch in one of your GitHub repositories      view
-       Search ...sitoriesSearch in your public or...te repositories by name. view
+       Search Repositorie Search in your public o...te repositories by name. view
        My Latest Repositories List your repositories by latest updated       view
        My Starred Repositories List repositories you have starred            view
        Workflow Runs Manage workflow runs for a selected GitHub repository.  view
-       Noti...ionsList inbox notifications fr...es or a selected repository. view
-       Search ...ussionsSearch recent Discussion...bally in all repositories view
+       Notification List inbox notifications f...s or a selected repository. view
+       Search DiscussionsSearch recent Discussion...ally in all repositories view
        My Discussions Show your Discussions                                  view
        My Projects Show your Projects                                        view
 
@@ -108,7 +99,7 @@ test.skipIf(!extensionExists)('github extension shows command list on launch', a
 test.skipIf(!extensionExists)('github extension can navigate commands', async () => {
   // Wait for command list
   await session.text({
-    waitFor: (text) => text.includes('My Pu...uest') && text.includes('Search ...sitories'),
+    waitFor: (text) => text.includes('My Pul...quests') && text.includes('Search Repositorie'),
     timeout: 30000,
   })
 
@@ -128,19 +119,19 @@ test.skipIf(!extensionExists)('github extension can navigate commands', async ()
        > Search commands...
 
        Commands
-       My Pu...uest List pull requests you cre...d in, or were mentioned in. view
-       Search ...RequestsSearch recent pull reque...lly in all repositories. view
-      ›Create ...RequestCreate a pull request in...your GitHub repositories. view
+       My Pul...questsList pull requests you cr... in, or were mentioned in. view
+       Search Pull Request Search recent pull requ...ly in all repositories. view
+      ›Create Pull Reques Create a pull request i...our GitHub repositories. view
        My IssuesList issues created by you, ...ned to you or mentioning you. view
        Search Issues Search recent issues globally in all repositories.      view
        Create Issue Create an issue in one of your GitHub repositories.      view
        Create Branch Create a branch in one of your GitHub repositories      view
-       Search ...sitoriesSearch in your public or...te repositories by name. view
+       Search Repositorie Search in your public o...te repositories by name. view
        My Latest Repositories List your repositories by latest updated       view
        My Starred Repositories List repositories you have starred            view
        Workflow Runs Manage workflow runs for a selected GitHub repository.  view
-       Noti...ionsList inbox notifications fr...es or a selected repository. view
-       Search ...ussionsSearch recent Discussion...bally in all repositories view
+       Notification List inbox notifications f...s or a selected repository. view
+       Search DiscussionsSearch recent Discussion...ally in all repositories view
        My Discussions Show your Discussions                                  view
        My Projects Show your Projects                                        view
 
