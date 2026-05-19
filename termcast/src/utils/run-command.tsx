@@ -1,5 +1,4 @@
 import React from 'react'
-import { goke } from 'goke'
 import { useStore } from 'termcast/src/state'
 import { showToast, Toast } from 'termcast/src/apis/toast'
 import { LocalStorage } from 'termcast/src/apis/localstorage'
@@ -31,17 +30,11 @@ export interface ParsedExtensionArgs {
 export function parseExtensionArgs({
   skipArgv = 0,
 }: { skipArgv?: number } = {}): ParsedExtensionArgs {
-  // Build argv for goke: keep first 2 (binary + script), skip subcommand args, keep the rest
-  const argv = [
-    process.argv[0],
-    process.argv[1],
-    ...process.argv.slice(2 + skipArgv),
-  ]
-  const parsed = goke().parse(argv, { run: false })
+  const args = process.argv.slice(2 + skipArgv)
   return {
-    commandName: parsed.args[0] as string | undefined,
-    showHelp: Boolean(parsed.options.help || parsed.options.h),
-    showVersion: Boolean(parsed.options.version || parsed.options.v),
+    commandName: args.find((arg) => !arg.startsWith('-')),
+    showHelp: args.includes('--help') || args.includes('-h'),
+    showVersion: args.includes('--version') || args.includes('-v'),
   }
 }
 
@@ -137,7 +130,7 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
             : undefined
         }
         onSubmit={() => {
-          runCommand({ ...options, push: replace || push })
+          void runCommand({ ...options, push: replace || push })
         }}
       />,
     )
@@ -157,7 +150,7 @@ export async function runCommand(options: RunCommandOptions): Promise<void> {
         commandTitle={command.title}
         onSubmit={(args) => {
           useStore.setState({ currentCommandArguments: args })
-          runCommand({ ...options, push: replace || push })
+          void runCommand({ ...options, push: replace || push })
         }}
       />,
     )
@@ -290,12 +283,10 @@ async function checkRequiredPreferences({
   const savedCommandPrefs = await LocalStorage.getItem(commandPrefsKey)
   const savedExtensionPrefs = await LocalStorage.getItem(extensionPrefsKey)
 
-  const parsedCommandPrefs = savedCommandPrefs
-    ? JSON.parse(savedCommandPrefs as string)
-    : {}
-  const parsedExtensionPrefs = savedExtensionPrefs
-    ? JSON.parse(savedExtensionPrefs as string)
-    : {}
+  const parsedCommandPrefs =
+    typeof savedCommandPrefs === 'string' ? JSON.parse(savedCommandPrefs) : {}
+  const parsedExtensionPrefs =
+    typeof savedExtensionPrefs === 'string' ? JSON.parse(savedExtensionPrefs) : {}
 
   // Check if all required command preferences are set
   for (const pref of commandPrefs) {
