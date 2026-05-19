@@ -80,6 +80,26 @@ cli.command('list', 'List items as text').action(async () => {
 })
 
 cli.command('', 'Browse items in TUI').action(async () => {
+  // Termcast requires Bun. When the CLI runs under Node,
+  // re-spawn the same script with bun so the TUI works.
+  const isBun = typeof (globalThis as { Bun?: unknown }).Bun !== 'undefined'
+  if (!isBun) {
+    const { spawnSync } = await import('node:child_process')
+    const { fileURLToPath } = await import('node:url')
+    const __filename = fileURLToPath(import.meta.url)
+    const result = spawnSync('bun', [__filename, ...process.argv.slice(2)], {
+      stdio: 'inherit',
+      env: process.env,
+    })
+    if (result.error) {
+      console.error('The TUI requires Bun. Install: curl -fsSL https://bun.sh/install | bash')
+      process.exit(1)
+    }
+    if (result.signal) { process.kill(process.pid, result.signal); return }
+    process.exit(result.status ?? 1)
+    return
+  }
+
   const { renderWithProviders } = await import('termcast')
   const { default: BrowseItems } = await import('./browse.js')
   const React = await import('react')
@@ -91,6 +111,8 @@ cli.command('', 'Browse items in TUI').action(async () => {
 cli.help()
 cli.parse()
 ```
+
+The Bun respawn is transparent to the user. Regular CLI commands still work under Node; only the TUI command needs Bun. If Bun is not installed, it prints an install hint and exits.
 
 ```tsx
 // src/browse.tsx
@@ -132,6 +154,53 @@ Run an extension in development mode with HMR. Watches for file changes and rebu
 ```sh
 termcast dev              # current directory
 termcast dev ./my-app     # specific path
+```
+
+### Hot Module Reloading (HMR)
+
+`termcast dev` uses **React Refresh** to update components in-place when you save a file. State is preserved, no full restart. The flow:
+
+1. You save a `.tsx` file
+2. `@parcel/watcher` detects the change
+3. Bun rebuilds the command with `reactFastRefresh: true`
+4. The new module is re-imported with a cache-busting query string
+5. React Refresh swaps the component implementations without unmounting
+
+This works automatically for standalone extensions. For **CLIs that use the library approach** (`renderWithProviders`), you need a `commands` array in `package.json` so `termcast dev` knows which files to build:
+
+```json
+{
+  "name": "my-cli",
+  "bin": "./dist/cli.js",
+  "commands": [
+    {
+      "name": "browse",
+      "title": "Browse Items",
+      "description": "TUI for browsing items",
+      "mode": "view"
+    }
+  ]
+}
+```
+
+Each command maps to a file by name. Termcast looks for `src/browse.tsx` (or `browse.tsx` at root), which must **default-export a React component**:
+
+```tsx
+// src/browse.tsx
+import { List } from 'termcast'
+
+export default function BrowseItems() {
+  return <List><List.Item title="Hello" /></List>
+}
+```
+
+Then run `termcast dev` from the project root. It builds and renders the component directly, bypassing your CLI entry point. Your CLI still uses `renderWithProviders` for production; `termcast dev` is just for development with HMR.
+
+If you have multiple commands, `termcast dev` shows a picker. If there's only one, it runs immediately. You can also specify a command by name:
+
+```sh
+termcast dev          # picker or auto-run if single command
+termcast dev browse   # run the "browse" command directly
 ```
 
 ### `termcast compile [path]`
@@ -236,6 +305,58 @@ function Repos() {
 ```
 
 **List features:** search bar, sections, dropdown filter (`List.Dropdown`), detail panel with markdown + metadata, accessories (tags, text, icons), keyboard navigation, infinite scroll pagination.
+
+### Table-like accessory alignment
+
+When items have multiple tag accessories (status, priority, comment count, etc.), they render with variable widths by default, causing columns to misalign across rows. The `accessoryTagsLayout` prop fixes this by assigning each tag position a fixed character width, turning your list into a table-like layout.
+
+Each number in the array is the display width (in terminal characters) for the Nth tag in the accessories array. Tags are left-padded with spaces using `padEnd`. Non-tag accessories like `text` and `date` are unaffected.
+
+```tsx
+import { List, Color } from 'termcast'
+
+function Issues() {
+  return (
+    // Column widths: comments=11, status=11, priority=2
+    <List accessoryTagsLayout={[11, 11, 2]}>
+      <List.Item
+        title="Fix login timeout"
+        accessories={[
+          { tag: { value: '3 comments' } },
+          { tag: { value: 'Open', color: Color.Green } },
+          { tag: { value: 'P1', color: Color.Red } },
+          { date: new Date() },
+        ]}
+      />
+      <List.Item
+        title="Add dark mode support"
+        accessories={[
+          { tag: { value: '12 comments' } },
+          { tag: { value: 'In Progress', color: Color.Orange } },
+          { tag: { value: 'P2', color: Color.Yellow } },
+          { date: new Date() },
+        ]}
+      />
+      <List.Item
+        title="Refactor auth module"
+        accessories={[
+          { tag: { value: '7 comments' } },
+          { tag: { value: 'Closed', color: Color.Purple } },
+          { tag: null },  // placeholder, preserves column alignment
+          { date: new Date() },
+        ]}
+      />
+    </List>
+  )
+}
+
+// Renders as:
+// Fix login timeout       3 comments  Open         P1 2h
+// Add dark mode support   12 comments In Progress  P2 1d
+// Refactor auth module    7 comments  Closed          2w
+```
+
+Set each width to at least the length of the longest tag value at that position. Use `{ tag: null }` as a placeholder when an item is missing a tag at a given position; it renders as empty space so the remaining columns stay aligned.
 
 ### Detail
 
