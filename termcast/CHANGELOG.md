@@ -1,5 +1,69 @@
 # Changelog
 
+## 1.5.0
+
+1. **New `DottedLineGraph` component** — thin dotted line charts for metric dashboards using braille subcells (2×4 per terminal cell) for smooth diagonal movement:
+
+   ```tsx
+   import { DottedLineGraph, Color } from 'termcast'
+
+   <DottedLineGraph
+     height={12}
+     xLabels={['7:28 AM', '7:43 AM', '7:58 AM', '8:13 AM', '8:28 AM']}
+     yRange={[0, 100]}
+     yFormat={(value) => `${value.toFixed(0)}%`}
+   >
+     <DottedLineGraph.Series data={cpu} color={Color.Blue} title="CPU" />
+     <DottedLineGraph.Series data={memory} color={Color.Purple} title="Memory" />
+   </DottedLineGraph>
+   ```
+
+2. **New `HorizontalBarGraph` component** — horizontal stacked multi-series bar charts with compact right-side legend:
+
+   ```tsx
+   import { HorizontalBarGraph } from 'termcast'
+
+   <HorizontalBarGraph labels={['Mon', 'Tue', 'Wed']}>
+     <HorizontalBarGraph.Series data={[40, 30, 25]} title="Direct" />
+     <HorizontalBarGraph.Series data={[30, 35, 15]} title="Organic" />
+     <HorizontalBarGraph.Series data={[20, 25, 10]} title="Referral" />
+   </HorizontalBarGraph>
+   ```
+
+   Customize headers with `categoryTitle`, `distributionTitle`, and `legendTitle`. Legend rows sort by highest percentage first.
+
+3. **New `Histogram` component** — horizontal distribution tables with colored dots, labels, counts, percentages, and proportional bars:
+
+   ```tsx
+   import { Histogram } from 'termcast'
+
+   <Histogram>
+     <Histogram.Item label="TypeScript" value={450} />
+     <Histogram.Item label="Python" value={320} />
+     <Histogram.Item label="Rust" value={180} />
+   </Histogram>
+   ```
+
+   Colors are configurable per item or auto-assigned by hashing the label against the theme palette.
+
+4. **New `displayValue` prop on `List.Dropdown`** — override the text shown in the search bar for the active dropdown selection. Useful when the display label doesn't correspond to any item title.
+
+5. **List.Item text truncation** — long titles and subtitles now truncate with ellipsis instead of overflowing or pushing adjacent elements off screen. Works in both single-line and two-line list item layouts.
+
+6. **Graph and DottedLineGraph x-axis label overlap protection** — adjacent labels that would overlap are now automatically hidden. All chart components (Graph, DottedLineGraph, BarGraph, BarChart, HorizontalBarGraph) now handle label density gracefully.
+
+7. **BarGraph layout improvements** — legends default to a compact bottom row (use `legendPosition="right"` for side placement), Y-axis tick labels shown by default, `barWidth` and `barGap` props for dense charts, legend swatches now render before their labels.
+
+8. **Migrated from better-sqlite3 to built-in `node:sqlite`** — eliminates the native addon dependency that required node-gyp compilation at install time. Requires Bun or Node.js v22.5.0+.
+
+9. **Removed legacy extension store** — the `termcast build` and `termcast legacy-raycast-store` commands are removed. Termcast now works exclusively in dev mode or compiled mode.
+
+10. **Fixed extension argument parsing** — compiled extensions and `termcast dev` now start correctly instead of crashing before the command list renders.
+
+11. **Fixed React default import in extension bundles** — extensions using `import React from 'react'` with `React.useState` etc. no longer crash at runtime.
+
+12. **Updated OpenTUI to 0.2.12** — extension templates now use termcast imports instead of `@raycast/api`.
+
 ## 1.4.1
 
 1. **`app.log` is now opt-in with `TERMCAST_DEBUG=1`** — termcast no longer deletes or writes `app.log` in the current working directory during normal commands. Enable debug file logging only when needed:
