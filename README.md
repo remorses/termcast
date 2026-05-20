@@ -545,6 +545,100 @@ function EmailList() {
 }
 ```
 
+### Pagination
+
+termcast's `List` renders **all children** to the terminal. With hundreds of items, React reconciliation and layout computation become the bottleneck. Pagination keeps the rendered item count small by loading data in pages as the user scrolls.
+
+The `List` component triggers `onLoadMore()` automatically when the cursor approaches the last few items. `useCachedPromise` accumulates pages internally so previously loaded items stay visible when scrolling back up.
+
+#### Server-side pagination (fetching pages from an API)
+
+Use the **curried function** form of `useCachedPromise`. The outer function takes reactive dependencies; the inner async function receives `{ page, cursor }` and returns `{ data, hasMore, cursor }`.
+
+```tsx
+import { List } from 'termcast'
+import { useCachedPromise } from '@termcast/utils'
+
+const PAGE_SIZE = 20
+
+function TracesList() {
+  const { data, isLoading, pagination } = useCachedPromise(
+    (projectId: string) =>
+      async ({ cursor }: { page: number; cursor?: { ts: string; id: string } }) => {
+        const result = await fetchTraces({ projectId, cursor, limit: PAGE_SIZE })
+        return {
+          data: result.traces,
+          hasMore: result.hasMore,
+          cursor: result.nextCursor, // passed back on next page request
+        }
+      },
+    [projectId],
+    { keepPreviousData: true },
+  )
+
+  return (
+    <List isLoading={isLoading} pagination={pagination}>
+      {data?.map((trace) => (
+        <List.Item key={trace.id} title={trace.name} subtitle={trace.duration} />
+      ))}
+    </List>
+  )
+}
+```
+
+`keepPreviousData: true` prevents the list from flickering when dependencies change (e.g. switching a filter). The old data stays visible until the new first page arrives.
+
+The `pagination` object from `useCachedPromise` has `{ pageSize, hasMore, onLoadMore }` and can be passed directly to `<List pagination={pagination}>`.
+
+#### Client-side pagination (virtual pagination for large static lists)
+
+When you already have all the data in memory but the list is too large to render at once (e.g. a span tree with 500+ items), paginate the **rendering** instead of the fetching. This avoids the overhead of hundreds of `List.Item` components going through React reconciliation and yoga layout on every keystroke.
+
+```tsx
+import { List } from 'termcast'
+import { useCachedPromise } from '@termcast/utils'
+import { useState } from 'react'
+
+const PAGE_SIZE = 50
+
+function SpanTree({ traceId }: { traceId: string }) {
+  const { data, isLoading } = useCachedPromise(
+    async (id: string) => {
+      const spans = await fetchAllSpans(id) // fetch everything
+      return buildFlatTree(spans)            // compute tree structure
+    },
+    [traceId],
+  )
+
+  const allItems = data ?? []
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const visible = allItems.slice(0, visibleCount)
+  const hasMore = visibleCount < allItems.length
+
+  return (
+    <List
+      isLoading={isLoading}
+      pagination={hasMore ? {
+        pageSize: PAGE_SIZE,
+        hasMore,
+        onLoadMore: () => setVisibleCount((c) => Math.min(c + PAGE_SIZE, allItems.length)),
+      } : undefined}
+    >
+      {visible.map((item) => (
+        <List.Item key={item.id} title={item.name} />
+      ))}
+    </List>
+  )
+}
+```
+
+This pattern is useful when:
+- The full dataset is needed for computation (tree building, sorting, grouping)
+- The bottleneck is rendering, not fetching
+- You want instant scroll-back without re-fetching
+
+The `List` triggers `onLoadMore` when the cursor gets close to the end, and `useState` grows the visible window by one page each time.
+
 ### useCachedState
 
 Persistent state that survives across restarts. Backed by SQLite.
