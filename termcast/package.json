@@ -6,11 +6,11 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "bun x tsc && chmod +x dist/cli.js",
-    "release": "cd .. && bun changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
+    "prepublishOnly": "pnpm exec tsc && chmod +x dist/cli.js",
+    "release": "cd .. && pnpm changeset version && /Users/morse/Documents/GitHub/changesets/packages/cli/bin.js publish # my own fork to support github releases",
     "see-raycast-types": "zed node_modules/@raycast/api/types/index.d.ts",
     "play": "bun src/cli.tsx",
-    "test": "bun test && bun e2e",
+    "test": "bun test && pnpm e2e",
     "e2e": "vitest -u"
   },
   "bin": {

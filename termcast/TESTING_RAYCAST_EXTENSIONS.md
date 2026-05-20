@@ -19,15 +19,15 @@ Instead, use the `raycast-search` command to find extensions:
 
 ```bash
 cd termcast
-bun run src/cli.tsx raycast-search <query>
+bun src/cli.tsx raycast-search <query>
 ```
 
 This searches the Raycast store API and shows matching extensions with their names, download counts, and commands.
 
 **Example:**
 ```bash
-bun run src/cli.tsx raycast-search messages
-bun run src/cli.tsx raycast-search notion --limit 5
+bun src/cli.tsx raycast-search messages
+bun src/cli.tsx raycast-search notion --limit 5
 ```
 
 ## Step 1: Download the Extension
@@ -36,14 +36,14 @@ Use the `termcast raycast download` command to download an extension from the ra
 
 ```bash
 cd termcast
-bun run src/cli.tsx raycast download <extension-name> -o extensions
+bun src/cli.tsx raycast download <extension-name> -o extensions
 ```
 
 This downloads the extension source code into `extensions/<extension-name>/`.
 
 **Example:**
 ```bash
-bun run src/cli.tsx raycast download synonyms -o extensions
+bun src/cli.tsx raycast download synonyms -o extensions
 ```
 
 ## Step 2: Install Dependencies
@@ -52,7 +52,7 @@ Navigate to the extension directory and install dependencies:
 
 ```bash
 cd extensions/<extension-name>
-bun install
+pnpm install
 ```
 
 ## Step 3: Run in Dev Mode
@@ -61,7 +61,7 @@ Test the extension manually first to see if it loads:
 
 ```bash
 cd termcast
-bun run src/cli.tsx dev extensions/<extension-name>
+bun src/cli.tsx dev extensions/<extension-name>
 ```
 
 This will launch the extension and show either:
@@ -98,7 +98,7 @@ beforeAll(() => {
     return
   }
 
-  const result = spawnSync('bun', ['install'], {
+   const result = spawnSync('pnpm', ['install'], {
     cwd: extensionDir,
     stdio: 'inherit',
     timeout: 120000,
@@ -106,7 +106,7 @@ beforeAll(() => {
 
   if (result.status !== 0 || result.signal) {
     throw new Error(
-      `bun install failed: status=${result.status}, signal=${result.signal}`,
+      `pnpm install failed: status=${result.status}, signal=${result.signal}`,
     )
   }
 }, 180000)
@@ -201,7 +201,7 @@ expect(output).toMatchInlineSnapshot()
 Run the tests with snapshot update flag:
 
 ```bash
-bun e2e src/examples/<extension-name>.vitest.tsx -u
+pnpm e2e src/examples/<extension-name>.vitest.tsx -u
 ```
 
 This will:
@@ -234,10 +234,10 @@ See `src/examples/synonyms.vitest.tsx` for a complete example that:
 
 ```bash
 # Download
-bun run src/cli.tsx raycast download synonyms -o extensions
+bun src/cli.tsx raycast download synonyms -o extensions
 
 # Test
-bun e2e src/examples/synonyms.vitest.tsx -u
+pnpm e2e src/examples/synonyms.vitest.tsx -u
 ```
 
 ## Directory Structure
@@ -256,6 +256,6 @@ termcast/
 ## Notes
 
 - Extensions in `extensions/` are gitignored - they're downloaded fresh for testing
-- The `beforeAll` hook runs `bun install` to ensure dependencies are installed
+- The `beforeAll` hook runs `pnpm install` to ensure dependencies are installed
 - Use long timeouts (60000ms) as extensions may take time to build/load
 - Empty `toMatchInlineSnapshot()` calls get filled automatically with `-u` flag

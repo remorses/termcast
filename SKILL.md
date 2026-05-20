@@ -8,7 +8,7 @@ description: Build TUIs with a Raycast-like React API using termcast. Implements
 termcast is a framework for building terminal user interfaces using React. It implements the Raycast extension API (`@raycast/api`) but renders to the terminal via opentui. If you know Raycast, you know termcast.
 
 ```bash
-bun install -g termcast
+pnpm install -g termcast
 termcast new my-extension    # scaffold
 cd my-extension && termcast dev   # hot-reload dev mode
 ```
@@ -849,6 +849,115 @@ The compound component patterns are identical:
 - **Shortcuts**: use `ctrl`/`alt` + **letter** keys only (not digits)
 - **`showFailureToast(error, { title })`** is the standard way to handle errors in actions
 - **`revalidate()`** after every mutation to refresh data
+- **Never embed icons or checkmarks in `title` text.** Use the `icon` prop on `Action`, `List.Item`, `List.Dropdown.Item`, etc. instead. For example, do not write `title={isSelected ? "✓ Item" : "Item"}`. Write `title="Item" icon={isSelected ? Icon.CheckCircle : Icon.Circle}`. The `icon` prop renders properly as a visual indicator; text symbols like `✓`, `●`, `✗` in titles are hacks that break styling and accessibility.
+- **`useCachedPromise` serializes through JSON.** `Map` objects returned from the fetch function become plain objects after cache round-tripping. Use plain objects or arrays instead of Maps, or handle both in consumers: `if (data instanceof Map) data.get(k); else data[k]`
+- **Bun resolves modules differently from pnpm.** If your project uses pnpm but the TUI runs under Bun, Bun may pick up a globally installed React instead of the local one. This causes `useSyncExternalStore is not a function` or `null is not an object` errors because the React reconciler and hooks resolve to different React instances. Fix: add `react` as an explicit dependency in the package that imports termcast so Bun finds the local copy.
+- **Use `Cache` (sync) over `LocalStorage` (async) for zustand persistence.** `Cache` is SQLite-backed and synchronous, so persisted state can be loaded at module scope as the zustand initial value. `LocalStorage` is async and needs the provider context, making it awkward for initializing stores.
+
+## Bun respawn for Node CLIs
+
+Termcast requires Bun (OpenTUI Zig FFI). If your CLI uses `#!/usr/bin/env node` so regular subcommands work without Bun, the TUI command needs to re-spawn with Bun. Detect at runtime and `spawnSync` the same script:
+
+```ts
+const isBun = typeof (globalThis as { Bun?: unknown }).Bun !== 'undefined'
+if (!isBun) {
+  const { spawnSync } = await import('node:child_process')
+  const { fileURLToPath } = await import('node:url')
+  const __filename = fileURLToPath(import.meta.url)
+  const result = spawnSync('bun', [__filename, ...process.argv.slice(2)], {
+    stdio: 'inherit',
+    env: process.env,
+  })
+  if (result.error) {
+    console.error('The TUI requires Bun. Install: curl -fsSL https://bun.sh/install | bash')
+    process.exit(1)
+  }
+  if (result.signal) { process.kill(process.pid, result.signal); return }
+  process.exit(result.status ?? 1)
+  return
+}
+```
+
+This goes inside the TUI command handler, before the `renderWithProviders` call. Regular CLI commands stay on Node; only the TUI re-execs with Bun.
+
+## Multi-state dropdown
+
+A single `List.Dropdown` can control multiple independent states by using prefixed values and parsing the prefix in `onChange`. This avoids needing multiple dropdowns (which `List` doesn't support). Use `displayValue` to show a combined label for all states in the dropdown trigger.
+
+```tsx
+const displayValue = `${viewLabel} · ${projectSlug} · ${timeLabel}`
+
+<List.Dropdown
+  tooltip="Navigation"
+  value={`view::${currentView}`}
+  displayValue={displayValue}
+  onChange={(value) => {
+    if (value.startsWith('view::')) setView(value.slice(6))
+    else if (value.startsWith('project::')) {
+      const [id, slug] = value.slice(9).split('::')
+      setProject(id, slug)
+    }
+    else if (value.startsWith('time::')) setTimeRange(value.slice(6))
+  }}
+>
+  <List.Dropdown.Section title="View">
+    <List.Dropdown.Item title="Issues" value="view::issues" />
+    <List.Dropdown.Item title="Logs" value="view::logs" />
+  </List.Dropdown.Section>
+  <List.Dropdown.Section title="Project">
+    {projects.map(p => (
+      <List.Dropdown.Item key={p.id} title={p.slug} value={`project::${p.id}::${p.slug}`} />
+    ))}
+  </List.Dropdown.Section>
+  <List.Dropdown.Section title="Time Range">
+    <List.Dropdown.Item title="Last 24h" value="time::24h" />
+    <List.Dropdown.Item title="Last 7d" value="time::7d" />
+  </List.Dropdown.Section>
+</List.Dropdown>
+```
+
+Without `displayValue`, the dropdown trigger shows the title of whichever item matches `value`, which only reflects one state. With `displayValue`, the trigger always shows all three states regardless of which section was last picked.
+
+## Global state with zustand + Cache persistence
+
+For state shared across views that should persist across restarts (selected project, filters, time range), use `zustand/vanilla` with termcast's `Cache`.
+
+`Cache` is **synchronous** (SQLite-backed) so you can read persisted state at module scope and use it as the initial zustand value. No async loading, no loading spinners, no `useEffect`. `LocalStorage` is async and requires the provider context; prefer `Cache` for zustand persistence.
+
+```ts
+import { createStore } from 'zustand/vanilla'
+import { Cache } from 'termcast'
+
+const cache = new Cache({ namespace: 'my-app' })
+
+// Load persisted state synchronously at module scope
+function loadState(): Partial<AppState> {
+  const raw = cache.get('state')
+  if (!raw) return {}
+  try { return JSON.parse(raw) } catch { return {} }
+}
+
+const saved = loadState()
+
+const store = createStore<AppState>(() => ({
+  view: saved.view ?? 'issues',
+  projectId: saved.projectId ?? null,
+  timeRange: saved.timeRange ?? '24h',
+  service: saved.service ?? null,
+}))
+
+// Persist every change synchronously
+store.subscribe((state) => {
+  cache.set('state', JSON.stringify(state))
+})
+
+// React hook
+function useStore<T>(selector: (s: AppState) => T): T {
+  return useSyncExternalStore(store.subscribe, () => selector(store.getState()))
+}
+```
+
+This is better than `useCachedState` when state is shared across many components or views, because zustand gives you one store instead of scattered per-key hooks.
 
 ## Running and Testing Extensions
 

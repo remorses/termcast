@@ -7,15 +7,16 @@ Termcast is a terminal-based implementation of the Raycast API, allowing Raycast
 ```bash
 # Clone and setup
 git clone https://github.com/remorses/termcast
-cd termcast/termcast
-bun install
+cd termcast
+pnpm install
 
 # Run examples
-bun --watch src/examples/simple-list.tsx
+bun --watch termcast/src/examples/simple-list.tsx
 
-# Run tests
+# Run tests (from termcast/ package)
+cd termcast
 bun test
-bun e2e src/examples/simple-list.vitest.tsx -u  # -u to update snapshots
+pnpm e2e src/examples/simple-list.vitest.tsx -u  # -u to update snapshots
 ```
 
 ## Project Structure
@@ -116,7 +117,7 @@ curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/r
 
 3. Create component matching Raycast API
 4. Add example in `src/examples/`
-5. Test with `bun e2e`
+5. Test with `pnpm e2e`
 
 ### Testing
 
@@ -125,11 +126,11 @@ curl -s https://raw.githubusercontent.com/sst/opentui/refs/heads/main/packages/r
 bun test
 
 # E2E tests
-bun e2e                                    # Run all
-bun e2e src/examples/list.vitest.tsx -u   # Update snapshots
+pnpm e2e                                    # Run all
+pnpm e2e src/examples/list.vitest.tsx -u   # Update snapshots
 
 # Type checking
-bun run tsc
+pnpm run tsc
 ```
 
 ### Code Style

@@ -10,10 +10,10 @@
 Termcast is a framework for building terminal user interfaces (TUIs) using React. It implements the [Raycast extension API](https://developers.raycast.com) for the terminal, so you can port existing Raycast extensions or build new TUIs with a familiar, battle-tested component model.
 
 ```sh
-bun install -g termcast
+pnpm install -g termcast
 ```
 
-> Requires [Bun](https://bun.sh). Does not work with Node.js.
+> Requires [Bun](https://bun.sh) as a runtime. Does not work with Node.js.
 
 ## Two ways to build TUIs
 

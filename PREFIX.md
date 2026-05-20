@@ -1,8 +1,8 @@
 # Project Coding Guidelines
 
-NOTICE: AGENTS.md is generated using `bun agents.md` and should NEVER be manually updated. only update PREFIX.md
+NOTICE: AGENTS.md is generated using `pnpm agents.md` and should NEVER be manually updated. only update PREFIX.md
 
-ALWAYS use bun to install dependencies
+ALWAYS use pnpm to install dependencies
 
 ---
 
@@ -18,7 +18,7 @@ ALWAYS use .tsx extension for every new file.
 
 NEVER use mocks in vitest tests
 
-When running the e2e vitest suite, ALWAYS use the repo scripts (`bun e2e`, `bun e2e <file>`, `bun e2e -u`). NEVER run `vitest` directly.
+When running the e2e vitest suite, ALWAYS use the repo scripts (`pnpm e2e`, `pnpm e2e <file>`, `pnpm e2e -u`). NEVER run `vitest` directly.
 
 prefer object args instead of positional args. as a way to implement named arguments, put the typescript definition inline
 
@@ -42,7 +42,7 @@ Here is the process to follow to implement each API:
 - read the .d.ts of the @raycast/api package for the component or hook
 - generate a new file or decide to which file to add this new API in src folder
 - start by adding a signature without any actual implementation. Only a function or class or constant without any actual implementation
-- try typechecking with `bun run tsc`. fix any errors that is not related to the missing implementation (like missing returns)
+- try typechecking with `pnpm run tsc`. fix any errors that is not related to the missing implementation (like missing returns)
 - then think, is the signature the same as Raycast?
 - start implementing the component or function, before doing this
   - decide on what @opentui/react components to use
@@ -251,7 +251,7 @@ read file @src/examples/internal/descendants.tsx for a real usage example with s
 tuistory is used for e2e tests. After any change to tuistory source files, you must rebuild it:
 
 ```bash
-cd tuistory && bun run build
+cd tuistory && pnpm run build
 ```
 
 ### node-pty version requirement
@@ -264,19 +264,19 @@ tuistory uses node-pty for PTY spawning. **Use node-pty version 0.10.1** - newer
 }
 ```
 
-After changing the version, run `bun install` in the tuistory folder and rebuild.
+After changing the version, run `pnpm install` in the tuistory folder and rebuild.
 
 ## testing
 
-bun must be used to write tests
+bun test runner is used for unit tests, pnpm for script commands.
 
 inline snapshots with .toMatchInlineSnapshots or other snapshots are the preferred way to test things. NO MOCKS.
 
 never update inline snapshots manually, instead always use `bun test -u` to update snapshots. No need to reset snapshots before updating them with -u
 
-some tests in src/examples end with .vitest.tsx. to run these you will need to use `bun e2e -u`
+some tests in src/examples end with .vitest.tsx. to run these you will need to use `pnpm e2e -u`
 
-for example `bun e2e src/examples/form-dropdown.vitest.tsx`
+for example `pnpm e2e src/examples/form-dropdown.vitest.tsx`
 
 these tests are for ensuring the examples work correctly
 
@@ -303,7 +303,7 @@ then create a file ending with .vitest.tsx with same basename as the example.
 
 then add empty .toMatchInlineSnapshot() calls for every expected output
 
-run bun tsc to make sure it typechecks. if some keys you are trying to press are missing add them in the e2e-node.tsx file as methods.
+run pnpm tsc to make sure it typechecks. if some keys you are trying to press are missing add them in the e2e-node.tsx file as methods.
 
 then run `bun test -u` to update the snapshots
 

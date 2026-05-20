@@ -31,18 +31,21 @@ jobs:
         uses: goto-bus-stop/setup-zig@v2
         with:
           version: 0.15.2
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
       - name: Install dependencies
-        run: bun install --verbose || bun install --verbose
+        run: pnpm install
       # Build submodules
       - name: Build ghostty-opentui native binaries
         run: bun scripts/build.ts linux-x64
         working-directory: ghostty-opentui
       - name: Build ghostty-opentui TypeScript
-        run: bun run build
+        run: pnpm run build
         working-directory: ghostty-opentui
       - name: Build tuistory
-        run: bun run build
+        run: pnpm run build
         working-directory: tuistory
       # scripts
-      - run: bun run test || bun run test
+      - run: pnpm run test || pnpm run test
         working-directory: termcast
