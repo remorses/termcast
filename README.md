@@ -358,6 +358,76 @@ function Issues() {
 
 Set each width to at least the length of the longest tag value at that position. Use `{ tag: null }` as a placeholder when an item is missing a tag at a given position; it renders as empty space so the remaining columns stay aligned.
 
+### Accessory ordering for alignment
+
+When some accessories are only present on a few items, **put them first** in the array. Accessories render left to right, so a tag that only appears on 2 out of 10 items will push everything after it when present and leave a gap when absent. If that tag is last, all the columns before it stay perfectly aligned regardless.
+
+The rule: rarely-present accessories go first (leftmost), always-present accessories go last (rightmost). This way the right edge of your list stays clean and aligned across all rows.
+
+```tsx
+// Good: optional "Blocked" tag first, common tags last
+accessories={[
+  item.blocked ? { tag: { value: 'Blocked', color: Color.Red } } : { tag: null },
+  { tag: { value: item.status, color: statusColor } },
+  { tag: { value: item.priority } },
+  { date: item.updatedAt },
+]}
+
+// Bad: optional tag last breaks alignment of everything before it
+accessories={[
+  { tag: { value: item.status, color: statusColor } },
+  { tag: { value: item.priority } },
+  { date: item.updatedAt },
+  item.blocked ? { tag: { value: 'Blocked', color: Color.Red } } : { tag: null },
+]}
+```
+
+### Computing column widths dynamically
+
+When tag values come from dynamic data, hardcoding column widths is fragile. Compute them from the data with a reduce, capping each column to a maximum width so one outlier value does not stretch the entire column.
+
+```tsx
+import { List, Color } from 'termcast'
+
+const MAX_TAG_WIDTH = 12
+
+// Compute the widest tag at each position across all items
+const accessoryTagsLayout = issues.reduce<number[]>((widths, issue) => {
+  const tags = [
+    issue.assignee ?? '',
+    issue.status,
+    issue.priority,
+  ]
+  tags.forEach((text, i) => {
+    widths[i] = Math.min(MAX_TAG_WIDTH, Math.max(widths[i] ?? 0, text.length))
+  })
+  return widths
+}, [])
+
+function Issues() {
+  return (
+    <List accessoryTagsLayout={accessoryTagsLayout}>
+      {issues.map((issue) => (
+        <List.Item
+          key={issue.id}
+          title={issue.title}
+          accessories={[
+            issue.assignee
+              ? { tag: { value: issue.assignee } }
+              : { tag: null },
+            { tag: { value: issue.status, color: statusColor(issue.status) } },
+            { tag: { value: issue.priority } },
+            { date: issue.updatedAt },
+          ]}
+        />
+      ))}
+    </List>
+  )
+}
+```
+
+The `reduce` walks every item once and tracks the longest tag text per position. `Math.min(MAX_TAG_WIDTH, ...)` prevents a single long value from dominating the layout; anything longer gets truncated by the renderer. The optional `assignee` tag is placed first because it is often absent, keeping the status and priority columns aligned on the right.
+
 ### Detail
 
 Full-screen markdown view with optional metadata sidebar. Use for displaying rich content like documentation, email threads, or reports.
@@ -877,6 +947,242 @@ await renderWithProviders(<MyApp />, {
 | `extensionPath` | `~/.termcast/compiled/{extensionName}` | Where LocalStorage and Cache are stored |
 | `packageJson` | `{ name, title, description: '', commands: [] }` | Extension metadata for preferences |
 
+## Real-World Patterns
+
+These patterns are drawn from a production termcast extension (a Gmail TUI wrapping an existing CLI tool).
+
+### Gluing a CLI tool with a TUI
+
+Import your existing business logic, wrap it with termcast components.
+
+```
+┌─────────────────────────────────────────────┐
+│  mail-tui.tsx (termcast UI)                 │
+│  - List, Detail, Form, ActionPanel          │
+│  - useCachedPromise for data fetching       │
+│  - useCachedState for persistent prefs      │
+├─────────────────────────────────────────────┤
+│  auth.ts / gmail-client.ts (business logic) │
+│  - OAuth, API calls, data models            │
+│  - Pure TypeScript, no React dependencies   │
+└─────────────────────────────────────────────┘
+```
+
+The TUI file only handles rendering. All API calls, auth, and data processing live in separate files that work independently of the UI.
+
+### Multi-account dropdown
+
+```tsx
+function AccountDropdown({ accounts, value, onChange }: {
+  accounts: { email: string }[]
+  value: string
+  onChange: (value: string) => void
+}) {
+  return (
+    <List.Dropdown tooltip="Account" value={value} onChange={onChange}>
+      <List.Dropdown.Item title="All Accounts" value="all" icon={Icon.Globe} />
+      <List.Dropdown.Section title="Accounts">
+        {accounts.map((a) => (
+          <List.Dropdown.Item key={a.email} title={a.email} value={a.email} />
+        ))}
+      </List.Dropdown.Section>
+    </List.Dropdown>
+  )
+}
+
+// Usage:
+<List searchBarAccessory={
+  <AccountDropdown accounts={accounts} value={selected} onChange={setSelected} />
+}>
+```
+
+### Date-based section grouping
+
+```tsx
+function dateSection(dateStr: string): string {
+  const date = new Date(dateStr)
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const yesterday = new Date(today.getTime() - 86400000)
+
+  if (date >= today) return 'Today'
+  if (date >= yesterday) return 'Yesterday'
+  return 'Older'
+}
+
+const sections = useMemo(() => {
+  const groups = new Map<string, Item[]>()
+  for (const item of items) {
+    const section = dateSection(item.date)
+    const list = groups.get(section) ?? []
+    list.push(item)
+    groups.set(section, list)
+  }
+  return [...groups.entries()].map(([name, items]) => ({ name, items }))
+}, [items])
+
+return (
+  <List>
+    {sections.map((section) => (
+      <List.Section key={section.name} title={section.name}>
+        {section.items.map((item) => (
+          <List.Item key={item.id} title={item.title} />
+        ))}
+      </List.Section>
+    ))}
+  </List>
+)
+```
+
+### Mutations with loading state
+
+```tsx
+const [activeMutations, setActiveMutations] = useState(0)
+const isMutating = activeMutations > 0
+
+const withMutation = async <T,>(fn: () => Promise<T>): Promise<T> => {
+  setActiveMutations((n) => n + 1)
+  try { return await fn() }
+  finally { setActiveMutations((n) => n - 1) }
+}
+
+// Usage in an action:
+<Action
+  title="Archive"
+  onAction={() => withMutation(async () => {
+    await archiveItem(item.id)
+    await showToast({ style: Toast.Style.Success, title: 'Archived' })
+    revalidate()
+  })}
+/>
+
+<List isLoading={isLoading || isMutating}>
+```
+
+### Compose forms via Action.Push
+
+```tsx
+<ActionPanel.Section title="Reply & Forward">
+  <Action.Push
+    title="Reply"
+    icon={Icon.Reply}
+    shortcut={{ modifiers: ['ctrl'], key: 'r' }}
+    target={
+      <ComposeForm
+        mode={{ type: 'reply', threadId: thread.id }}
+        onSent={revalidate}
+      />
+    }
+  />
+  <Action.Push
+    title="Forward"
+    icon={Icon.Forward}
+    shortcut={{ modifiers: ['ctrl'], key: 'f' }}
+    target={
+      <ComposeForm
+        mode={{ type: 'forward', threadId: thread.id }}
+        onSent={revalidate}
+      />
+    }
+  />
+</ActionPanel.Section>
+```
+
+### Multi-state dropdown
+
+A single `List.Dropdown` can control multiple independent states by using prefixed values and parsing the prefix in `onChange`. This avoids needing multiple dropdowns (which `List` doesn't support). Use `displayValue` to show a combined label for all states in the dropdown trigger.
+
+```tsx
+const displayValue = `${viewLabel} · ${projectSlug} · ${timeLabel}`
+
+<List.Dropdown
+  tooltip="Navigation"
+  value={`view::${currentView}`}
+  displayValue={displayValue}
+  onChange={(value) => {
+    if (value.startsWith('view::')) setView(value.slice(6))
+    else if (value.startsWith('project::')) {
+      const [id, slug] = value.slice(9).split('::')
+      setProject(id, slug)
+    }
+    else if (value.startsWith('time::')) setTimeRange(value.slice(6))
+  }}
+>
+  <List.Dropdown.Section title="View">
+    <List.Dropdown.Item title="Issues" value="view::issues" />
+    <List.Dropdown.Item title="Logs" value="view::logs" />
+  </List.Dropdown.Section>
+  <List.Dropdown.Section title="Project">
+    {projects.map(p => (
+      <List.Dropdown.Item key={p.id} title={p.slug} value={`project::${p.id}::${p.slug}`} />
+    ))}
+  </List.Dropdown.Section>
+  <List.Dropdown.Section title="Time Range">
+    <List.Dropdown.Item title="Last 24h" value="time::24h" />
+    <List.Dropdown.Item title="Last 7d" value="time::7d" />
+  </List.Dropdown.Section>
+</List.Dropdown>
+```
+
+Without `displayValue`, the dropdown trigger shows the title of whichever item matches `value`, which only reflects one state. With `displayValue`, the trigger always shows all three states regardless of which section was last picked.
+
+### Global state with zustand + Cache persistence
+
+For state shared across views that should persist across restarts (selected project, filters, time range), use `zustand/vanilla` with termcast's `Cache`.
+
+`Cache` is **synchronous** (SQLite-backed) so you can read persisted state at module scope and use it as the initial zustand value. No async loading, no loading spinners, no `useEffect`. `LocalStorage` is async and requires the provider context; prefer `Cache` for zustand persistence.
+
+```ts
+import { createStore } from 'zustand/vanilla'
+import { Cache } from 'termcast'
+
+const cache = new Cache({ namespace: 'my-app' })
+
+// Load persisted state synchronously at module scope
+function loadState(): Partial<AppState> {
+  const raw = cache.get('state')
+  if (!raw) return {}
+  try { return JSON.parse(raw) } catch { return {} }
+}
+
+const saved = loadState()
+
+const store = createStore<AppState>(() => ({
+  view: saved.view ?? 'issues',
+  projectId: saved.projectId ?? null,
+  timeRange: saved.timeRange ?? '24h',
+  service: saved.service ?? null,
+}))
+
+// Persist every change synchronously
+store.subscribe((state) => {
+  cache.set('state', JSON.stringify(state))
+})
+
+// React hook
+function useStore<T>(selector: (s: AppState) => T): T {
+  return useSyncExternalStore(store.subscribe, () => selector(store.getState()))
+}
+```
+
+This is better than `useCachedState` when state is shared across many components or views, because zustand gives you one store instead of scattered per-key hooks.
+
+## Porting from Raycast
+
+If you're converting an existing Raycast extension:
+
+1. **Change imports**: `@raycast/api` -> `termcast`, `@raycast/utils` -> `@termcast/utils`
+2. **Keyboard modifiers**: `cmd` doesn't work in terminals. Replace with `ctrl` or `alt`
+3. **Enter key**: named `return` in opentui key events
+4. **Images**: no pixel rendering in terminals. Emoji and text fallbacks are used
+5. **Everything else** works the same: List, Detail, Form, Action, Toast, Navigation, LocalStorage, Cache, Clipboard, OAuth
+
+The compound component patterns are identical:
+- `List.Item`, `List.Section`, `List.Dropdown`, `List.Dropdown.Item`
+- `Detail.Metadata`, `Detail.Metadata.Label`, `Detail.Metadata.TagList`
+- `Form.TextField`, `Form.Dropdown`, `Form.Dropdown.Item`
+- `ActionPanel.Section`
+
 ## Differences from Raycast
 
 - Uses **Bun** instead of Node
@@ -886,3 +1192,13 @@ await renderWithProviders(<MyApp />, {
 - Can be bundled as a **desktop app** (`.app` on macOS)
 - **Superset** of the Raycast API with terminal-native components (charts, tables, heatmaps)
 - Best-effort API compatibility, not a drop-in replacement
+
+## Install skill for AI agents
+
+```bash
+npx -y skills add remorses/termcast
+```
+
+This installs [skills](https://skills.sh) for AI coding agents like
+Claude Code, Cursor, Windsurf, and others. Skills teach agents the
+workflows, patterns, and tools specific to this project.
