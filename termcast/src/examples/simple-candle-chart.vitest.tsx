@@ -128,7 +128,7 @@ test('candle + line overlay (mixed components)', async () => {
   }
 
   const text = await session.text({
-    waitFor: (t) => t.includes('›ETH - Candle + Line') && t.includes('closing line'),
+    waitFor: (t) => t.includes('›ETH') && t.includes('Line') && t.includes('Price:  $1,971'),
     timeout: 10000,
   })
 
@@ -141,19 +141,19 @@ test('candle + line overlay (mixed components)', async () => {
        > Search markets...
 
        Watchlist                                      │ $2,220│                            │
-       BTC Bitcoin                                    │       │       │                   ▌▌▖▖
-       ETH Ethereum                                   │ $2,073│       ▖▖▖ │         ▖▖   ▖▌▘▘▌▖▖▖
-       SOL Solana                                     │       │      │▌│▘▌▌▌    ▖▖  ▌▘▌││▌│  │││▌
-       XRP XRP                                        │       │     │▌▘  │ ▌▖  ▖▌▘▌▖▌ ▌▌▘▘      ▌▌▘▘
-       DOGE Dogecoin                                  │ $1,927│▖▖   ▖▌     │▘▌▖▌  │││  │
-       BNB BNB                                        │       │▘▘▌▖▌▘│       ▘▘
+       BTC Bitcoin                      $67,641 -0.2% │       │       │                   ▌▌▖▖
+       ETH Ethereum                      $1,971 -0.3% │ $2,073│       ▖▖▖ │         ▖▖   ▖▌▘▘▌▖▖▖
+       SOL Solana                        $83.31 -0.4% │       │      │▌│▘▌▌▌    ▖▖  ▌▘▌││▌│  │││▌
+       XRP XRP                            $1.36 -0.4% │       │     │▌▘  │ ▌▖  ▖▌▘▌▖▌ ▌▌▘▘      ▌▌▘▘
+       DOGE Dogecoin                    $0.0901 -0.5% │ $1,927│▖▖   ▖▌     │▘▌▖▌  │││  │
+       BNB BNB                             $622 -0.3% │       │▘▘▌▖▌▘│       ▘▘
                                                       │ $1,780│  ▘▘
        Mixed Components                               │        12d        8d          4d         Now
-       BTC - Candles Real BTC/USD hourly candles      │
-      ›ETH - Candle + Line Candles plus closing line  │ $2,197│                           ⢠⣆⣠⡀
-       SOL - Candle + VolumeCandles plus volume split │       │       ⣴⣤⣤ ⣀         ⢠⣀   ⢠⣿⣿⣿⣷⣶⣦⡀
-       BTC vs ETH Side-by-side crypto leaders         │ $1,997│      ⢰⣿⣿⣿⣿⣿⣇   ⣠⣷⣴⣄⣀⢸⣿⣶⣠⣤⣼⣿⣿⣿⣿⣿⣿⣧⣤⣤⣤
-       DOGE - Candle + LineLow-priced ...t formatting │       │⣶⡄   ⣦⣾⣿⣿⣿⣿⣿⣿⣶⣶⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+       BTC - CandlesReal BTC/US...rly candles $67,641 │
+      ›ETH - C...e + LineCandles p...sing line $1,971 │ $2,197│                           ⢠⣆⣠⡀
+       SOL - Ca... + Volum Candles ...me split $83.31 │       │       ⣴⣤⣤ ⣀         ⢠⣀   ⢠⣿⣿⣿⣷⣶⣦⡀
+       BTC vs ETH Side-by-side crypto leaders $67,641 │ $1,997│      ⢰⣿⣿⣿⣿⣿⣇   ⣠⣷⣴⣄⣀⢸⣿⣶⣠⣤⣼⣿⣿⣿⣿⣿⣿⣧⣤⣤⣤
+       DOGE - ...e + LineLow-pric...ormatting $0.0901 │       │⣶⡄   ⣦⣾⣿⣿⣿⣿⣿⣿⣶⣶⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                                       │ $1,797│⣿⣿⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
                                                       │        12d        8d          4d         Now
                                                       │
@@ -166,7 +166,8 @@ test('candle + line overlay (mixed components)', async () => {
     "
   `)
 
-  expect(text).toContain('Candle + Line')
+  expect(text).toContain('›ETH')
+  expect(text).toContain('Line')
 }, 30000)
 
 test('candle + volume bar chart (mixed components)', async () => {
@@ -177,7 +178,7 @@ test('candle + volume bar chart (mixed components)', async () => {
   }
 
   const text = await session.text({
-    waitFor: (t) => t.includes('›SOL - Candle + Volume') && t.includes('half'),
+    waitFor: (t) => t.includes('›SOL') && t.includes('Second half'),
     timeout: 10000,
   })
 
@@ -190,19 +191,19 @@ test('candle + volume bar chart (mixed components)', async () => {
        > Search markets...
 
        Watchlist                                      │ $95.03│                           ││
-       BTC Bitcoin                                    │       │       │             │     ▖▖▖▖
-       ETH Ethereum                                   │ $88.26│       ▌▌▖ ││    │   ▖▖   ▌▘▘▘▌▌▌│
-       SOL Solana                                     │       │      ▖▌│▘▌▌▌   │▌▌▖▖▌▘▌▖▌▘     ▘▌│││
-       XRP XRP                                        │       │     │▌   │ ▌▖│ ▌▘▘▘▌▌ ▘▘││      ▘▘▘▌
-       DOGE Dogecoin                                  │ $81.48│▖▖   ▌▘     │▘▌▌▘  │
-       BNB BNB                                        │       │▘▘▌▖▌▘        ▘▘
+       BTC Bitcoin                      $67,641 -0.2% │       │       │             │     ▖▖▖▖
+       ETH Ethereum                      $1,971 -0.3% │ $88.26│       ▌▌▖ ││    │   ▖▖   ▌▘▘▘▌▌▌│
+       SOL Solana                        $83.31 -0.4% │       │      ▖▌│▘▌▌▌   │▌▌▖▖▌▘▌▖▌▘     ▘▌│││
+       XRP XRP                            $1.36 -0.4% │       │     │▌   │ ▌▖│ ▌▘▘▘▌▌ ▘▘││      ▘▘▘▌
+       DOGE Dogecoin                    $0.0901 -0.5% │ $81.48│▖▖   ▌▘     │▘▌▌▘  │
+       BNB BNB                             $622 -0.3% │       │▘▘▌▖▌▘        ▘▘
                                                       │ $74.71│  ▘▘│
        Mixed Components                               │        12d        8d          4d         Now
-       BTC - Candles Real BTC/USD hourly candles      │
-       ETH - Candle + Line Candles plus closing line  │   ┌Second half: 95.3%┐
-      ›SOL - Candle + VolumeCandles plus volume split │
-       BTC vs ETH Side-by-side crypto leaders         │
-       DOGE - Candle + LineLow-priced ...t formatting │ ────────────────────────────────────────────
+       BTC - CandlesReal BTC/US...rly candles $67,641 │
+       ETH - C...e + LineCandles p...sing line $1,971 │   ┌Second half: 95.3%┐
+      ›SOL - Ca... + Volum Candles ...me split $83.31 │
+       BTC vs ETH Side-by-side crypto leaders $67,641 │
+       DOGE - ...e + LineLow-pric...ormatting $0.0901 │ ────────────────────────────────────────────
                                                       │
                                                       │ Price:  $83.31
                                                       │
@@ -215,7 +216,8 @@ test('candle + volume bar chart (mixed components)', async () => {
     "
   `)
 
-  expect(text).toContain('Candle + Volume')
+  expect(text).toContain('›SOL')
+  expect(text).toContain('Second half')
 }, 30000)
 
 test('side-by-side candle charts in Row', async () => {
