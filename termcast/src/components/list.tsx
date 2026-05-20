@@ -1367,6 +1367,46 @@ export const List: ListType = (props) => {
     }
   }
 
+  // Trigger pagination when the user mouse-scrolls near the bottom of the list.
+  // Only fires on scroll-down so scrolling up near the bottom doesn't spuriously
+  // re-trigger onLoadMore. Uses queueMicrotask because opentui calls onMouseScroll
+  // before ScrollBox.onMouseEvent updates scrollTop in the same call stack;
+  // a microtask runs after the synchronous handler chain finishes.
+  const checkScrollPagination = (event: OpenTUIMouseEvent) => {
+    if (event.scroll?.direction !== 'down') return
+
+    queueMicrotask(() => {
+      const scrollBox = scrollBoxRef.current
+      if (!scrollBox || !props.pagination?.hasMore) return
+
+      // Reset pagination lock when new items arrive (same logic as in move())
+      const items = Object.values(descendantsContext.map.current)
+        .filter((item) => item.index !== -1 && item.props?.visible !== false)
+      if (items.length !== prevItemCountRef.current) {
+        prevItemCountRef.current = items.length
+        paginationCalledRef.current = false
+      }
+
+      if (paginationCalledRef.current) return
+
+      const scrollTop = scrollBox.scrollTop || 0
+      const viewportHeight = scrollBox.viewport?.height || 0
+      const contentHeight = scrollBox.scrollHeight || 0
+
+      // Nothing to paginate if content fits in viewport
+      if (contentHeight <= viewportHeight) return
+
+      // Trigger when within 20% of the bottom (or 3 rows, whichever is larger)
+      const threshold = Math.max(3, Math.floor(viewportHeight * 0.2))
+      const distanceFromBottom = contentHeight - (scrollTop + viewportHeight)
+
+      if (distanceFromBottom <= threshold) {
+        paginationCalledRef.current = true
+        props.pagination.onLoadMore()
+      }
+    })
+  }
+
   const move = (direction: -1 | 1) => {
     // Get all visible items
     const items = Object.values(descendantsContext.map.current)
@@ -1818,6 +1858,7 @@ export const List: ListType = (props) => {
                 flexGrow={1}
                 flexShrink={1}
                 minHeight={10}
+                onMouseScroll={checkScrollPagination}
                 style={{
                   rootOptions: {
                     backgroundColor: undefined,
