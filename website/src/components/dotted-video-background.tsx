@@ -12,7 +12,11 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { preload } from 'react-dom'
 import * as THREE from 'three'
+
+// Video source constant shared between the preload hint and the engine.
+const VIDEO_SRC = '/assets/hero-bg.mp4'
 
 // ─── Shader sources ────────────────────────────────────────────────────────
 
@@ -309,7 +313,7 @@ const DISPLAY_FRAG = /* glsl */ `
 // ─── Config ────────────────────────────────────────────────────────────────
 
 export interface DottedVideoConfig {
-  videoSource: string
+  videoSource?: string
   maskSrc?: string
   dotsEnabled?: boolean
   dotSize?: number
@@ -430,7 +434,7 @@ function createDottedVideoEngine(container: HTMLElement, userConfig: DottedVideo
   video.loop = false
   video.muted = true
   video.playsInline = true
-  video.load()
+  video.preload = 'auto'
   video.addEventListener('ended', () => {
     video.currentTime = config.loopAt
     video.play().catch(() => {})
@@ -768,6 +772,10 @@ export function DottedVideoBackground({
   className?: string
   config?: Partial<DottedVideoConfig>
 }) {
+  // React 19: emits <link rel="preload" as="video"> into SSR HTML so the
+  // browser starts downloading the video before any JS executes.
+  preload(VIDEO_SRC, { as: 'video' })
+
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -775,7 +783,6 @@ export function DottedVideoBackground({
     if (!container) return
 
     const engine = createDottedVideoEngine(container, {
-      videoSource: '/assets/hero-bg.mp4',
       ...config,
     })
 
