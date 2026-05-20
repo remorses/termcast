@@ -555,11 +555,14 @@ The `List` component triggers `onLoadMore()` automatically when the cursor appro
 
 Use the **curried function** form of `useCachedPromise`. The outer function takes reactive dependencies; the inner async function receives `{ page, cursor }` and returns `{ data, hasMore, cursor }`.
 
+Use `process.stdout.rows` to size pages to the terminal height so the first page always fills the visible area. Subtract a few rows for List chrome (search bar, footer, borders).
+
 ```tsx
 import { List } from 'termcast'
 import { useCachedPromise } from '@termcast/utils'
 
-const PAGE_SIZE = 20
+// Size pages to the terminal so the first fetch fills the visible area
+const PAGE_SIZE = Math.max(10, (process.stdout.rows || 30) - 5)
 
 function TracesList() {
   const { data, isLoading, pagination } = useCachedPromise(
@@ -599,7 +602,7 @@ import { List } from 'termcast'
 import { useCachedPromise } from '@termcast/utils'
 import { useState } from 'react'
 
-const PAGE_SIZE = 50
+const PAGE_SIZE = Math.max(10, (process.stdout.rows || 30) - 5)
 
 function SpanTree({ traceId }: { traceId: string }) {
   const { data, isLoading } = useCachedPromise(
