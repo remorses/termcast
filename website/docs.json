@@ -1,0 +1,52 @@
+{
+  "$schema": "https://unpkg.com/@holocron.so/vite/src/schema.json",
+  "name": "Termcast",
+  "description": "Build terminal apps with React and Raycast-like APIs",
+  "favicon": "/favicon.ico",
+  "colors": {
+    "primary": "#fe750e"
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "navbar": {
+    "links": [
+      {
+        "type": "github",
+        "href": "https://github.com/remorses/termcast"
+      }
+    ]
+  },
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/remorses/termcast",
+          "icon": "github"
+        },
+        {
+          "anchor": "npm",
+          "href": "https://www.npmjs.com/package/termcast",
+          "icon": "package"
+        },
+        {
+          "anchor": "Changelog",
+          "href": "https://github.com/remorses/termcast/blob/main/termcast/CHANGELOG.md",
+          "icon": "history"
+        }
+      ]
+    },
+    "groups": [
+      {
+        "group": "Overview",
+        "icon": "home",
+        "pages": ["index"]
+      }
+    ]
+  },
+  "decorativeLines": "none"
+}

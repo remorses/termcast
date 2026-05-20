@@ -1,6 +1,7 @@
 /**
  * Interactive install command button with clipboard copy.
  * Client component because it uses useState for the copy feedback.
+ * Adapts to dark/light mode via foreground/background CSS variables.
  */
 'use client'
 
@@ -13,7 +14,7 @@ export function InstallCommand() {
 
   return (
     <button
-      className='flex items-center gap-3 mt-7 sm:mt-8 px-5 py-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-colors group cursor-pointer'
+      className='flex items-center gap-3 mt-7 sm:mt-8 px-5 py-3 bg-secondary border border-border hover:border-foreground/20 transition-colors group cursor-pointer'
       onClick={() => {
         navigator.clipboard.writeText(command)
         setCopied(true)
@@ -22,13 +23,17 @@ export function InstallCommand() {
         }, 2000)
       }}
     >
-      <span className='bu-font-mono text-sm text-zinc-400'>
-        <span className='text-pumpkin-500'>$</span> {command}
+      <span className='font-mono text-sm text-foreground/60'>
+        <span className='text-primary'>$</span> {command}
       </span>
-      {copied
-        ? <Check size={14} className='text-emerald-400' />
-        : <Copy size={14} className='text-zinc-600 group-hover:text-zinc-400 transition-colors' />
-      }
+      {copied ? (
+        <Check size={14} className='text-emerald-400' />
+      ) : (
+        <Copy
+          size={14}
+          className='text-foreground/30 group-hover:text-foreground/60 transition-colors'
+        />
+      )}
     </button>
   )
 }

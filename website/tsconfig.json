@@ -1,5 +1,6 @@
 {
-  "include": ["src"],
+  "include": ["src", "*.json"],
+  "exclude": ["src/main.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["vite/client", "@types/node"],
