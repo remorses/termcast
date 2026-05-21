@@ -8,8 +8,13 @@
  * - Luminance drives dot radius (bright = big dot, dark = invisible)
  * - Fluid dye is additively blended with the video before luminance calc
  * - Mouse movement creates splats in the fluid sim
+ *
+ * No 'use client' directive here: this module is only imported by
+ * hero-section.tsx which is already 'use client'. Adding a second
+ * boundary causes @vitejs/plugin-rsc to wrap the import in React.lazy(),
+ * turning it into a dynamic chunk that misses SSR modulepreload hints
+ * and loads ~600ms late.
  */
-'use client'
 
 import { useEffect, useRef } from 'react'
 import { preload } from 'react-dom'
@@ -445,10 +450,15 @@ function createDottedVideoEngine(container: HTMLElement, userConfig: DottedVideo
   videoTexture.magFilter = THREE.NearestFilter
   videoTexture.format = THREE.RGBAFormat
 
-  // Mask texture
-  const maskTexture = new THREE.TextureLoader().load(config.maskSrc)
-  maskTexture.minFilter = THREE.NearestFilter
-  maskTexture.magFilter = THREE.NearestFilter
+  // Mask texture (only load when mask is actually enabled to avoid 404s)
+  let maskTexture: THREE.Texture
+  if (config.enableMask) {
+    maskTexture = new THREE.TextureLoader().load(config.maskSrc)
+    maskTexture.minFilter = THREE.NearestFilter
+    maskTexture.magFilter = THREE.NearestFilter
+  } else {
+    maskTexture = new THREE.Texture()
+  }
 
   // Full-screen quad geometry
   const quadGeo = new THREE.PlaneGeometry(2, 2)
