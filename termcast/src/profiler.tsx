@@ -259,12 +259,23 @@ function findDeepestContainer(
 const componentSourceMap = new Map<string, string>()
 
 // Extract "file:line" from a fiber's _debugStack Error.
-// The stack trace format is:
-//   Error
-//     at <anonymous> (react-jsx-dev-runtime.development.js:333:13)   <-- React internal
-//     at renderFn (/path/to/component.tsx:42:5)                       <-- where JSX was created
-// We want the first non-React frame that points to a .tsx/.ts/.jsx file.
-const STACK_FRAME_RE = /at .+? \((.+?):(\d+):\d+\)/
+// The stack trace format varies between Bun and Node:
+//   at functionName (/path/to/file.tsx:42:5)    — named frame
+//   at /path/to/file.tsx:42:5                    — anonymous frame
+// We want the first non-React, non-node_modules frame.
+function parseFrameLocation(frame: string): { filePath: string; line: string } | null {
+  // Named frame: at fn (/path/file.tsx:1:2)
+  const parenthesized = /\((.+):(\d+):\d+\)\s*$/.exec(frame)
+  if (parenthesized) {
+    return { filePath: parenthesized[1], line: parenthesized[2] }
+  }
+  // Anonymous frame: at /path/file.tsx:1:2
+  const bare = /^\s*at (.+):(\d+):\d+\s*$/.exec(frame)
+  if (bare) {
+    return { filePath: bare[1], line: bare[2] }
+  }
+  return null
+}
 
 function extractSourceFromFiber(fiber: any): string | null {
   const debugStack = fiber._debugStack
@@ -275,34 +286,65 @@ function extractSourceFromFiber(fiber: any): string | null {
   const frames = stack.split('\n')
   for (const frame of frames) {
     // Skip React internals and node_modules
-    if (frame.includes('react.development') || frame.includes('react-jsx') || frame.includes('react-reconciler')) {
+    if (
+      frame.includes('react.development') ||
+      frame.includes('react-jsx') ||
+      frame.includes('react-reconciler') ||
+      frame.includes('node_modules')
+    ) {
       continue
     }
-    const match = STACK_FRAME_RE.exec(frame)
-    if (match) {
-      const filePath = match[1]
-      const line = match[2]
-      // Make path relative to cwd for readability
-      const relativePath = path.relative(process.cwd(), filePath)
-      return `${relativePath}:${line}`
+    const loc = parseFrameLocation(frame)
+    if (loc) {
+      const relativePath = path.relative(process.cwd(), loc.filePath)
+      return `${relativePath}:${loc.line}`
     }
   }
   return null
 }
 
-function walkFiberTree(fiber: any): void {
-  if (!fiber) {
-    return
+// Get display name from a fiber, handling memo/forwardRef wrappers.
+// React wraps components in objects with .type or .render for these HOCs.
+function getFiberComponentName(fiber: any): string | null {
+  const type = fiber.type
+  if (!type) {
+    return null
   }
-  const name = fiber.type?.name || fiber.type?.displayName
-  if (name && !componentSourceMap.has(name)) {
-    const source = extractSourceFromFiber(fiber)
-    if (source) {
-      componentSourceMap.set(name, source)
+  // Direct function component or class
+  if (type.displayName || type.name) {
+    return type.displayName || type.name
+  }
+  // memo(Component) — type is { $$typeof: REACT_MEMO_TYPE, type: innerComponent }
+  if (type.type?.displayName || type.type?.name) {
+    return type.type.displayName || type.type.name
+  }
+  // forwardRef(Component) — type is { $$typeof: REACT_FORWARD_REF_TYPE, render: fn }
+  if (type.render?.displayName || type.render?.name) {
+    return type.render.displayName || type.render.name
+  }
+  return null
+}
+
+// Iterative fiber tree walk to avoid stack overflow on large flat lists.
+// Sibling chains can be hundreds deep; recursion would overflow.
+function walkFiberTree(root: any): void {
+  const stack: any[] = root ? [root] : []
+  while (stack.length > 0) {
+    const fiber = stack.pop()
+    const name = getFiberComponentName(fiber)
+    if (name && !componentSourceMap.has(name)) {
+      const source = extractSourceFromFiber(fiber)
+      if (source) {
+        componentSourceMap.set(name, source)
+      }
+    }
+    if (fiber.sibling) {
+      stack.push(fiber.sibling)
+    }
+    if (fiber.child) {
+      stack.push(fiber.child)
     }
   }
-  walkFiberTree(fiber.child)
-  walkFiberTree(fiber.sibling)
 }
 
 function installFiberHook(): void {
@@ -310,12 +352,15 @@ function installFiberHook(): void {
   if (!hook) {
     return
   }
+  // Preserve all arguments and `this` so React Refresh and other hooks
+  // that depend on priorityLevel and didError continue to work.
   const originalOnCommit = hook.onCommitFiberRoot
-  hook.onCommitFiberRoot = (id: any, root: any) => {
-    // Walk fibers to collect component source locations
-    walkFiberTree(root.current)
-    if (originalOnCommit) {
-      originalOnCommit(id, root)
+  hook.onCommitFiberRoot = function (this: any, ...args: unknown[]) {
+    const root = args[1] as { current?: any } | undefined
+    try {
+      walkFiberTree(root?.current)
+    } finally {
+      return originalOnCommit?.apply(this, args)
     }
   }
 }
