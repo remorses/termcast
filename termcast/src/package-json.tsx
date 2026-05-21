@@ -136,31 +136,33 @@ export function getCommandsWithFiles({
   const commands: CommandWithFile[] = (packageJson.commands || []).map(
     (command) => {
       const possibleExtensions = ['.tsx', '.ts', '.jsx', '.js']
+      // Candidate directories: project root, then src/
+      const candidateDirs = [projectRoot, path.join(projectRoot, 'src')]
       let filePath = ''
       let exists = false
 
-      // First, look for the file outside "src"
-      for (const ext of possibleExtensions) {
-        const candidatePath = path.join(projectRoot, `${command.name}${ext}`)
-        if (fs.existsSync(candidatePath)) {
-          filePath = candidatePath
-          exists = true
+      for (const dir of candidateDirs) {
+        if (exists) {
           break
         }
-      }
-
-      // If not found, look for the file inside "src"
-      if (!exists) {
+        // Check flat files: {name}.tsx, {name}.ts, etc.
         for (const ext of possibleExtensions) {
-          const candidatePath = path.join(
-            projectRoot,
-            'src',
-            `${command.name}${ext}`,
-          )
+          const candidatePath = path.join(dir, `${command.name}${ext}`)
           if (fs.existsSync(candidatePath)) {
             filePath = candidatePath
             exists = true
             break
+          }
+        }
+        // Check directory-style entry: {name}/index.tsx, {name}/index.ts, etc.
+        if (!exists) {
+          for (const ext of possibleExtensions) {
+            const candidatePath = path.join(dir, command.name, `index${ext}`)
+            if (fs.existsSync(candidatePath)) {
+              filePath = candidatePath
+              exists = true
+              break
+            }
           }
         }
       }

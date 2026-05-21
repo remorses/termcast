@@ -190,7 +190,12 @@ export async function compileExtension({
   if (!entry) {
     const existingCommands = commands.filter((cmd) => cmd.exists)
     if (existingCommands.length === 0) {
-      throw new Error('No command files found to build')
+      const tried = commands
+        .map((cmd) => `  command "${cmd.name}" -> ${cmd.filePath}`)
+        .join('\n')
+      throw new Error(
+        `No command files found to build. Checked:\n${tried}\n\nEach command in package.json "commands" needs a matching file: {name}.tsx or {name}/index.tsx in the project root or src/`,
+      )
     }
     logger.log(`Compiling ${existingCommands.length} commands...`)
   } else {

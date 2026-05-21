@@ -250,7 +250,12 @@ export async function buildExtensionCommands({
     .map((cmd) => cmd.filePath)
 
   if (entrypoints.length === 0) {
-    throw new Error('No command files found to build')
+    const tried = commandsData.commands
+      .map((cmd) => `  command "${cmd.name}" -> ${cmd.filePath}`)
+      .join('\n')
+    throw new Error(
+      `No command files found to build. Checked:\n${tried}\n\nEach command in package.json "commands" needs a matching file: {name}.tsx or {name}/index.tsx in the project root or src/`,
+    )
   }
 
   logger.log(`Building ${entrypoints.length} commands...`)
@@ -324,7 +329,9 @@ export async function buildExtensionCommands({
     }
   }
 
-  // Map outputs back to commands
+  // Map outputs back to commands.
+  // When the entry is a directory index file (e.g. src/tui/index.tsx), Bun
+  // outputs "index.js" instead of "tui.js". We rename it to match the command name.
   const bundledCommands: BundledCommand[] = commandsData.commands.map(
     (command) => {
       if (!command.exists) {
@@ -334,22 +341,34 @@ export async function buildExtensionCommands({
         }
       }
 
-      // Find the corresponding output for this command
-      const outputFileName = `${command.name}.js`
-      const output = result.outputs.find((out) => {
-        return path.basename(out.path) === outputFileName
+      const expectedFileName = `${command.name}.js`
+      const bundledPath = path.join(bundleDir, expectedFileName)
+
+      // Check if the output already has the expected name
+      const directMatch = result.outputs.find((out) => {
+        return path.basename(out.path) === expectedFileName
       })
 
-      if (output) {
-        const bundledPath = path.join(bundleDir, outputFileName)
+      if (directMatch) {
         logger.log(`Built ${command.name} -> ${bundledPath}`)
-        return {
-          ...command,
-          bundledPath,
-        }
-      } else {
-        throw new Error(`No output found for command: ${command.name}`)
+        return { ...command, bundledPath }
       }
+
+      // For directory-style entries (tui/index.tsx), Bun outputs "index.js".
+      // Find the output whose entrypoint matches this command's filePath and rename it.
+      const isDirectoryEntry = path.basename(command.filePath).startsWith('index.')
+      if (isDirectoryEntry) {
+        const indexOutput = result.outputs.find((out) => {
+          return path.basename(out.path) === 'index.js'
+        })
+        if (indexOutput) {
+          fs.renameSync(indexOutput.path, bundledPath)
+          logger.log(`Built ${command.name} -> ${bundledPath} (renamed from index.js)`)
+          return { ...command, bundledPath }
+        }
+      }
+
+      throw new Error(`No output found for command: ${command.name}`)
     },
   )
 
