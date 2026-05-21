@@ -262,7 +262,8 @@ const componentSourceMap = new Map<string, string>()
 // The stack trace format varies between Bun and Node:
 //   at functionName (/path/to/file.tsx:42:5)    — named frame
 //   at /path/to/file.tsx:42:5                    — anonymous frame
-// We want the first non-React, non-node_modules frame.
+// We want the first non-React-internal frame. node_modules paths are kept
+// so components from third-party packages show their real location.
 function parseFrameLocation(frame: string): { filePath: string; line: string } | null {
   // Named frame: at fn (/path/file.tsx:1:2)
   const parenthesized = /\((.+):(\d+):\d+\)\s*$/.exec(frame)
@@ -285,12 +286,11 @@ function extractSourceFromFiber(fiber: any): string | null {
   const stack = debugStack.stack || String(debugStack)
   const frames = stack.split('\n')
   for (const frame of frames) {
-    // Skip React internals and node_modules
+    // Skip only React internals, keep everything else including node_modules
     if (
       frame.includes('react.development') ||
       frame.includes('react-jsx') ||
-      frame.includes('react-reconciler') ||
-      frame.includes('node_modules')
+      frame.includes('react-reconciler')
     ) {
       continue
     }
