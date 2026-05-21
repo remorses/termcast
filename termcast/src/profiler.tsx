@@ -13,9 +13,14 @@
 //   - name: trigger string like "Mount", "Cascading Update", etc.
 //   - detail.devtools.track: "Components ⚛" for component renders
 //
-// The profile builds a proper call tree from time containment: if measure A
-// fully contains measure B in time, B becomes a child of A. This gives
-// meaningful self vs total times in profano output:
+// NOTE: React also emits some entries via console.timeStamp() which are not
+// captured by PerformanceObserver. This profiler captures a useful subset of
+// React's performance track data, not every component render.
+//
+// The profile builds a best-effort call tree from time containment: if measure
+// A fully contains measure B in time, B becomes a child of A. Partially
+// overlapping measures are attached to the nearest containing ancestor.
+// This gives meaningful self vs total times in profano output:
 //   - total time = all time inside a measure (including children)
 //   - self time = time not attributed to any child measure
 //
@@ -37,6 +42,15 @@ interface ReactMeasure {
 
 const measures: ReactMeasure[] = []
 let observerInstalled = false
+let profileWritten = false
+
+function writeProfileOnce(): void {
+  if (profileWritten) {
+    return
+  }
+  profileWritten = true
+  writeProfile()
+}
 
 export function installProfiler(): void {
   if (observerInstalled) {
@@ -66,23 +80,18 @@ export function installProfiler(): void {
 
   observer.observe({ type: 'measure', buffered: true })
 
-  // Write profile on exit signals
-  const writeAndExit = (signal: string) => {
-    writeProfile()
-    // Re-raise signal so the default handler can run
-    process.removeListener(signal, writeAndExit as any)
+  // Write profile on exit signals. The named function reference is used so
+  // removeListener actually removes the correct handler, preventing recursion
+  // when process.kill re-raises the signal.
+  const handleSignal = (signal: NodeJS.Signals) => {
+    writeProfileOnce()
+    process.removeListener(signal, handleSignal)
     process.kill(process.pid, signal)
   }
 
-  process.on('SIGINT', () => {
-    writeAndExit('SIGINT')
-  })
-  process.on('SIGTERM', () => {
-    writeAndExit('SIGTERM')
-  })
-  process.on('exit', () => {
-    writeProfile()
-  })
+  process.on('SIGINT', handleSignal)
+  process.on('SIGTERM', handleSignal)
+  process.on('exit', writeProfileOnce)
 
   logger.log('React profiler installed. Profile will be written on exit.')
 }
@@ -174,16 +183,38 @@ function buildCallTree({ spans, sourceMap }: { spans: Span[]; sourceMap: Map<str
     // Resolve source file path from the component name.
     // Falls back to the React track name (e.g. "Components ⚛") for scheduler
     // events and components not found in source.
+    // scriptId is stable per source identity so profano aggregates repeated
+    // renders of the same component into one row.
     const sourcePath = sourceMap.get(span.name)
-    const url = sourcePath || span.track
+    const url: string = (() => {
+      if (!sourcePath) {
+        return span.track
+      }
+      const colonIdx = sourcePath.lastIndexOf(':')
+      if (colonIdx === -1) {
+        return sourcePath
+      }
+      return sourcePath.slice(0, colonIdx)
+    })()
+    const lineNumber: number = (() => {
+      if (!sourcePath) {
+        return -1
+      }
+      const colonIdx = sourcePath.lastIndexOf(':')
+      if (colonIdx === -1) {
+        return -1
+      }
+      return parseInt(sourcePath.slice(colonIdx + 1), 10) || -1
+    })()
+    const scriptId = sourcePath || `${span.track}:${span.name}`
 
     nodes.push({
       id,
       callFrame: {
         functionName: span.name,
-        scriptId: String(id),
+        scriptId,
         url,
-        lineNumber: -1,
+        lineNumber,
         columnNumber: -1,
       },
       children: [],
@@ -224,23 +255,34 @@ function buildComponentSourceMap(): Map<string, string> {
   const map = new Map<string, string>()
 
   // Patterns that define a component:
-  //   function ComponentName(         — function declaration
-  //   const ComponentName =           — const arrow/assignment
-  //   export function ComponentName(  — exported function
-  //   export const ComponentName =    — exported const
-  //   ComponentName = (props)         — compound component assignment like List.Item = (props) =>
+  //   function ComponentName(              — function declaration
+  //   const ComponentName =                — const arrow/assignment
+  //   export function ComponentName(       — exported function
+  //   export default function ComponentName( — default exported function
+  //   export const ComponentName =         — exported const
+  //   ComponentName = (props)              — compound component assignment
   const componentPattern =
-    /(?:export\s+)?(?:(?:function|const)\s+)([A-Z][A-Za-z0-9_]*)\s*(?:[:=(])/gm
+    /(?:export\s+(?:default\s+)?)?(?:(?:function|const)\s+)([A-Z][A-Za-z0-9_]*)\s*(?:[:=(])/gm
   // Also match compound component patterns: Name.Sub = (props) =>
   const compoundPattern =
     /([A-Z][A-Za-z0-9_]*(?:\.[A-Z][A-Za-z0-9_]*)+)\s*=\s*\(/gm
 
+  const SKIP_DIRS = new Set(['node_modules', '.termcast-bundle', 'dist', '.git'])
+
+  // Manual recursion to skip node_modules/dist directories before descending,
+  // instead of fs.readdirSync({ recursive: true }) which eagerly traverses everything.
   const scanDirectory = (dir: string, basePath: string) => {
     if (!fs.existsSync(dir)) {
       return
     }
-    const entries = fs.readdirSync(dir, { withFileTypes: true, recursive: true })
+    const entries = fs.readdirSync(dir, { withFileTypes: true })
     for (const entry of entries) {
+      if (entry.isDirectory()) {
+        if (!SKIP_DIRS.has(entry.name)) {
+          scanDirectory(path.join(dir, entry.name), basePath)
+        }
+        continue
+      }
       if (!entry.isFile()) {
         continue
       }
@@ -248,12 +290,7 @@ function buildComponentSourceMap(): Map<string, string> {
       if (!name.endsWith('.tsx') && !name.endsWith('.ts') && !name.endsWith('.jsx')) {
         continue
       }
-      // Skip node_modules, .termcast-bundle, dist
-      const parentPath = entry.parentPath || (entry as any).path || ''
-      const fullPath = path.join(parentPath, name)
-      if (fullPath.includes('node_modules') || fullPath.includes('.termcast-bundle') || fullPath.includes('/dist/')) {
-        continue
-      }
+      const fullPath = path.join(dir, name)
       const relativePath = path.relative(basePath, fullPath)
       try {
         const content = fs.readFileSync(fullPath, 'utf-8')
@@ -312,7 +349,7 @@ function writeProfile(): void {
     return
   }
 
-  const TICK = 100 // microseconds per sample
+  const TICK = 1000 // microseconds per sample (1ms resolution)
 
   // Build component name → source file mapping
   const sourceMap = buildComponentSourceMap()
@@ -334,29 +371,71 @@ function writeProfile(): void {
   // Build call tree from time containment, passing sourceMap for file paths
   const { nodes, spanToLeafId } = buildCallTree({ spans, sourceMap })
 
-  // Fill samples: for each tick, find the deepest active span and use its
-  // leaf node ID. This gives proper self vs total attribution.
+  // Generate samples only over active span windows and compress idle gaps.
+  // Instead of iterating every tick across the full timeline (which is O(ticks * spans)
+  // and can hang for long sessions), collect all span boundaries, sort them, and only
+  // sample within active windows. Idle gaps between windows become a single idle sample
+  // with a large timeDelta.
   const samples: number[] = []
   const timeDeltas: number[] = []
 
-  // Pre-build an index of active spans per tick for efficiency.
-  // For each tick, walk spans from narrowest to widest (reverse of sorted-by-duration).
-  // The first (narrowest) match is the deepest leaf in the tree.
+  const IDLE_ID = 2
+
+  // Collect unique boundary times from all spans
+  const boundaries = new Set<number>()
+  for (const span of spans) {
+    boundaries.add(span.startUs)
+    boundaries.add(span.endUs)
+  }
+  // Add timeline start/end
+  boundaries.add(0)
+  boundaries.add(endUs)
+
+  const sortedBoundaries = [...boundaries].sort((a, b) => a - b)
+
+  // Sort spans narrowest-first for fast deepest-leaf lookup
   const spansByNarrowest = spans
     .map((s, i) => ({ ...s, idx: i }))
     .sort((a, b) => (a.endUs - a.startUs) - (b.endUs - b.startUs))
 
-  for (let t = 0; t < endUs; t += TICK) {
-    let leafId = 2 // idle
-    // Find the narrowest span containing this tick (deepest in tree)
+  // For each window between consecutive boundaries, determine if any span is
+  // active. If yes, sample at TICK resolution. If no, emit one idle sample.
+  for (let w = 0; w < sortedBoundaries.length - 1; w++) {
+    const windowStart = sortedBoundaries[w]
+    const windowEnd = sortedBoundaries[w + 1]
+    if (windowStart >= windowEnd) {
+      continue
+    }
+
+    // Check if any span is active at the midpoint of this window
+    const mid = windowStart + Math.floor((windowEnd - windowStart) / 2)
+    let hasActiveSpan = false
     for (const span of spansByNarrowest) {
-      if (t >= span.startUs && t < span.endUs) {
-        leafId = spanToLeafId.get(span.idx) ?? 2
+      if (mid >= span.startUs && mid < span.endUs) {
+        hasActiveSpan = true
         break
       }
     }
-    samples.push(leafId)
-    timeDeltas.push(TICK)
+
+    if (!hasActiveSpan) {
+      // Compress idle window into a single sample
+      samples.push(IDLE_ID)
+      timeDeltas.push(windowEnd - windowStart)
+      continue
+    }
+
+    // Sample at TICK resolution within this active window
+    for (let t = windowStart; t < windowEnd; t += TICK) {
+      let leafId = IDLE_ID
+      for (const span of spansByNarrowest) {
+        if (t >= span.startUs && t < span.endUs) {
+          leafId = spanToLeafId.get(span.idx) ?? IDLE_ID
+          break
+        }
+      }
+      samples.push(leafId)
+      timeDeltas.push(TICK)
+    }
   }
 
   const profile = {

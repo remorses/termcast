@@ -12,10 +12,10 @@ Both produce standard `.cpuprofile` files you can analyze with [profano](https:/
 
 This profiles the entire Bun process. Shows every function that consumed CPU time: your code, termcast internals, opentui layout, serialization, IO. Use this when the TUI feels slow but you don't know if it's React renders, data processing, or something else.
 
-Bun supports V8-compatible CPU profiling with `--cpu-prof`:
+Since termcast is a global CLI running under Bun, use the `BUN_OPTIONS` env var to inject profiling flags. Bun prepends these to every execution automatically.
 
 ```bash
-bun --cpu-prof --cpu-prof-dir=./tmp/cpu-profiles $(which termcast) dev ./my-extension
+BUN_OPTIONS="--cpu-prof --cpu-prof-dir=./tmp/cpu-profiles" termcast dev ./my-extension
 # use the TUI, then Ctrl+C to exit
 
 bunx profano ./tmp/cpu-profiles/CPU.*.cpuprofile --sort self
@@ -26,9 +26,9 @@ The profile is written on clean exit (Ctrl+C or SIGTERM). `kill -9` skips the fl
 ### With tuistory
 
 ```bash
-bunx tuistory launch \
-  "bun --cpu-prof --cpu-prof-dir=./tmp/cpu-profiles $(which termcast) dev ./my-extension" \
-  -s cpu-profile --cols 120 --rows 36
+bunx tuistory launch "termcast dev ./my-extension" \
+  -s cpu-profile --cols 120 --rows 36 \
+  --env 'BUN_OPTIONS=--cpu-prof --cpu-prof-dir=./tmp/cpu-profiles'
 
 # Wait, interact, reproduce the slow behavior
 bunx tuistory -s cpu-profile wait "/search|commands/i" --timeout 15000
@@ -56,14 +56,13 @@ const profileDir = path.join(process.cwd(), 'tmp', 'cpu-profiles')
 fs.mkdirSync(profileDir, { recursive: true })
 
 const session = await launchTerminal({
-  command: 'bun',
-  args: [
-    '--cpu-prof',
-    `--cpu-prof-dir=${profileDir}`,
-    'termcast', 'dev', extensionPath,
-  ],
+  command: 'termcast',
+  args: ['dev', extensionPath],
   cols: 120,
   rows: 36,
+  env: {
+    BUN_OPTIONS: `--cpu-prof --cpu-prof-dir=${profileDir}`,
+  },
 })
 
 await session.waitForText('search', { timeout: 15000 })
@@ -103,7 +102,7 @@ Start with `--sort self` to find CPU-bound leaves (the actual hot functions). Sw
 
 ## React component profiling
 
-Termcast includes a built-in React component profiler that captures render timing for every component. It uses React 19.2's `PerformanceMeasure` API to record what rendered, how long it took, and which file it lives in. Use this when you know the slowdown is in React renders and want to find which specific components are expensive.
+Termcast includes a built-in React component profiler that captures a useful subset of React's render timing data. It uses React 19.2's `PerformanceMeasure` API to record what rendered, how long it took, and which file it lives in. React also emits some entries via `console.timeStamp()` which are not captured; this profiler collects the `performance.measure()` subset, which includes component renders with prop changes, scheduler phases, and mount/unmount events. Use this when you know the slowdown is in React renders and want to find which specific components are expensive.
 
 ### Quick start
 

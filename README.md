@@ -1199,7 +1199,7 @@ Profile your TUI with V8 CPU profiling or React component render tracing. Both p
 
 ```bash
 # V8 CPU profiling (general performance)
-bun --cpu-prof --cpu-prof-dir=./tmp/cpu-profiles $(which termcast) dev ./my-extension
+BUN_OPTIONS="--cpu-prof --cpu-prof-dir=./tmp/cpu-profiles" termcast dev ./my-extension
 
 # React component profiling (render timing)
 TERMCAST_REACT_PROFILE=1 termcast dev ./my-extension
