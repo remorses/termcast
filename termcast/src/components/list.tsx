@@ -225,8 +225,17 @@ function CurrentItemDetail(props: {
 }): any {
   const theme = useTheme()
   const descendantsMap = useListDescendantsRerender()
+  const boxRef = React.useRef<BoxRenderable>(null)
+  // Grow-only height ratchet: once the detail panel reaches a certain height,
+  // it never shrinks below that. This prevents the footer from jumping up
+  // when navigating from a tall detail to a short one.
+  const maxHeightRef = React.useRef(0)
 
-  if (!props.isShowingDetail) return null
+  if (!props.isShowingDetail) {
+    // Reset ratchet when detail is hidden so next show starts fresh
+    maxHeightRef.current = 0
+    return null
+  }
 
   const currentItem = Object.values(descendantsMap)
     .find((item) => item.index === props.selectedIndex)
@@ -236,6 +245,14 @@ function CurrentItemDetail(props: {
 
   return (
     <box
+      ref={boxRef}
+      minHeight={maxHeightRef.current || undefined}
+      onSizeChange={() => {
+        const h = boxRef.current?.height ?? 0
+        if (h > maxHeightRef.current) {
+          maxHeightRef.current = h
+        }
+      }}
       style={{
         width: '50%',
         paddingLeft: 1,
