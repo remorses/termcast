@@ -31,7 +31,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { logger } from './logger'
-import { useStore } from './state'
 
 interface ReactMeasure {
   name: string
@@ -96,6 +95,11 @@ export function installProfiler(): void {
   })
 
   perfObserver.observe({ type: 'measure', buffered: true })
+
+  // Hook into the devtools fiber tree to collect component source locations
+  // from _debugStack on each commit. This builds the componentSourceMap
+  // incrementally as components render.
+  installFiberHook()
 
   // Write profile on exit signals. The named function reference is used so
   // removeListener actually removes the correct handler, preventing recursion
@@ -247,100 +251,73 @@ function findDeepestContainer(
   return entry
 }
 
-// Build a component name → file path mapping by scanning source files.
-// Looks for function declarations, const arrows, and export patterns that
-// define React components (PascalCase names). Scans both the extension's
-// src directory and termcast's own src directory for internal components.
-function buildComponentSourceMap(): Map<string, string> {
-  const map = new Map<string, string>()
+// Component name → source file:line mapping built from React's fiber _debugStack.
+// Populated at runtime by hooking into __REACT_DEVTOOLS_GLOBAL_HOOK__.onCommitFiberRoot
+// which gives us the actual fiber tree with debug stack traces. Each fiber's _debugStack
+// is an Error whose second stack frame points to where the JSX element was created.
+// This is much more accurate than regex scanning source files.
+const componentSourceMap = new Map<string, string>()
 
-  // Patterns that define a component:
-  //   function ComponentName(              — function declaration
-  //   const ComponentName =                — const arrow/assignment
-  //   export function ComponentName(       — exported function
-  //   export default function ComponentName( — default exported function
-  //   export const ComponentName =         — exported const
-  //   ComponentName = (props)              — compound component assignment
-  const componentPattern =
-    /(?:export\s+(?:default\s+)?)?(?:(?:function|const)\s+)([A-Z][A-Za-z0-9_]*)\s*(?:[:=(])/gm
-  // Also match compound component patterns: Name.Sub = (props) =>
-  const compoundPattern =
-    /([A-Z][A-Za-z0-9_]*(?:\.[A-Z][A-Za-z0-9_]*)+)\s*=\s*\(/gm
+// Extract "file:line" from a fiber's _debugStack Error.
+// The stack trace format is:
+//   Error
+//     at <anonymous> (react-jsx-dev-runtime.development.js:333:13)   <-- React internal
+//     at renderFn (/path/to/component.tsx:42:5)                       <-- where JSX was created
+// We want the first non-React frame that points to a .tsx/.ts/.jsx file.
+const STACK_FRAME_RE = /at .+? \((.+?):(\d+):\d+\)/
 
-  const SKIP_DIRS = new Set(['node_modules', '.termcast-bundle', 'dist', '.git'])
-
-  // Manual recursion to skip node_modules/dist directories before descending,
-  // instead of fs.readdirSync({ recursive: true }) which eagerly traverses everything.
-  const scanDirectory = (dir: string, basePath: string) => {
-    if (!fs.existsSync(dir)) {
-      return
+function extractSourceFromFiber(fiber: any): string | null {
+  const debugStack = fiber._debugStack
+  if (!debugStack) {
+    return null
+  }
+  const stack = debugStack.stack || String(debugStack)
+  const frames = stack.split('\n')
+  for (const frame of frames) {
+    // Skip React internals and node_modules
+    if (frame.includes('react.development') || frame.includes('react-jsx') || frame.includes('react-reconciler')) {
+      continue
     }
-    const entries = fs.readdirSync(dir, { withFileTypes: true })
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        if (!SKIP_DIRS.has(entry.name)) {
-          scanDirectory(path.join(dir, entry.name), basePath)
-        }
-        continue
-      }
-      if (!entry.isFile()) {
-        continue
-      }
-      const name = entry.name
-      if (!name.endsWith('.tsx') && !name.endsWith('.ts') && !name.endsWith('.jsx')) {
-        continue
-      }
-      const fullPath = path.join(dir, name)
-      const relativePath = path.relative(basePath, fullPath)
-      try {
-        const content = fs.readFileSync(fullPath, 'utf-8')
-
-        // Find function/const component definitions
-        let match: RegExpExecArray | null = null
-        componentPattern.lastIndex = 0
-        while ((match = componentPattern.exec(content)) !== null) {
-          const componentName = match[1]
-          // Only set if not already mapped (first definition wins)
-          if (!map.has(componentName)) {
-            const line = content.slice(0, match.index).split('\n').length
-            map.set(componentName, `${relativePath}:${line}`)
-          }
-        }
-
-        // Find compound component patterns (List.Item, Form.TextField, etc.)
-        compoundPattern.lastIndex = 0
-        while ((match = compoundPattern.exec(content)) !== null) {
-          const fullName = match[1]
-          // Extract the last part as the component name (e.g., "Item" from "List.Item")
-          const parts = fullName.split('.')
-          const lastPart = parts[parts.length - 1]
-          if (!map.has(lastPart)) {
-            const line = content.slice(0, match.index).split('\n').length
-            map.set(lastPart, `${relativePath}:${line}`)
-          }
-        }
-      } catch {
-        // Skip files that can't be read
-      }
+    const match = STACK_FRAME_RE.exec(frame)
+    if (match) {
+      const filePath = match[1]
+      const line = match[2]
+      // Make path relative to cwd for readability
+      const relativePath = path.relative(process.cwd(), filePath)
+      return `${relativePath}:${line}`
     }
   }
+  return null
+}
 
-  // Scan extension source directory
-  const extensionPath = useStore.getState().extensionPath
-  if (extensionPath) {
-    const srcDir = path.join(extensionPath, 'src')
-    if (fs.existsSync(srcDir)) {
-      scanDirectory(srcDir, extensionPath)
-    }
-    // Also scan root level .tsx files
-    scanDirectory(extensionPath, extensionPath)
+function walkFiberTree(fiber: any): void {
+  if (!fiber) {
+    return
   }
+  const name = fiber.type?.name || fiber.type?.displayName
+  if (name && !componentSourceMap.has(name)) {
+    const source = extractSourceFromFiber(fiber)
+    if (source) {
+      componentSourceMap.set(name, source)
+    }
+  }
+  walkFiberTree(fiber.child)
+  walkFiberTree(fiber.sibling)
+}
 
-  // Scan termcast's own src directory for internal components
-  const termcastSrc = path.resolve(__dirname)
-  scanDirectory(termcastSrc, path.resolve(termcastSrc, '..'))
-
-  return map
+function installFiberHook(): void {
+  const hook = (globalThis as any).__REACT_DEVTOOLS_GLOBAL_HOOK__
+  if (!hook) {
+    return
+  }
+  const originalOnCommit = hook.onCommitFiberRoot
+  hook.onCommitFiberRoot = (id: any, root: any) => {
+    // Walk fibers to collect component source locations
+    walkFiberTree(root.current)
+    if (originalOnCommit) {
+      originalOnCommit(id, root)
+    }
+  }
 }
 
 function writeProfile(): void {
@@ -351,8 +328,8 @@ function writeProfile(): void {
 
   const TICK = 1000 // microseconds per sample (1ms resolution)
 
-  // Build component name → source file mapping
-  const sourceMap = buildComponentSourceMap()
+  // componentSourceMap was populated incrementally by the fiber hook during rendering
+  const sourceMap = componentSourceMap
 
   const sorted = [...measures].sort((a, b) => a.startTime - b.startTime)
   const t0 = sorted[0].startTime
