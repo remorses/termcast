@@ -45,6 +45,11 @@
         "group": "Overview",
         "icon": "home",
         "pages": ["index"]
+      },
+      {
+        "group": "Guides",
+        "icon": "book-open",
+        "pages": ["profiling"]
       }
     ]
   },

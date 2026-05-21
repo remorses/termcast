@@ -1193,6 +1193,22 @@ The compound component patterns are identical:
 - **Superset** of the Raycast API with terminal-native components (charts, tables, heatmaps)
 - Best-effort API compatibility, not a drop-in replacement
 
+## Profiling
+
+Profile your TUI with V8 CPU profiling or React component render tracing. Both produce `.cpuprofile` files you can analyze with [profano](https://github.com/remorses/profano). See the full [profiling guide](https://termcast.app/profiling) for CLI, scripted, and tuistory-based workflows.
+
+```bash
+# V8 CPU profiling (general performance)
+bun --cpu-prof --cpu-prof-dir=./tmp/cpu-profiles $(which termcast) dev ./my-extension
+
+# React component profiling (render timing)
+TERMCAST_REACT_PROFILE=1 termcast dev ./my-extension
+
+# Analyze (Ctrl+C to exit first)
+bunx profano ./tmp/cpu-profiles/CPU.*.cpuprofile --sort self
+bunx profano ./tmp/react-profile-*.cpuprofile --sort self
+```
+
 ## Install skill for AI agents
 
 ```bash

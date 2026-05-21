@@ -46,6 +46,17 @@ import { useCachedPromise, useCachedState } from '@termcast/utils'
 - **Bun resolves modules differently from pnpm.** If your project uses pnpm but the TUI runs under Bun, Bun may pick up a globally installed React instead of the local one. This causes `useSyncExternalStore is not a function` errors. Fix: add `react` as an explicit dependency in the package that imports termcast.
 - **Use `Cache` (sync) over `LocalStorage` (async) for zustand persistence.** `Cache` is SQLite-backed and synchronous, so persisted state can be loaded at module scope as the zustand initial value.
 
+## Profiling
+
+See the full profiling guide: https://termcast.app/profiling
+
+Two profiling approaches:
+
+- **V8 CPU profiling** for general performance: `bun --cpu-prof --cpu-prof-dir=./tmp/cpu-profiles $(which termcast) dev ./my-extension`
+- **React render profiling** for component timing: `TERMCAST_REACT_PROFILE=1 termcast dev ./my-extension`
+
+Both produce `.cpuprofile` files. Analyze with `bunx profano ./tmp/*.cpuprofile --sort self`.
+
 ## Testing extensions
 
 ### Interactive experimentation with tuistory CLI

@@ -1,0 +1,283 @@
+---
+title: Profiling
+description: Profile termcast TUIs with V8 CPU profiling and React component render tracing
+icon: gauge
+---
+
+Two ways to profile a termcast TUI: **V8 CPU profiling** for general performance (slow functions, hot loops, expensive computations) and **React render profiling** for component-level timing (which components re-render, how long each takes, what triggered the render).
+
+Both produce standard `.cpuprofile` files you can analyze with [profano](https://github.com/remorses/profano), a CLI tool that prints the heaviest functions as a terminal table.
+
+## V8 CPU profiling
+
+This profiles the entire Bun process. Shows every function that consumed CPU time: your code, termcast internals, opentui layout, serialization, IO. Use this when the TUI feels slow but you don't know if it's React renders, data processing, or something else.
+
+Bun supports V8-compatible CPU profiling with `--cpu-prof`:
+
+```bash
+bun --cpu-prof --cpu-prof-dir=./tmp/cpu-profiles $(which termcast) dev ./my-extension
+# use the TUI, then Ctrl+C to exit
+
+bunx profano ./tmp/cpu-profiles/CPU.*.cpuprofile --sort self
+```
+
+The profile is written on clean exit (Ctrl+C or SIGTERM). `kill -9` skips the flush.
+
+### With tuistory
+
+```bash
+bunx tuistory launch \
+  "bun --cpu-prof --cpu-prof-dir=./tmp/cpu-profiles $(which termcast) dev ./my-extension" \
+  -s cpu-profile --cols 120 --rows 36
+
+# Wait, interact, reproduce the slow behavior
+bunx tuistory -s cpu-profile wait "/search|commands/i" --timeout 15000
+bunx tuistory -s cpu-profile press down
+bunx tuistory -s cpu-profile press enter
+
+# Stop
+bunx tuistory -s cpu-profile press ctrl c
+sleep 1
+bunx tuistory -s cpu-profile close
+
+bunx profano ./tmp/cpu-profiles/CPU.*.cpuprofile --sort self
+```
+
+### With a script
+
+```ts
+// scripts/cpu-profile.ts
+import { launchTerminal } from 'tuistory'
+import fs from 'node:fs'
+import path from 'node:path'
+
+const extensionPath = process.argv[2] || '.'
+const profileDir = path.join(process.cwd(), 'tmp', 'cpu-profiles')
+fs.mkdirSync(profileDir, { recursive: true })
+
+const session = await launchTerminal({
+  command: 'bun',
+  args: [
+    '--cpu-prof',
+    `--cpu-prof-dir=${profileDir}`,
+    'termcast', 'dev', extensionPath,
+  ],
+  cols: 120,
+  rows: 36,
+})
+
+await session.waitForText('search', { timeout: 15000 })
+console.log('TUI loaded')
+
+// Trigger the slow path
+for (let i = 0; i < 10; i++) {
+  await session.press('down')
+}
+await session.press('enter')
+await session.waitIdle()
+
+// Exit
+await session.press(['ctrl', 'c'])
+await new Promise((r) => setTimeout(r, 2000))
+session.close()
+
+const profiles = fs.readdirSync(profileDir).filter((f) => f.endsWith('.cpuprofile'))
+const latest = profiles.sort().pop()
+if (latest) {
+  console.log(`\nAnalyze with: bunx profano ${path.join(profileDir, latest)} --sort self`)
+}
+```
+
+### Reading V8 CPU profiles
+
+```
+Duration: 12.34s
+Samples:  11542 active / 12340 total (6.4% idle)
+
+   Self  %Self   Self ms    Total  %Total  Total ms  Function               Location
+   3402   29.5%    3.40s     6804   58.9%     6.80s  parseAsync             src/parser.ts:142
+    812    7.0%   0.81s      812    7.0%    0.81s    layoutYoga             node_modules/@opentui/core/...
+```
+
+Start with `--sort self` to find CPU-bound leaves (the actual hot functions). Switch to `--sort total` to find expensive callers that dominate wall time.
+
+## React component profiling
+
+Termcast includes a built-in React component profiler that captures render timing for every component. It uses React 19.2's `PerformanceMeasure` API to record what rendered, how long it took, and which file it lives in. Use this when you know the slowdown is in React renders and want to find which specific components are expensive.
+
+### Quick start
+
+Set `TERMCAST_REACT_PROFILE=1` and run your extension. When you exit (Ctrl+C), a `.cpuprofile` file is written to `./tmp/`.
+
+```bash
+TERMCAST_REACT_PROFILE=1 termcast dev ./my-extension
+# use the TUI, navigate around, trigger the slow behavior
+# then Ctrl+C to exit
+
+bunx profano ./tmp/react-profile-*.cpuprofile --sort self
+```
+
+Example output:
+
+```
+Duration: 21.25s
+Samples:  2267 active / 212469 total (98.9% idle)
+Sort:     self
+
+   Self  %Self   Self ms    Total  %Total  Total ms  Function               Location
+  1.0ms   14.1ms  Mount                    Components ⚛
+  0.1ms    0.8ms  List                     src/components/list.tsx:1059
+  0.2ms    0.7ms  DescendantsProvider      src/descendants.tsx:29
+  0.1ms    0.4ms  ListSection              src/components/list.tsx:2509
+  0.0ms    0.4ms  ScrollBox                src/internal/scrollbox.tsx:7
+  0.0ms    0.2ms  ActionPanel              src/components/actions.tsx:777
+```
+
+**Self time** is the time spent in that component alone (excluding children). **Total time** includes all child component renders. Use `--sort self` to find hot leaves; use `--sort total` to find expensive subtrees.
+
+The **Location** column shows the source file and line number where each component is defined. Scheduler events like `Mount`, `Reconnect`, and `Update Blocked` show the React track name instead.
+
+### Profiling with tuistory (CLI)
+
+[tuistory](https://github.com/remorses/tuistory) lets you launch, control, and observe terminal apps from the command line. This is better than running the TUI manually because you can script the exact interactions that trigger slow behavior.
+
+```bash
+# 1. Launch with profiling enabled
+bunx tuistory launch "termcast dev ./my-extension" \
+  -s profile --cols 120 --rows 36 \
+  --env TERMCAST_REACT_PROFILE=1
+
+# 2. Wait for the TUI to render
+bunx tuistory -s profile wait "/search|commands/i" --timeout 15000
+
+# 3. Interact: navigate, open views, type in search
+bunx tuistory -s profile press down
+bunx tuistory -s profile press down
+bunx tuistory -s profile press enter
+
+# 4. Verify what's on screen
+bunx tuistory -s profile snapshot --trim
+
+# 5. Navigate back, open another view
+bunx tuistory -s profile press esc
+bunx tuistory -s profile press down
+bunx tuistory -s profile press enter
+
+# 6. Stop and write the profile
+bunx tuistory -s profile press ctrl c
+sleep 1
+bunx tuistory -s profile close
+
+# 7. Analyze
+bunx profano ./tmp/react-profile-*.cpuprofile --sort total
+```
+
+### Profiling with a script
+
+For reproducible profiling, write a TypeScript script using tuistory's `launchTerminal` API. This gives you fine-grained control over timing, lets you run the same sequence repeatedly, and integrates with test frameworks.
+
+```ts
+// scripts/profile-extension.ts
+import { launchTerminal } from 'tuistory'
+import fs from 'node:fs'
+import path from 'node:path'
+
+const extensionPath = process.argv[2] || '.'
+
+const session = await launchTerminal({
+  command: 'termcast',
+  args: ['dev', extensionPath],
+  cols: 120,
+  rows: 36,
+  env: { TERMCAST_REACT_PROFILE: '1' },
+})
+
+// Wait for the TUI to be ready
+await session.waitForText('search', { timeout: 15000 })
+console.log('TUI loaded, starting interactions...')
+
+// Navigate through items to trigger renders
+for (let i = 0; i < 5; i++) {
+  await session.press('down')
+}
+await session.press('enter')
+
+// Wait for the detail view to render
+await session.waitForText('actions', { timeout: 5000 })
+console.log('Detail view rendered')
+
+// Go back and try search
+await session.press('esc')
+await session.type('test')
+
+// Wait for search results
+await session.waitIdle()
+console.log('Search complete')
+
+// Exit the TUI (Ctrl+C writes the .cpuprofile)
+await session.press(['ctrl', 'c'])
+
+// Give time for profile write
+await new Promise((r) => setTimeout(r, 2000))
+session.close()
+
+// Find and report the profile file
+const tmpDir = path.join(process.cwd(), 'tmp')
+const profiles = fs.readdirSync(tmpDir).filter((f) => f.endsWith('.cpuprofile'))
+const latest = profiles.sort().pop()
+
+if (latest) {
+  console.log(`\nProfile written: tmp/${latest}`)
+  console.log(`Analyze with:`)
+  console.log(`  bunx profano tmp/${latest} --sort self`)
+  console.log(`  bunx profano tmp/${latest} --sort total`)
+} else {
+  console.error('No profile file found in tmp/')
+}
+```
+
+Run it:
+
+```bash
+bun scripts/profile-extension.ts ./my-extension
+```
+
+### How it works
+
+React 19.2+ emits `performance.measure()` calls in **development mode** with component names and timing data. The reconciler tags each measure with `detail.devtools.track` metadata.
+
+When `TERMCAST_REACT_PROFILE=1` is set, termcast installs a `PerformanceObserver` that collects these measures. On process exit (SIGINT, SIGTERM, or normal exit), it:
+
+1. Sorts measures by time and builds a **call tree** from time containment. If measure A fully contains measure B, B becomes a child of A
+2. Scans the extension and termcast source files to build a **component name to file path** mapping
+3. Fills samples by walking the tree for each time tick, picking the deepest (narrowest) active span
+4. Writes the result as a standard V8 `.cpuprofile` to `./tmp/`
+
+The call tree structure gives meaningful **self vs total** attribution. A `Mount` phase might have 14ms total time but only 1ms self time, with the rest distributed among child component renders.
+
+### Requirements
+
+- **React 19.2+** in development mode (`NODE_ENV` must not be `production`)
+- Only works with `termcast dev`, not compiled extensions (`termcast compile` sets `NODE_ENV=production`)
+- `PerformanceObserver` must be available (Bun and Node.js 16+ both support it)
+
+### Reading the output
+
+```
+   Self  %Self   Self ms    Total  %Total  Total ms  Function               Location
+───────  ──────  ───────  ───────  ──────  ────────  ──────────────────────  ─────────────────────
+   1216   53.6%  121.6ms     1216   53.6%   121.6ms  Update Blocked         Blocking
+     11    0.5%    1.1ms      172    7.6%    17.2ms  Mount                  Components ⚛
+      1    0.0%    0.1ms        8    2.7%     0.8ms  List                   src/components/list.tsx:1059
+```
+
+| Column | Meaning |
+|--------|---------|
+| **Self** | Samples where this function was the leaf (exclusive time) |
+| **Total** | Samples where this function appeared anywhere in the stack (inclusive time) |
+| **Function** | Component name or scheduler event |
+| **Location** | Source file path, or React track name for scheduler events |
+
+**Scheduler events** (`Mount`, `Reconnect`, `Update Blocked`, `Cascading Update`) tell you *why* renders happened. `Cascading Update` is a common performance smell; it means a render triggered another render synchronously.
+
+**Component names** show up with their source file. If a component appears multiple times, each row is a different occurrence (different parent in the call tree).

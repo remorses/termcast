@@ -36,3 +36,12 @@ globalThis.termcastApi = termcastApi
 globalThis.termcastOpentui = termcastOpentui
 
 globalThis.logger = logger
+
+// Install React component profiler when TERMCAST_REACT_PROFILE=1
+// Captures performance.measure() entries from React 19.2+ dev reconciler
+// and writes a .cpuprofile on exit. Analyze with: bunx profano ./tmp/react-profile-*.cpuprofile --sort self
+if (process.env.TERMCAST_REACT_PROFILE === '1') {
+  import('./profiler').then((mod) => {
+    mod.installProfiler()
+  })
+}
