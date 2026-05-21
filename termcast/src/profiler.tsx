@@ -43,12 +43,29 @@ interface ReactMeasure {
 const measures: ReactMeasure[] = []
 let observerInstalled = false
 let profileWritten = false
+let perfObserver: PerformanceObserver | null = null
 
 function writeProfileOnce(): void {
   if (profileWritten) {
     return
   }
   profileWritten = true
+  // Drain any queued records not yet delivered by the observer callback,
+  // so the last measures before exit are captured.
+  if (perfObserver) {
+    for (const entry of perfObserver.takeRecords()) {
+      const detail = (entry as any).detail
+      if (!detail?.devtools?.track) {
+        continue
+      }
+      measures.push({
+        name: entry.name,
+        duration: entry.duration,
+        startTime: entry.startTime,
+        track: detail.devtools.track,
+      })
+    }
+  }
   writeProfile()
 }
 
@@ -63,7 +80,7 @@ export function installProfiler(): void {
 
   observerInstalled = true
 
-  const observer = new PerformanceObserver((list) => {
+  perfObserver = new PerformanceObserver((list) => {
     for (const entry of list.getEntries()) {
       const detail = (entry as any).detail
       if (!detail?.devtools?.track) {
@@ -78,7 +95,7 @@ export function installProfiler(): void {
     }
   })
 
-  observer.observe({ type: 'measure', buffered: true })
+  perfObserver.observe({ type: 'measure', buffered: true })
 
   // Write profile on exit signals. The named function reference is used so
   // removeListener actually removes the correct handler, preventing recursion
@@ -186,26 +203,9 @@ function buildCallTree({ spans, sourceMap }: { spans: Span[]; sourceMap: Map<str
     // scriptId is stable per source identity so profano aggregates repeated
     // renders of the same component into one row.
     const sourcePath = sourceMap.get(span.name)
-    const url: string = (() => {
-      if (!sourcePath) {
-        return span.track
-      }
-      const colonIdx = sourcePath.lastIndexOf(':')
-      if (colonIdx === -1) {
-        return sourcePath
-      }
-      return sourcePath.slice(0, colonIdx)
-    })()
-    const lineNumber: number = (() => {
-      if (!sourcePath) {
-        return -1
-      }
-      const colonIdx = sourcePath.lastIndexOf(':')
-      if (colonIdx === -1) {
-        return -1
-      }
-      return parseInt(sourcePath.slice(colonIdx + 1), 10) || -1
-    })()
+    const sourceMatch = sourcePath ? /^(.*):(\d+)$/.exec(sourcePath) : null
+    const url = sourceMatch ? sourceMatch[1] : (sourcePath || span.track)
+    const lineNumber = sourceMatch ? Number(sourceMatch[2]) : -1
     const scriptId = sourcePath || `${span.track}:${span.name}`
 
     nodes.push({
@@ -424,8 +424,11 @@ function writeProfile(): void {
       continue
     }
 
-    // Sample at TICK resolution within this active window
+    // Sample at TICK resolution within this active window.
+    // Use Math.min so the last sample's timeDelta covers only the remainder,
+    // preventing inflation when the window is shorter than TICK or not divisible.
     for (let t = windowStart; t < windowEnd; t += TICK) {
+      const nextT = Math.min(t + TICK, windowEnd)
       let leafId = IDLE_ID
       for (const span of spansByNarrowest) {
         if (t >= span.startUs && t < span.endUs) {
@@ -434,7 +437,7 @@ function writeProfile(): void {
         }
       }
       samples.push(leafId)
-      timeDeltas.push(TICK)
+      timeDeltas.push(nextT - t)
     }
   }
 
