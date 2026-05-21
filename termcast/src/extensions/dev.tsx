@@ -270,7 +270,8 @@ export async function startCompiledExtension({
     return {
       ...metadata!,
       filePath: '',
-      exists: true,
+      exists: true as const,
+      checkedPaths: [],
       bundledPath: '',
       loadComponent: compiled.loadComponent,
     }

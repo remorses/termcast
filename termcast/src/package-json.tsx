@@ -115,6 +115,8 @@ export function parsePackageJson({
 interface CommandWithFile extends RaycastCommand {
   filePath: string
   exists: boolean
+  /** All candidate paths checked when resolving this command's file */
+  checkedPaths: string[]
 }
 
 interface CommandsWithFiles {
@@ -136,38 +138,34 @@ export function getCommandsWithFiles({
   const commands: CommandWithFile[] = (packageJson.commands || []).map(
     (command) => {
       const possibleExtensions = ['.tsx', '.ts', '.jsx', '.js']
-      // Candidate directories: project root, then src/
-      const candidateDirs = [projectRoot, path.join(projectRoot, 'src')]
+      const dirs = [projectRoot, path.join(projectRoot, 'src')]
+
+      // Build ordered candidate list: all flat files first, then directory entries.
+      // This means src/{name}.tsx is preferred over root/{name}/index.tsx.
+      const checkedPaths: string[] = [
+        ...dirs.flatMap((dir) => {
+          return possibleExtensions.map((ext) => {
+            return path.join(dir, `${command.name}${ext}`)
+          })
+        }),
+        ...dirs.flatMap((dir) => {
+          return possibleExtensions.map((ext) => {
+            return path.join(dir, command.name, `index${ext}`)
+          })
+        }),
+      ]
+
       let filePath = ''
       let exists = false
-
-      for (const dir of candidateDirs) {
-        if (exists) {
+      for (const candidate of checkedPaths) {
+        if (fs.existsSync(candidate)) {
+          filePath = candidate
+          exists = true
           break
-        }
-        // Check flat files: {name}.tsx, {name}.ts, etc.
-        for (const ext of possibleExtensions) {
-          const candidatePath = path.join(dir, `${command.name}${ext}`)
-          if (fs.existsSync(candidatePath)) {
-            filePath = candidatePath
-            exists = true
-            break
-          }
-        }
-        // Check directory-style entry: {name}/index.tsx, {name}/index.ts, etc.
-        if (!exists) {
-          for (const ext of possibleExtensions) {
-            const candidatePath = path.join(dir, command.name, `index${ext}`)
-            if (fs.existsSync(candidatePath)) {
-              filePath = candidatePath
-              exists = true
-              break
-            }
-          }
         }
       }
 
-      // If still not found, default to "src/commandName.tsx"
+      // If not found, default to "src/commandName.tsx" for the fallback path
       if (!filePath) {
         filePath = path.join(projectRoot, 'src', `${command.name}.tsx`)
       }
@@ -176,6 +174,7 @@ export function getCommandsWithFiles({
         ...command,
         filePath,
         exists,
+        checkedPaths,
       }
     },
   )

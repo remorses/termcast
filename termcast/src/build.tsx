@@ -244,17 +244,34 @@ export async function buildExtensionCommands({
     packageJsonPath: path.join(resolvedPath, 'package.json'),
   })
 
-  // Filter existing command files as entrypoints
-  const entrypoints = commandsData.commands
-    .filter((cmd) => cmd.exists)
-    .map((cmd) => cmd.filePath)
+  // Build entrypoints. For directory-style entries (e.g. src/tui/index.tsx),
+  // generate a wrapper file named {command}.tsx in the bundle dir so Bun
+  // outputs {command}.js instead of index.js. This avoids collisions when
+  // multiple commands use directory entries (Bun fails with "Multiple files
+  // share the same output path ./index.js" otherwise).
+  const existingCommands = commandsData.commands.filter((cmd) => cmd.exists)
+  const entrypoints = existingCommands.map((cmd) => {
+    const isDirectoryEntry = path.basename(cmd.filePath).startsWith('index.')
+    if (isDirectoryEntry) {
+      const wrapperPath = path.join(bundleDir, `${cmd.name}.tsx`)
+      fs.writeFileSync(
+        wrapperPath,
+        `export * from ${JSON.stringify(cmd.filePath)};\nexport { default } from ${JSON.stringify(cmd.filePath)};\n`,
+      )
+      return wrapperPath
+    }
+    return cmd.filePath
+  })
 
   if (entrypoints.length === 0) {
     const tried = commandsData.commands
-      .map((cmd) => `  command "${cmd.name}" -> ${cmd.filePath}`)
+      .map((cmd) => {
+        const paths = cmd.checkedPaths.map((p) => `    ${p}`).join('\n')
+        return `  command "${cmd.name}" checked:\n${paths}`
+      })
       .join('\n')
     throw new Error(
-      `No command files found to build. Checked:\n${tried}\n\nEach command in package.json "commands" needs a matching file: {name}.tsx or {name}/index.tsx in the project root or src/`,
+      `No command files found to build.\n${tried}\n\nEach command in package.json "commands" needs a matching file: {name}.tsx or {name}/index.tsx in the project root or src/`,
     )
   }
 
@@ -329,9 +346,7 @@ export async function buildExtensionCommands({
     }
   }
 
-  // Map outputs back to commands.
-  // When the entry is a directory index file (e.g. src/tui/index.tsx), Bun
-  // outputs "index.js" instead of "tui.js". We rename it to match the command name.
+  // Map outputs back to commands
   const bundledCommands: BundledCommand[] = commandsData.commands.map(
     (command) => {
       if (!command.exists) {
@@ -341,34 +356,22 @@ export async function buildExtensionCommands({
         }
       }
 
-      const expectedFileName = `${command.name}.js`
-      const bundledPath = path.join(bundleDir, expectedFileName)
-
-      // Check if the output already has the expected name
-      const directMatch = result.outputs.find((out) => {
-        return path.basename(out.path) === expectedFileName
+      // Find the corresponding output for this command
+      const outputFileName = `${command.name}.js`
+      const output = result.outputs.find((out) => {
+        return path.basename(out.path) === outputFileName
       })
 
-      if (directMatch) {
+      if (output) {
+        const bundledPath = path.join(bundleDir, outputFileName)
         logger.log(`Built ${command.name} -> ${bundledPath}`)
-        return { ...command, bundledPath }
-      }
-
-      // For directory-style entries (tui/index.tsx), Bun outputs "index.js".
-      // Find the output whose entrypoint matches this command's filePath and rename it.
-      const isDirectoryEntry = path.basename(command.filePath).startsWith('index.')
-      if (isDirectoryEntry) {
-        const indexOutput = result.outputs.find((out) => {
-          return path.basename(out.path) === 'index.js'
-        })
-        if (indexOutput) {
-          fs.renameSync(indexOutput.path, bundledPath)
-          logger.log(`Built ${command.name} -> ${bundledPath} (renamed from index.js)`)
-          return { ...command, bundledPath }
+        return {
+          ...command,
+          bundledPath,
         }
+      } else {
+        throw new Error(`No output found for command: ${command.name}`)
       }
-
-      throw new Error(`No output found for command: ${command.name}`)
     },
   )
 
