@@ -1680,7 +1680,8 @@ export const List: ListType = (props) => {
         return
       }
 
-      // Ctrl+d for half-page down, Ctrl+u for half-page up
+      // Ctrl+d / Ctrl+u for half-page down/up
+      // Ctrl+f / Ctrl+b for full-page down/up
       if (evt.ctrl && evt.name === 'd') {
         const viewportHeight = scrollBoxRef.current?.viewport?.height || 20
         moveByN(Math.floor(viewportHeight / 2))
@@ -1690,6 +1691,18 @@ export const List: ListType = (props) => {
       if (evt.ctrl && evt.name === 'u') {
         const viewportHeight = scrollBoxRef.current?.viewport?.height || 20
         moveByN(-Math.floor(viewportHeight / 2))
+        evt.stopPropagation()
+        return
+      }
+      if (evt.ctrl && evt.name === 'f') {
+        const viewportHeight = scrollBoxRef.current?.viewport?.height || 20
+        moveByN(viewportHeight)
+        evt.stopPropagation()
+        return
+      }
+      if (evt.ctrl && evt.name === 'b') {
+        const viewportHeight = scrollBoxRef.current?.viewport?.height || 20
+        moveByN(-viewportHeight)
         evt.stopPropagation()
         return
       }
