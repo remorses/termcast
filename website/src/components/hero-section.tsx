@@ -11,15 +11,9 @@
  */
 'use client'
 
-import { Suspense, lazy } from 'react'
 import { Github, ArrowDown } from 'lucide-react'
 import { InstallCommand } from './install-command.tsx'
-
-const DottedVideoBackground = lazy(() => {
-  return import('./dotted-video-background.tsx').then((m) => ({
-    default: m.DottedVideoBackground,
-  }))
-})
+import { DottedVideoBackground } from './dotted-video-background.tsx'
 
 const GITHUB_URL = 'https://github.com/remorses/termcast'
 
@@ -57,7 +51,6 @@ export function HeroSection() {
             'linear-gradient(to bottom, black 60%, transparent 100%)',
         }}
       >
-        <Suspense fallback={null}>
           <DottedVideoBackground
             className='w-full h-full'
             config={{
@@ -72,7 +65,6 @@ export function HeroSection() {
               fluidCurl: 80,
             }}
           />
-        </Suspense>
       </div>
 
       {/* Top gradient overlay */}

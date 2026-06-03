@@ -26,17 +26,20 @@
         {
           "anchor": "GitHub",
           "href": "https://github.com/remorses/termcast",
-          "icon": "github"
+          "icon": "github",
+          "placement": "tabs"
         },
         {
           "anchor": "npm",
           "href": "https://www.npmjs.com/package/termcast",
-          "icon": "package"
+          "icon": "package",
+          "placement": "tabs"
         },
         {
           "anchor": "Changelog",
           "href": "https://github.com/remorses/termcast/blob/main/termcast/CHANGELOG.md",
-          "icon": "history"
+          "icon": "history",
+          "placement": "tabs"
         }
       ]
     },
