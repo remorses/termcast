@@ -238,13 +238,10 @@ const BarGraph: {
                           const name = series.title || label
                           lines.push(formatTooltipLine(name, value))
                         }
-                        // Always prepend x-axis label as header when series have titles
-                        if (lines.length > 0 && seriesList.some((s) => s.title)) {
-                          lines.unshift(label)
-                        }
-                        if (lines.length > 0) {
-                          showTooltip({ x: evt.x, y: evt.y, lines })
-                        }
+                        if (lines.length === 0) return
+                        // Always show x-axis label as the header line
+                        lines.unshift(label)
+                        showTooltip({ x: evt.x, y: evt.y, lines })
                       }}
                     >
                       {/* Plot area: spacer on top pushes colored segments to the bottom

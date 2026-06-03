@@ -532,10 +532,8 @@ const Graph: GraphType = (props) => {
       hideTooltip()
       return
     }
-    // Prepend the x-axis label as the first line when there are multiple series
-    if (allSeries.length > 1) {
-      lines.unshift(label)
-    }
+    // Always show x-axis label as the header line
+    lines.unshift(label)
     showTooltip({ x: evt.x, y: evt.y, lines })
   }
 

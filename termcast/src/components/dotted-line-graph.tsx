@@ -401,13 +401,10 @@ const DottedLineGraph: DottedLineGraphType = (props) => {
         const prefix = s.title ? `${s.title}` : label
         return formatTooltipLine(prefix, Number(value.toFixed(2)))
       })
-    // Prepend x-axis label when multiple series
-    if (series.length > 1 && lines.length > 0) {
-      lines.unshift(label)
-    }
-    if (lines.length > 0) {
-      showTooltip({ x: evt.x, y: evt.y, lines })
-    }
+    if (lines.length === 0) return
+    // Always show x-axis label as the header line
+    lines.unshift(label)
+    showTooltip({ x: evt.x, y: evt.y, lines })
   }
 
   if (series.length === 0) return null
