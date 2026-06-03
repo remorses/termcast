@@ -4,7 +4,7 @@
  * Pure React/opentui implementation using <box> elements with justifyContent
  * "space-evenly" for bar distribution. Each bar is a column of stacked colored
  * segments sized via flexGrow. Segments render with a thin lower-block glyph
- * instead of painted backgrounds, which keeps the chart airy like Histogram.
+ * using full-block glyphs for solid, gap-free columns.
  * Y-axis labels render on the left. X-axis labels sit below each bar, truncated with
  * overflow="hidden" when the bar is narrower than the label text.
  *
@@ -35,11 +35,11 @@ export interface BarGraphProps extends BoxProps {
   height?: number
   /** X-axis labels, one per bar position */
   labels?: string[]
-  /** Width of each bar in terminal columns (default: 3) */
+  /** Width of each bar in terminal columns (default: 2) */
   barWidth?: number
-  /** Gap between bars in terminal columns (default: 1) */
+  /** Gap between bars in terminal columns (default: 2) */
   barGap?: number
-  /** Character used for bar cells (default: "▃") */
+  /** Character used for bar cells (default: "█") */
   barCharacter?: string
   /** Show Y-axis labels and separator (default: true) */
   showYAxis?: boolean
@@ -73,9 +73,9 @@ const BarGraph: {
   const {
     height = 15,
     labels = [],
-    barWidth = 3,
-    barGap = 1,
-    barCharacter = '▃',
+    barWidth = 2,
+    barGap = 2,
+    barCharacter = '█',
     showYAxis = true,
     yTicks = 5,
     yFormat,
@@ -232,8 +232,8 @@ const BarGraph: {
                           <box flexGrow={emptyGrow} />
                         )}
                         {/* Segments: last series at top, first at bottom. The repeated
-                            lower-block glyph wraps inside the fixed-width segment, so it
-                            stays visible in snapshots without filling the whole cell. */}
+                            full-block glyph wraps inside the fixed-width segment, filling
+                            the entire cell for solid, gap-free bars. */}
                         {[...seriesList].reverse().map((series, reverseIdx) => {
                           const value = series.data[barIdx] || 0
                           if (value <= 0) {
