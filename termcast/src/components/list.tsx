@@ -429,49 +429,46 @@ export interface ListProps
     */
   spacingMode?: ListSpacingMode
   /**
-   * Fixed column widths (in terminal characters) for tag accessories,
+   * Fixed column widths (in terminal characters) for accessories,
    * enabling table-like alignment across all list items.
    *
-   * Each number in the array defines the display width for the Nth tag
-   * in each item's accessories array. Tags are left-aligned within their
-   * column using `padEnd`. Non-tag accessories (`text`, `date`) are not
-   * affected and render with their natural width.
+   * Each number in the array defines the display width for the Nth
+   * accessory in each item's accessories array (tags, text, and date).
+   * Values are left-aligned within their column using `padEnd`.
+   * Accessories beyond the array length render with natural width.
    *
    * **Requirements:**
-   * - All items should have the same number of tag accessories in the
-   *   same order. Use `{ tag: null }` as a placeholder for missing tags
-   *   to preserve column alignment.
-   * - Each width should be at least the length of the longest tag value
-   *   at that position. Tags render as plain text (no brackets added).
-   * - The array length should match the number of tag positions.
+   * - All items should have the same number of accessories in the
+   *   same order. Use `{ tag: '' }` or `{ text: '' }` as placeholders
+   *   for missing accessories to preserve column alignment.
+   * - Each width should be at least the length of the longest value
+   *   at that position.
    *
    * **Example:**
    * ```tsx
-   * // Widths: comments max "12 comments"=11, status max "In Progress"=11, priority max "P3"=2
-   * <List accessoryTagsLayout={[11, 11, 2]}>
+   * // Widths: service=12, count=4, time=7
+   * <List accessoryTagsLayout={[12, 4, 7]}>
    *   <List.Item
    *     title="Fix login bug"
    *     accessories={[
-   *       { tag: { value: '3 comments', key: 'comments' } },
-   *       { tag: { value: 'Open', color: Color.Green, key: 'status' } },
-   *       { tag: { value: 'P1', color: Color.Red, key: 'priority' } },
-   *       { date: new Date() },
+   *       { tag: { value: 'api-server', color: Color.Blue } },
+   *       { tag: { value: '15', color: Color.Orange } },
+   *       { text: '7h ago' },
    *     ]}
    *   />
    *   <List.Item
-   *     title="Refactor auth"
+   *     title="Hydration mismatch"
    *     accessories={[
-   *       { tag: { value: '7 comments', key: 'comments' } },
-   *       { tag: { value: 'Closed', color: Color.Purple, key: 'status' } },
-   *       { tag: null },  // placeholder for missing priority column
-   *       { date: new Date() },
+   *       { tag: { value: 'web-app', color: Color.Blue } },
+   *       { tag: { value: '6', color: Color.Orange } },
+   *       { text: '22h ago' },
    *     ]}
    *   />
    * </List>
    *
    * // Renders as:
-   * // Fix login bug     3 comments  Open           P1 1d
-   * // Refactor auth     7 comments  Closed            2w
+   * // Fix login bug          api-server   15   7h ago
+   * // Hydration mismatch     web-app      6    22h ago
    * ```
    */
   accessoryTagsLayout?: number[]
@@ -850,11 +847,14 @@ function ListItemRow(props: {
     setIsHovered(false)
   }
 
+  // accessoryTagsLayout maps positionally to ALL accessories (tags, text, date),
+  // not just tags. This ensures variable-width text/date accessories also get
+  // padded, preventing the entire accessories block from shifting per item.
   const accessoryElements: ReactNode[] = []
   if (accessories) {
-    let tagIndex = 0
-    accessories.forEach((accessory) => {
-      if ('text' in accessory && accessory.text) {
+    accessories.forEach((accessory, accessoryIndex) => {
+      const colWidth = accessoryTagWidths?.[accessoryIndex]
+      if ('text' in accessory && !('tag' in accessory) && !('icon' in accessory)) {
         const textValue =
           typeof accessory.text === 'string'
             ? accessory.text
@@ -862,31 +862,36 @@ function ListItemRow(props: {
         const textColor =
           typeof accessory.text === 'object' ? accessory.text?.color : undefined
         if (textValue) {
+          const padded = colWidth ? textValue.padEnd(colWidth) : textValue
           accessoryElements.push(
             <text
-              key={`text-${textValue}`}
+              key={`text-${accessoryIndex}`}
               flexShrink={0}
               fg={active ? theme.background : resolveColor(textColor) || theme.info}
               wrapMode="none"
             >
-              {textValue}
+              {padded}
+            </text>,
+          )
+        } else if (colWidth) {
+          accessoryElements.push(
+            <text key={`text-empty-${accessoryIndex}`} flexShrink={0} wrapMode="none">
+              {' '.repeat(colWidth)}
             </text>,
           )
         }
       }
       if ('tag' in accessory) {
-        const colWidth = accessoryTagWidths?.[tagIndex]
         const tagValue =
           typeof accessory.tag === 'string'
             ? accessory.tag
             : accessory.tag?.value
         if (tagValue) {
           const tagColor = getTagColor(accessory, theme, !!active)
-          const displayText = tagValue
-          const padded = colWidth ? displayText.padEnd(colWidth) : displayText
+          const padded = colWidth ? tagValue.padEnd(colWidth) : tagValue
           accessoryElements.push(
             <text
-              key={`tag-${tagIndex}`}
+              key={`tag-${accessoryIndex}`}
               flexShrink={0}
               fg={tagColor}
               wrapMode="none"
@@ -897,12 +902,11 @@ function ListItemRow(props: {
         } else if (colWidth) {
           // Null/empty tag → empty space placeholder to preserve column alignment
           accessoryElements.push(
-            <text key={`tag-empty-${tagIndex}`} flexShrink={0} wrapMode="none">
+            <text key={`tag-empty-${accessoryIndex}`} flexShrink={0} wrapMode="none">
               {' '.repeat(colWidth)}
             </text>,
           )
         }
-        tagIndex++
       }
       if ('date' in accessory && accessory.date) {
         const dateValue =
@@ -915,6 +919,7 @@ function ListItemRow(props: {
             : undefined
         if (dateValue) {
           const formatted = formatRelativeDate(dateValue)
+          const padded = colWidth ? formatted.padEnd(colWidth) : formatted
           accessoryElements.push(
             <text
               key={`date-${dateValue.getTime()}`}
@@ -922,7 +927,13 @@ function ListItemRow(props: {
               fg={active ? theme.background : resolveColor(dateColor) || theme.success}
               wrapMode="none"
             >
-              {formatted}
+              {padded}
+            </text>,
+          )
+        } else if (colWidth) {
+          accessoryElements.push(
+            <text key={`date-empty-${accessoryIndex}`} flexShrink={0} wrapMode="none">
+              {' '.repeat(colWidth)}
             </text>,
           )
         }
