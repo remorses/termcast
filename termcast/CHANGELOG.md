@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.7.0
+
+1. **Hover tooltips on all chart components** — mouse over any data point, bar segment, or candle to see an absolute-positioned tooltip with the x-axis label and value. Supported on Graph, DottedLineGraph, BarGraph, HorizontalBarGraph, BarChart, and CandleChart:
+
+   ```tsx
+   // Tooltips work automatically, no extra props needed
+   <Graph height={12} xLabels={labels}>
+     <Graph.Line data={prices} title="Price" />
+   </Graph>
+   ```
+
+   New shared module `chart-tooltip.tsx` provides `useChartTooltip()` hook and `ChartTooltip` component. Box-based charts (BarGraph, HorizontalBarGraph, BarChart) use per-element `onMouseMove`. Renderable-based charts (Graph, DottedLineGraph, CandleChart) map cursor coordinates to data indices via `getPlotLayout()`.
+
+2. **X-axis label always shown in tooltips** — single-series charts now show the x-axis position (e.g. "Mon") as the tooltip header. Previously it was only shown for multi-series charts.
+
+3. **Hidden `:vim` hint from List footer** — the `:vim` text no longer appears in the footer bar by default. Users can still type `:` when the search bar is empty to enter command mode.
+
+4. **Fixed tooltip on sparse x-axis labels** — `interpolateXLabel` now correctly interpolates when there are fewer labels than data points (e.g. 3 tick labels for 100 points) instead of using direct array lookup.
+
+5. **Fixed stale tooltip on non-data areas** — moving the cursor from a bar or segment into empty space (gaps between bars, y-axis column, unused remainder) now hides the tooltip instead of keeping the old value.
+
+6. **Fixed Graph tooltip for mixed-length series** — when multiple series have different data lengths, hovering past the end of a shorter series no longer shows fake zero values.
+
 ## 1.6.0
 
 1. **Built-in React component profiler** — set `TERMCAST_REACT_PROFILE=1` to capture React 19.2+ reconciler performance entries. On process exit, writes a `.cpuprofile` with proper call trees, source file paths, and component names:
