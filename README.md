@@ -342,7 +342,7 @@ function Issues() {
         accessories={[
           { tag: { value: '7 comments' } },
           { tag: { value: 'Closed', color: Color.Purple } },
-          { tag: null },  // placeholder, preserves column alignment
+          { tag: '' },  // placeholder, preserves column alignment
           { date: new Date() },
         ]}
       />
@@ -356,7 +356,7 @@ function Issues() {
 // Refactor auth module    7 comments  Closed          2w
 ```
 
-Set each width to at least the length of the longest tag value at that position. Use `{ tag: null }` as a placeholder when an item is missing a tag at a given position; it renders as empty space so the remaining columns stay aligned.
+Set each width to at least the length of the longest tag value at that position. Use `{ tag: '' }` as a placeholder when an item is missing a tag at a given position; it renders as empty space so the remaining columns stay aligned.
 
 ### Accessory ordering for alignment
 
@@ -364,22 +364,21 @@ When some accessories are only present on a few items, **put them first** in the
 
 The rule: rarely-present accessories go first (leftmost), always-present accessories go last (rightmost). This way the right edge of your list stays clean and aligned across all rows.
 
+**Every item must define the same number of accessories in the same order.** This applies whether or not `accessoryTagsLayout` is used. If one item has 2 tags and another has 3, columns shift and alignment breaks. Use `{ tag: '' }` for conditionally absent tags, and use a ternary (`condition ? { tag: ... } : { tag: '' }`) instead of conditional `.push()`.
+
 ```tsx
-// Good: optional "Blocked" tag first, common tags last
+// Good: optional "Blocked" tag first, common tags last, always same count
 accessories={[
-  item.blocked ? { tag: { value: 'Blocked', color: Color.Red } } : { tag: null },
+  item.blocked ? { tag: { value: 'Blocked', color: Color.Red } } : { tag: '' },
   { tag: { value: item.status, color: statusColor } },
   { tag: { value: item.priority } },
   { date: item.updatedAt },
 ]}
 
-// Bad: optional tag last breaks alignment of everything before it
-accessories={[
-  { tag: { value: item.status, color: statusColor } },
-  { tag: { value: item.priority } },
-  { date: item.updatedAt },
-  item.blocked ? { tag: { value: 'Blocked', color: Color.Red } } : { tag: null },
-]}
+// Bad: conditional push changes the number of accessories per item, breaking alignment
+const accessories = [{ tag: { value: item.status } }]
+if (item.blocked) accessories.push({ tag: { value: 'Blocked' } })
+accessories.push({ tag: { value: item.priority } })
 ```
 
 ### Computing column widths dynamically
@@ -414,7 +413,7 @@ function Issues() {
           accessories={[
             issue.assignee
               ? { tag: { value: issue.assignee } }
-              : { tag: null },
+              : { tag: '' },
             { tag: { value: issue.status, color: statusColor(issue.status) } },
             { tag: { value: issue.priority } },
             { date: issue.updatedAt },

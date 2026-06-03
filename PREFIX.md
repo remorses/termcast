@@ -377,6 +377,12 @@ Without position="absolute", wrapping text drives the box height and overrides f
 
 All three use the same `getThemePalette()` color order: accent, info, success, warning, error, secondary, primary.
 
+## list item accessories alignment
+
+Every item in a List must define the **same number of accessories** in the same order. If one item has 2 tags and another has 3, columns shift and alignment breaks. This applies whether or not `accessoryTagsLayout` is used.
+
+Use `{ tag: '' }` or `{ text: '' }` for conditionally absent accessories. Always use ternaries (`condition ? { tag: value } : { tag: '' }`) instead of conditional `.push()` which changes the array length per item.
+
 ## form components styling
 
 - NEVER make text bold on focus in components. This causes layout shifts when focusing/unfocusing fields. Always maintain consistent text weight regardless of focus state. Instead change background or color or add an unicode character before or after focused text for selection like List does.
