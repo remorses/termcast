@@ -14,10 +14,12 @@
  * Color palette comes from getThemePalette() and cycles with %.
  */
 
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo, useRef } from 'react'
 import { BoxProps } from '@opentui/react'
+import type { MouseEvent as OpenTUIMouseEvent } from '@opentui/core'
 import { useTheme, getThemePalette } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
+import { ChartTooltip, useChartTooltip, interpolateXLabel, formatTooltipLine } from 'termcast/src/components/chart-tooltip'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -86,6 +88,8 @@ const BarGraph: {
   } = props
 
   const palette = getThemePalette(theme)
+  const containerRef = useRef<any>(null)
+  const { tooltip, show: showTooltip, hide: hideTooltip } = useChartTooltip()
 
   // Collect series from children
   const seriesList = useMemo<Array<{ data: number[]; color: string; title?: string }>>(() => {
@@ -187,7 +191,8 @@ const BarGraph: {
   }
 
   return (
-    <box flexDirection={legendOnRight ? 'row' : 'column'} {...rest}>
+    <box ref={containerRef} flexDirection={legendOnRight ? 'row' : 'column'} {...rest} onMouseOut={hideTooltip}>
+      <ChartTooltip tooltip={tooltip} containerRef={containerRef} />
       <box flexDirection="column" flexGrow={1} flexShrink={1} overflow="hidden">
         <box flexDirection="row" height={height} width="100%" alignItems="flex-start" overflow="hidden">
           {showYAxis ? (
@@ -224,6 +229,23 @@ const BarGraph: {
                       flexGrow={0}
                       flexShrink={0}
                       width={safeBarWidth}
+                      onMouseMove={(evt: OpenTUIMouseEvent) => {
+                        const lines: string[] = []
+                        const label = interpolateXLabel({ dataIndex: barIdx, dataLength: numBars, xLabels: labels })
+                        for (const series of seriesList) {
+                          const value = series.data[barIdx] || 0
+                          if (value <= 0) continue
+                          const name = series.title || label
+                          lines.push(formatTooltipLine(name, value))
+                        }
+                        // Always prepend x-axis label as header when series have titles
+                        if (lines.length > 0 && seriesList.some((s) => s.title)) {
+                          lines.unshift(label)
+                        }
+                        if (lines.length > 0) {
+                          showTooltip({ x: evt.x, y: evt.y, lines })
+                        }
+                      }}
                     >
                       {/* Plot area: spacer on top pushes colored segments to the bottom
                           so all bars are bottom-aligned regardless of total value. */}

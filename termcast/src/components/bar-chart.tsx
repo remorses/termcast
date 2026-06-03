@@ -12,9 +12,11 @@
  *   primary, accent, info, success, warning, error, secondary (cycles with %)
  */
 
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo, useRef } from 'react'
+import type { MouseEvent as OpenTUIMouseEvent } from '@opentui/core'
 import { useTheme, getThemePalette } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
+import { ChartTooltip, useChartTooltip, formatTooltipLine } from 'termcast/src/components/chart-tooltip'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -173,6 +175,8 @@ function LabelRow({ segments, labelMap, position, color }: {
 const BarChart: BarChartType = (props) => {
   const theme = useTheme()
   const { height = 1, showLabels = true, children } = props
+  const containerRef = useRef<any>(null)
+  const { tooltip, show: showTooltip, hide: hideTooltip } = useChartTooltip()
 
   // Collect segment data from BarChart.Segment children
   const segments = useMemo<SegmentData[]>(() => {
@@ -242,7 +246,8 @@ const BarChart: BarChartType = (props) => {
   const belowMap = new Map(below.map((l) => [l.segmentIndex, l]))
 
   return (
-    <box flexDirection="column" width="100%" flexShrink={0}>
+    <box ref={containerRef} flexDirection="column" width="100%" flexShrink={0} onMouseOut={hideTooltip}>
+      <ChartTooltip tooltip={tooltip} containerRef={containerRef} />
       <LabelRow
         segments={visibleSegments}
         labelMap={aboveMap}
@@ -252,7 +257,22 @@ const BarChart: BarChartType = (props) => {
       <box flexDirection="row" height={height} width="100%" flexShrink={0}>
         {visibleSegments.map((seg, i) => {
           return (
-            <box key={i} flexGrow={seg.value} flexShrink={0} backgroundColor={seg.resolvedColor} height={height} />
+            <box
+              key={i}
+              flexGrow={seg.value}
+              flexShrink={0}
+              backgroundColor={seg.resolvedColor}
+              height={height}
+              onMouseMove={(evt: OpenTUIMouseEvent) => {
+                const pct = formatValue(seg.value, total)
+                const label = seg.label || `#${i + 1}`
+                showTooltip({
+                  x: evt.x,
+                  y: evt.y,
+                  lines: [formatTooltipLine(label, `${seg.value} (${pct})`)],
+                })
+              }}
+            />
           )
         })}
       </box>

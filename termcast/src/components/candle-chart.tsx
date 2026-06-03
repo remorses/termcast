@@ -15,13 +15,14 @@
  * Layout reuses the same Y-axis + X-axis label pattern as Graph component.
  */
 
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { Renderable, RGBA } from '@opentui/core'
-import type { RenderableOptions, RenderContext } from '@opentui/core'
+import type { RenderableOptions, RenderContext, MouseEvent as OpenTUIMouseEvent } from '@opentui/core'
 import type { OptimizedBuffer } from '@opentui/core'
 import { extend } from '@opentui/react'
 import { useTheme } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
+import { ChartTooltip, useChartTooltip, interpolateXLabel, formatTooltipLine } from 'termcast/src/components/chart-tooltip'
 
 // ── Data types ───────────────────────────────────────────────────────
 
@@ -96,6 +97,15 @@ export class CandleChartRenderable extends Renderable {
   set upColor(value: string) { this._upColor = value; this.requestRender() }
   set downColor(value: string) { this._downColor = value; this.requestRender() }
   set wickColor(value: string) { this._wickColor = value; this.requestRender() }
+
+  /** Public accessor for tooltip coordinate mapping */
+  getPlotLayout() { return this.computeLayout() }
+
+  /** Current candle data for tooltip value lookup */
+  getCandles() { return this._candles }
+
+  /** Get aggregated columns for the current plot width */
+  getAggregatedColumns({ plotW }: { plotW: number }) { return this.aggregateToColumns({ plotW }) }
 
   // ── Layout: compute plot area and Y labels ─────────────────────
   private computeLayout(): {
@@ -367,6 +377,9 @@ const CandleChart: CandleChartType = (props) => {
 
   const resolvedUpColor = resolveColor(upColor) || Color.Green
   const resolvedDownColor = resolveColor(downColor) || Color.Red
+  const containerRef = useRef<any>(null)
+  const plotRef = useRef<CandleChartRenderable>(null)
+  const { tooltip, show: showTooltip, hide: hideTooltip } = useChartTooltip()
 
   // Auto-compute Y range from data high/low if not provided
   const computedYRange = useMemo<[number, number]>(() => {
@@ -389,21 +402,55 @@ const CandleChart: CandleChartType = (props) => {
   // Total height = plot rows + 1 for x-axis labels
   const totalHeight = height + (xLabels.length > 0 ? 1 : 0)
 
+  const handleMouseMove = (evt: OpenTUIMouseEvent) => {
+    const plot = plotRef.current
+    if (!plot) return
+    const layout = plot.getPlotLayout()
+    if (!layout) return
+
+    const columns = plot.getAggregatedColumns({ plotW: layout.plotW })
+    if (columns.length === 0) return
+
+    // CandleChart right-aligns candles: offset = plotW - columns.length
+    const offset = layout.plotW - columns.length
+    const col = evt.x - layout.plotX - offset
+    if (col < 0 || col >= columns.length) {
+      hideTooltip()
+      return
+    }
+
+    const candle = columns[col]!
+    const label = interpolateXLabel({ dataIndex: col, dataLength: columns.length, xLabels })
+    const lines = [
+      label,
+      formatTooltipLine('O', candle.open.toFixed(2)),
+      formatTooltipLine('H', candle.high.toFixed(2)),
+      formatTooltipLine('L', candle.low.toFixed(2)),
+      formatTooltipLine('C', candle.close.toFixed(2)),
+    ]
+    showTooltip({ x: evt.x, y: evt.y, lines })
+  }
+
   return (
-    <candle-chart-plot
-      width="100%"
-      height={totalHeight}
-      candles={data}
-      xLabels={xLabels}
-      yMin={computedYRange[0]}
-      yMax={computedYRange[1]}
-      yTicks={yTicks}
-      yFormat={yFormat}
-      axisColor={theme.textMuted}
-      upColor={resolvedUpColor}
-      downColor={resolvedDownColor}
-      wickColor={theme.textMuted}
-    />
+    <box ref={containerRef} width="100%" onMouseOut={hideTooltip}>
+      <ChartTooltip tooltip={tooltip} containerRef={containerRef} />
+      <candle-chart-plot
+        ref={plotRef}
+        width="100%"
+        height={totalHeight}
+        candles={data}
+        xLabels={xLabels}
+        yMin={computedYRange[0]}
+        yMax={computedYRange[1]}
+        yTicks={yTicks}
+        yFormat={yFormat}
+        axisColor={theme.textMuted}
+        upColor={resolvedUpColor}
+        downColor={resolvedDownColor}
+        wickColor={theme.textMuted}
+        onMouseMove={handleMouseMove}
+      />
+    </box>
   )
 }
 

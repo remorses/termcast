@@ -6,10 +6,12 @@
  * colored series rows and percentages.
  */
 
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo, useRef } from 'react'
 import { BoxProps } from '@opentui/react'
+import type { MouseEvent as OpenTUIMouseEvent } from '@opentui/core'
 import { Color, resolveColor } from 'termcast/src/colors'
 import { getThemePalette, useTheme } from 'termcast/src/theme'
+import { ChartTooltip, useChartTooltip, formatTooltipLine } from 'termcast/src/components/chart-tooltip'
 
 export interface HorizontalBarGraphSeriesProps {
   /** One value per row/category position. */
@@ -97,6 +99,8 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
   } = props
 
   const palette = getThemePalette(theme)
+  const containerRef = useRef<any>(null)
+  const { tooltip, show: showTooltip, hide: hideTooltip } = useChartTooltip()
 
   const seriesList = useMemo<Array<{ data: number[]; color: string; title?: string }>>(() => {
     const childArray = React.Children.toArray(children)
@@ -189,7 +193,8 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
   const chartHeight = headerHeight + visibleRows.length
 
   return (
-    <box flexDirection="column" width="100%" flexShrink={0} {...rest}>
+    <box ref={containerRef} flexDirection="column" width="100%" flexShrink={0} {...rest} onMouseOut={hideTooltip}>
+      <ChartTooltip tooltip={tooltip} containerRef={containerRef} />
       {showHeader && (
         <>
           <box flexDirection="row" height={1} flexShrink={0}>
@@ -238,7 +243,22 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
                     }
                     const series = seriesList[seriesIndex]!
                     return (
-                      <box key={seriesIndex} flexGrow={value} flexBasis={0} flexShrink={1} overflow="hidden">
+                      <box
+                        key={seriesIndex}
+                        flexGrow={value}
+                        flexBasis={0}
+                        flexShrink={1}
+                        overflow="hidden"
+                        onMouseMove={(evt: OpenTUIMouseEvent) => {
+                          const label = row.label
+                          const seriesTitle = series.title || `#${seriesIndex + 1}`
+                          showTooltip({
+                            x: evt.x,
+                            y: evt.y,
+                            lines: [label, formatTooltipLine(seriesTitle, value)],
+                          })
+                        }}
+                      >
                         <box position="absolute" width="100%" height="100%" overflow="hidden">
                           <text fg={series.color} wrapMode="none">{barCharacter.repeat(200)}</text>
                         </box>

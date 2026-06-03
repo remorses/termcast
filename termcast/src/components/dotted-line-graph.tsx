@@ -5,12 +5,13 @@
  * can move by half columns and quarter rows instead of snapping to full cells.
  */
 
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo, useRef } from 'react'
 import { Renderable, RGBA } from '@opentui/core'
-import type { OptimizedBuffer, RenderableOptions, RenderContext } from '@opentui/core'
+import type { OptimizedBuffer, RenderableOptions, RenderContext, MouseEvent as OpenTUIMouseEvent } from '@opentui/core'
 import { extend } from '@opentui/react'
 import { Color, resolveColor } from 'termcast/src/colors'
 import { getThemePalette, useTheme } from 'termcast/src/theme'
+import { ChartTooltip, useChartTooltip, computeDataIndexFromMouseX, interpolateXLabel, formatTooltipLine } from 'termcast/src/components/chart-tooltip'
 
 const BRAILLE_BITS: number[][] = [
   [1, 8],
@@ -72,6 +73,12 @@ class DottedLineGraphPlotRenderable extends Renderable {
   set yFormat(value: (value: number) => string) { this._yFormat = value; this.requestRender() }
   set axisColor(value: string) { this._axisColor = value; this.requestRender() }
   set dotSpacing(value: number) { this._dotSpacing = value; this.requestRender() }
+
+  /** Public accessor for tooltip coordinate mapping */
+  getPlotLayout() { return this.computeLayout() }
+
+  /** Current series data for tooltip value lookup */
+  getSeries() { return this._series }
 
   private computeLayout(): {
     plotX: number
@@ -314,6 +321,9 @@ const DottedLineGraph: DottedLineGraphType = (props) => {
     children,
   } = props
   const palette = getThemePalette(theme)
+  const containerRef = useRef<any>(null)
+  const plotRef = useRef<DottedLineGraphPlotRenderable>(null)
+  const { tooltip, show: showTooltip, hide: hideTooltip } = useChartTooltip()
 
   const series = useMemo<Array<DottedLineGraphSeriesData & { title?: string }>>(() => {
     return React.Children.toArray(children)
@@ -364,11 +374,49 @@ const DottedLineGraph: DottedLineGraphType = (props) => {
     })) + 1
   }, [computedYRange, yFormat, yTicks])
 
+  const handleMouseMove = (evt: OpenTUIMouseEvent) => {
+    const plot = plotRef.current
+    if (!plot) return
+    const layout = plot.getPlotLayout()
+    if (!layout) return
+
+    const allSeries = plot.getSeries()
+    const maxDataLen = Math.max(0, ...allSeries.map((s) => s.data.length))
+    const idx = computeDataIndexFromMouseX({
+      mouseX: evt.x,
+      plotX: layout.plotX,
+      plotW: layout.plotW,
+      dataLength: maxDataLen,
+    })
+    if (idx < 0) {
+      hideTooltip()
+      return
+    }
+
+    const label = interpolateXLabel({ dataIndex: idx, dataLength: maxDataLen, xLabels })
+    const lines = series
+      .filter((s) => idx < s.data.length)
+      .map((s) => {
+        const value = s.data[idx] ?? 0
+        const prefix = s.title ? `${s.title}` : label
+        return formatTooltipLine(prefix, Number(value.toFixed(2)))
+      })
+    // Prepend x-axis label when multiple series
+    if (series.length > 1 && lines.length > 0) {
+      lines.unshift(label)
+    }
+    if (lines.length > 0) {
+      showTooltip({ x: evt.x, y: evt.y, lines })
+    }
+  }
+
   if (series.length === 0) return null
 
   return (
-    <box flexDirection="column" width="100%" flexShrink={0}>
+    <box ref={containerRef} flexDirection="column" width="100%" flexShrink={0} onMouseOut={hideTooltip}>
+      <ChartTooltip tooltip={tooltip} containerRef={containerRef} />
       <dotted-line-graph-plot
+        ref={plotRef}
         width="100%"
         height={height + (xLabels.length > 0 ? 1 : 0)}
         series={plotSeries}
@@ -379,6 +427,7 @@ const DottedLineGraph: DottedLineGraphType = (props) => {
         yFormat={yFormat}
         axisColor={theme.textMuted}
         dotSpacing={dotSpacing}
+        onMouseMove={handleMouseMove}
       />
       {legendVisible ? (
         <box height={1} width="100%" flexShrink={0} overflow="hidden" flexDirection="row">

@@ -20,13 +20,14 @@
  * For a plot of W cols x H rows we get W*2 x H*4 virtual pixels.
  */
 
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo, useRef } from 'react'
 import { Renderable, RGBA } from '@opentui/core'
-import type { RenderableOptions, RenderContext } from '@opentui/core'
+import type { RenderableOptions, RenderContext, MouseEvent as OpenTUIMouseEvent } from '@opentui/core'
 import type { OptimizedBuffer } from '@opentui/core'
 import { extend } from '@opentui/react'
 import { useTheme, getThemePalette } from 'termcast/src/theme'
 import { Color, resolveColor } from 'termcast/src/colors'
+import { ChartTooltip, useChartTooltip, computeDataIndexFromMouseX, interpolateXLabel, formatTooltipLine } from 'termcast/src/components/chart-tooltip'
 
 // ── Graph variant ────────────────────────────────────────────────────
 // Three rendering modes for the plot area:
@@ -123,6 +124,12 @@ export class GraphPlotRenderable extends Renderable {
   set variant(value: GraphVariant) { this._variant = value; this.requestRender() }
   set stripeColor1(value: string) { this._stripeColor1 = value; this.requestRender() }
   set stripeColor2(value: string) { this._stripeColor2 = value; this.requestRender() }
+
+  /** Public accessor for tooltip coordinate mapping */
+  getPlotLayout() { return this.computeLayout() }
+
+  /** Current series data for tooltip value lookup */
+  getSeries() { return this._series }
 
   // ── Shared: compute layout and draw axes ─────────────────────
   private computeLayout(): {
@@ -440,10 +447,13 @@ const Graph: GraphType = (props) => {
   const { height = 15, xLabels = [], yRange, yTicks = 5, yFormat, variant = 'area', stripeColors, children } = props
 
   const palette = getThemePalette(theme)
+  const containerRef = useRef<any>(null)
+  const plotRef = useRef<GraphPlotRenderable>(null)
+  const { tooltip, show: showTooltip, hide: hideTooltip } = useChartTooltip()
 
   // Collect series data from Graph.Line children
-  const series = useMemo<SeriesData[]>(() => {
-    const result: SeriesData[] = []
+  const seriesWithTitles = useMemo<Array<SeriesData & { title?: string }>>(() => {
+    const result: Array<SeriesData & { title?: string }> = []
     let colorIndex = 0
     React.Children.forEach(children, (child) => {
       if (!React.isValidElement(child)) return
@@ -454,11 +464,17 @@ const Graph: GraphType = (props) => {
       result.push({
         data: childProps.data,
         color,
+        title: childProps.title,
       })
       colorIndex++
     })
     return result
   }, [children, palette])
+
+  // Strip titles for the renderable (it only needs data + color)
+  const series = useMemo<SeriesData[]>(() => {
+    return seriesWithTitles.map((s) => ({ data: s.data, color: s.color }))
+  }, [seriesWithTitles])
 
   // Auto-compute Y range if not provided
   const computedYRange = useMemo<[number, number]>(() => {
@@ -484,21 +500,59 @@ const Graph: GraphType = (props) => {
   // Total height = plot rows + 1 for x-axis labels
   const totalHeight = height + (xLabels.length > 0 ? 1 : 0)
 
+  const handleMouseMove = (evt: OpenTUIMouseEvent) => {
+    const plot = plotRef.current
+    if (!plot) return
+    const layout = plot.getPlotLayout()
+    if (!layout) return
+
+    const allSeries = plot.getSeries()
+    const maxDataLen = Math.max(0, ...allSeries.map((s) => s.data.length))
+    const idx = computeDataIndexFromMouseX({
+      mouseX: evt.x,
+      plotX: layout.plotX,
+      plotW: layout.plotW,
+      dataLength: maxDataLen,
+    })
+    if (idx < 0) {
+      hideTooltip()
+      return
+    }
+
+    const label = interpolateXLabel({ dataIndex: idx, dataLength: maxDataLen, xLabels })
+    const lines = allSeries.map((s, si) => {
+      const value = s.data[idx] ?? 0
+      const seriesTitle = seriesWithTitles[si]?.title
+      const prefix = seriesTitle ? `${seriesTitle}` : label
+      return formatTooltipLine(prefix, Number(value.toFixed(2)))
+    })
+    // Prepend the x-axis label as the first line when there are multiple series
+    if (allSeries.length > 1) {
+      lines.unshift(label)
+    }
+    showTooltip({ x: evt.x, y: evt.y, lines })
+  }
+
   return (
-    <graph-plot
-      width="100%"
-      height={totalHeight}
-      series={series}
-      xLabels={xLabels}
-      yMin={computedYRange[0]}
-      yMax={computedYRange[1]}
-      yTicks={yTicks}
-      yFormat={yFormat}
-      axisColor={theme.textMuted}
-      variant={variant}
-      stripeColor1={resolvedStripe1}
-      stripeColor2={resolvedStripe2}
-    />
+    <box ref={containerRef} width="100%" onMouseOut={hideTooltip}>
+      <ChartTooltip tooltip={tooltip} containerRef={containerRef} />
+      <graph-plot
+        ref={plotRef}
+        width="100%"
+        height={totalHeight}
+        series={series}
+        xLabels={xLabels}
+        yMin={computedYRange[0]}
+        yMax={computedYRange[1]}
+        yTicks={yTicks}
+        yFormat={yFormat}
+        axisColor={theme.textMuted}
+        variant={variant}
+        stripeColor1={resolvedStripe1}
+        stripeColor2={resolvedStripe2}
+        onMouseMove={handleMouseMove}
+      />
+    </box>
   )
 }
 
