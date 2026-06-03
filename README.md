@@ -308,42 +308,42 @@ function Repos() {
 
 ### Table-like accessory alignment
 
-When items have multiple tag accessories (status, priority, comment count, etc.), they render with variable widths by default, causing columns to misalign across rows. The `accessoryTagsLayout` prop fixes this by assigning each tag position a fixed character width, turning your list into a table-like layout.
+When items have multiple accessories (tags, text, dates), they render with variable widths by default, causing columns to misalign across rows. The `accessoryTagsLayout` prop fixes this by assigning each accessory position a fixed character width, turning your list into a table-like layout.
 
-Each number in the array is the display width (in terminal characters) for the Nth tag in the accessories array. Tags are left-padded with spaces using `padEnd`. Non-tag accessories like `text` and `date` are unaffected.
+Each number in the array is the display width (in terminal characters) for the Nth accessory in each item's accessories array. All accessory types (tags, text, dates) are left-padded with spaces using `padEnd`. Accessories beyond the array length render with their natural width.
 
 ```tsx
 import { List, Color } from 'termcast'
 
 function Issues() {
   return (
-    // Column widths: comments=11, status=11, priority=2
-    <List accessoryTagsLayout={[11, 11, 2]}>
+    // Column widths: service=12, count=4, status=11, time=7
+    <List accessoryTagsLayout={[12, 4, 11, 7]}>
       <List.Item
         title="Fix login timeout"
         accessories={[
-          { tag: { value: '3 comments' } },
+          { tag: { value: 'api-server', color: Color.Blue } },
+          { tag: { value: '15', color: Color.Orange } },
           { tag: { value: 'Open', color: Color.Green } },
-          { tag: { value: 'P1', color: Color.Red } },
-          { date: new Date() },
+          { text: '7h ago' },
         ]}
       />
       <List.Item
         title="Add dark mode support"
         accessories={[
-          { tag: { value: '12 comments' } },
+          { tag: { value: 'web-frontend', color: Color.Blue } },
+          { tag: { value: '6', color: Color.Orange } },
           { tag: { value: 'In Progress', color: Color.Orange } },
-          { tag: { value: 'P2', color: Color.Yellow } },
-          { date: new Date() },
+          { text: '22h ago' },
         ]}
       />
       <List.Item
         title="Refactor auth module"
         accessories={[
-          { tag: { value: '7 comments' } },
-          { tag: { value: 'Closed', color: Color.Purple } },
+          { tag: { value: 'api-server', color: Color.Blue } },
+          { tag: { value: '2', color: Color.Orange } },
           { tag: '' },  // placeholder, preserves column alignment
-          { date: new Date() },
+          { text: '3d ago' },
         ]}
       />
     </List>
@@ -351,12 +351,12 @@ function Issues() {
 }
 
 // Renders as:
-// Fix login timeout       3 comments  Open         P1 2h
-// Add dark mode support   12 comments In Progress  P2 1d
-// Refactor auth module    7 comments  Closed          2w
+// Fix login timeout       api-server   15   Open         7h ago
+// Add dark mode support   web-frontend 6    In Progress  22h ago
+// Refactor auth module    api-server   2                 3d ago
 ```
 
-Set each width to at least the length of the longest tag value at that position. Use `{ tag: '' }` as a placeholder when an item is missing a tag at a given position; it renders as empty space so the remaining columns stay aligned.
+Set each width to at least the length of the longest value at that position. Use `{ tag: '' }` or `{ text: '' }` as a placeholder when an item is missing an accessory; it renders as empty space so the remaining columns stay aligned.
 
 ### Accessory ordering for alignment
 
@@ -383,22 +383,23 @@ accessories.push({ tag: { value: item.priority } })
 
 ### Computing column widths dynamically
 
-When tag values come from dynamic data, hardcoding column widths is fragile. Compute them from the data with a reduce, capping each column to a maximum width so one outlier value does not stretch the entire column.
+When accessory values come from dynamic data, hardcoding column widths is fragile. Compute them from the data with a reduce, capping each column to a maximum width so one outlier value does not stretch the entire column.
 
 ```tsx
 import { List, Color } from 'termcast'
 
-const MAX_TAG_WIDTH = 12
+const MAX_COL_WIDTH = 16
 
-// Compute the widest tag at each position across all items
+// Compute the widest value at each accessory position across all items
 const accessoryTagsLayout = issues.reduce<number[]>((widths, issue) => {
-  const tags = [
+  const values = [
     issue.assignee ?? '',
     issue.status,
     issue.priority,
+    timeAgo(issue.updatedAt),
   ]
-  tags.forEach((text, i) => {
-    widths[i] = Math.min(MAX_TAG_WIDTH, Math.max(widths[i] ?? 0, text.length))
+  values.forEach((text, i) => {
+    widths[i] = Math.min(MAX_COL_WIDTH, Math.max(widths[i] ?? 0, text.length))
   })
   return widths
 }, [])
@@ -416,7 +417,7 @@ function Issues() {
               : { tag: '' },
             { tag: { value: issue.status, color: statusColor(issue.status) } },
             { tag: { value: issue.priority } },
-            { date: issue.updatedAt },
+            { text: timeAgo(issue.updatedAt) },
           ]}
         />
       ))}
@@ -425,7 +426,7 @@ function Issues() {
 }
 ```
 
-The `reduce` walks every item once and tracks the longest tag text per position. `Math.min(MAX_TAG_WIDTH, ...)` prevents a single long value from dominating the layout; anything longer gets truncated by the renderer. The optional `assignee` tag is placed first because it is often absent, keeping the status and priority columns aligned on the right.
+The `reduce` walks every item once and tracks the longest value per position. `Math.min(MAX_COL_WIDTH, ...)` prevents a single long value from dominating the layout. The optional `assignee` tag is placed first because it is often absent, keeping the status and priority columns aligned on the right.
 
 ### Detail
 

@@ -46,6 +46,7 @@ import { useCachedPromise, useCachedState } from '@termcast/utils'
 - **Bun resolves modules differently from pnpm.** If your project uses pnpm but the TUI runs under Bun, Bun may pick up a globally installed React instead of the local one. This causes `useSyncExternalStore is not a function` errors. Fix: add `react` as an explicit dependency in the package that imports termcast.
 - **Use `Cache` (sync) over `LocalStorage` (async) for zustand persistence.** `Cache` is SQLite-backed and synchronous, so persisted state can be loaded at module scope as the zustand initial value.
 - **Every List item must have the same number of accessories in the same order.** If items have different accessory counts, alignment breaks. Use `{ tag: '' }` or `{ text: '' }` for conditionally absent accessories. Use ternaries (`condition ? { tag: value } : { tag: '' }`) instead of conditional `.push()`.
+- **`accessoryTagsLayout` maps to all accessories by position** (tags, text, date), not just tags. Include widths for text/date accessories too, or variable-width text will shift the entire block.
 
 ## Profiling
 

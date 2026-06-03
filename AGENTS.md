@@ -385,6 +385,8 @@ Every item in a List must define the **same number of accessories** in the same 
 
 Use `{ tag: '' }` or `{ text: '' }` for conditionally absent accessories. Always use ternaries (`condition ? { tag: value } : { tag: '' }`) instead of conditional `.push()` which changes the array length per item.
 
+`accessoryTagsLayout` maps positionally to **all** accessories (tags, text, date), not just tags. Include widths for text/date accessories too, otherwise variable-width text (like "7h ago" vs "22h ago") shifts the entire accessories block and breaks tag alignment.
+
 ## form components styling
 
 - NEVER make text bold on focus in components. This causes layout shifts when focusing/unfocusing fields. Always maintain consistent text weight regardless of focus state. Instead change background or color or add an unicode character before or after focused text for selection like List does.
