@@ -62,7 +62,7 @@ test('detail panel height ratchet prevents footer layout shift', async () => {
        Item 18 short                        │
                                             │
                                             │
-       ↑↓ navigate   ^k actions   :vim      │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)
@@ -104,7 +104,7 @@ test('detail panel height ratchet prevents footer layout shift', async () => {
        Item 18 short                        │ 1.
                                             │ Line 10 of detail content for
                                             │ item 1.
-       ↑↓ navigate   ^k actions   :vim      │ Line 11 of detail content for     ▼
+       ↑↓ navigate   ^k actions             │ Line 11 of detail content for     ▼
 
     "
   `)
@@ -147,7 +147,7 @@ test('detail panel height ratchet prevents footer layout shift', async () => {
        Item 18 short                        │
                                             │
                                             │
-       ↑↓ navigate   ^k actions   :vim      │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)

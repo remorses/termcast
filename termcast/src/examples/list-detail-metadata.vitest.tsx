@@ -69,7 +69,7 @@ test('list detail metadata label renders short values in row layout (key: value)
                                             │
                                             │
                                             │
-       ↑↓ navigate   ^k actions   :vim      │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)
@@ -127,7 +127,7 @@ test('list detail metadata renders long values in column layout (key on one line
                                             │
                                             │
                                             │
-       ↑↓ navigate   ^k actions   :vim      │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)
@@ -187,7 +187,7 @@ test('list detail metadata renders colored values and tag lists', async () => {
                                             │
                                             │
                                             │
-       ↑↓ navigate   ^k actions   :vim      │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)

@@ -164,15 +164,7 @@ function ListFooter(): any {
           </text>
         </Hoverable>
       )}
-      {!isVim && (
-        <Hoverable
-          onMouseDown={() => {
-            executeVimCommand('vim')
-          }}
-        >
-          <text flexShrink={0} fg={theme.textMuted}>:vim</text>
-        </Hoverable>
-      )}
+
     </box>
   )
 

@@ -53,7 +53,7 @@ test('polymarket list with graph detail renders correctly', async () => {
                                                       │ Probability (30d)
                                                       │
                                                       │
-       ↵ buy yes   ↑↓ navigate   ^k actions   :vim    │
+       ↵ buy yes   ↑↓ navigate   ^k actions           │
 
     "
   `)
@@ -116,7 +116,7 @@ test('navigating to different market updates the graph', async () => {
                                                       │ Probability (30d)
                                                       │
                                                       │
-       ↵ buy yes   ↑↓ navigate   ^k actions   :vim    │
+       ↵ buy yes   ↑↓ navigate   ^k actions           │
 
     "
   `)

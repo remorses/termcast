@@ -49,7 +49,7 @@ test('list with dropdown navigation', async () => {
        Apple Juice Juice
 
 
-       ↑↓ navigate   ^k actions   ^p select drink type   :vim
+       ↑↓ navigate   ^k actions   ^p select drink type
 
 
 
@@ -219,7 +219,7 @@ test('list with dropdown navigation', async () => {
 
 
 
-       ↑↓ navigate   ^k actions   ^p select drink type   :vim
+       ↑↓ navigate   ^k actions   ^p select drink type
 
 
 
@@ -386,7 +386,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate   ^k actions   ^p select drink type   :vim
+       ↑↓ navigate   ^k actions   ^p select drink type
 
 
 
@@ -422,7 +422,7 @@ test('list with dropdown search and filter', async () => {
 
 
 
-       ↑↓ navigate   ^k actions   ^p select drink type   :vim
+       ↑↓ navigate   ^k actions   ^p select drink type
 
 
 

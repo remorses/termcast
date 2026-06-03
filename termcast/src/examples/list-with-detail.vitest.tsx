@@ -218,7 +218,7 @@ test('list with detail view display and navigation', async () => {
 
 
 
-       ↵ toggle detail   ↑↓ navigate   ^k actions   :vim  powered by termcast.app
+       ↵ toggle detail   ↑↓ navigate   ^k actions         powered by termcast.app
 
 
 
@@ -581,7 +581,7 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │
                                             │
                                             │
-       ↑↓ navigate   ^k actions   :vim      │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)
@@ -609,7 +609,7 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │ vertical overflow in the detail
                                             │ panel scrollbox.
                                             │ Section 3
-       ↑↓ navigate   ^k actions   :vim      │                                   ▼
+       ↑↓ navigate   ^k actions             │                                   ▼
 
     "
   `)

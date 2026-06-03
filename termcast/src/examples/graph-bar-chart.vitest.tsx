@@ -55,7 +55,7 @@ test('initial render shows bar chart for Monthly Budget', async () => {
                                                       │
                                                       │
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions   :vi │
+       ↵ open detail   ↑↓ navigate   ^k actions       │
 
     "
   `)
@@ -112,7 +112,7 @@ test('navigate to Market Share - dominant + tiny segments', async () => {
                                                       │
                                                       │
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions   :vi │
+       ↵ open detail   ↑↓ navigate   ^k actions       │
 
     "
   `)
@@ -168,7 +168,7 @@ test('navigate to Equal Distribution - 10 segments', async () => {
                                                       │
                                                       │
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions   :vi │
+       ↵ open detail   ↑↓ navigate   ^k actions       │
 
     "
   `)
@@ -224,7 +224,7 @@ test('navigate to Stress Test - 20 segments', async () => {
                                                       │
                                                       │
                                                       │
-       ↵ open detail   ↑↓ navigate   ^k actions   :vi │
+       ↵ open detail   ↑↓ navigate   ^k actions       │
 
     "
   `)

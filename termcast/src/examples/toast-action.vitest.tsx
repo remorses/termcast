@@ -128,7 +128,7 @@ test('pressing escape hides the toast', async () => {
 
 
 
-       ↵ show toast   ↑↓ navigate   ^k actions   :vim
+       ↵ show toast   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -242,7 +242,7 @@ test('form toast: pressing enter triggers primary action (navigation)', async ()
 
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
     "
   `)
 }, 30000)

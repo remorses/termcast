@@ -61,7 +61,7 @@ test('ctrl+r shortcut should trigger Refresh action directly', async () => {
 
 
 
-       ↵ refresh   ↑↓ navigate   ^k actions   :vim
+       ↵ refresh   ↑↓ navigate   ^k actions
     "
   `)
 }, 30000)

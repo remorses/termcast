@@ -49,7 +49,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
 
 
 
@@ -82,7 +82,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
 
 
 
@@ -114,7 +114,7 @@ test('list shows initial items after fetch', async () => {
 
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
 
 
 

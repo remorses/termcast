@@ -50,7 +50,7 @@ test('footer does not show stale action title from built-in actions', async () =
 
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
     "
   `)
 }, 30000)

@@ -134,7 +134,7 @@ test('many series (8) bottom legend clips on one row', async () => {
                                             │
                                             │
                                             │
-       ↑↓ navigate   ^k actions   :vim      │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)
@@ -188,7 +188,7 @@ test('long labels truncated by overflow hidden', async () => {
                                             │
                                             │
                                             │
-       ↑↓ navigate   ^k actions   :vim      │
+       ↑↓ navigate   ^k actions             │
 
     "
   `)

@@ -60,7 +60,7 @@ test('list with sections navigation', async () => {
        Vegetables
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -93,7 +93,7 @@ test('list with sections navigation', async () => {
        Vegetables
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -120,7 +120,7 @@ test('list with sections navigation', async () => {
        Vegetables
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
     "
   `)
 
@@ -151,7 +151,7 @@ test('list with sections navigation', async () => {
        Vegetables
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
     "
   `)
 
@@ -195,7 +195,7 @@ test('list with sections search functionality', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -231,7 +231,7 @@ test('list with sections search functionality', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -261,7 +261,7 @@ test('list with sections search functionality', async () => {
        Vegetables
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -294,7 +294,7 @@ test('list with sections search functionality', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -426,7 +426,7 @@ test('list click functionality', async () => {
        Vegetables
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
     "
   `)
   expect(afterClickGrape).toContain('Grape')
@@ -583,7 +583,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
     "
   `)
 
@@ -611,7 +611,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -639,7 +639,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -667,7 +667,7 @@ test('filtering selects first visible item and navigation works', async () => {
 
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
   // Verify Carrot is still selected (not wrapped to Orange)
@@ -703,7 +703,7 @@ test('list scrollbox scrolling with sections', async () => {
        Vegetables
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -736,7 +736,7 @@ test('list scrollbox scrolling with sections', async () => {
        Vegetables
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
     "
   `)
 
@@ -766,7 +766,7 @@ test('list scrollbox scrolling with sections', async () => {
        Bread Freshly baked                                    Today New
 
 
-       ↑↓ navigate   ^k actions   :vim
+       ↑↓ navigate   ^k actions
     "
   `)
 
@@ -798,7 +798,7 @@ test('list scrollbox scrolling with sections', async () => {
       ›Bread Freshly baked                                    Today New
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 
@@ -828,7 +828,7 @@ test('list scrollbox scrolling with sections', async () => {
        Vegetables
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
 }, 15000)
@@ -902,7 +902,7 @@ test('list does not wrap at top boundary', async () => {
        Vegetables
 
 
-       ↵ view details   ↑↓ navigate   ^k actions   :vim
+       ↵ view details   ↑↓ navigate   ^k actions
     "
   `)
   expect(afterUpSnapshot).toContain('›Apple')
