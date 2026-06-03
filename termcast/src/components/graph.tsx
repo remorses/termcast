@@ -520,12 +520,18 @@ const Graph: GraphType = (props) => {
     }
 
     const label = interpolateXLabel({ dataIndex: idx, dataLength: maxDataLen, xLabels })
-    const lines = allSeries.map((s, si) => {
-      const value = s.data[idx] ?? 0
-      const seriesTitle = seriesWithTitles[si]?.title
-      const prefix = seriesTitle ? `${seriesTitle}` : label
-      return formatTooltipLine(prefix, Number(value.toFixed(2)))
-    })
+    const lines = allSeries
+      .map((s, si) => ({ series: s, title: seriesWithTitles[si]?.title }))
+      .filter(({ series }) => idx < series.data.length)
+      .map(({ series, title }) => {
+        const value = series.data[idx]!
+        const prefix = title || label
+        return formatTooltipLine(prefix, Number(value.toFixed(2)))
+      })
+    if (lines.length === 0) {
+      hideTooltip()
+      return
+    }
     // Prepend the x-axis label as the first line when there are multiple series
     if (allSeries.length > 1) {
       lines.unshift(label)

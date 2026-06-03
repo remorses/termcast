@@ -266,7 +266,7 @@ const HorizontalBarGraph: HorizontalBarGraphType = (props) => {
                     )
                   })}
                   {maxTotal > row.total && (
-                    <box flexGrow={maxTotal - row.total} flexBasis={0} flexShrink={1} />
+                    <box flexGrow={maxTotal - row.total} flexBasis={0} flexShrink={1} onMouseMove={hideTooltip} />
                   )}
                 </box>
               </box>

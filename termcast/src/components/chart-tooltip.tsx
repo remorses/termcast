@@ -132,12 +132,13 @@ export function computeDataIndexFromMouseX({
 /**
  * Resolve the x-axis label for a given data index.
  *
- * When xLabels has the same length as the data (1:1 mapping, typical for
- * BarGraph), the label is looked up directly by index.
+ * When xLabels has at least as many entries as data points (1:1 mapping,
+ * typical for BarGraph where each bar has its own label), the label is
+ * looked up directly by index.
  *
  * When xLabels is shorter (typical for line charts where a few tick labels
  * are spread across many data points), the label is interpolated by mapping
- * the data position to the nearest label.
+ * the normalized data position to the nearest label.
  *
  * Falls back to the stringified index only if no labels are provided at all.
  */
@@ -152,19 +153,22 @@ export function interpolateXLabel({
 }): string {
   if (xLabels.length === 0) return `${dataIndex}`
 
-  // Direct lookup: xLabels covers this index
-  if (dataIndex < xLabels.length && xLabels[dataIndex] !== undefined && xLabels[dataIndex] !== '') {
-    return xLabels[dataIndex]
+  // 1:1 mapping: xLabels covers every data point
+  const hasDirectLabels = xLabels.length >= dataLength
+  if (hasDirectLabels) {
+    const direct = xLabels[dataIndex]
+    if (direct !== undefined && direct !== '') return direct
+    return `${dataIndex}`
   }
 
-  // Interpolate: find nearest label by position
+  // Sparse labels: interpolate by normalized position
   if (dataLength <= 1) return xLabels[0] || `${dataIndex}`
   const t = dataIndex / (dataLength - 1)
   const labelIdx = Math.round(t * (xLabels.length - 1))
   const resolved = xLabels[labelIdx]
   if (resolved !== undefined && resolved !== '') return resolved
 
-  // Last resort: scan for nearest non-empty label
+  // Scan for nearest non-empty label
   let bestIdx = -1
   let bestDist = Infinity
   for (let i = 0; i < xLabels.length; i++) {

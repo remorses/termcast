@@ -196,7 +196,7 @@ const BarGraph: {
       <box flexDirection="column" flexGrow={1} flexShrink={1} overflow="hidden">
         <box flexDirection="row" height={height} width="100%" alignItems="flex-start" overflow="hidden">
           {showYAxis ? (
-            <box flexDirection="column" width={yAxisWidth + 1} height={height} flexShrink={0} overflow="hidden">
+            <box flexDirection="column" width={yAxisWidth + 1} height={height} flexShrink={0} overflow="hidden" onMouseMove={hideTooltip}>
               {Array.from({ length: plotHeight }, (_, row) => {
                 const label = yAxisLabelByRow.get(row) || ''
                 return (
@@ -222,7 +222,7 @@ const BarGraph: {
 
                 return (
                   <React.Fragment key={barIdx}>
-                    {barIdx > 0 && safeBarGap > 0 ? <box width={safeBarGap} flexShrink={0} /> : null}
+                    {barIdx > 0 && safeBarGap > 0 ? <box width={safeBarGap} flexShrink={0} onMouseMove={hideTooltip} /> : null}
                     <box
                       flexDirection="column"
                       height="100%"
