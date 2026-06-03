@@ -46,16 +46,16 @@ test('renders horizontal stacked rows and compact legend', async () => {
                                                  │
                                                  │
                                                  │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
        ↵ open detail   ↑↓ navigate   ^k actions  │
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -96,16 +96,16 @@ test('long labels truncate and leave legend visible', async () => {
                                                  │
                                                  │
                                                  │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
        ↵ open detail   ↑↓ navigate   ^k actions  │
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -146,16 +146,16 @@ test('many series keeps bars readable and clips legend vertically', async () => 
                                                  │
                                                  │
                                                  │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
+                                                 │
        ↵ open detail   ↑↓ navigate   ^k actions  │
-
-
-
-
-
-
-
-
-
 
     "
   `)

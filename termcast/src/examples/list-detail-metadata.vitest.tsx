@@ -50,26 +50,26 @@ test('list detail metadata label renders short values in row layout (key: value)
                                             │
                                             │ Website: example.com
                                             │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
        ↑↓ navigate   ^k actions   :vim      │
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     "
   `)
@@ -113,21 +113,21 @@ test('list detail metadata renders long values in column layout (key on one line
                                             │ Short:       OK
                                             │
                                             │ URL:         example.com/very/
-       ↑↓ navigate   ^k actions   :vim      │              long/path
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                            │              long/path
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+       ↑↓ navigate   ^k actions   :vim      │
 
     "
   `)
@@ -176,18 +176,18 @@ test('list detail metadata renders colored values and tag lists', async () => {
                                             │
                                             │ ──────────────────────────────────
                                             │
-       ↑↓ navigate   ^k actions   :vim      │ Repo:     github.com/example
-
-
-
-
-
-
-
-
-
-
-
+                                            │ Repo:     github.com/example
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+                                            │
+       ↑↓ navigate   ^k actions   :vim      │
 
     "
   `)

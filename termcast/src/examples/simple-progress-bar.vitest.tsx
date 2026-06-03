@@ -47,10 +47,10 @@ test('progress bars render in detail metadata and update on selection', async ()
                                             │
                                             │
                                             │
+                                            │
+                                            │
+                                            │
        ↑↓ navigate   ^k actions   :vim      │
-
-
-
 
     "
   `)

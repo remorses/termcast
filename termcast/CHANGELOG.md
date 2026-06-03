@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.6.0
+
+1. **Built-in React component profiler** — set `TERMCAST_REACT_PROFILE=1` to capture React 19.2+ reconciler performance entries. On process exit, writes a `.cpuprofile` with proper call trees, source file paths, and component names:
+
+   ```bash
+   TERMCAST_REACT_PROFILE=1 termcast dev ./my-extension
+   # then analyze:
+   bunx profano ./tmp/react-profile-*.cpuprofile --sort self
+   ```
+
+2. **Ctrl+F / Ctrl+B full-page vim navigation** — in addition to the existing Ctrl+D/Ctrl+U (half-page), lists now support Ctrl+F (full-page down) and Ctrl+B (full-page up) for fast vertical movement through long lists.
+
+3. **Directory-style command entries** — extensions can now use `src/commandName/index.tsx` directory modules in addition to flat `src/commandName.tsx` files. Previously directory-style entries failed with "No command files found to build".
+
+4. **List accessories always visible with detail panel** — accessories now render alongside the detail panel instead of being hidden. Items truncate naturally via flex to accommodate both.
+
+5. **Auto-hide detail panel on narrow terminals** — new `detailMinWidth` prop (default 80 columns) on `List`. When the terminal is narrower than this threshold, the detail panel hides automatically and the list takes full width.
+
+6. **Mouse scroll triggers pagination** — `onLoadMore` now fires when scrolling down near the bottom of a list, not only on arrow key navigation.
+
+7. **Detail panel grow-only height ratchet** — navigating from a tall detail item to a short one no longer causes the footer to jump up. The detail panel holds its maximum height and only grows, preventing layout shift.
+
+8. **BarGraph solid full-block bars** — bar character changed from `▃` (lower-quarter block) to `█` (full block) for gap-free solid columns. Default bar width reduced to 2 columns with 2-column gaps for better spacing.
+
+9. **Reduced footer layout shifts** — list ScrollBox minimum height increased from 6 to 10 rows, keeping the footer position stable as items load, filter, or change.
+
 ## 1.5.0
 
 1. **New `DottedLineGraph` component** — thin dotted line charts for metric dashboards using braille subcells (2×4 per terminal cell) for smooth diagonal movement:

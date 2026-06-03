@@ -48,14 +48,14 @@ test('initial render shows bar chart for Monthly Budget', async () => {
        Stress Test (20 items)Many small...al segments │
                                                       │
                                                       │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions   :vi │
-
-
-
-
-
-
-
 
     "
   `)
@@ -105,14 +105,14 @@ test('navigate to Market Share - dominant + tiny segments', async () => {
        Stress Test (20 items)Many small...al segments │
                                                       │
                                                       │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions   :vi │
-
-
-
-
-
-
-
 
     "
   `)
@@ -161,14 +161,14 @@ test('navigate to Equal Distribution - 10 segments', async () => {
        Stress Test (20 items)Many small...al segments │
                                                       │
                                                       │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions   :vi │
-
-
-
-
-
-
-
 
     "
   `)
@@ -217,14 +217,14 @@ test('navigate to Stress Test - 20 segments', async () => {
       ›Stress Test (20 items)Many small...al segments │
                                                       │
                                                       │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
+                                                      │
        ↵ open detail   ↑↓ navigate   ^k actions   :vi │
-
-
-
-
-
-
-
 
     "
   `)
