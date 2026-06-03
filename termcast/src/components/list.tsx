@@ -854,15 +854,18 @@ function ListItemRow(props: {
   if (accessories) {
     accessories.forEach((accessory, accessoryIndex) => {
       const colWidth = accessoryTagWidths?.[accessoryIndex]
-      if ('text' in accessory && !('tag' in accessory) && !('icon' in accessory)) {
+      if ('text' in accessory && !('tag' in accessory)) {
         const textValue =
           typeof accessory.text === 'string'
             ? accessory.text
             : accessory.text?.value
         const textColor =
           typeof accessory.text === 'object' ? accessory.text?.color : undefined
-        if (textValue) {
-          const padded = colWidth ? textValue.padEnd(colWidth) : textValue
+        // Prefix icon emoji if this is an icon+text accessory
+        const iconPrefix = 'icon' in accessory && accessory.icon ? `${getIconValue(accessory.icon)} ` : ''
+        const displayText = textValue ? `${iconPrefix}${textValue}` : iconPrefix || undefined
+        if (displayText) {
+          const padded = colWidth ? displayText.padEnd(colWidth) : displayText
           accessoryElements.push(
             <text
               key={`text-${accessoryIndex}`}
@@ -908,7 +911,7 @@ function ListItemRow(props: {
           )
         }
       }
-      if ('date' in accessory && accessory.date) {
+      if ('date' in accessory) {
         const dateValue =
           accessory.date instanceof Date
             ? accessory.date

@@ -310,7 +310,7 @@ function Repos() {
 
 When items have multiple accessories (tags, text, dates), they render with variable widths by default, causing columns to misalign across rows. The `accessoryTagsLayout` prop fixes this by assigning each accessory position a fixed character width, turning your list into a table-like layout.
 
-Each number in the array is the display width (in terminal characters) for the Nth accessory in each item's accessories array. All accessory types (tags, text, dates) are left-padded with spaces using `padEnd`. Accessories beyond the array length render with their natural width.
+Each number in the array is the display width (in terminal characters) for the Nth accessory in each item's accessories array. All accessory types (tags, text, dates) are left-aligned within their column via `padEnd` (right-padded with spaces). Accessories beyond the array length render with their natural width.
 
 ```tsx
 import { List, Color } from 'termcast'
