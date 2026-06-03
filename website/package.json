@@ -14,7 +14,7 @@
   "dependencies": {
     "@ascii-kit/font": "^0.0.6",
     "@ascii-kit/fonts-flf": "^0.0.6",
-    "@holocron.so/vite": "^0.11.0",
+    "@holocron.so/vite": "^0.18.2",
     "@radix-ui/react-slot": "^1.2.3",
     "@sentry/node": "^10.32.1",
     "@tailwindcss/typography": "^0.5.16",
@@ -24,7 +24,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.2.4",
     "sentries": "^0.2.2",
-    "spiceflow": "1.25.3-rsc.0",
+    "spiceflow": "1.26.0-rsc.3",
     "tailwind-merge": "^3.3.1",
     "three": "^0.184.0"
   },
