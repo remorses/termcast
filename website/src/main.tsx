@@ -7,20 +7,17 @@ import 'website/src/styles/globals.css'
 import 'website/src/styles/landing.css'
 import { Spiceflow, serveStatic } from 'spiceflow'
 import { Head } from 'spiceflow/react'
-import { Suspense, lazy } from 'react'
+import { Suspense } from 'react'
 import { Github, Menu, ArrowDown, Terminal } from 'lucide-react'
 import { InstallCommand } from 'website/src/app/install-command'
+import { VideoBackgroundShader } from '@holocron.so/vite/mdx'
 import { generateInstallScript } from 'website/src/lib/generate-install-script'
 import {
   getProviderConfig,
   getProviderCredentials,
 } from 'website/src/lib/oauth-providers'
 
-const DottedVideoBackground = lazy(() => {
-  return import('website/src/components/dotted-video-background').then((m) => ({
-    default: m.DottedVideoBackground,
-  }))
-})
+
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -664,32 +661,20 @@ function Header() {
 function Hero() {
   return (
     <div className='relative z-10 flex flex-col'>
-      <div
-        className='absolute inset-0 w-full h-full z-0 overflow-hidden'
-        style={{
-          maskImage:
-            'linear-gradient(to bottom, black 60%, transparent 100%)',
-          WebkitMaskImage:
-            'linear-gradient(to bottom, black 60%, transparent 100%)',
-        }}
-      >
-        <Suspense fallback={null}>
-          <DottedVideoBackground
-            className='w-full h-full opacity-60'
-            config={{
-              dotColor: '#fe750e',
-              dotSize: 6,
-              minDotSize: 1,
-              dotMargin: 1,
-              animSpeed: 3,
-              gamma: 0.8,
-              enableMask: false,
-              fluidStrength: 0.2,
-              fluidCurl: 80,
-            }}
-          />
-        </Suspense>
-      </div>
+      <VideoBackgroundShader
+        src='/assets/hero-bg.mp4'
+        className='absolute inset-0 w-full h-full z-0'
+        canvasClassName='opacity-60'
+        dotColor='#fe750e'
+        dotSize={6}
+        minDotSize={1}
+        dotMargin={1}
+        animSpeed={3}
+        gamma={0.8}
+        enableMask={false}
+        fluidStrength={0.2}
+        fluidCurl={80}
+      />
       <div className='relative z-10 flex flex-col items-center justify-center px-6 pt-16 sm:pt-24'>
         <div className='flex flex-col items-center text-center'>
           <h1 className='flex flex-col items-center leading-none'>
