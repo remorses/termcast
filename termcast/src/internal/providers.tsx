@@ -220,6 +220,18 @@ export function TermcastProvider(props: ProvidersProps): any {
     }
   })
 
+  // Copy-on-select: when the user finishes a mouse drag selection, copy the
+  // selected text to clipboard and clear the selection. Same UX as most terminals.
+  const handleCopyOnSelect = React.useCallback(() => {
+    if (!renderer?.hasSelection) return
+    const selection = renderer.getSelection()
+    if (!selection) return
+    const text = selection.getSelectedText()
+    if (!text) return
+    void Clipboard.copy(text).catch(() => {})
+    renderer.clearSelection()
+  }, [renderer])
+
   return (
     <ErrorBoundary>
       <Suspense fallback={<LoadingFallback />}>
@@ -237,6 +249,7 @@ export function TermcastProvider(props: ProvidersProps): any {
             width='100%'
             flexGrow={1}
             alignItems='center'
+            onMouseUp={handleCopyOnSelect}
             // borderColor={Theme.border}
             // fg={Theme.text}
           >

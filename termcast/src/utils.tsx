@@ -70,6 +70,7 @@ export async function renderWithProviders(
   initializeVimMode()
 
   const renderer = await createCliRenderer({
+    useMouse: true,
     onDestroy: () => {
       // In app mode, destroying the renderer should not kill the process.
       // The app launcher manages the process lifecycle.

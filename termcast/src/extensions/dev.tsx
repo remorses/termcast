@@ -239,6 +239,7 @@ export async function startDevMode({
   }
 
   const renderer = await createCliRenderer({
+    useMouse: true,
     onDestroy: () => {
       process.exit(0)
     },
@@ -312,6 +313,7 @@ export async function startCompiledExtension({
   }
 
   const renderer = await createCliRenderer({
+    useMouse: true,
     onDestroy: () => {
       process.exit(0)
     },
