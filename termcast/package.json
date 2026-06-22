@@ -110,8 +110,8 @@
     "zustand": "^5.0.8"
   },
   "peerDependencies": {
-    "@opentui/core": "^0.2.12",
-    "@opentui/react": "^0.2.12",
+    "@opentui/core": "*",
+    "@opentui/react": "*",
     "react": "*"
   },
   "devDependencies": {
