@@ -89,17 +89,17 @@ test('filled style renders block characters', async () => {
        Area - Wave Purple + M...sine/cosine │
        Area - ... Revenu Single ...to range │ Quarterly revenue from $10k** to
       ›Filled ... RevenueSolid b...th chart │ **$75k.
-       Filled ...een Tem Daily t...re curve │ Q1: $10k  → Q2: $25k (+150%)
-       Filled ...llow CPUHigh co... on dark │ Q2: $25k  → Q3: $50k (+100%)
-       Filled -...nta Wave Smooth... blocks │ Q3: $50k  → Q4: $75k (+50%)
-       Striped -...le/Orang Warm a...colors │
-       Striped - Blue/Re High co... stripes │ 78│                             ▖
-       Striped ...e Defaultprimar...o prop) │   │                         ▖▌▖▌▌
-       Striped - Green/Yello Natur...spired │   │                     ▖▖▖▌▌▌▌▌▌
-       Striped ...d/MagentaWarm g...nt feel │ 54│                   ▖▌▌▌▌▌▌▌▌▌▌
+       Filled ...een Tem Daily t...re curve │
+       Filled ...llow CPUHigh co... on dark │ Q1: $10k  → Q2: $25k (+150%)
+       Filled -...nta Wave Smooth... blocks │ Q2: $25k  → Q3: $50k (+100%)
+       Striped -...le/Orang Warm a...colors │ Q3: $50k  → Q4: $75k (+50%)
+       Striped - Blue/Re High co... stripes │
+       Striped ...e Defaultprimar...o prop) │ 78│                             ▖
+       Striped - Green/Yello Natur...spired │   │                         ▖▌▖▌▌
+       Striped ...d/MagentaWarm g...nt feel │   │                     ▖▖▖▌▌▌▌▌▌
+                                            │ 54│                   ▖▌▌▌▌▌▌▌▌▌▌
                                             │   │               ▖▖▖▌▌▌▌▌▌▌▌▌▌▌▌
-                                            │   │           ▖ ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌
-       ↵ open detail   ↑↓ navigate   ^k act │ 31│         ▖▌▌▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌ ▼
+       ↵ open detail   ↑↓ navigate   ^k act │   │           ▖ ▖▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌ ▼
 
     "
   `)

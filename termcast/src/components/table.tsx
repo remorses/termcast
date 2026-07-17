@@ -190,7 +190,7 @@ export class TableRenderable extends Renderable {
     // Remove all existing children (copy array since remove mutates it)
     const children = [...(this as any)._childrenInLayoutOrder] as Renderable[]
     for (const child of children) {
-      this.remove(child.id)
+      this.remove(child)
     }
 
     const colCount = this._headers.length || this._rows[0]?.length || 0

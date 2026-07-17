@@ -50,6 +50,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
 
       This detail view demonstrates markdown content alongside metadata.
+
       ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Summary
@@ -73,6 +74,7 @@ test('detail metadata showcase renders markdown and metadata together', async ()
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
+
       ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Last updated: January 20, 2024
@@ -142,8 +144,6 @@ test('detail metadata showcase renders markdown and metadata together', async ()
 
 
       esc go back   ^k actions                                                 powered by termcast.app
-
-
 
 
 
@@ -216,6 +216,7 @@ test('detail metadata renders long values in column layout', async () => {
 
 
       This detail view demonstrates markdown content alongside metadata.
+
       ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Summary
@@ -239,6 +240,7 @@ test('detail metadata renders long values in column layout', async () => {
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
+
       ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Last updated: January 20, 2024
@@ -308,8 +310,6 @@ test('detail metadata renders long values in column layout', async () => {
 
 
       esc go back   ^k actions                                                 powered by termcast.app
-
-
 
 
 
@@ -397,6 +397,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
 
       This detail view demonstrates markdown content alongside metadata.
+
       ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Summary
@@ -420,6 +421,7 @@ test('detail metadata renders tag lists with multiple items', async () => {
       - Finishing the remaining user migrations
       - Implementing the new dashboard
       - Writing integration tests
+
       ─────────────────────────────────────────────────────────────────────────────────────────────
 
       Last updated: January 20, 2024
@@ -489,8 +491,6 @@ test('detail metadata renders tag lists with multiple items', async () => {
 
 
       esc go back   ^k actions                                                 powered by termcast.app
-
-
 
 
 

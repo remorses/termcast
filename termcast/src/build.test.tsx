@@ -28,6 +28,24 @@ describe('buildExtensionCommands', () => {
             "mode": "view",
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/list-items.tsx",
             "exists": true,
+            "checkedPaths": [
+              "/BASE_PATH/fixtures/simple-extension/list-items.tsx",
+              "/BASE_PATH/fixtures/simple-extension/list-items.ts",
+              "/BASE_PATH/fixtures/simple-extension/list-items.jsx",
+              "/BASE_PATH/fixtures/simple-extension/list-items.js",
+              "/BASE_PATH/fixtures/simple-extension/src/list-items.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/list-items.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/list-items.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/list-items.js",
+              "/BASE_PATH/fixtures/simple-extension/list-items/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/list-items/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/list-items/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/list-items/index.js",
+              "/BASE_PATH/fixtures/simple-extension/src/list-items/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/list-items/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/list-items/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/list-items/index.js"
+            ],
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/list-items.js"
           },
           {
@@ -38,6 +56,24 @@ describe('buildExtensionCommands', () => {
             "mode": "view",
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/search-items.tsx",
             "exists": true,
+            "checkedPaths": [
+              "/BASE_PATH/fixtures/simple-extension/search-items.tsx",
+              "/BASE_PATH/fixtures/simple-extension/search-items.ts",
+              "/BASE_PATH/fixtures/simple-extension/search-items.jsx",
+              "/BASE_PATH/fixtures/simple-extension/search-items.js",
+              "/BASE_PATH/fixtures/simple-extension/src/search-items.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/search-items.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/search-items.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/search-items.js",
+              "/BASE_PATH/fixtures/simple-extension/search-items/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/search-items/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/search-items/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/search-items/index.js",
+              "/BASE_PATH/fixtures/simple-extension/src/search-items/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/search-items/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/search-items/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/search-items/index.js"
+            ],
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/search-items.js"
           },
           {
@@ -48,6 +84,24 @@ describe('buildExtensionCommands', () => {
             "mode": "view",
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/oauth.tsx",
             "exists": true,
+            "checkedPaths": [
+              "/BASE_PATH/fixtures/simple-extension/oauth.tsx",
+              "/BASE_PATH/fixtures/simple-extension/oauth.ts",
+              "/BASE_PATH/fixtures/simple-extension/oauth.jsx",
+              "/BASE_PATH/fixtures/simple-extension/oauth.js",
+              "/BASE_PATH/fixtures/simple-extension/src/oauth.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/oauth.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/oauth.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/oauth.js",
+              "/BASE_PATH/fixtures/simple-extension/oauth/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/oauth/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/oauth/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/oauth/index.js",
+              "/BASE_PATH/fixtures/simple-extension/src/oauth/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/oauth/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/oauth/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/oauth/index.js"
+            ],
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/oauth.js"
           },
           {
@@ -58,6 +112,24 @@ describe('buildExtensionCommands', () => {
             "mode": "view",
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo.tsx",
             "exists": true,
+            "checkedPaths": [
+              "/BASE_PATH/fixtures/simple-extension/use-promise-demo.tsx",
+              "/BASE_PATH/fixtures/simple-extension/use-promise-demo.ts",
+              "/BASE_PATH/fixtures/simple-extension/use-promise-demo.jsx",
+              "/BASE_PATH/fixtures/simple-extension/use-promise-demo.js",
+              "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo.js",
+              "/BASE_PATH/fixtures/simple-extension/use-promise-demo/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/use-promise-demo/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/use-promise-demo/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/use-promise-demo/index.js",
+              "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/use-promise-demo/index.js"
+            ],
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/use-promise-demo.js"
           },
           {
@@ -68,6 +140,24 @@ describe('buildExtensionCommands', () => {
             "mode": "view",
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/show-state.tsx",
             "exists": true,
+            "checkedPaths": [
+              "/BASE_PATH/fixtures/simple-extension/show-state.tsx",
+              "/BASE_PATH/fixtures/simple-extension/show-state.ts",
+              "/BASE_PATH/fixtures/simple-extension/show-state.jsx",
+              "/BASE_PATH/fixtures/simple-extension/show-state.js",
+              "/BASE_PATH/fixtures/simple-extension/src/show-state.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/show-state.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/show-state.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/show-state.js",
+              "/BASE_PATH/fixtures/simple-extension/show-state/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/show-state/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/show-state/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/show-state/index.js",
+              "/BASE_PATH/fixtures/simple-extension/src/show-state/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/show-state/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/show-state/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/show-state/index.js"
+            ],
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/show-state.js"
           },
           {
@@ -110,6 +200,24 @@ describe('buildExtensionCommands', () => {
             ],
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/with-arguments.tsx",
             "exists": true,
+            "checkedPaths": [
+              "/BASE_PATH/fixtures/simple-extension/with-arguments.tsx",
+              "/BASE_PATH/fixtures/simple-extension/with-arguments.ts",
+              "/BASE_PATH/fixtures/simple-extension/with-arguments.jsx",
+              "/BASE_PATH/fixtures/simple-extension/with-arguments.js",
+              "/BASE_PATH/fixtures/simple-extension/src/with-arguments.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/with-arguments.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/with-arguments.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/with-arguments.js",
+              "/BASE_PATH/fixtures/simple-extension/with-arguments/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/with-arguments/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/with-arguments/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/with-arguments/index.js",
+              "/BASE_PATH/fixtures/simple-extension/src/with-arguments/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/with-arguments/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/with-arguments/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/with-arguments/index.js"
+            ],
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/with-arguments.js"
           },
           {
@@ -120,6 +228,24 @@ describe('buildExtensionCommands', () => {
             "mode": "no-view",
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/quick-action.tsx",
             "exists": true,
+            "checkedPaths": [
+              "/BASE_PATH/fixtures/simple-extension/quick-action.tsx",
+              "/BASE_PATH/fixtures/simple-extension/quick-action.ts",
+              "/BASE_PATH/fixtures/simple-extension/quick-action.jsx",
+              "/BASE_PATH/fixtures/simple-extension/quick-action.js",
+              "/BASE_PATH/fixtures/simple-extension/src/quick-action.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/quick-action.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/quick-action.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/quick-action.js",
+              "/BASE_PATH/fixtures/simple-extension/quick-action/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/quick-action/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/quick-action/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/quick-action/index.js",
+              "/BASE_PATH/fixtures/simple-extension/src/quick-action/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/quick-action/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/quick-action/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/quick-action/index.js"
+            ],
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/quick-action.js"
           },
           {
@@ -130,6 +256,24 @@ describe('buildExtensionCommands', () => {
             "mode": "view",
             "filePath": "/BASE_PATH/fixtures/simple-extension/src/throw-error.tsx",
             "exists": true,
+            "checkedPaths": [
+              "/BASE_PATH/fixtures/simple-extension/throw-error.tsx",
+              "/BASE_PATH/fixtures/simple-extension/throw-error.ts",
+              "/BASE_PATH/fixtures/simple-extension/throw-error.jsx",
+              "/BASE_PATH/fixtures/simple-extension/throw-error.js",
+              "/BASE_PATH/fixtures/simple-extension/src/throw-error.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/throw-error.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/throw-error.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/throw-error.js",
+              "/BASE_PATH/fixtures/simple-extension/throw-error/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/throw-error/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/throw-error/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/throw-error/index.js",
+              "/BASE_PATH/fixtures/simple-extension/src/throw-error/index.tsx",
+              "/BASE_PATH/fixtures/simple-extension/src/throw-error/index.ts",
+              "/BASE_PATH/fixtures/simple-extension/src/throw-error/index.jsx",
+              "/BASE_PATH/fixtures/simple-extension/src/throw-error/index.js"
+            ],
             "bundledPath": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle/throw-error.js"
           }
         ],
