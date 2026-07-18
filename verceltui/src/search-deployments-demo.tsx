@@ -128,7 +128,7 @@ function SearchDeploymentsDemo() {
       navigationTitle="Vercel Deployments"
       isLoading={isLoading}
       isShowingDetail={true}
-      accessoryTagsLayout={[34, 10, 8]}
+      accessoryTagsLayout={[20, 8, 7]}
     >
       {deployments.map((deployment: Deployment) => {
         const commitMessage = getCommitMessage(deployment)

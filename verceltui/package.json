@@ -1,10 +1,31 @@
 {
   "name": "verceltui",
   "version": "0.0.1",
+  "type": "module",
   "title": "Vercel",
   "description": "View Vercel deployments in the terminal",
   "author": "remorses",
   "license": "MIT",
+  "bin": "./src/cli.tsx",
+  "main": "./src/cli.tsx",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/remorses/termcast",
+    "directory": "verceltui"
+  },
+  "homepage": "https://github.com/remorses/termcast/tree/main/verceltui",
+  "bugs": "https://github.com/remorses/termcast/issues",
+  "keywords": [
+    "vercel",
+    "tui",
+    "terminal",
+    "deployments",
+    "termcast",
+    "cli"
+  ],
+  "files": [
+    "src"
+  ],
   "commands": [
     {
       "name": "search-deployments",
@@ -29,14 +50,18 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@clack/prompts": "^1.4.0",
+    "@termcast/utils": "workspace:^",
+    "goke": "^6.14.1",
+    "react": "19.2.6",
     "termcast": "workspace:^",
-    "@termcast/utils": "workspace:^"
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@types/node": "^22.13.14",
     "@types/react": "^19.1.2",
+    "tuistory": "workspace:^",
     "typescript": "^5.8.2",
-    "vitest": "^4.0.16",
-    "tuistory": "workspace:^"
+    "vitest": "^4.0.16"
   }
 }

@@ -33,6 +33,7 @@ function stateIcon(state?: DeploymentState) {
 
 export default function SearchDeployments() {
   const [selectedTeamId, setSelectedTeamId] = useState<string | undefined>(undefined)
+  const [showDetail, setShowDetail] = useState(true)
 
   const {
     data: user,
@@ -77,8 +78,8 @@ export default function SearchDeployments() {
       searchBarPlaceholder="Search Deployments..."
       navigationTitle="Vercel Deployments"
       isLoading={isLoading}
-      isShowingDetail={true}
-      accessoryTagsLayout={[34, 10, 8]}
+      isShowingDetail={showDetail}
+      accessoryTagsLayout={[20, 8, 7]}
       searchBarAccessory={
         teams && teams.length > 0 ? (
           <List.Dropdown
@@ -188,6 +189,14 @@ export default function SearchDeployments() {
                 <Action.CopyToClipboard
                   title="Copy URL"
                   content={`https://${deployment.url}`}
+                />
+                <Action
+                  title={showDetail ? 'Hide Detail' : 'Show Detail'}
+                  icon={Icon.Sidebar}
+                  onAction={() => {
+                    setShowDetail(!showDetail)
+                  }}
+                  shortcut={{ modifiers: ['ctrl'], key: 'd' }}
                 />
                 <Action
                   title="Refresh"

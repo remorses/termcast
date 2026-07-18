@@ -33,11 +33,11 @@ test('list shows deployments after loading', async () => {
 
        > Search Deployments...
 
-      ›● fea...gle my-app                             Ready      5m ago   │ my-app
-       ● fix...out my-app                             Building   30m ago  │ feat: add dark mode toggle
-       ● cho...ies docs-site                          Failed     2h ago   │
-       ● per...ies api-service                        Ready      1d ago   │ Project: my-app
-       ● No ...age landing-page                       Canceled   3d ago   │
+      ›● feat: add dark mode toggle my-app               Ready    5m ago  │ my-app
+       ● fix: resolve login timeout my-app               Building 30m ago │ feat: add dark mode toggle
+       ● chore: update dependencies docs-site            Failed   2h ago  │
+       ● perf: optim...base queries api-service          Ready    1d ago  │ Project: my-app
+       ● No commit message          landing-page         Canceled 3d ago  │
                                                                           │ Status:  Ready
                                                                           │
                                                                           │ Target:  production
@@ -46,7 +46,7 @@ test('list shows deployments after loading', async () => {
                                                                           │
                                                                           │ Branch:  main
                                                                           │
-                                                                          │ Created: 7/17/2026, 5:30:41 PM
+                                                                          │ Created: 7/17/2026, 6:45:42 PM
                                                                           │
                                                                           │ Author:  tommy
                                                                           │
@@ -78,11 +78,11 @@ test('navigate between deployments with arrow keys', async () => {
 
        > Search Deployments...
 
-       ● fea...gle my-app                             Ready      5m ago   │ my-app
-      ›● fix...out my-app                             Building   30m ago  │ fix: resolve login timeout
-       ● cho...ies docs-site                          Failed     2h ago   │
-       ● per...ies api-service                        Ready      1d ago   │ Project: my-app
-       ● No ...age landing-page                       Canceled   3d ago   │
+       ● feat: add dark mode toggle my-app               Ready    5m ago  │ my-app
+      ›● fix: resolve login timeout my-app               Building 30m ago │ fix: resolve login timeout
+       ● chore: update dependencies docs-site            Failed   2h ago  │
+       ● perf: optim...base queries api-service          Ready    1d ago  │ Project: my-app
+       ● No commit message          landing-page         Canceled 3d ago  │
                                                                           │ Status:  Building
                                                                           │
                                                                           │ Target:  staging
@@ -91,7 +91,7 @@ test('navigate between deployments with arrow keys', async () => {
                                                                           │
                                                                           │ Branch:  fix/login-timeout
                                                                           │
-                                                                          │ Created: 7/17/2026, 5:05:42 PM
+                                                                          │ Created: 7/17/2026, 6:20:43 PM
                                                                           │
                                                                           │ Author:  tommy
                                                                           │
@@ -115,11 +115,11 @@ test('navigate between deployments with arrow keys', async () => {
 
        > Search Deployments...
 
-       ● fea...gle my-app                             Ready      5m ago   │ docs-site
-       ● fix...out my-app                             Building   30m ago  │ chore: update dependencies
-      ›● cho...ies docs-site                          Failed     2h ago   │
-       ● per...ies api-service                        Ready      1d ago   │ Project: docs-site
-       ● No ...age landing-page                       Canceled   3d ago   │
+       ● feat: add dark mode toggle my-app               Ready    5m ago  │ docs-site
+       ● fix: resolve login timeout my-app               Building 30m ago │ chore: update dependencies
+      ›● chore: update dependencies docs-site            Failed   2h ago  │
+       ● perf: optim...base queries api-service          Ready    1d ago  │ Project: docs-site
+       ● No commit message          landing-page         Canceled 3d ago  │
                                                                           │ Status:  Failed
                                                                           │
                                                                           │ Target:  preview
@@ -128,7 +128,7 @@ test('navigate between deployments with arrow keys', async () => {
                                                                           │
                                                                           │ Branch:  chore/deps
                                                                           │
-                                                                          │ Created: 7/17/2026, 3:35:42 PM
+                                                                          │ Created: 7/17/2026, 4:50:43 PM
                                                                           │
                                                                           │ Author:  alice
                                                                           │
@@ -161,7 +161,7 @@ test('search filters deployments', async () => {
 
        > optimize
 
-      ›● per...ies api-service                        Ready      1d ago   │ api-service
+      ›● perf: optim...base queries api-service          Ready    1d ago  │ api-service
                                                                           │ perf: optimize database queries
                                                                           │
                                                                           │ Project: api-service
@@ -174,7 +174,7 @@ test('search filters deployments', async () => {
                                                                           │
                                                                           │ Branch:  main
                                                                           │
-                                                                          │ Created: 7/16/2026, 5:35:43 PM
+                                                                          │ Created: 7/16/2026, 6:50:44 PM
                                                                           │
                                                                           │ Author:  tommy
                                                                           │
