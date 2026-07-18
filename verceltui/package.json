@@ -1,0 +1,42 @@
+{
+  "name": "verceltui",
+  "version": "0.0.1",
+  "title": "Vercel",
+  "description": "View Vercel deployments in the terminal",
+  "author": "remorses",
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "search-deployments",
+      "title": "Search Deployments",
+      "description": "List and search your Vercel deployments",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "accessToken",
+      "type": "password",
+      "required": true,
+      "title": "Access Token",
+      "description": "Your Vercel access token",
+      "placeholder": "Enter your Access Token",
+      "link": "https://vercel.com/account/tokens"
+    }
+  ],
+  "scripts": {
+    "e2e": "vitest -u",
+    "tsc": "tsc --noEmit"
+  },
+  "dependencies": {
+    "termcast": "workspace:^",
+    "@termcast/utils": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.1.2",
+    "typescript": "^5.8.2",
+    "vitest": "^4.0.16",
+    "tuistory": "workspace:^"
+  }
+}

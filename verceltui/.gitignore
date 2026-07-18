@@ -1,0 +1,4 @@
+node_modules/
+.termcast-bundle/
+tmp/
+*.log
