@@ -46,7 +46,7 @@ test('list shows deployments after loading', async () => {
                                                                           │
                                                                           │ Branch:  main
                                                                           │
-                                                                          │ Created: 7/17/2026, 6:45:42 PM
+                                                                          │ Created: 7/17/2026, 6:48:57 PM
                                                                           │
                                                                           │ Author:  tommy
                                                                           │
@@ -91,7 +91,7 @@ test('navigate between deployments with arrow keys', async () => {
                                                                           │
                                                                           │ Branch:  fix/login-timeout
                                                                           │
-                                                                          │ Created: 7/17/2026, 6:20:43 PM
+                                                                          │ Created: 7/17/2026, 6:23:57 PM
                                                                           │
                                                                           │ Author:  tommy
                                                                           │
@@ -128,7 +128,7 @@ test('navigate between deployments with arrow keys', async () => {
                                                                           │
                                                                           │ Branch:  chore/deps
                                                                           │
-                                                                          │ Created: 7/17/2026, 4:50:43 PM
+                                                                          │ Created: 7/17/2026, 4:53:57 PM
                                                                           │
                                                                           │ Author:  alice
                                                                           │
@@ -174,7 +174,7 @@ test('search filters deployments', async () => {
                                                                           │
                                                                           │ Branch:  main
                                                                           │
-                                                                          │ Created: 7/16/2026, 6:50:44 PM
+                                                                          │ Created: 7/16/2026, 6:53:58 PM
                                                                           │
                                                                           │ Author:  tommy
                                                                           │

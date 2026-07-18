@@ -1,13 +1,12 @@
 {
   "name": "verceltui",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "type": "module",
   "title": "Vercel",
   "description": "View Vercel deployments in the terminal",
   "author": "remorses",
   "license": "MIT",
-  "bin": "./src/cli.tsx",
-  "main": "./src/cli.tsx",
+  "bin": "./bin/cli.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/remorses/termcast",
@@ -24,7 +23,8 @@
     "cli"
   ],
   "files": [
-    "src"
+    "src",
+    "bin"
   ],
   "commands": [
     {
