@@ -4,7 +4,7 @@
 
 import { List, ActionPanel, Action, Icon, Color, getPreferenceValues } from 'termcast'
 import { useCachedPromise } from '@termcast/utils'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { Deployment, DeploymentState, Team } from './types'
 import {
   fetchDeployments,
@@ -59,6 +59,18 @@ export default function SearchDeployments() {
   )
 
   const isLoading = userLoading || teamsLoading || deploymentsLoading
+
+  // Poll deployments every 4 seconds to pick up new builds and status changes
+  const revalidateRef = useRef(revalidate)
+  revalidateRef.current = revalidate
+  useEffect(() => {
+    const interval = setInterval(() => {
+      revalidateRef.current()
+    }, 4000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
 
   return (
     <List
