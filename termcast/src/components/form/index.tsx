@@ -4,7 +4,6 @@ import React, {
   useContext,
   useLayoutEffect,
   useRef,
-  useEffect,
 } from 'react'
 import { useKeyboard, flushSync } from '@opentui/react'
 import { useForm, FormProvider } from 'react-hook-form'
@@ -264,16 +263,26 @@ export const Form: FormType = ((props) => {
     return false
   }
 
-  // Auto-focus first field when descendants become available
-  useEffect(() => {
-    if (focusedField) return
+  // Auto-focus first field when descendants become available.
+  // Runs on every layout commit, but the hasAutoFocused ref ensures it only
+  // fires once. This avoids the stale committedMap dependency issue where
+  // the getter on the stable context object never triggers re-renders,
+  // and also avoids infinite loops from useSyncExternalStore + setState.
+  const hasAutoFocused = useRef(false)
+  useLayoutEffect(() => {
+    if (hasAutoFocused.current) return
+    if (focusedField) {
+      hasAutoFocused.current = true
+      return
+    }
 
     const fieldIds = getFieldIds()
     if (fieldIds.length > 0) {
+      hasAutoFocused.current = true
       logger.log(`auto-focusing first field:`, fieldIds[0])
-      setFocusedField(fieldIds[0])
+      setFocusedFieldRaw(fieldIds[0])
     }
-  }, [descendantsContext.committedMap])
+  })
 
   // Get focus state and dialog
   const inFocus = useIsInFocus()
