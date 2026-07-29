@@ -284,10 +284,10 @@ describe('buildExtensionCommands', () => {
     `)
   })
 
-  // Regression: Bun turns pure-ESM react shims into empty __commonJS bodies, so
+  // Regression: Bun can turn ESM react shims into empty __commonJS bodies, so
   // @termcast/utils hooks crash with `import_react.useRef is not a function`.
-  // The virtual react module must assign the whole object to module.exports.
-  test('react virtual module exposes hooks through CJS __toESM interop', async () => {
+  // React must be a CJS module.exports = globalThis.react assignment.
+  test('react shim exposes hooks through CJS __toESM interop', async () => {
     const fixtureDir = path.join(process.cwd(), 'fixtures/simple-extension')
     const result = await buildExtensionCommands({
       extensionPath: fixtureDir,
@@ -305,19 +305,26 @@ describe('buildExtensionCommands', () => {
 
     const code = fs.readFileSync(bundledPath, 'utf-8')
     const shimMatch = code.match(
-      /\/\/ globals:react\nvar require_react = __commonJS\(([\s\S]*?)\n\}\);/,
+      /var (require_react|require__react_shim) = __commonJS\([\s\S]*?\n\}\);/,
     )
     if (!shimMatch) {
-      throw new Error('generated bundle did not contain the React virtual module')
+      throw new Error('generated bundle did not contain a react CJS shim')
     }
 
     const shimSource = shimMatch[0]
+    const requireName = shimMatch[1]
     expect(shimSource).toContain('module.exports = globalThis.react')
-    // Bare local vars with no exports assignment is the broken Bun ESM interop shape
     expect(shimSource).not.toMatch(/var useRef\s*=\s*globalThis\.react\.useRef/)
 
-    // Same helpers Bun emits for CJS↔ESM interop. Evaluating the real shim body
-    // fails if it only declares locals and never assigns module.exports.
+    const onDiskShim = path.join(result.bundleDir, '_react-shim.cjs')
+    expect(fs.existsSync(onDiskShim)).toBe(true)
+    expect(fs.readFileSync(onDiskShim, 'utf-8')).toContain(
+      'module.exports = globalThis.react',
+    )
+
+    // Bundle must actually call the shim through __toESM (the utils interop path)
+    expect(code).toContain(`__toESM(${requireName}()`)
+
     const create = Object.create
     const getProtoOf = Object.getPrototypeOf
     const defProp = Object.defineProperty
@@ -362,7 +369,7 @@ describe('buildExtensionCommands', () => {
     try {
       const requireReact = new Function(
         '__commonJS',
-        `${shimSource}\nreturn require_react;`,
+        `${shimSource}\nreturn ${requireName};`,
       )(commonJS) as () => object
       const importReact = toESM(requireReact(), 1)
 
@@ -379,5 +386,20 @@ describe('buildExtensionCommands', () => {
         ;(globalThis as { react: typeof react }).react = previousReact
       }
     }
+  })
+
+  test('ensureReactCjsInterop repairs bare-var react shims', async () => {
+    const { ensureReactCjsInterop } = await import('./build')
+    const broken = `
+var require_react = __commonJS((exports) => {
+  var useRef = globalThis.react.useRef;
+  var useState = globalThis.react.useState;
+});
+var import_react2 = __toESM(require_react(), 1);
+`
+    const fixed = ensureReactCjsInterop({ code: broken })
+    expect(fixed).toContain('module.exports = globalThis.react')
+    expect(fixed).not.toMatch(/var useRef\s*=\s*globalThis\.react\.useRef/)
+    expect(fixed).toContain('var require_react = __commonJS')
   })
 })

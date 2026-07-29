@@ -7,204 +7,198 @@ import * as termcastApi from './index'
 import * as termcastOpentui from './opentui'
 import * as opentuiReact from '@opentui/react'
 import * as opentuiCore from '@opentui/core'
-import * as react from 'react'
 import { swiftLoaderPlugin } from './swift-loader'
 
 const GLOBALS_NAMESPACE = 'globals'
 const VIRTUAL_ENTRY_NAMESPACE = 'virtual-entry'
 
-export const aliasPlugin: BunPlugin = {
-  name: 'alias-raycast-to-termcast',
-  async setup(build) {
-    // Import packages once at setup time
-    const packages = [
-      {
-        path: 'termcast',
-        module: termcastApi,
-        globalName: 'termcastApi',
-      },
-      {
-        path: 'termcast/opentui',
-        module: termcastOpentui,
-        globalName: 'termcastOpentui',
-      },
-      {
-        path: '@opentui/react',
-        module: opentuiReact,
-        globalName: 'opentuiReact',
-      },
-      {
-        path: '@opentui/core',
-        module: opentuiCore,
-        globalName: 'opentuiCore',
-      },
-      {
-        path: 'react',
-        module: react,
-        globalName: 'react',
-      },
-    ]
+// Host React singleton. Must be CJS `module.exports = globalThis.react`.
+// Pure ESM named exports look fine in the plugin source, but Bun's ESM→CJS
+// interop can wrap them in __commonJS as bare local vars that never write to
+// `exports`. Consumers that hit `__toESM(require_react(), 1)` (how
+// @termcast/utils loads React) then get an empty namespace and crash with
+// `import_react.useRef is not a function`.
+//
+// Written to a real .cjs file (not a virtual onLoad module). Bun has dropped
+// CJS exports from plugin virtual modules before:
+// https://github.com/oven-sh/bun/issues/21369
+export const REACT_SHIM_SOURCE = 'module.exports = globalThis.react;\n'
 
-    // Alias @raycast/api to termcast using namespace
-    build.onResolve({ filter: /@raycast\/api/ }, () => {
-      // logger.log('Resolving @raycast/api to termcast')
-      return {
-        path: 'termcast',
-        namespace: GLOBALS_NAMESPACE,
-      }
-    })
+export function createAliasPlugin({
+  reactShimPath,
+}: {
+  reactShimPath: string
+}): BunPlugin {
+  return {
+    name: 'alias-raycast-to-termcast',
+    async setup(build) {
+      const packages = [
+        {
+          path: 'termcast',
+          module: termcastApi,
+          globalName: 'termcastApi',
+        },
+        {
+          path: 'termcast/opentui',
+          module: termcastOpentui,
+          globalName: 'termcastOpentui',
+        },
+        {
+          path: '@opentui/react',
+          module: opentuiReact,
+          globalName: 'opentuiReact',
+        },
+        {
+          path: '@opentui/core',
+          module: opentuiCore,
+          globalName: 'opentuiCore',
+        },
+      ]
 
-    // Alias @raycast/utils to our fork with termcast OAuth proxy URLs
-    build.onResolve({ filter: /@raycast\/utils/ }, () => {
-      // logger.log('Resolving @raycast/utils to termcast fork')
-      return {
-        path: require.resolve('@termcast/utils'),
+      build.onResolve({ filter: /@raycast\/api/ }, () => {
+        return {
+          path: 'termcast',
+          namespace: GLOBALS_NAMESPACE,
+        }
+      })
 
-        // external: true,
-      }
-    })
+      build.onResolve({ filter: /@raycast\/utils/ }, () => {
+        return {
+          path: require.resolve('@termcast/utils'),
+        }
+      })
 
-    // Resolve external packages to globals namespace
-    build.onResolve({ filter: /^termcast\/opentui$/ }, () => {
-      return {
-        path: 'termcast/opentui',
-        namespace: GLOBALS_NAMESPACE,
-      }
-    })
+      build.onResolve({ filter: /^termcast\/opentui$/ }, () => {
+        return {
+          path: 'termcast/opentui',
+          namespace: GLOBALS_NAMESPACE,
+        }
+      })
 
-    build.onResolve({ filter: /^termcast/ }, (args) => {
-      return {
-        path: 'termcast',
-        namespace: GLOBALS_NAMESPACE,
-      }
-    })
+      build.onResolve({ filter: /^termcast/ }, () => {
+        return {
+          path: 'termcast',
+          namespace: GLOBALS_NAMESPACE,
+        }
+      })
 
-    build.onResolve({ filter: /^@opentui\/react/ }, (args) => {
-      // Handle jsx-dev-runtime specifically
-      if (args.path.includes('jsx')) {
+      build.onResolve({ filter: /^@opentui\/react/ }, (args) => {
+        if (args.path.includes('jsx')) {
+          return {
+            path: 'react/jsx-runtime',
+            namespace: GLOBALS_NAMESPACE,
+          }
+        }
+        return {
+          path: '@opentui/react',
+          namespace: GLOBALS_NAMESPACE,
+        }
+      })
+
+      build.onResolve({ filter: /^@opentui\/core/ }, () => {
+        return {
+          path: '@opentui/core',
+          namespace: GLOBALS_NAMESPACE,
+        }
+      })
+
+      build.onResolve({ filter: /^react\/jsx-runtime/ }, () => {
         return {
           path: 'react/jsx-runtime',
           namespace: GLOBALS_NAMESPACE,
         }
-      }
-      return {
-        path: '@opentui/react',
-        namespace: GLOBALS_NAMESPACE,
-      }
-    })
+      })
 
-    build.onResolve({ filter: /^@opentui\/core/ }, () => {
-      return {
-        path: '@opentui/core',
-        namespace: GLOBALS_NAMESPACE,
-      }
-    })
-
-    build.onResolve({ filter: /^react\/jsx-runtime/ }, () => {
-      return {
-        path: 'react/jsx-runtime',
-        namespace: GLOBALS_NAMESPACE,
-      }
-    })
-
-    build.onResolve({ filter: /^react($|\/|$)/ }, (args) => {
-      if (args.path === 'react' || args.path === 'react/') {
-        return {
-          path: 'react',
-          namespace: GLOBALS_NAMESPACE,
+      build.onResolve({ filter: /^react($|\/|$)/ }, (args) => {
+        if (args.path === 'react' || args.path === 'react/') {
+          return {
+            path: reactShimPath,
+          }
         }
-      }
-      // For jsx-dev-runtime
-      if (args.path.includes('jsx')) {
-        return {
-          path: 'react/jsx-runtime',
-          namespace: GLOBALS_NAMESPACE,
+        if (args.path.includes('jsx')) {
+          return {
+            path: 'react/jsx-runtime',
+            namespace: GLOBALS_NAMESPACE,
+          }
         }
-      }
-      return null
-    })
+        return null
+      })
 
-    // Handle loading from globals namespace
-    build.onLoad(
-      { filter: /.*/, namespace: GLOBALS_NAMESPACE },
-      async (args) => {
-        // Handle regular packages
-        const pkg = packages.find((p) => p.path === args.path)
-        if (pkg) {
-          // React uses a CJS shim because Bun can route imports from bundled
-          // dependencies through __toESM(require_react(), 1). With generated ESM
-          // bindings, Bun may emit an empty CommonJS export object, making hooks
-          // undefined. Exporting the host React object preserves the singleton
-          // across default, namespace, and named use.
-          if (pkg.path === 'react') {
+      build.onLoad(
+        { filter: /.*/, namespace: GLOBALS_NAMESPACE },
+        async (args) => {
+          const pkg = packages.find((p) => p.path === args.path)
+          if (pkg) {
+            const exports: string[] = []
+
+            for (const key in pkg.module) {
+              if (key === 'default') {
+                exports.push(
+                  `export default /* @__PURE__ */ globalThis.${pkg.globalName}.default;`,
+                )
+              } else {
+                exports.push(
+                  `export const ${key} = /* @__PURE__ */ globalThis.${pkg.globalName}.${key};`,
+                )
+              }
+            }
+
             return {
-              contents: `module.exports = globalThis.${pkg.globalName};`,
+              contents: exports.join('\n'),
               loader: 'js',
               pure: true,
             }
           }
 
-          const exports: string[] = []
+          if (args.path === 'react/jsx-runtime') {
+            const jsxRuntime = await import('react/jsx-runtime')
+            const exports: string[] = []
 
-          for (const key in pkg.module) {
-            if (key === 'default') {
+            for (const key in jsxRuntime) {
+              if (key === 'default') {
+                continue
+              }
               exports.push(
-                `export default /* @__PURE__ */ globalThis.${pkg.globalName}.default;`,
-              )
-            } else {
-              exports.push(
-                `export const ${key} = /* @__PURE__ */ globalThis.${pkg.globalName}.${key};`,
+                `export const ${key} = /* @__PURE__ */ globalThis.reactJsxRuntime.${key};`,
               )
             }
-          }
 
-          return {
-            contents: exports.join('\n'),
-            loader: 'js',
-            pure: true,
-          }
-        }
-
-        // Special handling for react/jsx-runtime
-        if (args.path === 'react/jsx-runtime') {
-          const jsxRuntime = await import('react/jsx-runtime')
-          const jsxDevRuntime = await import('react/jsx-dev-runtime')
-          const exports: string[] = []
-
-          // Export from jsx-runtime
-          for (const key in jsxRuntime) {
-            if (key === 'default') {
-              // Skip default export for jsx-runtime
-              continue
-            }
             exports.push(
-              `export const ${key} = /* @__PURE__ */ globalThis.reactJsxRuntime.${key};`,
+              `export const jsxDEV = /* @__PURE__ */ (globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx);`,
             )
+
+            return {
+              contents: exports.join('\n'),
+              loader: 'js',
+              pure: true,
+            }
           }
 
-          // Also export jsxDEV from jsx-dev-runtime
-          exports.push(
-            `export const jsxDEV = /* @__PURE__ */ (globalThis.reactJsxRuntime.jsxDEV || globalThis.reactJsxRuntime.jsx);`,
+          logger.error(
+            `matched a file that had no handling for exports plugin ${args.path}`,
           )
-
           return {
-            contents: exports.join('\n'),
+            contents: 'export {}',
             loader: 'js',
             pure: true,
           }
-        }
+        },
+      )
+    },
+  }
+}
 
-        logger.error(
-          `matched a file that had no handling for exports plugin ${args.path}`,
-        )
-        return {
-          contents: 'export {}',
-          loader: 'js',
-          pure: true,
-        }
-      },
-    )
-  },
+// Matches Bun's __commonJS wrapper for the react host shim, whether the
+// virtual module was named require_react or the on-disk file require__react_shim.
+const REACT_REQUIRE_PATTERN =
+  /var (require_react|require__react_shim) = __commonJS\([\s\S]*?\n\}\);/g
+
+export function ensureReactCjsInterop({ code }: { code: string }): string {
+  return code.replace(REACT_REQUIRE_PATTERN, (_match, name: string) => {
+    return `var ${name} = __commonJS((exports, module) => {
+  module.exports = globalThis.react;
+});`
+  })
 }
 
 
@@ -315,7 +309,15 @@ export async function buildExtensionCommands({
     logger.log(`Externalizing ${externalDeps.length} deps: ${externalDeps.join(', ')}`)
   }
 
-  const plugins: BunPlugin[] = [aliasPlugin, swiftLoaderPlugin]
+  // Real file on disk — not a virtual onLoad module. Bun has dropped CJS
+  // exports from plugin virtual modules (oven-sh/bun#21369).
+  const reactShimPath = path.join(bundleDir, '_react-shim.cjs')
+  fs.writeFileSync(reactShimPath, REACT_SHIM_SOURCE)
+
+  const plugins: BunPlugin[] = [
+    createAliasPlugin({ reactShimPath }),
+    swiftLoaderPlugin,
+  ]
 
   const result = await Bun.build({
     entrypoints,
@@ -336,18 +338,18 @@ export async function buildExtensionCommands({
     throw new Error(`Build failed: ${errorMessage}`)
   }
 
-  if (hotReload) {
-    for (const output of result.outputs) {
-      const outputPath = output.path
-      if (!outputPath.endsWith('.js')) {
-        continue
-      }
-      const code = fs.readFileSync(outputPath, 'utf-8')
-      const sanitizedCode = sanitizeHotReloadBundle({ code })
-      if (sanitizedCode === code) {
-        continue
-      }
-      fs.writeFileSync(outputPath, sanitizedCode)
+  for (const output of result.outputs) {
+    const outputPath = output.path
+    if (!outputPath.endsWith('.js')) {
+      continue
+    }
+    const code = fs.readFileSync(outputPath, 'utf-8')
+    let nextCode = ensureReactCjsInterop({ code })
+    if (hotReload) {
+      nextCode = sanitizeHotReloadBundle({ code: nextCode })
+    }
+    if (nextCode !== code) {
+      fs.writeFileSync(outputPath, nextCode)
     }
   }
 
