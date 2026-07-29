@@ -1,5 +1,7 @@
 import { describe, test, expect } from 'bun:test'
+import fs from 'node:fs'
 import path from 'node:path'
+import * as react from 'react'
 import { buildExtensionCommands } from './build'
 
 describe('buildExtensionCommands', () => {
@@ -280,5 +282,102 @@ describe('buildExtensionCommands', () => {
         "bundleDir": "/BASE_PATH/fixtures/simple-extension/.termcast-bundle"
       }"
     `)
+  })
+
+  // Regression: Bun turns pure-ESM react shims into empty __commonJS bodies, so
+  // @termcast/utils hooks crash with `import_react.useRef is not a function`.
+  // The virtual react module must assign the whole object to module.exports.
+  test('react virtual module exposes hooks through CJS __toESM interop', async () => {
+    const fixtureDir = path.join(process.cwd(), 'fixtures/simple-extension')
+    const result = await buildExtensionCommands({
+      extensionPath: fixtureDir,
+      format: 'esm',
+      target: 'bun',
+      hotReload: true,
+    })
+
+    const bundledPath = result.commands.find((command) => {
+      return command.name === 'use-promise-demo'
+    })?.bundledPath
+    if (!bundledPath) {
+      throw new Error('use-promise-demo bundle was not generated')
+    }
+
+    const code = fs.readFileSync(bundledPath, 'utf-8')
+    const shimMatch = code.match(
+      /\/\/ globals:react\nvar require_react = __commonJS\(([\s\S]*?)\n\}\);/,
+    )
+    if (!shimMatch) {
+      throw new Error('generated bundle did not contain the React virtual module')
+    }
+
+    const shimSource = shimMatch[0]
+    expect(shimSource).toContain('module.exports = globalThis.react')
+    // Bare local vars with no exports assignment is the broken Bun ESM interop shape
+    expect(shimSource).not.toMatch(/var useRef\s*=\s*globalThis\.react\.useRef/)
+
+    // Same helpers Bun emits for CJS↔ESM interop. Evaluating the real shim body
+    // fails if it only declares locals and never assigns module.exports.
+    const create = Object.create
+    const getProtoOf = Object.getPrototypeOf
+    const defProp = Object.defineProperty
+    const getOwnPropNames = Object.getOwnPropertyNames
+    const hasOwnProp = Object.prototype.hasOwnProperty
+    function accessProp(this: object, key: string) {
+      return (this as Record<string, unknown>)[key]
+    }
+    const toESM = (mod: object | null, isNodeMode?: number) => {
+      const target = mod != null ? create(getProtoOf(mod)) : {}
+      const to =
+        isNodeMode || !mod || !(mod as { __esModule?: boolean }).__esModule
+          ? defProp(target, 'default', { value: mod, enumerable: true })
+          : target
+      if (mod) {
+        for (const key of getOwnPropNames(mod)) {
+          if (!hasOwnProp.call(to, key)) {
+            defProp(to, key, {
+              get: accessProp.bind(mod, key),
+              enumerable: true,
+            })
+          }
+        }
+      }
+      return to as Record<string, unknown>
+    }
+    const commonJS = (
+      cb: (exports: object, module?: { exports: object }) => void,
+    ) => {
+      let mod: { exports: object } | undefined
+      return () => {
+        if (!mod) {
+          mod = { exports: {} }
+          cb(mod.exports, mod)
+        }
+        return mod.exports
+      }
+    }
+
+    const previousReact = (globalThis as { react?: typeof react }).react
+    ;(globalThis as { react: typeof react }).react = react
+    try {
+      const requireReact = new Function(
+        '__commonJS',
+        `${shimSource}\nreturn require_react;`,
+      )(commonJS) as () => object
+      const importReact = toESM(requireReact(), 1)
+
+      expect(typeof importReact.useRef).toBe('function')
+      expect(typeof importReact.useState).toBe('function')
+      expect(typeof importReact.useEffect).toBe('function')
+      expect(typeof (importReact.default as typeof react | undefined)?.useRef).toBe(
+        'function',
+      )
+    } finally {
+      if (previousReact === undefined) {
+        delete (globalThis as { react?: typeof react }).react
+      } else {
+        ;(globalThis as { react: typeof react }).react = previousReact
+      }
+    }
   })
 })

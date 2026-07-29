@@ -131,6 +131,11 @@ export const aliasPlugin: BunPlugin = {
         // Handle regular packages
         const pkg = packages.find((p) => p.path === args.path)
         if (pkg) {
+          // React uses a CJS shim because Bun can route imports from bundled
+          // dependencies through __toESM(require_react(), 1). With generated ESM
+          // bindings, Bun may emit an empty CommonJS export object, making hooks
+          // undefined. Exporting the host React object preserves the singleton
+          // across default, namespace, and named use.
           if (pkg.path === 'react') {
             return {
               contents: `module.exports = globalThis.${pkg.globalName};`,
