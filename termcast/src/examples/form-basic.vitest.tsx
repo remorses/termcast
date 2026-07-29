@@ -1003,6 +1003,9 @@ test('arrow up/down navigates all form inputs and respects widget edges', async 
   await session.press('down')
   text = await waitForFocusedField('Date of Birth')
 
+  // Jump to day 5 so the next down stays inside the calendar. "Today" can sit
+  // on the last row (e.g. Jul 29-31), where one down would exit the widget.
+  await session.type('5')
   await session.press('down')
   text = await waitForFocusedField('Date of Birth')
 
