@@ -1,6 +1,6 @@
 {
   "name": "verceltui",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "title": "Vercel",
   "description": "View Vercel deployments in the terminal",
@@ -24,7 +24,8 @@
   ],
   "files": [
     "src",
-    "bin"
+    "bin",
+    "CHANGELOG.md"
   ],
   "commands": [
     {
@@ -53,7 +54,7 @@
     "@clack/prompts": "^1.4.0",
     "@termcast/utils": "workspace:^",
     "goke": "^6.14.1",
-    "react": "19.2.6",
+    "react": "^19.2.8",
     "termcast": "workspace:^",
     "zod": "4.3.6"
   },

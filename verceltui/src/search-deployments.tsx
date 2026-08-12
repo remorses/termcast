@@ -45,7 +45,7 @@ export default function SearchDeployments() {
     isLoading: teamsLoading,
   } = useCachedPromise(fetchTeams)
 
-  const team = teams?.find((t: Team) => t.id === selectedTeamId)
+  const team = teams?.find((t) => t.id === selectedTeamId)
 
   const {
     data: deployments,
@@ -110,7 +110,7 @@ export default function SearchDeployments() {
         const state = deployment.readyState || deployment.state
         const stateInfo = state ? STATE_LABELS[state] : undefined
         const ownerSlug = team?.slug || user?.username || ''
-        const deploymentId = (deployment as { id?: string }).id || deployment.uid
+        const deploymentId = deployment.id || deployment.uid
         const target = deployment.target || 'preview'
 
         return (

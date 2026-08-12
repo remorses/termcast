@@ -32,6 +32,31 @@ export interface RenderWithProvidersOptions {
   packageJson?: RaycastPackageJson
 }
 
+/** Reset Termcast state and initialize storage for an extension. */
+export function initializeExtension(
+  options?: RenderWithProvidersOptions,
+): void {
+  const extensionName = options?.extensionName || 'termcast-app'
+  const extensionPath =
+    options?.extensionPath ||
+    joinPath(homedir(), '.termcast', 'compiled', extensionName)
+  const packageJson: RaycastPackageJson = options?.packageJson || {
+    name: extensionName,
+    title: extensionName,
+    description: '',
+    commands: [],
+  }
+
+  useStore.setState({
+    ...useStore.getInitialState(),
+    extensionPath,
+    extensionPackageJson: packageJson,
+  })
+
+  initializeTheme()
+  initializeVimMode()
+}
+
 /**
  * Render a React element wrapped in TermcastProvider with all necessary state initialized.
  *
@@ -46,28 +71,7 @@ export async function renderWithProviders(
   element: ReactNode,
   options?: RenderWithProvidersOptions,
 ): Promise<void> {
-  const extensionName = options?.extensionName || 'termcast-app'
-  const extensionPath =
-    options?.extensionPath ||
-    joinPath(homedir(), '.termcast', 'compiled', extensionName)
-  const packageJson: RaycastPackageJson = options?.packageJson || {
-    name: extensionName,
-    title: extensionName,
-    description: '',
-    commands: [],
-  }
-
-  // Reset store to initial state then set extension fields, matching
-  // startDevMode/startCompiledExtension behavior to avoid stale navigation/dialog state
-  useStore.setState({
-    ...useStore.getInitialState(),
-    extensionPath,
-    extensionPackageJson: packageJson,
-  })
-
-  // Load theme and vim mode after state reset — extensionPath is now set so it reads from the correct DB
-  initializeTheme()
-  initializeVimMode()
+  initializeExtension(options)
 
   const renderer = await createCliRenderer({
     useMouse: true,
@@ -268,9 +272,7 @@ export async function trash(path: PathLike | PathLike[]): Promise<void> {
       } else if (hasGio) {
         execSync(`gio trash "${filePath}"`, { stdio: 'ignore' })
       } else {
-        throw new Error(
-          'No trash utility found. Install trash-cli or gio.',
-        )
+        throw new Error('No trash utility found. Install trash-cli or gio.')
       }
     }
   }
@@ -342,8 +344,6 @@ export function resolveCommandPath({
   // Return empty string if not found
   return ''
 }
-
-
 
 export type ParseExecOutputHandler<T = any> = (args: { stdout: string }) => T
 

@@ -220,7 +220,12 @@ export type {
 }
 
 // Icons and Images
-export { Icon, getIconEmoji, getIconShape, IconComponent } from 'termcast/src/components/icon'
+export {
+  Icon,
+  getIconEmoji,
+  getIconShape,
+  IconComponent,
+} from 'termcast/src/components/icon'
 export { Spinner } from 'termcast/src/components/spinner'
 import {
   Image as ImageComponent,
@@ -234,7 +239,6 @@ import type {
   ImageLike,
   ImageFallback,
 } from 'termcast/src/components/image'
-
 
 export function Image(props: ImageProps): any {
   return ImageComponent(props)
@@ -378,7 +382,7 @@ export type { DialogPosition } from 'termcast/src/state'
 export { TermcastProvider } from 'termcast/src/internal/providers'
 
 // Helper function for rendering examples
-export { renderWithProviders } from 'termcast/src/utils'
+export { initializeExtension, renderWithProviders } from 'termcast/src/utils'
 export type { RenderWithProvidersOptions } from 'termcast/src/utils'
 
 // Window Management

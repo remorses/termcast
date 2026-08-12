@@ -12,7 +12,10 @@ const cli = goke('verceltui')
 
 cli
   .command('', 'Browse Vercel deployments in the terminal')
-  .option('--token [token]', z.string().optional().describe('Vercel access token (or set VERCEL_TOKEN)'))
+  .option(
+    '--token [token]',
+    z.string().optional().describe('Vercel access token (or set VERCEL_TOKEN)'),
+  )
   .action(async (options) => {
     // Resolve token: flag > env var > interactive prompt
     let token = options.token || process.env.VERCEL_TOKEN
@@ -34,10 +37,16 @@ cli
       console.log(`  Browse your Vercel deployments from the terminal.`)
       console.log(`  A personal access token is needed to call the Vercel API.`)
       console.log()
-      console.log(`  Create one at ${colors.cyan('https://vercel.com/account/tokens')}`)
-      console.log(`  No special scopes required; the default read access is enough.`)
+      console.log(
+        `  Create one at ${colors.cyan('https://vercel.com/account/tokens')}`,
+      )
+      console.log(
+        `  No special scopes required; the default read access is enough.`,
+      )
       console.log()
-      console.log(`  You can also pass it via ${colors.bold('--token')} or ${colors.bold('VERCEL_TOKEN')} env var.`)
+      console.log(
+        `  You can also pass it via ${colors.bold('--token')} or ${colors.bold('VERCEL_TOKEN')} env var.`,
+      )
       console.log()
 
       const input = await clack.password({
@@ -49,6 +58,10 @@ cli
       }
       token = input
     }
+
+    // Initialize Termcast storage before the renderer starts.
+    const { initializeExtension } = await import('termcast')
+    initializeExtension({ extensionName: 'verceltui' })
 
     // Store token as extension preference so getPreferenceValues() can read it
     const { LocalStorage } = await import('termcast/src/apis/localstorage')

@@ -4,12 +4,54 @@ import {
   DeeplinkType,
   LaunchType,
   executeSQL,
+  initializeExtension,
   runAppleScript,
 } from './utils'
+import { LocalStorage } from './apis/localstorage'
+import { useStore } from './state'
 import { Database } from '#sqlite'
 import * as fs from 'fs'
 import * as os from 'os'
 import * as path from 'path'
+
+describe('initializeExtension', () => {
+  const extensionPath = path.join(
+    os.tmpdir(),
+    'termcast-initialize-extension-test',
+  )
+
+  afterEach(() => {
+    useStore.setState(useStore.getInitialState())
+    const dataPath = path.join(extensionPath, '.termcast-bundle')
+    if (fs.existsSync(dataPath)) {
+      fs.rmSync(dataPath, { recursive: true })
+    }
+  })
+
+  test('makes LocalStorage available before rendering', async () => {
+    initializeExtension({
+      extensionName: 'test-extension',
+      extensionPath,
+    })
+
+    await LocalStorage.setItem('token', 'secret')
+    initializeExtension({
+      extensionName: 'test-extension',
+      extensionPath,
+    })
+
+    expect({
+      extensionPathInitialized:
+        useStore.getState().extensionPath === extensionPath,
+      token: await LocalStorage.getItem('token'),
+    }).toMatchInlineSnapshot(`
+      {
+        "extensionPathInitialized": true,
+        "token": "secret",
+      }
+    `)
+  })
+})
 
 describe('createDeeplink', () => {
   test('creates extension deeplink without options', () => {

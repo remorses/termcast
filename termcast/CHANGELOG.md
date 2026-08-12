@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.8.0
+
+1. **Initialize standalone CLIs before rendering** — use the new `initializeExtension()` API when a CLI needs Termcast storage, preferences, cache, theme, or extension metadata before it creates the TUI renderer:
+
+   ```tsx
+   import { initializeExtension, LocalStorage } from 'termcast'
+
+   initializeExtension({ extensionName: 'my-cli' })
+   await LocalStorage.setItem('preferences.my-cli', JSON.stringify(values))
+   ```
+
+   The initializer resets Termcast state and uses `~/.termcast/compiled/{extensionName}` by default, which is the same extension context that `renderWithProviders()` uses.
+
+2. **Copy text with mouse selection** — drag over text in a Termcast TUI to copy it to the clipboard when the mouse button is released. Existing keyboard copy behavior remains available.
+
+3. **Align mixed List accessories** — `accessoryTagsLayout` now assigns each width by accessory position across tags, text, and dates. Variable text such as `7h ago` and `22h ago` no longer shifts adjacent columns:
+
+   ```tsx
+   <List accessoryTagsLayout={[12, 4, 7]}>
+     <List.Item
+       accessories={[{ tag: 'api' }, { tag: '15' }, { text: '7h ago' }]}
+     />
+   </List>
+   ```
+
+4. **Fix first Form field auto-focus** — the first registered field now receives focus when a Form opens.
+
+5. **Fix React hooks in extension bundles** — dependencies that load React through Bun's CommonJS interop path no longer crash with errors such as `useRef is not a function`.
+
+6. **Update OpenTUI to 0.4.5** — Termcast now uses the OpenTUI 0.4 renderer and supports its renderable-based child removal API.
+
 ## 1.7.0
 
 1. **Hover tooltips on all chart components** — mouse over any data point, bar segment, or candle to see an absolute-positioned tooltip with the x-axis label and value. Supported on Graph, DottedLineGraph, BarGraph, HorizontalBarGraph, BarChart, and CandleChart:
