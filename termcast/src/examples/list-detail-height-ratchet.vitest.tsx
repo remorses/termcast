@@ -102,9 +102,9 @@ test('detail panel height ratchet prevents footer layout shift', async () => {
        Item 16 short                        │ 1.
        Item 17 tall                         │ Line 9 of detail content for item
        Item 18 short                        │ 1.
-                                            │ Line 10 of detail content for
-                                            │ item 1.
-       ↑↓ navigate   ^k actions             │ Line 11 of detail content for     ▼
+                                            │ Line 10 of detail content for item
+                                            │ 1.
+       ↑↓ navigate   ^k actions             │ Line 11 of detail content for item▼
 
     "
   `)

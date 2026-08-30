@@ -151,6 +151,13 @@ export function TermcastProvider(props: ProvidersProps): any {
   const theme = useTheme()
   const renderer = useRenderer()
 
+  // useKeyboard registers on renderer.keyInput (Node EventEmitter, default max 10).
+  // Forms, navigation, dialogs, and fields each add a listener, so 11+ is normal.
+  React.useLayoutEffect(() => {
+    if (!renderer) return
+    renderer.keyInput.setMaxListeners(50)
+  }, [renderer])
+
   // TODO: Remove this when opentui adds { name: "backspace", super: true, action: "delete-to-line-start" }
   // to defaultTextareaKeybindings in packages/core/src/renderables/Textarea.ts
   // Translate Cmd+Backspace (kitty CSI \x1b[127;9u) to Ctrl+U (\x15) so opentui's

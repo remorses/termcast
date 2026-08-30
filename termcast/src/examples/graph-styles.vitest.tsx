@@ -193,8 +193,8 @@ test('markdown + metadata detail view in list', async () => {
        Filled ... RevenueSolid b...th chart │ green) over 24 hours.
        Filled ...een Tem Daily t...re curve │ - Peak CPU at 90% around 15h
        Filled ...llow CPUHigh co... on dark │ - Memory steadily climbing to 86%
-       Filled -...nta Wave Smooth... blocks │ - CPU has high variance, memory
-       Striped -...le/Orang Warm a...colors │   is monotonic
+       Filled -...nta Wave Smooth... blocks │ - CPU has high variance, memory is
+       Striped -...le/Orang Warm a...colors │   monotonic
        Striped - Blue/Re High co... stripes │
        Striped ...e Defaultprimar...o prop) │ 100│
        Striped - Green/Yello Natur...spired │    │                   ⣠⣶⣧   ⣀⣠⣤⣶

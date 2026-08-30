@@ -298,9 +298,9 @@ test('single command extension shows error when command throws at root scope', a
 
 
 
-        Error
+        Error: Single command root error
             at <anonymous> (fixtures/single-error-extension/
-            at processTicksAndRejections (unknown:7:39)
+            at processTicksAndRejections (native:7:39)
 
 
 

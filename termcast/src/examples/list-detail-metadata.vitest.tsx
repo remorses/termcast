@@ -100,8 +100,8 @@ test('list detail metadata renders long values in column layout (key on one line
       ›Long Values                          │
        Colored & Tags                       │ Description: This is a very long
                                             │              description that
-                                            │              would be truncated
-                                            │              if shown inline
+                                            │              would be truncated if
+                                            │              shown inline
                                             │
                                             │ Path:        /Users/username/
                                             │              Documents/Projects/

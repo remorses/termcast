@@ -605,9 +605,9 @@ test('list with detail layout consistency - short vs long detail content', async
                                             │ Section 2
                                             │
                                             │ More content here to ensure we
-                                            │ have enough text to cause
-                                            │ vertical overflow in the detail
-                                            │ panel scrollbox.
+                                            │ have enough text to cause vertical
+                                            │ overflow in the detail panel
+                                            │ scrollbox.
                                             │ Section 3
        ↑↓ navigate   ^k actions             │                                   ▼
 
