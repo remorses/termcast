@@ -490,11 +490,11 @@ test('grid mouse interaction', async () => {
 
        Fruits
                🍎                    🍌                    🍒
-      Apple                 Banana                Cherry
+      ›Apple                Banana                Cherry
 
        Animals
              🐕               🐱              🐰
-      ›Dog             Cat             Rabbit
+      Dog              Cat             Rabbit
 
        Others
            🏠           🚗           🚀            ⭐           🌙
