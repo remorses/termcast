@@ -34,7 +34,9 @@ import { Offscreen } from 'termcast/src/internal/offscreen'
 import { ScrollBox } from 'termcast/src/internal/scrollbox'
 
 import { Color, resolveColor } from 'termcast/src/colors'
+import { environment } from 'termcast/src/apis/environment'
 import { getIconEmoji, getIconValue } from 'termcast/src/components/icon'
+import { ImageLikeView, resolveImageLike } from 'termcast/src/components/image'
 import { ActionPanel, matchesShortcut } from 'termcast/src/components/actions'
 import { getInteractiveHoverBackground, useTheme } from 'termcast/src/theme'
 import { Markdown } from 'termcast/src/components/markdown'
@@ -541,9 +543,87 @@ interface ListContextValue {
   hasDropdown?: boolean
   spacingMode: ListSpacingMode
   accessoryTagWidths?: number[]
+  gridColumns?: number
 }
 
 const ListContext = createContext<ListContextValue | undefined>(undefined)
+
+type GridAspectRatio = '1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16'
+type GridFit = 'contain' | 'fill'
+
+interface GridLayoutValue {
+  columns: number
+  aspectRatio: GridAspectRatio
+  fit: GridFit
+  inset?: {
+    bottom?: number
+    left?: number
+    right?: number
+    top?: number
+  }
+}
+
+const GridLayoutContext = createContext<GridLayoutValue | undefined>(undefined)
+
+function insetPadding(inset?: GridLayoutValue['inset']): number {
+  if (!inset) {
+    return 0
+  }
+  const max = Math.max(
+    inset.top ?? 0,
+    inset.right ?? 0,
+    inset.bottom ?? 0,
+    inset.left ?? 0,
+  )
+  if (max >= 16) {
+    return 2
+  }
+  if (max >= 8) {
+    return 1
+  }
+  return 0
+}
+
+function parseAspectRatio(aspectRatio: GridAspectRatio): number {
+  if (aspectRatio === '1') {
+    return 1
+  }
+  const [w, h] = aspectRatio.split('/').map(Number)
+  if (!w || !h) {
+    return 1
+  }
+  return w / h
+}
+
+function gridCellImageHeight({
+  cellWidth,
+  aspectRatio,
+}: {
+  cellWidth: number
+  aspectRatio: GridAspectRatio
+}): number {
+  const pixelAspect = parseAspectRatio(aspectRatio)
+  return Math.min(10, Math.max(4, Math.round(cellWidth / (2 * pixelAspect))))
+}
+
+function unwrapGridContent(content: unknown): unknown {
+  if (content && typeof content === 'object' && 'value' in content) {
+    return (content as { value: unknown }).value
+  }
+  return content
+}
+
+function isGridColorContent(
+  content: unknown,
+): content is { color: Color.ColorLike } {
+  return (
+    !!content &&
+    typeof content === 'object' &&
+    'color' in content &&
+    !('source' in content) &&
+    !('fileIcon' in content)
+  )
+}
 
 // Helper function to determine if an item should be visible based on search
 function shouldItemBeVisible(
@@ -1101,6 +1181,7 @@ export const List: ListType = (props) => {
   } = props
 
   const theme = useTheme()
+  const gridLayout = useContext(GridLayoutContext)
   const { width: terminalWidth } = useTerminalDimensions()
   const effectiveIsShowingDetail = isShowingDetail && terminalWidth >= detailMinWidth
 
@@ -1302,8 +1383,9 @@ export const List: ListType = (props) => {
       hasDropdown: !!searchBarAccessory,
       spacingMode,
       accessoryTagWidths: accessoryTagsLayout,
+      gridColumns: gridLayout?.columns,
     }),
-    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, effectiveIsShowingDetail, isLoading, searchBarAccessory, spacingMode, accessoryTagsLayout],
+    [isDropdownOpen, selectedIndex, searchText, isFilteringEnabled, effectiveIsShowingDetail, isLoading, searchBarAccessory, spacingMode, accessoryTagsLayout, gridLayout?.columns],
   )
 
   // Handle selectedItemId prop changes (before paint to avoid flash)
@@ -1651,14 +1733,33 @@ export const List: ListType = (props) => {
     // Checked before registered action shortcuts so extensions can't hijack
     // core vim motions like j/k with unmodified single-letter shortcuts.
     if (inputMode === 'vim' && vimInputSubMode === 'default') {
+      const vimGridColumns = listContextValue.gridColumns
       // j/k for navigation
       if (evt.name === 'j' && !evt.ctrl && !evt.meta) {
-        move(1)
+        if (vimGridColumns && vimGridColumns > 1) {
+          moveByN(vimGridColumns)
+        } else {
+          move(1)
+        }
         evt.stopPropagation()
         return
       }
       if (evt.name === 'k' && !evt.ctrl && !evt.meta) {
+        if (vimGridColumns && vimGridColumns > 1) {
+          moveByN(-vimGridColumns)
+        } else {
+          move(-1)
+        }
+        evt.stopPropagation()
+        return
+      }
+      if (vimGridColumns && vimGridColumns > 1 && evt.name === 'h' && !evt.ctrl && !evt.meta) {
         move(-1)
+        evt.stopPropagation()
+        return
+      }
+      if (vimGridColumns && vimGridColumns > 1 && evt.name === 'l' && !evt.ctrl && !evt.meta) {
+        move(1)
         evt.stopPropagation()
         return
       }
@@ -1744,6 +1845,29 @@ export const List: ListType = (props) => {
     const currentItem = items.find((item) => item.index === selectedIndex)
 
     // ── Shared: arrow keys ──
+    const gridColumns = listContextValue.gridColumns
+    if (gridColumns && gridColumns > 1) {
+      if (evt.name === 'left') {
+        move(-1)
+        evt.stopPropagation()
+        return
+      }
+      if (evt.name === 'right') {
+        move(1)
+        evt.stopPropagation()
+        return
+      }
+      if (evt.name === 'up') {
+        moveByN(-gridColumns)
+        evt.stopPropagation()
+        return
+      }
+      if (evt.name === 'down') {
+        moveByN(gridColumns)
+        evt.stopPropagation()
+        return
+      }
+    }
     if (evt.name === 'up') move(-1)
     if (evt.name === 'down') move(1)
 
@@ -1987,12 +2111,21 @@ function DefaultEmptyView(): any {
 function ListItemsRenderer(props: { children?: ReactNode }): any {
   const { children } = props
   const listContext = useContext(ListContext)
+  const gridLayout = useContext(GridLayoutContext)
   const searchText = listContext?.searchText || ''
+
+  const content = gridLayout ? (
+    <box style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>
+      {children}
+    </box>
+  ) : (
+    children
+  )
 
   // Pass search text down via context
   return (
     <ListSectionContext.Provider value={{ searchText }}>
-      {children}
+      {content}
       <DefaultEmptyView />
     </ListSectionContext.Provider>
   )
@@ -2006,10 +2139,133 @@ interface ListSectionContextValue {
 
 const ListSectionContext = createContext<ListSectionContextValue>({})
 
+function GridItemCell(props: {
+  title: string
+  subtitle?: string
+  content: unknown
+  active: boolean
+  onMouseDown: (evt: OpenTUIMouseEvent) => void
+  elementRef: React.RefObject<BoxRenderable | null>
+}): any {
+  const theme = useTheme()
+  const gridLayout = useContext(GridLayoutContext)
+  const { width: terminalWidth } = useTerminalDimensions()
+  const columns = Math.max(1, Math.min(8, gridLayout?.columns ?? 5))
+  const aspectRatio = gridLayout?.aspectRatio ?? '1'
+  const fit = gridLayout?.fit === 'fill' ? 'fill' : 'fit'
+  const padding = insetPadding(gridLayout?.inset)
+  const cellWidth = Math.max(4, Math.floor((terminalWidth - 4) / columns))
+  const imageHeight = gridCellImageHeight({ cellWidth, aspectRatio })
+  const content = unwrapGridContent(props.content)
+  const hoverBackgroundColor = getInteractiveHoverBackground(theme)
+  const [isHovered, setIsHovered] = useState(false)
+
+  const contentNode = (() => {
+    if (isGridColorContent(content)) {
+      const color = resolveColor(content.color) || theme.primary
+      return (
+        <box
+          width='100%'
+          height={imageHeight}
+          backgroundColor={color}
+          flexShrink={0}
+        />
+      )
+    }
+    const resolved = content
+      ? resolveImageLike({
+          image: content,
+          appearance: environment.appearance,
+          assetsPath: environment.assetsPath,
+        })
+      : { kind: 'glyph' as const, text: '' }
+    if (resolved.kind === 'glyph') {
+      return (
+        <box
+          width='100%'
+          height={1}
+          alignItems='center'
+          justifyContent='center'
+          flexShrink={0}
+        >
+          <text flexShrink={0} wrapMode='none'>
+            {resolved.text}
+          </text>
+        </box>
+      )
+    }
+    return (
+      <box
+        width='100%'
+        height={imageHeight}
+        alignItems='center'
+        justifyContent='center'
+        flexShrink={0}
+        overflow='hidden'
+      >
+        <ImageLikeView
+          image={content}
+          width={cellWidth}
+          height={imageHeight}
+          fit={fit}
+        />
+      </box>
+    )
+  })()
+
+  return (
+    <box
+      ref={props.elementRef}
+      width={`${Math.floor(100 / columns)}%`}
+      flexShrink={0}
+      padding={padding}
+      onMouseDown={props.onMouseDown}
+      onMouseMove={() => {
+        setIsHovered(true)
+      }}
+      onMouseOut={() => {
+        setIsHovered(false)
+      }}
+      backgroundColor={
+        props.active
+          ? theme.primary
+          : isHovered
+            ? hoverBackgroundColor
+            : undefined
+      }
+      style={{ flexDirection: 'column', overflow: 'hidden' }}
+    >
+      {contentNode}
+      {props.title ? (
+        <text
+          flexShrink={0}
+          truncate
+          wrapMode='none'
+          fg={props.active ? theme.background : theme.text}
+          attributes={TextAttributes.BOLD}
+        >
+          {props.active ? `›${props.title}` : props.title}
+        </text>
+      ) : null}
+      {props.subtitle ? (
+        <text
+          flexShrink={0}
+          truncate
+          wrapMode='none'
+          fg={props.active ? theme.background : theme.textMuted}
+        >
+          {props.subtitle}
+        </text>
+      ) : null}
+    </box>
+  )
+}
+
 const ListItem: ListItemType = (props) => {
   const listSectionContext = useContext(ListSectionContext)
   const { sectionTitle } = listSectionContext
   const listContext = useContext(ListContext)
+  const gridLayout = useContext(GridLayoutContext)
   const dialog = useDialog()
   const elementRef = useRef<BoxRenderable>(null)
 
@@ -2079,6 +2335,19 @@ const ListItem: ListItemType = (props) => {
   }
 
   const showAccessories = Boolean(props.accessories)
+
+  if (gridLayout) {
+    return (
+      <GridItemCell
+        title={titleText}
+        subtitle={subtitleText}
+        content={props.icon}
+        active={isActive}
+        onMouseDown={handleMouseDown}
+        elementRef={elementRef}
+      />
+    )
+  }
 
   // Get icon string and color from props.icon (can be string or object with value/tintColor)
   const { iconValue, iconColor } = (() => {
@@ -2546,6 +2815,7 @@ const ListSection = (props: SectionProps) => {
   const theme = useTheme()
   const parentContext = useContext(ListSectionContext)
   const listContext = useContext(ListContext)
+  const gridLayout = useContext(GridLayoutContext)
   const searchText = listContext?.searchText || ''
 
   // Create new context with section title and search text
@@ -2566,9 +2836,17 @@ const ListSection = (props: SectionProps) => {
 
   const isSearching = searchText.trim().length > 0
 
+  const wrappedChildren = gridLayout ? (
+    <box style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>
+      {props.children}
+    </box>
+  ) : (
+    props.children
+  )
+
   const children = (
     <ListSectionContext.Provider value={sectionContextValue}>
-      {props.children}
+      {wrappedChildren}
     </ListSectionContext.Provider>
   )
 
@@ -2577,7 +2855,7 @@ const ListSection = (props: SectionProps) => {
   }
 
   return (
-    <box style={{ marginBottom: 1 }}>
+    <box style={{ marginBottom: 1, width: gridLayout ? '100%' : undefined, flexShrink: 0 }}>
       {props.title && (
         <box
           border={false}
@@ -2619,7 +2897,31 @@ function EmptyViewContent(props: EmptyViewProps): any {
     }
   })
 
-  const iconEmoji = props.icon ? getIconValue(props.icon) || null : null
+  const emptyIcon = (() => {
+    if (!props.icon) {
+      return null
+    }
+    const resolved = resolveImageLike({
+      image: props.icon,
+      appearance: environment.appearance,
+      assetsPath: environment.assetsPath,
+    })
+    if (resolved.kind === 'glyph') {
+      if (!resolved.text) {
+        return null
+      }
+      return (
+        <text flexShrink={0} fg={theme.textMuted} style={{ marginBottom: 1 }}>
+          {resolved.text}
+        </text>
+      )
+    }
+    return (
+      <box flexShrink={0} style={{ marginBottom: 1 }}>
+        <ImageLikeView image={props.icon} width={16} height={6} fit='fit' />
+      </box>
+    )
+  })()
 
   return (
     <box
@@ -2635,11 +2937,7 @@ function EmptyViewContent(props: EmptyViewProps): any {
         gap: 1,
       }}
     >
-      {iconEmoji && (
-        <text flexShrink={0} fg={theme.textMuted} style={{ marginBottom: 1 }}>
-          {iconEmoji}
-        </text>
-      )}
+      {emptyIcon}
       {props.title && (
         <text flexShrink={0} fg={theme.text} attributes={TextAttributes.BOLD}>
           {props.title?.replace(/\bRaycast\b/g, 'Termcast').replace(/\braycast\b/g, 'termcast') || ''}
@@ -2691,7 +2989,10 @@ export interface GridItemProps extends ActionsInterface, CommonProps {
   content:
     | Image.ImageLike
     | {
-        value: Image.ImageLike
+        color: Color.ColorLike
+      }
+    | {
+        value: Image.ImageLike | { color: Color.ColorLike }
         tooltip?: string | null
       }
   title:
@@ -2757,10 +3058,7 @@ interface GridType {
   }
 }
 
-// Grid uses List internally with a different visual representation
 export const Grid: GridType = (props) => {
-  // Grid is essentially List with grid layout
-  // We'll reuse the List component but with grid-specific styling
   const {
     columns = 5,
     aspectRatio = '1',
@@ -2769,41 +3067,48 @@ export const Grid: GridType = (props) => {
     ...listProps
   } = props
 
-  return <List {...listProps} />
+  const layout: GridLayoutValue = {
+    columns: Math.max(1, Math.min(8, columns)),
+    aspectRatio,
+    fit,
+    inset,
+  }
+
+  return (
+    <GridLayoutContext.Provider value={layout}>
+      <List {...listProps} />
+    </GridLayoutContext.Provider>
+  )
 }
 
 // Grid.Item maps to List.Item but with content instead of icon
 Grid.Item = (props: GridItemProps) => {
   const { content, getDetailMarkdown, ...itemProps } = props
 
-  // Extract image value and tooltip
-  const imageValue = (() => {
-    if (typeof content === 'string') return content
-    if (content && 'source' in content) return content
-    if (content && 'value' in content) return content.value
-    return undefined
-  })()
-  const imageTooltip =
-    typeof content === 'object' && content && 'tooltip' in content ? content.tooltip : undefined
-
-  // Convert Grid.Item props to List.Item props
   const listItemProps: ItemProps = {
     ...itemProps,
-    // Grid items don't have accessories in Raycast
     accessories: undefined,
-    // Use content as icon for now (in a real implementation, this would be rendered differently)
-    icon: imageValue,
+    icon: unwrapGridContent(content) as ItemProps['icon'],
   }
 
   return <List.Item {...listItemProps} />
 }
 
-// Grid.Section maps to List.Section with grid-specific props
 Grid.Section = (props: GridSectionProps) => {
+  const parentLayout = useContext(GridLayoutContext)
   const { columns, aspectRatio, fit, inset, ...sectionProps } = props
+  const layout: GridLayoutValue = {
+    columns: Math.max(1, Math.min(8, columns ?? parentLayout?.columns ?? 5)),
+    aspectRatio: aspectRatio ?? parentLayout?.aspectRatio ?? '1',
+    fit: fit ?? parentLayout?.fit ?? 'contain',
+    inset: inset ?? parentLayout?.inset,
+  }
 
-  // Pass through to List.Section
-  return <List.Section {...sectionProps} />
+  return (
+    <GridLayoutContext.Provider value={layout}>
+      <List.Section {...sectionProps} />
+    </GridLayoutContext.Provider>
+  )
 }
 
 // Reuse List's Dropdown

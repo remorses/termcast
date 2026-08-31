@@ -12,6 +12,7 @@
 
 import {
   TextRenderable,
+  ImageRenderable,
   StyledText,
   type TextChunk,
   parseColor,
@@ -23,6 +24,8 @@ import {
 import { Lexer } from 'marked'
 import { getResolvedTheme } from './themes'
 import { useStore } from './state'
+import { environment } from 'termcast/src/apis/environment'
+import { fittedImageCellSize, resolveImageLike } from 'termcast/src/components/image'
 import { TableRenderable, type TableCellContent } from 'termcast/src/components/table'
 
 // Minimal token types from marked (dependency of opentui, not termcast directly)
@@ -61,6 +64,19 @@ function hasLinks(token: Token): boolean {
   return token.tokens.some((t) => {
     return t.type === 'link' || hasLinks(t)
   })
+}
+
+function collectImageHrefs(token: Token): string[] {
+  const hrefs: string[] = []
+  if (token.type === 'image' && token.href) {
+    hrefs.push(token.href)
+  }
+  if (Array.isArray(token.tokens)) {
+    for (const child of token.tokens) {
+      hrefs.push(...collectImageHrefs(child))
+    }
+  }
+  return hrefs
 }
 
 // Recursively flatten inline tokens into chunks, stripping link URLs.
@@ -207,6 +223,41 @@ export function createMarkdownRenderNode(renderer: RenderContext): (token: Token
         width: '100%',
         marginBottom: 1,
       })
+    }
+
+    if (token.type === 'paragraph' || token.type === 'image') {
+      const imageHrefs = collectImageHrefs(token)
+      if (imageHrefs.length > 0) {
+        const href = imageHrefs[0]
+        const resolved = resolveImageLike({
+          image: href,
+          appearance: environment.appearance,
+          assetsPath: environment.assetsPath,
+        })
+        if (resolved.kind === 'raster') {
+          const image = new ImageRenderable(renderer, {
+            id: `md-image-${nodeCounter++}`,
+            source: resolved.source,
+            fit: 'fit',
+            protocol: 'auto',
+            width: 24,
+            height: 12,
+            marginBottom: 1,
+            onLoad: (native) => {
+              const size = fittedImageCellSize({
+                sourceWidth: native.width,
+                sourceHeight: native.height,
+                maxWidth: 48,
+                maxHeight: 12,
+                cellAspectRatio: image.cellAspectRatio,
+              })
+              image.width = size.width
+              image.height = size.height
+            },
+          })
+          return image
+        }
+      }
     }
 
     // Only override paragraphs that contain links (including nested)

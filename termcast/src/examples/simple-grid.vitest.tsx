@@ -39,19 +39,19 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits
-      ›🍎 Apple
-       🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      ›Apple                Banana                Cherry
 
        Animals
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -59,10 +59,14 @@ test('grid navigation and display', async () => {
     "
   `)
 
-  // Navigate down
+  // Navigate down. Grid uses columns=5, so down moves 5 items (Apple -> Rabbit).
   await session.press('down')
 
-  const afterDownSnapshot = await session.text()
+  const afterDownSnapshot = await session.text({
+    waitFor: (text) => {
+      return text.includes('›Rabbit')
+    },
+  })
   expect(afterDownSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -72,19 +76,19 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits
-       🍎 Apple
-      ›🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      Apple                 Banana                Cherry
 
        Animals
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             ›Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -92,11 +96,14 @@ test('grid navigation and display', async () => {
     "
   `)
 
-  // Navigate right to Animals section
   await session.press('down')
   await session.press('down')
 
-  const animalsSnapshot = await session.text()
+  const animalsSnapshot = await session.text({
+    waitFor: (text) => {
+      return text.includes('›Sun')
+    },
+  })
   expect(animalsSnapshot).toMatchInlineSnapshot(`
     "
 
@@ -106,19 +113,19 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits
-       🍎 Apple
-       🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      Apple                 Banana                Cherry
 
        Animals
-      ›🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      ›Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -172,19 +179,19 @@ test('grid navigation and display', async () => {
        > Search items...
 
        Fruits
-       🍎 Apple
-       🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      Apple                 Banana                Cherry
 
        Animals
-      ›🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      ›Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -217,21 +224,21 @@ test('grid search functionality', async () => {
 
        > cat
 
-      ›🍎 Apple
-       🍌 Banana
-       🍒 Cherry
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
-       🏠 House
-       🚗 Car
-       🚀 Rocket
-       ⭐ Star
-       🌙 Moon
-       ☀️ Sun
+               🍎                    🍌                    🍒
+      ›Apple                Banana                Cherry
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
+
+
 
 
 
@@ -257,21 +264,21 @@ test('grid search functionality', async () => {
 
        > space
 
-      ›🍎 Apple
-       🍌 Banana
-       🍒 Cherry
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
-       🏠 House
-       🚗 Car
-       🚀 Rocket
-       ⭐ Star
-       🌙 Moon
-       ☀️ Sun
+               🍎                    🍌                    🍒
+      ›Apple                Banana                Cherry
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
+
+
 
 
 
@@ -295,19 +302,19 @@ test('grid search functionality', async () => {
        > Search items...
 
        Fruits
-      ›🍎 Apple
-       🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      ›Apple                Banana                Cherry
 
        Animals
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -331,21 +338,21 @@ test('grid search functionality', async () => {
 
        > xyz123
 
-      ›🍎 Apple
-       🍌 Banana
-       🍒 Cherry
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
-       🏠 House
-       🚗 Car
-       🚀 Rocket
-       ⭐ Star
-       🌙 Moon
-       ☀️ Sun
+               🍎                    🍌                    🍒
+      ›Apple                Banana                Cherry
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
+
+
 
 
 
@@ -374,19 +381,19 @@ test('grid item selection and actions', async () => {
        > Search items...
 
        Fruits
-      ›🍎 Apple
-       🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      ›Apple                Banana                Cherry
 
        Animals
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -407,19 +414,19 @@ test('grid item selection and actions', async () => {
        > Search items...
 
        Fruits
-       🍎 Apple
-      ›🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      Apple                 Banana                Cherry
 
        Animals
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             ›Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -440,19 +447,19 @@ test('grid item selection and actions', async () => {
        > Search items...
 
        Fruits
-       🍎 Apple
-      ›🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      Apple                 Banana                Cherry
 
        Animals
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             ›Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -482,19 +489,19 @@ test('grid mouse interaction', async () => {
        > Search items...
 
        Fruits
-       🍎 Apple
-       🍌 Banana
-       🍒 Cherry
+               🍎                    🍌                    🍒
+      Apple                 Banana                Cherry
 
        Animals
-      ›🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      ›Dog             Cat             Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        Star         Moon
+           ☀️
+      Sun
+
 
 
        ↵ show details   ↑↓ navigate   ^k actions
@@ -523,19 +530,19 @@ test('grid mouse interaction', async () => {
 
        > Search items...
 
+       Fruits
+               🍎                    🍌                    🍒
+      Apple                 Banana                Cherry
 
        Animals
-       🐕 Dog
-       🐱 Cat
-       🐰 Rabbit
+             🐕               🐱              🐰
+      Dog              Cat             Rabbit
 
        Others
-       🏠 House
-       🚗 Car
-       🚀 Rocket
-      ›⭐ Star
-       🌙 Moon
-       ☀️ Sun
+           🏠           🚗           🚀            ⭐           🌙
+      House        Car          Rocket        ›Star        Moon
+           ☀️
+      Sun
 
 
 
@@ -566,6 +573,6 @@ test('grid mouse interaction', async () => {
 
   const afterClickAppleSnapshot = await session.text()
   // Apple should still be selected, no actions dialog visible
-  expect(afterClickAppleSnapshot).toContain('›🍎 Apple')
+  expect(afterClickAppleSnapshot).toContain('›Apple')
   expect(afterClickAppleSnapshot).not.toContain('Actions')
 }, 30000)

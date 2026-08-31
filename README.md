@@ -1174,7 +1174,7 @@ If you're converting an existing Raycast extension:
 1. **Change imports**: `@raycast/api` -> `termcast`, `@raycast/utils` -> `@termcast/utils`
 2. **Keyboard modifiers**: `cmd` doesn't work in terminals. Replace with `ctrl` or `alt`
 3. **Enter key**: named `return` in opentui key events
-4. **Images**: no pixel rendering in terminals. Emoji and text fallbacks are used
+4. **Images**: `Grid.Item content`, EmptyView icons, and Detail markdown `![](url)` render with OpenTUI (Kitty, then Sixel, then Unicode blocks). `List.Item icon` stays a 1-cell glyph (built-in `Icon` / emoji)
 5. **Everything else** works the same: List, Detail, Form, Action, Toast, Navigation, LocalStorage, Cache, Clipboard, OAuth
 
 The compound component patterns are identical:
