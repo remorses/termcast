@@ -101,6 +101,43 @@ test('compile extension and run executable', async () => {
   `)
 }, 60000)
 
+test('compiled executable can run command from argv', async () => {
+  ensureCompiled()
+
+  session = await launchTerminal({
+    command: executablePath,
+    args: ['list-items'],
+    cols: 60,
+    rows: 16,
+  })
+
+  const snapshot = await session.text({
+    waitFor: (text) => /First Item/i.test(text),
+    timeout: 10000,
+  })
+
+  expect(snapshot).toContain('First Item')
+  expect(snapshot).toMatchInlineSnapshot(`
+    "
+
+
+       List Items ───────────────────────────────────────────
+
+       > Search...
+
+       Items
+      ›○ First Item This is the first item
+       ○ Second Item This is the second item
+       ○ Third Item This is the third item
+       ○ Fourth Item This is the fourth item
+       ○ Fifth Item This is the fifth item
+
+
+
+    "
+  `)
+}, 60000)
+
 test('compiled executable can run command', async () => {
   ensureCompiled()
 

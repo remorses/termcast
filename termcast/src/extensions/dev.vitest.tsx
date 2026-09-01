@@ -70,6 +70,43 @@ test('dev command shows extension commands list', async () => {
   `)
 }, 30000)
 
+test('dev command can run extension command from argv', async () => {
+  session.close()
+  session = await launchTerminal({
+    command: 'bun',
+    args: ['src/cli.tsx', 'dev', fixtureDir, 'list-items'],
+    cols: 60,
+    rows: 16,
+  })
+
+  const snapshot = await waitForTextWithDebug({
+    session,
+    waitFor: (text) => /First Item/i.test(text),
+    timeout: 10000,
+  })
+
+  expect(snapshot).toContain('First Item')
+  expect(snapshot).toMatchInlineSnapshot(`
+    "
+
+
+       List Items ───────────────────────────────────────────
+
+       > Search...
+
+       Items
+      ›○ First Item This is the first item
+       ○ Second Item This is the second item
+       ○ Third Item This is the third item
+       ○ Fourth Item This is the fourth item
+       ○ Fifth Item This is the fifth item
+
+
+
+    "
+  `)
+}, 30000)
+
 test('selecting command with arguments shows arguments form', async () => {
   await waitForTextWithDebug({
     session,
